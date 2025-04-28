@@ -1,0 +1,22 @@
+source ($nu.default-config-dir | path join "env.nu" )
+source ($nu.default-config-dir | path join "aliases.nu" )
+source ($nu.default-config-dir | path join "secrets.nu" )
+
+{{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
+
+{{ if hasKey . "THEME"  }}source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
+{{ else if and (eq .THEME_MODE "LIGHT" ) ( hasKey . "THEME_LIGHT") }}source ~/.config/nushell/themes/{{ .THEME_LIGHT }}.nu
+{{ else if and (eq .THEME_MODE "DARK" ) ( hasKey . "THEME_DARK") }}source ~/.config/nushell/themes/{{ .THEME_DARK }}.nu{{ end }}
+
+$env.config.show_banner = false
+
+mkdir ($nu.data-dir | path join "vendor/autoload")
+zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
+mise activate nu    | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
+starship init nu    | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+
+if ($env.HOME | path join ".cargo/env.nu" | path exists) {
+  cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
+}
+
+pokeget random --hide-name | fastfetch --file-raw -

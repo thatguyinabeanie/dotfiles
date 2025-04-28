@@ -1,0 +1,16 @@
+mise:
+  tools:
+    - name: node
+      version: 22
+    - name: ruby
+      version: 3.2
+    - name: python
+      version: 3.12
+    - name: go
+      version: 1
+    - name: uv
+      version: latest
+    - name: ruff
+      version: latest
+    - name: zig
+      version: latest

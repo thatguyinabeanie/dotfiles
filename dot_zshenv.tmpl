@@ -1,0 +1,40 @@
+#!/bin/zsh 
+
+##
+## EDITOR PREFERENCE
+export EDITOR='nvim'
+export VISUAL='nvim'
+
+##
+## PATH 
+export PATH="/opt/homebrew/opt/unzip/bin:$PATH"
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+##
+## XDG 
+export XDG_HOME="$HOME"
+export XDG_CONFIG_HOME="$HOME/.config"
+export K9S_CONFIG_DIR="$XDG_CONFIG_HOME/k9s"
+export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
+export SOURCE_REPO_DIRS="$HOME/source"
+
+##
+## TMUX 
+export TMUX_CONFIG_DIR="$XDG_CONFIG_HOME)/tmux"
+export TMUX_PLUGIN_MANAGER_PATH="$TMUX_CONFIG_DIR/plugins"
+export TMUX_CONF="$XDG_CONFIG_HOME/tmux.conf"
+
+##
+## GO STUFF
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+
+##
+## BAT + MAN PAGES THEME
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+export MANPATH="/usr/local/man:$MANPATH"
+export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+

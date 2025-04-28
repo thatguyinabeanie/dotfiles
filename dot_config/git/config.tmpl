@@ -1,0 +1,43 @@
+[include]
+  path = ./.catppuccin/catppuccin.gitconfig
+
+[user]
+	name = {{ .git.config.name }}
+	email = {{ .git.config.email }}
+
+[push]
+	autoSetupRemote = true
+
+[core]
+  editor = nvim
+  pager = delta
+  excludesFile = ~/.config/git/.gitignore
+
+[commit]
+	gpgsign = false
+
+[init]
+	defaultBranch = main
+
+[interactive]
+  diffFilter = delta --color-only
+
+[merge]
+  conflictstyle = zdiff3
+
+[diff]
+  colorMoved = default
+
+[delta]
+  navigation = true
+  features = catppuccin-{{ .CATPPUCCIN_FLAVOR }}
+  navigate = true  # use n and N to move between diff sections
+
+[alias]
+  co = checkout
+  ec = config --global --edit
+  up = !git pull --rebase --prune $@
+  cob = checkout -b
+  gone = !"git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs git branch -D"
+  went = !"git up && git gone"
+  push-it-real-good = !"git push --force-if-includes"

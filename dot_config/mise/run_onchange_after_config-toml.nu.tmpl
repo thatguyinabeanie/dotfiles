@@ -1,0 +1,10 @@
+#!/usr/bin/env nu
+
+# This script will run whenever the source file changes
+# The hash below will trigger chezmoi to update this file when the source changes
+# mise.toml hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
+
+print "🟠 Installing mise dependencies..."
+mise -q install
+print "🔵 Installed mise dependencies."
+

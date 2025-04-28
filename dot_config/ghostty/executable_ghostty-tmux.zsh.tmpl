@@ -1,0 +1,54 @@
+#!/bin/zsh
+
+# Get the shell from chezmoi
+chezmoi_shell="{{ .SHELL }}"
+
+# Validate shell is one of the expected values
+if [[ "$chezmoi_shell" != "nu" && "$chezmoi_shell" != "zsh" && "$chezmoi_shell" != "bash" ]]; then
+	echo "Invalid shell specified in chezmoi: $chezmoi_shell. Defaulting to nu."
+  chezmoi_shell="nu"
+fi
+
+# Find the shell executable path
+SHELL_PATHS=(
+	"/opt/homebrew/bin/$chezmoi_shell"
+	"/usr/local/bin/$chezmoi_shell"
+	"/usr/bin/$chezmoi_shell"
+	"/bin/$chezmoi_shell"
+)
+
+shell_path=""
+for path in "${SHELL_PATHS[@]}"; do
+	if [ -x "$path" ]; then
+    echo "Found shell at $path"
+		shell_path="$path"
+		break
+	fi
+done
+
+if [ -z "$shell_path" ]; then
+  echo "Shell not found. Defaulting to zsh."
+	shell_path="/bin/zsh"
+fi
+
+if [ -z "$TMUX" ] && [ -z "$GHOSTTY_NO_TMUX" ]; then
+	# Find tmux and start session
+	TMUX_PATHS=(
+		"/opt/homebrew/bin/tmux"
+		"/usr/local/bin/tmux"
+		"/usr/bin/tmux"
+		"/bin/tmux"
+	)
+
+  export SHELL="$shell_path"
+
+	for tmux_path in "${TMUX_PATHS[@]}"; do
+		if [ -x "$tmux_path" ]; then
+      echo "Found tmux at $tmux_path. Starting tmux session."
+			"$tmux_path" new-session -A -s 'ghostty' "$SHELL -l"
+		fi
+	done
+else
+  echo "No tmux session found. Starting shell directly..."
+	exec "$shell_path"
+fi

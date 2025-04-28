@@ -1,0 +1,48 @@
+## 
+## LOOP THROUGH THE OBSIDIAN GIT REPOSITORIES
+## CLONE THEM IF CHEZMOI IS CONFIGURED TO DO SO
+{{ if and (hasKey .install "obsidian") (eq .install.obsidian true) }}
+{{- range $repo := .gitrepos.obsidian }}
+
+##
+## IF THE LISTED REPOSITORY IS A STRING - i.e. doet have any attributes 
+##
+## Use Casess: 
+## 1. repo name without org name  - will prepend the user's github username
+##      - example: "dotfiles"
+##        results: "thatguyinabeanie/dotfiles"
+## 2. repo name with org name     - will use the org name
+##      - example: "thatotherguyinabeanie/dotfiles"
+##        results: "thatotherguyinabeanie/dotfiles"
+##
+## Refresh Period is set to the default value in the config file since it is not
+## configurable in the repository list yaml
+##
+{{- if typeIs "string" $repo }}
+{{- if contains "/" $repo }}
+[{{ replace $repo "/" "_" }}]
+url = "https://github.com/{{ $repo }}.git"
+type = "git-repo"
+refreshPeriod = "{{ $.git.config.defaultRefreshPeriod }}"
+{{- else }}
+[{{ $repo }}]
+url = "https://github.com/thatguyinabeanie/{{ $repo }}.git"
+type = "git-repo"
+refreshPeriod = "{{ $.git.config.defaultRefreshPeriod }}"
+{{- end }}
+{{- end }}
+
+##
+## IF THE LISTED REPOSITORY IS A MAP - i.e. has attributes
+## 
+## All the attributes are optional, but the name is required
+## If no org is provided, the user's github username will be used
+##
+{{- if typeIs "map" $repo }}
+[{{ $repo.name }}]
+url = "https://github.com/{{- if hasKey $repo "org" }}{{- $repo.org }}{{- else }}{{- $.git.config.username }}{{- end }}/{{ $repo.name }}.git"
+type = "git-repo"
+refreshPeriod = "{{ if hasKey $repo "refreshPeriod" }}{{ $repo.refreshPeriod }}{{ else }}{{ $.git.config.defaultRefreshPeriod }}{{end}}"
+{{- end }} 
+{{- end }}
+{{ end }}

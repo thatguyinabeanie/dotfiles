@@ -1,0 +1,253 @@
+homebrew:
+  ##
+  ## WORK BREWS AND CASKS
+  ##
+  work:
+    brews:
+      - argo
+      - awscli
+      - circleci
+      - kind
+      - k9s
+      - lastpass-cli
+      - libsass
+      - mysql
+      - mysql-client
+      - okta-aws-cli
+      - python@3.11
+      - python-gdbm@3.11
+      - python@3.9
+      - python@3.12
+      - v8
+    casks:
+      - aws-vpn-client
+      - lastpass
+      - slack
+      - temurin@8
+  ##
+  ## PERSONAL BREWS, CASKS, and MASs
+  ##
+  personal:
+    brews: []
+    affinity:
+      - affinity-designer
+      - affinity-photo
+      - affinity-publisher
+    casks:
+      - 1password
+      - 1password-cli
+      - blender
+      - darktable
+      - discord
+      - obs
+      - google-chrome
+      - spotify
+      - ableton-live-suite
+      - roon
+    mas:
+      - '"Dynamic wallpaper", id: 1582358382'
+      - '"FileZilla Pro", id: 1298486723'
+  ##
+  ## SHARED DEPENDENCIES
+  ##
+  shared:
+    taps:
+      - adoptopenjdk/openjdk
+      - charmbracelet/tap
+      - hashicorp/tap
+      - homebrew/autoupdate
+      - jesseduffield/lazydocker
+      - nikitabobko/tap
+      - oven-sh/bun
+    fonts:
+      - font-cascadia-code-nf
+      - font-caskaydia-cove-nerd-font
+      - font-caskaydia-mono-nerd-font
+      - font-fira-code
+      - font-fira-code-nerd-font
+      - font-fira-mono
+      - font-fira-mono-nerd-font
+      - font-jetbrains-mono-nerd-font
+      - font-meslo-lg-nerd-font
+      - font-monaspace-nerd-font
+      - font-monocraft-nerd-font
+    casks:
+      - cursor
+      - docker
+      - ghostty
+      - kitty
+      - postman
+      - visual-studio-code@insiders
+      - disk-inventory-x
+      - karabiner-elements
+      - keka
+      - nightfall
+      - obsidian
+      - raycast
+      - zed
+    brews:
+      - ack
+      - act
+      - ag
+      - autoconf
+      - automake
+      - bandwhich
+      - bash
+      - bash-completion
+      - bash-language-server
+      - bat
+      - bottom
+      - brew-cask-completion
+      - btop
+      - bundler-completion
+      - chezmoi
+      - cmake
+      - cmake-docs
+      - cspell
+      - colima
+      - colordiff
+      - coreutils
+      - charmbracelet/tap/mods
+      - curl
+      - deno
+      - diff-so-fancy
+      - direnv
+      - docutils
+      - docker-completion
+      - dockerfile-language-server
+      - dotdrop
+      - dust
+      - exiftool
+      - eza
+      - fastfetch
+      - fd
+      - fish
+      - fish-lsp
+      - ffmpeg
+      - findutils
+      - fontconfig
+      - fzf
+      - gcc
+      - gcc@11
+      - gcc@12
+      - gem-completion
+      - gradle-completion
+      - gdu
+      - gh
+      - glib
+      - gifsicle
+      - git
+      - gitui
+      - git-delta
+      - glances
+      - gnu-indent
+      - gnu-sed
+      - gnu-tar
+      - gmp
+      - go
+      - gping
+      - grep
+      - grpc
+      - grex
+      - hadolint
+      - harfbuzz
+      - hashicorp/tap/packer
+      - helix
+      - helm
+      - hyperfine
+      - imagemagick
+      - incus
+      - jaq
+      - jesseduffield/lazydocker/lazydocker
+      - jq
+      - kubernetes-cli
+      - launchctl-completion
+      - libtool
+      - llvm
+      - lazygit
+      - libyaml
+      - libffi
+      - libgit2
+      - libpq
+      - lima
+      - links
+      - lua
+      - lua-language-server
+      - luajit
+      - luarocks
+      - lynx
+      - make
+      - man2html
+      - markdown-toc
+      - markdownlint-cli2
+      - markdown-oxide
+      - marksman
+      - mas
+      - maven
+      - maven-completion
+      - mise
+      - ncdu
+      - neovim
+      - nmap
+      - ncurses
+      - nushell
+      - open-completion
+      - ossp-uuid
+      - openssl@3
+      - oven-sh/bun/bun
+      - pandoc
+      - pkgconf
+      - pnpm
+      - poppler
+      - prettier
+      - procs
+      - proctools
+      - python@3.13
+      - pyright
+      - rails-completion
+      - rake-completion
+      - ranger
+      - reattach-to-user-namespace
+      - redis
+      - rename
+      - ripgrep
+      - rlwrap
+      - readline
+      - rustup
+      - rust-analyzer
+      - ruby-completion
+      - sesh
+      - sevenzip
+      - sd
+      - sdl2
+      - sk
+      - starship
+      - stylua
+      - tealdeer
+      - tflint
+      - thefuck
+      - tig
+      - tmux
+      - tmuxinator
+      - tmuxinator-completion
+      - tokei
+      - trash
+      - tree
+      - tree-sitter
+      - tectonic
+      - unzip
+      - usage
+      - wget
+      - xz
+      - yaml-language-server
+      - yamlfix
+      - yamlfmt
+      - yamllint
+      - yazi
+      - yq
+      - zls
+      - zstd
+      - zoxide
+      - zsh
+      - zsh-autosuggestions
+      - zsh-completions

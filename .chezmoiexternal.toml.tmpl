@@ -1,0 +1,25 @@
+
+##
+## PUBLIC GITHUB REPOSITORIES
+##
+["source/DOOM-fire-zig"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/const-void/DOOM-fire-zig.git"
+
+##
+## PRIVATE GITHUB REPOSITORIES
+##
+["source/dotfiles"]
+type = "git-repo"
+refreshPeriod = "168h"
+url =  "https://github.com/{{ $.git.config.username }}/dotfiles.git"
+
+["source/github-profile"]
+type = "git-repo"
+refreshPeriod = "168h"
+url =  "https://github.com/{{ $.git.config.username }}/{{$.git.config.username }}.git"
+
+##
+## TODO: Populate work repository entries
+##

@@ -1,0 +1,62 @@
+-- Options are automatically loaded before lazy.nvim startup
+-- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
+-- Add any additional options here
+
+vim.g.lazyvim_check_order = false
+
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
+
+-- LazyVim auto format
+vim.g.autoformat = false
+-- vim.g.autoformat = true
+
+-- Snacks animations
+-- Set to `false` to globally disable all snacks animations
+vim.g.snacks_animate = true
+
+-- LazyVim picker to use.
+-- Can be one of: telescope, fzf
+-- Leave it to "auto" to automatically use the picker
+-- enabled with `:LazyExtras`
+-- vim.g.lazyvim_picker = "snacks"
+
+-- LazyVim completion engine to use.
+-- Can be one of: nvim-cmp, blink.cmp
+-- Leave it to "auto" to automatically use the completion engine
+-- enabled with `:LazyExtras`
+vim.g.lazyvim_cmp = "auto"
+vim.g.lazyvim_blink_main = true
+
+-- if the completion engine supports the AI source,
+-- use that instead of inline suggestions
+vim.g.ai_cmp = true
+
+-- LazyVim root dir detection
+-- Each entry can be:
+-- * the name of a detector function like `lsp` or `cwd`
+-- * a pattern or array of patterns like `.git` or `lua`.
+-- * a function with signature `function(buf) -> string|string[]`
+vim.g.root_spec = { "lsp", { ".git", "lua", "Gemfile" }, "cwd" }
+
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.undodir = os.getenv("HOME") .. "/.local/state/nvim/undodir"
+vim.opt.undofile = true
+vim.opt.undolevels = 100000
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+vim.opt.wrap = false
+vim.opt.smartindent = true
+vim.opt.smartcase = true
+vim.opt.grepprg = "rg --vimgrep"
+vim.opt.expandtab = true
+vim.opt.autowrite = true
+
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+vim.opt.signcolumn = "yes"
+
+vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH

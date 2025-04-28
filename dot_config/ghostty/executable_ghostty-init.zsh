@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+if [ -f "$HOME/.config/ghostty/ghostty-tmux.zsh" ]; then
+	. "$HOME/.config/ghostty/ghostty-tmux.zsh"
+else
+  echo "ghostty-tmux.sh not found. Falling back to default shell (zsh)."
+	zsh
+fi

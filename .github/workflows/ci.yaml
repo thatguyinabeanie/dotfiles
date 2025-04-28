@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  clone-and-install:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/vscode/devcontainers/base:ubuntu
+      env:
+        CODESPACES: true
+    steps:
+      - uses: actions/checkout@v2
+      - name: instahh.sh
+        if:   false
+        run: ./install.sh
+      - name: chezmoi data
+        if: false
+        run: "${HOME}/.local/bin/chezmoi data"

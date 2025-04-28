@@ -1,0 +1,11 @@
+shell /bin/zsh
+shell-integration enabled
+font_size {{ .kitty.font_size }}
+
+background_opacity {{ .kitty.opacity }}
+background_blur {{ .kitty.blur }}
+dynamic_background_opacity yes
+
+window_padding_width 10
+
+include themes/catppuccin/themes/{{ .CATPPUCCIN_FLAVOR }}.conf

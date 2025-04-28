@@ -1,0 +1,51 @@
+#!/opt/homebrew/bin/nu
+
+print "🟠 Installing/Updating homebrew packages..."
+source ~/.config/nushell/env.nu
+
+'''
+##
+## SHARED PACKAGES
+##
+{{ range .homebrew.shared.taps }}
+tap {{ . | quote }}
+{{ end }}
+{{ range .homebrew.shared.brews }}
+brew {{ . | quote }}
+{{ end }}
+{{ range .homebrew.shared.casks }}
+cask {{ . | quote }}
+{{ end }}
+{{ range .homebrew.shared.fonts }}
+cask {{ . | quote }}
+{{ end }}
+
+##
+## WORK PACKAGES
+##
+{{ if and (hasKey . "WORK_ENVIRONMENT")  (eq .WORK_ENVIRONMENT true) }}
+{{ range .homebrew.work.brews }}
+brew {{ . | quote }}
+{{ end }}
+{{ range .homebrew.work.casks }}
+cask {{ . | quote }}
+{{ end }}
+{{ end }}
+
+##
+## PERSONAL PACKAGES
+##
+{{ if or (eq (hasKey . "WORK_ENVIRONMENT") false ) (eq .WORK_ENVIRONMENT false ) }}
+{{ range .homebrew.personal.brews }}
+brew {{ . | quote }}
+{{ end }}
+{{ range .homebrew.personal.casks }}
+cask {{ . | quote }}
+{{ end }}
+{{ range .homebrew.personal.mas }}
+mas {{ . }}
+{{ end }}
+{{ end }}
+''' | brew bundle -q --upgrade --force --clean --file=/dev/stdin
+
+print '🔵 Installed/updated homebrew packages.'

@@ -1,0 +1,16 @@
+.DS_Store
+*/.DS_Store
+bin
+tmux/plugins/
+
+zsh/work.zsh
+
+chezmoi/*
+!chezmoi/.keep
+
+secrets/*
+
+k9s/*
+!k9s/config.yaml
+!k9s/skins/*
+

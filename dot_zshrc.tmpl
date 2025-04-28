@@ -1,0 +1,49 @@
+#!/bin/zsh
+
+autoload -U add-zsh-hook
+
+ZSH_SYNTAX_HIGHLIGHTING_PATH="/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+if [ -x $ZSH_SYNTAX_HIGHLIGHTING_PATH ]; then
+  source "$ZSH_SYNTAX_HIGHLIGHTING_PATH"
+fi
+
+source ".zshenv"
+source ".config/zsh/work.zsh"
+source ".config/zsh/secrets.zsh"
+source ".config/zsh/aliases.zsh"
+
+export PATH=$HOME/.local/bin:$PATH 
+
+export PNPM_HOME="$HOME/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
+eval "$(zoxide init zsh)"
+eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
+
+
+if command -v zoxide >/dev/null 2>&1; then
+	eval "$(zoxide init --cmd cd zsh)"
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+	source <(fzf --zsh)
+fi
+
+if [ -f "$HOME/.cargo/.env" ]; then
+	source "$HOME/.cargo/env"
+fi
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/gmendoza/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+pokeget random --hide-name | fastfetch --file-raw -
+

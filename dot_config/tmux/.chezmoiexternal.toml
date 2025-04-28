@@ -1,0 +1,48 @@
+##
+## TMUX - TPM
+##
+["plugins/tmux"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/catppuccin/tmux.git" 
+
+["plugins/tmux-battery"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-battery.git" 
+
+["plugins/tmux-cpu"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-cpu.git" 
+
+["plugins/tmux-logging"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-logging.git" 
+
+["plugins/tmux-pain-control"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-pain-control.git"
+
+["plugins/tmux-resurrect"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-resurrect.git"
+
+["plugins/tmux-sensible"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-sensible.git"
+
+["plugins/tmux-yank"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-yank.git"
+
+["plugins/tpm"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tpm.git"
+

@@ -1,0 +1,4 @@
+["themes/catppuccin"]
+  type = "git-repo"
+  refreshPeriod = "168h"
+  url = "https://github.com/catppuccin/kitty.git"

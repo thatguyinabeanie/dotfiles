@@ -1,0 +1,67 @@
+##
+## WINDOW SETTINGS
+##
+window-height = {{ .ghostty.window_height }}
+window-width = {{ .ghostty.window_width  }}
+background-opacity = {{ .ghostty.opacity }}
+background-blur = {{ .ghostty.blur }}
+quit-after-last-window-closed=true
+window-padding-y = 16
+window-padding-x = 16
+
+##
+## GENERAL SETTINGS
+##
+app-notifications = true
+shell-integration-features = true
+auto-update = download
+
+##
+## STARTUP OPTIONS
+##
+
+# Runs only on the first time Ghostty is opened,
+# Attaches to TMUX session 'ghostty' if it exists, otherwise creates a new session, then attaches
+
+{{ if and (hasKey . "SHELL") (eq .SHELL "nu") -}}
+initial-command = ~/.config/ghostty/ghostty-init.nu
+command = /opt/homebrew/bin/nu
+{{ else -}}
+initial-command = ~/.config/ghostty/ghostty-init.zsh
+command = zsh
+{{ end -}}
+
+
+##
+## MACOS SPECIFIC SETTINGS
+##
+mouse-hide-while-typing = true
+macos-option-as-alt = true
+
+##
+## THEME
+##
+bold-is-bright = true
+theme = {{ if eq .THEME_MODE "SYSTEM" }}light:{{ .THEME_LIGHT }},dark:{{ .THEME_DARK }}
+{{ else if and (eq .THEME_MODE "LIGHT" ) ( hasKey . "THEME_LIGHT") }}{{ .THEME_LIGHT }}
+{{ else if and (eq .THEME_MODE "DARK" )  ( hasKey . "THEME_DARK")  }}{{ .THEME_DARK }}{{ else }}{{ .THEME }}{{ end }}
+
+##
+## FONT + CURSOR
+##
+font-family = {{ .ghostty.font_family }}
+font-thicken = {{ .ghostty.font_thicken }}
+font-size = {{ .ghostty.font_size }}
+cursor-style = {{ .ghostty.cursor_style }}
+cursor-style-blink = true
+
+##
+## CUSTOM KEYBINDS
+##
+
+#new tab opens tmux window in existing tmux session
+keybind = super+t=text:\x01c 
+
+#closes tmux window in existing tmux session
+keybind = super+w=text:\x01X 
+
