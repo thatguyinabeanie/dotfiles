@@ -60,3 +60,12 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 vim.opt.signcolumn = "yes"
 
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
+
+{{ if and (hasKey . "WORK_ENVIRONMENT" ) (eq .WORK_ENVIRONMENT true ) }}
+vim.g.augment_workspace_folders = {
+  os.getenv("HOME") .. "console",
+  os.getenv("HOME") .. "popsicle",
+  os.getenv("HOME") .. "docker-code-server",
+  os.getenv("HOME") .. "civis-vscode",
+}
+{{ end }}

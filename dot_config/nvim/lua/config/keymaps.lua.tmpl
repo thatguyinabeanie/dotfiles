@@ -85,7 +85,7 @@ vim.keymap.set("n", "<leader>bV", function()
   end
 end, { desc = "Open Buffer VS Code - Insiders" })
 
--- -- POMODORO TIMER KEYMAPS
+-- POMODORO TIMER KEYMAPS
 wk.add(  {
     { "<leader>P", group = "Pomodoro", icon = "⏳"},
   })
@@ -95,3 +95,11 @@ vim.keymap.set("n", "<leader>Pp", "<cmd>TimerSession pomodoro<cr>", { desc = "St
 vim.keymap.set("n", "<leader>Pw", "<cmd>TimerStart 25m Work<cr>", { desc = "Start work timer (25m)" })
 vim.keymap.set("n", "<leader>Pb", "<cmd>TimerStart 5m Break<cr>", { desc = "Start short break (5m)" })
 vim.keymap.set("n", "<leader>PB", "<cmd>TimerStart 15m Long Break<cr>", { desc = "Start long break (15m)" })
+
+
+wk.add(  {
+    { "<leader>M", group = "MARP", icon = "🎁"},
+  })
+-- MARP 
+vim.keymap.set("n", "<leader>MT", "<cmd>MarpToggle<cr>", { desc = "Toggle MARP", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>MS", "<cmd>MarpStatus<cr>", { desc = "MARP Status", noremap = true, silent = true })
