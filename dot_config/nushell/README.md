@@ -1,10 +1,14 @@
 # Nushell Configuration
 
-This repository contains my personal Nushell configuration, featuring a modern and efficient shell setup with various customizations and integrations. The configuration is managed using [Chezmoi](https://www.chezmoi.io/), a dotfiles manager that allows for template-based configuration.
+This repository contains my personal Nushell configuration, featuring a modern
+and efficient shell setup with various customizations and integrations.
+The configuration is managed using [Chezmoi](https://www.chezmoi.io/),
+a dotfiles manager that allows for template-based configuration.
 
 ## Configuration Structure
 
 All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extension:
+
 - `config.nu.tmpl` - Main configuration file
 - `aliases.nu.tmpl` - Custom aliases and functions
 - `env.nu.tmpl` - Environment variables
@@ -42,17 +46,20 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 ## Aliases
 
 ### Directory Navigation
+
 - `l` - List directory contents
 - `ll` - List all files (including hidden)
 - `la` - List all files with details
 
 ### Chezmoi
+
 - `chezmoi_update` - Update dotfiles excluding scripts
 - `cia` - Quick apply dotfiles
 - `chezmoi_data` - View Chezmoi configuration
 - `chezmoi_data_edit` - Edit Chezmoi configuration
 
 ### Other
+
 - `y` - Launch Yazi file manager
 - `cat` - Use `bat` for file viewing
 - `tks` - Kill tmux server
@@ -60,6 +67,7 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 ## Custom Functions
 
 ### GitHub Management
+
 - `gh-create-repo` - Create new repositories
 - `gh-clone-repo` - Clone repositories
 - `gh-list-repos` - List repositories
@@ -68,6 +76,7 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 - `gh-open-repo` - Open repository in browser
 
 ### System Management
+
 - `poke_system_info` - Display system information with random Pokemon
 - `reset_nvim` - Reset Neovim configuration
 - `obsidian_nvim` - Open Obsidian vault in Neovim
@@ -88,21 +97,25 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 ## Installation
 
 1. Clone this repository using Chezmoi:
+
    ```bash
    chezmoi init --apply
    ```
 
 2. Configure Chezmoi data (if not already done):
+
    ```bash
    chezmoi data
    ```
 
 3. Ensure all dependencies are installed:
+
    ```bash
    mise install
    ```
 
 4. Restart your shell or source the configuration:
+
    ```bash
    source ~/.config/nushell/config.nu
    ```

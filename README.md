@@ -1,17 +1,22 @@
 # Dotfiles
 
-My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup.
+My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and
+efficient development environment setup.
 
 ## Components
 
 ### Shell Environment
+
 - [Nushell Configuration](dot_config/nushell/README.md)
+
   - Modern shell with enhanced features
   - Custom aliases and functions
   - Work environment integration
 
 ### Development Tools
+
 - [Neovim Configuration](dot_config/nvim/README.md)
+
   - LazyVim-based setup
   - Catppuccin theme
   - LSP integration
@@ -23,14 +28,18 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
   - Global settings
 
 ### Terminal Tools
+
 - [Tmux Configuration](dot_config/tmux/README.md)
+
   - Catppuccin theme
   - Pomodoro timer
   - Custom keybindings
   - Session management
 
 ### Knowledge Management
+
 - [Obsidian Configuration](dot_config/obsidian/README.md)
+
   - Multiple vault support
   - Neovim integration
   - Plugin configuration
@@ -38,16 +47,19 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 ## Installation
 
 1. Install Chezmoi:
+
    ```bash
    brew install chezmoi
    ```
 
 2. Clone this repository:
+
    ```bash
    chezmoi init --apply
    ```
 
 3. Install dependencies:
+
    ```bash
    mise install
    ```
