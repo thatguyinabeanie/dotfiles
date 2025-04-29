@@ -73,12 +73,25 @@ jobs:
 
       - name: Install and Configure Docker
         run: |
+          # Install Docker CLI and Colima
+          brew install docker
           brew install colima
+          
+          # Start Colima with Docker runtime
           colima start
+          
+          # Wait for Docker daemon to be ready
+          for i in {1..30}; do
+            if docker info > /dev/null 2>&1; then
+              break
+            fi
+            echo "Waiting for Docker daemon to be ready..."
+            sleep 1
+          done
           
       - name: Install TruffleHog
         run: |
-          # Try to install via docker directly since homebrew tap is failing
+          # Pull TruffleHog image
           docker pull trufflesecurity/trufflehog:latest
 
       - name: Scan for Secrets
