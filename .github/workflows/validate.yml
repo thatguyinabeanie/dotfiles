@@ -1,0 +1,96 @@
+name: Validate Dotfiles
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly
+
+jobs:
+  validate:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Homebrew
+        run: |
+          brew update
+          brew install nushell neovim tmux git
+
+      - name: Validate Nushell Configuration
+        run: |
+          for file in dot_config/nushell/*.nu.tmpl; do
+            nu --check $file
+          done
+
+      - name: Validate Neovim Configuration
+        run: |
+          nvim --headless --noplugin -c "lua require('lazy').setup({})" -c q
+
+      - name: Validate Tmux Configuration
+        run: |
+          tmux start-server
+          tmux source-file dot_config/tmux/tmux.conf
+          tmux kill-server
+
+      - name: Check Git Configuration
+        run: |
+          git config --file dot_config/git/config.tmpl --list
+
+  security:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+      - name: Check for GPG Keys
+        run: |
+          if grep -r "BEGIN PGP" .; then
+            echo "Warning: Possible GPG key found in repository"
+            exit 1
+          fi
+
+  dependencies:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Homebrew
+        run: |
+          brew update
+          brew outdated
+
+      - name: Check mise Versions
+        run: |
+          brew install mise
+          mise install
+          mise list
+
+  documentation:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install markdownlint
+        run: npm install -g markdownlint-cli
+
+      - name: Lint Markdown
+        run: markdownlint '**/*.md'
+
+      - name: Check for Broken Links
+        run: |
+          brew install lychee
+          lychee **/*.md 
