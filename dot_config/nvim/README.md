@@ -1,6 +1,7 @@
 # Neovim Configuration
 
-A modern Neovim configuration built on top of LazyVim, featuring a beautiful and functional setup with various plugins and customizations.
+A modern Neovim configuration built on top of LazyVim,
+featuring a beautiful and functional setup with various plugins and customizations.
 
 ## Features
 
@@ -30,12 +31,14 @@ A modern Neovim configuration built on top of LazyVim, featuring a beautiful and
 ## Plugin Highlights
 
 ### Core Plugins
+
 - [LazyVim](https://github.com/LazyVim/LazyVim) - Base configuration
 - [Catppuccin](https://github.com/catppuccin/nvim) - Beautiful theme
 - [Bufferline](https://github.com/akinsho/bufferline.nvim) - Tab management
 - [Lualine](https://github.com/nvim-lualine/lualine.nvim) - Status line
 
 ### Git Integration
+
 - [blame.nvim](https://github.com/FabijanZulj/blame.nvim) - Git blame with virtual text
   - Custom date format
   - Virtual text style
@@ -43,6 +46,7 @@ A modern Neovim configuration built on top of LazyVim, featuring a beautiful and
   - Custom mappings
 
 ### UI Enhancements
+
 - [snacks.nvim](https://github.com/folke/snacks.nvim) - UI enhancements
   - Big file handling
   - Dashboard customization
@@ -61,11 +65,13 @@ A modern Neovim configuration built on top of LazyVim, featuring a beautiful and
 1. Ensure you have Neovim installed (version 0.9.0 or higher)
 
 2. Clone this configuration using Chezmoi:
+
    ```bash
    chezmoi init --apply
    ```
 
 3. Start Neovim and let Lazy.nvim install all plugins:
+
    ```bash
    nvim
    ```
@@ -73,6 +79,7 @@ A modern Neovim configuration built on top of LazyVim, featuring a beautiful and
 ## Configuration Structure
 
 The configuration is organized as follows:
+
 - `init.lua.tmpl` - Main configuration file (Chezmoi template)
 - `lua/plugins/` - Plugin configurations
   - `theme.lua` - Theme and UI settings
@@ -82,14 +89,18 @@ The configuration is organized as follows:
 ## Customization
 
 ### Theme
+
 The configuration uses Catppuccin theme with the following features:
+
 - Transparent background
 - Mocha flavor
 - Custom styles for comments and conditionals
 - LSP integration with custom virtual text styles
 
 ### Git Blame
+
 Custom git blame configuration includes:
+
 - Date format: DD.MM.YYYY
 - Virtual text style
 - Custom key mappings:
@@ -100,7 +111,9 @@ Custom git blame configuration includes:
   - `<Esc>` or `q` - Close
 
 ### UI Enhancements
+
 Snacks.nvim provides various UI improvements:
+
 - Big file handling
 - Dashboard customization
 - Git browse integration
