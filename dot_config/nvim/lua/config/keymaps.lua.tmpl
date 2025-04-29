@@ -34,7 +34,7 @@ end, { desc = "copy file's relative path" })
 
 -- OBSIDIAN 
 wk.add(  {
-    { "<leader>O", group = "Obsidian", icon = "🗂️" },
+    { "<leader>O", group = "Obsidian", icon = "📁" },
   })
 vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
 vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
@@ -101,5 +101,5 @@ wk.add(  {
     { "<leader>M", group = "MARP", icon = "🎁"},
   })
 -- MARP 
-vim.keymap.set("n", "<leader>MT", "<cmd>MarpToggle<cr>", { desc = "Toggle MARP", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>MS", "<cmd>MarpStatus<cr>", { desc = "MARP Status", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>Mt", "<cmd>MarpToggle<cr>", { desc = "Toggle MARP", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>Ms", "<cmd>MarpStatus<cr>", { desc = "MARP Status", noremap = true, silent = true })
