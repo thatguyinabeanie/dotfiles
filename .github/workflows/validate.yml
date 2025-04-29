@@ -25,9 +25,11 @@ jobs:
 
       - name: Validate Nushell Configuration
         run: |
-          # Create necessary directories
+          # Create all necessary directories
           mkdir -p ~/.config/nushell
+          mkdir -p ~/.local/share/chezmoi
           mkdir -p ~/Library/Application\ Support/nushell
+          mkdir -p ~/.config/chezmoi
           
           # Create basic env.nu file with minimal configuration
           cat > ~/Library/Application\ Support/nushell/env.nu << 'EOF'
@@ -44,16 +46,32 @@ jobs:
             touch ~/Library/Application\ Support/nushell/$file
           done
           
-          # Create minimal chezmoi config
-          mkdir -p ~/.config/chezmoi
+          # Create comprehensive chezmoi config with all required variables
           cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
           [data]
+          SHELL = "nu"
           WORK_ENVIRONMENT = false
           CATPPUCCIN_FLAVOR = "mocha"
+          OBSIDIAN_VAULT_PERSONAL = "obsidian-vault"
+          OBSIDIAN_VAULT_WORK = "obsidian-vault-work"
+          YAZI_CATPPUCCIN_COLOR = "blue"
+          SUDO_TOUCHID = "true"
+
+          [data.k9s]
+          transparent = true
+
+          [data.git.config]
+          name = "GitHub Actions"
+          username = "github-actions"
+          email = "github-actions@github.com"
+          defaultRefreshPeriod = "168h"
+
+          [data.install]
+          obsidian = true
           EOF
           
-          # Initialize chezmoi and apply templates
-          chezmoi init --source=.
+          # Initialize chezmoi with source directory
+          chezmoi init --source="$(pwd)"
           
           # Validate each template file after processing
           for file in dot_config/nushell/*.nu.tmpl; do
