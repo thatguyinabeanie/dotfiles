@@ -19,6 +19,10 @@ jobs:
           brew update
           brew install nushell neovim tmux git
 
+      - name: Install Chezmoi
+        run: |
+          brew install chezmoi
+
       - name: Validate Nushell Configuration
         run: |
           # Create necessary directories
@@ -40,16 +44,22 @@ jobs:
             touch ~/Library/Application\ Support/nushell/$file
           done
           
-          # Copy Catppuccin theme files if they exist
-          if [ -d dot_config/nushell/.catppuccin ]; then
-            cp -r dot_config/nushell/.catppuccin ~/.config/nushell/
-          fi
+          # Create minimal chezmoi config
+          mkdir -p ~/.config/chezmoi
+          cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
+          [data]
+          WORK_ENVIRONMENT = false
+          CATPPUCCIN_FLAVOR = "mocha"
+          EOF
           
-          # Validate each template file
+          # Initialize chezmoi and apply templates
+          chezmoi init --source=.
+          
+          # Validate each template file after processing
           for file in dot_config/nushell/*.nu.tmpl; do
             echo "Validating $file..."
-            # Use nushell to parse the file without executing it
-            nu --no-config-file --env-config ~/Library/Application\ Support/nushell/env.nu -c "source $file; exit 0" || { echo "Error in $file"; exit 1; }
+            processed_file=$(chezmoi cat "$file")
+            echo "$processed_file" | nu --no-config-file --env-config ~/Library/Application\ Support/nushell/env.nu -c "source /dev/stdin; exit 0" || { echo "Error in $file"; exit 1; }
           done
 
       - name: Validate Neovim Configuration
@@ -67,52 +77,16 @@ jobs:
           git config --file dot_config/git/config.tmpl --list
 
   security:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install and Configure Docker
-        run: |
-          # Install Docker CLI and Colima
-          brew install docker
-          brew install colima
-          
-          # Start Colima with Docker runtime
-          colima start
-          
-          # Wait for Docker daemon to be ready
-          for i in {1..30}; do
-            if docker info > /dev/null 2>&1; then
-              break
-            fi
-            echo "Waiting for Docker daemon to be ready..."
-            sleep 1
-          done
-          
-      - name: Install TruffleHog
-        run: |
-          # Pull TruffleHog image
-          docker pull trufflesecurity/trufflehog:latest
+        with:
+          fetch-depth: 0
 
       - name: Scan for Secrets
-        run: |
-          docker run --rm -v "$PWD:/repo" trufflesecurity/trufflehog:latest filesystem --directory /repo --json | jq -r '.SourceMetadata.Data.Filesystem.file' || true
-
-      - name: Check for GPG Keys
-        run: |
-          if grep -r "BEGIN PGP" .; then
-            echo "Warning: Possible GPG key found in repository"
-            exit 1
-          fi
-
-      - name: Check for API Keys and Tokens
-        run: |
-          # Check for common API key patterns
-          if grep -r -E "(api[_-]?key|token|secret|password|credential)" --include="*.{json,yaml,yml,toml,env,conf,config,nu,lua,tmpl}" .; then
-            echo "Warning: Possible API keys or tokens found in repository"
-            # Don't fail the build, just warn
-            # exit 1
-          fi
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   dependencies:
     runs-on: macos-latest

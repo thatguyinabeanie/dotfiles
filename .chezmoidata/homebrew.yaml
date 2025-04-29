@@ -104,7 +104,6 @@ homebrew:
       - cmake
       - cmake-docs
       - cspell
-      - colima
       - colordiff
       - coreutils
       - charmbracelet/tap/mods
@@ -169,7 +168,6 @@ homebrew:
       - libffi
       - libgit2
       - libpq
-      - lima
       - links
       - lua
       - lua-language-server
