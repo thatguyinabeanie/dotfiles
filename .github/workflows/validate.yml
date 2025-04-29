@@ -25,11 +25,20 @@ jobs:
           mkdir -p ~/.config/nushell
           mkdir -p ~/Library/Application\ Support/nushell
           
-          # Create empty placeholder files to satisfy dependencies
-          touch ~/.config/nushell/env.nu
-          touch ~/.config/nushell/aliases.nu
-          touch ~/.config/nushell/secrets.nu
-          touch ~/.config/nushell/work.nu
+          # Create basic env.nu file with minimal configuration
+          cat > ~/Library/Application\ Support/nushell/env.nu << 'EOF'
+          $env.config = {
+            show_banner: false,
+          }
+          EOF
+          
+          # Create basic config files in both locations
+          for file in env.nu aliases.nu secrets.nu work.nu; do
+            # Create in ~/.config/nushell
+            touch ~/.config/nushell/$file
+            # Create in ~/Library/Application Support/nushell
+            touch ~/Library/Application\ Support/nushell/$file
+          done
           
           # Copy Catppuccin theme files if they exist
           if [ -d dot_config/nushell/.catppuccin ]; then
@@ -40,7 +49,7 @@ jobs:
           for file in dot_config/nushell/*.nu.tmpl; do
             echo "Validating $file..."
             # Use nushell to parse the file without executing it
-            nu --no-config-file -c "source $file; exit 0" || { echo "Error in $file"; exit 1; }
+            nu --no-config-file --env-config ~/Library/Application\ Support/nushell/env.nu -c "source $file; exit 0" || { echo "Error in $file"; exit 1; }
           done
 
       - name: Validate Neovim Configuration
