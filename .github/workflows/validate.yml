@@ -71,20 +71,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install and Configure Docker
+        run: |
+          brew install colima
+          colima start
+          
       - name: Install TruffleHog
         run: |
-          brew tap trufflesecurity/tap || true
-          HOMEBREW_NO_INSTALL_FROM_API=1 brew install trufflesecurity/tap/trufflehog || \
-          brew install --cask docker && \
+          # Try to install via docker directly since homebrew tap is failing
           docker pull trufflesecurity/trufflehog:latest
 
       - name: Scan for Secrets
         run: |
-          if command -v trufflehog >/dev/null 2>&1; then
-            trufflehog filesystem --directory . --json | jq -r '.SourceMetadata.Data.Filesystem.file' || true
-          else
-            docker run --rm -v "$PWD:/repo" trufflesecurity/trufflehog:latest filesystem --directory /repo --json | jq -r '.SourceMetadata.Data.Filesystem.file' || true
-          fi
+          docker run --rm -v "$PWD:/repo" trufflesecurity/trufflehog:latest filesystem --directory /repo --json | jq -r '.SourceMetadata.Data.Filesystem.file' || true
 
       - name: Check for GPG Keys
         run: |
