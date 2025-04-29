@@ -66,13 +66,13 @@ featuring a beautiful and functional setup with various plugins and customizatio
 
 2. Clone this configuration using Chezmoi:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 3. Start Neovim and let Lazy.nvim install all plugins:
 
-   ```bash
+   ```zsh
    nvim
    ```
 

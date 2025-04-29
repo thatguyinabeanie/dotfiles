@@ -48,19 +48,19 @@ efficient development environment setup.
 
 1. Install Chezmoi:
 
-   ```bash
+   ```zsh
    brew install chezmoi
    ```
 
 2. Clone this repository:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 3. Install dependencies:
 
-   ```bash
+   ```zsh
    mise install
    ```
 

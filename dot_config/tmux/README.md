@@ -30,13 +30,13 @@ The configuration is split into multiple files for better organization:
 
 1. Clone this configuration using Chezmoi:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Ensure Tmux is installed:
 
-   ```bash
+   ```zsh
    brew install tmux
    ```
 

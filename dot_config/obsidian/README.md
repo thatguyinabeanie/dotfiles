@@ -32,13 +32,13 @@ The configuration is managed through Chezmoi:
 
 1. Clone this configuration using Chezmoi:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Install Obsidian:
 
-   ```bash
+   ```zsh
    brew install --cask obsidian
    ```
 

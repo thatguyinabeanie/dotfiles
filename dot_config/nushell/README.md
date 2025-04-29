@@ -98,25 +98,25 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 
 1. Clone this repository using Chezmoi:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Configure Chezmoi data (if not already done):
 
-   ```bash
+   ```zsh
    chezmoi data
    ```
 
 3. Ensure all dependencies are installed:
 
-   ```bash
+   ```zsh
    mise install
    ```
 
 4. Restart your shell or source the configuration:
 
-   ```bash
+   ```zsh
    source ~/.config/nushell/config.nu
    ```
 

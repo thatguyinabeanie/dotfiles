@@ -33,13 +33,13 @@ The configuration is managed through Chezmoi templates:
 
 1. Clone this configuration using Chezmoi:
 
-   ```bash
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Ensure Git is installed:
 
-   ```bash
+   ```zsh
    brew install git
    ```
 
