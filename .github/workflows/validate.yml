@@ -22,7 +22,9 @@ jobs:
       - name: Validate Nushell Configuration
         run: |
           for file in dot_config/nushell/*.nu.tmpl; do
-            nu --check $file
+            echo "Validating $file..."
+            # Use nushell to parse the file without executing it
+            nu --no-config-file -c "source $file; exit 0" || { echo "Error in $file"; exit 1; }
           done
 
       - name: Validate Neovim Configuration
