@@ -11,6 +11,20 @@ return {
       indent = { enabled = true },
       input = { enabled = true },
       notifier = { enabled = true },
+      picker = {
+        enabled = true,
+        exclude = { -- add folder names here to exclude
+          ".git",
+          "node_modules",
+        },
+        sources = {
+          explorer = {
+            auto_close = true,
+            hidden = true,
+            ignored = true,
+          },
+        },
+      },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = false },
