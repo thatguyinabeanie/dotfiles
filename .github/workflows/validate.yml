@@ -83,10 +83,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install TruffleHog
+        run: |
+          pip install trufflehog
+
       - name: Scan for Secrets
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          trufflehog filesystem . --only-verified
 
   dependencies:
     runs-on: macos-latest
