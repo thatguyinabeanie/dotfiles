@@ -42,9 +42,7 @@ macos-option-as-alt = true
 ## THEME
 ##
 bold-is-bright = true
-theme = {{ if eq .THEME_MODE "SYSTEM" }}light:{{ .THEME_LIGHT }},dark:{{ .THEME_DARK }}
-{{ else if and (eq .THEME_MODE "LIGHT" ) ( hasKey . "THEME_LIGHT") }}{{ .THEME_LIGHT }}
-{{ else if and (eq .THEME_MODE "DARK" )  ( hasKey . "THEME_DARK")  }}{{ .THEME_DARK }}{{ else }}{{ .THEME }}{{ end }}
+theme = catppuccin-{{ .CATPPUCCIN_FLAVOR }}
 
 ##
 ## FONT + CURSOR

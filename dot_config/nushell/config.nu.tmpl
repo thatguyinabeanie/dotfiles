@@ -4,9 +4,9 @@ source ($nu.default-config-dir | path join "secrets.nu" )
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
 
-{{ if hasKey . "THEME"  }}source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
-{{ else if and (eq .THEME_MODE "LIGHT" ) ( hasKey . "THEME_LIGHT") }}source ~/.config/nushell/themes/{{ .THEME_LIGHT }}.nu
-{{ else if and (eq .THEME_MODE "DARK" ) ( hasKey . "THEME_DARK") }}source ~/.config/nushell/themes/{{ .THEME_DARK }}.nu{{ end }}
+{{ if hasKey . "CATPPUCCIN_FLAVOR"  }}
+source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
+{{ end }}
 
 $env.config.show_banner = false
 
