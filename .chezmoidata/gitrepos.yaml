@@ -20,4 +20,9 @@ gitrepos:
       org: personal
       refreshPeriod: 1h
 
-  work: []
+  work:
+    repos: 
+      - console
+      - popsicle 
+    obsidian: 
+      - obsidian-vault-work
