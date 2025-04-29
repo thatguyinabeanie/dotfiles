@@ -83,13 +83,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install TruffleHog
-        run: |
-          pip install trufflehog
-
-      - name: Scan for Secrets
-        run: |
-          trufflehog filesystem . --only-verified
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
 
   dependencies:
     runs-on: macos-latest
