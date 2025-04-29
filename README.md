@@ -1,85 +1,94 @@
-# 🏠 Dotfiles
+# Dotfiles
 
-A modern, feature-rich dotfiles configuration managed with [chezmoi](https://www.chezmoi.io/), featuring a carefully curated selection of tools and configurations for an optimal development environment.
+My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup.
 
-## ✨ Features
+## Components
 
-- 🛠️ **Shell Environment**
-  - Primary shell: [Nushell](https://www.nushell.sh/) with ZSH fallback
-  - Customized prompt using [Starship](https://starship.rs/)
-  - Smart directory navigation with [Zoxide](https://github.com/ajeetdsouza/zoxide)
+### Shell Environment
+- [Nushell Configuration](dot_config/nushell/README.md)
+  - Modern shell with enhanced features
+  - Custom aliases and functions
+  - Work environment integration
 
-- 📝 **Development Tools**
-  - [Neovim](https://neovim.io/) with LazyVim configuration
-  - [Git](https://git-scm.com/) with delta diff viewer
-  - [GitHub CLI](https://cli.github.com/) with custom aliases
-  - [mise](https://mise.jdx.dev/) for runtime version management
+### Development Tools
+- [Neovim Configuration](dot_config/nvim/README.md)
+  - LazyVim-based setup
+  - Catppuccin theme
+  - LSP integration
+  - Git integration
 
-- 🎨 **Theming**
-  - [Catppuccin](https://github.com/catppuccin) theme integration across all tools
-  - Configurable opacity and blur settings
-  - Custom font configuration (default: Dank Mono)
+- [Git Configuration](dot_config/git/README.md)
+  - Custom aliases
+  - Git hooks
+  - Global settings
 
-- 📊 **Development Utilities**
-  - [K9s](https://k9scli.io/) for Kubernetes cluster management
-  - [btop](https://github.com/aristocratos/btop) for system monitoring
-  - [Yazi](https://yazi-rs.github.io/) modern file manager
-  - [Pipeline.nvim](https://github.com/topaxi/pipeline.nvim) for CI integration
+### Terminal Tools
+- [Tmux Configuration](dot_config/tmux/README.md)
+  - Catppuccin theme
+  - Pomodoro timer
+  - Custom keybindings
+  - Session management
 
-- 📝 **Note-taking**
-  - [Obsidian](https://obsidian.md/) integration with vault management
-  - Git-based sync for multiple vaults
+### Knowledge Management
+- [Obsidian Configuration](dot_config/obsidian/README.md)
+  - Multiple vault support
+  - Neovim integration
+  - Plugin configuration
 
-## 🚀 Installation
+## Installation
 
-1. Clone and install:
-```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
+1. Install Chezmoi:
+   ```bash
+   brew install chezmoi
+   ```
+
+2. Clone this repository:
+   ```bash
+   chezmoi init --apply
+   ```
+
+3. Install dependencies:
+   ```bash
+   mise install
+   ```
+
+## Structure
+
+```
+.
+├── dot_config/
+│   ├── nushell/     # Shell configuration
+│   ├── nvim/        # Neovim configuration
+│   ├── git/         # Git configuration
+│   ├── tmux/        # Tmux configuration
+│   └── obsidian/    # Obsidian configuration
+└── scripts/         # Custom scripts
 ```
 
-2. The installation script will prompt for:
-   - Git configuration (name, email, GitHub username)
-   - Shell preference (nu/zsh)
-   - Catppuccin theme flavor
-   - Work/Personal environment setup
+## Features
 
-## 🔧 Configuration
+- **Modern Development Environment**
+  - Nushell for enhanced shell experience
+  - Neovim for efficient editing
+  - Tmux for terminal multiplexing
+  - Git for version control
 
-The configuration is managed through several key files:
+- **Knowledge Management**
+  - Obsidian for note-taking
+  - Multiple vault support
+  - Neovim integration
 
-- `.chezmoi.toml.tmpl`: Core configuration and user preferences
-- `.chezmoiexternal.toml.tmpl`: External dependencies and git repositories
-- `.chezmoidata/*.yaml`: Tool-specific configurations
+- **Productivity Tools**
+  - Pomodoro timer
+  - Custom aliases
+  - Work environment integration
 
-### 📦 Package Management
+## Dependencies
 
-- macOS: Homebrew packages defined in `.chezmoidata/homebrew.yaml`
-- Runtime versions: managed by mise, configured in `.chezmoidata/mise.yaml`
+- [Chezmoi](https://www.chezmoi.io/) - Dotfiles manager
+- [mise](https://github.com/jdx/mise) - Tool version manager
+- [Homebrew](https://brew.sh/) - Package manager
 
-## 🔄 Updates
+## Contributing
 
-To update your dotfiles:
-
-```bash
-# Pull and apply changes
-chezmoi update
-
-# Update external dependencies
-chezmoi upgrade
-```
-
-## 🛠️ Customization
-
-### Adding New Tools
-
-1. Add the package to `.chezmoidata/homebrew.yaml`
-2. Create configuration in `dot_config/tool_name/`
-3. Add any external dependencies to `.chezmoiexternal.toml.tmpl`
-
-### Modifying Existing Configurations
-
-Most configurations are templated and can be customized through `.chezmoi.toml.tmpl` variables.
-
-## 📝 License
-
-MIT License - feel free to use and modify as needed!
+Feel free to submit issues and enhancement requests!
