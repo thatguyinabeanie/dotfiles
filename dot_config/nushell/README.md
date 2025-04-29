@@ -91,7 +91,7 @@ All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extens
 - [Neovim](https://neovim.io/)
 - [Yazi](https://github.com/sxyazi/yazi)
 - [bat](https://github.com/sharkdp/bat)
-- [pokeget](https://github.com/taylorskalyo/kuro)
+- [pokeget](https://github.com/talwat/pokeget)
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 ## Installation
