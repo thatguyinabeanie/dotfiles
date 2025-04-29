@@ -66,7 +66,7 @@ efficient development environment setup.
 
 ## Structure
 
-```
+```tree
 .
 ├── dot_config/
 │   ├── nushell/     # Shell configuration
