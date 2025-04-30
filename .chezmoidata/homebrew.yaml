@@ -89,6 +89,7 @@ homebrew:
       - bandwhich
       - bash
       - bash-completion
+      - bash-language-server
       - bat
       - brew-cask-completion
       - btop
@@ -104,6 +105,7 @@ homebrew:
       - direnv
       - docutils
       - docker-completion
+      - dockerfile-language-server
       - dotdrop
       - dust
       - exiftool
@@ -148,8 +150,10 @@ homebrew:
       - libgit2
       - libpq
       - links
+      - lua
       - luajit
       - luarocks
+      - lua-language-server
       - lynx
       - make
       - man2html
@@ -210,6 +214,7 @@ homebrew:
       - yamlfix
       - yamlfmt
       - yamllint
+      - yaml-language-server
       - yazi
       - yq
       - zls
