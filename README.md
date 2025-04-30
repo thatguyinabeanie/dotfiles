@@ -51,28 +51,32 @@ efficient development environment setup.
 
 ## 📥 Installation
 
-```bash
 # 1. Install Chezmoi
-brew install chezmoi
 
-# 2. Clone this repository
-chezmoi init --apply
-
-# 3. Install dependencies
-mise install
+```zsh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 
 ## 📂 Structure
 
-```
+```tree
 .
-├── dot_config/
-│   ├── nushell/     # Shell configuration
-│   ├── nvim/        # Neovim configuration
-│   ├── git/         # Git configuration
-│   ├── tmux/        # Tmux configuration
-│   └── obsidian/    # Obsidian configuration
-└── scripts/         # Custom scripts
+|── .chezmoi.toml.tmpl  # Chezmoi Engine configuration
+├── .chezmoidata/       # Chezmoi data 
+│   ├── gitrepos.yaml   # Git repository configuration
+│   ├── homebrew.yaml   # Homebrew packages
+|   ├── mise.yaml       # Sensitive configuration
+|   └── treesitter.yaml # Treesitter configuration
+|
+├── .chezmoiscripts/    # Scripts automatically ran by Chezmoi
+├── .chezmoitemplates/  # Chezmoi templates
+└─ dot_config/
+    ├── nushell/        # Shell configuration
+    ├── nvim/           # Neovim configuration
+    ├── mise/           # Mise configuration
+    ├── git/            # Git configuration
+    ├── tmux/           # Tmux configuration
+    └── obsidian/       # jObsidian configuration
 ```
 
 ## 🎯 Features
