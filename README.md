@@ -2,6 +2,8 @@
 
 # 🏠 Dotfiles
 
+![Tests](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/test.yml/badge.svg)
+
 My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and
 efficient development environment setup.
 
