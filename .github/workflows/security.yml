@@ -17,11 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for Gitleaks to scan git history
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/golang@master
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -32,7 +34,6 @@ jobs:
           exit-code: "1"
           severity: "CRITICAL,HIGH"
           hide-progress: false
-          no-progress: false
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
