@@ -109,6 +109,7 @@ homebrew:
       - dotdrop
       - dust
       - exiftool
+      - fastfetch
       - fish
       - fish-lsp
       - ffmpeg
