@@ -1,7 +1,6 @@
 # Contributing to Dotfiles
 
-Thank you for your interest in contributing! This document outlines the process for contributing to this 
-dotfiles repository.
+Thank you for your interest in contributing! This document outlines the process for contributing.
 
 ## Getting Started
 
