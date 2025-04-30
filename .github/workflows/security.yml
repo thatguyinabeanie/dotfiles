@@ -12,6 +12,8 @@ permissions:
   contents: read
   # Add permission for Gitleaks to access pull requests
   pull-requests: read
+  # Add permission for CodeQL to upload SARIF results
+  security-events: write
 
 jobs:
   security:
@@ -33,13 +35,15 @@ jobs:
         with:
           scan-type: "fs"
           ignore-unfixed: true
-          format: "table"
+          format: "sarif"
+          output: "trivy-results.sarif"
           exit-code: "1"
           severity: "CRITICAL,HIGH"
           hide-progress: false
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: "trivy-results.sarif"
+          category: "trivy"
