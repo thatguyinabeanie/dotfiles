@@ -10,9 +10,9 @@ on:
 
 permissions:
   contents: read
-  security-events: write  # Required for uploading SARIF results
-  actions: read          # Required for checking workflow runs
-  pull-requests: read    # Required for PR checks
+  security-events: write
+  actions: read
+  pull-requests: read
 
 jobs:
   codeql:
@@ -26,24 +26,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'go' ]
+        language: ['go']
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
-      with:
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: ${{ matrix.language }}
 
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
-      with:
-        category: "/language:${{matrix.language}}"
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "/language:${{matrix.language}}"
   security:
     name: Security Scan
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
           severity: "CRITICAL,HIGH"
           hide-progress: false
 
-      # Note: To enable SARIF uploads, enable code scanning in repository settings:
+      # To enable SARIF uploads, enable code scanning in repository settings:
       # Settings -> Code security and analysis -> Code scanning
       # Then change format back to "sarif" and uncomment the upload step
       # - name: Upload Trivy scan results to GitHub Security tab
