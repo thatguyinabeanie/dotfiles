@@ -4,7 +4,9 @@
 
 # ⭐️ Dotfiles 🌌
 
+<!-- markdownlint-disable MD013 -->
 My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup that's out of this world 🚀
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/789.png" width="150" />
@@ -103,7 +105,9 @@ dotfiles/
 
 ## 🌠 Contributing
 
+<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this configuration shine brighter than a supernova! ✨
+<!-- markdownlint-enable MD013 -->
 
 ## 📜 License
 
