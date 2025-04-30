@@ -246,6 +246,7 @@ A collection of planned enhancements and improvements for this cosmic developmen
 
 ### Dotfiles Showcase NextJS
 
+- [ ] Fix skewed DOTFILES ASCII art
 - [ ] Integrate with ![Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
 
 <!-- markdownlint-enable MD033 MD013 MD045 -->
