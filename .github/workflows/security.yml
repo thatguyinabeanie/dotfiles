@@ -10,10 +10,9 @@ on:
 
 permissions:
   contents: read
-  # Add permission for Gitleaks to access pull requests
-  pull-requests: read
-  # Add permission for CodeQL to upload SARIF results
-  security-events: write
+  security-events: write  # Required for uploading SARIF results
+  actions: read          # Required for checking workflow runs
+  pull-requests: read    # Required for PR checks
 
 jobs:
   security:
@@ -22,7 +21,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required for Gitleaks to scan git history
+          fetch-depth: 0
 
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
