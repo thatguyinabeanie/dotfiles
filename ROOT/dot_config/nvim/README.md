@@ -3,10 +3,14 @@
 
 # 🚀 Neovim Configuration
 
+<!-- markdownlint-disable MD013 -->
 A modern Neovim configuration built on top of LazyVim,
 featuring a beautiful and functional setup with various plugins and customizations.
+<!-- markdownlint-enable MD013 -->
 
+<!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/475.png" width="150" />
+<!-- markdownlint-enable MD013 MD045 -->
 
 ![Neovim](https://img.shields.io/badge/Neovim-0.9.0+-green.svg)
 ![LazyVim](https://img.shields.io/badge/LazyVim-Latest-blue.svg)
@@ -81,11 +85,13 @@ featuring a beautiful and functional setup with various plugins and customizatio
 1. Ensure you have Neovim installed (version 0.9.0 or higher)
 
 2. Clone this configuration using Chezmoi:
+
    ```zsh
    chezmoi init --apply
    ```
 
 3. Start Neovim and let Lazy.nvim install all plugins:
+
    ```zsh
    nvim
    ```
@@ -94,7 +100,7 @@ featuring a beautiful and functional setup with various plugins and customizatio
 
 The configuration is organized as follows:
 
-```
+```shell
 nvim/
 ├── 📝 init.lua.tmpl         # Main configuration file (Chezmoi template)
 └── 🔌 lua/plugins/          # Plugin configurations
@@ -108,6 +114,7 @@ nvim/
 ### 🎨 Theme
 
 The configuration uses Catppuccin theme with:
+
 - Transparent background
 - Mocha flavor
 - Custom styles for comments and conditionals
@@ -116,6 +123,7 @@ The configuration uses Catppuccin theme with:
 ### 🔄 Git Blame
 
 Custom git blame configuration includes:
+
 - Date format: DD.MM.YYYY
 - Virtual text style
 - Custom key mappings:
@@ -128,6 +136,7 @@ Custom git blame configuration includes:
 ### 🎨 UI Enhancements
 
 Snacks.nvim provides various UI improvements:
+
 - Big file handling
 - Dashboard customization
 - Git browse integration
@@ -150,9 +159,11 @@ Snacks.nvim provides various UI improvements:
 <!-- markdownlint-disable MD033 -->
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/474.png" width="100" />
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/474.png" width="100" alt="Pokemon Gallade" />
 
 Made with ❤️ by a Neovim enthusiast
+<!-- markdownlint-enable MD013 MD045 -->
 
 </div>
 <!-- markdownlint-enable MD033 -->

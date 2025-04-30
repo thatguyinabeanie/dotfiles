@@ -4,7 +4,9 @@
 
 # 🐚 Nushell Configuration 🌊
 
+<!-- markdownlint-disable MD013 -->
 A modern and efficient Nushell setup with various customizations and integrations, managed with Chezmoi for seamless deployment.
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/422.png" width="150" />
@@ -176,7 +178,9 @@ The following Chezmoi template variables are used in the configuration:
 
 ## 🌠 Contributing
 
+<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this shell configuration shine brighter! ✨
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">

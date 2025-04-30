@@ -2,6 +2,37 @@
 <div align="center">
 <!-- markdownlint-enable MD033 -->
 
+<!-- markdownlint-disable MD013 MD040 -->
+```
+                      .              .
+                     ,O.            ,O,
+                    ,OOO\          /OOO,
+                   ,OOOOO\        /OOOOO,
+                  ,OOOOOOO\      /OOOOOOO,
+                 ,OOOOOOOOO\    /OOOOOOOOO,
+           ⭐️   ,OOOOOOOOOOO\  /OOOOOOOOOOO,   🌌
+               ,OOOOOOOOOOOOO\/OOOOOOOOOOOOO,
+              ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+             ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+            ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+           ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+          ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+         ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+        ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+       ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+      ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+     ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+    ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+   ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+  ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+ ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
+ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+                 D O T F I L E S
+         ✨ Cosmic Development Environment ✨
+ _________________________________________________________________
+```
+<!-- markdownlint-enable MD013 MD040 -->
+
 # ⭐️ Dotfiles 🌌
 
 <!-- markdownlint-disable MD013 -->
@@ -11,6 +42,23 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/789.png" width="150" />
 <!-- markdownlint-enable MD013 MD045 -->
+
+## 🎬 Demo
+
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+<!-- markdownlint-enable MD033 -->
+
+*A cosmic journey through my development environment*
+
+<!-- Replace this with your actual GIF once created -->
+[Animated demo of the dotfiles in action will appear here]
+
+**See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
+
+<!-- markdownlint-disable MD033 -->
+</div>
+<!-- markdownlint-enable MD033 -->
 
 ![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
@@ -94,6 +142,23 @@ dotfiles/
 │   └── ...
 └── 🌠 .chezmoi.toml.tmpl
 ```
+
+## 🎨 Theme Showcase
+
+<!-- markdownlint-disable MD013 -->
+Experience the beauty of Catppuccin in four delicious flavors that transform your development environment:
+<!-- markdownlint-enable MD013 -->
+
+<div align="center">
+
+| Mocha (Dark) | Macchiato (Dark) | Frappe (Dark) | Latte (Light) |
+|:------------:|:----------------:|:-------------:|:-------------:|
+| [Placeholder] | [Placeholder] | [Placeholder] | [Placeholder] |
+| Rich dark background with vibrant accents | Balanced dark theme with medium contrast | Cozy dark theme with lower contrast | Creamy light theme for daytime coding |
+
+</div>
+
+> **Note:** Replace [Placeholder] with actual screenshots of your environment in each theme variant.
 
 ## 🌍 Dependencies
 

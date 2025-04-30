@@ -4,7 +4,9 @@
 
 # 🌿 Git Configuration 🔄
 
+<!-- markdownlint-disable MD013 -->
 A comprehensive Git configuration with custom aliases, hooks, and settings for enhanced productivity, managed with Chezmoi.
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/387.png" width="150" />
@@ -100,7 +102,9 @@ Common Git aliases include:
 
 ## 🌠 Contributing
 
+<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this configuration even better! ✨
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">

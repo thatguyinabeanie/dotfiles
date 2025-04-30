@@ -4,7 +4,9 @@
 
 # 🖥️ Tmux Configuration 🔄
 
+<!-- markdownlint-disable MD013 -->
 A modern and functional Tmux configuration with Catppuccin theme integration, custom keybindings, and productivity features.
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png" width="150" />
@@ -103,7 +105,9 @@ The Pomodoro timer configuration includes:
 
 ## 🌠 Contributing
 
+<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">

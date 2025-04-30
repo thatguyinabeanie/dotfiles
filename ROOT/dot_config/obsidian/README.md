@@ -4,7 +4,9 @@
 
 # 📝 Obsidian Configuration 🧠
 
+<!-- markdownlint-disable MD013 -->
 A personalized Obsidian setup for knowledge management and note-taking, integrated with Neovim for enhanced editing capabilities.
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png" width="150" />
@@ -63,9 +65,13 @@ obsidian/
    chezmoi init --apply
    ```
 
+<!-- markdownlint-disable MD013 MD029 -->
 2. Obsidian will be automatically installed via Homebrew during the Chezmoi setup process, as it's defined in the shared casks.
+<!-- markdownlint-enable MD013 MD029 -->
 
+<!-- markdownlint-disable MD029 -->
 3. Open your vaults in Obsidian
+<!-- markdownlint-enable MD029 -->
 
 ## ⚙️ Customization
 
@@ -95,7 +101,9 @@ Configured plugins include:
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/149.png" width="50" align="right" />
 <!-- markdownlint-enable MD013 MD045 -->
 
+<!-- markdownlint-disable MD013 -->
 The configuration includes Neovim integration for enhanced editing:
+<!-- markdownlint-enable MD013 -->
 
 - Custom commands for vault access
 - Plugin support
@@ -110,7 +118,9 @@ The configuration includes Neovim integration for enhanced editing:
 
 ## 🌠 Contributing
 
+<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this knowledge management system even better! ✨
+<!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
