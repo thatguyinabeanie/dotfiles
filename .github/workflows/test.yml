@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: Tests
+    name: Chezmoi
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
