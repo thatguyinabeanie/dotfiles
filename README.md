@@ -7,6 +7,11 @@ efficient development environment setup.
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+![Tests](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/test.yml/badge.svg)
+![Lint](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/lint.yml/badge.svg)
+![Security](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/security.yml/badge.svg)
+
+[Screenshot of setup]
 
 ## ✨ Components
 
@@ -50,6 +55,19 @@ efficient development environment setup.
 ```zsh
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
+
+### Configuration Variables
+
+During installation, you'll be prompted for several configuration values:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `WORK_ENVIRONMENT` | Enable work-specific configurations | `false` |
+| `SHELL` | Preferred shell (nu/zsh) | `nu` |
+| `CATPPUCCIN_FLAVOR` | Theme variant (mocha/macchiato/frappe/latte) | `mocha` |
+| `GIT_NAME` | Git commit author name | - |
+| `GIT_EMAIL` | Git commit author email | - |
+| `GITHUB_USERNAME` | GitHub username | - |
 
 ## 📂 Structure
 
