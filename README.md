@@ -96,7 +96,8 @@ During installation, you'll be prompted for several configuration values:
 
 ### TODO: Pre-commit Hooks
 
-This repository automatically sets up pre-commit hooks when you run `chezmoi init --apply`. These hooks include:
+This repository automatically sets up pre-commit hooks when you run `chezmoi init --apply`.
+These hooks include:
 
 - **Gitleaks**: Scans staged files for potential secrets or sensitive information
 - **Basic checks**: Trailing whitespace, YAML validation, etc.
