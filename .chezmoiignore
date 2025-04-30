@@ -45,3 +45,4 @@ go.mod
 go.sum
 CONTRIBUTING.md
 SECURITY.md
+gitleaks-report.json

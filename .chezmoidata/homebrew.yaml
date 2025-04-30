@@ -136,6 +136,7 @@ homebrew:
       - glib
       - gifsicle
       - git
+      - gitleaks
       - gitui
       - git-delta
       - glances
