@@ -19,9 +19,9 @@ const AsciiBanner: React.FC = () => {
   ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗
   ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝
   ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗
-  ██║  ██║██║   ██║   ██║   ██████╗ ██║██║     ██╔══╝  ╚════██║
-  ██████╔╝╚██████╔╝   ██║   ██╔══██╗██║███████╗███████╗███████║
-  ╚═════╝  ╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝
+  ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║
+  ██████╔╝╚██████╔╝   ██║   ███████╗██║███████╗███████╗███████║
+  ╚═════╝  ╚═════╝    ╚═╝   ╚══════╝╚═╝╚══════╝╚══════╝╚══════╝
   `;
 
   return (
@@ -33,7 +33,7 @@ const AsciiBanner: React.FC = () => {
     >
       {showBanner && (
         <div className="font-mono flex flex-col items-center justify-center">
-          <div className="text-purple-400 text-xs sm:text-sm md:text-base overflow-x-auto w-full">
+          <div className="text-green-400 text-xs sm:text-sm md:text-base overflow-x-auto w-full">
             <pre className="font-mono whitespace-pre mx-auto inline-block">
 {asciiArt}
             </pre>
