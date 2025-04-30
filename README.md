@@ -93,7 +93,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/installation" target="_blank">
-    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge" alt="View Installation Guide" />
+    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge"
+      alt="View Installation Guide" />
   </a>
 </div>
 
