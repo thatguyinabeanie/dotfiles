@@ -13,4 +13,5 @@ secrets/*
 k9s/*
 !k9s/config.yaml
 !k9s/skins/*
-
+coverage.txt
+coverage.txt

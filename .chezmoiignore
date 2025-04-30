@@ -40,6 +40,7 @@ tests/
 
 install.sh
 
+coverage.txt
 go.mod
 go.sum
 CONTRIBUTING.md
