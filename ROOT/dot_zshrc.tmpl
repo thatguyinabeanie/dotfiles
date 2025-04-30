@@ -7,10 +7,10 @@ if [ -x $ZSH_SYNTAX_HIGHLIGHTING_PATH ]; then
   source "$ZSH_SYNTAX_HIGHLIGHTING_PATH"
 fi
 
-source ".zshenv"
-source ".config/zsh/work.zsh"
-source ".config/zsh/secrets.zsh"
-source ".config/zsh/aliases.zsh"
+source .zshenv
+source .config/zsh/work.zsh
+source .config/zsh/secrets.zsh
+source .config/zsh/aliases.zsh
 
 export PATH=$HOME/.local/bin:$PATH 
 
@@ -40,7 +40,7 @@ if [ -f "$HOME/.cargo/.env" ]; then
 fi
 
 # The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/gmendoza/.docker/completions $fpath)
+fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
