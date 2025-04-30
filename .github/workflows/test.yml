@@ -62,5 +62,6 @@ jobs:
       - name: Initialize and verify Chezmoi config
         run: |
           export PATH=$PATH:$HOME/.local/bin
+          git config --global url."https://${{ github.token }}@github.com/".insteadOf "https://github.com/"
           chezmoi init --apply $GITHUB_ACTOR
           chezmoi verify
