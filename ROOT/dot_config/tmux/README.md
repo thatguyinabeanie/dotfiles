@@ -1,48 +1,77 @@
-# Tmux Configuration
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+<!-- markdownlint-enable MD033 -->
 
-A modern and functional Tmux configuration with Catppuccin theme integration,
-custom keybindings, and productivity features.
+# 🖥️ Tmux Configuration 🔄
 
-## Features
+A modern and functional Tmux configuration with Catppuccin theme integration, custom keybindings, and productivity features.
 
-- **Theme**
-  - Catppuccin theme integration
-  - Transparent background support
-  - Custom status line
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png" width="150" />
+<!-- markdownlint-enable MD013 MD045 -->
 
-- **Productivity**
-  - Pomodoro timer integration
-  - Custom keybindings
-  - Enhanced status bar
-  - Session management
+![Tmux](https://img.shields.io/badge/Tool-Tmux_3.0+-blue?style=flat-square&logo=tmux)
+![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
+![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-## Configuration Structure
+<!-- markdownlint-disable MD033 -->
+</div>
+<!-- markdownlint-enable MD033 -->
+
+## 🌟 Features
+
+### 🎨 Theme
+
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" width="50" align="right" />
+<!-- markdownlint-enable MD013 MD045 -->
+
+- Catppuccin theme integration
+- Transparent background support
+- Custom status line
+
+### ⚡ Productivity
+
+- Pomodoro timer integration
+- Custom keybindings
+- Enhanced status bar
+- Session management
+
+## 📁 Configuration Structure
 
 The configuration is split into multiple files for better organization:
 
-- `tmux.conf` - Main configuration file
-- `tmux.keybindings.conf` - Custom keybindings
-- `tmux.pomodoro.conf` - Pomodoro timer settings
-- `tmux.status.conf` - Status bar configuration
-- `tmux.theme.catppuccin.conf.tmpl` - Theme configuration (Chezmoi template)
+```shell
+tmux/
+├── 📝 tmux.conf - Main configuration file
+├── ⌨️ tmux.keybindings.conf - Custom keybindings
+├── ⏱️ tmux.pomodoro.conf - Pomodoro timer settings
+├── 📊 tmux.status.conf - Status bar configuration
+└── 🎨 tmux.theme.catppuccin.conf.tmpl - Theme configuration (Chezmoi template)
+```
 
-## Installation
+## 🌠 Installation
 
 1. Clone this configuration using Chezmoi:
 
-   ```zsh
+   ```shell
    chezmoi init --apply
    ```
 
 2. Ensure Tmux is installed:
 
-   ```zsh
+   ```shell
    brew install tmux
    ```
 
-## Customization
+## ⚙️ Customization
 
-### Theme
+### 🎨 Theme
+
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/134.png" width="50" align="right" />
+<!-- markdownlint-enable MD013 MD045 -->
 
 The configuration uses Catppuccin theme with:
 
@@ -50,7 +79,7 @@ The configuration uses Catppuccin theme with:
 - Custom status line colors
 - Theme variables managed through Chezmoi
 
-### Keybindings
+### ⌨️ Keybindings
 
 Custom keybindings are organized in `tmux.keybindings.conf`:
 
@@ -59,7 +88,7 @@ Custom keybindings are organized in `tmux.keybindings.conf`:
 - Session management
 - Copy mode enhancements
 
-### Pomodoro Timer
+### ⏱️ Pomodoro Timer
 
 The Pomodoro timer configuration includes:
 
@@ -67,11 +96,19 @@ The Pomodoro timer configuration includes:
 - Visual notifications
 - Status bar integration
 
-## Dependencies
+## 🌍 Dependencies
 
 - Tmux 3.0+
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
 
-## Contributing
+## 🌠 Contributing
 
-Feel free to submit issues and enhancement requests!
+Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨
+
+<!-- markdownlint-disable MD033 MD013 MD045 -->
+<div align="center">
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/135.png" width="100" />
+
+Made with ❤️ and terminal magic
+</div>
+<!-- markdownlint-enable MD033 MD013 MD045 -->

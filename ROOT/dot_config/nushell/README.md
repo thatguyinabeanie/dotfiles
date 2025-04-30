@@ -1,73 +1,103 @@
-# Nushell Configuration
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+<!-- markdownlint-enable MD033 -->
 
-This repository contains my personal Nushell configuration, featuring a modern
-and efficient shell setup with various customizations and integrations.
-The configuration is managed using [Chezmoi](https://www.chezmoi.io/),
-a dotfiles manager that allows for template-based configuration.
+# 🐚 Nushell Configuration 🌊
 
-## Configuration Structure
+A modern and efficient Nushell setup with various customizations and integrations, managed with Chezmoi for seamless deployment.
 
-All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extension,
-located in `ROOT/dot_config/nushell/`:
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/422.png" width="150" />
+<!-- markdownlint-enable MD013 MD045 -->
 
-- `config.nu.tmpl` - Main configuration file
-- `aliases.nu.tmpl` - Custom aliases and functions
-- `env.nu.tmpl` - Environment variables
-- `secrets.nu.tmpl` - Sensitive configuration (not tracked in git)
-- `work.nu.tmpl` - Work-specific configurations (conditionally loaded)
+![Nushell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
+![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
+![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-## Features
+<!-- markdownlint-disable MD033 -->
+</div>
+<!-- markdownlint-enable MD033 -->
 
-- **Environment Management**
-  - Integration with `mise` for tool version management
-  - Custom environment variables and configurations
-  - Support for work-specific configurations
+## 📁 Configuration Structure
 
-- **Theme Support**
-  - Catppuccin theme integration
-  - Customizable theme selection
+All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extension:
 
-- **Directory Navigation**
-  - `zoxide` integration for smart directory jumping
-  - Custom directory aliases for quick navigation
+```shell
+nushell/
+├── 📝 config.nu.tmpl - Main configuration file
+├── 🔄 aliases.nu.tmpl - Custom aliases and functions
+├── 🌍 env.nu.tmpl - Environment variables
+├── 🔒 secrets.nu.tmpl - Sensitive configuration (not tracked in git)
+└── 💼 work.nu.tmpl - Work-specific configurations (conditionally loaded)
+```
 
-- **GitHub Integration**
-  - Custom functions for repository management
-  - Streamlined GitHub workflow commands
+## 🌟 Features
 
-- **Development Tools**
-  - Neovim integration
-  - Obsidian vault management
-  - Chezmoi dotfiles management
+### 🌍 Environment Management
 
-- **System Information**
-  - Starship prompt integration
-  - Pokemon-themed system information display
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/423.png" width="50" align="right" />
+<!-- markdownlint-enable MD013 MD045 -->
 
-## Aliases
+- Integration with `mise` for tool version management
+- Custom environment variables and configurations
+- Support for work-specific configurations
 
-### Directory Navigation
+### 🎨 Theme Support
+
+- Catppuccin theme integration
+- Customizable theme selection
+
+### 📂 Directory Navigation
+
+- `zoxide` integration for smart directory jumping
+- Custom directory aliases for quick navigation
+
+### 🔄 GitHub Integration
+
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/456.png" width="50" align="right" />
+<!-- markdownlint-enable MD013 MD045 -->
+
+- Custom functions for repository management
+- Streamlined GitHub workflow commands
+
+### 🛠️ Development Tools
+
+- Neovim integration
+- Obsidian vault management
+- Chezmoi dotfiles management
+
+### 📊 System Information
+
+- Starship prompt integration
+- Pokemon-themed system information display
+
+## 🚀 Aliases
+
+### 📂 Directory Navigation
 
 - `l` - List directory contents
 - `ll` - List all files (including hidden)
 - `la` - List all files with details
 
-### Chezmoi
+### 🔄 Chezmoi
 
 - `chezmoi_update` - Update dotfiles excluding scripts
 - `cia` - Quick apply dotfiles
 - `chezmoi_data` - View Chezmoi configuration
 - `chezmoi_data_edit` - Edit Chezmoi configuration
 
-### Other
+### 🧰 Other
 
 - `y` - Launch Yazi file manager
 - `cat` - Use `bat` for file viewing
 - `tks` - Kill tmux server
 
-## Custom Functions
+## ⚡ Custom Functions
 
-### GitHub Management
+### 🔄 GitHub Management
 
 - `gh-create-repo` - Create new repositories
 - `gh-clone-repo` - Clone repositories
@@ -76,13 +106,62 @@ located in `ROOT/dot_config/nushell/`:
 - `gh-add-remote` - Add remote to local repository
 - `gh-open-repo` - Open repository in browser
 
-### System Management
+### 🖥️ System Management
 
 - `poke_system_info` - Display system information with random Pokemon
 - `reset_nvim` - Reset Neovim configuration
 - `obsidian_nvim` - Open Obsidian vault in Neovim
 
-## Dependencies
+## 🌠 Installation
+
+1. Clone this repository using Chezmoi:
+
+   ```shell
+   chezmoi init --apply
+   ```
+
+2. Configure Chezmoi data (if not already done):
+
+   ```shell
+   chezmoi data
+   ```
+
+3. Ensure all dependencies are installed:
+
+   ```shell
+   mise install
+   ```
+
+4. Restart your shell or source the configuration:
+
+   ```shell
+   source ~/.config/nushell/config.nu
+   ```
+
+## ⚙️ Customization
+
+The configuration uses Chezmoi templates, allowing for dynamic configuration based on your environment:
+
+- Theme: Set `CATPPUCCIN_FLAVOR` in your Chezmoi data to change the theme
+- Work Environment: Set `WORK_ENVIRONMENT=true` in your Chezmoi data to enable work-specific configurations
+
+### 🔄 Chezmoi Commands
+
+- `chezmoi_update` - Update dotfiles excluding scripts
+- `cia` - Quick apply dotfiles
+- `chezmoi_data` - View Chezmoi configuration
+- `chezmoi_data_edit` - Edit Chezmoi configuration
+- `chezmoi_reset` - Reset Chezmoi state and reinitialize
+
+## 🌍 Template Variables
+
+The following Chezmoi template variables are used in the configuration:
+
+- `CATPPUCCIN_FLAVOR` - Theme flavor for Catppuccin
+- `WORK_ENVIRONMENT` - Enable work-specific configurations
+- Additional variables can be found in `~/.config/chezmoi/chezmoi.toml`
+
+## 🌍 Dependencies
 
 - [Nushell](https://www.nushell.sh/)
 - [zoxide](https://github.com/ajeetdsouza/zoxide)
@@ -95,55 +174,14 @@ located in `ROOT/dot_config/nushell/`:
 - [pokeget](https://github.com/talwat/pokeget)
 - [fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
-## Installation
+## 🌠 Contributing
 
-1. Clone this repository using Chezmoi:
+Feel free to submit issues and enhancement requests! Together we can make this shell configuration shine brighter! ✨
 
-   ```zsh
-   chezmoi init --apply
-   ```
+<!-- markdownlint-disable MD033 MD013 MD045 -->
+<div align="center">
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/457.png" width="100" />
 
-2. Configure Chezmoi data (if not already done):
-
-   ```zsh
-   chezmoi data
-   ```
-
-3. Ensure all dependencies are installed:
-
-   ```zsh
-   mise install
-   ```
-
-4. Restart your shell or source the configuration:
-
-   ```zsh
-   source ~/.config/nushell/config.nu
-   ```
-
-## Customization
-
-The configuration uses Chezmoi templates, allowing for dynamic configuration based on your environment:
-
-- Theme: Set `CATPPUCCIN_FLAVOR` in your Chezmoi data to change the theme
-- Work Environment: Set `WORK_ENVIRONMENT=true` in your Chezmoi data to enable work-specific configurations
-
-### Chezmoi Commands
-
-- `chezmoi_update` - Update dotfiles excluding scripts
-- `cia` - Quick apply dotfiles
-- `chezmoi_data` - View Chezmoi configuration
-- `chezmoi_data_edit` - Edit Chezmoi configuration
-- `chezmoi_reset` - Reset Chezmoi state and reinitialize
-
-## Template Variables
-
-The following Chezmoi template variables are used in the configuration:
-
-- `CATPPUCCIN_FLAVOR` - Theme flavor for Catppuccin
-- `WORK_ENVIRONMENT` - Enable work-specific configurations
-- Additional variables can be found in `~/.config/chezmoi/chezmoi.toml`
-
-## Contributing
-
-Feel free to submit issues and enhancement requests!
+Made with ❤️ and shell magic
+</div>
+<!-- markdownlint-enable MD033 MD013 MD045 -->

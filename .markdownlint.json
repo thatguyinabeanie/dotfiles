@@ -6,7 +6,7 @@
     "tables": false
   },
   "MD033": {
-    "allowed_elements": ["a", "img", "br", "hr", "code", "pre"]
+    "allowed_elements": ["a", "img", "br", "hr", "code", "pre", "div", "align", "p"]
   },
   "MD041": false,
   "MD024": {
@@ -18,5 +18,7 @@
   "MD029": {
     "style": "ordered"
   },
-  "MD036": false
+  "MD036": false,
+  "MD025": false,
+  "MD045": false
 }
