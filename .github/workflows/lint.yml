@@ -28,22 +28,26 @@ jobs:
 
       - name: Check YAML formatting
         uses: ibiqlik/action-yamllint@v3
+        if: always()
         with:
           file_or_dir: .
           config_file: .yamllint.yml
 
       - name: Lint Shell Scripts
+        if: always()
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.chezmoiscripts'
 
       - name: Run markdownlint
+        if: always()
         uses: nosborn/github-action-markdown-cli@v3.3.0
         with:
           files: "*.md"
           config_file: ".markdownlint.json"
 
       - name: Check for broken links
+        if: always()
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
           use-quiet-mode: 'yes'
