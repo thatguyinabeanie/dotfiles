@@ -94,7 +94,7 @@ During installation, you'll be prompted for several configuration values:
 
 ## 🔒 Security Features
 
-### Pre-commit Hooks
+### TODO: Pre-commit Hooks
 
 This repository automatically sets up pre-commit hooks when you run `chezmoi init --apply`. These hooks include:
 
