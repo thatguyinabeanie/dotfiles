@@ -15,7 +15,6 @@ treesitter:
     - gpg
     - graphql
     - html
-    - html
     - java
     - javascript
     - json
@@ -43,7 +42,6 @@ treesitter:
     - swift
     - svelte
     - superhtml
-    - ssh_config
     - sql
     - scss
     - scala
