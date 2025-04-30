@@ -36,3 +36,15 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.chezmoiscripts'
+
+      - name: Run markdownlint
+        uses: nosborn/github-action-markdown-cli@v3.3.0
+        with:
+          files: "*.md"
+          config_file: ".markdownlint.json"
+
+      - name: Check for broken links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.markdown-link-check.json'
