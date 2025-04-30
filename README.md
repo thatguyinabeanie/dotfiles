@@ -2,38 +2,40 @@
 <div align="center">
 <!-- markdownlint-enable MD033 -->
 
-<!-- markdownlint-disable MD013 MD040 -->
-```
-                            *     .--.
-                                 / /  `
-                +               | |
-                       '         \ \__,
-                   *          +   '--'  *
-                       +   /\
-          +              .'  '.   *
-                 *      /======\      +
-                       ;:.  _   ;
-                       |:. (_)  |
-                       |:.  _   |
-             +         |:. (_)  |          *
-                       ;:.      ;
-                     .' \:.    / `.
-                    / .-'':._.'`-. \
-                    |/    /||\    \|
-                  _..--"""````"""--.._
-            _.-'``                    ``'-._
-          -'                                '-
+<!-- markdownlint-disable MD013 MD033 MD040 -->
+<div align="center">
+<pre style="line-height:1.2;background-color:transparent;border:none;color:white">
+<span style="color:#F5A97F">                            *     .--.                          </span>
+<span style="color:#F5A97F">                                 / /  `                          </span>
+<span style="color:#F4DBD6">                +               </span><span style="color:#F5A97F">| |                              </span>
+<span style="color:#F4DBD6">                       '         </span><span style="color:#F5A97F">\ \__,                          </span>
+<span style="color:#F4DBD6">                   *          +   </span><span style="color:#F5A97F">'--'  </span><span style="color:#F4DBD6">*                        </span>
+<span style="color:#F4DBD6">                       +   /\                                    </span>
+<span style="color:#F4DBD6">          +              .'  '.   *                              </span>
+<span style="color:#F4DBD6">                 *      </span><span style="color:#EE99A0">/======\</span><span style="color:#F4DBD6">      +                          </span>
+<span style="color:#F4DBD6">                       </span><span style="color:#EE99A0">;:.  _   ;</span><span style="color:#F4DBD6">                                </span>
+<span style="color:#F4DBD6">                       </span><span style="color:#EE99A0">|:. (</span><span style="color:#F8BD96">_</span><span style="color:#EE99A0">)  |</span><span style="color:#F4DBD6">                                </span>
+<span style="color:#F4DBD6">                       </span><span style="color:#EE99A0">|:.  _   |</span><span style="color:#F4DBD6">                                </span>
+<span style="color:#F4DBD6">             +         </span><span style="color:#EE99A0">|:. (</span><span style="color:#F8BD96">_</span><span style="color:#EE99A0">)  |</span><span style="color:#F4DBD6">          *                     </span>
+<span style="color:#F4DBD6">                       </span><span style="color:#EE99A0">;:.      ;</span><span style="color:#F4DBD6">                                </span>
+<span style="color:#F4DBD6">                     </span><span style="color:#EE99A0">.' \:.    / `.</span><span style="color:#F4DBD6">                              </span>
+<span style="color:#F4DBD6">                    </span><span style="color:#EE99A0">/ .-'':._.'`-. \</span><span style="color:#F4DBD6">                             </span>
+<span style="color:#F4DBD6">                    </span><span style="color:#EE99A0">|/    /||\    \|</span><span style="color:#F4DBD6">                             </span>
+<span style="color:#F4DBD6">                  </span><span style="color:#F8BD96">_..--</span><span style="color:#F5A97F">"""````"""</span><span style="color:#F8BD96">--.._</span><span style="color:#F4DBD6">                           </span>
+<span style="color:#F4DBD6">            </span><span style="color:#F8BD96">_.-'``</span><span style="color:#F5A97F">                    </span><span style="color:#F8BD96">``'-._</span><span style="color:#F4DBD6">                     </span>
+<span style="color:#F4DBD6">          </span><span style="color:#F8BD96">-'</span><span style="color:#F5A97F">                                </span><span style="color:#F8BD96">'-</span><span style="color:#F4DBD6">                   </span>
 
- ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗
- ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝
- ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗
- ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║
- ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║
- ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝
+<span style="color:#C6A0F6"> ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗  </span>
+<span style="color:#C6A0F6"> ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝  </span>
+<span style="color:#C6A0F6"> ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗  </span>
+<span style="color:#C6A0F6"> ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║  </span>
+<span style="color:#C6A0F6"> ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║  </span>
+<span style="color:#C6A0F6"> ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝  </span>
 
-            ✨ COSMIC DEVELOPMENT ENVIRONMENT ✨
-```
-<!-- markdownlint-enable MD013 MD040 -->
+<span style="color:#F8BD96">            ✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span>
+</pre>
+</div>
+<!-- markdownlint-enable MD013 MD033 MD040 -->
 
 # ⭐️ Dotfiles 🌌
 
