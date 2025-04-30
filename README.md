@@ -1,72 +1,70 @@
-# Dotfiles
+<div align="center">
+
+# 🏠 Dotfiles
 
 My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and
 efficient development environment setup.
 
-## Components
+![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
+![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
+![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-### Shell Environment
+</div>
 
-- [Nushell Configuration](dot_config/nushell/README.md)
+## ✨ Components
 
+### 🐚 Shell Environment
+
+- [**Nushell Configuration**](dot_config/nushell/README.md)
   - Modern shell with enhanced features
   - Custom aliases and functions
   - Work environment integration
 
-### Development Tools
+### 🛠️ Development Tools
 
-- [Neovim Configuration](dot_config/nvim/README.md)
-
+- [**Neovim Configuration**](dot_config/nvim/README.md)
   - LazyVim-based setup
   - Catppuccin theme
   - LSP integration
   - Git integration
 
-- [Git Configuration](dot_config/git/README.md)
+- [**Git Configuration**](dot_config/git/README.md)
   - Custom aliases
   - Git hooks
   - Global settings
 
-### Terminal Tools
+### 📟 Terminal Tools
 
-- [Tmux Configuration](dot_config/tmux/README.md)
-
+- [**Tmux Configuration**](dot_config/tmux/README.md)
   - Catppuccin theme
   - Pomodoro timer
   - Custom keybindings
   - Session management
 
-### Knowledge Management
+### 📚 Knowledge Management
 
-- [Obsidian Configuration](dot_config/obsidian/README.md)
-
+- [**Obsidian Configuration**](dot_config/obsidian/README.md)
   - Multiple vault support
   - Neovim integration
   - Plugin configuration
 
-## Installation
+## 📥 Installation
 
-1. Install Chezmoi:
+```bash
+# 1. Install Chezmoi
+brew install chezmoi
 
-   ```zsh
-   brew install chezmoi
-   ```
+# 2. Clone this repository
+chezmoi init --apply
 
-2. Clone this repository:
+# 3. Install dependencies
+mise install
+```
 
-   ```zsh
-   chezmoi init --apply
-   ```
+## 📂 Structure
 
-3. Install dependencies:
-
-   ```zsh
-   mise install
-   ```
-
-## Structure
-
-```tree
+```
 .
 ├── dot_config/
 │   ├── nushell/     # Shell configuration
@@ -77,30 +75,30 @@ efficient development environment setup.
 └── scripts/         # Custom scripts
 ```
 
-## Features
+## 🎯 Features
 
-- **Modern Development Environment**
-  - Nushell for enhanced shell experience
-  - Neovim for efficient editing
-  - Tmux for terminal multiplexing
-  - Git for version control
+### 🚀 Modern Development Environment
+- Nushell for enhanced shell experience
+- Neovim for efficient editing
+- Tmux for terminal multiplexing
+- Git for version control
 
-- **Knowledge Management**
-  - Obsidian for note-taking
-  - Multiple vault support
-  - Neovim integration
+### 📝 Knowledge Management
+- Obsidian for note-taking
+- Multiple vault support
+- Neovim integration
 
-- **Productivity Tools**
-  - Pomodoro timer
-  - Custom aliases
-  - Work environment integration
+### ⚡ Productivity Tools
+- Pomodoro timer
+- Custom aliases
+- Work environment integration
 
-## Dependencies
+## 📦 Dependencies
 
-- [Chezmoi](https://www.chezmoi.io/) - Dotfiles manager
-- [mise](https://github.com/jdx/mise) - Tool version manager
-- [Homebrew](https://brew.sh/) - Package manager
+- [**Chezmoi**](https://www.chezmoi.io/) - Dotfiles manager
+- [**mise**](https://github.com/jdx/mise) - Tool version manager
+- [**Homebrew**](https://brew.sh/) - Package manager
 
-## Contributing
+## 🤝 Contributing
 
 Feel free to submit issues and enhancement requests!
