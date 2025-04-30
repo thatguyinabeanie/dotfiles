@@ -11,65 +11,9 @@ efficient development environment setup.
 ![Lint](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/lint.yml/badge.svg)
 ![Security](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/security.yml/badge.svg)
 
-[Screenshot of setup]
-
 ## 📂 Repository Structure
 
-```
-.
-├── .chezmoiroot          # Points to ROOT/ as the source directory
-├── ROOT/                 # Source home directory
-│   ├── dot_config/      # Configuration files
-│   │   ├── nvim/       # Neovim configuration
-│   │   ├── nushell/    # Nushell configuration
-│   │   ├── obsidian/   # Obsidian configuration
-│   │   ├── tmux/       # Tmux configuration
-│   │   └── ...
-│   └── ...
-├── tests/               # Test suite
-└── ...
-```
-
-## ✨ Components
-
-### 🐚 Shell Environment
-
-- [**Nushell Configuration**](dot_config/nushell/README.md)
-  - Modern shell with enhanced features
-  - Custom aliases and functions
-  - Work environment integration
-
-### 🛠️ Development Tools
-
-- [**Neovim Configuration**](dot_config/nvim/README.md)
-  - LazyVim-based setup
-  - Catppuccin theme
-  - LSP integration
-  - Git integration
-
-- [**Git Configuration**](dot_config/git/README.md)
-  - Custom aliases
-  - Git hooks
-  - Global settings
-
-### 📟 Terminal Tools
-
-- [**Tmux Configuration**](dot_config/tmux/README.md)
-  - Catppuccin theme
-  - Pomodoro timer
-  - Custom keybindings
-  - Session management
-
-### 📚 Knowledge Management
-
-- [**Obsidian Configuration**](dot_config/obsidian/README.md)
-  - Multiple vault support
-  - Neovim integration
-  - Plugin configuration
-
-## 📥 Installation
-
-```zsh
+```shell
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 
@@ -86,9 +30,9 @@ During installation, you'll be prompted for several configuration values:
 | `GIT_EMAIL` | Git commit author email | - |
 | `GITHUB_USERNAME` | GitHub username | - |
 
-## 📥 Installation
+## 📥 Getting Started
 
-```zsh
+```shell
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 

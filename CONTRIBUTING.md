@@ -12,13 +12,13 @@ Thank you for your interest in contributing! This document outlines the process 
 
 ## Development Setup
 
-1. Install Chezmoi:
+- Install Chezmoi:
 
-```zsh
-sh -c "$(curl -fsLS get.chezmoi.io)"
-```
+  ```zsh
+    sh -c "$(curl -fsLS get.chezmoi.io)"
+  ```
 
-2. Clone the repository:
+- Clone the repository:
 
 ```zsh
 chezmoi init --apply your_github_username
