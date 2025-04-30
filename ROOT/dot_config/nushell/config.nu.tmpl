@@ -6,6 +6,8 @@ source ($nu.default-config-dir | path join "secrets.nu" )
 
 {{ if hasKey . "CATPPUCCIN_FLAVOR"  }}
 source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
+{{ else }}
+source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu
 {{ end }}
 
 $env.config.show_banner = false
