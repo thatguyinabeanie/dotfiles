@@ -1,6 +1,7 @@
 # Contributing to Dotfiles
 
-Thank you for your interest in contributing! This document outlines the process for contributing to this dotfiles repository.
+Thank you for your interest in contributing! This document outlines the process for contributing to this dotfiles
+repository.
 
 ## Getting Started
 
@@ -13,20 +14,25 @@ Thank you for your interest in contributing! This document outlines the process 
 ## Development Setup
 
 1. Install Chezmoi:
-   ```zsh
-   sh -c "$(curl -fsLS get.chezmoi.io)"
-   ```
+
+```zsh
+sh -c "$(curl -fsLS get.chezmoi.io)"
+```
+
 2. Clone the repository:
-   ```zsh
-   chezmoi init --apply
-   ```
+
+```zsh
+chezmoi init --apply
+```
 
 ## Testing
 
 - Run integration tests:
-  ```zsh
-  go test -v ./tests/...
-  ```
+
+```zsh
+go test -v ./tests/...
+```
+
 - Test installation on a fresh system
 - Verify all GitHub Actions pass
 

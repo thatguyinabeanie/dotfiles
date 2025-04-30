@@ -15,6 +15,7 @@ If you discover a security vulnerability, please follow these steps:
 ## Security Measures
 
 This repository:
+
 - Uses Gitleaks for secrets scanning
 - Employs Trivy for vulnerability scanning
 - Implements CodeQL analysis
