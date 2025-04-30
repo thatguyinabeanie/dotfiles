@@ -1,4 +1,4 @@
-#!/bin/zsh 
+#!/bin/zsh
 
 ##
 ## EDITOR PREFERENCE
@@ -6,15 +6,19 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 
 ##
-## PATH 
+## PATH
+# Ensure Homebrew is in PATH
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/sbin:$PATH"
 export PATH="/opt/homebrew/opt/unzip/bin:$PATH"
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
 export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/share/mise/shims:$PATH"
 
 ##
-## XDG 
+## XDG
 export XDG_HOME="$HOME"
 export XDG_CONFIG_HOME="$HOME/.config"
 export K9S_CONFIG_DIR="$XDG_CONFIG_HOME/k9s"
@@ -22,8 +26,8 @@ export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
 export SOURCE_REPO_DIRS="$HOME/source"
 
 ##
-## TMUX 
-export TMUX_CONFIG_DIR="$XDG_CONFIG_HOME)/tmux"
+## TMUX
+export TMUX_CONFIG_DIR="$XDG_CONFIG_HOME/tmux"
 export TMUX_PLUGIN_MANAGER_PATH="$TMUX_CONFIG_DIR/plugins"
 export TMUX_CONF="$XDG_CONFIG_HOME/tmux.conf"
 
@@ -38,3 +42,18 @@ export MANPAGER="sh -c 'sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p 
 export MANPATH="/usr/local/man:$MANPATH"
 export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
 
+##
+## IDE ENV VARS
+export VSCODE_USER_DATA_DIR="$XDG_CONFIG_HOME/code"
+export VSCODE_INSIDERS_USER_DATA_DIR="$XDG_CONFIG_HOME/code-insiders"
+
+##
+## ENVIRONMENT ENVIRONMENT VARIABLES
+##
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+export DOTFILES_DIR="$XDG_DATA_HOME/chezmoi"
+export WORK_ENVIRONMENT="{{ .WORK_ENVIRONMENT }}"
+export GIT_CLONE_DIRECTORY="$HOME/source"
+export GIT_NAME="{{ .git.config.name }}"
+export GITHUB_USERNAME="{{ .git.config.username }}"
+export GIT_EMAIL="{{ .git.config.email }}"
