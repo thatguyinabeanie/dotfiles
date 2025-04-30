@@ -32,7 +32,7 @@
 <span style="color:#C6A0F6"> ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║  </span>
 <span style="color:#C6A0F6"> ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝  </span>
 
-<span style="color:#F8BD96">            ✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span>
+<span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span>
 </pre>
 </div>
 <!-- markdownlint-enable MD013 MD033 MD037 MD040 -->
@@ -55,8 +55,13 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 
 *A cosmic journey through my development environment*
 
-<!-- Replace this with your actual GIF once created -->
-[Animated demo of the dotfiles in action will appear here]
+<a href="https://dotfiles-nu.vercel.app" target="_blank">
+  <!-- Replace this with your actual GIF once created -->
+  [Animated demo of the dotfiles in action will appear here]
+  <br/>
+  <img src="https://img.shields.io/badge/View%20Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel"
+       alt="View Live Demo" />
+</a>
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
 
@@ -85,6 +90,13 @@ One command to cross the event horizon and pull in all configurations:
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 <!-- markdownlint-enable MD040 -->
+
+<div align="center">
+  <a href="https://dotfiles-nu.vercel.app/installation" target="_blank">
+    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge"
+         alt="View Installation Guide" />
+  </a>
+</div>
 
 ## 🌠 Cosmic Variables
 
@@ -128,10 +140,17 @@ During installation, you'll be prompted for several configuration values that wi
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/774.png" width="50" align="right" />
 <!-- markdownlint-enable MD013 MD045 -->
 
-- K9s for Kubernetes management
-- Yazi for file management
-- Fastfetch for system info
-- Custom Pokemon system info display
+- [K9s for Kubernetes management](https://dotfiles-nu.vercel.app/features/k9s)
+- [Yazi for file management](https://dotfiles-nu.vercel.app/features/yazi)
+- [Fastfetch for system info](https://dotfiles-nu.vercel.app/features/fastfetch)
+- [Custom Pokemon system info display](https://dotfiles-nu.vercel.app/features/pokemon)
+
+<div align="center">
+  <a href="https://dotfiles-nu.vercel.app/features" target="_blank">
+    <img src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge"
+         alt="Explore All Features" />
+  </a>
+</div>
 
 ## 🌌 Configuration Structure
 
@@ -152,6 +171,10 @@ dotfiles/
 <!-- markdownlint-disable MD013 -->
 Experience the beauty of Catppuccin in four delicious flavors that transform your development environment:
 <!-- markdownlint-enable MD013 -->
+
+<div align="center">
+  <h3><a href="https://dotfiles-nu.vercel.app/themes" target="_blank">🔍 View Interactive Theme Gallery</a></h3>
+</div>
 
 <div align="center">
 
@@ -180,12 +203,16 @@ Feel free to submit issues and enhancement requests! Together we can make this c
 
 ## 📜 License
 
-MIT License - See [LICENSE](LICENSE) for details
+MIT License - See [LICENSE](./LICENSE) for details
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/792.png" width="100" />
 
 Made with ❤️ and cosmic energy
+
+<a href="https://dotfiles-nu.vercel.app" target="_blank">
+  <img src="https://img.shields.io/badge/Explore%20the%20Cosmos-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore the Cosmos" />
+</a>
 </div>
 <!-- markdownlint-enable MD033 MD013 MD045 -->
