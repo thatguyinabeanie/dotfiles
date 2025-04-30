@@ -1,0 +1,34 @@
+# Gitleaks configuration file
+title = "Gitleaks Configuration"
+
+[extend]
+useDefault = true    # Extend the default rule set
+
+[allowlist]
+description = "Global Allowlist"
+paths = [
+    '''.*\.snapshot''',
+    '''.*\.env\.example$''',
+    '''.*\.test$''',
+    '''(.*?)(jpg|gif|doc|pdf|bin|svg|zip)$''',
+]
+
+regexes = [
+    '''(?i)example|test|mock|dummy''',
+]
+
+[allowlist.commits]
+description = "Allowed commits"
+commits = [
+    # Add any commit hashes to allowlist here
+]
+
+# Custom rules in addition to default ones
+[[rules]]
+id = "chezmoi-template-token"
+description = "Detect hardcoded tokens in chezmoi templates"
+regex = '''(?i)(?P<key>(secret|token|password|credential|api[_-]?key))(?:[_-])?=[\s]*["']?(?P<secret>[0-9a-zA-Z\-_=+/]{16,})["']?'''
+tags = ["key", "chezmoi"]
+file-types = [".tmpl"]
+entropy = 3.5
+secret-group = 2

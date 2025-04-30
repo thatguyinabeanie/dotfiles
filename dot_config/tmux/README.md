@@ -1,6 +1,7 @@
 # Tmux Configuration
 
-A modern and functional Tmux configuration with Catppuccin theme integration, custom keybindings, and productivity features.
+A modern and functional Tmux configuration with Catppuccin theme integration,
+custom keybindings, and productivity features.
 
 ## Features
 
@@ -18,6 +19,7 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 ## Configuration Structure
 
 The configuration is split into multiple files for better organization:
+
 - `tmux.conf` - Main configuration file
 - `tmux.keybindings.conf` - Custom keybindings
 - `tmux.pomodoro.conf` - Pomodoro timer settings
@@ -27,32 +29,40 @@ The configuration is split into multiple files for better organization:
 ## Installation
 
 1. Clone this configuration using Chezmoi:
-   ```bash
+
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Ensure Tmux is installed:
-   ```bash
+
+   ```zsh
    brew install tmux
    ```
 
 ## Customization
 
 ### Theme
+
 The configuration uses Catppuccin theme with:
+
 - Transparent background support
 - Custom status line colors
 - Theme variables managed through Chezmoi
 
 ### Keybindings
+
 Custom keybindings are organized in `tmux.keybindings.conf`:
+
 - Window management
 - Pane splitting and navigation
 - Session management
 - Copy mode enhancements
 
 ### Pomodoro Timer
+
 The Pomodoro timer configuration includes:
+
 - Custom timer durations
 - Visual notifications
 - Status bar integration
@@ -64,4 +74,4 @@ The Pomodoro timer configuration includes:
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests! 
+Feel free to submit issues and enhancement requests!

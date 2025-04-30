@@ -6,23 +6,19 @@ gitrepos:
     - org: duffney
       name: smart-notes
       refreshPeriod: 3h
-
   public:
     - name: DOOM-fire-zig
-      org:  const-void
-
+      org: const-void
   personal:
     - name: game-of-life
       refreshPeriod: 168h
-
   private:
     - name: personal-notes
       org: personal
       refreshPeriod: 1h
-
   work:
-    repos: 
+    repos:
       - console
-      - popsicle 
-    obsidian: 
+      - popsicle
+    obsidian:
       - obsidian-vault-work
