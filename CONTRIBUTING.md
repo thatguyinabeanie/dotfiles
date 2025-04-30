@@ -1,7 +1,7 @@
 # Contributing to Dotfiles
 
-Thank you for your interest in contributing! This document outlines the process for contributing to this dotfiles
-repository.
+Thank you for your interest in contributing! This document outlines the process for contributing to this 
+dotfiles repository.
 
 ## Getting Started
 
@@ -19,7 +19,7 @@ repository.
 sh -c "$(curl -fsLS get.chezmoi.io)"
 ```
 
-2. Clone the repository:
+1. Clone the repository:
 
 ```zsh
 chezmoi init --apply
