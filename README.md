@@ -25,14 +25,15 @@
 <span style="color:#F4DBD6">            </span><span style="color:#F8BD96">_.-'``</span><span style="color:#F5A97F">                    </span><span style="color:#F8BD96">``'-._</span><span style="color:#F4DBD6">                     </span>
 <span style="color:#F4DBD6">          </span><span style="color:#F8BD96">-'</span><span style="color:#F5A97F">                                </span><span style="color:#F8BD96">'-</span><span style="color:#F4DBD6">                   </span>
 
-<span style="color:#C6A0F6"> ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗  </span>
-<span style="color:#C6A0F6"> ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝  </span>
-<span style="color:#C6A0F6"> ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗  </span>
-<span style="color:#C6A0F6"> ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║  </span>
-<span style="color:#C6A0F6"> ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║  </span>
-<span style="color:#C6A0F6"> ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝  </span>
+<span style="color:#C6A0F6"> ██████╗ ██████╗ ████████╗███████╗██╗██╗ ███████╗███████╗ </span>
+<span style="color:#C6A0F6"> ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║ ██╔════╝██╔════╝ </span>
+<span style="color:#C6A0F6"> ██║ ██║██║ ██║ ██║ █████╗ ██║██║ █████╗ ███████╗ </span>
+<span style="color:#C6A0F6"> ██║ ██║██║ ██║ ██║ ██╔══╝ ██║██║ ██╔══╝ ╚════██║ </span>
+<span style="color:#C6A0F6"> ██████╔╝╚██████╔╝ ██║ ██║ ██║███████╗███████╗███████║ </span>
+<span style="color:#C6A0F6"> ╚═════╝ ╚═════╝ ╚═╝ ╚═╝ ╚═╝╚══════╝╚══════╝╚══════╝ </span>
 
 <span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span>
+
 </pre>
 </div>
 <!-- markdownlint-enable MD013 MD033 MD037 MD040 -->
@@ -40,7 +41,9 @@
 # ⭐️ Dotfiles 🌌
 
 <!-- markdownlint-disable MD013 -->
+
 My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup that's out of this world 🚀
+
 <!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
@@ -53,7 +56,7 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 <div align="center">
 <!-- markdownlint-enable MD033 -->
 
-*A cosmic journey through my development environment*
+_A cosmic journey through my development environment_
 
 <a href="https://dotfiles-nu.vercel.app" target="_blank">
   <!-- Replace this with your actual GIF once created -->
@@ -86,9 +89,11 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 One command to cross the event horizon and pull in all configurations:
 
 <!-- markdownlint-disable MD040 -->
+
 ```
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
+
 <!-- markdownlint-enable MD040 -->
 
 <div align="center">
@@ -102,14 +107,14 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 
 During installation, you'll be prompted for several configuration values that will shape your universe:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `WORK_ENVIRONMENT` | Enable work-specific configurations | `false` |
-| `SHELL` | Preferred shell (nu/zsh) | `nu` |
+| Variable            | Description                                  | Default |
+| ------------------- | -------------------------------------------- | ------- |
+| `WORK_ENVIRONMENT`  | Enable work-specific configurations          | `false` |
+| `SHELL`             | Preferred shell (nu/zsh)                     | `nu`    |
 | `CATPPUCCIN_FLAVOR` | Theme variant (mocha/macchiato/frappe/latte) | `mocha` |
-| `GIT_NAME` | Git commit author name | - |
-| `GIT_EMAIL` | Git commit author email | - |
-| `GITHUB_USERNAME` | GitHub username | - |
+| `GIT_NAME`          | Git commit author name                       | -       |
+| `GIT_EMAIL`         | Git commit author email                      | -       |
+| `GITHUB_USERNAME`   | GitHub username                              | -       |
 
 ## ⚡ Features
 
@@ -147,7 +152,10 @@ During installation, you'll be prompted for several configuration values that wi
 
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/features" target="_blank">
-    <img src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge" alt="Explore All Features" />
+    <img
+      src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge"
+      alt="Explore All Features"
+    />
   </a>
 </div>
 
@@ -168,7 +176,9 @@ dotfiles/
 ## 🎨 Theme Showcase
 
 <!-- markdownlint-disable MD013 -->
+
 Experience the beauty of Catppuccin in four delicious flavors that transform your development environment:
+
 <!-- markdownlint-enable MD013 -->
 
 <div align="center">
@@ -177,9 +187,9 @@ Experience the beauty of Catppuccin in four delicious flavors that transform you
 
 <div align="center">
 
-| Mocha (Dark) | Macchiato (Dark) | Frappe (Dark) | Latte (Light) |
-|:------------:|:----------------:|:-------------:|:-------------:|
-| [Placeholder] | [Placeholder] | [Placeholder] | [Placeholder] |
+|               Mocha (Dark)                |             Macchiato (Dark)             |            Frappe (Dark)            |             Latte (Light)             |
+| :---------------------------------------: | :--------------------------------------: | :---------------------------------: | :-----------------------------------: |
+|               [Placeholder]               |              [Placeholder]               |            [Placeholder]            |             [Placeholder]             |
 | Rich dark background with vibrant accents | Balanced dark theme with medium contrast | Cozy dark theme with lower contrast | Creamy light theme for daytime coding |
 
 </div>
@@ -197,7 +207,9 @@ Experience the beauty of Catppuccin in four delicious flavors that transform you
 ## 🌠 Contributing
 
 <!-- markdownlint-disable MD013 -->
+
 Feel free to submit issues and enhancement requests! Together we can make this configuration shine brighter than a supernova! ✨
+
 <!-- markdownlint-enable MD013 -->
 
 ## 📜 License
