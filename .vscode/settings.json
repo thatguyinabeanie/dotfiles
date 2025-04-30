@@ -5,7 +5,8 @@
     "go.goroot": "/Users/gmendoza/.local/share/mise/installs/go/1.24.2",
     "go.alternateTools": {
         "go": "/Users/gmendoza/.local/share/mise/shims/go",
-        "dlv": "/Users/gmendoza/.local/share/mise/shims/dlv",
+        "dlv": "/users/gmendoza/.local/share/mise/shims/dlv",
         "gopls": "/Users/gmendoza/.local/share/mise/shims/gopls"
-    }
+    },
+    "python.defaultInterpreterPath": "/Users/gmendoza/.local/share/mise/installs/python/3.12.10/bin/python"
 }

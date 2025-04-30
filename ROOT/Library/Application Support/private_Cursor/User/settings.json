@@ -1,0 +1,26 @@
+{
+    "window.commandCenter": 1,
+    "workbench.colorTheme": "Catppuccin Macchiato",
+    "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
+    "augment.nextEdit.showDiffInHover": true,
+    "augment.nextEdit.highlightSuggestionsInTheEditor": true,
+    "workbench.iconTheme": "catppuccin-macchiato",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "redhat.telemetry.enabled": true,
+    "circleci.hostUrl": "",
+    "augment.chat.userGuidelines": "",
+    "explorer.confirmDragAndDrop": false,
+    "terminal.external.osxExec": "ghostty.app",
+    "terminal.explorerKind": "external",
+    "terminal.external.linuxExec": "ghostty",
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.stickyScroll.enabled": true,
+    "editor.fontSize": 18,
+    "mise.binPath": "/opt/homebrew/bin/mise",
+    "github.copilot.enable": {
+        "*": false
+    },
+    "git.autofetch": true
+}

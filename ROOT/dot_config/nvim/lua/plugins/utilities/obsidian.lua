@@ -10,8 +10,13 @@ return {
   opts = {
     workspaces = {
       {
+        name = "personal",
         path = "~/.config/obsidian/obsidian-vault"
       },
+      -- {
+      --   name = "work",
+      --   path = "~/.config/obsidian/obsidian-vault-work",
+      -- },
     },
     daily_notes = {
       folder = "daily",

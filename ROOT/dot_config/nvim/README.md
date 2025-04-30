@@ -1,63 +1,43 @@
-<!-- markdownlint-disable MD033 -->
-<div align="center">
+# Neovim Configuration
 
-# 🚀 Neovim Configuration
-
-<!-- markdownlint-disable MD013 -->
 A modern Neovim configuration built on top of LazyVim,
 featuring a beautiful and functional setup with various plugins and customizations.
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/475.png" width="150" />
-<!-- markdownlint-enable MD013 MD045 -->
+## Features
 
-![Neovim](https://img.shields.io/badge/Neovim-0.9.0+-green.svg)
-![LazyVim](https://img.shields.io/badge/LazyVim-Latest-blue.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+- **Modern UI**
+  - Catppuccin theme with transparent background
+  - Bufferline for tab management
+  - Lualine status line with custom sections
+  - Snacks for enhanced UI elements
 
-</div>
-<!-- markdownlint-enable MD033 -->
+- **Git Integration**
+  - Git blame with virtual text
+  - Commit information view
+  - Custom git mappings
 
-## ✨ Features
+- **LSP Support**
+  - Native LSP integration
+  - Diagnostic signs and virtual text
+  - Inlay hints support
+  - Treesitter integration
 
-### 🎨 Modern UI
+- **Enhanced Editing**
+  - Indent scope visualization
+  - Word highlighting
+  - Quick file navigation
+  - Input method support
 
-- **Catppuccin** theme with transparent background
-- **Bufferline** for tab management
-- **Lualine** status line with custom sections
-- **Snacks** for enhanced UI elements
+## Plugin Highlights
 
-### 🔄 Git Integration
-
-- Git blame with virtual text
-- Commit information view
-- Custom git mappings
-
-### 🛠 LSP Support
-
-- Native LSP integration
-- Diagnostic signs and virtual text
-- Inlay hints support
-- Treesitter integration
-
-### ⚡ Enhanced Editing
-
-- Indent scope visualization
-- Word highlighting
-- Quick file navigation
-- Input method support
-
-## 🔌 Plugin Highlights
-
-### 🎯 Core Plugins
+### Core Plugins
 
 - [LazyVim](https://github.com/LazyVim/LazyVim) - Base configuration
 - [Catppuccin](https://github.com/catppuccin/nvim) - Beautiful theme
 - [Bufferline](https://github.com/akinsho/bufferline.nvim) - Tab management
 - [Lualine](https://github.com/nvim-lualine/lualine.nvim) - Status line
 
-### 🔄 Git Integration
+### Git Integration
 
 - [blame.nvim](https://github.com/FabijanZulj/blame.nvim) - Git blame with virtual text
   - Custom date format
@@ -65,7 +45,7 @@ featuring a beautiful and functional setup with various plugins and customizatio
   - Commit detail view
   - Custom mappings
 
-### 🎨 UI Enhancements
+### UI Enhancements
 
 - [snacks.nvim](https://github.com/folke/snacks.nvim) - UI enhancements
   - Big file handling
@@ -80,7 +60,7 @@ featuring a beautiful and functional setup with various plugins and customizatio
   - Status column customization
   - Word highlighting
 
-## 🚀 Installation
+## Installation
 
 1. Ensure you have Neovim installed (version 0.9.0 or higher)
 
@@ -96,31 +76,28 @@ featuring a beautiful and functional setup with various plugins and customizatio
    nvim
    ```
 
-## 📁 Configuration Structure
+## Configuration Structure
 
 The configuration is organized as follows:
 
-```shell
-nvim/
-├── 📝 init.lua.tmpl         # Main configuration file (Chezmoi template)
-└── 🔌 lua/plugins/          # Plugin configurations
-    ├── theme.lua           # Theme and UI settings
-    ├── git/blame.lua       # Git blame configuration
-    └── snacks.lua         # UI enhancements
-```
+- `init.lua.tmpl` - Main configuration file (Chezmoi template)
+- `lua/plugins/` - Plugin configurations
+  - `theme.lua` - Theme and UI settings
+  - `git/blame.lua` - Git blame configuration
+  - `snacks.lua` - UI enhancements
 
-## ⚙️ Customization
+## Customization
 
-### 🎨 Theme
+### Theme
 
-The configuration uses Catppuccin theme with:
+The configuration uses Catppuccin theme with the following features:
 
 - Transparent background
 - Mocha flavor
 - Custom styles for comments and conditionals
 - LSP integration with custom virtual text styles
 
-### 🔄 Git Blame
+### Git Blame
 
 Custom git blame configuration includes:
 
@@ -133,7 +110,7 @@ Custom git blame configuration includes:
   - `<CR>` - Show commit
   - `<Esc>` or `q` - Close
 
-### 🎨 UI Enhancements
+### UI Enhancements
 
 Snacks.nvim provides various UI improvements:
 
@@ -149,21 +126,13 @@ Snacks.nvim provides various UI improvements:
 - Status column customization
 - Word highlighting
 
-## 📦 Dependencies
+## Dependencies
 
 - Neovim 0.9.0+
 - A Nerd Font (for icons)
 - Git (for git integration)
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
 
-<!-- markdownlint-disable MD033 -->
-<div align="center">
+## Contributing
 
-<!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/474.png" width="100" alt="Pokemon Gallade" />
-
-Made with ❤️ by a Neovim enthusiast
-<!-- markdownlint-enable MD013 MD045 -->
-
-</div>
-<!-- markdownlint-enable MD033 -->
+Feel free to submit issues and enhancement requests!

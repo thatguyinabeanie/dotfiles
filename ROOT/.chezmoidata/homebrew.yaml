@@ -129,6 +129,7 @@ homebrew:
       - gnu-sed
       - gnu-tar
       - gmp
+      - gopls
       - gping
       - grep
       - grpc
