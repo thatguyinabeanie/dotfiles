@@ -59,7 +59,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
-      - name: Verify Chezmoi config
+      - name: Initialize and verify Chezmoi config
         run: |
           export PATH=$PATH:$HOME/.local/bin
+          chezmoi init --apply $GITHUB_ACTOR
           chezmoi verify
