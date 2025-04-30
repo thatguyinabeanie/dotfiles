@@ -13,6 +13,23 @@ efficient development environment setup.
 
 [Screenshot of setup]
 
+## 📂 Repository Structure
+
+```
+.
+├── .chezmoiroot          # Points to ROOT/ as the source directory
+├── ROOT/                 # Source home directory
+│   ├── dot_config/      # Configuration files
+│   │   ├── nvim/       # Neovim configuration
+│   │   ├── nushell/    # Nushell configuration
+│   │   ├── obsidian/   # Obsidian configuration
+│   │   ├── tmux/       # Tmux configuration
+│   │   └── ...
+│   └── ...
+├── tests/               # Test suite
+└── ...
+```
+
 ## ✨ Components
 
 ### 🐚 Shell Environment
@@ -49,6 +66,25 @@ efficient development environment setup.
   - Multiple vault support
   - Neovim integration
   - Plugin configuration
+
+## 📥 Installation
+
+```zsh
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
+```
+
+### Configuration Variables
+
+During installation, you'll be prompted for several configuration values:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `WORK_ENVIRONMENT` | Enable work-specific configurations | `false` |
+| `SHELL` | Preferred shell (nu/zsh) | `nu` |
+| `CATPPUCCIN_FLAVOR` | Theme variant (mocha/macchiato/frappe/latte) | `mocha` |
+| `GIT_NAME` | Git commit author name | - |
+| `GIT_EMAIL` | Git commit author email | - |
+| `GITHUB_USERNAME` | GitHub username | - |
 
 ## 📥 Installation
 

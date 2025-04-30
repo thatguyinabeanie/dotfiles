@@ -18,11 +18,20 @@ Thank you for your interest in contributing! This document outlines the process 
 sh -c "$(curl -fsLS get.chezmoi.io)"
 ```
 
-1. Clone the repository:
+2. Clone the repository:
 
 ```zsh
 chezmoi init --apply your_github_username
 ```
+
+## Repository Structure
+
+The repository uses a ROOT-based structure:
+
+- `.chezmoiroot` points to `ROOT/` directory
+- All dotfiles are stored under `ROOT/`
+- Configuration files are in `ROOT/dot_config/`
+- Tests are in `tests/`
 
 ## Testing
 
