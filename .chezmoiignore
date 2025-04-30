@@ -37,4 +37,12 @@ nvim/
 nushell/
 obsidian/
 tests/
+
 install.sh
+
+.markdown-link-check.json
+.markdownlink.yml
+.yamllint.yml
+
+go.mod
+go.sum
