@@ -20,7 +20,7 @@
 ##
 {{- if typeIs "string" $repo }}
 {{- if contains "/" $repo }}
-[{{ replace $repo "/" "_" }}]
+["{{ $repo }}"]
 url = "https://github.com/{{ $repo }}.git"
 type = "git-repo"
 refreshPeriod = "{{ $.git.config.defaultRefreshPeriod }}"
