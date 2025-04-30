@@ -11,14 +11,15 @@ A clear description of the bug.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 **Expected Behavior**
 What you expected to happen.
 
 **Environment**
+
 - OS: [e.g., macOS 13.0]
 - Shell: [e.g., Nushell 0.80]
 - Chezmoi version: [e.g., 2.34.0]

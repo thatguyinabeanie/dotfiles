@@ -16,4 +16,4 @@ A clear description of what you want to happen.
 A clear description of any alternative solutions you've considered.
 
 **Additional Context**
-Add any other context about the feature request here.
+Add any other context about the feature request here
