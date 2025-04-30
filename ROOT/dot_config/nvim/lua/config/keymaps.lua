@@ -4,38 +4,48 @@
 
 local wk = require("which-key")
 
+--
+-- SCROLLING
+--
 -- When scrolling, center the cursor vertically within the buffer window
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
 -- When searching, center the cursor vertically within the buffer window
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+--
 -- LAZY PLUGINS KEYMAPS
+--
 vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "LazyDocker" })
 vim.keymap.set("n", "<leader>lD", "<cmd>LazyDev<cr>", { desc = "LazyDev" })
 vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 
+--
 -- CONTROL BUFFERS
+--
 vim.keymap.set("n", "<leader>bss", "<cmd>w<cr>", { desc = "Save Current Buffer" })
 vim.keymap.set("n", "<leader>bsa", "<cmd>w<cr>", { desc = "Save All Buffers" })
 vim.keymap.set("n", "<leader>bsq", "<cmd>wqa<cr>", { desc = "Save All Buffers and Quit" })
 vim.keymap.set("n", "<leader>bq<cr>", "<cmd>bq<cr>", { desc = "Quit Current Buffer" })
 vim.keymap.set("n", "<leader>bqa", "<cmd>bqa<cr>", { desc = "Quit All Buffers" })
 
+--
 -- COPY RELATIVE PATH OF CURRENT BUFFER
+--
 vim.keymap.set("n", "<leader>fy", function()
   local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
   vim.fn.setreg("+", relative_path)
 end, { desc = "copy file's relative path" })
 
--- OBSIDIAN 
-wk.add(  {
-    { "<leader>O", group = "Obsidian", icon = "📁" },
-  })
+--
+-- OBSIDIAN
+--
+wk.add({
+  { "<leader>O", group = "Obsidian", icon = "📁" },
+})
 vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
 vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
 vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
@@ -52,7 +62,9 @@ vim.keymap.set("n", "<leader>Op", "<cmd>ObsidianPasteImg<cr>", { desc = "Paste I
 vim.keymap.set("n", "<leader>Or", "<cmd>ObsidianRename<cr>", { desc = "Rename Note" })
 vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
 
+--
 -- OPEN CURRENT BUFFER IN VS CODE - INSIDERS
+--
 vim.keymap.set("n", "<leader>bV", function()
   local current_file = vim.fn.expand("%:p")
   if current_file == "" then
@@ -60,11 +72,7 @@ vim.keymap.set("n", "<leader>bV", function()
     return
   end
 
-  {{ if eq .chezmoi.os "darwin" }}local vscode_path    = "/Applications/Cursor/Resources/app/bin/cursor"
-  {{else if eq .chezmoi.os "linux" }}local vscode_path = "/usr/bin/cursor"
-  {{end}}
-
-  local cmd
+  local vscode_path = "/Applications/Cursor.app/Contents/MacOS/Cursor"
 
   if vim.fn.executable(vscode_path) == 1 then
     -- Use os.execute instead of system for better shell compatibility
@@ -85,10 +93,12 @@ vim.keymap.set("n", "<leader>bV", function()
   end
 end, { desc = "Open Buffer VS Code - Insiders" })
 
+--
 -- POMODORO TIMER KEYMAPS
-wk.add(  {
-    { "<leader>P", group = "Pomodoro", icon = "⏳"},
-  })
+--
+wk.add({
+  { "<leader>P", group = "Pomodoro", icon = "⏳" },
+})
 vim.keymap.set("n", "<leader>Ps", "<cmd>TimerStart<cr>", { desc = "Start timer" })
 vim.keymap.set("n", "<leader>Pr", "<cmd>TimerRepeat<cr>", { desc = "Repeat last timer" })
 vim.keymap.set("n", "<leader>Pp", "<cmd>TimerSession pomodoro<cr>", { desc = "Start pomodoro session" })
@@ -96,10 +106,18 @@ vim.keymap.set("n", "<leader>Pw", "<cmd>TimerStart 25m Work<cr>", { desc = "Star
 vim.keymap.set("n", "<leader>Pb", "<cmd>TimerStart 5m Break<cr>", { desc = "Start short break (5m)" })
 vim.keymap.set("n", "<leader>PB", "<cmd>TimerStart 15m Long Break<cr>", { desc = "Start long break (15m)" })
 
-
-wk.add(  {
-    { "<leader>M", group = "MARP", icon = "🎁"},
-  })
--- MARP 
+--
+-- MARP
+--
+wk.add({
+  { "<leader>M", group = "MARP", icon = "🎁" },
+})
 vim.keymap.set("n", "<leader>Mt", "<cmd>MarpToggle<cr>", { desc = "Toggle MARP", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>Ms", "<cmd>MarpStatus<cr>", { desc = "MARP Status", noremap = true, silent = true })
+
+--
+-- LLM
+--
+vim.keymap.set("n", "<leader>az", ":AugmentCode<CR>", { desc = "Augment Code", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ax", ":AugmentExplain<CR>", { desc = "Explain Code", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>af", ":AugmentRefactor<CR>", { desc = "Refactor Code", noremap = true, silent = true })
