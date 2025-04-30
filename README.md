@@ -11,8 +11,6 @@ efficient development environment setup.
 ![Lint](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/lint.yml/badge.svg)
 ![Security](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/security.yml/badge.svg)
 
-[Screenshot of setup]
-
 ## 📂 Repository Structure
 
 ```
@@ -30,42 +28,13 @@ efficient development environment setup.
 └── ...
 ```
 
-## ✨ Components
+## 📦 Components
 
-### 🐚 Shell Environment
-
-- [**Nushell Configuration**](dot_config/nushell/README.md)
-  - Modern shell with enhanced features
-  - Custom aliases and functions
-  - Work environment integration
-
-### 🛠️ Development Tools
-
-- [**Neovim Configuration**](dot_config/nvim/README.md)
-  - LazyVim-based setup
-  - Catppuccin theme
-  - LSP integration
-  - Git integration
-
-- [**Git Configuration**](dot_config/git/README.md)
-  - Custom aliases
-  - Git hooks
-  - Global settings
-
-### 📟 Terminal Tools
-
-- [**Tmux Configuration**](dot_config/tmux/README.md)
-  - Catppuccin theme
-  - Pomodoro timer
-  - Custom keybindings
-  - Session management
-
-### 📚 Knowledge Management
-
-- [**Obsidian Configuration**](dot_config/obsidian/README.md)
-  - Multiple vault support
-  - Neovim integration
-  - Plugin configuration
+- [Nushell Configuration](ROOT/dot_config/nushell/README.md)
+- [Neovim Configuration](ROOT/dot_config/nvim/README.md)
+- [Git Configuration](ROOT/dot_config/git/README.md)
+- [Tmux Configuration](ROOT/dot_config/tmux/README.md)
+- [Obsidian Configuration](ROOT/dot_config/obsidian/README.md)
 
 ## 📥 Installation
 
