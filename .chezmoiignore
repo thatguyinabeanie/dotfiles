@@ -36,4 +36,5 @@ tmux/
 nvim/
 nushell/
 obsidian/
+tests/
 install.sh
