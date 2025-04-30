@@ -1,6 +1,6 @@
 module github.com/thatguyinabeanie/dotfiles
 
-go 1.21
+go 1.24
 
 require (
 	github.com/alecthomas/assert/v2 v2.5.0
