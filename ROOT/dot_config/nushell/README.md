@@ -7,7 +7,8 @@ a dotfiles manager that allows for template-based configuration.
 
 ## Configuration Structure
 
-All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extension:
+All Nushell configuration files are Chezmoi templates with the `.nu.tmpl` extension,
+located in `ROOT/dot_config/nushell/`:
 
 - `config.nu.tmpl` - Main configuration file
 - `aliases.nu.tmpl` - Custom aliases and functions
