@@ -6,7 +6,7 @@
 {{- end }}
 
 [settings]
-jobs                                = 4             # number of plugins or runtimes to install in parallel. The default is `4`.
+jobs                                = {{ sub (output "sysctl" "-n" "hw.ncpu" | trim | atoi) 2 }} # number of plugins or runtimes to install in parallel
 always_keep_download                = false         # deleted after install by default
 http_timeout                        = "30s"         # set the timeout for http requests as duration string, see `MISE_HTTP_TIMEOUT`
 

@@ -1,6 +1,7 @@
 # Obsidian Configuration
 
-A personalized Obsidian setup for knowledge management and note-taking, integrated with Neovim for enhanced editing capabilities.
+A personalized Obsidian setup for knowledge management and note-taking,
+integrated with Neovim for enhanced editing capabilities.
 
 ## Features
 
@@ -22,6 +23,7 @@ A personalized Obsidian setup for knowledge management and note-taking, integrat
 ## Configuration Structure
 
 The configuration is managed through Chezmoi:
+
 - `.chezmoiexternal.toml.tmpl` - External template configuration
 - Vault-specific configurations
 - Plugin settings
@@ -29,12 +31,14 @@ The configuration is managed through Chezmoi:
 ## Installation
 
 1. Clone this configuration using Chezmoi:
-   ```bash
+
+   ```zsh
    chezmoi init --apply
    ```
 
 2. Install Obsidian:
-   ```bash
+
+   ```zsh
    brew install --cask obsidian
    ```
 
@@ -43,17 +47,21 @@ The configuration is managed through Chezmoi:
 ## Customization
 
 ### Vault Management
+
 - Multiple vault support
 - Custom vault organization
 - Neovim integration for editing
 
 ### Plugin Settings
+
 Configured plugins include:
+
 - Core plugins
 - Community plugins
 - Custom settings
 
 ### Theme and Styling
+
 - Custom CSS snippets
 - Theme settings
 - Layout preferences
@@ -61,6 +69,7 @@ Configured plugins include:
 ## Neovim Integration
 
 The configuration includes Neovim integration for enhanced editing:
+
 - Custom commands for vault access
 - Plugin support
 - Syntax highlighting
@@ -74,4 +83,4 @@ The configuration includes Neovim integration for enhanced editing:
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests! 
+Feel free to submit issues and enhancement requests!

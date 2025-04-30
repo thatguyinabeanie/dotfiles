@@ -36,4 +36,13 @@ tmux/
 nvim/
 nushell/
 obsidian/
+tests/
+
 install.sh
+
+coverage.txt
+go.mod
+go.sum
+CONTRIBUTING.md
+SECURITY.md
+gitleaks-report.json

@@ -1,6 +1,7 @@
 {{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
 {{- $interactive := stdinIsATTY -}}
 
+{{/* Set default values for non-interactive environments */}}
 {{- $opacity := 0.8 }}
 {{- $blur := 20 }}
 {{- $font_size := 16 }}
@@ -8,65 +9,68 @@
 {{- $window_height := 70 }}
 {{- $window_width := 180 }}
 {{- $refreshPeriod := 168 }}
-{{- $GIT_EMAIL := "" }}
+{{- $GIT_NAME := "GitHub Actions" }}
+{{- $GITHUB_USERNAME := "github-actions" }}
+{{- $GIT_EMAIL := "github-actions@github.com" }}
+{{- $WORK_ENVIRONMENT := false }}
+{{- $SHELL := "nu" }}
+{{- $CATPPUCCIN_FLAVOR := "mocha" }}
 
-{{- $GIT_NAME := promptStringOnce . "git.config.name" "👥 Git Config 👥 - Name" "Gabe Mendoza" -}}
-{{- $GITHUB_USERNAME := promptStringOnce . "git.config.username" "👥 Git Config 👥 - Github Username" "thatguyinabeanie" -}}
-
-{{- $WORK_ENVIRONMENT := promptBoolOnce . "WORK_ENVIRONMENT" "💻 Is this environment for work" false -}}
-{{ if eq $WORK_ENVIRONMENT true }}
-{{- $GIT_EMAIL := promptStringOnce . "git.config.email" "👥 Git Config 👥 - Work Email" "gmendoza@civisanalytics.com" -}}
-{{ else }}
-{{- $GIT_EMAIL := promptStringOnce . "git.config.email" "👥 Git Config 👥 - Email" "thatguyin@beanie.gg" -}}
-{{ end }}
-
-{{- $SHELL_OPTIONS := list "nu" "zsh" -}}
-{{- $SHELL := promptChoiceOnce . "SHELL" "💻 What is your preferred shell" $SHELL_OPTIONS "nu" -}}
-
-{{- $CATPPUCCIN_FLAVORS := list "mocha" "macchiatto" "frappe" "latte" -}}
-{{- $CATPPUCCIN_FLAVOR := promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor)" $CATPPUCCIN_FLAVORS "mocha" -}}
+{{/* Only prompt for values in interactive mode */}}
+{{- if $interactive }}
+    {{- $GIT_NAME = promptStringOnce . "git.config.name" "👥 Git Config 👥 - Name" (env "GIT_NAME" | default "") -}}
+    {{- $GITHUB_USERNAME = promptStringOnce . "git.config.username" "👥 Git Config 👥 - Github Username" (env "GITHUB_USERNAME" | default "") -}}
+    {{- $WORK_ENVIRONMENT = promptBoolOnce . "WORK_ENVIRONMENT" "💻 Is this environment for work" false -}}
+    {{- if eq $WORK_ENVIRONMENT true }}
+        {{- $GIT_EMAIL = promptStringOnce . "git.config.email" "👥 Git Config 👥 - Work Email" (env "GIT_EMAIL" | default "") -}}
+    {{- else }}
+        {{- $GIT_EMAIL = promptStringOnce . "git.config.email" "👥 Git Config 👥 - Email" (env "GIT_EMAIL" | default "") -}}
+    {{- end }}
+    {{- $SHELL_OPTIONS := list "nu" "zsh" -}}
+    {{- $SHELL = promptChoiceOnce . "SHELL" "💻 What is your preferred shell" $SHELL_OPTIONS "nu" -}}
+    {{- $CATPPUCCIN_FLAVORS := list "mocha" "macchiatto" "frappe" "latte" -}}
+    {{- $CATPPUCCIN_FLAVOR = promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor)" $CATPPUCCIN_FLAVORS "mocha" -}}
+{{- end }}
 
 [data]
 SHELL                       = {{ $SHELL | quote }}
-WORK_ENVIRONMENT            = {{ $WORK_ENVIRONMENT }}
-
-CATPPUCCIN_FLAVOR           = {{ $CATPPUCCIN_FLAVOR | quote }}
-
-OBSIDIAN_VAULT_PERSONAL     = "obsidian-vault"
-OBSIDIAN_VAULT_WORK         = "obsidian-vault-work"
-YAZI_CATPPUCCIN_COLOR       = "blue"
-SUDO_TOUCHID                = "true"
+WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
+CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
+OBSIDIAN_VAULT_PERSONAL    = "obsidian-vault"
+OBSIDIAN_VAULT_WORK        = "obsidian-vault-work"
+YAZI_CATPPUCCIN_COLOR      = "blue"
+SUDO_TOUCHID               = "true"
 
 [data.k9s]
-transparent                 = {{ lt $opacity 1.0 }}
+transparent                = {{ lt $opacity 1.0 }}
 
 [data.ghostty]
-window_height               = {{ $window_height | quote }}
-window_width                = {{ $window_width | quote }}
-opacity                     = {{ $opacity | quote }}
-blur                        = {{ $blur | quote }}
-font_size                   = {{ $font_size | quote }}
-font_thicken                = true 
-font_family                 = {{ $font_family | quote }}
-cursor_style                = "block_hollow"
+window_height              = {{ $window_height | quote }}
+window_width               = {{ $window_width | quote }}
+opacity                    = {{ $opacity | quote }}
+blur                       = {{ $blur | quote }}
+font_size                  = {{ $font_size | quote }}
+font_thicken               = true 
+font_family                = {{ $font_family | quote }}
+cursor_style               = "block_hollow"
 
 [data.kitty]
-window_height               = {{ $window_height | quote }}
-window_width                = {{ $window_width | quote }}
-opacity                     = {{ $opacity | quote }}
-blur                        = {{ $blur | quote }}
-font_size                   = {{ $font_size | quote }}
-font_family                 = {{ $font_family |quote }}
+window_height              = {{ $window_height | quote }}
+window_width               = {{ $window_width | quote }}
+opacity                    = {{ $opacity | quote }}
+blur                       = {{ $blur | quote }}
+font_size                  = {{ $font_size | quote }}
+font_family                = {{ $font_family | quote }}
 
 [data.git.config]
-name                        = {{ $GIT_NAME | quote }}
-username                    = {{ $GITHUB_USERNAME | quote }}
-email                       = {{ $GIT_EMAIL | quote }}
-defaultRefreshPeriod        = "{{ $refreshPeriod }}h"
+name                       = {{ $GIT_NAME | quote }}
+username                   = {{ $GITHUB_USERNAME | quote }}
+email                      = {{ $GIT_EMAIL | quote }}
+defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
 
 [data.install]
-obsidia = true
+obsidia                    = true
 
 [warnings]
-  configFileTemplateHasChanged = false
+configFileTemplateHasChanged = false
 

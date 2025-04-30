@@ -1,0 +1,23 @@
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = { "RRethy/nvim-treesitter-endwise" },
+    endwise = { enable = true },
+    auto_install = true,
+
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+      vim.treesitter.language.register("lua", "lua.tmpl")
+      vim.treesitter.language.register("toml", "toml.tmpl")
+    end,
+
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        {{- range $package := .treesitter.ensure_installed -}}
+        "{{.}}",
+
+        {{- end -}}
+      })
+    end,
+  },
+}
