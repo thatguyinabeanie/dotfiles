@@ -2,6 +2,9 @@
   "ignorePatterns": [
     {
       "pattern": "^http://localhost"
+    },
+    {
+      "pattern": "^https://github\\.com/.+/actions/workflows/.+/badge\\.svg"
     }
   ],
   "replacementPatterns": [],
