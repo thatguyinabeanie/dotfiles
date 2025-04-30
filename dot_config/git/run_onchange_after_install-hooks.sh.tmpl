@@ -21,6 +21,7 @@ TEMP_GIT_DIR=$(mktemp -d)
 cd "$TEMP_GIT_DIR"
 git init > /dev/null 2>&1
 
+
 # Install pre-commit hooks globally (suppress verbose output)
 pre-commit init-templatedir "$HOOKS_DIR" &> /dev/null
 
