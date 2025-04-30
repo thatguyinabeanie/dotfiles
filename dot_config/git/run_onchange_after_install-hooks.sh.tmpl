@@ -1,0 +1,34 @@
+#!/bin/zsh
+
+# This script configures git hooks
+# {{ include "dot_config/git/pre-commit-config.yaml" | sha256sum }}
+
+echo "🔧 Setting up git hooks..."
+
+# Check for required commands
+if ! command -v pre-commit &> /dev/null; then
+    echo "❌ pre-commit not found. Please ensure it's installed."
+    exit 1
+fi
+
+if ! command -v gitleaks &> /dev/null; then
+    echo "❌ gitleaks not found. Please ensure it's installed."
+    exit 1
+fi
+
+# Initialize a temporary git repository if we're not in one
+TEMP_GIT_DIR=$(mktemp -d)
+cd "$TEMP_GIT_DIR"
+git init > /dev/null 2>&1
+
+# Install pre-commit hooks globally (suppress verbose output)
+pre-commit init-templatedir "$HOOKS_DIR" &> /dev/null
+
+# Install the pre-commit configuration
+pre-commit install --install-hooks --config="{{ .chezmoi.homeDir }}/.config/git/pre-commit-config.yaml" &> /dev/null
+
+# Clean up temporary git repository
+cd - > /dev/null
+rm -rf "$TEMP_GIT_DIR"
+
+echo "✅ Git hooks setup complete!"

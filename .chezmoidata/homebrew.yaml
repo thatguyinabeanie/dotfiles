@@ -199,6 +199,7 @@ homebrew:
       - pnpm
       - poppler
       - prettier
+      - pre-commit
       - procs
       - proctools
       - python@3.13

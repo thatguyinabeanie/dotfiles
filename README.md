@@ -92,6 +92,31 @@ During installation, you'll be prompted for several configuration values:
 - Custom aliases
 - Work environment integration
 
+## 🔒 Security Features
+
+### Pre-commit Hooks
+
+This repository automatically sets up pre-commit hooks when you run `chezmoi init --apply`. These hooks include:
+
+- **Gitleaks**: Scans staged files for potential secrets or sensitive information
+- **Basic checks**: Trailing whitespace, YAML validation, etc.
+
+The hooks are installed globally in `~/.config/git/hooks` and will be available for all your repositories.
+
+### Manual Security Scan
+
+To manually run a security scan:
+
+```bash
+pre-commit run --all-files
+```
+
+or specifically for secrets:
+
+```bash
+gitleaks detect --source . --verbose
+```
+
 ## 📦 Dependencies
 
 - [**Chezmoi**](https://www.chezmoi.io/) - Dotfiles manager

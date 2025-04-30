@@ -2,11 +2,11 @@
   path = ./.catppuccin/catppuccin.gitconfig
 
 [user]
-	name = {{ .git.config.name }}
-	email = {{ .git.config.email }}
+    name = {{ .git.config.name }}
+    email = {{ .git.config.email }}
 
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 
 [core]
   editor = nvim
@@ -14,10 +14,11 @@
   excludesFile = ~/.config/git/.gitignore
 
 [commit]
-	gpgsign = false
+    gpgsign = false
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
+    templateDir = {{ .chezmoi.homeDir }}/.config/git/hooks
 
 [interactive]
   diffFilter = delta --color-only
