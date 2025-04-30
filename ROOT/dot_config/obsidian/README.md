@@ -24,6 +24,7 @@ integrated with Neovim for enhanced editing capabilities.
 
 The configuration is managed through Chezmoi:
 
+- `.chezmoidata/gitrepos.yaml` - Vault repository configurations
 - `.chezmoiexternal.toml.tmpl` - External template configuration
 - Vault-specific configurations
 - Plugin settings
@@ -36,11 +37,7 @@ The configuration is managed through Chezmoi:
    chezmoi init --apply
    ```
 
-2. Install Obsidian:
-
-   ```zsh
-   brew install --cask obsidian
-   ```
+2. Obsidian will be automatically installed via Homebrew during the Chezmoi setup process, as it's defined in the shared casks.
 
 3. Open your vaults in Obsidian
 
