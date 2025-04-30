@@ -5,6 +5,9 @@
 # mise.toml hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
 
 print "🟠 Installing mise dependencies..."
-mise -q install
+mise  install
 print "🔵 Installed mise dependencies."
 
+print "🟠 Rebuilding bat themes..."
+bat cache --build | save --append /dev/null
+print "🔵 Rebuilt bat themes."

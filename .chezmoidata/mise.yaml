@@ -1,5 +1,34 @@
 mise:
   tools:
+    - name: act
+      version: latest
+    - name: bottom
+      version: latest
+    - name: erlang
+      version: latest
+    - name: elixir
+      version: latest
+    # Removed elixir-ls as it's better managed through Mason
+    - name: delta
+      version: latest
+    - name: eza
+      version: latest
+    - name: fastfetch
+      version: latest
+    - name: fzf
+      version: latest
+    - name: fd
+      version: latest
+    - name: github-cli
+      version: latest
+    - name: gitleaks
+      version: latest
+    - name: gitui
+      version: latest
+    - name: gitsign
+      version: latest
+    - name: github-markdown-toc
+      version: latest
     - name: node
       version: 22
     - name: ruby
@@ -8,9 +37,50 @@ mise:
       version: 3.12
     - name: go
       version: 1
+    - name: golangci-lint
+      version: latest
+    - name: golangci-lint-langserver
+      version: latest
     - name: uv
       version: latest
     - name: ruff
       version: latest
     - name: zig
+      version: latest
+    # Development Languages & Runtimes
+    - name: rust
+      version: nightly
+    - name: deno
+      version: latest
+    - name: bun
+      version: latest
+    - name: lua
+      version: latest
+    # Package Managers
+    - name: pnpm
+      version: latest
+    - name: yarn
+      version: latest
+    - name: poetry
+      version: latest
+    - name: pipx
+      version: latest
+    # Development Tools
+    - name: cargo-binstall
+      version: latest
+    - name: stylua
+      version: latest
+    - name: terraform
+      version: latest
+    - name: kubectl
+      version: latest
+    - name: helm
+      version: latest
+    - name: gradle
+      version: latest
+    - name: cmake
+      version: latest
+    - name: shellcheck
+      version: latest
+    - name: hadolint
       version: latest
