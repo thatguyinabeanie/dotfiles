@@ -229,6 +229,8 @@ Made with ❤️ and cosmic energy
 
 ## 🚀 TODO
 
+### Dotfiles Roadmap
+
 <!-- markdownlint-disable MD013 -->
 A collection of planned enhancements and improvements for this cosmic development environment:
 <!-- markdownlint-enable MD013 -->
@@ -241,5 +243,10 @@ A collection of planned enhancements and improvements for this cosmic developmen
 - [ ] Improve documentation with detailed setup guides for each tool
 - [ ] Create installation scripts for different operating systems (mainly mac and Linux.)
 - [ ] Add support for additional shells (fish)
+
+### Dotfiles Showcase NextJS
+
+- [ ] Fix skewed DOTFILES ASCII art
+- [ ] Integrate with ![Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
 
 <!-- markdownlint-enable MD033 MD013 MD045 -->
