@@ -226,4 +226,20 @@ Made with ❤️ and cosmic energy
   <img src="https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore the Cosmos" />
 </a>
 </div>
+
+## 🚀 TODO
+
+<!-- markdownlint-disable MD013 -->
+A collection of planned enhancements and improvements for this cosmic development environment:
+<!-- markdownlint-enable MD013 -->
+
+- [ ] Create animated GIF demonstration of the environment in action
+- [ ] Add actual screenshots for each Catppuccin theme variant
+- [ ] Implement additional shell integrations for improved workflow
+- [ ] Enhance Obsidian configuration with more plugins and templates
+- [ ] Add more Pokemon-themed system information displays
+- [ ] Improve documentation with detailed setup guides for each tool
+- [ ] Create installation scripts for different operating systems
+- [ ] Add support for additional terminal emulators
+
 <!-- markdownlint-enable MD033 MD013 MD045 -->
