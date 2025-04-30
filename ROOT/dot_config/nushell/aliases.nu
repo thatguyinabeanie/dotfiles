@@ -2,7 +2,7 @@
 ## DIRECTORY ALIASES
 ##
 
-alias l = ls 
+alias l = ls
 alias ll = ls -a
 alias la = ls -la
 
@@ -22,30 +22,34 @@ def chezmoi_reset [] {
 }
 
 ##
-## NEOVIM 
+## NEOVIM
 ##
 
 # Function to open a specific Obsidian vault in Neovim
 def obsidian_nvim [vault] {
-  nvim $"~/.config/obsidian/vaults/($vault)"
+  if $vault == "personal" {
+    nvim $"~/.config/obsidian/obsidian-vault"
+  } else {
+    nvim $"~/.config/obsidian/($vault)"
+  }
 }
 
 # Function to reset Neovim configuration
 def reset_nvim [] {
-  rm -rf ~/.config/nvim 
-  rm -rf ~/.local/share/nvim 
+  rm -rf ~/.config/nvim
+  rm -rf ~/.local/share/nvim
   rm -rf ~/.local/state/nvim
 
   chezmoi apply --exclude=scripts
 }
 
 ##
-## GITHUB 
+## GITHUB
 ##
 # Function to create a new GitHub repository
 def gh-create-repo [
-    name: string, 
-    --private (-p) = false, 
+    name: string,
+    --private (-p) = false,
     --description (-d): string = ""
 ] {
     let visibility = if $private { "private" } else { "public" }
@@ -55,7 +59,7 @@ def gh-create-repo [
 
 # Function to clone a GitHub reposi:tory
 def gh-clone-repo [
-    repo: string, 
+    repo: string,
     --destination (-d): string = "."
 ] {
     cd ~/source
@@ -66,7 +70,7 @@ def gh-clone-repo [
 def gh-list-repos [
     --limit (-l): int = 30
 ] {
-    gh repo list --limit $limit 
+    gh repo list --limit $limit
 }
 
 # Function to delete a GitHub repository
@@ -78,7 +82,7 @@ def gh-delete-repo [
 
 # Function to add a remote to an existing local repository
 def gh-add-remote [
-    remote_name: string, 
+    remote_name: string,
     repo: string
 ] {
     gh repo view $repo --json sshUrl | get sshUrl | each { git remote add $remote_name }
@@ -92,7 +96,7 @@ def gh-open-repo [
 }
 
 ##
-## OTHER 
+## OTHER
 ##
 
 # Function to show the current system information with a random image of a Pokémon

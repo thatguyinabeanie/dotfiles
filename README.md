@@ -63,7 +63,7 @@ _A cosmic journey through my development environment_
   [Animated demo of the dotfiles in action will appear here]
   <br/>
   <!-- markdownlint-disable-next-line MD013 -->
-  <img src="https://img.shields.io/badge/View%20Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel" alt="View Live Demo" />
+  <img src="https://img.shields.io/badge/View_Live_Demo-Vercel-black?style=for-the-badge&logo=vercel" alt="View Live Demo" />
 </a>
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
@@ -76,9 +76,9 @@ _A cosmic journey through my development environment_
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-![Tests](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/test.yml/badge.svg)
-![Lint](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/lint.yml/badge.svg)
-![Security](https://github.com/thatguyinabeanie/dotfiles/actions/workflows/security.yml/badge.svg)
+![Tests](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/test.yml?label=Tests&style=flat-square)
+![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
+![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
 
 <!-- markdownlint-disable MD033 -->
 </div>
@@ -98,7 +98,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/installation" target="_blank">
-    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge"
+    <img src="https://img.shields.io/badge/View_Detailed_Installation_Guide-22863a?style=for-the-badge"
       alt="View Installation Guide" />
   </a>
 </div>
@@ -153,7 +153,7 @@ During installation, you'll be prompted for several configuration values that wi
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/features" target="_blank">
     <img
-      src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge"
+      src="https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge"
       alt="Explore All Features"
     />
   </a>
@@ -223,7 +223,7 @@ MIT License - See [LICENSE](LICENSE) for details
 Made with ❤️ and cosmic energy
 
 <a href="https://dotfiles-nu.vercel.app" target="_blank">
-  <img src="https://img.shields.io/badge/Explore%20the%20Cosmos-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore the Cosmos" />
+  <img src="https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore the Cosmos" />
 </a>
 </div>
 <!-- markdownlint-enable MD033 MD013 MD045 -->
