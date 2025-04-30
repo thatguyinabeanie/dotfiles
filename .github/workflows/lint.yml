@@ -8,46 +8,60 @@ on:
     branches: [main]
 
 jobs:
-  lint:
-    name: Lint
+  golangci:
+    name: Go Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
           cache: true
-
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
           args: --out-format=colored-line-number
 
+  yaml:
+    name: YAML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Check YAML formatting
         uses: ibiqlik/action-yamllint@v3
-        if: always()
         with:
           file_or_dir: .
           config_file: .yamllint.yml
 
+  shell:
+    name: Shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Lint Shell Scripts
-        if: always()
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.chezmoiscripts'
 
+  markdown:
+    name: Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Run markdownlint
-        if: always()
         uses: nosborn/github-action-markdown-cli@v3.3.0
         with:
           files: "*.md"
           config_file: ".markdownlint.json"
 
+  links:
+    name: Links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Check for broken links
-        if: always()
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
           use-quiet-mode: 'yes'
