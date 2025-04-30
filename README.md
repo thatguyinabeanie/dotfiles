@@ -59,7 +59,8 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
   <!-- Replace this with your actual GIF once created -->
   [Animated demo of the dotfiles in action will appear here]
   <br/>
-  <img src="https://img.shields.io/badge/View%20Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel" alt="View Live Demo" />
+  <img src="https://img.shields.io/badge/View%20Live%20Demo-Vercel-black?style=for-the-badge&logo=vercel"
+       alt="View Live Demo" />
 </a>
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
@@ -92,7 +93,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/installation" target="_blank">
-    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge" alt="View Installation Guide" />
+    <img src="https://img.shields.io/badge/View%20Detailed%20Installation%20Guide-22863a?style=for-the-badge"
+         alt="View Installation Guide" />
   </a>
 </div>
 
@@ -145,7 +147,8 @@ During installation, you'll be prompted for several configuration values that wi
 
 <div align="center">
   <a href="https://dotfiles-nu.vercel.app/features" target="_blank">
-    <img src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge" alt="Explore All Features" />
+    <img src="https://img.shields.io/badge/Explore%20All%20Features-4A55A5?style=for-the-badge"
+         alt="Explore All Features" />
   </a>
 </div>
 
@@ -200,7 +203,7 @@ Feel free to submit issues and enhancement requests! Together we can make this c
 
 ## 📜 License
 
-MIT License - See [LICENSE](LICENSE) for details
+MIT License - See [LICENSE](./LICENSE) for details
 
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
