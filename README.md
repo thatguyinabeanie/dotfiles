@@ -4,32 +4,34 @@
 
 <!-- markdownlint-disable MD013 MD040 -->
 ```
-                      .              .
-                     ,O.            ,O,
-                    ,OOO\          /OOO,
-                   ,OOOOO\        /OOOOO,
-                  ,OOOOOOO\      /OOOOOOO,
-                 ,OOOOOOOOO\    /OOOOOOOOO,
-           ⭐️   ,OOOOOOOOOOO\  /OOOOOOOOOOO,   🌌
-               ,OOOOOOOOOOOOO\/OOOOOOOOOOOOO,
-              ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-             ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-            ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-           ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-          ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-         ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-        ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-       ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-      ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-     ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-    ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-   ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
-  ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
- ,OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO,
- ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-                 D O T F I L E S
-         ✨ Cosmic Development Environment ✨
- _________________________________________________________________
+                                    *     .--.
+                                         / /  `
+                        +               | |
+                               '         \ \__,
+                           *          +   '--'  *
+                               +   /\
+                  +              .'  '.   *
+                         *      /======\      +
+                               ;:.  _   ;
+                               |:. (_)  |
+                               |:.  _   |
+                     +         |:. (_)  |          *
+                               ;:.      ;
+                             .' \:.    / `.
+                            / .-'':._.'`-. \
+                            |/    /||\    \|
+                          _..--"""````"""--.._
+                    _.-'``                    ``'-._
+                  -'                                '-
+
+         ██████╗  ██████╗ ████████╗███████╗██╗██╗     ███████╗███████╗
+         ██╔══██╗██╔═══██╗╚══██╔══╝██╔════╝██║██║     ██╔════╝██╔════╝
+         ██║  ██║██║   ██║   ██║   █████╗  ██║██║     █████╗  ███████╗
+         ██║  ██║██║   ██║   ██║   ██╔══╝  ██║██║     ██╔══╝  ╚════██║
+         ██████╔╝╚██████╔╝   ██║   ██║     ██║███████╗███████╗███████║
+         ╚═════╝  ╚═════╝    ╚═╝   ╚═╝     ╚═╝╚══════╝╚══════╝╚══════╝
+
+                    ✨ COSMIC DEVELOPMENT ENVIRONMENT ✨
 ```
 <!-- markdownlint-enable MD013 MD040 -->
 
