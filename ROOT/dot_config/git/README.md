@@ -1,51 +1,74 @@
-# Git Configuration
+<!-- markdownlint-disable MD033 -->
+<div align="center">
+<!-- markdownlint-enable MD033 -->
 
-A comprehensive Git configuration with custom aliases, hooks, and settings for enhanced productivity.
+# 🌿 Git Configuration 🔄
 
-## Features
+<!-- markdownlint-disable MD013 -->
+A comprehensive Git configuration with custom aliases, hooks, and settings for enhanced productivity, managed with Chezmoi.
+<!-- markdownlint-enable MD013 -->
 
-- **Custom Aliases**
+<!-- markdownlint-disable MD013 MD045 -->
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/387.png" width="150" />
+<!-- markdownlint-enable MD013 MD045 -->
 
-  - Quick access to common Git commands
-  - Enhanced workflow shortcuts
-  - Repository management helpers
+![Git](https://img.shields.io/badge/Git-2.30+-green?style=flat-square&logo=git)
+![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-- **Git Hooks**
-  - Pre-commit hooks
-  - Post-merge hooks
-  - Custom workflow automation
+<!-- markdownlint-disable MD033 -->
+</div>
+<!-- markdownlint-enable MD033 -->
 
-- **Global Settings**
-  - Editor configuration
-  - Default branch naming
-  - Commit template
-  - GPG signing
+## 🌟 Features
 
-## Configuration Structure
+### 🚀 Custom Aliases
+
+- Quick access to common Git commands
+- Enhanced workflow shortcuts
+- Repository management helpers
+
+### 🔄 Git Hooks
+
+- Pre-commit hooks
+- Post-merge hooks
+- Custom workflow automation
+
+### ⚙️ Global Settings
+
+- Editor configuration
+- Default branch naming
+- Commit template
+- GPG signing
+
+## 📁 Configuration Structure
 
 The configuration is managed through Chezmoi templates:
 
-- `config.tmpl` - Main Git configuration (Chezmoi template)
-- `.chezmoiexternal.toml` - External template configuration
-- `dot_gitignore` - Global gitignore patterns
+```shell
+git/
+├── 📝 config.tmpl - Main Git configuration
+├── 🔗 .chezmoiexternal.toml - External template configuration
+└── 🚫 dot_gitignore - Global gitignore patterns
+```
 
-## Installation
+## 🌠 Installation
 
 1. Clone this configuration using Chezmoi:
 
-   ```zsh
+   ```shell
    chezmoi init --apply
    ```
 
 2. Ensure Git is installed:
 
-   ```zsh
+   ```shell
    brew install git
    ```
 
-## Customization
+## ⚙️ Customization
 
-### Global Settings
+### 🔧 Global Settings
 
 The configuration includes:
 
@@ -54,7 +77,7 @@ The configuration includes:
 - Commit message templates
 - GPG signing configuration
 
-### Git Hooks
+### 🔄 Git Hooks
 
 Custom hooks are available for:
 
@@ -62,7 +85,7 @@ Custom hooks are available for:
 - Post-merge actions
 - Workflow automation
 
-### Aliases
+### 🚀 Aliases
 
 Common Git aliases include:
 
@@ -71,12 +94,22 @@ Common Git aliases include:
 - Commit shortcuts
 - Log formatting
 
-## Dependencies
+## 🌍 Dependencies
 
 - Git 2.30+
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
 - GPG (for commit signing)
 
-## Contributing
+## 🌠 Contributing
 
-Feel free to submit issues and enhancement requests!
+<!-- markdownlint-disable MD013 -->
+Feel free to submit issues and enhancement requests! Together we can make this configuration even better! ✨
+<!-- markdownlint-enable MD013 -->
+
+<!-- markdownlint-disable MD033 MD013 MD045 -->
+<div align="center">
+<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/388.png" width="100" />
+
+Made with ❤️ and version control magic
+</div>
+<!-- markdownlint-enable MD033 MD013 MD045 -->

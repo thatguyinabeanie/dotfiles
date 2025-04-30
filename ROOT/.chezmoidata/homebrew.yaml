@@ -161,6 +161,7 @@ homebrew:
       - markdown-toc
       - markdown-oxide
       - marksman
+      - markdownlint-cli2
       - mas
       - mise
       - ncdu
