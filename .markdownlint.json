@@ -18,8 +18,5 @@
   "MD029": {
     "style": "ordered"
   },
-  "MD036": false,
-  "MD047": {
-    "require_newline_at_eof": true
-  }
-} 
+  "MD036": false
+}
