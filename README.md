@@ -239,7 +239,7 @@ A collection of planned enhancements and improvements for this cosmic developmen
 - [ ] Enhance Obsidian configuration with more plugins and templates
 - [ ] Add more Pokemon-themed system information displays
 - [ ] Improve documentation with detailed setup guides for each tool
-- [ ] Create installation scripts for different operating systems
-- [ ] Add support for additional terminal emulators
+- [ ] Create installation scripts for different operating systems (mainly mac and Linux.)
+- [ ] Add support for additional shells (fish)
 
 <!-- markdownlint-enable MD033 MD013 MD045 -->
