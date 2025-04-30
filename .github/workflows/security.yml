@@ -34,15 +34,17 @@ jobs:
         with:
           scan-type: "fs"
           ignore-unfixed: true
-          format: "sarif"
-          output: "trivy-results.sarif"
+          format: "table"
           exit-code: "1"
           severity: "CRITICAL,HIGH"
           hide-progress: false
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
-          category: "trivy"
+      # Note: To enable SARIF uploads, enable code scanning in repository settings:
+      # Settings -> Code security and analysis -> Code scanning
+      # Then change format back to "sarif" and uncomment the upload step
+      # - name: Upload Trivy scan results to GitHub Security tab
+      #   uses: github/codeql-action/upload-sarif@v3
+      #   if: always()
+      #   with:
+      #     sarif_file: "trivy-results.sarif"
+      #     category: "trivy"
