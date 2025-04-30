@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface ThemeOption {
@@ -64,6 +64,14 @@ const ThemeSwitcher: React.FC = () => {
   ];
 
   const [activeTheme, setActiveTheme] = useState<string>(themes[0].name);
+  const [activeThemeData, setActiveThemeData] = useState<ThemeOption>(themes[0]);
+
+  useEffect(() => {
+    const theme = themes.find(t => t.name === activeTheme);
+    if (theme) {
+      setActiveThemeData(theme);
+    }
+  }, [activeTheme]);
 
   return (
     <motion.div
@@ -72,7 +80,7 @@ const ThemeSwitcher: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
     >
-      <h3 className="text-2xl font-semibold mb-4">🎨 Catppuccin Theme Flavors</h3>
+      <h3 className="text-2xl font-semibold mb-4 text-white">🎨 Catppuccin Theme Flavors</h3>
       <p className="text-gray-300 mb-6">
         Experience the beauty of Catppuccin in four delicious flavors that transform your development environment
       </p>
@@ -84,7 +92,7 @@ const ThemeSwitcher: React.FC = () => {
             className={`rounded-lg p-4 cursor-pointer transition-all duration-300 ${
               activeTheme === theme.name
                 ? 'ring-2 ring-offset-2 ring-offset-gray-800 ring-purple-500'
-                : 'hover:bg-gray-700'
+                : 'hover:ring-1 hover:ring-purple-400'
             }`}
             style={{
               backgroundColor: theme.colors.background,
@@ -123,8 +131,8 @@ const ThemeSwitcher: React.FC = () => {
         ))}
       </div>
 
-      <div className="mt-6 p-4 rounded-lg" style={{ backgroundColor: themes.find(t => t.name === activeTheme)?.colors.background }}>
-        <div className="flex items-center" style={{ color: themes.find(t => t.name === activeTheme)?.colors.text }}>
+      <div className="mt-6 p-4 rounded-lg" style={{ backgroundColor: activeThemeData.colors.background }}>
+        <div className="flex items-center" style={{ color: activeThemeData.colors.text }}>
           <span className="font-mono mr-2">$</span>
           <span className="font-mono">echo "Catppuccin {activeTheme} is delicious!"</span>
         </div>

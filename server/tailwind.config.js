@@ -14,5 +14,12 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@catppuccin/tailwindcss")({
+      // Add a custom prefix to avoid conflicts
+      prefix: "ctp",
+      // Which flavour to use as the default
+      defaultFlavour: "mocha",
+    }),
+  ],
 }

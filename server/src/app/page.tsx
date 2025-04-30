@@ -4,8 +4,12 @@ import { motion } from 'framer-motion';
 import DotfilesShowcase from '@/components/DotfilesShowcase';
 import AsciiBanner from '@/components/AsciiBanner';
 import ParticleBackground from '@/components/ParticleBackground';
+import CatppuccinShowcase from '@/components/CatppuccinShowcase';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function Home() {
+  const { currentTheme } = useTheme();
+
   return (
     <main className="flex min-h-screen flex-col items-center p-8 md:p-24 relative overflow-hidden">
       {/* Animated background */}
@@ -16,6 +20,7 @@ export default function Home() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
+        style={{ color: currentTheme.colors.text }}
       >
         <div className="text-center mb-8">
           {/* ASCII Art Banner */}
@@ -148,6 +153,8 @@ export default function Home() {
         </motion.div>
 
         <DotfilesShowcase />
+
+        <CatppuccinShowcase />
 
         <motion.div
           className="text-center mt-12"

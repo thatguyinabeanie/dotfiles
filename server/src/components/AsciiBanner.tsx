@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Typewriter from 'typewriter-effect';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/context/ThemeContext';
 
 const asciiArt = `
   ██████╗   ██████╗ ████████╗ ███████╗ ██╗ ██╗      ███████╗ ███████╗
@@ -14,6 +15,7 @@ const asciiArt = `
 `;
 
 const AsciiBanner: React.FC = () => {
+  const { currentTheme } = useTheme();
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
@@ -33,13 +35,14 @@ const AsciiBanner: React.FC = () => {
     >
       {showBanner && (
         <div className="font-mono flex flex-col items-center justify-center">
-          <div className="text-green-400 text-xs sm:text-sm md:text-base overflow-x-auto w-full">
+          <div className="text-xs sm:text-sm md:text-base overflow-x-auto w-full" style={{ color: currentTheme.colors.green }}>
             <pre className="font-mono whitespace-pre mx-auto inline-block">
 {asciiArt}
             </pre>
           </div>
           <motion.div
-            className="text-green-400 mt-2"
+            style={{ color: currentTheme.colors.green }}
+            className="mt-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
