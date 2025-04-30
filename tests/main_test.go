@@ -13,7 +13,6 @@ func TestMain(m *testing.M) {
 		dirs := []string{".", "..", "../.."}
 		for _, dir := range dirs {
 			if _, err := os.Stat(filepath.Join(dir, "ROOT/dot_config")); err == nil {
-				// Do this:
 				if err := os.Chdir(dir); err != nil {
 					os.Exit(1)
 				}
