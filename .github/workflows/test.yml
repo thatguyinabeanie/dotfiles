@@ -2,111 +2,64 @@
 name: Test
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
-
+    branches: [main]
 permissions:
   contents: read
-
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: Install dependencies
-        run: go mod download
-
-      - name: Run tests
-        run: go test -v ./...
-
-      - name: Run linters
-        uses: golangci/golangci-lint-action@v4
-        with:
-          version: latest
-          args: --timeout=5m
-
-      - name: Run yamllint
-        run: |
-          pip install yamllint
-          yamllint .
-
-      - name: Run markdownlint
-        run: |
-          npm install -g markdownlint-cli
-          markdownlint '**/*.md' --ignore node_modules
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
           cache: true
-      
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
           args: --out-format=colored-line-number
-          
       - name: Check YAML formatting
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: .
           config_file: .yamllint.yml
-          
       - name: Lint Shell Scripts
         uses: ludeeus/action-shellcheck@master
         with:
           scandir: '.chezmoiscripts'
-          
-  test:
+  tests:
     name: Tests
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
           cache: true
-      
       - name: Install dependencies
         run: go mod download
-
       - name: Run all tests
         run: go test -v -race -coverprofile=coverage.txt -covermode=atomic ./tests/...
-        
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage.txt
-
   chezmoi-verify:
     name: Verify Chezmoi Config
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - uses: actions/checkout@v4
-      
       - name: Install Chezmoi
         run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
-      
       - name: Verify Chezmoi config
         run: |
           export PATH=$PATH:$HOME/.local/bin
           chezmoi verify
-
