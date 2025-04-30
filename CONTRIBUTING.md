@@ -22,7 +22,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)"
 1. Clone the repository:
 
 ```zsh
-chezmoi init --apply
+chezmoi init --apply your_github_username
 ```
 
 ## Testing
