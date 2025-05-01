@@ -71,17 +71,17 @@ vim.keymap.set("n", "<leader>bV", function()
   end
 end, { desc = "Open in Cursor " })
 
-vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open LSP log file" })
+vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open nvim's lsp.log file." })
 vim.keymap.set("n", "<leader>xd", function()
   local log_file = vim.fn.expand("~/.local/state/nvim/lsp.log")
   local f = io.open(log_file, "w")
   if f then
     f:close()
-    vim.notify("LSP log file cleared", vim.log.levels.INFO)
+    vim.notify("Cleared ~/.local/state/nvim/lsp.log", vim.log.levels.INFO)
   else
-    vim.notify("Failed to clear LSP log file", vim.log.levels.ERROR)
+    vim.notify("Failed to clear ~/.local/state/nvim/lsp.log", vim.log.levels.ERROR)
   end
-end, { desc = "Clear LSP log file" })
+end, { desc = "Clear ~/.local/state/nvim/lsp.log" })
 
 --
 -- POMODORO TIMER KEYMAPS
