@@ -19,6 +19,25 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   end,
 })
 
+-- Handle LSP client attachment issues
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  callback = function(ev)
+    local bufnr = ev.buf
+
+    -- Skip if buffer already has LSP clients attached
+    if #vim.lsp.get_clients({ bufnr = bufnr }) > 0 then
+      return
+    end
+
+    -- Attempt to attach LSP clients for this filetype
+    vim.defer_fn(function()
+      if vim.api.nvim_buf_is_valid(bufnr) then
+        vim.cmd("LspStart")
+      end
+    end, 100)
+  end,
+})
+
 --
 -- BUFREAD< BUFNEWFILE
 --
@@ -56,3 +75,23 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt_local.syntax = "toml"
   end,
 })
+
+-- CodeQL files
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.ql", "*.qll" },
+  callback = function()
+    vim.opt_local.filetype = "ql"
+  end,
+})
+
+-- Customize LSP notifications to reduce noise
+local orig_notify = vim.notify
+vim.notify = function(msg, level, opts)
+  -- Filter out specific LSP warnings
+  if msg and msg:match("Client with id %d+ not attached to buffer") then
+    -- Either silence completely or reduce to a lower level
+    return orig_notify(msg, vim.log.levels.DEBUG, opts)
+  end
+
+  return orig_notify(msg, level, opts)
+end
