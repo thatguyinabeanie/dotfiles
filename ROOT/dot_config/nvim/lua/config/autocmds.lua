@@ -57,11 +57,3 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- CodeQL files
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.ql", "*.qll" },
-  callback = function()
-    vim.opt_local.filetype = "ql"
-  end,
-})
-

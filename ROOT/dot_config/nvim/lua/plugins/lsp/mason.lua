@@ -56,7 +56,6 @@ return {
         "sql-formatter",
         "yq",
         "taplo",
-        "codeql",
         "kotlin-language-server",
         "some-sass-language-server",
         "cpptools",
