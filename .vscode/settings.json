@@ -2,11 +2,11 @@
     "debug.javascript.defaultRuntimeExecutable": {
         "pwa-node": "/Users/gmendoza/.local/share/mise/shims/node"
     },
-    "go.goroot": "/Users/gmendoza/.local/share/mise/installs/go/1.24.2",
+    "go.goroot": "/Users/beanie/.local/share/mise/installs/go/1.24.2",
     "go.alternateTools": {
-        "go": "/Users/gmendoza/.local/share/mise/shims/go",
-        "dlv": "/users/gmendoza/.local/share/mise/shims/dlv",
-        "gopls": "/Users/gmendoza/.local/share/mise/shims/gopls"
+        "go": "/Users/beanie/.local/share/mise/shims/go",
+        "dlv": "/Users/beanie/.local/share/mise/shims/dlv",
+        "gopls": "/Users/beanie/.local/share/mise/shims/gopls"
     },
-    "python.defaultInterpreterPath": "/Users/gmendoza/.local/share/mise/installs/python/3.12.10/bin/python"
+    "python.defaultInterpreterPath": "/Users/beanie/.local/share/mise/installs/python/3.12.10/bin/python"
 }

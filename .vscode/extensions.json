@@ -28,7 +28,6 @@
     "golang.go",
     "ecmel.vscode-html-css",
     "oderwat.indent-rainbow",
-    "huggingface.huggingface-vscode",
     "ms-vscode-remote.remote-ssh",
     "ms-vscode-remote.remote-ssh-edit",
     "ms-vscode.remote-server",
