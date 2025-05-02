@@ -43,10 +43,6 @@ return {
         vtsls = {
           enabled = false,
         },
-        codeql = {
-          enabled = true,
-          filetypes = { "ql", "qll" },
-        },
       },
     },
 
