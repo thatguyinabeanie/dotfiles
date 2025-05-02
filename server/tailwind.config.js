@@ -12,6 +12,12 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      ringColor: {
+        DEFAULT: 'var(--ring-color)',
+      },
+      ringOffsetColor: {
+        DEFAULT: 'var(--ring-offset-color)',
+      },
     },
   },
   plugins: [

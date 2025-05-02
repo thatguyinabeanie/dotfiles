@@ -84,15 +84,3 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt_local.filetype = "ql"
   end,
 })
-
--- Customize LSP notifications to reduce noise
-local orig_notify = vim.notify
-vim.notify = function(msg, level, opts)
-  -- Filter out specific LSP warnings
-  if msg and msg:match("Client with id %d+ not attached to buffer") then
-    -- Either silence completely or reduce to a lower level
-    return orig_notify(msg, vim.log.levels.DEBUG, opts)
-  end
-
-  return orig_notify(msg, level, opts)
-end

@@ -31,6 +31,10 @@
   --theme-flamingo: #f2cdcd;
   --theme-maroon: #eba0ac;
 
+  /* Default ring colors for Tailwind */
+  --ring-color: #cba6f7;
+  --ring-offset-color: #11111b;
+
   /* Transition for smooth theme changes */
   --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

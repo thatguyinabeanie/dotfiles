@@ -108,12 +108,12 @@ const CatppuccinShowcase: React.FC = () => {
 
       <div className="mt-8 p-4 rounded-lg" style={{ backgroundColor: currentTheme.colors.base, color: currentTheme.colors.text }}>
         <div className="font-mono text-sm">
-          <div className="mb-2">// Example Tailwind CSS usage with Catppuccin</div>
-          <div>&lt;div className="
+          <div className="mb-2">{/* Example Tailwind CSS usage with Catppuccin */}</div>
+          <div>&lt;div className=&quot;
             <span style={{ color: currentTheme.colors.green }}>bg-ctp-{currentTheme.name}-base</span>
             <span style={{ color: currentTheme.colors.sky }}> text-ctp-{currentTheme.name}-text</span>
             <span style={{ color: currentTheme.colors.yellow }}> p-4</span>
-            <span style={{ color: currentTheme.colors.pink }}> rounded-lg</span>"&gt;
+            <span style={{ color: currentTheme.colors.pink }}> rounded-lg</span>&quot;&gt;
           </div>
           <div>&nbsp;&nbsp;Your content here</div>
           <div>&lt;/div&gt;</div>

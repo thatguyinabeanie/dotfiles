@@ -182,7 +182,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     if (theme) {
       setCurrentTheme(theme);
       localStorage.setItem('catppuccin-theme', themeName);
-      
+
       // Apply theme to document body
       document.documentElement.style.setProperty('--theme-base', theme.colors.base);
       document.documentElement.style.setProperty('--theme-mantle', theme.colors.mantle);
@@ -210,6 +210,10 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       document.documentElement.style.setProperty('--theme-rosewater', theme.colors.rosewater);
       document.documentElement.style.setProperty('--theme-flamingo', theme.colors.flamingo);
       document.documentElement.style.setProperty('--theme-maroon', theme.colors.maroon);
+
+      // Set ring colors for Tailwind
+      document.documentElement.style.setProperty('--ring-color', theme.colors.mauve);
+      document.documentElement.style.setProperty('--ring-offset-color', theme.colors.crust);
     }
   };
 

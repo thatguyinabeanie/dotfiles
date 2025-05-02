@@ -10,7 +10,7 @@ const GlobalThemeSwitcher: React.FC = () => {
   return (
     <motion.div
       className="fixed top-4 right-4 z-50 flex items-center space-x-2 p-2 rounded-full"
-      style={{ 
+      style={{
         backgroundColor: `color-mix(in srgb, ${currentTheme.colors.surface0} 80%, transparent)`,
         backdropFilter: 'blur(8px)',
         border: `1px solid ${currentTheme.colors.overlay0}`
@@ -25,12 +25,13 @@ const GlobalThemeSwitcher: React.FC = () => {
           className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
             currentTheme.name === theme.name ? 'ring-2 ring-offset-2' : 'opacity-70 hover:opacity-100'
           }`}
-          style={{ 
+          style={{
             backgroundColor: theme.colors.base,
             color: theme.colors.text,
-            ringColor: theme.colors.mauve,
-            ringOffsetColor: theme.colors.crust
-          }}
+            // CSS variables for ring colors that will be used by Tailwind
+            '--ring-color': theme.colors.mauve,
+            '--ring-offset-color': theme.colors.crust
+          } as React.CSSProperties}
           onClick={() => setTheme(theme.name)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

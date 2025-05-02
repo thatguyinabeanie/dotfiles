@@ -66,7 +66,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            A modern and efficient development environment setup that's out of this world!
+            A modern and efficient development environment setup that&apos;s out of this world!
             Managed with Chezmoi for seamless configuration across machines.
           </motion.p>
 
