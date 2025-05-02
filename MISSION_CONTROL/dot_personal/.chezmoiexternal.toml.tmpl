@@ -1,0 +1,6 @@
+{{ if not (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) }}
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+# TODO: put personal repos here.
+{{ end }}
+
+{{ end }}
