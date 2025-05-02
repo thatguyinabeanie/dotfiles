@@ -20,14 +20,12 @@
     <span style="color:#F4DBD6">                          </span><span style="color:#F8BD96">_..--</span><span style="color:#F5A97F">"""````"""</span><span style="color:#F8BD96">--.._</span><span style="color:#F4DBD6">                                   </span>
     <span style="color:#F4DBD6">                    </span><span style="color:#F8BD96">_.-'``</span><span style="color:#F5A97F">                    </span><span style="color:#F8BD96">``'-._</span><span style="color:#F4DBD6">                             </span>
     <span style="color:#F4DBD6">                  </span><span style="color:#F8BD96">-'</span><span style="color:#F5A97F">                                </span><span style="color:#F8BD96">'-</span><span style="color:#F4DBD6">                           </span>
-    <div align="center">
     <span style="color:#C6A0F6">██████╗   █████╗ ████████╗ ███████╗ ████████╗ ██╗      ███████╗ ███████╗</span>
     <span style="color:#C6A0F6">██╔══██╗ ██╔══██║╚══██╔══╝ ██╔════╝ ╚══██╔══╝ ██║      ██╔════╝ ██╔════╝</span>
     <span style="color:#C6A0F6">██║  ██║ ██║  ██║   ██║    ████╗       ██║    ██║      █████╗   ███████╗</span>
     <span style="color:#C6A0F6">██║  ██║ ██║  ██║   ██║    ██╔═╝       ██║    ██║      ██╔══╝   ╚════██║</span>
-    <span style="color:#C6A0F6">██████╔╝ ╚█████╔╝   ██║    ██║       ███████╗ ███████╗ ███████║ ███████║</span>
-    <span style="color:#C6A0F6">╚═════╝   ╚════╝    ╚═╝    ╚═╝       ╚══════╝ ╚══════╝ ╚══════╝ ╚══════╝</span>
-    </div>
+    <span style="color:#C6A0F6">██████╔╝ ╚█████╔╝   ██║    ██║      ████████╗ ███████╗ ███████╗ ███████║</span>
+    <span style="color:#C6A0F6">╚═════╝   ╚════╝    ╚═╝    ╚═╝      ╚═══════╝ ╚══════╝ ╚══════╝ ╚══════╝</span>
     <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div>
 </pre>
 </div>
