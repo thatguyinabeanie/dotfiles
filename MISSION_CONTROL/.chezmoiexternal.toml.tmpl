@@ -1,13 +1,41 @@
 {{ if not (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) }}
 
+##
+## PERSONAL STUFF REPOSITORIES
+##
+["personal/dotfiles"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles.git"
+
+["personal/thatguyinabeanie"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/thatguyinabeanie.git"
+
+["personal/dotfiles-docs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles-docs.git"
+
+["personal/startpage"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/startpage.git"
+
+["personal/dotfiles-website"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/next-dotfiles"
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
 
-[DOOM-fire-zig]
+["source/DOOM-fire-zig"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/const-void/DOOM-fire-zig.git"
 
-[game-of-life]
+["source/game-of-life"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/game-of-life.git"
@@ -15,12 +43,12 @@ url = "https://github.com/thatguyinabeanie/game-of-life.git"
 ##
 ## BATTLE STADIUM
 ##
-[battle-stadium/frontend]
+["source/battle-stadium/frontend"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/battle-stadium.git"
 
-[battle-stadium/api]
+["source/battle-stadium/api"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
@@ -28,26 +56,27 @@ url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
 ##
 ## POKEMON
 ##
-[pokemon/rk9-standings-scraper]
+["source/rk9-standings-scraper"]
 url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
 type = "git-repo"
 refreshPeriod = "168h"
 
-[pokemon/entralinked]
+["source/entralinked"]
 url = "https://github.com/thatguyinabeanie/entralinked.git"
 type = "git-repo"
 refreshPeriod = "168h"
-[pokemon/berichan-sysbot]
+
+["source/berichan-sysbot"]
 url = "https://github.com/thatguyinabeanie/Berichan.SysBot.PokemonScarletViolet.git"
 type = "git-repo"
 refreshPeriod = "168h"
 
-[pokemon/bdawg-sysbot]
+["source/bdawg-sysbot"]
 url = "https://github.com/thatguyinabeanie/bdawg.SysBot.git"
 type = "git-repo"
 refreshPeriod = "168h"
 
-[pokemon/pkhex-plugins]
+["source/pkhex-plugins"]
 url = "https://github.com/thatguyinabeanie/PKHeX-Plugins.git"
 type = "git-repo"
 refreshPeriod = "168h"
@@ -93,7 +122,7 @@ refreshPeriod = "168h"
   "sailplan"
 }}
 {{ range $repos }}
-[{{ . }}]
+["source/{{ . }}"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
