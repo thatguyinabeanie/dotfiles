@@ -4,9 +4,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import FeatureCard from './FeatureCard';
 import TerminalWindow from './TerminalWindow';
-import ThemeSwitcher from './ThemeSwitcher';
+import { useTheme } from '@/context/ThemeContext';
 
 const DotfilesShowcase: React.FC = () => {
+  const { currentTheme } = useTheme();
   const features = [
     {
       title: 'Neovim',
@@ -80,8 +81,6 @@ alias cat="bat --style=auto"`;
         }}
       />
 
-      <ThemeSwitcher />
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature, index) => (
           <FeatureCard
@@ -95,20 +94,29 @@ alias cat="bat --style=auto"`;
       </div>
 
       <motion.div
-        className="mt-16 p-6 bg-gray-800/50 backdrop-blur-sm rounded-lg border border-gray-700"
+        className="mt-16 p-6 rounded-lg"
+        style={{
+          backgroundColor: `color-mix(in srgb, ${currentTheme.colors.base} 50%, transparent)`,
+          backdropFilter: 'blur(8px)',
+          borderColor: currentTheme.colors.surface0,
+          borderWidth: '1px',
+          borderStyle: 'solid'
+        }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.3 }}
       >
-        <h3 className="text-2xl font-semibold mb-4">🔮 Tools Working Together</h3>
-        <p className="text-gray-300 mb-4">
+        <h3 className="text-2xl font-semibold mb-4" style={{ color: currentTheme.colors.text }}>
+          🔮 Tools Working Together
+        </h3>
+        <p className="mb-4" style={{ color: currentTheme.colors.subtext0 }}>
           The true power of this setup comes from how these tools work together to create a seamless development experience.
           Tmux sessions persist your work, Neovim provides powerful editing capabilities, and everything is themed consistently with Catppuccin.
         </p>
-        <div className="bg-gray-900 p-4 rounded-lg font-mono text-sm">
-          <div className="text-green-400">$ tmux new-session -s dev</div>
-          <div className="text-green-400">$ nvim .</div>
-          <div className="text-purple-400"># Your cosmic development journey begins...</div>
+        <div className="p-4 rounded-lg font-mono text-sm" style={{ backgroundColor: currentTheme.colors.mantle }}>
+          <div style={{ color: currentTheme.colors.green }}>$ tmux new-session -s dev</div>
+          <div style={{ color: currentTheme.colors.green }}>$ nvim .</div>
+          <div style={{ color: currentTheme.colors.mauve }}># Your cosmic development journey begins...</div>
         </div>
       </motion.div>
     </div>

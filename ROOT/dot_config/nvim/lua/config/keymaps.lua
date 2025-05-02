@@ -41,29 +41,7 @@ vim.keymap.set("n", "<leader>fy", function()
 end, { desc = "copy file's relative path" })
 
 --
--- OBSIDIAN
---
-wk.add({
-  { "<leader>O", group = "Obsidian", icon = "📁" },
-})
-vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
-vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
-vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
-vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Show Backlinks" })
-vim.keymap.set("n", "<leader>Ot", "<cmd>ObsidianToday<cr>", { desc = "Open Today's Note" })
-vim.keymap.set("n", "<leader>Oy", "<cmd>ObsidianYesterday<cr>", { desc = "Open Yesterday's Note" })
-vim.keymap.set("n", "<leader>Om", "<cmd>ObsidianTomorrow<cr>", { desc = "Open Tomorrow's Note" })
-vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
-vim.keymap.set("n", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link" })
-vim.keymap.set("n", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note" })
-vim.keymap.set("v", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link from Selection" })
-vim.keymap.set("v", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note from Selection" })
-vim.keymap.set("n", "<leader>Op", "<cmd>ObsidianPasteImg<cr>", { desc = "Paste Image from Clipboard" })
-vim.keymap.set("n", "<leader>Or", "<cmd>ObsidianRename<cr>", { desc = "Rename Note" })
-vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
-
---
--- OPEN CURRENT BUFFER IN VS CODE - INSIDERS
+-- OPEN CURRENT BUFFER IN Cursor
 --
 vim.keymap.set("n", "<leader>bV", function()
   local current_file = vim.fn.expand("%:p")
@@ -78,20 +56,32 @@ vim.keymap.set("n", "<leader>bV", function()
     -- Use os.execute instead of system for better shell compatibility
     local success = os.execute(string.format('"%s" "%s" &', vscode_path, current_file))
     if not success then
-      vim.notify("Failed to open VS Code using bin/code", vim.log.levels.ERROR)
+      vim.notify("Failed to open Cursor.", vim.log.levels.ERROR)
     else
-      vim.notify("Openning in VS Code: " .. current_file, vim.log.levels.INFO)
+      vim.notify("Openning in Cursor: " .. current_file, vim.log.levels.INFO)
     end
   else
     -- For nushell compatibility, use open command
-    local success = os.execute(string.format('open -a "Visual Studio Code - Insiders" "%s"', current_file))
+    local success = os.execute(string.format('open -a "Cursor" "%s"', current_file))
     if not success then
-      vim.notify("Failed to open VS Code using open command", vim.log.levels.ERROR)
+      vim.notify("Failed to open Cursor using open command", vim.log.levels.ERROR)
     else
-      vim.notify("Openning in VS Code - Insiders: " .. current_file, vim.log.levels.INFO)
+      vim.notify("Openning in Cursor: " .. current_file, vim.log.levels.INFO)
     end
   end
-end, { desc = "Open Buffer VS Code - Insiders" })
+end, { desc = "Open in Cursor " })
+
+vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open nvim's lsp.log file." })
+vim.keymap.set("n", "<leader>xd", function()
+  local log_file = vim.fn.expand("~/.local/state/nvim/lsp.log")
+  local f = io.open(log_file, "w")
+  if f then
+    f:close()
+    vim.notify("Cleared ~/.local/state/nvim/lsp.log", vim.log.levels.INFO)
+  else
+    vim.notify("Failed to clear ~/.local/state/nvim/lsp.log", vim.log.levels.ERROR)
+  end
+end, { desc = "Clear ~/.local/state/nvim/lsp.log" })
 
 --
 -- POMODORO TIMER KEYMAPS
@@ -121,3 +111,25 @@ vim.keymap.set("n", "<leader>Ms", "<cmd>MarpStatus<cr>", { desc = "MARP Status",
 vim.keymap.set("n", "<leader>az", ":AugmentCode<CR>", { desc = "Augment Code", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ax", ":AugmentExplain<CR>", { desc = "Explain Code", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>af", ":AugmentRefactor<CR>", { desc = "Refactor Code", noremap = true, silent = true })
+
+--
+-- OBSIDIAN
+--
+wk.add({
+  { "<leader>O", group = "Obsidian", icon = "📁" },
+})
+vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
+vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
+vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
+vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Show Backlinks" })
+vim.keymap.set("n", "<leader>Ot", "<cmd>ObsidianToday<cr>", { desc = "Open Today's Note" })
+vim.keymap.set("n", "<leader>Oy", "<cmd>ObsidianYesterday<cr>", { desc = "Open Yesterday's Note" })
+vim.keymap.set("n", "<leader>Om", "<cmd>ObsidianTomorrow<cr>", { desc = "Open Tomorrow's Note" })
+vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
+vim.keymap.set("n", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link" })
+vim.keymap.set("n", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note" })
+vim.keymap.set("v", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link from Selection" })
+vim.keymap.set("v", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note from Selection" })
+vim.keymap.set("n", "<leader>Op", "<cmd>ObsidianPasteImg<cr>", { desc = "Paste Image from Clipboard" })
+vim.keymap.set("n", "<leader>Or", "<cmd>ObsidianRename<cr>", { desc = "Rename Note" })
+vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })

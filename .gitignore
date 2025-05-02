@@ -15,3 +15,4 @@ k9s/*
 !k9s/skins/*
 coverage.txt
 gitleaks-report.json
+.vscode/settings.json

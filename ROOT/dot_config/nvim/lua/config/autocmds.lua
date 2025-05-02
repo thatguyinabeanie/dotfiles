@@ -19,6 +19,26 @@ vim.api.nvim_create_autocmd({ "LspAttach" }, {
   end,
 })
 
+-- Handle LSP client attachment issues
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+--   callback = function(ev)
+--     local bufnr = ev.buf
+--     local ft = vim.bo[bufnr].filetype
+--
+--     -- Skip if buffer already has LSP clients attached
+--     if #vim.lsp.get_active_clients({ bufnr = bufnr }) > 0 then
+--       return
+--     end
+--
+--     -- Attempt to attach LSP clients for this filetype
+--     vim.defer_fn(function()
+--       if vim.api.nvim_buf_is_valid(bufnr) then
+--         vim.cmd("LspStart")
+--       end
+--     end, 100)
+--   end,
+-- })
+
 --
 -- BUFREAD< BUFNEWFILE
 --
@@ -54,5 +74,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*.toml.tmpl",
   callback = function()
     vim.opt_local.syntax = "toml"
+  end,
+})
+
+-- CodeQL files
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.ql", "*.qll" },
+  callback = function()
+    vim.opt_local.filetype = "ql"
   end,
 })

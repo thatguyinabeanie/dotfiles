@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Space_Mono } from 'next/font/google'
 import '../styles/globals.css'
+import { ThemeProvider } from '@/context/ThemeContext'
+import GlobalThemeSwitcher from '@/components/GlobalThemeSwitcher'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,7 +33,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className={`${inter.className} antialiased`}>{children}</body>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider>
+          <GlobalThemeSwitcher />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

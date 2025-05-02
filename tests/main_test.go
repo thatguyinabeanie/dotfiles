@@ -33,7 +33,6 @@ func TestConfigDirectoryStructure(t *testing.T) {
 	configDirs := []string{
 		"nvim",
 		"nushell",
-		"obsidian",
 		"tmux",
 		"mise",
 		"git",
@@ -43,6 +42,28 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		path := filepath.Join("ROOT/dot_config", dir)
 		if _, err := os.Stat(path); os.IsNotExist(err) {
 			t.Errorf("Expected config directory %s to exist", path)
+		}
+	}
+}
+
+func TestSourceDirectoryStructure(t *testing.T) {
+	// First verify we're in the right directory
+	if _, err := os.Stat("ROOT/source"); os.IsNotExist(err) {
+		t.Fatal("Test must be run from the project root directory containing ROOT/source")
+	}
+
+	sourceDirs := []string{
+		"obsidian",
+		"personal",
+		"work",
+		"fun",
+		"pokemon",
+	}
+
+	for _, dir := range sourceDirs {
+		path := filepath.Join("ROOT/source", dir)
+		if _, err := os.Stat(path); os.IsNotExist(err) {
+			t.Errorf("Expected source directory %s to exist", path)
 		}
 	}
 }

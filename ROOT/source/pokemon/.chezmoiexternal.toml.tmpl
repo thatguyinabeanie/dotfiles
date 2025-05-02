@@ -1,0 +1,14 @@
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+
+["rk9-standings-scraper"]
+url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+["entralinked"]
+url = "https://github.com/thatguyinabeanie/entralinked.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+{{ end }}
+
