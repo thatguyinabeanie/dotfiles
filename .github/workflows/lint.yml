@@ -23,7 +23,7 @@ jobs:
         with:
           version: latest
           args: --out-format=colored-line-number
-          working-directory: tests
+          working-directory: MISSION_CONTROL/.tests
 
   yaml:
     name: YAML
