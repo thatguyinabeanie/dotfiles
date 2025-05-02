@@ -1,9 +1,9 @@
+{{ if not (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) }}
+
 [dotfiles]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/dotfiles.git"
-
-{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
 
 [thatguyinabeanie]
 type = "git-repo"
@@ -24,6 +24,9 @@ url = "https://github.com/thatguyinabeanie/startpage.git"
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/next-dotfiles"
-# Note: The NextJS project has been moved to its own repository
+
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+# TODO: put personal repos here.
+{{ end }}
 
 {{ end }}

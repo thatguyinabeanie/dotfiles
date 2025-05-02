@@ -21,7 +21,5 @@
         "*": false
     },
     "cursor.composer.shouldChimeAfterChatFinishes": true,
-    "git.autofetch": false,
-    "terminal.integrated.shellIntegration.enabled": false,
-    "terminal.integrated.defaultProfile.osx": "Nushell"
+    "git.autofetch": false
 }

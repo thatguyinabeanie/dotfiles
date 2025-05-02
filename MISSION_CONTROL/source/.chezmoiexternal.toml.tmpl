@@ -1,3 +1,5 @@
+{{ if not (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) }}
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
 
 [DOOM-fire-zig]
@@ -10,10 +12,8 @@ type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/game-of-life.git"
 
-
-
 ##
-## BATTLE STADIUM 
+## BATTLE STADIUM
 ##
 [battle-stadium/frontend]
 type = "git-repo"
@@ -26,20 +26,18 @@ refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
 
 ##
-## POKEMON 
+## POKEMON
 ##
-
-
 ["pokemon/rk9-standings-scraper"]
 url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
 type = "git-repo"
 refreshPeriod = "168h"
 
-["pokemon/entralinked"]
+[pokemon/entralinked]
 url = "https://github.com/thatguyinabeanie/entralinked.git"
 type = "git-repo"
 refreshPeriod = "168h"
-[pokemon/berichan-sysbot]
+[okemon/berichan-sysbot]
 url = "https://github.com/thatguyinabeanie/Berichan.SysBot.PokemonScarletViolet.git"
 type = "git-repo"
 refreshPeriod = "168h"
@@ -95,11 +93,11 @@ refreshPeriod = "168h"
   "sailplan"
 }}
 {{ range $repos }}
-["{{ . }}"]
+[{{ . }}]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
 {{ end }}
 {{ end }}
 
-
+{{ end }}
