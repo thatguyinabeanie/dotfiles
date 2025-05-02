@@ -58,13 +58,11 @@ My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring 
 
 _A cosmic journey through my development environment_
 
-<a href="https://dotfiles-nu.vercel.app" target="_blank">
-  <!-- Replace this with your actual GIF once created -->
-  [Animated demo of the dotfiles in action will appear here]
-  <br/>
-  <!-- markdownlint-disable-next-line MD013 -->
-  <img src="https://img.shields.io/badge/View_Live_Demo-Vercel-black?style=for-the-badge&logo=vercel" alt="View Live Demo" />
-</a>
+<!-- Replace this with your actual GIF once created -->
+[Animated demo of the dotfiles in action will appear here]
+<br/>
+<!-- markdownlint-disable-next-line MD013 -->
+<img src="https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge" alt="Demo Coming Soon" />
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
 
@@ -97,8 +95,8 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 <!-- markdownlint-enable MD040 -->
 
 <div align="center">
-  <a href="https://dotfiles-nu.vercel.app/installation" target="_blank">
-    <img src="https://img.shields.io/badge/View_Detailed_Installation_Guide-22863a?style=for-the-badge"
+  <a href="#-event-horizon">
+    <img src="https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge"
       alt="View Installation Guide" />
   </a>
 </div>
@@ -145,13 +143,13 @@ During installation, you'll be prompted for several configuration values that wi
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/774.png" width="50" align="right" />
 <!-- markdownlint-enable MD013 MD045 -->
 
-- [K9s for Kubernetes management](https://dotfiles-nu.vercel.app/features/k9s)
-- [Yazi for file management](https://dotfiles-nu.vercel.app/features/yazi)
-- [Fastfetch for system info](https://dotfiles-nu.vercel.app/features/fastfetch)
-- [Custom Pokemon system info display](https://dotfiles-nu.vercel.app/features/pokemon)
+- K9s for Kubernetes management
+- Yazi for file management
+- Fastfetch for system info
+- Custom Pokemon system info display
 
 <div align="center">
-  <a href="https://dotfiles-nu.vercel.app/features" target="_blank">
+  <a href="#-features">
     <img
       src="https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge"
       alt="Explore All Features"
@@ -182,7 +180,7 @@ Experience the beauty of Catppuccin in four delicious flavors that transform you
 <!-- markdownlint-enable MD013 -->
 
 <div align="center">
-  <h3><a href="https://dotfiles-nu.vercel.app/themes" target="_blank">🔍 View Interactive Theme Gallery</a></h3>
+  <h3><a href="#-theme-showcase">🔍 View Theme Gallery</a></h3>
 </div>
 
 <div align="center">
@@ -222,8 +220,8 @@ MIT License - See [LICENSE](LICENSE) for details
 
 Made with ❤️ and cosmic energy
 
-<a href="https://dotfiles-nu.vercel.app" target="_blank">
-  <img src="https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Explore the Cosmos" />
+<a href="#-dotfiles-">
+  <img src="https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white" alt="Explore the Cosmos" />
 </a>
 </div>
 
@@ -246,8 +244,9 @@ A collection of planned enhancements and improvements for this cosmic developmen
 
 ### Dotfiles Showcase Website
 
+- [ ] Create a showcase website for the dotfiles
 - [ ] Fix skewed DOTFILES ASCII art
-- [ ] Integrate with ![Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
-- [ ] Update links to point to the new repository
+- [ ] Integrate with [Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
+- [x] Update links to point to sections within the README
 
 <!-- markdownlint-enable MD033 MD013 MD045 -->
