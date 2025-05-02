@@ -28,7 +28,7 @@
     <span style="color:#C6A0F6">██████╔╝ ╚█████╔╝   ██║    ██║       ███████╗ ███████╗ ███████║ ███████║</span>
     <span style="color:#C6A0F6">╚═════╝   ╚════╝    ╚═╝    ╚═╝       ╚══════╝ ╚══════╝ ╚══════╝ ╚══════╝</span>
     </div>
-    <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div> 
+    <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div>
 </pre>
 </div>
 <!-- markdownlint-enable MD013 MD033 MD037 MD040 -->
