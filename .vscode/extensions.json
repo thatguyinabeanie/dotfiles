@@ -9,7 +9,6 @@
     "ms-kubernetes-tools.vscode-kubernetes-tools",
     "asvetliakov.vscode-neovim",
     "redhat.vscode-yaml",
-    "bradlc.vscode-tailwindcss",
     "thenuprojectcontributors.vscode-nushell-lang",
     "hverlin.mise-vscode",
     "augment.vscode-augment",
@@ -33,6 +32,8 @@
     "ms-vscode.remote-server",
     "ms-vscode.remote-explorer",
     "ms-vscode.remote-repositories",
-    "shopify.ruby-lsp"
+    "shopify.ruby-lsp",
+    "davidanson.vscode-markdownlint",
+    "donjayamanne.githistory"
   ]
 }

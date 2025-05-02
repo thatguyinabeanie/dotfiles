@@ -221,11 +221,9 @@ Made with ❤️ and cosmic energy
 ## 🚀 TODO
 
 ### Dotfiles Roadmap
-
 <!-- markdownlint-disable MD013 -->
 A collection of planned enhancements and improvements for this cosmic development environment:
 <!-- markdownlint-enable MD013 -->
-
 - [ ] Create animated GIF demonstration of the environment in action
 - [ ] Add actual screenshots for each Catppuccin theme variant
 - [ ] Implement additional shell integrations for improved workflow
@@ -234,12 +232,3 @@ A collection of planned enhancements and improvements for this cosmic developmen
 - [ ] Improve documentation with detailed setup guides for each tool
 - [ ] Create installation scripts for different operating systems (mainly mac and Linux.)
 - [ ] Add support for additional shells (fish)
-
-### Dotfiles Showcase Website
-
-- [ ] Create a showcase website for the dotfiles
-- [ ] Fix skewed DOTFILES ASCII art
-- [ ] Integrate with [Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
-- [x] Update links to point to sections within the README
-
-<!-- markdownlint-enable MD033 MD013 MD045 -->

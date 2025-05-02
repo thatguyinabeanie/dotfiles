@@ -9,7 +9,6 @@
 {{- else -}}
   {{- $interactive = stdinIsATTY -}}
 {{- end -}}
-
 {{/* Set default values for non-interactive environments */}}
 {{- $opacity := 0.8 }}
 {{- $blur := 20 }}
@@ -18,7 +17,6 @@
 {{- $window_height := 70 }}
 {{- $window_width := 180 }}
 {{- $refreshPeriod := 168 }}
-
 {{/* Set default values based on environment */}}
 {{- $is_codespace := false -}}
 {{- if hasKey . "platform" -}}
@@ -26,11 +24,9 @@
     {{- $is_codespace = .platform.is_codespace -}}
   {{- end -}}
 {{- end -}}
-
 {{- $GIT_NAME := "" -}}
 {{- $GITHUB_USERNAME := "" -}}
 {{- $GIT_EMAIL := "" -}}
-
 {{/* Try to get Git info from environment or GitHub Codespaces */}}
 {{- if $is_codespace -}}
   {{- $GIT_NAME = env "GITHUB_USER" | default "GitHub Codespaces User" -}}
@@ -41,11 +37,9 @@
   {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "github-actions" -}}
   {{- $GIT_EMAIL = env "GIT_EMAIL" | default "github-actions@github.com" -}}
 {{- end -}}
-
 {{- $WORK_ENVIRONMENT := false }}
 {{- $SHELL := "nu" }}
 {{- $CATPPUCCIN_FLAVOR := "mocha" }}
-
 {{/* Only prompt for values in interactive mode */}}
 {{- if $interactive }}
     {{- $GIT_NAME = promptStringOnce . "git.config.name" "👥 Git Config 👥 - Name" (env "GIT_NAME" | default "") -}}
@@ -61,7 +55,6 @@
     {{- $CATPPUCCIN_FLAVORS := list "mocha" "macchiatto" "frappe" "latte" -}}
     {{- $CATPPUCCIN_FLAVOR = promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor)" $CATPPUCCIN_FLAVORS "mocha" -}}
 {{- end }}
-
 [data]
 SHELL                      = {{ $SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
