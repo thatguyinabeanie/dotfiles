@@ -85,6 +85,7 @@ homebrew:
     brews:
       - ack
       - ag
+      - age
       - autoconf
       - automake
       - bandwhich
