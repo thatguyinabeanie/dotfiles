@@ -1,4 +1,43 @@
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
-
+{{ $repos := list
+  "audience-creator"
+  "civis-vscode"
+  "console"
+  "civis-ai-bedrock-wrapper"
+  "civis-bootstrap"
+  "civis-dbt"
+  "civis-dbt-docker"
+  "civis-deploy"
+  "civis-flask-service"
+  "civis-js-client"
+  "civis-jupyter-python3"
+  "civis-kubectl-configs"
+  "civis-material-theme"
+  "civis-pulumi"
+  "civis-python"
+  "civis-react-components"
+  "civis-services-flask"
+  "civis-services-streamlit"
+  "datascience-python"
+  "id-resolution-jobs"
+  "iam-role-injector"
+  "identity-resolution"
+  "jdbctool"
+  "junit-ticket-test-failures"
+  "notebooks-arproxy"
+  "platform-gds-connector"
+  "platform-code-examples"
+  "popsicle"
+  "ruby_audit"
+  "sniffer"
+  "tech-custom-scripts"
+  "toborochi"
+  "sailplan"
+}}
+{{ range $repos }}
+["{{ . }}"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
 {{ end }}
-
+{{ end }}
