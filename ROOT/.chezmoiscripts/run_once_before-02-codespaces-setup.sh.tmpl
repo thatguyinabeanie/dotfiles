@@ -1,0 +1,26 @@
+#!/bin/sh
+
+{{ if eq .platform.is_codespace true -}}
+echo "🟠 Setting up GitHub Codespaces environment..."
+
+# Create a minimal environment for Codespaces
+# This will be non-interactive by default
+
+# Ensure basic directories exist
+mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.config"
+
+# Set up minimal environment variables
+export PATH="$HOME/.local/bin:$PATH"
+
+# Install essential packages if on Debian/Ubuntu
+if [ "{{ .platform.has_apt }}" = "true" ]; then
+  echo "Installing essential packages..."
+  sudo apt-get update
+  sudo apt-get install -y curl wget git zsh
+fi
+
+echo "🔵 GitHub Codespaces environment setup complete."
+{{ else -}}
+echo "Not running in GitHub Codespaces. Skipping Codespaces setup."
+{{ end -}}

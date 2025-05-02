@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Check if Rust is already installed via mise
+if command -v rustc >/dev/null 2>&1; then
+  rustc_path=$(which rustc)
+  if echo "$rustc_path" | grep -q "mise"; then
+    echo "🟠 Rust is already managed by mise, skipping rustup installation..."
+    echo "🔵 Using mise-managed Rust toolchain."
+    RUST_INSTALLED=true
+  fi
+else
+  RUST_INSTALLED=false
+fi
+
+# Install Rust via rustup if not already installed via mise
+if [ "$RUST_INSTALLED" != "true" ]; then
+  echo "🟠 Installing/Updating Rust toolchain via rustup..."
+  
+  {{ if eq .platform.is_codespace true -}}
+  # Use minimal profile for Codespaces to save space
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal --no-modify-path
+  {{ else -}}
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --profile default --no-modify-path
+  {{ end -}}
+  
+  echo "🔵 Rust toolchain installed/updated via rustup."
+  
+  # Source the environment for the current session
+  . "$HOME/.cargo/env"
+fi
+
+{{ if not .platform.is_codespace -}}
+# Install pokeget-rs if not in a Codespace (to save space)
+if command -v cargo >/dev/null 2>&1; then
+  echo "🟠 Installing pokeget-rs cargo package..."
+  cargo install --quiet pokeget
+  echo "🔵 pokeget-rs installed."
+fi
+{{ end -}}

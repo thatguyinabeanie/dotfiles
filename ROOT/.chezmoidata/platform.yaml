@@ -1,0 +1,22 @@
+platform:
+  # These will be populated by the platform detection script
+  is_mac: false
+  is_linux: false
+  is_codespace: false
+  is_wsl: false
+  is_debian: false
+  is_fedora: false
+  is_arch: false
+  is_ubuntu: false
+  is_alpine: false
+  is_termux: false
+  has_apt: false
+  has_dnf: false
+  has_pacman: false
+  has_apk: false
+  has_pkg: false
+  has_brew: false
+  has_mise: false
+  has_rustup: false
+  has_gui: false
+  interactive: false
