@@ -62,11 +62,12 @@ export SHELL="/opt/homebrew/bin/zsh"
 ##
 ## GO ENVIRONMENT VARIABLES
 ##
-export GOPATH="$XDG_CONFIG_DIRS/go"
+export GOPATH="$XDG_CONFIG_HOME/go"
 export GOBIN="$GOPATH/bin"
+export GOMODCACHE="$GOPATH/pkg/mod"
 
 ##
-## HOMEBREW BREWFILE PATH 
+## HOMEBREW BREWFILE PATH
 ##
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
 

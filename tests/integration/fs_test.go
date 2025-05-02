@@ -9,10 +9,14 @@ import (
 func TestFileSystemStructure(t *testing.T) {
 	fs, cleanup, err := vfst.NewTestFS(map[string]interface{}{
 		"/home/user/.config": map[string]interface{}{
-			"nvim":     &vfst.Dir{Perm: 0755},
-			"nushell":  &vfst.Dir{Perm: 0755},
+			"nvim":    &vfst.Dir{Perm: 0755},
+			"nushell": &vfst.Dir{Perm: 0755},
+			"tmux":    &vfst.Dir{Perm: 0755},
+		},
+		"/home/user/source": map[string]interface{}{
 			"obsidian": &vfst.Dir{Perm: 0755},
-			"tmux":     &vfst.Dir{Perm: 0755},
+			"personal": &vfst.Dir{Perm: 0755},
+			"work":     &vfst.Dir{Perm: 0755},
 		},
 	})
 	if err != nil {
@@ -25,10 +29,15 @@ func TestFileSystemStructure(t *testing.T) {
 		path     string
 		wantType string
 	}{
+		// Config directories
 		{"Neovim Config Dir", "/home/user/.config/nvim", "dir"},
 		{"Nushell Config Dir", "/home/user/.config/nushell", "dir"},
-		{"Obsidian Config Dir", "/home/user/.config/obsidian", "dir"},
 		{"Tmux Config Dir", "/home/user/.config/tmux", "dir"},
+
+		// Source directories
+		{"Obsidian Source Dir", "/home/user/source/obsidian", "dir"},
+		{"Personal Source Dir", "/home/user/source/personal", "dir"},
+		{"Work Source Dir", "/home/user/source/work", "dir"},
 	}
 
 	for _, tt := range tests {
