@@ -24,34 +24,6 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
-      custom_highlights = function(colors)
-        return {
-          -- Improve floating window visibility
-          NormalFloat = { bg = colors.mantle },
-          FloatBorder = { fg = colors.blue, bg = colors.mantle },
-          FloatTitle = { fg = colors.blue, bg = colors.mantle },
-
-          -- Make documentation more readable
-          TelescopeNormal = { bg = colors.mantle },
-          TelescopeBorder = { fg = colors.blue, bg = colors.mantle },
-          TelescopePromptNormal = { bg = colors.surface0 },
-          TelescopePromptBorder = { fg = colors.blue, bg = colors.surface0 },
-          TelescopePromptTitle = { fg = colors.blue, bg = colors.surface0 },
-          TelescopePreviewTitle = { fg = colors.blue, bg = colors.mantle },
-          TelescopeResultsTitle = { fg = colors.blue, bg = colors.mantle },
-
-          -- Improve popup menu visibility
-          Pmenu = { bg = colors.mantle },
-          PmenuSel = { bg = colors.surface0, fg = colors.text },
-          PmenuSbar = { bg = colors.surface0 },
-          PmenuThumb = { bg = colors.overlay0 },
-
-          -- Improve completion menu visibility
-          CmpItemAbbrMatch = { fg = colors.blue, style = { "bold" } },
-          CmpItemAbbrMatchFuzzy = { fg = colors.blue, style = { "bold" } },
-          CmpItemMenu = { fg = colors.text },
-        }
-      end,
       default_integrations = true,
       integrations = {
         cmp = true,
