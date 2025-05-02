@@ -1,10 +1,10 @@
 {
     "window.commandCenter": 1,
-    "workbench.colorTheme": "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}",
+    "workbench.colorTheme": "Catppuccin Mocha",
     "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
     "augment.nextEdit.showDiffInHover": true,
     "augment.nextEdit.highlightSuggestionsInTheEditor": true,
-    "workbench.iconTheme": "catppuccin-{{ .CATPPUCCIN_FLAVOR }}",
+    "workbench.iconTheme": "catppuccin-Mocha",
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
@@ -20,5 +20,6 @@
     "github.copilot.enable": {
         "*": false
     },
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
     "git.autofetch": false
 }
