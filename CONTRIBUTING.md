@@ -28,9 +28,9 @@ chezmoi init --apply your_github_username
 
 The repository uses a ROOT-based structure:
 
-- `.chezmoiroot` points to `ROOT/` directory
-- All dotfiles are stored under `ROOT/`
-- Configuration files are in `ROOT/dot_config/`
+- `.chezmoiroot` points to `MISSION_CONTROL/` directory
+- All dotfiles are stored under `MISSION_CONTROL/`
+- Configuration files are in `MISSION_CONTROL/dot_config/`
 - Tests are in `tests/`
 
 ## Testing

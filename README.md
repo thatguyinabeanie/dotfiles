@@ -154,7 +154,7 @@ During installation, you'll be prompted for several configuration values that wi
 
 ```shell
 dotfiles/
-├── 🌟 ROOT/
+├── 🌟 MISSION_CONTROL/
 │   ├── 🚀 dot_config/
 │   │   ├── nvim/
 │   │   ├── obsidian/
