@@ -24,10 +24,9 @@ integrated with Neovim for enhanced editing capabilities.
 
 The configuration is managed through Chezmoi:
 
-- `.chezmoidata/gitrepos.yaml` - Vault repository configurations
-- `.chezmoiexternal.toml.tmpl` - External template configuration
-- Vault-specific configurations
-- Plugin settings
+- `.chezmoiexternal.toml.tmpl` - External template configuration for vault repositories
+- Vault repositories are cloned to the `~/source/obsidian/` directory
+- Neovim plugin configuration in `~/.config/nvim/lua/plugins/utilities/obsidian.lua`
 
 ## Installation
 
@@ -37,7 +36,8 @@ The configuration is managed through Chezmoi:
    chezmoi init --apply
    ```
 
-2. Obsidian will be automatically installed via Homebrew during the Chezmoi setup process, as it's defined in the shared casks.
+2. Obsidian will be automatically installed via Homebrew during the Chezmoi setup process,
+   as it's defined in the shared casks.
 
 3. Open your vaults in Obsidian
 
@@ -67,10 +67,10 @@ Configured plugins include:
 
 The configuration includes Neovim integration for enhanced editing:
 
-- Custom commands for vault access
-- Plugin support
-- Syntax highlighting
-- LSP integration
+- Custom commands for vault access via the Obsidian.nvim plugin
+- Vault paths configured in `~/.config/nvim/lua/plugins/utilities/obsidian.lua`
+- Nushell aliases for quick access via `obsidian_nvim` function
+- Syntax highlighting and LSP integration for Markdown files
 
 ## Dependencies
 

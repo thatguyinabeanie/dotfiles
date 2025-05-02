@@ -11,11 +11,11 @@ return {
     workspaces = {
       {
         name = "personal",
-        path = "~/.config/obsidian/obsidian-vault"
+        path = "~/source/obsidian/obsidian-vault"
       },
       -- {
       --   name = "work",
-      --   path = "~/.config/obsidian/obsidian-vault-work",
+      --   path = "~/source/obsidian/obsidian-vault-work",
       -- },
     },
     daily_notes = {

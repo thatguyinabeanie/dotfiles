@@ -12,7 +12,20 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      ringColor: {
+        DEFAULT: 'var(--ring-color)',
+      },
+      ringOffsetColor: {
+        DEFAULT: 'var(--ring-offset-color)',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require("@catppuccin/tailwindcss")({
+      // Add a custom prefix to avoid conflicts
+      prefix: "ctp",
+      // Which flavour to use as the default
+      defaultFlavour: "mocha",
+    }),
+  ],
 }

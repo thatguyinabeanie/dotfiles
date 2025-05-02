@@ -1,6 +1,6 @@
-source ($nu.default-config-dir | path join "env.nu" )
-source ($nu.default-config-dir | path join "aliases.nu" )
-source ($nu.default-config-dir | path join "secrets.nu" )
+source ~/.config/nushell/env.nu
+source ~/.config/nushell/aliases.nu
+source ~/.config/nushell/secrets.nu
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
 

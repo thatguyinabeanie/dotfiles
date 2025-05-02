@@ -23,6 +23,7 @@ jobs:
         with:
           version: latest
           args: --out-format=colored-line-number
+          working-directory: tests
 
   yaml:
     name: YAML

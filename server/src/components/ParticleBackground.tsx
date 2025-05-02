@@ -4,8 +4,10 @@ import React, { useCallback } from 'react';
 import Particles from 'react-tsparticles';
 import { loadFull } from 'tsparticles';
 import type { Engine } from 'tsparticles-engine';
+import { useTheme } from '@/context/ThemeContext';
 
 const ParticleBackground: React.FC = () => {
+  const { currentTheme } = useTheme();
   const particlesInit = useCallback(async (engine: Engine) => {
     await loadFull(engine);
   }, []);
@@ -24,10 +26,10 @@ const ParticleBackground: React.FC = () => {
           fpsLimit: 60,
           particles: {
             color: {
-              value: '#ffffff',
+              value: currentTheme.colors.blue,
             },
             links: {
-              color: '#ffffff',
+              color: currentTheme.colors.mauve,
               distance: 150,
               enable: true,
               opacity: 0.2,

@@ -28,9 +28,9 @@ def chezmoi_reset [] {
 # Function to open a specific Obsidian vault in Neovim
 def obsidian_nvim [vault] {
   if $vault == "personal" {
-    nvim $"~/.config/obsidian/obsidian-vault"
+    nvim $"~/source/obsidian/obsidian-vault"
   } else {
-    nvim $"~/.config/obsidian/($vault)"
+    nvim $"~/source/obsidian/($vault)"
   }
 }
 
