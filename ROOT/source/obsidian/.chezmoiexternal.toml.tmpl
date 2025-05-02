@@ -1,0 +1,21 @@
+[obsidian-vault]
+url = "https://github.com/thatguyinabeanie/obsidian-vault.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+[bramses-highly-opinionated-vault-2023]
+url = "https://github.com/bramses/bramses-highly-opinionated-vault-2023.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+[smart-notes]
+url = "https://github.com/duffney/smart-notes.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true ) }}
+[obsidian-vault-work]
+url = "https://github.com/thatguyinabeanie/obsidian-vault-work.git"
+type = "git-repo"
+refreshPeriod = "168h"
+{{ end }}

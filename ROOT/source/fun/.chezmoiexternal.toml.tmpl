@@ -1,0 +1,13 @@
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+
+[DOOM-fire-zig]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/const-void/DOOM-fire-zig.git"
+
+[game-of-life]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/game-of-life.git"
+
+{{ end }}

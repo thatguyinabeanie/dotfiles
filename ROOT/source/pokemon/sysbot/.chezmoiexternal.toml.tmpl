@@ -1,0 +1,18 @@
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+
+[berichan]
+url = "https://github.com/thatguyinabeanie/Berichan.SysBot.PokemonScarletViolet.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+[bdawg]
+url = "https://github.com/thatguyinabeanie/bdawg.SysBot.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+[pkhex-plugins]
+url = "https://github.com/thatguyinabeanie/PKHeX-Plugins.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+{{ end }}

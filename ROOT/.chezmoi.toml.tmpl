@@ -33,7 +33,7 @@
 {{- end }}
 
 [data]
-SHELL                       = {{ $SHELL | quote }}
+SHELL                      = {{ $SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
 CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
 OBSIDIAN_VAULT_PERSONAL    = "obsidian-vault"
@@ -67,10 +67,10 @@ name                       = {{ $GIT_NAME | quote }}
 username                   = {{ $GITHUB_USERNAME | quote }}
 email                      = {{ $GIT_EMAIL | quote }}
 defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
+work_org                   = "totally_real_git_org_for_work"
 
 [data.install]
 obsidian                   = true
 
 [warnings]
 configFileTemplateHasChanged = false
-

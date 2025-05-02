@@ -24,7 +24,6 @@ integrated with Neovim for enhanced editing capabilities.
 
 The configuration is managed through Chezmoi:
 
-- `.chezmoidata/gitrepos.yaml` - Vault repository configurations
 - `.chezmoiexternal.toml.tmpl` - External template configuration
 - Vault-specific configurations
 - Plugin settings
