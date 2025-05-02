@@ -100,10 +100,8 @@ func TestSourceDirectoryStructure(t *testing.T) {
 
 	sourceDirs := []string{
 		"obsidian",
-		"personal",
-		"work",
-		"fun",
 		"pokemon",
+		"battle-stadium",
 	}
 
 	for _, dir := range sourceDirs {
