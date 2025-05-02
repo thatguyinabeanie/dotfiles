@@ -244,9 +244,10 @@ A collection of planned enhancements and improvements for this cosmic developmen
 - [ ] Create installation scripts for different operating systems (mainly mac and Linux.)
 - [ ] Add support for additional shells (fish)
 
-### Dotfiles Showcase NextJS
+### Dotfiles Showcase Website
 
 - [ ] Fix skewed DOTFILES ASCII art
 - [ ] Integrate with ![Catppuccin/tailwindcss](https://github.com/catppuccin/tailwindcss)
+- [ ] Update links to point to the new repository
 
 <!-- markdownlint-enable MD033 MD013 MD045 -->

@@ -1,5 +1,14 @@
-{{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
-{{- $interactive := stdinIsATTY -}}
+{{- /* Use platform.interactive from the platform detection script if available */ -}}
+{{- $interactive := false -}}
+{{- if hasKey . "platform" -}}
+  {{- if hasKey .platform "interactive" -}}
+    {{- $interactive = .platform.interactive -}}
+  {{- else -}}
+    {{- $interactive = stdinIsATTY -}}
+  {{- end -}}
+{{- else -}}
+  {{- $interactive = stdinIsATTY -}}
+{{- end -}}
 
 {{/* Set default values for non-interactive environments */}}
 {{- $opacity := 0.8 }}
@@ -9,9 +18,30 @@
 {{- $window_height := 70 }}
 {{- $window_width := 180 }}
 {{- $refreshPeriod := 168 }}
-{{- $GIT_NAME := "GitHub Actions" }}
-{{- $GITHUB_USERNAME := "github-actions" }}
-{{- $GIT_EMAIL := "github-actions@github.com" }}
+
+{{/* Set default values based on environment */}}
+{{- $is_codespace := false -}}
+{{- if hasKey . "platform" -}}
+  {{- if hasKey .platform "is_codespace" -}}
+    {{- $is_codespace = .platform.is_codespace -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $GIT_NAME := "" -}}
+{{- $GITHUB_USERNAME := "" -}}
+{{- $GIT_EMAIL := "" -}}
+
+{{/* Try to get Git info from environment or GitHub Codespaces */}}
+{{- if $is_codespace -}}
+  {{- $GIT_NAME = env "GITHUB_USER" | default "GitHub Codespaces User" -}}
+  {{- $GITHUB_USERNAME = env "GITHUB_USER" | default "github-user" -}}
+  {{- $GIT_EMAIL = printf "%s@users.noreply.github.com" $GITHUB_USERNAME -}}
+{{- else -}}
+  {{- $GIT_NAME = env "GIT_NAME" | default "GitHub Actions" -}}
+  {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "github-actions" -}}
+  {{- $GIT_EMAIL = env "GIT_EMAIL" | default "github-actions@github.com" -}}
+{{- end -}}
+
 {{- $WORK_ENVIRONMENT := false }}
 {{- $SHELL := "nu" }}
 {{- $CATPPUCCIN_FLAVOR := "mocha" }}
