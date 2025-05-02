@@ -35,20 +35,12 @@ MISE_CONFIG=$(mktemp)
 
 cat > "$MISE_CONFIG" << 'EOF'
 [tools]
-{{ if eq .platform.is_codespace true -}}
-# Codespace-specific settings
-jobs = 2
-{{ else -}}
-# Regular settings
-{{ end -}}
-
-# Core tools
-{{ if eq .platform.is_codespace true -}}
-# Limit tools in Codespace to save space
 EOF
 
+# Add settings based on environment
 if [ "$install_core" = "y" ] || [ "$install_core" = "Y" ]; then
   cat >> "$MISE_CONFIG" << 'EOF'
+# Core tools
 bat = "latest"
 delta = "latest"
 fd = "latest"
@@ -95,7 +87,12 @@ EOF
 fi
 
 {{ else -}}
-# Non-interactive mode - install all core tools and languages
+# Non-interactive mode - create config file with all tools
+MISE_CONFIG=$(mktemp)
+
+cat > "$MISE_CONFIG" << EOF
+[tools]
+# Core tools
 {{ range .mise.core_tools }}
 {{ .name }} = {{ .version | quote }}
 {{ end }}
@@ -131,10 +128,13 @@ yes = true
 EOF
 
 # Install tools using the temporary config
-mise install --config-file="$MISE_CONFIG"
+if [ -f "$MISE_CONFIG" ]; then
+  # Use the config file by setting MISE_CONFIG_FILE environment variable
+  MISE_CONFIG_FILE="$MISE_CONFIG" mise install
 
-# Clean up
-rm "$MISE_CONFIG"
+  # Clean up
+  rm "$MISE_CONFIG"
+fi
 
 # Rebuild bat themes if bat is installed
 if command -v bat >/dev/null 2>&1; then
