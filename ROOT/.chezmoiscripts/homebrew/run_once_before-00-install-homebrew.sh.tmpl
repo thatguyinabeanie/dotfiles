@@ -1,0 +1,24 @@
+#!/bin/sh
+
+{{ if and (eq .platform.is_mac true) (eq .platform.has_brew false) -}}
+print "🟠 Installing Homebrew Package Manager for macOS."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+print "🔵 Homebrew Package Manager installed."
+{{ else if and (eq .platform.is_linux true) (eq .platform.has_brew false) (not .platform.is_codespace) -}}
+# Only install Homebrew on Linux if explicitly requested
+if [ -t 0 ]; then
+  echo "Homebrew is not installed. Do you want to install it? (y/N)"
+  read -r response
+  if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
+    echo "🟠 Installing Homebrew Package Manager for Linux."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo "🔵 Homebrew Package Manager installed."
+  else
+    echo "Skipping Homebrew installation."
+  fi
+else
+  echo "Non-interactive session, skipping Homebrew installation on Linux."
+fi
+{{ else -}}
+echo "Homebrew is already installed or not needed for this platform."
+{{ end -}}

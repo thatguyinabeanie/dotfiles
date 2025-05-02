@@ -1,62 +1,60 @@
 mise:
-  tools:
-    - name: act
+  # Core tools that should be installed on all platforms
+  core_tools:
+    - name: bat
       version: latest
     - name: bottom
       version: latest
-    - name: erlang
-      version: latest
-    - name: elixir
-      version: latest
-    # Removed elixir-ls as it's better managed through Mason
     - name: delta
       version: latest
     - name: eza
       version: latest
-    - name: fastfetch
+    - name: fd
       version: latest
     - name: fzf
       version: latest
-    - name: fd
-      version: latest
     - name: github-cli
-      version: latest
-    - name: gitleaks
       version: latest
     - name: gitui
       version: latest
-    - name: gitsign
+    - name: jq
       version: latest
-    - name: github-markdown-toc
+    - name: neovim
+      version: stable
+    - name: nushell
       version: latest
+    - name: ripgrep
+      version: latest
+    - name: starship
+      version: latest
+    - name: tmux
+      version: latest
+    - name: zoxide
+      version: latest
+
+  # Development languages and runtimes
+  languages:
     - name: node
       version: 22
-    - name: ruby
-      version: 3.2.7
     - name: python
       version: 3.12
     - name: go
       version: 1
-    - name: golangci-lint
-      version: latest
-    - name: golangci-lint-langserver
-      version: latest
-    - name: uv
-      version: latest
-    - name: ruff
-      version: latest
-    - name: zig
-      version: latest
-    # Development Languages & Runtimes
     - name: rust
       version: nightly
+    - name: ruby
+      version: 3.2.7
     - name: deno
       version: latest
     - name: bun
       version: latest
     - name: lua
       version: latest
-    # Package Managers
+    - name: zig
+      version: latest
+
+  # Package managers
+  package_managers:
     - name: pnpm
       version: latest
     - name: yarn
@@ -65,10 +63,43 @@ mise:
       version: latest
     - name: pipx
       version: latest
-    # Development Tools
     - name: cargo-binstall
       version: latest
+    - name: uv
+      version: latest
+
+  # Development tools
+  dev_tools:
+    - name: act
+      version: latest
+    - name: cmake
+      version: latest
+    - name: fastfetch
+      version: latest
+    - name: gitleaks
+      version: latest
+    - name: gitsign
+      version: latest
+    - name: github-markdown-toc
+      version: latest
+    - name: golangci-lint
+      version: latest
+    - name: golangci-lint-langserver
+      version: latest
+    - name: ruff
+      version: latest
+    - name: shellcheck
+      version: latest
     - name: stylua
+      version: latest
+    - name: hadolint
+      version: latest
+
+  # Optional tools (previously installed via Homebrew)
+  optional_tools:
+    - name: erlang
+      version: latest
+    - name: elixir
       version: latest
     - name: terraform
       version: latest
@@ -78,9 +109,111 @@ mise:
       version: latest
     - name: gradle
       version: latest
+
+  # All tools combined (used for config.toml generation)
+  tools:
+    # Core tools
+    - name: bat
+      version: latest
+    - name: bottom
+      version: latest
+    - name: delta
+      version: latest
+    - name: eza
+      version: latest
+    - name: fd
+      version: latest
+    - name: fzf
+      version: latest
+    - name: github-cli
+      version: latest
+    - name: gitui
+      version: latest
+    - name: jq
+      version: latest
+    - name: neovim
+      version: stable
+    - name: nushell
+      version: latest
+    - name: ripgrep
+      version: latest
+    - name: starship
+      version: latest
+    - name: tmux
+      version: latest
+    - name: zoxide
+      version: latest
+
+    # Languages
+    - name: node
+      version: 22
+    - name: python
+      version: 3.12
+    - name: go
+      version: 1
+    - name: rust
+      version: nightly
+    - name: ruby
+      version: 3.2.7
+    - name: deno
+      version: latest
+    - name: bun
+      version: latest
+    - name: lua
+      version: latest
+    - name: zig
+      version: latest
+
+    # Package managers
+    - name: pnpm
+      version: latest
+    - name: yarn
+      version: latest
+    - name: poetry
+      version: latest
+    - name: pipx
+      version: latest
+    - name: cargo-binstall
+      version: latest
+    - name: uv
+      version: latest
+
+    # Development tools
+    - name: act
+      version: latest
     - name: cmake
+      version: latest
+    - name: fastfetch
+      version: latest
+    - name: gitleaks
+      version: latest
+    - name: gitsign
+      version: latest
+    - name: github-markdown-toc
+      version: latest
+    - name: golangci-lint
+      version: latest
+    - name: golangci-lint-langserver
+      version: latest
+    - name: ruff
       version: latest
     - name: shellcheck
       version: latest
+    - name: stylua
+      version: latest
     - name: hadolint
+      version: latest
+
+    # Optional tools
+    - name: erlang
+      version: latest
+    - name: elixir
+      version: latest
+    - name: terraform
+      version: latest
+    - name: kubectl
+      version: latest
+    - name: helm
+      version: latest
+    - name: gradle
       version: latest

@@ -1,0 +1,97 @@
+#!/bin/sh
+
+{{ if eq .platform.has_brew true -}}
+echo "🟠 Installing/Updating homebrew packages..."
+
+# Create a temporary Brewfile
+BREWFILE=$(mktemp)
+
+cat > "$BREWFILE" << 'EOF'
+##
+## SHARED PACKAGES
+##
+{{ range .homebrew.shared.taps }}
+tap {{ . | quote }}
+{{ end }}
+{{ range .homebrew.shared.brews }}
+brew {{ . | quote }}
+{{ end }}
+
+{{ if eq .platform.is_mac true -}}
+## macOS-specific casks and fonts
+{{ range .homebrew.shared.casks }}
+cask {{ . | quote }}
+{{ end }}
+
+{{ if eq .platform.interactive true -}}
+## Fonts (only install if user confirms)
+echo "Do you want to install fonts? (y/N)"
+read -r install_fonts
+if [ "$install_fonts" = "y" ] || [ "$install_fonts" = "Y" ]; then
+{{ range .homebrew.shared.fonts }}
+  cask {{ . | quote }}
+{{ end }}
+fi
+{{ end -}}
+
+##
+## WORK PACKAGES
+##
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+{{ range .homebrew.work.brews }}
+brew {{ . | quote }}
+{{ end }}
+
+{{ if eq .platform.interactive true -}}
+## Work casks (only install if user confirms)
+echo "Do you want to install work casks? (y/N)"
+read -r install_work_casks
+if [ "$install_work_casks" = "y" ] || [ "$install_work_casks" = "Y" ]; then
+{{ range .homebrew.work.casks }}
+  cask {{ . | quote }}
+{{ end }}
+fi
+{{ end -}}
+{{ end }}
+
+##
+## PERSONAL PACKAGES
+##
+{{ if or (eq (hasKey . "WORK_ENVIRONMENT") false) (eq .WORK_ENVIRONMENT false) }}
+{{ range .homebrew.personal.brews }}
+brew {{ . | quote }}
+{{ end }}
+
+{{ if eq .platform.interactive true -}}
+## Personal casks (only install if user confirms)
+echo "Do you want to install personal casks? (y/N)"
+read -r install_personal_casks
+if [ "$install_personal_casks" = "y" ] || [ "$install_personal_casks" = "Y" ]; then
+{{ range .homebrew.personal.casks }}
+  cask {{ . | quote }}
+{{ end }}
+fi
+
+## Mac App Store apps (only install if user confirms)
+echo "Do you want to install Mac App Store apps? (y/N)"
+read -r install_mas
+if [ "$install_mas" = "y" ] || [ "$install_mas" = "Y" ]; then
+{{ range .homebrew.personal.mas }}
+  mas {{ . }}
+{{ end }}
+fi
+{{ end -}}
+{{ end }}
+{{ end -}}
+EOF
+
+# Run brew bundle
+brew bundle --file="$BREWFILE" || echo "Some Homebrew packages failed to install"
+
+# Clean up
+rm "$BREWFILE"
+
+echo "🔵 Installed/updated homebrew packages."
+{{ else -}}
+echo "Homebrew is not installed. Skipping package installation."
+{{ end -}}
