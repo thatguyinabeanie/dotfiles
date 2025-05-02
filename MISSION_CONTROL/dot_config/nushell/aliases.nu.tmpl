@@ -1,25 +1,33 @@
 ##
+## MISCELLANEOUS
+##
+
+# Function to show the current system information with a random image of a Pokémon
+def poke_system_info [] {
+  pokeget random --hide-name | fastfetch --file-raw -
+}
+alias y   = yazi
+alias cat = bat --style=plain
+alias tks = tmux kill-server
+
+
+##
 ## DIRECTORY ALIASES
 ##
 
-alias l = ls
+alias l   = ls
 alias ll = ls -a
 alias la = ls -la
 
 ##
 ##  CHEZMOI
 ##
-alias chezmoi_update = chezmoi init --apply --exclude=scripts
-alias cia = chezmoi init --apply
-alias chezmoi_data = cat ~/.config/chezmoi/chezmoi.toml
+alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
+alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
+alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
 alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
 
 # Function to update the system and install packages
-def chezmoi_reset [] {
-  rm -rf ~/.config/chezmoi
-  chezmoi state reset
-  chezmoi init --apply --exclude=scripts
-}
 
 ##
 ## NEOVIM
@@ -94,16 +102,4 @@ def gh-open-repo [
 ] {
     gh repo view $repo --web
 }
-
-##
-## OTHER
-##
-
-# Function to show the current system information with a random image of a Pokémon
-def poke_system_info [] {
-  pokeget random --hide-name | fastfetch --file-raw -
-}
-alias y = yazi
-alias cat = bat --style=plain
-alias tks = tmux kill-server
 

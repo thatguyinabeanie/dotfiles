@@ -1,26 +1,27 @@
 {
     "window.commandCenter": 1,
-    "workbench.colorTheme": "Catppuccin Macchiato",
+    "workbench.colorTheme": "Catppuccin Mocha",
     "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
     "augment.nextEdit.showDiffInHover": true,
     "augment.nextEdit.highlightSuggestionsInTheEditor": true,
-    "workbench.iconTheme": "catppuccin-macchiato",
+    "workbench.iconTheme": "catppuccin-Mocha",
     "extensions.experimental.affinity": {
         "asvetliakov.vscode-neovim": 1
     },
     "redhat.telemetry.enabled": true,
-    "circleci.hostUrl": "",
-    "augment.chat.userGuidelines": "",
     "explorer.confirmDragAndDrop": false,
     "terminal.external.osxExec": "ghostty.app",
     "terminal.explorerKind": "external",
     "terminal.external.linuxExec": "ghostty",
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.stickyScroll.enabled": true,
-    "editor.fontSize": 18,
+    "editor.fontSize": 16,
     "mise.binPath": "/opt/homebrew/bin/mise",
     "github.copilot.enable": {
         "*": false
     },
-    "git.autofetch": true
+    "cursor.composer.shouldChimeAfterChatFinishes": true,
+    "git.autofetch": false,
+    "terminal.integrated.shellIntegration.enabled": false,
+    "terminal.integrated.defaultProfile.osx": "Nushell"
 }

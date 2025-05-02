@@ -9,7 +9,7 @@ on:
 
 jobs:
   golangci:
-    name: Go Lint
+    name: Golang
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,8 +22,8 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-          args: --out-format=colored-line-number
-          working-directory: tests
+          args: --out-format=colored-line-number --no-config
+          working-directory: MISSION_CONTROL/.tests
 
   yaml:
     name: YAML
