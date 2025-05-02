@@ -21,12 +21,12 @@ jobs:
           cache: true
 
       - name: Install dependencies
-        run: cd tests && go mod download
+        run: cd MISSION_CONTROL/.tests && go mod download
 
       - name: Run all tests
-        run: cd tests && go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+        run: cd MISSION_CONTROL/.tests && go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          file: ./coverage.txt
+          file: ./MISSION_CONTROL/.tests/coverage.txt

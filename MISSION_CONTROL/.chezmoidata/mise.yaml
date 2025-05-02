@@ -21,8 +21,6 @@ mise:
       version: latest
     - name: neovim
       version: stable
-    - name: nushell
-      version: latest
     - name: ripgrep
       version: latest
     - name: starship
@@ -133,8 +131,6 @@ mise:
       version: latest
     - name: neovim
       version: stable
-    - name: nushell
-      version: latest
     - name: ripgrep
       version: latest
     - name: starship
