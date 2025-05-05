@@ -1,8 +1,0 @@
-return {
-  {{ if and (hasKey . "WORK_ENVIRONEMNT") (eq .WORK_ENVIRONEMNT false) }}
-  {
-    "augmentcode/augment.vim",
-    lazy = false,
-  },
-  {{ end }}
-}

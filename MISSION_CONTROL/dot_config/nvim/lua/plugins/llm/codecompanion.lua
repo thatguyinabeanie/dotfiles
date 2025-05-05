@@ -12,7 +12,7 @@ return {
     opts = {
       llm = {
         provider = "copilot",
-        model = "claude-3-sonnet-20240229",
+        model = "claude-3.7-sonnet",
       },
     },
   },
