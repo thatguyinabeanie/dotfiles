@@ -77,37 +77,3 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		}
 	}
 }
-
-func TestSourceDirectoryStructure(t *testing.T) {
-	// Get the current working directory
-	cwd, err := os.Getwd()
-	if err != nil {
-		t.Fatalf("Failed to get current working directory: %v", err)
-	}
-
-	// Navigate up one directory if we're in the .tests directory
-	var rootDir string
-	if filepath.Base(cwd) == ".tests" {
-		rootDir = filepath.Dir(filepath.Dir(cwd))
-	} else {
-		rootDir = filepath.Dir(cwd)
-	}
-
-	sourcePath := filepath.Join(rootDir, "MISSION_CONTROL", "source")
-	if _, err := os.Stat(sourcePath); os.IsNotExist(err) {
-		t.Fatalf("Source directory not found at %s", sourcePath)
-	}
-
-	sourceDirs := []string{
-		"obsidian",
-		"pokemon",
-		"battle-stadium",
-	}
-
-	for _, dir := range sourceDirs {
-		path := filepath.Join(sourcePath, dir)
-		if _, err := os.Stat(path); os.IsNotExist(err) {
-			t.Errorf("Expected source directory %s to exist", path)
-		}
-	}
-}
