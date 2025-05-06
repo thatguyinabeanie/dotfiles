@@ -13,6 +13,7 @@ homebrew:
       - libsass
       - mysql
       - mysql-client
+      - kubewall/tap/kubewall
       - okta-aws-cli
       - python-gdbm@3.11
       - v8

@@ -1,6 +1,6 @@
 {
     "window.commandCenter": 1,
-    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.colorTheme": "Catppuccin Frappé",
     "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
     "augment.nextEdit.showDiffInHover": true,
     "augment.nextEdit.highlightSuggestionsInTheEditor": true,
