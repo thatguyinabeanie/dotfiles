@@ -1,0 +1,31 @@
+{{ if and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true) }}
+
+##
+## PERSONAL STUFF REPOSITORIES
+##
+["personal/dotfiles"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles.git"
+
+["personal/thatguyinabeanie"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/thatguyinabeanie.git"
+
+["personal/dotfiles-docs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles-docs.git"
+
+["personal/startpage"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/startpage.git"
+
+["personal/dotfiles-website"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/next-dotfiles"
+
+{{ end }}

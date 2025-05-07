@@ -1,0 +1,31 @@
+{{ if and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true) }}
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
+
+##
+## POKEMON
+##
+["rk9-standings-scraper"]
+url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+["entralinked"]
+url = "https://github.com/thatguyinabeanie/entralinked.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+##
+## BATTLE STADIUM
+##
+["battle-stadium/frontend"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium.git"
+
+["battle-stadium/api"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
+
+{{ end }}
+{{ end }}
