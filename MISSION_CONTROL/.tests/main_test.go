@@ -77,3 +77,38 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		}
 	}
 }
+
+func TestSourceDirectoryStructure(t *testing.T) {
+	// Get the current working directory
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("Failed to get current working directory: %v", err)
+	}
+
+	// Navigate up one directory if we're in the .tests directory
+	var rootDir string
+	if filepath.Base(cwd) == ".tests" {
+		rootDir = filepath.Dir(filepath.Dir(cwd))
+	} else {
+		rootDir = filepath.Dir(cwd)
+	}
+
+	// Verify the source directory exists
+	sourcePath := filepath.Join(rootDir, "MISSION_CONTROL", "source")
+	if _, err := os.Stat(sourcePath); os.IsNotExist(err) {
+		t.Fatalf("Source directory not found at %s", sourcePath)
+	}
+
+	// Verify the source directory has a valid .chezmoiexternal.toml.tmpl file
+	// This file defines the repositories that will be cloned into the source directory
+	externalConfigPath := filepath.Join(sourcePath, ".chezmoiexternal.toml.tmpl")
+	if _, err := os.Stat(externalConfigPath); os.IsNotExist(err) {
+		t.Errorf("Expected .chezmoiexternal.toml.tmpl file not found at %s", externalConfigPath)
+	}
+
+	// Check that the source directory is properly configured in the repository
+	// This test doesn't verify the actual subdirectories since they are created
+	// by chezmoi apply, but it ensures the source directory itself exists and is
+	// properly configured with external repositories
+	t.Logf("Source directory structure verified at %s", sourcePath)
+}
