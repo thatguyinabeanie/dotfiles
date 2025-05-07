@@ -15,7 +15,7 @@ alias tks = tmux kill-server
 ## DIRECTORY ALIASES
 ##
 
-alias l   = ls
+alias l  = ls
 alias ll = ls -a
 alias la = ls -la
 
@@ -26,7 +26,8 @@ alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
 alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
 alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
 alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
-
+alias config            = cd ~/.config
+alias config_edit       = nvim ~/.config
 # Function to update the system and install packages
 
 ##
