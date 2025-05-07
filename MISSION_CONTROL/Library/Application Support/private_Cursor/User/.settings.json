@@ -21,5 +21,19 @@
         "*": false
     },
     "cursor.composer.shouldChimeAfterChatFinishes": true,
-    "git.autofetch": false
+    "git.autofetch": false,
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "markdown",
+        "scminput"
+    ],
+    "cursor.cpp.enablePartialAccepts": true,
+    "files.associations": {
+        "*.toml.tmpl": "toml",
+        "*.nu.tmpl": "nu"
+    },
+    "editor.tabSize": 2,
+    "files.exclude": {
+        "**/.node_modules": true
+    }
 }
