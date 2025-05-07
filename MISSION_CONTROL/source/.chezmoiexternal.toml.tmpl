@@ -1,5 +1,34 @@
 {{ if and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true) }}
 
+##
+## PERSONAL STUFF REPOSITORIES
+##
+["personal/dotfiles"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles.git"
+
+["personal/thatguyinabeanie"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/thatguyinabeanie.git"
+
+["personal/dotfiles-docs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles-docs.git"
+
+["personal/startpage"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/startpage.git"
+
+["personal/dotfiles-website"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/next-dotfiles"
+
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 ##
 ## CORE WORK REPOSITORIES
@@ -17,14 +46,41 @@
 "ruby_audit"
 "sniffer"
 }}
-
 {{ range $core_work_repos }}
 ["{{ . }}"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
-{{ end }}
+{{ end }} # end of core work repos range
 
-{{ end }}
+{{ else  }} # ELSE - NOT WORK ENVIRONMENT
 
-{{ end }}
+##
+## POKEMON THINGS
+##
+["rk9-standings-scraper"]
+url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+["entralinked"]
+url = "https://github.com/thatguyinabeanie/entralinked.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+##
+## BATTLE STADIUM
+##
+["battle-stadium"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium.git"
+
+["battle-stadium-api"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
+
+{{ end }} # end of work environment check
+
+{{ end }} # end of interactive check
