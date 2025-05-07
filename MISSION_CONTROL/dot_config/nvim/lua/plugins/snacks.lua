@@ -22,6 +22,7 @@ return {
             auto_close = false,
             hidden = true,
             ignored = true,
+            follow = true,
           },
         },
       },
