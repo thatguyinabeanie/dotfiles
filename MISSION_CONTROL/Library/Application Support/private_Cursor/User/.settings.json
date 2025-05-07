@@ -1,6 +1,6 @@
 {
     "window.commandCenter": 1,
-    "workbench.colorTheme": "Catppuccin Frappé",
+    "workbench.colorTheme": "Catppuccin Mocha",
     "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
     "augment.nextEdit.showDiffInHover": true,
     "augment.nextEdit.highlightSuggestionsInTheEditor": true,
@@ -27,5 +27,6 @@
         "markdown",
         "scminput"
     ],
-    "cursor.cpp.enablePartialAccepts": true
+    "cursor.cpp.enablePartialAccepts": true,
+    "cursor.general.gitGraphIndexing": "enabled"
 }
