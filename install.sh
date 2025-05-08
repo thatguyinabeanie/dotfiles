@@ -29,17 +29,6 @@ else
     echo "CI/CD environment detected, forcing non-interactive mode"
   fi
 
-  # Check for GitHub Codespaces (interactive if in a terminal)
-  if [ -n "${CODESPACES:-}" ] || [ -n "${GITHUB_CODESPACE_TOKEN:-}" ]; then
-    echo "GitHub Codespaces environment detected"
-    # Only set to interactive if actually in a terminal
-    if [ -t 0 ] && [ -t 1 ]; then
-      is_interactive=true
-      export CHEZMOI_INTERACTIVE=1
-      echo "Running in interactive Codespaces session"
-    fi
-  fi
-
   echo "Set CHEZMOI_INTERACTIVE=$CHEZMOI_INTERACTIVE"
 fi
 

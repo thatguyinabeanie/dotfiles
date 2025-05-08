@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# This script ensures that the CHEZMOI_INTERACTIVE environment variable is set
+# based on whether we're in an interactive terminal session
+
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+# Environment variable is already set to 1
+echo "Using existing CHEZMOI_INTERACTIVE=1"
+{{ else if env "CHEZMOI_INTERACTIVE" | eq "0" -}}
+# Environment variable is already set to 0
+echo "Using existing CHEZMOI_INTERACTIVE=0"
+{{ else -}}
+# Environment variable is not set, determine based on terminal
+if [ -t 0 ] && [ -t 1 ]; then
+  export CHEZMOI_INTERACTIVE=1
+  echo "Interactive terminal detected, setting CHEZMOI_INTERACTIVE=1"
+else
+  export CHEZMOI_INTERACTIVE=0
+  echo "Non-interactive session detected, setting CHEZMOI_INTERACTIVE=0"
+fi
+
+# Force non-interactive in CI/CD environments
+if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+  export CHEZMOI_INTERACTIVE=0
+  echo "CI/CD environment detected, forcing CHEZMOI_INTERACTIVE=0"
+fi
+{{ end -}}
+
+# Make the environment variable available to child processes
+mkdir -p "${HOME}/.config/chezmoi"
+echo "CHEZMOI_INTERACTIVE=${CHEZMOI_INTERACTIVE}" > "${HOME}/.config/chezmoi/interactive"

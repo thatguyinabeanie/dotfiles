@@ -28,6 +28,12 @@ alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
 alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
 alias config            = cd ~/.config
 alias config_edit       = nvim ~/.config
+
+# Function to check if we're in interactive mode
+def is_interactive [] {
+  $env.CHEZMOI_INTERACTIVE == "1"
+}
+
 # Function to update the system and install packages
 
 ##
