@@ -6,8 +6,9 @@
 
 echo "🟠 Installing mise dependencies..."
 
-{{ if eq .platform.interactive true -}}
+{{ if or (eq .platform.interactive true) (env "CHEZMOI_INTERACTIVE" | eq "1") -}}
 # Interactive mode - ask which tool categories to install
+echo "Running in interactive mode"
 echo "Which tool categories would you like to install?"
 
 echo "Install core tools (bat, eza, fzf, etc.)? (Y/n)"

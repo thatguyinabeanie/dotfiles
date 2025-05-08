@@ -1,13 +1,20 @@
-{{- /* Use platform.interactive from the platform detection script if available */ -}}
+{{- /* Determine if we're in an interactive session */ -}}
 {{- $interactive := false -}}
+{{- /* First check if platform.interactive is set from the platform detection script */ -}}
 {{- if hasKey . "platform" -}}
   {{- if hasKey .platform "interactive" -}}
     {{- $interactive = .platform.interactive -}}
   {{- else -}}
+    {{- /* Fall back to checking if stdin is a TTY */ -}}
     {{- $interactive = stdinIsATTY -}}
   {{- end -}}
 {{- else -}}
+  {{- /* If platform data isn't available, check if stdin is a TTY */ -}}
   {{- $interactive = stdinIsATTY -}}
+{{- end -}}
+{{- /* Force interactive mode if explicitly requested via environment variable */ -}}
+{{- if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+  {{- $interactive = true -}}
 {{- end -}}
 {{/* Set default values for non-interactive environments */}}
 {{- $opacity := 0.8 }}

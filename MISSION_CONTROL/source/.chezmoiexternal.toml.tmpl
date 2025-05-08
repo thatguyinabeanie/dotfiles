@@ -1,4 +1,4 @@
-{{ if and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true) }}
+{{ if or (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) (env "CHEZMOI_INTERACTIVE" | eq "1") }}
 
 ##
 ## PERSONAL STUFF REPOSITORIES
@@ -33,7 +33,7 @@ url = "https://github.com/thatguyinabeanie/next-dotfiles"
 ##
 ## CORE WORK REPOSITORIES
 ##
-{{ $core_work_repos := 
+{{ $core_work_repos :=
 "civis-bootstrap"
 "civis-js-client"
 "civis-kubectl-configs"

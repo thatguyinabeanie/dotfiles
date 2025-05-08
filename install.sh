@@ -14,11 +14,27 @@ fi
 
 # Detect if running interactively
 is_interactive=false
-if [ -t 0 ]; then
+if [ -t 0 ] && [ -t 1 ]; then
   is_interactive=true
-  echo "Running in interactive mode"
+  export CHEZMOI_INTERACTIVE=1
+  echo "Running in interactive mode (CHEZMOI_INTERACTIVE=1)"
 else
-  echo "Running in non-interactive mode"
+  export CHEZMOI_INTERACTIVE=0
+  echo "Running in non-interactive mode (CHEZMOI_INTERACTIVE=0)"
+fi
+
+# Check for CI/CD environments where we want to force non-interactive mode
+if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+  is_interactive=false
+  export CHEZMOI_INTERACTIVE=0
+  echo "CI/CD environment detected, forcing non-interactive mode"
+fi
+
+# Check for Codespaces but allow it to be interactive if in a terminal
+if [ "$is_codespace" = "true" ] && [ -t 0 ] && [ -t 1 ]; then
+  is_interactive=true
+  export CHEZMOI_INTERACTIVE=1
+  echo "Interactive Codespace session detected"
 fi
 
 # Define common variables

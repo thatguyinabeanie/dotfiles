@@ -74,7 +74,7 @@ if [ "$IS_LINUX" = "true" ]; then
         ;;
     esac
   fi
-  
+
   # Check for Termux
   if [ -d /data/data/com.termux ]; then
     IS_TERMUX=true
@@ -124,7 +124,23 @@ if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ "$IS_MAC" = "true
 fi
 
 # Detect if running interactively
-if [ -t 0 ]; then
+# Check both stdin and stdout to be terminals
+if [ -t 0 ] && [ -t 1 ]; then
+  INTERACTIVE=true
+  echo "Detected interactive terminal session"
+else
+  echo "Detected non-interactive session"
+fi
+
+# Check for CI/CD environments where we want to force non-interactive mode
+if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+  INTERACTIVE=false
+  echo "CI/CD environment detected, forcing non-interactive mode"
+fi
+
+# Check for Codespaces but allow it to be interactive if in a terminal
+if [ "$IS_CODESPACE" = "true" ] && [ -t 0 ] && [ -t 1 ]; then
+  echo "Interactive Codespace session detected"
   INTERACTIVE=true
 fi
 
