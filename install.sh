@@ -15,11 +15,31 @@ else
   is_interactive=false
   export CHEZMOI_INTERACTIVE=0
 
-  # Check if we're in an interactive terminal
-  if [ -t 0 ] && [ -t 1 ]; then
-    is_interactive=true
-    export CHEZMOI_INTERACTIVE=1
-    echo "Interactive terminal detected"
+  # Check if we're in a Codespace
+  is_codespace=false
+  if [ -n "${CODESPACES:-}" ] || [ -n "${GITHUB_CODESPACE_TOKEN:-}" ]; then
+    is_codespace=true
+    echo "GitHub Codespaces environment detected"
+
+    # Check if this is the initial Codespace setup or a user session
+    if [ -n "${CODESPACE_NAME:-}" ] && [ -f "/.codespaces/shared/scripts/postCreateCommand.sh" ]; then
+      # This is likely the initial setup (postCreateCommand running)
+      is_interactive=false
+      export CHEZMOI_INTERACTIVE=0
+      echo "Codespace initial setup detected, forcing non-interactive mode"
+    elif [ -t 0 ] && [ -t 1 ]; then
+      # This is likely a user session in a terminal
+      is_interactive=true
+      export CHEZMOI_INTERACTIVE=1
+      echo "Interactive Codespace user session detected"
+    fi
+  else
+    # Not in a Codespace, check if we're in an interactive terminal
+    if [ -t 0 ] && [ -t 1 ]; then
+      is_interactive=true
+      export CHEZMOI_INTERACTIVE=1
+      echo "Interactive terminal detected"
+    fi
   fi
 
   # Force non-interactive mode in CI/CD environments

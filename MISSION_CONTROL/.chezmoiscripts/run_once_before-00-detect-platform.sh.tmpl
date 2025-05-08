@@ -131,11 +131,29 @@ echo "Using CHEZMOI_INTERACTIVE=1 environment variable"
 INTERACTIVE=false
 echo "Using CHEZMOI_INTERACTIVE=0 environment variable"
 {{ else -}}
-# Default to interactive if in a terminal
+# Default to non-interactive
 INTERACTIVE=false
-if [ -t 0 ] && [ -t 1 ]; then
-  INTERACTIVE=true
-  echo "Detected interactive terminal session"
+
+# Check if we're in a Codespace
+if [ "$IS_CODESPACE" = "true" ]; then
+  echo "GitHub Codespaces environment detected"
+
+  # Check if this is the initial Codespace setup or a user session
+  if [ -n "${CODESPACE_NAME:-}" ] && [ -f "/.codespaces/shared/scripts/postCreateCommand.sh" ]; then
+    # This is likely the initial setup (postCreateCommand running)
+    INTERACTIVE=false
+    echo "Codespace initial setup detected, forcing non-interactive mode"
+  elif [ -t 0 ] && [ -t 1 ]; then
+    # This is likely a user session in a terminal
+    INTERACTIVE=true
+    echo "Interactive Codespace user session detected"
+  fi
+else
+  # Not in a Codespace, check if we're in an interactive terminal
+  if [ -t 0 ] && [ -t 1 ]; then
+    INTERACTIVE=true
+    echo "Interactive terminal detected"
+  fi
 fi
 
 # Force non-interactive in CI/CD environments

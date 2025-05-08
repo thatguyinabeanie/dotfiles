@@ -18,6 +18,4 @@ if ! command -v mise >/dev/null 2>&1; then
   export PATH="$HOME/.local/bin:$PATH"
   
   echo "🔵 mise installed successfully."
-else
-  echo "mise is already installed."
-fi
+end
