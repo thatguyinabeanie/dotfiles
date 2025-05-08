@@ -16,4 +16,10 @@ exists $HOME/.config/tmux
 
 # Test Git repositories
 exists $HOME/source/DOOM-fire-zig
+
+# Test Obsidian integration
 exists $HOME/.config/obsidian/obsidian-vault
+exists $HOME/source/obsidian/obsidian-vault
+exists $HOME/source/obsidian/smart-notes
+exists $HOME/source/obsidian/bramses-highly-opinionated-vault-2023
+exists $HOME/.config/nvim/lua/plugins/utilities/obsidian.lua
