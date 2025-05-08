@@ -2,7 +2,6 @@ package tests_integration
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/twpayne/go-vfs/v5/vfst"
