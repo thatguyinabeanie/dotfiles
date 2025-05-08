@@ -1,4 +1,4 @@
-{{ if or (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) (env "CHEZMOI_INTERACTIVE" | eq "1") }}
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" }}
 
 ##
 ## PERSONAL STUFF REPOSITORIES
