@@ -74,7 +74,7 @@ if [ "$IS_LINUX" = "true" ]; then
         ;;
     esac
   fi
-  
+
   # Check for Termux
   if [ -d /data/data/com.termux ]; then
     IS_TERMUX=true
@@ -123,9 +123,36 @@ if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ "$IS_MAC" = "true
   fi
 fi
 
-# Detect if running interactively
-if [ -t 0 ]; then
-  INTERACTIVE=true
+# Set interactive mode based on CHEZMOI_INTERACTIVE environment variable
+if [ -n "${CHEZMOI_INTERACTIVE:-}" ]; then
+  # Use the environment variable if set
+  if [ "${CHEZMOI_INTERACTIVE}" = "1" ]; then
+    INTERACTIVE=true
+    echo "Using CHEZMOI_INTERACTIVE=1, setting interactive mode"
+  else
+    INTERACTIVE=false
+    echo "Using CHEZMOI_INTERACTIVE=0, setting non-interactive mode"
+  fi
+else
+  # Default to interactive if in a terminal
+  INTERACTIVE=false
+  if [ -t 0 ] && [ -t 1 ]; then
+    INTERACTIVE=true
+  fi
+
+  # Force non-interactive in CI/CD environments
+  if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+    INTERACTIVE=false
+  fi
+
+  # Set the environment variable for consistency
+  if [ "$INTERACTIVE" = "true" ]; then
+    export CHEZMOI_INTERACTIVE=1
+  else
+    export CHEZMOI_INTERACTIVE=0
+  fi
+
+  echo "Set INTERACTIVE=$INTERACTIVE and CHEZMOI_INTERACTIVE=$CHEZMOI_INTERACTIVE"
 fi
 
 # Write to platform.yaml
