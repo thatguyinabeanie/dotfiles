@@ -1,0 +1,48 @@
+return {
+  "epwalsh/obsidian.nvim",
+  event = {
+    "BufReadPre " .. vim.fn.expand("~") .. "/source/obsidian/**.md",
+    "BufNewFile " .. vim.fn.expand("~") .. "/source/obsidian/**.md",
+  },
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
+  opts = {
+    workspaces = {
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+      {
+        name = "vault",
+        path = "~/source/obsidian/obsidian-vault-work"
+      },
+{{ else }}
+      {
+        name = "vault",
+        path = "~/source/obsidian/obsidian-vault"
+      },
+{{ end }}
+    },
+    daily_notes = {
+      folder = "daily",
+      date_format = "%Y-%m-%d",
+    },
+    note_id_func = function(title)
+      return title
+    end,
+    follow_url_func = function(url)
+      vim.fn.system({"open", url})
+    end,
+    templates = {
+      folder = "templates",
+      date_format = "%Y-%m-%d",
+      time_format = "%H:%M",
+    },
+    ui = {
+      enable = true,
+    },
+  },
+  keys = {
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+    { "n", "<leader>Oww", "<cmd>ObsidianWorkspace work<cr>", { desc = "Switch to Work Workspace" } },
+{{ end }}
+  },
+}
