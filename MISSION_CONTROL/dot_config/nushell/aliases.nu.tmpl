@@ -6,55 +6,57 @@
 def poke_system_info [] {
   pokeget random --hide-name | fastfetch --file-raw -
 }
-alias y   = yazi
-alias cat = bat --style=plain
-alias tks = tmux kill-server
 
+# Open Yazi
+alias y   = yazi
+# Cat alias for bat 
+alias cat = bat --style=plain
+# Kill tmux server
+alias tks = tmux kill-server
 
 ##
 ## DIRECTORY ALIASES
 ##
 
+# List files in the current directory
 alias l  = ls
+# List all files in the current directory
 alias ll = ls -a
+# List all files in the current directory with long format
 alias la = ls -la
 
 ##
 ##  CHEZMOI
 ##
+
+# Navigate to the chezmoi source directory
 alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
+# Edit the chezmoi source directory
 alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
+# Show the chezmoi data file
 alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
+# Edit the chezmoi data file
 alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
+# Navigate to the ~/.config directory
 alias config            = cd ~/.config
+# Edit the ~/.config directory
 alias config_edit       = nvim ~/.config
-# Function to update the system and install packages
 
 ##
 ## NEOVIM
 ##
 
-# Function to open a specific Obsidian vault in Neovim
-def obsidian_nvim [vault] {
-  if $vault == "personal" {
-    nvim $"~/source/obsidian/obsidian-vault"
-  } else {
-    nvim $"~/source/obsidian/($vault)"
-  }
-}
-
-# Function to reset Neovim configuration
+#  Neovim configuration
 def reset_nvim [] {
   rm -rf ~/.config/nvim
   rm -rf ~/.local/share/nvim
   rm -rf ~/.local/state/nvim
-
-  chezmoi apply --exclude=scripts
 }
 
 ##
 ## GITHUB
 ##
+
 # Function to create a new GitHub repository
 def gh-create-repo [
     name: string,
