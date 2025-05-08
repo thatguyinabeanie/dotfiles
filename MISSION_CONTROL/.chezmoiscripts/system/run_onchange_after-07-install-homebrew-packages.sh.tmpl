@@ -23,7 +23,7 @@ brew {{ . | quote }}
 cask {{ . | quote }}
 {{ end }}
 
-{{ if eq .platform.interactive true -}}
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
 ## Fonts (only install if user confirms)
 echo "Do you want to install fonts? (y/N)"
 read -r install_fonts
@@ -42,7 +42,7 @@ fi
 brew {{ . | quote }}
 {{ end }}
 
-{{ if eq .platform.interactive true -}}
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
 ## Work casks (only install if user confirms)
 echo "Do you want to install work casks? (y/N)"
 read -r install_work_casks
@@ -62,7 +62,7 @@ fi
 brew {{ . | quote }}
 {{ end }}
 
-{{ if eq .platform.interactive true -}}
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
 ## Personal casks (only install if user confirms)
 echo "Do you want to install personal casks? (y/N)"
 read -r install_personal_casks

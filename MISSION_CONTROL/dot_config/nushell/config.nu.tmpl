@@ -1,6 +1,7 @@
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
+source ~/.cache/carapace/init.nu
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
 
@@ -12,10 +13,9 @@ source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu
 
 $env.config.show_banner = false
 
-mkdir ($nu.data-dir | path join "vendor/autoload")
-zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
-mise activate nu    | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
-starship init nu    | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+zoxide init nushell         | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
+mise activate nu            | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
+starship init nu            | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 if ($env.HOME | path join ".cargo/env.nu" | path exists) {
   cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")

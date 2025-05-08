@@ -19,4 +19,4 @@ platform:
   has_mise: false
   has_rustup: false
   has_gui: false
-  interactive: false
+  interactive: true  # Default to interactive mode for better user experience
