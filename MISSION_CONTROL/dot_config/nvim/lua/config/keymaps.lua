@@ -118,18 +118,21 @@ vim.keymap.set("n", "<leader>af", ":AugmentRefactor<CR>", { desc = "Refactor Cod
 wk.add({
   { "<leader>O", group = "Obsidian", icon = "📁" },
 })
+
+-- Core Obsidian functionality
 vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
 vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
 vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
 vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Show Backlinks" })
+vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
+vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
+
+-- Daily notes
 vim.keymap.set("n", "<leader>Ot", "<cmd>ObsidianToday<cr>", { desc = "Open Today's Note" })
 vim.keymap.set("n", "<leader>Oy", "<cmd>ObsidianYesterday<cr>", { desc = "Open Yesterday's Note" })
-vim.keymap.set("n", "<leader>Om", "<cmd>ObsidianTomorrow<cr>", { desc = "Open Tomorrow's Note" })
-vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
-vim.keymap.set("n", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link" })
-vim.keymap.set("n", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note" })
-vim.keymap.set("v", "<leader>Ol", "<cmd>ObsidianLink<cr>", { desc = "Create Link from Selection" })
-vim.keymap.set("v", "<leader>OL", "<cmd>ObsidianLinkNew<cr>", { desc = "Create Link to New Note from Selection" })
-vim.keymap.set("n", "<leader>Op", "<cmd>ObsidianPasteImg<cr>", { desc = "Paste Image from Clipboard" })
-vim.keymap.set("n", "<leader>Or", "<cmd>ObsidianRename<cr>", { desc = "Rename Note" })
-vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
+
+-- Workspace switching
+vim.keymap.set("n", "<leader>Owp", "<cmd>ObsidianWorkspace personal<cr>", { desc = "Switch to Personal Workspace" })
+vim.keymap.set("n", "<leader>Ows", "<cmd>ObsidianWorkspace smart-notes<cr>", { desc = "Switch to Smart Notes Workspace" })
+vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc = "Switch to Bramses Workspace" })
+-- Work workspace is conditionally added in the obsidian.lua.tmpl file

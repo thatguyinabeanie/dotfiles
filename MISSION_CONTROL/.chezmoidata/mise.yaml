@@ -198,6 +198,14 @@ mise:
     - name: hadolint
       version: latest
 
+    # Markdown and documentation tools
+    - name: marp-cli
+      version: latest
+    - name: vale
+      version: latest
+    - name: mdbook
+      version: latest
+
     # Optional tools
     - name: erlang
       version: latest
