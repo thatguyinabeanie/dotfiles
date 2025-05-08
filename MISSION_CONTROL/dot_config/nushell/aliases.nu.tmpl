@@ -28,6 +28,12 @@ alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
 alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
 alias config            = cd ~/.config
 alias config_edit       = nvim ~/.config
+
+# Function to check if we're in interactive mode
+def is_interactive [] {
+  $env.CHEZMOI_INTERACTIVE == "1"
+}
+
 # Function to update the system and install packages
 
 ##
@@ -35,12 +41,27 @@ alias config_edit       = nvim ~/.config
 ##
 
 # Function to open a specific Obsidian vault in Neovim
-def obsidian_nvim [vault] {
-  if $vault == "personal" {
-    nvim $"~/source/obsidian/obsidian-vault"
+def obsidian_nvim [
+  vault: string = "personal"  # Default to personal vault
+] {
+  let base_path = "~/source/obsidian"
+
+  # Determine which vault to use
+  let vault_path = if $vault == "personal" {
+    $"($base_path)/obsidian-vault"
+  } else if $vault == "work" and {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}true{{ else }}false{{ end }} {
+    $"($base_path)/obsidian-vault-work"
+  } else if $vault == "smart-notes" {
+    $"($base_path)/smart-notes"
+  } else if $vault == "bramses" {
+    $"($base_path)/bramses-highly-opinionated-vault-2023"
   } else {
-    nvim $"~/source/obsidian/($vault)"
+    $"($base_path)/($vault)"
   }
+
+  # Open the vault in Neovim
+  cd $vault_path
+  nvim
 }
 
 # Function to reset Neovim configuration
