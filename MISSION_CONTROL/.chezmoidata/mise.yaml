@@ -70,8 +70,6 @@ mise:
   dev_tools:
     - name: act
       version: latest
-    - name: cmake
-      version: latest
     - name: fastfetch
       version: latest
     - name: gitleaks
