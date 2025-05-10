@@ -1,9 +1,9 @@
 {{- /* Determine if we're in an interactive session */ -}}
 {{- $interactive := false -}}
 {{- /* Use CHEZMOI_INTERACTIVE environment variable if set */ -}}
-{{- if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+{{- if eq (env "CHEZMOI_INTERACTIVE") "1" -}}
   {{- $interactive = true -}}
-{{- else if env "CHEZMOI_INTERACTIVE" | eq "0" -}}
+{{- else if eq (env "CHEZMOI_INTERACTIVE") "0" -}}
   {{- $interactive = false -}}
 {{- else -}}
   {{- /* Fall back to checking if stdin is a TTY */ -}}
