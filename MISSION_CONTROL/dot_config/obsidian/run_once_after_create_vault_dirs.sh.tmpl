@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Create the Obsidian vault directories if they don't exist
+mkdir -p {{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_PERSONAL }}
+
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+# Create the work vault directory if this is a work environment
+mkdir -p {{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_WORK }}
+{{ end }}
+
+echo "Obsidian vault directories created."
