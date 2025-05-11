@@ -85,6 +85,32 @@ Custom hooks are available for:
 - Post-merge actions
 - Workflow automation
 
+#### 🛡️ Pre-commit Hooks
+
+The repository uses [pre-commit](https://pre-commit.com/) to enforce code quality standards:
+
+- **Code Quality**
+  - Trailing whitespace removal
+  - End-of-file fixer
+  - Mixed line ending fixer
+  - Large file detection
+  - Merge conflict detection
+
+- **Security**
+  - Secret scanning with Gitleaks
+  - Private key detection
+  - Executable script validation
+
+- **Language-specific Linting**
+  - Go: golangci-lint
+  - Shell: shellcheck
+  - Markdown: markdownlint
+  - YAML: yamllint
+
+- **Chezmoi Validation**
+  - Template format checking
+  - Go tests for dotfiles
+
 ### 🚀 Aliases
 
 Common Git aliases include:
@@ -98,7 +124,9 @@ Common Git aliases include:
 
 - Git 2.30+
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
+- [pre-commit](https://pre-commit.com/) (for code quality hooks)
 - GPG (for commit signing)
+- Various linters (installed via Homebrew)
 
 ## 🌠 Contributing
 
