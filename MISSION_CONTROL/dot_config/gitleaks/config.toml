@@ -17,8 +17,6 @@ regexes = [
     '''(?i)example|test|mock|dummy''',
 ]
 
-[allowlist.commits]
-description = "Allowed commits"
 commits = [
     # Add any commit hashes to allowlist here
 ]
