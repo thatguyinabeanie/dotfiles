@@ -1,0 +1,121 @@
+{{ if eq (env "CHEZMOI_INTERACTIVE") "1" }}
+
+##
+## PERSONAL STUFF REPOSITORIES
+##
+["personal/dotfiles"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles.git"
+
+["personal/thatguyinabeanie"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/thatguyinabeanie.git"
+
+["personal/dotfiles-docs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/dotfiles-docs.git"
+
+["personal/startpage"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/startpage.git"
+
+["personal/dotfiles-website"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/next-dotfiles"
+
+
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+##
+## CORE WORK REPOSITORIES
+##
+["civis-bootstrap"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-bootstrap.git"
+
+["civis-js-client"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-js-client.git"
+
+["civis-kubectl-configs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-kubectl-configs.git"
+
+["civis-material-theme"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-material-theme.git"
+
+["civis-react-components"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-react-components.git"
+
+["console"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/console.git"
+
+["jdbctool"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/jdbctool.git"
+
+["notebooks-arproxy"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/notebooks-arproxy.git"
+
+["popsicle"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/popsicle.git"
+
+["ruby_audit"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/ruby_audit.git"
+
+["sniffer"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/sniffer.git"
+
+{{ else  }} # ELSE - NOT WORK ENVIRONMENT
+
+##
+## POKEMON THINGS
+##
+["rk9-standings-scraper"]
+url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+["entralinked"]
+url = "https://github.com/thatguyinabeanie/entralinked.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
+##
+## BATTLE STADIUM
+##
+["battle-stadium"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium.git"
+
+["battle-stadium-api"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/thatguyinabeanie/battle-stadium-api.git"
+
+{{ end }} # end of work environment check
+
+{{ end }} # end of interactive check

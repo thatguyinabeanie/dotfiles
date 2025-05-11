@@ -97,7 +97,9 @@ homebrew:
       - brew-cask-completion
       - btop
       - bundler-completion
+      - carapace
       - chezmoi
+      - cmake
       - cmake-docs
       - cspell
       - colordiff

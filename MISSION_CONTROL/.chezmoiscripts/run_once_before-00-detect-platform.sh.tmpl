@@ -74,7 +74,7 @@ if [ "$IS_LINUX" = "true" ]; then
         ;;
     esac
   fi
-  
+
   # Check for Termux
   if [ -d /data/data/com.termux ]; then
     IS_TERMUX=true
@@ -123,10 +123,52 @@ if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ] || [ "$IS_MAC" = "true
   fi
 fi
 
-# Detect if running interactively
-if [ -t 0 ]; then
-  INTERACTIVE=true
+# Determine interactive mode
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+INTERACTIVE=true
+echo "Using CHEZMOI_INTERACTIVE=1 environment variable"
+{{ else if env "CHEZMOI_INTERACTIVE" | eq "0" -}}
+INTERACTIVE=false
+echo "Using CHEZMOI_INTERACTIVE=0 environment variable"
+{{ else -}}
+# Default to non-interactive
+INTERACTIVE=false
+
+# Check if we're in a Codespace
+if [ "$IS_CODESPACE" = "true" ]; then
+  echo "GitHub Codespaces environment detected"
+
+  # Check if this is the initial Codespace setup or a user session
+  if [ -n "${CODESPACE_NAME:-}" ] && [ -f "/.codespaces/shared/scripts/postCreateCommand.sh" ]; then
+    # This is likely the initial setup (postCreateCommand running)
+    INTERACTIVE=false
+    echo "Codespace initial setup detected, forcing non-interactive mode"
+  elif [ -t 0 ] && [ -t 1 ]; then
+    # This is likely a user session in a terminal
+    INTERACTIVE=true
+    echo "Interactive Codespace user session detected"
+  fi
+else
+  # Not in a Codespace, check if we're in an interactive terminal
+  if [ -t 0 ] && [ -t 1 ]; then
+    INTERACTIVE=true
+    echo "Interactive terminal detected"
+  fi
 fi
+
+# Force non-interactive in CI/CD environments
+if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+  INTERACTIVE=false
+  echo "CI/CD environment detected, forcing non-interactive mode"
+fi
+
+# Set the environment variable for consistency
+if [ "$INTERACTIVE" = "true" ]; then
+  export CHEZMOI_INTERACTIVE=1
+else
+  export CHEZMOI_INTERACTIVE=0
+fi
+{{ end -}}
 
 # Write to platform.yaml
 cat > "${HOME}/.config/chezmoi/platform.yaml" << EOF

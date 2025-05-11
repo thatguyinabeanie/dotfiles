@@ -70,8 +70,6 @@ mise:
   dev_tools:
     - name: act
       version: latest
-    - name: cmake
-      version: latest
     - name: fastfetch
       version: latest
     - name: gitleaks
@@ -198,6 +196,14 @@ mise:
     - name: stylua
       version: latest
     - name: hadolint
+      version: latest
+
+    # Markdown and documentation tools
+    - name: marp-cli
+      version: latest
+    - name: vale
+      version: latest
+    - name: mdbook
       version: latest
 
     # Optional tools

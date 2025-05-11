@@ -6,54 +6,81 @@
 def poke_system_info [] {
   pokeget random --hide-name | fastfetch --file-raw -
 }
-alias y   = yazi
-alias cat = bat --style=plain
-alias tks = tmux kill-server
 
+# Open Yazi
+alias y   = yazi
+# Cat alias for bat 
+alias cat = bat --style=plain
+# Kill tmux server
+alias tks = tmux kill-server
 
 ##
 ## DIRECTORY ALIASES
 ##
 
-alias l   = ls
+# List files in the current directory
+alias l  = ls
+# List all files in the current directory
 alias ll = ls -a
+# List all files in the current directory with long format
 alias la = ls -la
 
 ##
 ##  CHEZMOI
 ##
-alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
-alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
-alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
-alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
 
-# Function to update the system and install packages
+# Navigate to the chezmoi source directory
+alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
+# Edit the chezmoi source directory
+alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
+# Show the chezmoi data file
+alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
+# Edit the chezmoi data file
+alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
+# Navigate to the ~/.config directory
+alias config            = cd ~/.config
+# Edit the ~/.config directory
+alias config_edit       = nvim ~/.config
+
+
+# Function to check if we're in interactive mode
+def is_interactive [] {
+  $env.CHEZMOI_INTERACTIVE == "1"
+}
+
 
 ##
 ## NEOVIM
 ##
 
-# Function to open a specific Obsidian vault in Neovim
-def obsidian_nvim [vault] {
-  if $vault == "personal" {
-    nvim $"~/source/obsidian/obsidian-vault"
+# Obsidian vault in Neovim
+def obsidian_nvim [
+  vault: string = "personal"  # Default to personal vault
+] {
+  let base_path = "~/source/obsidian"
+
+  # Determine which vault to use
+  let vault_path = if $vault == "personal" {
+    $"($base_path)/obsidian-vault"
+  } else if $vault == "work" and {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}true{{ else }}false{{ end }} {
+    $"($base_path)/obsidian-vault-work"
+  } else if $vault == "smart-notes" {
+    $"($base_path)/smart-notes"
+  } else if $vault == "bramses" {
+    $"($base_path)/bramses-highly-opinionated-vault-2023"
   } else {
-    nvim $"~/source/obsidian/($vault)"
+    $"($base_path)/($vault)"
   }
-}
 
-# Function to reset Neovim configuration
-def reset_nvim [] {
-  rm -rf ~/.config/nvim
-  rm -rf ~/.local/share/nvim
-  rm -rf ~/.local/state/nvim
-
-  chezmoi apply --exclude=scripts
+  # Open the vault in Neovim
+  cd $vault_path
+  nvim
 }
 
 ##
 ## GITHUB
 ##
+
 # Function to create a new GitHub repository
 def gh-create-repo [
     name: string,

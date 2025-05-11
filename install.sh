@@ -5,20 +5,51 @@
 # -u: exit on unset variables
 set -eu
 
-# Detect if running in GitHub Codespaces
-is_codespace=false
-if [ -n "${CODESPACES:-}" ] || [ -n "${GITHUB_CODESPACE_TOKEN:-}" ]; then
-  is_codespace=true
-  echo "Detected GitHub Codespaces environment"
-fi
-
-# Detect if running interactively
-is_interactive=false
-if [ -t 0 ]; then
-  is_interactive=true
-  echo "Running in interactive mode"
+# Determine interactive mode and set environment variable
+if [ -n "${CHEZMOI_INTERACTIVE:-}" ]; then
+  # Use existing value if already set
+  is_interactive=$([ "$CHEZMOI_INTERACTIVE" = "1" ] && echo "true" || echo "false")
+  echo "Using existing CHEZMOI_INTERACTIVE=$CHEZMOI_INTERACTIVE"
 else
-  echo "Running in non-interactive mode"
+  # Default to interactive if stdin and stdout are terminals
+  is_interactive=false
+  export CHEZMOI_INTERACTIVE=0
+
+  # Check if we're in a Codespace
+  is_codespace=false
+  if [ -n "${CODESPACES:-}" ] || [ -n "${GITHUB_CODESPACE_TOKEN:-}" ]; then
+    is_codespace=true
+    echo "GitHub Codespaces environment detected"
+
+    # Check if this is the initial Codespace setup or a user session
+    if [ -n "${CODESPACE_NAME:-}" ] && [ -f "/.codespaces/shared/scripts/postCreateCommand.sh" ]; then
+      # This is likely the initial setup (postCreateCommand running)
+      is_interactive=false
+      export CHEZMOI_INTERACTIVE=0
+      echo "Codespace initial setup detected, forcing non-interactive mode"
+    elif [ -t 0 ] && [ -t 1 ]; then
+      # This is likely a user session in a terminal
+      is_interactive=true
+      export CHEZMOI_INTERACTIVE=1
+      echo "Interactive Codespace user session detected"
+    fi
+  else
+    # Not in a Codespace, check if we're in an interactive terminal
+    if [ -t 0 ] && [ -t 1 ]; then
+      is_interactive=true
+      export CHEZMOI_INTERACTIVE=1
+      echo "Interactive terminal detected"
+    fi
+  fi
+
+  # Force non-interactive mode in CI/CD environments
+  if [ -n "${CI:-}" ] || [ -n "${GITHUB_ACTIONS:-}" ]; then
+    is_interactive=false
+    export CHEZMOI_INTERACTIVE=0
+    echo "CI/CD environment detected, forcing non-interactive mode"
+  fi
+
+  echo "Set CHEZMOI_INTERACTIVE=$CHEZMOI_INTERACTIVE"
 fi
 
 # Define common variables
@@ -54,7 +85,7 @@ script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 chezmoi_args="init --source=${script_dir}"
 
 # Add apply flag if appropriate
-if [ "$is_interactive" = "true" ]; then
+if [ "$CHEZMOI_INTERACTIVE" = "1" ]; then
   # In interactive mode, ask before applying
   printf "Do you want to apply the configuration now? [Y/n] "
   read -r apply_now
