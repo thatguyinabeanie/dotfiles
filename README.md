@@ -127,8 +127,10 @@ During installation, you'll be prompted for several configuration values that wi
 <!-- markdownlint-enable MD013 MD045 -->
 
 - Obsidian for note-taking
-- Multiple vault support
-- Neovim integration
+- Multiple vault support (personal and work)
+- Hybrid approach to vault directory creation (empty directories + conditional script)
+- Templated configuration based on environment
+- Neovim integration via Obsidian.nvim
 
 ### ⚡ Productivity Tools
 
@@ -157,9 +159,16 @@ dotfiles/
 ├── 🌟 MISSION_CONTROL/
 │   ├── 🚀 dot_config/
 │   │   ├── nvim/
-│   │   ├── obsidian/
+│   │   ├── obsidian/                # Obsidian configuration
+│   │   │   ├── config.json.tmpl     # Templated Obsidian config
+│   │   │   └── run_once_after_*.sh  # Work vault setup script
 │   │   ├── tmux/
 │   │   └── ...
+│   ├── 🔭 obsidian/                 # Obsidian vault management
+│   │   └── .chezmoiexternal.toml.tmpl  # External vault repos
+│   ├── 📁 empty_dot_config/         # Empty directory structure
+│   │   └── empty_obsidian/
+│   │       └── empty_obsidian-vault/  # Personal vault directory
 │   └── ...
 └── 🌠 .chezmoi.toml.tmpl
 ```
@@ -227,6 +236,7 @@ A collection of planned enhancements and improvements for this cosmic developmen
 - [ ] Create animated GIF demonstration of the environment in action
 - [ ] Add actual screenshots for each Catppuccin theme variant
 - [ ] Implement additional shell integrations for improved workflow
+- [x] Add basic Obsidian configuration with vault management
 - [ ] Enhance Obsidian configuration with more plugins and templates
 - [ ] Add more Pokemon-themed system information displays
 - [ ] Improve documentation with detailed setup guides for each tool

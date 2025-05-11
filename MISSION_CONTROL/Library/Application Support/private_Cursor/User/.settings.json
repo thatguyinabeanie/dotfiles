@@ -27,6 +27,7 @@
         "scminput"
     ],
     "cursor.cpp.enablePartialAccepts": true,
+    "cursor.general.gitGraphIndexing": "enabled",
     "files.associations": {
         "*.toml.tmpl": "toml",
         "*.nu.tmpl": "nu"
