@@ -33,16 +33,14 @@ repos:
         args: [--fix=lf]
 
   # Go linting - Alakazam (#65) - Known for its intelligence, perfect for Go code analysis
-  - repo: https://github.com/golangci/golangci-lint
-    rev: v1.55.2
+  - repo: local
     hooks:
       - id: golangci-lint
         name: 🧠 Go code linting
-        args: [--timeout=5m]
-        files: \.go$
-        types: [file]
-        entry: golangci-lint run
+        entry: bash -c 'command -v golangci-lint >/dev/null && golangci-lint run --timeout=5m'
         language: system
+        types: [go]
+        pass_filenames: false
 
   # Shell script linting - Krabby (#98) - Hard shell but precise pincers, like shell script validation
   - repo: https://github.com/shellcheck-py/shellcheck-py
@@ -52,6 +50,8 @@ repos:
         name: 🦀 Shell script linting
         args: [--severity=warning]
         exclude: \.tmpl$
+        types: [shell, bash]
+        files: \.(sh|bash)$
 
   # Markdown linting - Meowth (#52) - Articulate and precise, like well-formatted markdown
   - repo: https://github.com/igorshubovych/markdownlint-cli
@@ -86,5 +86,5 @@ repos:
         entry: bash -c 'cd MISSION_CONTROL/.tests && go test -v ./...'
         language: system
         pass_filenames: false
-        files: \.go$
-        types: [file]
+        types: [go]
+        always_run: false
