@@ -10,12 +10,11 @@
     },
     "redhat.telemetry.enabled": true,
     "explorer.confirmDragAndDrop": false,
-    "terminal.external.osxExec": "ghostty.app",
-    "terminal.explorerKind": "external",
-    "terminal.external.linuxExec": "ghostty",
+    "terminal.external.osxExec": "",
+    "terminal.external.linuxExec": "",
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.stickyScroll.enabled": true,
-    "editor.fontSize": 16,
+    "editor.fontSize": 20,
     "mise.binPath": "/opt/homebrew/bin/mise",
     "github.copilot.enable": {
         "*": false
@@ -35,5 +34,7 @@
     "editor.tabSize": 2,
     "files.exclude": {
         "**/.node_modules": true
-    }
+    },
+    "augment.chat.userGuidelines": "",
+    "workbench.editor.editorActionsLocation": "titleBar"
 }
