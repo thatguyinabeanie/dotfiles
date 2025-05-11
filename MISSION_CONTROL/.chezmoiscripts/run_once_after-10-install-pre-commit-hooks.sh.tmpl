@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Pokemon: Scizor (#212) - Known for its precision and attention to detail,
+# just like these pre-commit hooks that catch small issues before they become problems.
+
+{{ if eq .platform.has_brew true -}}
+echo "🟠 Setting up pre-commit hooks..."
+
+# Check if pre-commit is installed
+if ! command -v pre-commit >/dev/null 2>&1; then
+  echo "Installing pre-commit..."
+  brew install pre-commit
+fi
+
+# Navigate to the repository root
+cd "{{ .chezmoi.sourceDir }}" || exit 1
+
+echo "Installing pre-commit hooks for code quality and security..."
+
+# Install the pre-commit hooks
+pre-commit install
+pre-commit install --hook-type commit-msg
+pre-commit install --hook-type pre-push
+
+# Display Pokemon-themed success message
+cat << 'EOF'
+                  /\
+                 /  \
+                /    \
+               /      \
+              /        \
+             /    /\    \
+            /    /  \    \
+           /    /    \    \
+          /    /      \    \
+         /    /        \    \
+        /    /          \    \
+       /    /            \    \
+      /    /              \    \
+     /    /                \    \
+    /    /                  \    \
+   /    ----------------------    \
+  /                                \
+ /                                  \
+/____________________________________\
+EOF
+
+echo "🔵 Pre-commit hooks installed successfully!"
+echo "Your code is now protected by Scizor's precision and attention to detail."
+{{ else -}}
+echo "Homebrew is not installed. Skipping pre-commit hooks setup."
+{{ end -}}
