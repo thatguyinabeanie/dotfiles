@@ -1,0 +1,25 @@
+{
+  "vaults": {
+    "{{ .OBSIDIAN_VAULT_PERSONAL }}": {
+      "path": "{{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_PERSONAL }}",
+      "open": true
+    }{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }},
+    "{{ .OBSIDIAN_VAULT_WORK }}": {
+      "path": "{{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_WORK }}",
+      "open": false
+    }{{ end }}
+  },
+  "theme": "obsidian",
+  "pluginEnabledStatus": {
+    "file-explorer": true,
+    "global-search": true,
+    "switcher": true,
+    "graph": true,
+    "backlink": true,
+    "command-palette": true,
+    "markdown-importer": true,
+    "word-count": true,
+    "open-with-default-app": true,
+    "file-recovery": true
+  }
+}
