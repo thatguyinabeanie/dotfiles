@@ -33,13 +33,60 @@ url = "https://github.com/thatguyinabeanie/next-dotfiles"
 ##
 ## CORE WORK REPOSITORIES
 ##
-{{ $core_work_repos := slice "civis-bootstrap" "civis-js-client" "civis-kubectl-configs" "civis-material-theme" "civis-react-components" "console" "jdbctool" "notebooks-arproxy" "popsicle" "ruby_audit" "sniffer" }}
-{{ range $core_work_repos }}
-["{{ . }}"]
+["civis-bootstrap"]
 type = "git-repo"
 refreshPeriod = "168h"
-url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
-{{ end }} # end of core work repos range
+url = "https://github.com/{{ $.git.config.work_org }}/civis-bootstrap.git"
+
+["civis-js-client"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-js-client.git"
+
+["civis-kubectl-configs"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-kubectl-configs.git"
+
+["civis-material-theme"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-material-theme.git"
+
+["civis-react-components"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/civis-react-components.git"
+
+["console"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/console.git"
+
+["jdbctool"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/jdbctool.git"
+
+["notebooks-arproxy"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/notebooks-arproxy.git"
+
+["popsicle"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/popsicle.git"
+
+["ruby_audit"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/ruby_audit.git"
+
+["sniffer"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/sniffer.git"
 
 {{ else  }} # ELSE - NOT WORK ENVIRONMENT
 
