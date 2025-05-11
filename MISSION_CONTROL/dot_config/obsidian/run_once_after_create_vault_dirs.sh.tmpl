@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# Create the Obsidian vault directories if they don't exist
-mkdir -p {{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_PERSONAL }}
+# The personal vault directory is created using chezmoi's empty_ directory structure
+# This script only creates the work vault directory when in a work environment
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 # Create the work vault directory if this is a work environment
 mkdir -p {{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_WORK }}
+echo "Work Obsidian vault directory created at {{ .chezmoi.homeDir }}/.config/obsidian/{{ .OBSIDIAN_VAULT_WORK }}"
+{{ else }}
+echo "Not a work environment, skipping work vault directory creation"
 {{ end }}
-
-echo "Obsidian vault directories created."
