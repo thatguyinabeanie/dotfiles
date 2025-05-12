@@ -220,6 +220,10 @@ Feel free to submit issues and enhancement requests! Together we can make this c
 
 MIT License - See [LICENSE](LICENSE) for details
 
+## 💡 Ideas
+
+- Managing aliases across multiple shells with chezmoi templates and a chezmoidata yaml
+
 <!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/792.png" width="100" />
