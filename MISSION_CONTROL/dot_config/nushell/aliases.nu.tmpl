@@ -9,7 +9,7 @@ def poke_system_info [] {
 
 # Open Yazi
 alias y   = yazi
-# Cat alias for bat 
+# Cat alias for bat
 alias cat = bat --style=plain
 # Kill tmux server
 alias tks = tmux kill-server
@@ -130,3 +130,67 @@ def gh-open-repo [
     gh repo view $repo --web
 }
 
+##
+## GIT COMMIT EMOJI SELECTOR
+##
+# Interactive emoji commit helper (requires fzf)
+def git_emoji_commit [msg: string] {
+  let emojis = [
+    { emoji: "✨", desc: "feat: A new feature" }
+    { emoji: "🐛", desc: "fix: A bug fix" }
+    { emoji: "📝", desc: "docs: Documentation only changes" }
+    { emoji: "🎨", desc: "style: Code style changes" }
+    { emoji: "🔥", desc: "remove: Remove code or files" }
+    { emoji: "🚀", desc: "perf: Performance improvements" }
+    { emoji: "✅", desc: "test: Adding tests" }
+    { emoji: "🔧", desc: "chore: Maintenance" }
+    { emoji: "🔀", desc: "merge: Merge branches" }
+    { emoji: "⬆️", desc: "upgrade: Dependency upgrades" }
+  ]
+  let choice = ($emojis | each {|e| $"($e.emoji) ($e.desc)" } | fzf)
+  let emoji = ($choice | split row " " | get 0)
+  git commit -m $"($emoji) ($msg)"
+}
+
+##
+## SPOTIFY CONTROLLER (macOS)
+##
+# Play/Pause/Next/Prev for Spotify (macOS)
+def spotify_play [] {
+  run-external osascript -e 'tell application "Spotify" to play'
+}
+def spotify_pause [] {
+  run-external osascript -e 'tell application "Spotify" to pause'
+}
+def spotify_next [] {
+  run-external osascript -e 'tell application "Spotify" to next track'
+}
+def spotify_prev [] {
+  run-external osascript -e 'tell application "Spotify" to previous track'
+}
+
+##
+## AI COMMAND HELPER
+##
+# Requires: set $env.OPENAI_API_KEY
+# Usage: ai "describe what you want"
+def ai [query: string] {
+  let prompt = $"You are a shell expert. Given the following request, output the best shell command only. Request: ($query)"
+  http post https://api.openai.com/v1/chat/completions \
+    Authorization $"Bearer ($env.OPENAI_API_KEY)" \
+    Content-Type application/json \
+    '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": '($prompt)'}]}' \
+    | get choices.0.message.content
+}
+
+##
+## ANIMATED TERMINAL TRANSITIONS
+##
+# Animated clear command (fade out)
+def clear [] {
+  for i in (seq 1 10) {
+    print (char newline)
+    sleep 0.02sec
+  }
+  run-external clear
+}
