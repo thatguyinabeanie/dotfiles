@@ -17,7 +17,7 @@
     <span style="color:#F4DBD6">                             </span><span style="color:#EE99A0">.' \:.    / `.</span><span style="color:#F4DBD6">                                      </span>
     <span style="color:#F4DBD6">                            </span><span style="color:#EE99A0">/ .-'':._.'`-. \</span><span style="color:#F4DBD6">                                     </span>
     <span style="color:#F4DBD6">                            </span><span style="color:#EE99A0">|/    /||\    \|</span><span style="color:#F4DBD6">                                     </span>
-    <span style="color:#F4DBD6">                          </span><span style="color:#F8BD96">_..--</span><span style="color:#F5A97F">"""````"""</span><span style="color:#F8BD96">--.._</span><span style="color:#F4DBD6">                                   </span>
+    <span style="color:#F4DBD6">                          </span><span style="color:#F8BD96">_..--</span><span style="color:#F5A97F"""````"""</span><span style="color:#F8BD96">--.._</span><span style="color:#F4DBD6">                                   </span>
     <span style="color:#F4DBD6">                    </span><span style="color:#F8BD96">_.-'``</span><span style="color:#F5A97F">                    </span><span style="color:#F8BD96">``'-._</span><span style="color:#F4DBD6">                             </span>
     <span style="color:#F4DBD6">                  </span><span style="color:#F8BD96">-'</span><span style="color:#F5A97F">                                </span><span style="color:#F8BD96">'-</span><span style="color:#F4DBD6">                           </span>
     <span style="color:#C6A0F6">██████╗   █████╗ ████████╗ ███████╗ ████████╗ ██╗      ███████╗ ███████╗</span>
@@ -27,7 +27,7 @@
     <span style="color:#C6A0F6">██████╔╝ ╚█████╔╝   ██║    ██║      ████████╗ ███████╗ ███████╗ ███████║</span>
     <span style="color:#C6A0F6">╚═════╝   ╚════╝    ╚═╝    ╚═╝      ╚═══════╝ ╚══════╝ ╚══════╝ ╚══════╝</span>
     <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div>
-</pre>
+  </pre>
 </div>
 <!-- markdownlint-enable MD013 MD033 MD037 MD040 -->
 
@@ -229,16 +229,47 @@ Made with ❤️ and cosmic energy
 
 ## 🚀 TODO
 
-### Dotfiles Roadmap
-<!-- markdownlint-disable MD013 -->
-A collection of planned enhancements and improvements for this cosmic development environment:
-<!-- markdownlint-enable MD013 -->
-- [ ] Create animated GIF demonstration of the environment in action
-- [ ] Add actual screenshots for each Catppuccin theme variant
-- [ ] Implement additional shell integrations for improved workflow
-- [x] Add basic Obsidian configuration with vault management
-- [ ] Enhance Obsidian configuration with more plugins and templates
-- [ ] Add more Pokemon-themed system information displays
-- [ ] Improve documentation with detailed setup guides for each tool
-- [ ] Create installation scripts for different operating systems (mainly mac and Linux.)
-- [ ] Add support for additional shells (fish)
+See [TODO.md](./TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
+
+## 🛡️ Git Hooks & Code Quality
+
+This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to manage all Git hooks for code quality, linting, and security. All previous pre-commit hooks are now managed by Lefthook.
+
+### 🚀 Running Hooks
+
+- Hooks run automatically on `git commit`.
+- To run all pre-commit hooks manually:
+
+  ```bash
+  lefthook run pre-commit
+  ```
+
+- To run a specific hook:
+
+  ```bash
+  lefthook run pre-commit --only <hook-name>
+  ```
+
+### 📝 Configuration
+
+- The configuration is in `lefthook.yml` at the repository root.
+- Custom scripts are in `MISSION_CONTROL/.chezmoiscripts/precommit/`.
+
+### 🧩 Adding/Modifying Hooks
+
+- Edit `lefthook.yml` to add or change hooks.
+- Place new scripts in the precommit directory and make them executable.
+
+## Quick Start
+
+1. Install Chezmoi:
+
+   ```bash
+   sh -c "$(curl -fsLS get.chezmoi.io)"
+   ```
+
+2. Initialize your dotfiles:
+
+   ```bash
+   chezmoi init --apply your_github_username
+   ```

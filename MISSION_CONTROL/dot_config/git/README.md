@@ -1,24 +1,21 @@
-<!-- markdownlint-disable MD033 -->
-<div align="center">
-<!-- markdownlint-enable MD033 -->
-
 # 🌿 Git Configuration 🔄
 
-<!-- markdownlint-disable MD013 -->
-A comprehensive Git configuration with custom aliases, hooks, and settings for enhanced productivity, managed with Chezmoi.
-<!-- markdownlint-enable MD013 -->
+This directory contains Git configuration files and hooks for the dotfiles repository.
 
-<!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/387.png" width="150" />
-<!-- markdownlint-enable MD013 MD045 -->
+## Features
 
-![Git](https://img.shields.io/badge/Git-2.30+-green?style=flat-square&logo=git)
-![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+- Quick access to common Git commands.
+- Enhanced workflow shortcuts.
+- Repository management helpers.
+- Pre-commit hooks (via Lefthook).
 
-<!-- markdownlint-disable MD033 -->
-</div>
-<!-- markdownlint-enable MD033 -->
+## Usage
+
+Copy or symlink the configuration files to your `~/.config/git/` directory.
+
+## Hooks
+
+Hooks are managed by [Lefthook](https://github.com/evilmartians/lefthook) and are located in the `hooks/` subdirectory.
 
 ## 🌟 Features
 
@@ -28,9 +25,9 @@ A comprehensive Git configuration with custom aliases, hooks, and settings for e
 - Enhanced workflow shortcuts
 - Repository management helpers
 
-### 🔄 Git Hooks
+### 🔄 Git Hooks (Lefthook)
 
-- Pre-commit hooks
+- Pre-commit hooks (via Lefthook)
 - Post-merge hooks
 - Custom workflow automation
 
@@ -56,14 +53,15 @@ git/
 
 1. Clone this configuration using Chezmoi:
 
-   ```shell
+   ```bash
    chezmoi init --apply
    ```
 
-2. Ensure Git is installed:
+2. Ensure Git and Lefthook are installed:
 
-   ```shell
-   brew install git
+   ```bash
+   brew install git lefthook
+   lefthook install
    ```
 
 ## ⚙️ Customization
@@ -77,17 +75,17 @@ The configuration includes:
 - Commit message templates
 - GPG signing configuration
 
-### 🔄 Git Hooks
+### 🔄 Git Hooks (Lefthook)
 
 Custom hooks are available for:
 
-- Pre-commit checks
+- Pre-commit checks (see `lefthook.yml`)
 - Post-merge actions
 - Workflow automation
 
-#### 🛡️ Pre-commit Hooks
+#### 🛡️ Pre-commit Hooks (Lefthook)
 
-The repository uses [pre-commit](https://pre-commit.com/) to enforce code quality standards:
+The repository uses [Lefthook](https://github.com/evilmartians/lefthook) to enforce code quality standards:
 
 - **Code Quality**
   - Trailing whitespace removal
@@ -95,18 +93,15 @@ The repository uses [pre-commit](https://pre-commit.com/) to enforce code qualit
   - Mixed line ending fixer
   - Large file detection
   - Merge conflict detection
-
 - **Security**
   - Secret scanning with Gitleaks
   - Private key detection
   - Executable script validation
-
 - **Language-specific Linting**
   - Go: golangci-lint
   - Shell: shellcheck
   - Markdown: markdownlint
   - YAML: yamllint
-
 - **Chezmoi Validation**
   - Template format checking
   - Go tests for dotfiles
@@ -120,89 +115,34 @@ Common Git aliases include:
 - Commit shortcuts
 - Log formatting
 
+## 🧪 Running Hooks Manually
+
+You can run all hooks against all files:
+
+```bash
+lefthook run pre-commit
+```
+
+Or run a specific hook:
+
+```bash
+lefthook run pre-commit --only <hook-name>
+```
+
 ## 🌍 Dependencies
 
 - Git 2.30+
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
-- [pre-commit](https://pre-commit.com/) (for code quality hooks)
+- [Lefthook](https://github.com/evilmartians/lefthook) (for code quality hooks)
 - GPG (for commit signing)
 - Various linters (installed via Homebrew)
 
 ## 🌠 Contributing
 
-<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this configuration even better! ✨
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/388.png" width="100" />
 
 Made with ❤️ and version control magic
 </div>
-<!-- markdownlint-enable MD033 MD013 MD045 -->
-
-# 🔄 Git Configuration
-
-This directory contains Git configuration files and hooks for an optimized version control workflow.
-
-## 📁 Directory Structure
-
-- **hooks/** - Git hooks for automation and quality control
-- **config.toml.tmpl** - Main Git configuration file (templated)
-- **ignore** - Global gitignore patterns
-
-## ⚙️ Configuration Highlights
-
-The Git configuration includes:
-
-1. **User Information**
-   - Name and email from chezmoi data
-   - Conditional work email for work environments
-
-2. **Aliases**
-   - Shorthand commands for common operations
-   - Advanced log formatting
-
-3. **Core Settings**
-   - Editor configuration
-   - Default branch name
-   - Line ending handling
-
-4. **Commit Templates**
-   - Semantic commit message structure
-   - Integration with pre-commit hooks
-
-## 🪝 Hooks Integration
-
-Git hooks are managed through pre-commit framework. See the [hooks README](hooks/README.md) for details on:
-
-- Code quality checks
-- Security scanning
-- Testing automation
-
-## 🔄 Work vs Personal Setup
-
-The configuration adapts based on your environment:
-
-```toml
-{{ if .work_environment }}
-  # Work-specific Git configuration
-  [user]
-    email = "{{ .work_email }}"
-{{ else }}
-  # Personal Git configuration
-  [user]
-    email = "{{ .personal_email }}"
-{{ end }}
-```
-
-## 🛠️ Customization
-
-To modify your Git configuration:
-
-1. Edit `config.toml.tmpl` to change global settings
-2. Update `ignore` to add global ignore patterns
-3. Modify hook configurations in `hooks/`
-
-After making changes, run `chezmoi apply` to update your configuration.

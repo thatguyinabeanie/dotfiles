@@ -182,7 +182,7 @@ homebrew:
       - pkgconf
       - poppler
       - prettier
-      - pre-commit
+      - lefthook
       - procs
       - proctools
       - pyright

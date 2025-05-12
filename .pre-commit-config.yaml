@@ -8,6 +8,15 @@
 # just like these pre-commit hooks that catch small issues before they become problems.
 
 repos:
+  # Pokémon pixel art pre-commit hook (runs first)
+  - repo: local
+    hooks:
+      - id: pokemon-art
+        name: Pokémon Pixel Art
+        entry: MISSION_CONTROL/.chezmoiscripts/precommit/pre-commit-pokemon.sh
+        language: system
+        always_run: true
+
   # Core hooks for basic code quality
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -54,7 +63,7 @@ repos:
         files: \.(sh|bash)$
 
   # Markdown linting - Meowth (#52) - Articulate and precise, like well-formatted markdown
-  # TODO: Improve markdownlint-wrapper.sh to handle automatic fixing of common issues:
+  # TODO: Improve pre-commit-markdownlint.sh to handle automatic fixing of common issues:
   # - Add language tags to code blocks (MD040)
   # - Add blank lines around lists (MD032)
   # - Break long lines or configure to ignore them (MD013)
@@ -62,7 +71,7 @@ repos:
     hooks:
       - id: markdownlint
         name: 📝 Markdown linting
-        entry: MISSION_CONTROL/.chezmoiscripts/markdownlint-wrapper.sh
+        entry: MISSION_CONTROL/.chezmoiscripts/precommit/pre-commit-markdownlint.sh
         args: [--config, .markdownlint.yaml, --fix]
         language: system
         types: [markdown]

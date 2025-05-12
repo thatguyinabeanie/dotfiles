@@ -1,7 +1,8 @@
 ---
 default: true
+# MD013 (line length) is slow and not critical for this repo, so we set a higher limit for readability.
 MD013:
-  line_length: 200
+  line_length: 170
   code_blocks: false
   tables: false
 MD033:

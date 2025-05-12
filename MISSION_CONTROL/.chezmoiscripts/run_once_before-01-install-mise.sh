@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Install mise if not already installed
 if ! command -v mise >/dev/null 2>&1; then

@@ -1,0 +1,119 @@
+aliases:
+  y:
+    default: yazi
+  cat:
+    default: bat --style=plain
+  tks:
+    default: tmux kill-server
+  l:
+    default: ls -l
+  la:
+    default: ls -la
+  ll:
+    default: ls -a
+  dotfiles:
+    default: cd "{{ .chezmoi.sourceDir }}/.."
+  dotfiles-edit:
+    default: nvim "{{ .chezmoi.sourceDir }}/.."
+  chezmoi_data:
+    default: cat ~/.config/chezmoi/chezmoi.toml
+  chezmoi_data_edit:
+    default: nvim ~/.config/chezmoi/chezmoi.toml
+  config:
+    default: cd ~/.config
+  config_edit:
+    default: nvim ~/.config
+  spotify_play:
+    default: osascript -e 'tell application "Spotify" to play'
+  spotify_pause:
+    default: osascript -e 'tell application "Spotify" to pause'
+  spotify_next:
+    default: osascript -e 'tell application "Spotify" to next track'
+  spotify_prev:
+    default: osascript -e 'tell application "Spotify" to previous track'
+
+functions:
+  poke_system_info:
+    description: Show system info with a random Pokémon
+    body:
+      default: |
+        pokeget random --hide-name | fastfetch --file-raw -
+  is_interactive:
+    description: Check if running in interactive mode
+    body:
+      nushell: |
+        $env.CHEZMOI_INTERACTIVE == "1"
+      zsh: |
+        # Not applicable in zsh
+  obsidian_nvim:
+    description: Open Obsidian vault in Neovim
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-create-repo:
+    description: Create a new GitHub repository
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-clone-repo:
+    description: Clone a GitHub repository
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-list-repos:
+    description: List GitHub repositories
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-delete-repo:
+    description: Delete a GitHub repository
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-add-remote:
+    description: Add a remote to a local repository
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  gh-open-repo:
+    description: Open a GitHub repo in the browser
+    body:
+      nushell: |
+        # Nushell function, see aliases.nu.tmpl for full logic
+      zsh: |
+        # Not implemented in zsh
+  git_emoji_commit:
+    description: Interactive emoji commit helper (requires fzf)
+    body:
+      nushell: |
+        # See shell-specific implementation for emoji selection and commit
+      zsh: |
+        # See shell-specific implementation for emoji selection and commit
+  ai:
+    description: AI command helper (OpenAI API)
+    body:
+      nushell: |
+        # See shell-specific implementation for API call
+      zsh: |
+        # See shell-specific implementation for API call
+  clear:
+    description: Animated clear command
+    body:
+      nushell: |
+        # See shell-specific implementation for animation
+      zsh: |
+        # See shell-specific implementation for animation
+
+env:
