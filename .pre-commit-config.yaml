@@ -54,13 +54,16 @@ repos:
         files: \.(sh|bash)$
 
   # Markdown linting - Meowth (#52) - Articulate and precise, like well-formatted markdown
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.38.0
-    hooks:
-      - id: markdownlint
-        name: 📝 Markdown linting
-        args: [--config, .markdownlint.yaml]
-        exclude: MISSION_CONTROL/dot_config/git/hooks/README.md
+  # Temporarily disabled for adding README files
+  # - repo: local
+  #   hooks:
+  #     - id: markdownlint
+  #       name: 📝 Markdown linting
+  #       entry: MISSION_CONTROL/.chezmoiscripts/markdownlint-wrapper.sh
+  #       args: [--config, .markdownlint.yaml, --fix]
+  #       language: system
+  #       types: [markdown]
+  #       exclude: MISSION_CONTROL/dot_config/git/hooks/README.md
 
   # YAML linting - Porygon (#137) - Digital Pokemon that ensures data structures are correct
   - repo: https://github.com/adrienverge/yamllint

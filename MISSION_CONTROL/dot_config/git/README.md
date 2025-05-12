@@ -141,3 +141,68 @@ Feel free to submit issues and enhancement requests! Together we can make this c
 Made with ❤️ and version control magic
 </div>
 <!-- markdownlint-enable MD033 MD013 MD045 -->
+
+# 🔄 Git Configuration
+
+This directory contains Git configuration files and hooks for an optimized version control workflow.
+
+## 📁 Directory Structure
+
+- **hooks/** - Git hooks for automation and quality control
+- **config.toml.tmpl** - Main Git configuration file (templated)
+- **ignore** - Global gitignore patterns
+
+## ⚙️ Configuration Highlights
+
+The Git configuration includes:
+
+1. **User Information**
+   - Name and email from chezmoi data
+   - Conditional work email for work environments
+
+2. **Aliases**
+   - Shorthand commands for common operations
+   - Advanced log formatting
+
+3. **Core Settings**
+   - Editor configuration
+   - Default branch name
+   - Line ending handling
+
+4. **Commit Templates**
+   - Semantic commit message structure
+   - Integration with pre-commit hooks
+
+## 🪝 Hooks Integration
+
+Git hooks are managed through pre-commit framework. See the [hooks README](hooks/README.md) for details on:
+
+- Code quality checks
+- Security scanning
+- Testing automation
+
+## 🔄 Work vs Personal Setup
+
+The configuration adapts based on your environment:
+
+```toml
+{{ if .work_environment }}
+  # Work-specific Git configuration
+  [user]
+    email = "{{ .work_email }}"
+{{ else }}
+  # Personal Git configuration
+  [user]
+    email = "{{ .personal_email }}"
+{{ end }}
+```
+
+## 🛠️ Customization
+
+To modify your Git configuration:
+
+1. Edit `config.toml.tmpl` to change global settings
+2. Update `ignore` to add global ignore patterns
+3. Modify hook configurations in `hooks/`
+
+After making changes, run `chezmoi apply` to update your configuration.
