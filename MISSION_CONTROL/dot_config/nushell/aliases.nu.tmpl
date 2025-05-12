@@ -157,16 +157,16 @@ def git_emoji_commit [msg: string] {
 ##
 # Play/Pause/Next/Prev for Spotify (macOS)
 def spotify_play [] {
-  run-external osascript -e 'tell application "Spotify" to play'
+  run-external osascript '-e' 'tell application "Spotify" to play'
 }
 def spotify_pause [] {
-  run-external osascript -e 'tell application "Spotify" to pause'
+  run-external osascript '-e' 'tell application "Spotify" to pause'
 }
 def spotify_next [] {
-  run-external osascript -e 'tell application "Spotify" to next track'
+  run-external osascript '-e' 'tell application "Spotify" to next track'
 }
 def spotify_prev [] {
-  run-external osascript -e 'tell application "Spotify" to previous track'
+  run-external osascript '-e' 'tell application "Spotify" to previous track'
 }
 
 ##
