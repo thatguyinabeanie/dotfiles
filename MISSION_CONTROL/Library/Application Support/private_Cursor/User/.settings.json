@@ -10,8 +10,8 @@
     },
     "redhat.telemetry.enabled": true,
     "explorer.confirmDragAndDrop": false,
-    "terminal.external.osxExec": "",
-    "terminal.external.linuxExec": "",
+    "terminal.external.osxExec": "ghostty.app",
+    "terminal.external.linuxExec": "ghostty",
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.stickyScroll.enabled": true,
     "editor.fontSize": 20,
@@ -37,5 +37,7 @@
         "**/.node_modules": true
     },
     "augment.chat.userGuidelines": "",
-    "workbench.editor.editorActionsLocation": "titleBar"
+    "workbench.editor.editorActionsLocation": "titleBar",
+    "terminal.integrated.copyOnSelection": true,
+    "terminal.integrated.cursorBlinking": true
 }

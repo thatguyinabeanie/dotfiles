@@ -176,11 +176,18 @@ def spotify_prev [] {
 # Usage: ai "describe what you want"
 def ai [query: string] {
   let prompt = $"You are a shell expert. Given the following request, output the best shell command only. Request: ($query)"
+  let body = {
+    model: "gpt-3.5-turbo"
+    messages: [
+      { role: "user" content: $prompt }
+    ]
+  }
   http post https://api.openai.com/v1/chat/completions \
     Authorization $"Bearer ($env.OPENAI_API_KEY)" \
     Content-Type application/json \
-    '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": '($prompt)'}]}' \
-    | get choices.0.message.content
+    ( $body | to json )
+  | from json
+  | get choices.0.message.content
 }
 
 ##

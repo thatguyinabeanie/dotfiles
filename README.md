@@ -173,6 +173,10 @@ dotfiles/
 └── 🌠 .chezmoi.toml.tmpl
 ```
 
+<!-- 📂 Directory Map -->
+
+For a full, visual map and detailed explanation of the repository structure, see the new [DIRECTORY.md](./DIRECTORY.md) file!
+
 ## 🎨 Theme Showcase
 
 <!-- markdownlint-disable MD013 -->
