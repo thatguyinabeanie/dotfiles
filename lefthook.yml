@@ -1,0 +1,32 @@
+pre-commit:
+  parallel: true
+  commands:
+    markdown-link-check:
+      glob: "*.md"
+      run: markdown-link-check {files}
+    markdownlint:
+      glob: "*.md"
+      run: markdownlint-cli2 {files}
+    shellcheck:
+      glob: "*.sh"
+      run: shellcheck {files}
+    go-tests:
+      glob: "*.go"
+      run: |
+        if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
+          cd __tests__
+          go test ./unit/... -v
+          # Uncomment the following line to run integration tests
+          # go test ./integration/... -v
+        else
+          echo "No Go files changed, skipping tests"
+        fi
+    go-lint:
+      glob: "*.go"
+      run: |
+        if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
+          cd __tests__
+          golangci-lint run ./...
+        else
+          echo "No Go files changed, skipping lint"
+        fi 

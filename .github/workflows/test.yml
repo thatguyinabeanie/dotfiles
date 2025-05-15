@@ -3,30 +3,29 @@ name: Tests
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   test:
-    name: Chezmoi
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.21'
-          cache: true
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
 
-      - name: Install dependencies
-        run: cd MISSION_CONTROL/.tests && go mod download
+    - name: Install dependencies
+      run: cd __tests__ && go mod download
 
-      - name: Run all tests
-        run: cd MISSION_CONTROL/.tests && go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+    - name: Run all tests
+      run: cd __tests__ && go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          file: ./MISSION_CONTROL/.tests/coverage.txt
+    - name: Upload coverage
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./__tests__/coverage.txt
+        fail_ci_if_error: true
