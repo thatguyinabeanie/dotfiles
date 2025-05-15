@@ -21,7 +21,7 @@ jobs:
         with:
           version: v2.1.6
           working-directory: __tests__
-          args: --output.format=colored-line-number --max-issues-per-linter=0 --max-same-issues=0
+          args: --max-issues-per-linter=0 --max-same-issues=0
   YAML:
     runs-on: ubuntu-latest
     steps:
