@@ -19,4 +19,4 @@ This is a subsection with some <kbd>keyboard shortcuts</kbd> and some <sup>super
 
 ## Another Section
 
-This section tests the sibling heading rule. 
+This section tests the sibling heading rule.
