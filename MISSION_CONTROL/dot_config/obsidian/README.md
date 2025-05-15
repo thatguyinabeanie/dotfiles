@@ -18,10 +18,10 @@ This configuration is used by the Obsidian.nvim plugin to integrate Obsidian wit
 
 Benefits of this integration:
 
-- Edit Obsidian notes using Neovim
-- Follow links within Neovim
-- Create new notes with templates
-- Search across your entire vault
+- **Edit in Neovim**: Modify Obsidian notes using Neovim's powerful editing features
+- **Link Following**: Navigate between notes by following links directly within Neovim
+- **Templated Notes**: Create new notes efficiently using predefined templates
+- **Full-Vault Search**: Search across your entire Obsidian vault from Neovim
 
 ## 🔄 Vault Management
 

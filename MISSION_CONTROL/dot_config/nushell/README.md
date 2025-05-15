@@ -1,25 +1,17 @@
-<!-- markdownlint-disable MD033 -->
 <div align="center">
-<!-- markdownlint-enable MD033 -->
 
 # 🐚 Nushell Configuration 🌊
 
-<!-- markdownlint-disable MD013 -->
 A modern and efficient Nushell setup with various customizations and integrations, managed with Chezmoi for seamless deployment.
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/422.png" width="150" />
-<!-- markdownlint-enable MD013 MD045 -->
 
 ![Nushell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-<!-- markdownlint-disable MD033 -->
 </div>
-<!-- markdownlint-enable MD033 -->
 
 ## 📁 Configuration Structure
 
@@ -38,81 +30,77 @@ nushell/
 
 ### 🌍 Environment Management
 
-<!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/423.png" width="50" align="right" />
-<!-- markdownlint-enable MD013 MD045 -->
 
-- Integration with `mise` for tool version management
-- Custom environment variables and configurations
-- Support for work-specific configurations
+- **Mise Integration**: For tool version management
+- **Custom Environment**: Variables and configurations tailored to your needs
+- **Work Support**: Conditional loading of work-specific configurations
 
 ### 🎨 Theme Support
 
-- Catppuccin theme integration
-- Customizable theme selection
+- **Catppuccin**: Integrated theme for a consistent look
+- **Customizable Selection**: Easily change themes
 
 ### 📂 Directory Navigation
 
-- `zoxide` integration for smart directory jumping
-- Custom directory aliases for quick navigation
+- **Zoxide**: Smart directory jumping capabilities
+- **Custom Aliases**: Quick navigation to frequently used directories
 
 ### 🔄 GitHub Integration
 
-<!-- markdownlint-disable MD013 MD045 -->
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/456.png" width="50" align="right" />
-<!-- markdownlint-enable MD013 MD045 -->
 
-- Custom functions for repository management
-- Streamlined GitHub workflow commands
+- **Repo Functions**: Custom functions for repository management
+- **Workflow Commands**: Streamlined GitHub operations
 
 ### 🛠️ Development Tools
 
-- Neovim integration
-- Obsidian vault management
-- Chezmoi dotfiles management
+- **Neovim**: Integrated for text editing
+- **Obsidian**: Vault management capabilities
+- **Chezmoi**: Dotfiles management support
 
 ### 📊 System Information
 
-- Starship prompt integration
-- Pokemon-themed system information display
+- **Starship Prompt**: Rich and informative prompt integration
+- **Pokemon Info**: Themed system information display
 
 ## 🚀 Aliases
 
 ### 📂 Directory Navigation
 
-- `l` - List directory contents
-- `ll` - List all files (including hidden)
-- `la` - List all files with details
+- **`l`**: List directory contents
+- **`ll`**: List all files (including hidden)
+- **`la`**: List all files with details
 
 ### 🔄 Chezmoi
 
-- `chezmoi_update` - Update dotfiles excluding scripts
-- `cia` - Quick apply dotfiles
-- `chezmoi_data` - View Chezmoi configuration
-- `chezmoi_data_edit` - Edit Chezmoi configuration
+- **`chezmoi_update`**: Update dotfiles excluding scripts
+- **`cia`**: Quick apply dotfiles
+- **`chezmoi_data`**: View Chezmoi configuration
+- **`chezmoi_data_edit`**: Edit Chezmoi configuration
 
 ### 🧰 Other
 
-- `y` - Launch Yazi file manager
-- `cat` - Use `bat` for file viewing
-- `tks` - Kill tmux server
+- **`y`**: Launch Yazi file manager
+- **`cat`**: Use `bat` for file viewing
+- **`tks`**: Kill tmux server
 
 ## ⚡ Custom Functions
 
 ### 🔄 GitHub Management
 
-- `gh-create-repo` - Create new repositories
-- `gh-clone-repo` - Clone repositories
-- `gh-list-repos` - List repositories
-- `gh-delete-repo` - Delete repositories
-- `gh-add-remote` - Add remote to local repository
-- `gh-open-repo` - Open repository in browser
+- **`gh-create-repo`**: Create new repositories
+- **`gh-clone-repo`**: Clone repositories
+- **`gh-list-repos`**: List repositories
+- **`gh-delete-repo`**: Delete repositories
+- **`gh-add-remote`**: Add remote to local repository
+- **`gh-open-repo`**: Open repository in browser
 
 ### 🖥️ System Management
 
-- `poke_system_info` - Display system information with random Pokemon
-- `reset_nvim` - Reset Neovim configuration
-- `obsidian_nvim` - Open Obsidian vault in Neovim
+- **`poke_system_info`**: Display system information with random Pokemon
+- **`reset_nvim`**: Reset Neovim configuration
+- **`obsidian_nvim`**: Open Obsidian vault in Neovim
 
 ## 🌠 Installation
 
@@ -163,29 +151,25 @@ The following Chezmoi template variables are used in the configuration:
 - `WORK_ENVIRONMENT` - Enable work-specific configurations
 - Additional variables can be found in `~/.config/chezmoi/chezmoi.toml`
 
-## 🌍 Dependencies
+## �� Dependencies
 
-- [Nushell](https://www.nushell.sh/)
-- [zoxide](https://github.com/ajeetdsouza/zoxide)
-- [mise](https://github.com/jdx/mise)
-- [starship](https://starship.rs/)
-- [Chezmoi](https://www.chezmoi.io/)
-- [Neovim](https://neovim.io/)
-- [Yazi](https://github.com/sxyazi/yazi)
-- [bat](https://github.com/sharkdp/bat)
-- [pokeget](https://github.com/talwat/pokeget)
-- [fastfetch](https://github.com/fastfetch-cli/fastfetch)
+- **Nushell**: The shell environment itself ([Nushell](https://www.nushell.sh/))
+- **Zoxide**: For smart directory jumping ([zoxide](https://github.com/ajeetdsouza/zoxide))
+- **Mise**: For tool version management ([mise](https://github.com/jdx/mise))
+- **Starship**: For the custom prompt ([starship](https://starship.rs/))
+- **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
+- **Neovim**: For text editing integration ([Neovim](https://neovim.io/))
+- **Yazi**: For file management ([Yazi](https://github.com/sxyazi/yazi))
+- **Bat**: For enhanced file viewing ([bat](https://github.com/sharkdp/bat))
+- **Pokeget**: For fetching Pokemon sprites ([pokeget](https://github.com/talwat/pokeget))
+- **Fastfetch**: For system information ([fastfetch](https://github.com/fastfetch-cli/fastfetch))
 
 ## 🌠 Contributing
 
-<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this shell configuration shine brighter! ✨
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/457.png" width="100" />
 
 Made with ❤️ and shell magic
 </div>
-<!-- markdownlint-enable MD033 MD013 MD045 -->

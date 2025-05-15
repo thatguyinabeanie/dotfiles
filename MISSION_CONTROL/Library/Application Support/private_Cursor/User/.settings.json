@@ -30,7 +30,6 @@
     "git.autofetch": false,
     "cursor.cpp.disabledLanguages": [
         "plaintext",
-        "markdown",
         "scminput"
     ],
     "cursor.cpp.enablePartialAccepts": true,

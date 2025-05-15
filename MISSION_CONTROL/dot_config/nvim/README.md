@@ -6,27 +6,27 @@ featuring a beautiful and functional setup with various plugins and customizatio
 ## Features
 
 - **Modern UI**
-  - Catppuccin theme with transparent background
-  - Bufferline for tab management
-  - Lualine status line with custom sections
-  - Snacks for enhanced UI elements
+  - **Theme**: Catppuccin with transparent background
+  - **Bufferline**: For tab management
+  - **Lualine**: Status line with custom sections
+  - **Snacks**: For enhanced UI elements
 
 - **Git Integration**
-  - Git blame with virtual text
-  - Commit information view
-  - Custom git mappings
+  - **Git Blame**: With virtual text
+  - **Commit Info**: View for commit details
+  - **Custom Mappings**: For Git operations
 
 - **LSP Support**
-  - Native LSP integration
-  - Diagnostic signs and virtual text
-  - Inlay hints support
-  - Treesitter integration
+  - **Native Integration**: Built-in LSP support
+  - **Diagnostics**: Signs and virtual text for errors/warnings
+  - **Inlay Hints**: Support for inline code hints
+  - **Treesitter**: Integration for advanced syntax parsing
 
 - **Enhanced Editing**
-  - Indent scope visualization
-  - Word highlighting
-  - Quick file navigation
-  - Input method support
+  - **Indent Scope**: Visualization for indentation levels
+  - **Word Highlighting**: To easily spot occurrences
+  - **Quick Navigation**: For fast file access
+  - **Input Method**: Support for various input methods
 
 ## Plugin Highlights
 
@@ -128,10 +128,10 @@ Snacks.nvim provides various UI improvements:
 
 ## Dependencies
 
-- Neovim 0.9.0+
-- A Nerd Font (for icons)
-- Git (for git integration)
-- [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
+- **Neovim**: Version 0.9.0+ required
+- **Nerd Font**: Required for icons
+- **Git**: For Git integration
+- **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
 
 ## Contributing
 
