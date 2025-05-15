@@ -115,8 +115,6 @@ homebrew:
       - dust
       - exiftool
       - fastfetch
-      - fish
-      - fish-lsp
       - ffmpeg
       - findutils
       - fontconfig
@@ -167,7 +165,6 @@ homebrew:
       - markdown-toc
       - markdown-oxide
       - marksman
-      - markdownlint-cli2
       - mas
       - mise
       - ncdu
@@ -182,7 +179,7 @@ homebrew:
       - pkgconf
       - poppler
       - prettier
-      - pre-commit
+      - lefthook
       - procs
       - proctools
       - pyright

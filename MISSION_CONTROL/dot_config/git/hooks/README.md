@@ -1,16 +1,28 @@
-# 🛡️ Git Hooks Configuration
+# 🛡️ Git Hooks Configuration (Lefthook)
 
-<!-- markdownlint-disable MD013 -->
-This directory contains configuration for Git hooks, including pre-commit hooks that enforce code quality standards and catch issues before they're committed.
-<!-- markdownlint-enable MD013 -->
+This directory contains custom Git hooks managed by [Lefthook](https://github.com/evilmartians/lefthook).
 
-<!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/212.png" width="150" />
-<!-- markdownlint-enable MD013 MD045 -->
+## Features
+
+- **Security Scanning**: Detects secrets and sensitive information before they're committed.
+- **Language-specific Linting**: Validates Go, Shell, Markdown, and YAML files.
+- **Chezmoi Validation**: Ensures dotfiles templates are correctly formatted.
+
+## Usage
+
+Hooks are automatically installed and run by Lefthook. You can run them manually with:
+
+```bash
+lefthook run pre-commit
+```
+
+## Customization
+
+Edit the scripts in this directory or update `lefthook.yml` to add or modify hooks.
 
 ## 🌟 Features
 
-### 🚀 Pre-commit Hooks
+### 🚀 Pre-commit Hooks (via Lefthook)
 
 - **Automated Code Quality Checks**: Ensures consistent code style and prevents common issues
 - **Security Scanning**: Detects secrets and sensitive information before they're committed
@@ -20,30 +32,34 @@ This directory contains configuration for Git hooks, including pre-commit hooks 
 ## 📋 Included Hooks
 
 ### Code Quality
-- Trailing whitespace removal
-- End-of-file fixer
+
+- Trailing whitespace removal (via custom scripts or linters)
+- End-of-file fixer (via custom scripts or linters)
 - Mixed line ending fixer (standardizes to LF)
 - Large file detection
 - Merge conflict detection
 - Executable script validation
 
 ### Security
+
 - Secret scanning with Gitleaks
 - Private key detection
 
 ### Language-specific Linting
+
 - **Go**: golangci-lint
 - **Shell**: shellcheck
 - **Markdown**: markdownlint
 - **YAML**: yamllint
 
 ### Chezmoi Validation
+
 - Template format checking
 - Go tests for dotfiles
 
 ## 🔧 Installation
 
-The pre-commit hooks are automatically installed when you apply the dotfiles with Chezmoi:
+The Lefthook-based hooks are automatically installed when you apply the dotfiles with Chezmoi:
 
 ```bash
 chezmoi apply
@@ -54,13 +70,11 @@ chezmoi apply
 If you need to install the hooks manually:
 
 ```bash
-# Install pre-commit if not already installed
-brew install pre-commit
+# Install lefthook if not already installed
+brew install lefthook
 
 # Install the hooks
-pre-commit install
-pre-commit install --hook-type commit-msg
-pre-commit install --hook-type pre-push
+lefthook install
 ```
 
 ## 🧪 Running Hooks Manually
@@ -68,13 +82,13 @@ pre-commit install --hook-type pre-push
 You can run all hooks against all files:
 
 ```bash
-pre-commit run --all-files
+lefthook run pre-commit
 ```
 
 Or run a specific hook:
 
 ```bash
-pre-commit run <hook-id> --all-files
+lefthook run pre-commit --only <hook-name>
 ```
 
 ## 🔍 Skipping Hooks
@@ -89,20 +103,14 @@ git commit -m "Your message" --no-verify
 
 ## 📝 Configuration
 
-The pre-commit configuration is defined in `.pre-commit-config.yaml` at the repository root.
+The Lefthook configuration is defined in `lefthook.yml` at the repository root.
 
 ## 🔄 Updating Hooks
 
-To update all hooks to their latest versions:
+To update all hooks to their latest versions, update the scripts or tools they call (e.g., via Homebrew or npm).
 
-```bash
-pre-commit autoupdate
-```
-
-<!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/213.png" width="100" />
 
 Made with ❤️ and version control magic
 </div>
-<!-- markdownlint-enable MD033 MD013 MD045 -->
