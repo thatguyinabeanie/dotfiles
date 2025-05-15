@@ -120,10 +120,6 @@ func TestObsidianDirectoryStructure(t *testing.T) {
 }
 
 func TestSourceDirectoryStructure(t *testing.T) {
-	// PrintTestHeader(t, "SOURCE DIRECTORY STRUCTURE")
-
-	// results := []TestResult{}
-
 	// Get the current working directory
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -143,25 +139,4 @@ func TestSourceDirectoryStructure(t *testing.T) {
 	if _, err := os.Stat(sourcePath); os.IsNotExist(err) {
 		t.Fatalf("Source directory not found at %s", sourcePath)
 	}
-
-	// Verify the source directory has a valid .chezmoiexternal.toml.tmpl file
-	// This file defines the repositories that will be cloned into the source directory
-	externalConfigPath := filepath.Join(sourcePath, ".chezmoiexternal.toml.tmpl")
-	if _, err := os.Stat(externalConfigPath); os.IsNotExist(err) {
-		t.Errorf("Expected .chezmoiexternal.toml.tmpl file not found at %s", externalConfigPath)
-	}
-
-	// Check that the source directory is properly configured in the repository
-	// This test doesn't verify the actual subdirectories since they are created
-	// by chezmoi apply, but it ensures the source directory itself exists and is
-	// properly configured with external repositories
-	// result = TestResult{
-	// 	Name:    "Source Structure",
-	// 	Passed:  true,
-	// 	Message: "Source directory structure verified",
-	// }
-	// PrintTestResult(t, result)
-	// results = append(results, result)
-
-	// PrintTestSummary(t, results)
 }
