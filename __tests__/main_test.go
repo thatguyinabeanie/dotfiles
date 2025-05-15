@@ -138,7 +138,9 @@ func TestSourceDirectoryStructure(t *testing.T) {
 	possiblePaths := []string{
 		filepath.Join(rootDir, "MISSION_CONTROL", "source"),
 		filepath.Join(rootDir, "source"),
-		"/home/runner/work/dotfiles/dotfiles/MISSION_CONTROL/source",
+		filepath.Join(rootDir, "MISSION_CONTROL", "source"),
+		"source",                 // Add relative path
+		"MISSION_CONTROL/source", // Add relative path with MISSION_CONTROL
 	}
 
 	var sourcePath string
