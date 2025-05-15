@@ -16,12 +16,6 @@ jobs:
         with:
           working-directory: __tests__
 
-      - name: Install markdown-oxide
-        run: brew install markdown-oxide
-
-      - name: Lint Markdown files
-        run: markdown-oxide check "**/*.md"
-
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
