@@ -1,94 +1,166 @@
 #!/bin/bash
 
-# Cache file for test mappings
-CACHE_FILE=".test_mapping_cache"
+# Configuration
 CACHE_DIR=".cache"
-mkdir -p "$CACHE_DIR"
+COVERAGE_DIR=".coverage"
+HISTORY_DIR=".history"
+SHARD_COUNT=4
+COVERAGE_THRESHOLD=80
+mkdir -p "$CACHE_DIR" "$COVERAGE_DIR" "$HISTORY_DIR"
 
 # Get the list of changed files from git
 CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 
-# Initialize an array to store test files to run
+# Initialize arrays
 TEST_FILES=()
+TEST_DURATIONS=()
+FAILED_TESTS=()
 
-# Function to build or update the cache
-build_cache() {
-    echo "Building test mapping cache..."
-    rm -f "$CACHE_DIR/$CACHE_FILE"
-    find . -name "*.go" -not -path "*/__tests__/*" | while read -r source_file; do
-        base_name=$(basename "$source_file")
-        test_file=$(find __tests__ -name "*_test.go" -type f -exec grep -l "$base_name" {} \;)
-        if [ -n "$test_file" ]; then
-            echo "$source_file:$test_file" >> "$CACHE_DIR/$CACHE_FILE"
+# Function to get test dependencies
+get_test_dependencies() {
+    local test_file=$1
+    local deps_file="$CACHE_DIR/$(basename "$test_file").deps"
+    
+    if [ ! -f "$deps_file" ] || [ $(($(date +%s) - $(stat -f %m "$deps_file"))) -gt 3600 ]; then
+        go list -f '{{.TestImports}}' "$test_file" > "$deps_file"
+    fi
+    cat "$deps_file"
+}
+
+# Function to update test history
+update_test_history() {
+    local test_file=$1
+    local history_file="$HISTORY_DIR/$(basename "$test_file").history"
+    
+    # Get last 5 commits that modified this test
+    git log --follow --pretty=format:"%h %ad %s" --date=short -5 -- "$test_file" >> "$history_file"
+    echo "---" >> "$history_file"
+}
+
+# Function to categorize tests
+categorize_test() {
+    local test_file=$1
+    local categories=()
+    
+    # Check for test categories based on file location and content
+    if [[ "$test_file" == *"/unit/"* ]]; then
+        categories+=("unit")
+    fi
+    if [[ "$test_file" == *"/integration/"* ]]; then
+        categories+=("integration")
+    fi
+    if grep -q "Benchmark" "$test_file"; then
+        categories+=("benchmark")
+    fi
+    
+    echo "${categories[@]}"
+}
+
+# Function to run test with caching
+run_test_with_cache() {
+    local test_file=$1
+    local cache_file="$CACHE_DIR/$(basename "$test_file").result"
+    local start_time=$(date +%s.%N)
+    
+    # Check if we can use cached results
+    if [ -f "$cache_file" ] && [ $(($(date +%s) - $(stat -f %m "$cache_file"))) -lt 3600 ]; then
+        local source_file=$(grep "^$test_file:" "$CACHE_DIR/.test_mapping_cache" | cut -d: -f1)
+        if [ -n "$source_file" ] && [ ! -f "$source_file" ] || [ "$(git diff --quiet "$source_file" 2>/dev/null)" ]; then
+            echo "Using cached test results for $test_file"
+            cat "$cache_file"
+            return 0
+        fi
+    fi
+    
+    # Run the test with all features
+    local categories=($(categorize_test "$test_file"))
+    local tags=$(IFS=,; echo "${categories[*]}")
+    
+    # Run test with coverage, benchmarks, and proper tags
+    go test -v -coverprofile="$COVERAGE_DIR/$(basename "$test_file").coverage" \
+           -bench=. -benchmem \
+           -tags="$tags" \
+           "$test_file" > "$cache_file" 2>&1
+    
+    local end_time=$(date +%s.%N)
+    local duration=$(echo "$end_time - $start_time" | bc)
+    TEST_DURATIONS+=("$test_file:$duration")
+    
+    # Update test history
+    update_test_history "$test_file"
+    
+    # Check coverage
+    local coverage=$(go tool cover -func="$COVERAGE_DIR/$(basename "$test_file").coverage" | grep total | awk '{print $3}' | sed 's/%//')
+    if (( $(echo "$coverage < $COVERAGE_THRESHOLD" | bc -l) )); then
+        echo "Warning: Test coverage for $test_file is below ${COVERAGE_THRESHOLD}% (current: ${coverage}%)"
+        FAILED_TESTS+=("$test_file:coverage")
+    fi
+    
+    # Check for test failures
+    if grep -q "FAIL" "$cache_file"; then
+        FAILED_TESTS+=("$test_file:fail")
+    fi
+    
+    cat "$cache_file"
+}
+
+# Function to run tests in shards
+run_tests_in_shards() {
+    local test_files=("$@")
+    local total_tests=${#test_files[@]}
+    local tests_per_shard=$(( (total_tests + SHARD_COUNT - 1) / SHARD_COUNT ))
+    
+    for ((i=0; i<SHARD_COUNT; i++)); do
+        local start=$((i * tests_per_shard))
+        local end=$((start + tests_per_shard))
+        if [ $start -lt $total_tests ]; then
+            echo "Running shard $((i+1))/$SHARD_COUNT (tests $((start+1))-$((end > total_tests ? total_tests : end)))"
+            for ((j=start; j<end && j<total_tests; j++)); do
+                run_test_with_cache "${test_files[$j]}" &
+            done
+            wait
         fi
     done
 }
 
-# Function to find corresponding test file using cache
-find_test_file() {
-    local source_file=$1
-    local test_file
-    
-    # Check if cache exists and is not older than 1 hour
-    if [ ! -f "$CACHE_DIR/$CACHE_FILE" ] || [ $(($(date +%s) - $(stat -f %m "$CACHE_DIR/$CACHE_FILE"))) -gt 3600 ]; then
-        build_cache
-    fi
-    
-    # Look up in cache
-    test_file=$(grep "^$source_file:" "$CACHE_DIR/$CACHE_FILE" | cut -d: -f2)
-    
-    if [ -n "$test_file" ]; then
-        echo "$test_file"
-    fi
-}
-
-# Process each changed file
-for file in $CHANGED_FILES; do
-    # Skip non-Go files
-    if [[ ! "$file" =~ \.go$ ]]; then
-        continue
-    fi
-    
-    # Find corresponding test file
-    test_file=$(find_test_file "$file")
-    
-    if [ -n "$test_file" ]; then
-        TEST_FILES+=("$test_file")
-    fi
-done
-
-# If no specific test files were found, run all tests
-if [ ${#TEST_FILES[@]} -eq 0 ]; then
-    echo "No specific test files found. Running all tests..."
-    go test -v ./...
+# Main test execution
+if [ ${#CHANGED_FILES[@]} -eq 0 ]; then
+    echo "No files changed, running all tests..."
+    # Find all test files
+    TEST_FILES=($(find . -name "*_test.go"))
 else
-    # Remove duplicates and run specific tests in parallel
-    UNIQUE_TEST_FILES=($(printf "%s\n" "${TEST_FILES[@]}" | sort -u))
-    echo "Running tests for changed files..."
-    
-    # Create a temporary file for test results
-    TEMP_RESULTS=$(mktemp)
-    
-    # Run tests in parallel with a limit of 4 concurrent tests
-    for test_file in "${UNIQUE_TEST_FILES[@]}"; do
-        echo "Running tests in $test_file"
-        go test -v "$test_file" >> "$TEMP_RESULTS" 2>&1 &
-        
-        # Limit concurrent tests
-        if [[ $(jobs -r -p | wc -l) -ge 4 ]]; then
-            wait -n
+    # Process changed files
+    for file in $CHANGED_FILES; do
+        if [[ "$file" =~ \.go$ ]]; then
+            # Find corresponding test files
+            local test_file=$(find . -name "*_test.go" -exec grep -l "$(basename "$file")" {} \;)
+            if [ -n "$test_file" ]; then
+                TEST_FILES+=("$test_file")
+            fi
         fi
     done
+fi
+
+# Run tests in shards
+if [ ${#TEST_FILES[@]} -gt 0 ]; then
+    echo "Running ${#TEST_FILES[@]} tests in $SHARD_COUNT shards..."
+    run_tests_in_shards "${TEST_FILES[@]}"
     
-    # Wait for all tests to complete
-    wait
+    # Report test durations
+    echo -e "\nTest Durations:"
+    printf "%s\n" "${TEST_DURATIONS[@]}" | sort -t: -k2 -n
     
-    # Display results
-    cat "$TEMP_RESULTS"
-    rm "$TEMP_RESULTS"
-    
-    # Check if any tests failed
-    if grep -q "FAIL" "$TEMP_RESULTS"; then
+    # Report failures
+    if [ ${#FAILED_TESTS[@]} -gt 0 ]; then
+        echo -e "\nFailed Tests:"
+        printf "%s\n" "${FAILED_TESTS[@]}"
         exit 1
     fi
-fi 
+else
+    echo "No tests to run"
+fi
+
+# Cleanup old files
+find "$CACHE_DIR" -type f -mtime +1 -delete
+find "$COVERAGE_DIR" -type f -mtime +1 -delete
+find "$HISTORY_DIR" -type f -mtime +7 -delete 

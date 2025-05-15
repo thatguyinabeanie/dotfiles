@@ -16,3 +16,11 @@ k9s/*
 coverage.txt
 gitleaks-report.json
 .vscode/settings.json
+
+# Test-related directories
+__tests__/.cache/
+__tests__/.coverage/
+__tests__/.history/
+*.coverage
+*.deps
+*.result
