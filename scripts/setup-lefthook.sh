@@ -1,22 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 
-# Install Lefthook
-if command -v brew >/dev/null 2>&1; then
-  brew install lefthook markdown-link-check
-elif command -v npm >/dev/null 2>&1; then
-  npm install -g @arkweid/lefthook
-else
-  echo "Please install Homebrew or npm to install Lefthook"
-  exit 1
-fi
+# Install lefthook and markdown-oxide
+brew install lefthook markdown-oxide
 
-# Install markdownlint-cli2 using mise
-if command -v mise >/dev/null 2>&1; then
-  mise install markdownlint-cli2
-else
-  echo "Please install mise to install markdownlint-cli2"
-  exit 1
-fi
+# Install lefthook
+lefthook install
+
+# Install pre-commit hooks
+pre-commit install
 
 # Install Go dependencies
 go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
@@ -29,8 +20,5 @@ if ! command -v shellcheck >/dev/null 2>&1; then
     echo "Please install shellcheck manually"
   fi
 fi
-
-# Initialize Lefthook
-lefthook install
 
 echo "Lefthook has been installed and configured successfully!" 

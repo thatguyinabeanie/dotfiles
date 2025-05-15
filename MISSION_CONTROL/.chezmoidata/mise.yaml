@@ -76,8 +76,6 @@ mise:
       version: latest
     - name: gitsign
       version: latest
-    - name: github-markdown-toc
-      version: latest
     - name: golangci-lint
       version: latest
     - name: golangci-lint-langserver
@@ -184,8 +182,6 @@ mise:
     - name: gitleaks
       version: latest
     - name: gitsign
-      version: latest
-    - name: github-markdown-toc
       version: latest
     - name: golangci-lint
       version: latest

@@ -58,15 +58,7 @@ jobs:
           echo "HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew" >> $GITHUB_ENV
           echo "HOMEBREW_CELLAR=/home/linuxbrew/.linuxbrew/Cellar" >> $GITHUB_ENV
           echo "HOMEBREW_REPOSITORY=/home/linuxbrew/.linuxbrew/Homebrew" >> $GITHUB_ENV
-      - name: Install markdown-link-check
-        run: brew install markdown-link-check
-      - name: Install mise
-        uses: jdx/mise-action@v1
-        with:
-          version: latest
-      - name: Install markdownlint-cli2
-        run: mise install markdownlint-cli2
-      - name: Run markdownlint
-        run: markdownlint-cli2 "*.md"
-      - name: Check for broken links
-        run: markdown-link-check "*.md" --config .markdown-link-check.json
+      - name: Install markdown-oxide
+        run: brew install markdown-oxide
+      - name: Lint Markdown files
+        run: markdown-oxide check "*.md"
