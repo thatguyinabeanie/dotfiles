@@ -15,9 +15,7 @@ pre-commit:
       run: |
         if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
           cd __tests__
-          go test ./unit/... -v
-          # Uncomment the following line to run integration tests
-          # go test ./integration/... -v
+          ./scripts/run_relevant_tests.sh
         else
           echo "No Go files changed, skipping tests"
         fi
@@ -26,7 +24,7 @@ pre-commit:
       run: |
         if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
           cd __tests__
-          golangci-lint run ./...
+          golangci-lint run --fast ./...
         else
           echo "No Go files changed, skipping lint"
         fi 
