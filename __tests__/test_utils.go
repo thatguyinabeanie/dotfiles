@@ -1,3 +1,4 @@
+// Package tests contains shared test utilities for the dotfiles project.
 package tests
 
 // TestResult represents the result of a test

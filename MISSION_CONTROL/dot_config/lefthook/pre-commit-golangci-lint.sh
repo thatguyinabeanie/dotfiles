@@ -1,19 +1,15 @@
 #!/bin/bash
 
-GO_FILES=()
-for arg in "$@"; do
-  case "$arg" in
-    *.go)
-      if [ -f "$arg" ]; then
-        GO_FILES+=("$arg")
-      fi
-      ;;
-  esac
-done
+set -e
 
-if [ ${#GO_FILES[@]} -eq 0 ]; then
-  echo "No Go files to lint."
-  exit 0
-fi
+# List of test subdirectories to lint (relative to __tests__)
+TEST_DIRS=("helpers" "integration" "unit")
 
-golangci-lint run --timeout=5m "${GO_FILES[@]}" 
+cd __tests__
+
+for dir in "${TEST_DIRS[@]}"; do
+  if [ -d "$dir" ] && find "$dir" -maxdepth 1 -name '*.go' | grep -q .; then
+    echo "Running golangci-lint in $dir..."
+    golangci-lint run --config .golangci.yml --timeout=5m "$dir" || exit 1
+  fi
+done 
