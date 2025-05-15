@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Week: {{ output "date" "+%V" | trim }}
+
+# Only run on macOS
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
+
+echo "Running brew upgrade..."
+brew upgrade 
