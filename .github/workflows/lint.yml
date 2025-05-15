@@ -22,8 +22,7 @@ jobs:
           version: latest
 
       - name: Run golangci-lint
-        working-directory: __tests__
-        run: golangci-lint run --out-format=colored-line-number
+        run: golangci-lint run --out-format=colored-line-number ./__tests__/...
 
   yaml:
     name: YAML
@@ -51,14 +50,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Homebrew
+      - name: Install Rust (for markdown-oxide)
         run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo "PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH" >> $GITHUB_ENV
-          echo "HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew" >> $GITHUB_ENV
-          echo "HOMEBREW_CELLAR=/home/linuxbrew/.linuxbrew/Cellar" >> $GITHUB_ENV
-          echo "HOMEBREW_REPOSITORY=/home/linuxbrew/.linuxbrew/Homebrew" >> $GITHUB_ENV
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
       - name: Install markdown-oxide
-        run: brew install markdown-oxide
+        run: cargo install markdown-oxide
       - name: Lint Markdown files
         run: markdown-oxide check "*.md"
