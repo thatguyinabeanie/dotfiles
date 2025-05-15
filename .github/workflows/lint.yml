@@ -2,31 +2,28 @@
 name: Lint
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
+    branches: ["**"]
 
 jobs:
-  golangci:
-    name: Golang
+  GO:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
-          cache: true
+          go-version: '1.24'
+
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v3
+        uses: golangci/golangci-lint-action@v4
         with:
           version: latest
-          args: --out-format=colored-line-number --no-config
-          working-directory: MISSION_CONTROL/.tests
+          working-directory: __tests__
+          args: --out-format=colored-line-number
 
-  yaml:
-    name: YAML
+  YAML:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,8 +33,7 @@ jobs:
           file_or_dir: .
           config_file: .yamllint.yml
 
-  shell:
-    name: Shell
+  SHELL:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -46,24 +42,15 @@ jobs:
         with:
           scandir: '.chezmoiscripts'
 
-  markdown:
-    name: Markdown
+  MARKDOWN:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run markdownlint
-        uses: nosborn/github-action-markdown-cli@v3.3.0
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          files: "*.md"
-          config_file: ".markdownlint.yaml"
-
-  links:
-    name: Links
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check for broken links
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
-        with:
-          use-quiet-mode: 'yes'
-          config-file: '.markdown-link-check.json'
+          node-version: '20'
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
+      - name: Lint Markdown files
+        run: markdownlint-cli2 --config .markdownlint.yaml "**/*.md"

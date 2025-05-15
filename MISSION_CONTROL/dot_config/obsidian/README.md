@@ -1,16 +1,55 @@
-# Obsidian Configuration
+# 📚 Obsidian Configuration
 
 This directory contains configuration files for [Obsidian](https://obsidian.md/), a powerful knowledge base that works on top of a local folder of plain text Markdown files.
 
-## Structure
+## 📂 Structure and Files
 
-- The Obsidian vault is configured to be located at `~/.config/obsidian/obsidian-vault`
-- This configuration is referenced in the Neovim Obsidian plugin configuration
+- **config.json.tmpl** - Templated Obsidian configuration that adjusts based on user preferences
+- **run_once_after_create_vault_dirs.sh.tmpl** - Script that runs after chezmoi apply to create vault directories
 
-## Integration with Neovim
+## 🗄️ Vault Locations
 
-This configuration is used by the Obsidian.nvim plugin to integrate Obsidian with Neovim.
+- **Personal Vault**: `~/.config/obsidian/obsidian-vault`
+- **Work Vault**: `~/.config/obsidian/work-vault` (Only created when `work_environment` is true)
 
-## Vault Management
+## 🧩 Integration with Neovim
 
-Obsidian vaults are managed as external repositories through chezmoi's external configuration.
+This configuration is used by the Obsidian.nvim plugin to integrate Obsidian with Neovim. The Neovim configuration automatically detects available vaults and configures the plugin accordingly.
+
+Benefits of this integration:
+
+- Edit Obsidian notes using Neovim
+- Follow links within Neovim
+- Create new notes with templates
+- Search across your entire vault
+
+## 🔄 Vault Management
+
+Obsidian vaults are managed through a hybrid approach:
+
+1. **Empty Directories**: Created in `MISSION_CONTROL/empty_dot_config/empty_obsidian/empty_obsidian-vault/`
+2. **External Repositories**: For existing vaults, managed via chezmoi external config.
+   - Path: `MISSION_CONTROL/obsidian/.chezmoiexternal.toml.tmpl`
+
+### Initializing a New Vault
+
+To initialize a new vault:
+
+1. The empty vault directories are created during installation
+2. Obsidian will detect these directories on first launch
+3. Choose the directory when prompted by Obsidian
+
+### Using Existing Vaults
+
+To use an existing vault:
+
+1. Add your vault repository URL to `MISSION_CONTROL/obsidian/.chezmoiexternal.toml.tmpl`
+2. Run `chezmoi apply` to clone the repository to the correct location
+
+## 🚀 Customization
+
+To customize your Obsidian setup:
+
+1. Modify `config.json.tmpl` to change global settings
+2. Add plugins by editing the plugins array in the config
+3. Adjust the vault creation script if you need additional vault directories

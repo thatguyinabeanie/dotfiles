@@ -1,24 +1,6 @@
-<!-- markdownlint-disable MD033 -->
-<div align="center">
-<!-- markdownlint-enable MD033 -->
-
 # 🌿 Git Configuration 🔄
 
-<!-- markdownlint-disable MD013 -->
-A comprehensive Git configuration with custom aliases, hooks, and settings for enhanced productivity, managed with Chezmoi.
-<!-- markdownlint-enable MD013 -->
-
-<!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/387.png" width="150" />
-<!-- markdownlint-enable MD013 MD045 -->
-
-![Git](https://img.shields.io/badge/Git-2.30+-green?style=flat-square&logo=git)
-![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-
-<!-- markdownlint-disable MD033 -->
-</div>
-<!-- markdownlint-enable MD033 -->
+This directory contains Git configuration files and hooks for the dotfiles repository.
 
 ## 🌟 Features
 
@@ -28,11 +10,32 @@ A comprehensive Git configuration with custom aliases, hooks, and settings for e
 - Enhanced workflow shortcuts
 - Repository management helpers
 
-### 🔄 Git Hooks
+### 🔄 Git Hooks (Lefthook)
 
-- Pre-commit hooks
-- Post-merge hooks
-- Custom workflow automation
+The repository uses [Lefthook](https://github.com/evilmartians/lefthook) to enforce code quality standards:
+
+- **Pre-commit Hooks**
+  - Code Quality
+    - Trailing whitespace removal
+    - End-of-file fixer
+    - Mixed line ending fixer
+    - Large file detection
+    - Merge conflict detection
+  - Security
+    - Secret scanning with Gitleaks
+    - Private key detection
+    - Executable script validation
+  - Language-specific Linting
+    - Go: golangci-lint
+    - Shell: shellcheck
+    - Markdown: markdownlint
+    - YAML: yamllint
+  - Chezmoi Validation
+    - Template format checking
+    - Go tests for dotfiles
+- **Post-merge Hooks**
+  - Custom workflow automation
+  - Repository state validation
 
 ### ⚙️ Global Settings
 
@@ -56,14 +59,15 @@ git/
 
 1. Clone this configuration using Chezmoi:
 
-   ```shell
+   ```bash
    chezmoi init --apply
    ```
 
-2. Ensure Git is installed:
+2. Ensure Git and Lefthook are installed:
 
-   ```shell
-   brew install git
+   ```bash
+   brew install git lefthook
+   lefthook install
    ```
 
 ## ⚙️ Customization
@@ -77,40 +81,6 @@ The configuration includes:
 - Commit message templates
 - GPG signing configuration
 
-### 🔄 Git Hooks
-
-Custom hooks are available for:
-
-- Pre-commit checks
-- Post-merge actions
-- Workflow automation
-
-#### 🛡️ Pre-commit Hooks
-
-The repository uses [pre-commit](https://pre-commit.com/) to enforce code quality standards:
-
-- **Code Quality**
-  - Trailing whitespace removal
-  - End-of-file fixer
-  - Mixed line ending fixer
-  - Large file detection
-  - Merge conflict detection
-
-- **Security**
-  - Secret scanning with Gitleaks
-  - Private key detection
-  - Executable script validation
-
-- **Language-specific Linting**
-  - Go: golangci-lint
-  - Shell: shellcheck
-  - Markdown: markdownlint
-  - YAML: yamllint
-
-- **Chezmoi Validation**
-  - Template format checking
-  - Go tests for dotfiles
-
 ### 🚀 Aliases
 
 Common Git aliases include:
@@ -120,24 +90,34 @@ Common Git aliases include:
 - Commit shortcuts
 - Log formatting
 
+## 🧪 Running Hooks Manually
+
+You can run all hooks against all files:
+
+```bash
+lefthook run pre-commit
+```
+
+Or run a specific hook:
+
+```bash
+lefthook run pre-commit --only <hook-name>
+```
+
 ## 🌍 Dependencies
 
 - Git 2.30+
 - [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
-- [pre-commit](https://pre-commit.com/) (for code quality hooks)
+- [Lefthook](https://github.com/evilmartians/lefthook) (for code quality hooks)
 - GPG (for commit signing)
 - Various linters (installed via Homebrew)
 
 ## 🌠 Contributing
 
-<!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this configuration even better! ✨
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD033 MD013 MD045 -->
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/388.png" width="100" />
 
 Made with ❤️ and version control magic
 </div>
-<!-- markdownlint-enable MD033 MD013 MD045 -->

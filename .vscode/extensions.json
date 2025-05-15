@@ -33,7 +33,6 @@
     "ms-vscode.remote-explorer",
     "ms-vscode.remote-repositories",
     "shopify.ruby-lsp",
-    "davidanson.vscode-markdownlint",
     "donjayamanne.githistory"
   ]
 }

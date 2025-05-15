@@ -1,0 +1,4 @@
+cargo:
+  - markdown-oxide
+  - lefthook
+  - pokeget
