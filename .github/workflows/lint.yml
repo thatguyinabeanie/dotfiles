@@ -22,7 +22,9 @@ jobs:
           version: latest
 
       - name: Run golangci-lint
-        run: golangci-lint run --out-format=colored-line-number ./__tests__/...
+        run: |
+          cd __tests__
+          golangci-lint run --out-format=colored-line-number ./...
 
   YAML:
     runs-on: ubuntu-latest
