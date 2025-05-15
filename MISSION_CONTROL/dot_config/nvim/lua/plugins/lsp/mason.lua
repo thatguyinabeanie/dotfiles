@@ -72,6 +72,7 @@ return {
         "vtsls",
         "zls",
         "marksman",
+        "markdownlint-cli2",
       },
     },
   },

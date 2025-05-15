@@ -6,7 +6,7 @@ on:
     branches: ["**"]
 
 jobs:
-  lint:
+  GO:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,7 +14,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
 
       - name: Install golangci-lint
         uses: golangci/golangci-lint-action@v4
@@ -24,7 +24,7 @@ jobs:
       - name: Run golangci-lint
         run: golangci-lint run --out-format=colored-line-number ./__tests__/...
 
-  yaml:
+  YAML:
     name: YAML
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +35,7 @@ jobs:
           file_or_dir: .
           config_file: .yamllint.yml
 
-  shell:
+  SHELL:
     name: Shell
     runs-on: ubuntu-latest
     steps:
@@ -45,16 +45,16 @@ jobs:
         with:
           scandir: '.chezmoiscripts'
 
-  markdown:
+  MARKDOWN:
     name: Markdown
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rust (for markdown-oxide)
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-      - name: Install markdown-oxide
-        run: cargo install markdown-oxide
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install markdownlint-cli2
+        run: npm install -g markdownlint-cli2
       - name: Lint Markdown files
-        run: markdown-oxide check "*.md"
+        run: markdownlint-cli2 --config .markdownlint.yaml "*.md"

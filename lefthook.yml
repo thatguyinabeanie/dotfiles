@@ -4,9 +4,9 @@ pre-commit:
     pokemon-art:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-pokemon.sh
       stage_fixed: false
-    markdown-oxide:
+    markdownlint:
       glob: "*.md"
-      run: markdown-oxide check {files}
+      run: markdownlint-cli2 --config .markdownlint.yaml {files}
     shellcheck:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
     go-tests:
