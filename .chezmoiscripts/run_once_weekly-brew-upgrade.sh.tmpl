@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Week: {{ output "date" "+%V" | trim }}
+# Day-Group: {{ mod (div now.Unix 86400) 3 }}
 
 # Only run on macOS
 if [ "$(uname -s)" != "Darwin" ]; then
