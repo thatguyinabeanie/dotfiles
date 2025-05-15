@@ -16,4 +16,4 @@ These files are used as templates by Chezmoi to generate the final configuration
 ```shell
 chezmoi data        # View current data
 chezmoi data edit   # Edit data in your editor
-``` 
+```
