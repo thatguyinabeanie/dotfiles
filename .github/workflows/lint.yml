@@ -3,29 +3,29 @@ name: Lint
 
 on:
   push:
-    branches: [ main ]
+    branches: ["**"]
   pull_request:
-    branches: [ main ]
+    branches: ["**"]
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v5
-      with:
-        go-version: '1.22'
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
 
-    - name: Install golangci-lint
-      uses: golangci/golangci-lint-action@v4
-      with:
-        version: latest
+      - name: Install golangci-lint
+        uses: golangci/golangci-lint-action@v4
+        with:
+          version: latest
 
-    - name: Run golangci-lint
-      working-directory: __tests__
-      run: golangci-lint run
+      - name: Run golangci-lint
+        working-directory: __tests__
+        run: golangci-lint run
 
   yaml:
     name: YAML
@@ -53,26 +53,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Install Homebrew
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $GITHUB_ENV
           eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
       - name: Install markdown-link-check
         run: brew install markdown-link-check
-
       - name: Install mise
         uses: jdx/mise-action@v1
         with:
           version: latest
-
       - name: Install markdownlint-cli2
         run: mise install markdownlint-cli2
-
       - name: Run markdownlint
         run: markdownlint-cli2 "*.md"
-
       - name: Check for broken links
         run: markdown-link-check "*.md" --config .markdown-link-check.json
