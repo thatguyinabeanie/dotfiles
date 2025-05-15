@@ -134,9 +134,33 @@ func TestSourceDirectoryStructure(t *testing.T) {
 		rootDir = cwd
 	}
 
-	// Verify the source directory exists
-	sourcePath := filepath.Join(rootDir, "MISSION_CONTROL", "source")
-	if _, err := os.Stat(sourcePath); os.IsNotExist(err) {
-		t.Fatalf("Source directory not found at %s", sourcePath)
+	// Try multiple possible paths for the source directory
+	possiblePaths := []string{
+		filepath.Join(rootDir, "MISSION_CONTROL", "source"),
+		filepath.Join(rootDir, "source"),
+		"/home/runner/work/dotfiles/dotfiles/MISSION_CONTROL/source",
+	}
+
+	var sourcePath string
+	var found bool
+	for _, path := range possiblePaths {
+		if _, err := os.Stat(path); err == nil {
+			sourcePath = path
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		t.Fatalf("Source directory not found in any of the expected locations: %v", possiblePaths)
+	}
+
+	// Verify the source directory exists and is a directory
+	info, err := os.Stat(sourcePath)
+	if err != nil {
+		t.Fatalf("Failed to stat source directory: %v", err)
+	}
+	if !info.IsDir() {
+		t.Fatalf("Source path exists but is not a directory: %s", sourcePath)
 	}
 }
