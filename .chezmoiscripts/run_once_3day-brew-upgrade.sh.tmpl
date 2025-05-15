@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Day-Group: {{ mod (div now.Unix 86400) 3 }}
+
+# Only run on macOS
+if [ "$(uname -s)" != "Darwin" ]; then
+  exit 0
+fi
+
+echo "Running brew upgrade..."
+brew upgrade 
