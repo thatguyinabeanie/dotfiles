@@ -21,12 +21,10 @@ MD033:
     - kbd
     - sup
     - sub
-MD041:
-  level: 2
+MD041: false  # Allow front matter at the top (no forced first heading)
 MD024:
   siblings_only: true
-MD026:
-  punctuation: ".,;:!"
+MD026: false  # (Optional) Trailing punctuation in headings, if you use e.g. "Q: What is this?"
 MD029:
   style: ordered
 MD036: false
@@ -35,5 +33,6 @@ MD045: false
 # MD040 and MD032 are enabled (not listed here) to enforce:
 # - Code blocks should specify a language
 # - Lists should have blank lines around them
-MD009: false  # Allow trailing spaces
-MD047: false  # Allow multiple newlines at end of file
+MD009: true  # Enforce no trailing spaces
+MD047: false  # (Optional) Allow multiple newlines at end of file, common in Obsidian
+MD004: false  # (Optional) Unordered list style, if you mix -, *, +
