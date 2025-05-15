@@ -1,3 +1,4 @@
+// Package helpers provides utility functions for testing.
 package helpers
 
 import (
@@ -32,7 +33,7 @@ func NewTestConfig(t *testing.T) *TestConfig {
 	}
 
 	for _, dir := range dirs {
-		if err := os.MkdirAll(dir, 0755); err != nil {
+		if err := os.MkdirAll(dir, 0750); err != nil {
 			t.Fatalf("Failed to create directory %s: %v", dir, err)
 		}
 	}
@@ -48,4 +49,20 @@ func NewTestConfig(t *testing.T) *TestConfig {
 // SetWorkEnv sets the work environment flag
 func (tc *TestConfig) SetWorkEnv(workEnv bool) {
 	tc.WorkEnv = workEnv
+}
+
+// CreateTestDir creates a test directory with the given path.
+func CreateTestDir(dir string) error {
+	if err := os.MkdirAll(dir, 0750); err != nil {
+		return err
+	}
+	return nil
+}
+
+// AnotherFunction creates a directory with the given path.
+func AnotherFunction(dir string) error {
+	if err := os.MkdirAll(dir, 0750); err != nil {
+		return err
+	}
+	return nil
 }

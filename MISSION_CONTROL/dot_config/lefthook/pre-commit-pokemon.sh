@@ -1,21 +1,10 @@
 #!/bin/bash
-# Always show Pokémon art, ignore all arguments, and always exit 0
+# Show a random Pokémon using pokeget
 
-cat <<'EOF'
-==========================================================
-     ▄ ▄▄▄▄  
-    ▄▄▄▄▄▄▄▄ 
-  ▄▄▄▄▄▄▄▄▄▀ 
-▄▄▄▄▄▄▄▄▄▄▄▄ 
-▄▄▄▄▄▄▄▄▄▄▄▄▄
-▀▄▄▄▄▄▄▄▄▄▄▄▀
-  ▄▄▄▄▄▄▄▄▄▄▄
-   ▀▄▄▄▄▄▄▄▄▀
-     ▄▄▀▄▄▄▀ 
-        ▀▀   
-==========================================================
-✨ Pre-commit: Pokémon wishes you happy coding! ✨
-Gotta commit 'em all!
-EOF
+echo "=========================================================="
+pokeget random --art
+echo "=========================================================="
+echo "✨ Pre-commit: Pokémon wishes you happy coding! ✨"
+echo "Gotta commit 'em all!"
 
 exit 0
