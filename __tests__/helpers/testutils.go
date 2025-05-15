@@ -51,16 +51,8 @@ func (tc *TestConfig) SetWorkEnv(workEnv bool) {
 	tc.WorkEnv = workEnv
 }
 
-// CreateTestDir creates a test directory with the given path.
-func CreateTestDir(dir string) error {
-	if err := os.MkdirAll(dir, 0750); err != nil {
-		return err
-	}
-	return nil
-}
-
-// AnotherFunction creates a directory with the given path.
-func AnotherFunction(dir string) error {
+// CreateDir creates a directory with the given path.
+func CreateDir(dir string) error {
 	if err := os.MkdirAll(dir, 0750); err != nil {
 		return err
 	}
