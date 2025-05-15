@@ -1,0 +1,18 @@
+#!/bin/sh
+
+{{ if and (eq .platform.is_mac true) (eq .platform.has_brew true) -}}
+echo "🟠 Setting up Homebrew automatic upgrades..."
+
+# Create log directory if it doesn't exist
+mkdir -p "${HOME}/.local/share/homebrew"
+
+# Unload the LaunchAgent if it's already loaded
+launchctl unload "${HOME}/Library/LaunchAgents/com.homebrew.upgrade.plist" 2>/dev/null || true
+
+# Load the LaunchAgent
+launchctl load "${HOME}/Library/LaunchAgents/com.homebrew.upgrade.plist"
+
+echo "🔵 Homebrew automatic upgrades set up. Will run daily at 10:00 AM."
+{{ else -}}
+echo "Skipping Homebrew automatic upgrades setup (not on macOS or Homebrew not installed)."
+{{ end -}}

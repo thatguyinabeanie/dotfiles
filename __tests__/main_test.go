@@ -1,44 +1,32 @@
 package tests
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"testing"
 )
 
-func TestMain(m *testing.M) {
+func init() {
 	// Get the current working directory
 	cwd, err := os.Getwd()
 	if err != nil {
-		fmt.Printf("Failed to get current working directory: %v\n", err)
-		os.Exit(1)
+		panic(err)
 	}
 
-	// If we're in the .tests directory, we need to navigate to the project root
-	if filepath.Base(cwd) == ".tests" {
-		// We're already in the right place, no need to change directory
-	} else {
-		// Try to find the root directory
-		dirs := []string{".", "..", "../.."}
-		found := false
-		for _, dir := range dirs {
-			if _, err := os.Stat(filepath.Join(dir, "MISSION_CONTROL/dot_config")); err == nil {
-				if err := os.Chdir(dir); err != nil {
-					fmt.Printf("Failed to change directory to %s: %v\n", dir, err)
-					os.Exit(1)
-				}
-				found = true
-				break
-			}
-		}
-		if !found {
-			fmt.Println("Could not find project root directory")
-			os.Exit(1)
+	// If we're in the __tests__ directory, we need to navigate to the project root
+	if filepath.Base(cwd) == "__tests__" {
+		err = os.Chdir("..")
+		if err != nil {
+			panic(err)
 		}
 	}
+}
 
+func TestMain(m *testing.M) {
+	// Run tests
 	code := m.Run()
+
+	// Exit with the test result code
 	os.Exit(code)
 }
 
@@ -53,12 +41,12 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the .tests directory
+	// Navigate up one directory if we're in the __tests__ directory
 	var rootDir string
-	if filepath.Base(cwd) == ".tests" {
-		rootDir = filepath.Dir(filepath.Dir(cwd))
-	} else {
+	if filepath.Base(cwd) == "__tests__" {
 		rootDir = filepath.Dir(cwd)
+	} else {
+		rootDir = cwd
 	}
 
 	configPath := filepath.Join(rootDir, "MISSION_CONTROL", "dot_config")
@@ -96,12 +84,12 @@ func TestObsidianDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the .tests directory
+	// Navigate up one directory if we're in the __tests__ directory
 	var rootDir string
-	if filepath.Base(cwd) == ".tests" {
-		rootDir = filepath.Dir(filepath.Dir(cwd))
-	} else {
+	if filepath.Base(cwd) == "__tests__" {
 		rootDir = filepath.Dir(cwd)
+	} else {
+		rootDir = cwd
 	}
 
 	// Check for the obsidian directory in MISSION_CONTROL
@@ -142,12 +130,12 @@ func TestSourceDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the .tests directory
+	// Navigate up one directory if we're in the __tests__ directory
 	var rootDir string
-	if filepath.Base(cwd) == ".tests" {
-		rootDir = filepath.Dir(filepath.Dir(cwd))
-	} else {
+	if filepath.Base(cwd) == "__tests__" {
 		rootDir = filepath.Dir(cwd)
+	} else {
+		rootDir = cwd
 	}
 
 	// Verify the source directory exists

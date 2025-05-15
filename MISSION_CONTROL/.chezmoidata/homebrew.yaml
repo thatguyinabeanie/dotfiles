@@ -115,8 +115,6 @@ homebrew:
       - dust
       - exiftool
       - fastfetch
-      - fish
-      - fish-lsp
       - ffmpeg
       - findutils
       - fontconfig

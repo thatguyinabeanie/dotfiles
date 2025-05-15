@@ -28,12 +28,3 @@ if [ "$RUST_INSTALLED" != "true" ]; then
   # Source the environment for the current session
   . "$HOME/.cargo/env"
 fi
-
-{{ if not .platform.is_codespace -}}
-# Install pokeget-rs if not in a Codespace (to save space)
-if command -v cargo >/dev/null 2>&1; then
-  echo "🟠 Installing pokeget-rs cargo package..."
-  cargo install --quiet pokeget
-  echo "🔵 pokeget-rs installed."
-fi
-{{ end -}}

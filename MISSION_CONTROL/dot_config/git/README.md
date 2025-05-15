@@ -2,21 +2,6 @@
 
 This directory contains Git configuration files and hooks for the dotfiles repository.
 
-## Features
-
-- Quick access to common Git commands.
-- Enhanced workflow shortcuts.
-- Repository management helpers.
-- Pre-commit hooks (via Lefthook).
-
-## Usage
-
-Copy or symlink the configuration files to your `~/.config/git/` directory.
-
-## Hooks
-
-Hooks are managed by [Lefthook](https://github.com/evilmartians/lefthook) and are located in the `hooks/` subdirectory.
-
 ## 🌟 Features
 
 ### 🚀 Custom Aliases
@@ -27,9 +12,30 @@ Hooks are managed by [Lefthook](https://github.com/evilmartians/lefthook) and ar
 
 ### 🔄 Git Hooks (Lefthook)
 
-- Pre-commit hooks (via Lefthook)
-- Post-merge hooks
-- Custom workflow automation
+The repository uses [Lefthook](https://github.com/evilmartians/lefthook) to enforce code quality standards:
+
+- **Pre-commit Hooks**
+  - Code Quality
+    - Trailing whitespace removal
+    - End-of-file fixer
+    - Mixed line ending fixer
+    - Large file detection
+    - Merge conflict detection
+  - Security
+    - Secret scanning with Gitleaks
+    - Private key detection
+    - Executable script validation
+  - Language-specific Linting
+    - Go: golangci-lint
+    - Shell: shellcheck
+    - Markdown: markdownlint
+    - YAML: yamllint
+  - Chezmoi Validation
+    - Template format checking
+    - Go tests for dotfiles
+- **Post-merge Hooks**
+  - Custom workflow automation
+  - Repository state validation
 
 ### ⚙️ Global Settings
 
@@ -74,37 +80,6 @@ The configuration includes:
 - Branch naming conventions
 - Commit message templates
 - GPG signing configuration
-
-### 🔄 Git Hooks (Lefthook)
-
-Custom hooks are available for:
-
-- Pre-commit checks (see `lefthook.yml`)
-- Post-merge actions
-- Workflow automation
-
-#### 🛡️ Pre-commit Hooks (Lefthook)
-
-The repository uses [Lefthook](https://github.com/evilmartians/lefthook) to enforce code quality standards:
-
-- **Code Quality**
-  - Trailing whitespace removal
-  - End-of-file fixer
-  - Mixed line ending fixer
-  - Large file detection
-  - Merge conflict detection
-- **Security**
-  - Secret scanning with Gitleaks
-  - Private key detection
-  - Executable script validation
-- **Language-specific Linting**
-  - Go: golangci-lint
-  - Shell: shellcheck
-  - Markdown: markdownlint
-  - YAML: yamllint
-- **Chezmoi Validation**
-  - Template format checking
-  - Go tests for dotfiles
 
 ### 🚀 Aliases
 

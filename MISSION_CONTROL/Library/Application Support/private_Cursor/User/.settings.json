@@ -14,6 +14,13 @@
     "terminal.external.linuxExec": "ghostty",
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.stickyScroll.enabled": true,
+    "terminal.integrated.defaultProfile.osx": "nushell",
+    "terminal.integrated.profiles.osx": {
+        "nushell": {
+            "path": "/opt/homebrew/bin/nu",
+            "args": []
+        }
+    },
     "editor.fontSize": 20,
     "mise.binPath": "/opt/homebrew/bin/mise",
     "github.copilot.enable": {

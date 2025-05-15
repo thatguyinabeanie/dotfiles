@@ -31,15 +31,26 @@ The repository uses a ROOT-based structure:
 - `.chezmoiroot` points to `MISSION_CONTROL/` directory.
 - All dotfiles are stored under `MISSION_CONTROL/`.
 - Configuration files are in `MISSION_CONTROL/dot_config/`.
-- Tests are in `tests/`.
+- Tests are in `__tests__/`.
 
 ## Testing
 
 - Run tests with:
 
   ```bash
-  cd MISSION_CONTROL/.tests && go test -v ./...
+  cd __tests__ && go test -v ./...
   ```
+
+- Test installation on a fresh system
+- Verify all GitHub Actions pass
+
+## Pull Request Process
+
+1. Update documentation if needed
+2. Add tests for new features
+3. Ensure all tests pass
+4. Update the README.md if needed
+5. Reference any related issues
 
 ## Code Style
 
