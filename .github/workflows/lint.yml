@@ -57,4 +57,6 @@ jobs:
       - name: Install markdownlint-cli2
         run: npm install -g markdownlint-cli2
       - name: Lint Markdown files
-        run: markdownlint-cli2 --config .markdownlint.yaml "*.md"
+        run: markdownlint-cli2 --config .markdownlint.yaml "**/*.md"
+      # - name: Autofix Markdown files (uncomment to enable)
+      #   run: markdownlint-cli2 --fix --config .markdownlint.yaml "**/*.md"

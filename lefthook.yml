@@ -4,8 +4,11 @@ pre-commit:
     pokemon-art:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-pokemon.sh
       stage_fixed: false
+    markdownlint-fix:
+      glob: "**/*.md"
+      run: markdownlint-cli2 --fix --config .markdownlint.yaml {files}
     markdownlint:
-      glob: "*.md"
+      glob: "**/*.md"
       run: markdownlint-cli2 --config .markdownlint.yaml {files}
     shellcheck:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
