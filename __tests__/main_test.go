@@ -1,3 +1,4 @@
+// Package tests contains unit tests for the dotfiles project.
 package tests
 
 import (
