@@ -70,19 +70,17 @@ mise:
   dev_tools:
     - name: act
       version: latest
-    - name: cmake
-      version: latest
     - name: fastfetch
       version: latest
     - name: gitleaks
       version: latest
     - name: gitsign
       version: latest
-    - name: github-markdown-toc
-      version: latest
     - name: golangci-lint
       version: latest
     - name: golangci-lint-langserver
+      version: latest
+    - name: markdown-link-check
       version: latest
     - name: ruff
       version: latest
@@ -185,11 +183,11 @@ mise:
       version: latest
     - name: gitsign
       version: latest
-    - name: github-markdown-toc
-      version: latest
     - name: golangci-lint
       version: latest
     - name: golangci-lint-langserver
+      version: latest
+    - name: markdown-link-check
       version: latest
     - name: ruff
       version: latest
@@ -198,6 +196,14 @@ mise:
     - name: stylua
       version: latest
     - name: hadolint
+      version: latest
+
+    # Markdown and documentation tools
+    - name: marp-cli
+      version: latest
+    - name: vale
+      version: latest
+    - name: mdbook
       version: latest
 
     # Optional tools

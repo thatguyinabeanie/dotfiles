@@ -8,3 +8,6 @@ rules:
     check-keys: false
   document-start: disable
   new-line-at-end-of-file: enable
+
+ignore:
+  - .golangci.yml

@@ -25,11 +25,7 @@ def main [] {
 # Example (commented out):
 # $env.SOME_API_KEY = \"your-api-key-here\"
 "
-
         $content | save -f $secrets_file
-        print "secrets.nu file created successfully!"
-    } else {
-        print "secrets.nu file already exists."
     }
 }
 

@@ -6,54 +6,81 @@
 def poke_system_info [] {
   pokeget random --hide-name | fastfetch --file-raw -
 }
-alias y   = yazi
-alias cat = bat --style=plain
-alias tks = tmux kill-server
 
+# Open Yazi
+alias y   = yazi
+# Cat alias for bat
+alias cat = bat --style=plain
+# Kill tmux server
+alias tks = tmux kill-server
 
 ##
 ## DIRECTORY ALIASES
 ##
 
-alias l   = ls
+# List files in the current directory
+alias l  = ls
+# List all files in the current directory
 alias ll = ls -a
+# List all files in the current directory with long format
 alias la = ls -la
 
 ##
 ##  CHEZMOI
 ##
-alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
-alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
-alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
-alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
 
-# Function to update the system and install packages
+# Navigate to the chezmoi source directory
+alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
+# Edit the chezmoi source directory
+alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
+# Show the chezmoi data file
+alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
+# Edit the chezmoi data file
+alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
+# Navigate to the ~/.config directory
+alias config            = cd ~/.config
+# Edit the ~/.config directory
+alias config_edit       = nvim ~/.config
+
+
+# Function to check if we're in interactive mode
+def is_interactive [] {
+  $env.CHEZMOI_INTERACTIVE == "1"
+}
+
 
 ##
 ## NEOVIM
 ##
 
-# Function to open a specific Obsidian vault in Neovim
-def obsidian_nvim [vault] {
-  if $vault == "personal" {
-    nvim $"~/source/obsidian/obsidian-vault"
+# Obsidian vault in Neovim
+def obsidian_nvim [
+  vault: string = "personal"  # Default to personal vault
+] {
+  let base_path = "~/source/obsidian"
+
+  # Determine which vault to use
+  let vault_path = if $vault == "personal" {
+    $"($base_path)/obsidian-vault"
+  } else if $vault == "work" and {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}true{{ else }}false{{ end }} {
+    $"($base_path)/obsidian-vault-work"
+  } else if $vault == "smart-notes" {
+    $"($base_path)/smart-notes"
+  } else if $vault == "bramses" {
+    $"($base_path)/bramses-highly-opinionated-vault-2023"
   } else {
-    nvim $"~/source/obsidian/($vault)"
+    $"($base_path)/($vault)"
   }
-}
 
-# Function to reset Neovim configuration
-def reset_nvim [] {
-  rm -rf ~/.config/nvim
-  rm -rf ~/.local/share/nvim
-  rm -rf ~/.local/state/nvim
-
-  chezmoi apply --exclude=scripts
+  # Open the vault in Neovim
+  cd $vault_path
+  nvim
 }
 
 ##
 ## GITHUB
 ##
+
 # Function to create a new GitHub repository
 def gh-create-repo [
     name: string,
@@ -103,3 +130,74 @@ def gh-open-repo [
     gh repo view $repo --web
 }
 
+##
+## GIT COMMIT EMOJI SELECTOR
+##
+# Interactive emoji commit helper (requires fzf)
+def git_emoji_commit [msg: string] {
+  let emojis = [
+    { emoji: "✨", desc: "feat: A new feature" }
+    { emoji: "🐛", desc: "fix: A bug fix" }
+    { emoji: "📝", desc: "docs: Documentation only changes" }
+    { emoji: "🎨", desc: "style: Code style changes" }
+    { emoji: "🔥", desc: "remove: Remove code or files" }
+    { emoji: "🚀", desc: "perf: Performance improvements" }
+    { emoji: "✅", desc: "test: Adding tests" }
+    { emoji: "🔧", desc: "chore: Maintenance" }
+    { emoji: "🔀", desc: "merge: Merge branches" }
+    { emoji: "⬆️", desc: "upgrade: Dependency upgrades" }
+  ]
+  let choice = ($emojis | each {|e| $"($e.emoji) ($e.desc)" } | fzf)
+  let emoji = ($choice | split row " " | get 0)
+  git commit -m $"($emoji) ($msg)"
+}
+
+##
+## SPOTIFY CONTROLLER (macOS)
+##
+# Play/Pause/Next/Prev for Spotify (macOS)
+def spotify_play [] {
+  run-external osascript '-e' 'tell application "Spotify" to play'
+}
+def spotify_pause [] {
+  run-external osascript '-e' 'tell application "Spotify" to pause'
+}
+def spotify_next [] {
+  run-external osascript '-e' 'tell application "Spotify" to next track'
+}
+def spotify_prev [] {
+  run-external osascript '-e' 'tell application "Spotify" to previous track'
+}
+
+##
+## AI COMMAND HELPER
+##
+# Requires: set $env.OPENAI_API_KEY
+# Usage: ai "describe what you want"
+def ai [query: string] {
+  let prompt = $"You are a shell expert. Given the following request, output the best shell command only. Request: ($query)"
+  let body = {
+    model: "gpt-3.5-turbo"
+    messages: [
+      { role: "user" content: $prompt }
+    ]
+  }
+  http post https://api.openai.com/v1/chat/completions \
+    Authorization $"Bearer ($env.OPENAI_API_KEY)" \
+    Content-Type application/json \
+    ( $body | to json )
+  | from json
+  | get choices.0.message.content
+}
+
+##
+## ANIMATED TERMINAL TRANSITIONS
+##
+# Animated clear command (fade out)
+def clear [] {
+  for i in (seq 1 10) {
+    print (char newline)
+    sleep 0.02sec
+  }
+  run-external clear
+}

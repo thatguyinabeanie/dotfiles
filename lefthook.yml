@@ -1,0 +1,29 @@
+pre-commit:
+  parallel: true
+  commands:
+    pokemon-art:
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-pokemon.sh
+      stage_fixed: false
+    markdownlint-fix:
+      glob: "**/*.md"
+      run: markdownlint-cli2 --fix --config .markdownlint.yaml {files}
+    markdownlint:
+      glob: "**/*.md"
+      run: markdownlint-cli2 --config .markdownlint.yaml {files}
+    shellcheck:
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
+    go-tests:
+      glob: "*.go"
+      run: |
+        if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
+          cd __tests__
+          ./scripts/run_relevant_tests.sh
+        else
+          echo "No Go files changed, skipping tests"
+        fi
+    go-lint:
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-golangci-lint.sh {staged_files}
+    yamllint:
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-yamllint.sh {staged_files}
+    gitleaks:
+      run: gitleaks protect --staged --no-banner

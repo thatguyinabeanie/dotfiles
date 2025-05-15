@@ -4,143 +4,27 @@
 # The hash below will trigger chezmoi to update this file when the source changes
 # mise.toml hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
 
-echo "🟠 Installing mise dependencies..."
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+# Interactive mode - install everything from the user's mise.toml without prompting
+echo "🟠 Installing mise dependencies from ~/.config/mise/config.toml..."
 
-{{ if eq .platform.interactive true -}}
-# Interactive mode - ask which tool categories to install
-echo "Which tool categories would you like to install?"
+# Check if mise.toml exists
+if [ -f "$HOME/.config/mise/config.toml" ]; then
+  # Run mise install to install all tools defined in the config
+  mise install
 
-echo "Install core tools (bat, eza, fzf, etc.)? (Y/n)"
-read -r install_core
-install_core=${install_core:-y}
+  # Rebuild bat themes if bat is installed
+  if command -v bat >/dev/null 2>&1; then
+    echo "🟠 Rebuilding bat themes..."
+    bat cache --build
+    echo "🔵 Rebuilt bat themes."
+  fi
 
-echo "Install development languages (node, python, go, etc.)? (Y/n)"
-read -r install_langs
-install_langs=${install_langs:-y}
-
-echo "Install package managers (pnpm, yarn, poetry, etc.)? (Y/n)"
-read -r install_pkg_mgrs
-install_pkg_mgrs=${install_pkg_mgrs:-y}
-
-echo "Install development tools (act, cmake, etc.)? (Y/n)"
-read -r install_dev_tools
-install_dev_tools=${install_dev_tools:-y}
-
-echo "Install optional tools (erlang, elixir, terraform, etc.)? (n/y)"
-read -r install_optional
-install_optional=${install_optional:-n}
-
-# Create a temporary mise.toml file
-MISE_CONFIG=$(mktemp)
-
-cat > "$MISE_CONFIG" << 'EOF'
-[tools]
-EOF
-
-# Add settings based on environment
-if [ "$install_core" = "y" ] || [ "$install_core" = "Y" ]; then
-  cat >> "$MISE_CONFIG" << 'EOF'
-# Core tools
-bat = "latest"
-delta = "latest"
-fd = "latest"
-fzf = "latest"
-jq = "latest"
-ripgrep = "latest"
-starship = "latest"
-zoxide = "latest"
-EOF
+  echo "🔵 Installed mise dependencies."
+else
+  echo "⚠️ ~/.config/mise/config.toml not found. No tools installed."
 fi
-
-if [ "$install_langs" = "y" ] || [ "$install_langs" = "Y" ]; then
-  cat >> "$MISE_CONFIG" << 'EOF'
-# Languages
-node = "22"
-python = "3.12"
-go = "1"
-EOF
-fi
-
-if [ "$install_pkg_mgrs" = "y" ] || [ "$install_pkg_mgrs" = "Y" ]; then
-  cat >> "$MISE_CONFIG" << 'EOF'
-# Package managers
-pnpm = "latest"
-uv = "latest"
-EOF
-fi
-
-if [ "$install_dev_tools" = "y" ] || [ "$install_dev_tools" = "Y" ]; then
-  cat >> "$MISE_CONFIG" << 'EOF'
-# Development tools
-github-cli = "latest"
-ruff = "latest"
-shellcheck = "latest"
-EOF
-fi
-
-if [ "$install_optional" = "y" ] || [ "$install_optional" = "Y" ]; then
-  cat >> "$MISE_CONFIG" << 'EOF'
-# Optional tools
-terraform = "latest"
-kubectl = "latest"
-EOF
-fi
-
 {{ else -}}
-# Non-interactive mode - create config file with all tools
-MISE_CONFIG=$(mktemp)
-
-cat > "$MISE_CONFIG" << EOF
-[tools]
-# Core tools
-{{ range .mise.core_tools }}
-{{ .name }} = {{ .version | quote }}
-{{ end }}
-
-# Languages
-{{ range .mise.languages }}
-{{ .name }} = {{ .version | quote }}
-{{ end }}
-
-# Package managers
-{{ range .mise.package_managers }}
-{{ .name }} = {{ .version | quote }}
-{{ end }}
-
-# Development tools
-{{ range .mise.dev_tools }}
-{{ .name }} = {{ .version | quote }}
-{{ end }}
+# Non-interactive mode - don't do anything
+echo "🔵 Skipping mise dependencies installation in non-interactive mode."
 {{ end -}}
-
-[settings]
-jobs = {{ if eq .platform.is_codespace true }}2{{ else }}{{ sub (output "nproc" | trim | atoi) 2 }}{{ end }}
-always_keep_download = false
-http_timeout = "30s"
-python.uv_venv_auto = true
-idiomatic_version_file_enable_tools = ["ruby"]
-trusted_config_paths = ['~/source']
-env_file = '.env'
-experimental = true
-verbose = false
-raw = false
-yes = true
-EOF
-
-# Install tools using the temporary config
-if [ -f "$MISE_CONFIG" ]; then
-  # Use the config file by setting MISE_CONFIG_FILE environment variable
-  MISE_CONFIG_FILE="$MISE_CONFIG" mise install
-
-  # Clean up
-  rm "$MISE_CONFIG"
-fi
-
-# Rebuild bat themes if bat is installed
-if command -v bat >/dev/null 2>&1; then
-  echo "🟠 Rebuilding bat themes..."
-  bat cache --build
-  echo "🔵 Rebuilt bat themes."
-fi
-
-echo "🔵 Installed mise dependencies."

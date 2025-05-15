@@ -83,50 +83,75 @@ refreshPeriod = "168h"
 
 {{ end }}
 
-
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
-{{ $repos := list
-  "audience-creator"
-  "civis-vscode"
-  "console"
-  "civis-ai-bedrock-wrapper"
+
+##
+## FRONTEND REPOSITORIES
+##
+{{ $frontend_repos := list
   "civis-bootstrap"
-  "civis-dbt"
-  "civis-dbt-docker"
-  "civis-deploy"
-  "civis-flask-service"
   "civis-js-client"
-  "civis-jupyter-python3"
-  "civis-kubectl-configs"
   "civis-material-theme"
-  "civis-pulumi"
-  "civis-python"
   "civis-react-components"
-  "civis-services-flask"
-  "civis-services-streamlit"
-  "datascience-python"
-  "docker-scratch"
-  "id-resolution-jobs"
-  "iam-role-injector"
-  "identity-resolution"
-  "jdbctool"
-  "junit-ticket-test-failures"
-  "notebooks-arproxy"
-  "platform-gds-connector"
-  "platform-code-examples"
   "popsicle"
-  "ruby_audit"
-  "sniffer"
-  "tech-custom-scripts"
-  "toborochi"
-  "sailplan"
 }}
-{{ range $repos }}
-["source/{{ . }}"]
+{{ range $frontend_repos }}
+["frontend/{{ . }}"]
 type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
-{{ end }}
+{{ end }} # END RANGE
+
+
+##
+## BACKEND PLATFORM REPOSITORIES
+##
+{{ $backend_repos := list
+  "console"
+  "civis-ai-bedrock-wrapper"
+  "civis-dbt"
+  "civis-dbt-docker"
+  "civis-deploy"
+  "civis-kubectl-configs"
+  "civis-pulumi"
+  "iam-role-injector"
+  "jdbctool"
+  "notebooks-arproxy"
+  "platform-gds-connector"
+  "ruby_audit"
+  "sniffer"
+  "sailplan"
+}}
+{{ range $backend_repos }}
+["backend/{{ . }}"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
+{{ end }} # END RANGE
+
+##
+## SERVICES REPOSITORIES
+##
+{{ $services_repos := list
+  "audience-creator"
+  "civis-vscode"
+  "civis-ai-bedrock-wrapper"
+  "civis-dbt"
+  "civis-dbt-docker"
+  "civis-flask-service"
+  "civis-services-flask"
+  "civis-services-streamlit"
+  "docker-scratch"
+  "toborochi"
+}}
+{{ range $services_repos }}
+["services/{{ . }}"]
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
+{{ end }} # END RANGE
+
 {{ end }}
 
 {{ end }}
+

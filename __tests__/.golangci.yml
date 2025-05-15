@@ -1,0 +1,18 @@
+version: "2"
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - ineffassign
+    - unused
+    - misspell
+    - gosec
+    - revive
+    - testpackage
+
+run:
+  timeout: 5m
+  allow-parallel-runners: true
+  allow-serial-runners: true 
