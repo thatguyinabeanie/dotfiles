@@ -47,4 +47,5 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           file: ./__tests__/coverage.txt
-          fail_ci_if_error: true
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
