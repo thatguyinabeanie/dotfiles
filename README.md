@@ -92,29 +92,33 @@ During installation, you'll be prompted for several configuration values that wi
 
 ![Pikachu](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png)
 
-- Nushell for enhanced shell experience
-- Neovim for efficient editing
-- Tmux for terminal multiplexing
-- Git for version control
+- **Shells**: Choice of Nushell (default) or Zsh for an enhanced command-line experience.
+- **Editors**: Neovim as the primary editor, with configurations for VS Code also available.
+- **Terminals**: Configurations for Kitty and Ghostty terminal emulators.
+- **Multiplexing**: Tmux for powerful terminal session management.
+- **Version Control**: Git, integrated with various tools and quality checks.
+- **Tool Versioning**: Consistent development tool versions managed by Mise.
+- **Prompt**: Highly customizable and informative prompt with Starship.
 
 ### 📝 Knowledge Management
 
 ![Cosmog](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/790.png)
 
-- Obsidian for note-taking
-- Multiple vault support (personal and work)
-- Hybrid approach to vault directory creation (empty directories + conditional script)
-- Templated configuration based on environment
-- Neovim integration via Obsidian.nvim
+- **Obsidian**: For extensive note-taking and personal knowledge base.
+  - Multiple vault support (e.g., personal and work).
+  - Templated configuration based on environment.
+  - Neovim integration via Obsidian.nvim.
 
-### ⚡ Productivity Tools
+### 🛠️ Key Utilities & Productivity Boosters
 
 ![Minior](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/774.png)
 
-- K9s for Kubernetes management
-- Yazi for file management
-- Fastfetch for system info
-- Custom Pokemon system info display
+- **System Info**: Fastfetch for detailed system information (including a custom Pokemon display!).
+- **File Management**: Yazi for a fast and intuitive terminal file manager.
+- **File Preview**: Bat for syntax-highlighted file viewing (`cat` with wings).
+- **Resource Monitoring**: Btop for interactive monitoring of processes and system resources.
+- **Kubernetes**: K9s for streamlined Kubernetes cluster management.
+- **Git Hooks**: Automated code quality, linting, and security checks managed by Lefthook (detailed in its own section below).
 
 <!-- markdownlint-disable MD013 -->
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
