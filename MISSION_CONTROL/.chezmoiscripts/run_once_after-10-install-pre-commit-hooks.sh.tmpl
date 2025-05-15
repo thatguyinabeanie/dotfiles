@@ -1,0 +1,51 @@
+#!/bin/bash
+# shellcheck disable=SC1054,SC1083,SC1073,SC1072
+
+# Pokemon: Scizor (#212) - Known for its precision and attention to detail,
+# just like these git hooks that catch small issues before they become problems.
+
+{{ if eq .platform.has_brew true -}}
+echo "🟠 Setting up lefthook git hooks..."
+
+# Check if lefthook is installed
+if ! command -v lefthook >/dev/null 2>&1; then
+  echo "Installing lefthook..."
+  brew install lefthook
+fi
+
+# Navigate to the repository root
+cd "{{ .chezmoi.sourceDir }}" || exit 1
+
+echo "Installing lefthook hooks for code quality and security..."
+
+# Install the lefthook git hooks
+lefthook install
+
+# Display Pokemon-themed success message
+cat << 'EOF'
+                  /\
+                 /  \
+                /    \
+               /      \
+              /        \
+             /    /\    \
+            /    /  \    \
+           /    /    \    \
+          /    /      \    \
+         /    /        \    \
+        /    /          \    \
+       /    /            \    \
+      /    /              \    \
+     /    /                \    \
+    /    /                  \    \
+   /    ----------------------    \
+  /                                \
+ /                                  \
+/____________________________________\
+EOF
+
+echo "🔵 Lefthook hooks installed successfully!"
+echo "Your code is now protected by Scizor's precision and attention to detail."
+{{ else -}}
+echo "Homebrew is not installed. Skipping lefthook hooks setup."
+{{ end -}}

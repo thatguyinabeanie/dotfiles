@@ -31,6 +31,10 @@ func TestMain(m *testing.M) {
 }
 
 func TestConfigDirectoryStructure(t *testing.T) {
+	// PrintTestHeader(t, "CONFIG DIRECTORY STRUCTURE")
+
+	// results := []TestResult{}
+
 	// Get the current working directory
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -56,6 +60,7 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		"tmux",
 		"mise",
 		"git",
+		"obsidian",
 	}
 
 	for _, dir := range configDirs {
@@ -64,9 +69,61 @@ func TestConfigDirectoryStructure(t *testing.T) {
 			t.Errorf("Expected config directory %s to exist", path)
 		}
 	}
+
+	// PrintTestSummary(t, results)
+}
+
+func TestObsidianDirectoryStructure(t *testing.T) {
+	// PrintTestHeader(t, "OBSIDIAN DIRECTORY STRUCTURE")
+
+	// results := []TestResult{}
+
+	// Get the current working directory
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("Failed to get current working directory: %v", err)
+	}
+
+	// Navigate up one directory if we're in the .tests directory
+	var rootDir string
+	if filepath.Base(cwd) == ".tests" {
+		rootDir = filepath.Dir(filepath.Dir(cwd))
+	} else {
+		rootDir = filepath.Dir(cwd)
+	}
+
+	// Check for the obsidian directory in MISSION_CONTROL
+	obsidianPath := filepath.Join(rootDir, "MISSION_CONTROL", "obsidian")
+	if _, err := os.Stat(obsidianPath); os.IsNotExist(err) {
+		t.Fatalf("Obsidian directory not found at %s", obsidianPath)
+	}
+
+	// Check for the .chezmoiexternal.toml.tmpl file in the obsidian directory
+	externalConfigPath := filepath.Join(obsidianPath, ".chezmoiexternal.toml.tmpl")
+	if _, err := os.Stat(externalConfigPath); os.IsNotExist(err) {
+		t.Errorf("Expected .chezmoiexternal.toml.tmpl file not found at %s", externalConfigPath)
+	}
+
+	// Check for the obsidian config directory
+	obsidianConfigPath := filepath.Join(rootDir, "MISSION_CONTROL", "dot_config", "obsidian")
+	if _, err := os.Stat(obsidianConfigPath); os.IsNotExist(err) {
+		t.Logf("Obsidian config directory not found at %s - this is expected to be created by chezmoi apply", obsidianConfigPath)
+	}
+
+	// Check for the empty directory structure
+	emptyDirPath := filepath.Join(rootDir, "MISSION_CONTROL", "empty_dot_config", "empty_obsidian", "empty_obsidian-vault")
+	if _, err := os.Stat(emptyDirPath); os.IsNotExist(err) {
+		t.Logf("Empty directory structure not found at %s", emptyDirPath)
+	}
+
+	// PrintTestSummary(t, results)
 }
 
 func TestSourceDirectoryStructure(t *testing.T) {
+	// PrintTestHeader(t, "SOURCE DIRECTORY STRUCTURE")
+
+	// results := []TestResult{}
+
 	// Get the current working directory
 	cwd, err := os.Getwd()
 	if err != nil {
@@ -98,5 +155,13 @@ func TestSourceDirectoryStructure(t *testing.T) {
 	// This test doesn't verify the actual subdirectories since they are created
 	// by chezmoi apply, but it ensures the source directory itself exists and is
 	// properly configured with external repositories
-	t.Logf("Source directory structure verified at %s", sourcePath)
+	// result = TestResult{
+	// 	Name:    "Source Structure",
+	// 	Passed:  true,
+	// 	Message: "Source directory structure verified",
+	// }
+	// PrintTestResult(t, result)
+	// results = append(results, result)
+
+	// PrintTestSummary(t, results)
 }

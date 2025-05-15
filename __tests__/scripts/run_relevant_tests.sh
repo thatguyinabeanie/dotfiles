@@ -16,10 +16,28 @@ TEST_FILES=()
 TEST_DURATIONS=()
 FAILED_TESTS=()
 
+# Function to process changed files
+process_changed_files() {
+    local file
+    local test_file
+    for file in $CHANGED_FILES; do
+        if [[ "$file" =~ \.go$ ]]; then
+            # Find corresponding test files
+            test_file=""
+            test_file=$(find . -name "*_test.go" -exec grep -l "$(basename "$file")" {} \;)
+            if [ -n "$test_file" ]; then
+                TEST_FILES+=("$test_file")
+            fi
+        fi
+    done
+}
+
 # Function to get test dependencies
 get_test_dependencies() {
-    local test_file=$1
-    local deps_file="$CACHE_DIR/$(basename "$test_file").deps"
+    local test_file
+    local deps_file
+    test_file=$1
+    deps_file="$CACHE_DIR/$(basename "$test_file").deps"
     
     if [ ! -f "$deps_file" ] || [ $(($(date +%s) - $(stat -f %m "$deps_file"))) -gt 3600 ]; then
         go list -f '{{.TestImports}}' "$test_file" > "$deps_file"
@@ -29,8 +47,10 @@ get_test_dependencies() {
 
 # Function to update test history
 update_test_history() {
-    local test_file=$1
-    local history_file="$HISTORY_DIR/$(basename "$test_file").history"
+    local test_file
+    local history_file
+    test_file=$1
+    history_file="$HISTORY_DIR/$(basename "$test_file").history"
     
     # Get last 5 commits that modified this test
     git log --follow --pretty=format:"%h %ad %s" --date=short -5 -- "$test_file" >> "$history_file"
@@ -39,8 +59,10 @@ update_test_history() {
 
 # Function to categorize tests
 categorize_test() {
-    local test_file=$1
-    local categories=()
+    local test_file
+    local categories
+    test_file=$1
+    categories=()
     
     # Check for test categories based on file location and content
     if [[ "$test_file" == *"/unit/"* ]]; then
@@ -58,13 +80,24 @@ categorize_test() {
 
 # Function to run test with caching
 run_test_with_cache() {
-    local test_file=$1
-    local cache_file="$CACHE_DIR/$(basename "$test_file").result"
-    local start_time=$(date +%s.%N)
+    local test_file
+    local cache_file
+    local start_time
+    local end_time
+    local duration
+    local source_file
+    local categories
+    local tags
+    local coverage
+    
+    test_file=$1
+    cache_file="$CACHE_DIR/$(basename "$test_file").result"
+    start_time=$(date +%s.%N)
     
     # Check if we can use cached results
     if [ -f "$cache_file" ] && [ $(($(date +%s) - $(stat -f %m "$cache_file"))) -lt 3600 ]; then
-        local source_file=$(grep "^$test_file:" "$CACHE_DIR/.test_mapping_cache" | cut -d: -f1)
+        source_file=""
+        source_file=$(grep "^$test_file:" "$CACHE_DIR/.test_mapping_cache" | cut -d: -f1)
         if [ -n "$source_file" ] && [ ! -f "$source_file" ] || [ "$(git diff --quiet "$source_file" 2>/dev/null)" ]; then
             echo "Using cached test results for $test_file"
             cat "$cache_file"
@@ -73,8 +106,8 @@ run_test_with_cache() {
     fi
     
     # Run the test with all features
-    local categories=($(categorize_test "$test_file"))
-    local tags=$(IFS=,; echo "${categories[*]}")
+    mapfile -t categories < <(categorize_test "$test_file")
+    tags=$(IFS=,; echo "${categories[*]}")
     
     # Run test with coverage, benchmarks, and proper tags
     go test -v -coverprofile="$COVERAGE_DIR/$(basename "$test_file").coverage" \
@@ -82,15 +115,16 @@ run_test_with_cache() {
            -tags="$tags" \
            "$test_file" > "$cache_file" 2>&1
     
-    local end_time=$(date +%s.%N)
-    local duration=$(echo "$end_time - $start_time" | bc)
+    end_time=$(date +%s.%N)
+    duration=$(echo "$end_time - $start_time" | bc)
     TEST_DURATIONS+=("$test_file:$duration")
     
     # Update test history
     update_test_history "$test_file"
     
     # Check coverage
-    local coverage=$(go tool cover -func="$COVERAGE_DIR/$(basename "$test_file").coverage" | grep total | awk '{print $3}' | sed 's/%//')
+    coverage=""
+    coverage=$(go tool cover -func="$COVERAGE_DIR/$(basename "$test_file").coverage" | grep total | awk '{print $3}' | sed 's/%//')
     if (( $(echo "$coverage < $COVERAGE_THRESHOLD" | bc -l) )); then
         echo "Warning: Test coverage for $test_file is below ${COVERAGE_THRESHOLD}% (current: ${coverage}%)"
         FAILED_TESTS+=("$test_file:coverage")
@@ -106,13 +140,21 @@ run_test_with_cache() {
 
 # Function to run tests in shards
 run_tests_in_shards() {
-    local test_files=("$@")
-    local total_tests=${#test_files[@]}
-    local tests_per_shard=$(( (total_tests + SHARD_COUNT - 1) / SHARD_COUNT ))
+    local test_files
+    local total_tests
+    local tests_per_shard
+    local i
+    local start
+    local end
+    local j
+    
+    test_files=("$@")
+    total_tests=${#test_files[@]}
+    tests_per_shard=$(( (total_tests + SHARD_COUNT - 1) / SHARD_COUNT ))
     
     for ((i=0; i<SHARD_COUNT; i++)); do
-        local start=$((i * tests_per_shard))
-        local end=$((start + tests_per_shard))
+        start=$((i * tests_per_shard))
+        end=$((start + tests_per_shard))
         if [ $start -lt $total_tests ]; then
             echo "Running shard $((i+1))/$SHARD_COUNT (tests $((start+1))-$((end > total_tests ? total_tests : end)))"
             for ((j=start; j<end && j<total_tests; j++)); do
@@ -127,18 +169,10 @@ run_tests_in_shards() {
 if [ ${#CHANGED_FILES[@]} -eq 0 ]; then
     echo "No files changed, running all tests..."
     # Find all test files
-    TEST_FILES=($(find . -name "*_test.go"))
+    mapfile -t TEST_FILES < <(find . -name "*_test.go")
 else
     # Process changed files
-    for file in $CHANGED_FILES; do
-        if [[ "$file" =~ \.go$ ]]; then
-            # Find corresponding test files
-            local test_file=$(find . -name "*_test.go" -exec grep -l "$(basename "$file")" {} \;)
-            if [ -n "$test_file" ]; then
-                TEST_FILES+=("$test_file")
-            fi
-        fi
-    done
+    process_changed_files
 fi
 
 # Run tests in shards

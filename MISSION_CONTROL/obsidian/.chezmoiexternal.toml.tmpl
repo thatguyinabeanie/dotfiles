@@ -1,4 +1,4 @@
-{{ if not (env "CHEZMOI_INTERACTIVE" | eq "1") }}
+{{ if not (eq (env "CHEZMOI_INTERACTIVE") "1") }}
 
 [obsidian-vault]
 url = "https://github.com/thatguyinabeanie/obsidian-vault.git"

@@ -1,11 +1,24 @@
 ---
 default: true
-MD013: false  # Line length
-MD033: false  # No inline HTML
-MD041: false  # First line in file should be a top level heading
-MD045: false  # Images should have alternate text
-line-length: false
-no-inline-html: false
+# MD013 (line length) is slow and not critical for this repo, so we set a higher limit for readability.
+MD013:
+  line_length: 200
+  code_blocks: false
+  tables: false
+MD033:
+  allowed_elements:
+    - a
+    - img
+    - br
+    - hr
+    - code
+    - pre
+    - div
+    - align
+    - p
+    - h3
+    - span
+MD041: false
 MD024:
   siblings_only: true
 MD026:
@@ -14,3 +27,7 @@ MD029:
   style: ordered
 MD036: false
 MD025: false
+MD045: false
+# MD040 and MD032 are enabled (not listed here) to enforce:
+# - Code blocks should specify a language
+# - Lists should have blank lines around them
