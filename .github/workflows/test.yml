@@ -14,13 +14,29 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'
+          go-version: '1.24'
+          cache: true
+
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/go/pkg/mod
+            **/go.sum
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
 
       - name: Install dependencies
         run: cd __tests__ && go mod download
 
       - name: Run all tests
+        id: test
         run: cd __tests__ && go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+      - name: Check test status
+        if: steps.test.outcome != 'success'
+        run: exit 1
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4

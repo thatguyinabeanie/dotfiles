@@ -84,12 +84,12 @@ func TestObsidianDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the .tests directory
+	// Navigate up one directory if we're in the __tests__ directory
 	var rootDir string
-	if filepath.Base(cwd) == ".tests" {
-		rootDir = filepath.Dir(filepath.Dir(cwd))
-	} else {
+	if filepath.Base(cwd) == "__tests__" {
 		rootDir = filepath.Dir(cwd)
+	} else {
+		rootDir = cwd
 	}
 
 	// Check for the obsidian directory in MISSION_CONTROL

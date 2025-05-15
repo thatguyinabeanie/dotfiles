@@ -23,7 +23,7 @@ jobs:
 
       - name: Run golangci-lint
         working-directory: __tests__
-        run: golangci-lint run
+        run: golangci-lint run --out-format=colored-line-number
 
   yaml:
     name: YAML
@@ -54,8 +54,7 @@ jobs:
       - name: Install Homebrew
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $GITHUB_ENV
-          eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          /home/linuxbrew/.linuxbrew/bin/brew shellenv >> $GITHUB_ENV
       - name: Install markdown-link-check
         run: brew install markdown-link-check
       - name: Install mise
