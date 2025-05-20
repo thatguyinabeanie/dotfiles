@@ -9,9 +9,10 @@ return {
         ["<S-Tab>"] = { "select_prev", "fallback" },
         ["<Tab>"] = { "select_next", "fallback" },
       },
+
       cmdline = { sources = { "cmdline" } },
       sources = {
-        default = { "lsp", "path", "buffer", "codecompanion" },
+        default = { "lsp", "path", "luasnip", "buffer", "codecompanion" },
       },
     },
   },
