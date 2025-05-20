@@ -80,8 +80,6 @@ mise:
       version: latest
     - name: golangci-lint-langserver
       version: latest
-    - name: markdown-link-check
-      version: latest
     - name: ruff
       version: latest
     - name: shellcheck
@@ -186,8 +184,6 @@ mise:
     - name: golangci-lint
       version: latest
     - name: golangci-lint-langserver
-      version: latest
-    - name: markdown-link-check
       version: latest
     - name: ruff
       version: latest
