@@ -21,7 +21,7 @@
             "args": []
         }
     },
-    "editor.fontSize": 20,
+    "editor.fontSize": 16,
     "mise.binPath": "/opt/homebrew/bin/mise",
     "github.copilot.enable": {
         "*": false
@@ -46,5 +46,7 @@
     "augment.chat.userGuidelines": "",
     "workbench.editor.editorActionsLocation": "titleBar",
     "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.cursorBlinking": true
+    "terminal.integrated.cursorBlinking": true,
+    "git.enableSmartCommit": true,
+    "plantuml.server": "http://localhost:8080"
 }
