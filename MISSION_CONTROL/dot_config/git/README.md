@@ -1,5 +1,11 @@
 # 🌿 Git Configuration 🔄
 
+<!-- markdownlint-disable MD013 MD045 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/83.png" width="150" alt="Farfetch'd" />
+</div>
+<!-- markdownlint-enable MD013 MD045 -->
+
 This directory contains Git configuration files and hooks for the dotfiles repository.
 
 ## 🌟 Features
@@ -104,7 +110,7 @@ Or run a specific hook:
 lefthook run pre-commit --only <hook-name>
 ```
 
-## �� Dependencies
+## 🌠 Dependencies
 
 - **Git**: Version 2.30+ required
 - **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
@@ -117,7 +123,5 @@ lefthook run pre-commit --only <hook-name>
 Feel free to submit issues and enhancement requests! Together we can make this configuration even better! ✨
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/388.png" width="100" />
-
 Made with ❤️ and version control magic
 </div>

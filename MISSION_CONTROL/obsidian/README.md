@@ -1,8 +1,14 @@
-# Obsidian Configuration
+# 🧿 Obsidian Setup & Vaults
+
+<!-- markdownlint-disable MD013 MD045 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/561.png" width="150" alt="Sigilyph" />
+</div>
+<!-- markdownlint-enable MD013 MD045 -->
 
 This directory contains configuration for [Obsidian](https://obsidian.md/), a powerful knowledge base that works on top of a local folder of plain text Markdown files.
 
-## Overview
+## 📜 Overview
 
 The Obsidian configuration in this dotfiles repository is designed to:
 
@@ -11,7 +17,7 @@ The Obsidian configuration in this dotfiles repository is designed to:
 3. Support separate vaults for personal and work use
 4. Manage vault repositories through chezmoi's external configuration
 
-## Structure
+## 🏗️ Structure
 
 - **MISSION_CONTROL/obsidian/** - Contains external repository configurations
   - `.chezmoiexternal.toml.tmpl` - Template for external vault repositories
@@ -24,14 +30,14 @@ The Obsidian configuration in this dotfiles repository is designed to:
 - **MISSION_CONTROL/empty_dot_config/empty_obsidian/empty_obsidian-vault/** - Empty directory structure
   - Creates the personal vault directory structure using chezmoi's native features
 
-## Vault Configuration
+## 🏛️ Vault Configuration
 
 The configuration supports two primary vaults:
 
 1. **Personal Vault** - Always created at `~/.config/obsidian/obsidian-vault`
 2. **Work Vault** - Created at `~/.config/obsidian/obsidian-vault-work` when `WORK_ENVIRONMENT` is set to `true`
 
-## External Repositories
+## 🌐 External Repositories
 
 The `.chezmoiexternal.toml.tmpl` file defines external repositories that will be cloned as Obsidian vaults:
 
@@ -40,11 +46,11 @@ The `.chezmoiexternal.toml.tmpl` file defines external repositories that will be
 - **smart-notes**: Example vault with note-taking methodology
 - **obsidian-vault-work**: Work vault repository (only when `WORK_ENVIRONMENT` is true)
 
-## Neovim Integration
+## 🔗 Neovim Integration
 
 The Obsidian configuration is designed to work with the [Obsidian.nvim](https://github.com/epwalsh/obsidian.nvim) plugin, which is configured in the Neovim configuration.
 
-## Usage
+## ▶️ Usage
 
 After running `chezmoi apply`, your Obsidian vaults will be set up automatically. You can then:
 
@@ -52,7 +58,7 @@ After running `chezmoi apply`, your Obsidian vaults will be set up automatically
 2. Select the appropriate vault
 3. Start taking notes!
 
-## Customization
+## 🛠️ Customization
 
 To customize your Obsidian setup:
 

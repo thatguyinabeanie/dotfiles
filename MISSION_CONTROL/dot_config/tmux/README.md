@@ -9,7 +9,9 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 <!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png" width="150" />
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/85.png" width="150" alt="Dodrio" />
+</div>
 <!-- markdownlint-enable MD013 MD045 -->
 
 ![Tmux](https://img.shields.io/badge/Tool-Tmux_3.0+-blue?style=flat-square&logo=tmux)
@@ -40,7 +42,7 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 - **Enhanced Status Bar**: More informative status bar
 - **Session Management**: Robust session handling features
 
-## 📁 Configuration Structure
+## 📂 Configuration Structure
 
 The configuration is split into multiple files for better organization:
 
@@ -53,7 +55,7 @@ tmux/
 └── 🎨 tmux.theme.catppuccin.conf.tmpl - Theme configuration (Chezmoi template)
 ```
 
-## 🌠 Installation
+## 🛠️ Installation
 
 1. Clone this configuration using Chezmoi:
 
@@ -98,12 +100,12 @@ The Pomodoro timer configuration includes:
 - **Visual Notifications**: On-screen alerts for timer events
 - **Status Bar Integration**: Timer display in the status bar
 
-## 🌍 Dependencies
+## 🔗 Dependencies
 
 - **Tmux**: Version 3.0+ required
 - **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
 
-## 🌠 Contributing
+## 🙏 Contributing
 
 <!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨

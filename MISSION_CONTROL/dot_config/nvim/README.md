@@ -1,9 +1,15 @@
-# Neovim Configuration
+# 👾 Neovim Configuration
+
+<!-- markdownlint-disable MD013 MD045 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/178.png" width="150" alt="Xatu" />
+</div>
+<!-- markdownlint-enable MD013 MD045 -->
 
 A modern Neovim configuration built on top of LazyVim,
 featuring a beautiful and functional setup with various plugins and customizations.
 
-## Features
+## 🌟 Features
 
 - **Modern UI**
   - **Theme**: Catppuccin with transparent background
@@ -28,9 +34,9 @@ featuring a beautiful and functional setup with various plugins and customizatio
   - **Quick Navigation**: For fast file access
   - **Input Method**: Support for various input methods
 
-## Plugin Highlights
+## ✨ Plugin Highlights
 
-### Core Plugins
+### 🧩 Core Plugins
 
 - [LazyVim](https://github.com/LazyVim/LazyVim) - Base configuration
 - [Catppuccin](https://github.com/catppuccin/nvim) - Beautiful theme
@@ -60,7 +66,7 @@ featuring a beautiful and functional setup with various plugins and customizatio
   - Status column customization
   - Word highlighting
 
-## Installation
+## 🛠️ Installation
 
 1. Ensure you have Neovim installed (version 0.9.0 or higher)
 
@@ -76,7 +82,7 @@ featuring a beautiful and functional setup with various plugins and customizatio
    nvim
    ```
 
-## Configuration Structure
+## 📂 Configuration Structure
 
 The configuration is organized as follows:
 
@@ -86,9 +92,9 @@ The configuration is organized as follows:
   - `git/blame.lua` - Git blame configuration
   - `snacks.lua` - UI enhancements
 
-## Customization
+## ⚙️ Customization
 
-### Theme
+### 🎨 Theme
 
 The configuration uses Catppuccin theme with the following features:
 
@@ -126,13 +132,13 @@ Snacks.nvim provides various UI improvements:
 - Status column customization
 - Word highlighting
 
-## Dependencies
+## 🔗 Dependencies
 
 - **Neovim**: Version 0.9.0+ required
 - **Nerd Font**: Required for icons
 - **Git**: For Git integration
 - **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
 
-## Contributing
+## 🙏 Contributing
 
 Feel free to submit issues and enhancement requests!

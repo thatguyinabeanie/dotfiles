@@ -1,5 +1,11 @@
 # 📚 Obsidian Configuration
 
+<!-- markdownlint-disable MD013 MD045 -->
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/480.png" width="150" alt="Uxie" />
+</div>
+<!-- markdownlint-enable MD013 MD045 -->
+
 This directory contains configuration files for [Obsidian](https://obsidian.md/), a powerful knowledge base that works on top of a local folder of plain text Markdown files.
 
 ## 📂 Structure and Files
@@ -31,7 +37,7 @@ Obsidian vaults are managed through a hybrid approach:
 2. **External Repositories**: For existing vaults, managed via chezmoi external config.
    - Path: `MISSION_CONTROL/obsidian/.chezmoiexternal.toml.tmpl`
 
-### Initializing a New Vault
+### 💡 Initializing a New Vault
 
 To initialize a new vault:
 
@@ -39,7 +45,7 @@ To initialize a new vault:
 2. Obsidian will detect these directories on first launch
 3. Choose the directory when prompted by Obsidian
 
-### Using Existing Vaults
+### 🗝️ Using Existing Vaults
 
 To use an existing vault:
 
