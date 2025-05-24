@@ -9,7 +9,9 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 <!-- markdownlint-enable MD013 -->
 
 <!-- markdownlint-disable MD013 MD045 -->
-<img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png" width="150" />
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/85.png" width="150" alt="Dodrio" />
+</div>
 <!-- markdownlint-enable MD013 MD045 -->
 
 ![Tmux](https://img.shields.io/badge/Tool-Tmux_3.0+-blue?style=flat-square&logo=tmux)
@@ -29,18 +31,18 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" width="50" align="right" />
 <!-- markdownlint-enable MD013 MD045 -->
 
-- Catppuccin theme integration
-- Transparent background support
-- Custom status line
+- **Catppuccin Integration**: Beautiful and consistent theming
+- **Transparency**: Support for transparent backgrounds
+- **Custom Status Line**: Tailored status line display
 
 ### ⚡ Productivity
 
-- Pomodoro timer integration
-- Custom keybindings
-- Enhanced status bar
-- Session management
+- **Pomodoro Timer**: Integrated for focus management
+- **Custom Keybindings**: Personalized shortcuts for efficiency
+- **Enhanced Status Bar**: More informative status bar
+- **Session Management**: Robust session handling features
 
-## 📁 Configuration Structure
+## 📂 Configuration Structure
 
 The configuration is split into multiple files for better organization:
 
@@ -53,7 +55,7 @@ tmux/
 └── 🎨 tmux.theme.catppuccin.conf.tmpl - Theme configuration (Chezmoi template)
 ```
 
-## 🌠 Installation
+## 🛠️ Installation
 
 1. Clone this configuration using Chezmoi:
 
@@ -77,33 +79,33 @@ tmux/
 
 The configuration uses Catppuccin theme with:
 
-- Transparent background support
-- Custom status line colors
-- Theme variables managed through Chezmoi
+- **Transparency Support**: For see-through terminal backgrounds
+- **Custom Colors**: Tailored status line colors
+- **Chezmoi Variables**: Theme elements managed via Chezmoi data
 
 ### ⌨️ Keybindings
 
 Custom keybindings are organized in `tmux.keybindings.conf`:
 
-- Window management
-- Pane splitting and navigation
-- Session management
-- Copy mode enhancements
+- **Window Management**: Efficient control over windows
+- **Pane Splitting & Navigation**: Easy pane manipulation
+- **Session Control**: Simplified session management
+- **Copy Mode**: Enhancements for text selection and copying
 
 ### ⏱️ Pomodoro Timer
 
 The Pomodoro timer configuration includes:
 
-- Custom timer durations
-- Visual notifications
-- Status bar integration
+- **Custom Durations**: Adjustable timer lengths
+- **Visual Notifications**: On-screen alerts for timer events
+- **Status Bar Integration**: Timer display in the status bar
 
-## 🌍 Dependencies
+## 🔗 Dependencies
 
-- Tmux 3.0+
-- [Chezmoi](https://www.chezmoi.io/) (for dotfiles management)
+- **Tmux**: Version 3.0+ required
+- **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
 
-## 🌠 Contributing
+## 🙏 Contributing
 
 <!-- markdownlint-disable MD013 -->
 Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨
