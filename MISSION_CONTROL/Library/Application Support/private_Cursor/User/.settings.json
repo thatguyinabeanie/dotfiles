@@ -47,5 +47,15 @@
     "terminal.integrated.copyOnSelection": true,
     "terminal.integrated.cursorBlinking": true,
     "git.enableSmartCommit": true,
-    "plantuml.server": "http://localhost:8080"
+    "plantuml.server": "http://localhost:8080",
+    "cursor.composer.shouldAllowCustomModes": true,
+    "update.releaseTrack": "prerelease",
+    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+    "editor.codeActions.triggerOnFocusChange": true,
+    "editor.codeLensFontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+    "editor.experimental.treeSitterTelemetry": true,
+    "editor.experimentalEditContextEnabled": true,
+    "editor.fontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+    "cursor.composer.cmdPFilePicker2": true,
+    "cursor.composer.collapsePaneInputBoxPills": true
 }
