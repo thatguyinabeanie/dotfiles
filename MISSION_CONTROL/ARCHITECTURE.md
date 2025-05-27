@@ -79,5 +79,6 @@ flowchart TD
 ---
 
 **How to view:**
+
 - Paste this code into a markdown file and use a Mermaid-enabled viewer (VS Code, GitHub, etc.) to render the diagram.
-- The diagram shows both high-level groupings (big boxes) and detailed relationships between all major components in your dotfiles repo. 
+- The diagram shows both high-level groupings (big boxes) and detailed relationships between all major components in your dotfiles repo.
