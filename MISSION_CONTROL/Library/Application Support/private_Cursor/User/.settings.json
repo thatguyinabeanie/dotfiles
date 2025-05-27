@@ -9,17 +9,10 @@
   },
   "redhat.telemetry.enabled": true,
   "explorer.confirmDragAndDrop": false,
-  "terminal.external.osxExec": "ghostty.app",
   "terminal.external.linuxExec": "ghostty",
   "terminal.integrated.scrollback": 10000,
   "terminal.integrated.stickyScroll.enabled": true,
-  "terminal.integrated.defaultProfile.osx": "nushell",
-  "terminal.integrated.profiles.osx": {
-    "nushell": {
-      "path": "/opt/homebrew/bin/nu",
-      "args": []
-    }
-  },
+  "terminal.integrated.defaultProfile.osx": "zsh",
   "editor.fontSize": 16,
   "mise.binPath": "/opt/homebrew/bin/mise",
   "github.copilot.enable": {
