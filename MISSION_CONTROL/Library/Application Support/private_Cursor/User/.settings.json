@@ -1,61 +1,78 @@
 {
-    "window.commandCenter": 1,
-    "workbench.colorTheme": "Catppuccin Latte",
-    "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
-    "augment.nextEdit.showDiffInHover": true,
-    "augment.nextEdit.highlightSuggestionsInTheEditor": true,
-    "workbench.iconTheme": "catppuccin-Mocha",
-    "extensions.experimental.affinity": {
-        "asvetliakov.vscode-neovim": 1
-    },
-    "redhat.telemetry.enabled": true,
-    "explorer.confirmDragAndDrop": false,
-    "terminal.external.osxExec": "ghostty.app",
-    "terminal.external.linuxExec": "ghostty",
-    "terminal.integrated.scrollback": 10000,
-    "terminal.integrated.stickyScroll.enabled": true,
-    "terminal.integrated.defaultProfile.osx": "nushell",
-    "terminal.integrated.profiles.osx": {
-        "nushell": {
-            "path": "/opt/homebrew/bin/nu",
-            "args": []
-        }
-    },
-    "editor.fontSize": 16,
-    "mise.binPath": "/opt/homebrew/bin/mise",
-    "github.copilot.enable": {
-        "*": false
-    },
-    "cursor.composer.shouldChimeAfterChatFinishes": true,
-    "git.autofetch": false,
-    "cursor.cpp.disabledLanguages": [
-        "plaintext",
-        "scminput"
-    ],
-    "cursor.cpp.enablePartialAccepts": true,
-    "cursor.general.gitGraphIndexing": "enabled",
-    "files.associations": {
-        "*.toml.tmpl": "toml",
-        "*.nu.tmpl": "nu"
-    },
-    "editor.tabSize": 2,
-    "files.exclude": {
-        "**/.node_modules": true
-    },
-    "augment.chat.userGuidelines": "",
-    "workbench.editor.editorActionsLocation": "titleBar",
-    "terminal.integrated.copyOnSelection": true,
-    "terminal.integrated.cursorBlinking": true,
-    "git.enableSmartCommit": true,
-    "plantuml.server": "http://localhost:8080",
-    "cursor.composer.shouldAllowCustomModes": true,
-    "update.releaseTrack": "prerelease",
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-    "editor.codeActions.triggerOnFocusChange": true,
-    "editor.codeLensFontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
-    "editor.experimental.treeSitterTelemetry": true,
-    "editor.experimentalEditContextEnabled": true,
-    "editor.fontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
-    "cursor.composer.cmdPFilePicker2": true,
-    "cursor.composer.collapsePaneInputBoxPills": true
+  "window.commandCenter": 1,
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
+  "augment.nextEdit.showDiffInHover": true,
+  "augment.nextEdit.highlightSuggestionsInTheEditor": true,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "redhat.telemetry.enabled": true,
+  "explorer.confirmDragAndDrop": false,
+  "terminal.external.osxExec": "ghostty.app",
+  "terminal.external.linuxExec": "ghostty",
+  "terminal.integrated.scrollback": 10000,
+  "terminal.integrated.stickyScroll.enabled": true,
+  "terminal.integrated.defaultProfile.osx": "nushell",
+  "terminal.integrated.profiles.osx": {
+    "nushell": {
+      "path": "/opt/homebrew/bin/nu",
+      "args": []
+    }
+  },
+  "editor.fontSize": 16,
+  "mise.binPath": "/opt/homebrew/bin/mise",
+  "github.copilot.enable": {
+    "*": false
+  },
+  "cursor.composer.shouldChimeAfterChatFinishes": true,
+  "git.autofetch": false,
+  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
+  "cursor.cpp.enablePartialAccepts": true,
+  "cursor.general.gitGraphIndexing": "enabled",
+  "files.associations": {
+    "*.toml.tmpl": "toml",
+    "*.nu.tmpl": "nu"
+  },
+  "editor.tabSize": 2,
+  "files.exclude": {
+    "**/.node_modules": true
+  },
+  "augment.chat.userGuidelines": "",
+  "workbench.editor.editorActionsLocation": "titleBar",
+  "terminal.integrated.copyOnSelection": true,
+  "terminal.integrated.cursorBlinking": true,
+  "git.enableSmartCommit": true,
+  "plantuml.server": "http://localhost:8080",
+  "cursor.composer.shouldAllowCustomModes": true,
+  "update.releaseTrack": "prerelease",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.codeActions.triggerOnFocusChange": true,
+  "editor.codeLensFontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+  "editor.experimental.treeSitterTelemetry": true,
+  "editor.experimentalEditContextEnabled": true,
+  "editor.fontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+  "cursor.composer.cmdPFilePicker2": true,
+  "cursor.composer.collapsePaneInputBoxPills": true,
+  "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+  "workbench.preferredLightColorTheme": "Catppuccin Latte",
+  "workbench.iconTheme": "catppuccin-perfect-mocha",
+  "markdown-preview-github-styles.colorTheme": "system",
+  "window.autoDetectColorScheme": true,
+  "cursor.preferNotificationsSameAsChat": true,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.fontLigatures": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "cursor.terminal.usePreviewBox": true,
+  "editor.foldingImportsByDefault": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.renderWhitespace": "all",
+  "cursor.composer.shouldQueueWhenGenerating": true,
+  "cursor.composer.shouldShowMarkdownHoverParticipantActions2": true,
+  "editor.unfoldOnClickAfterEndOfLine": true,
+  "notebook.showFoldingControls": "always"
 }
