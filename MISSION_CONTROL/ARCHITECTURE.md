@@ -33,7 +33,7 @@ flowchart TD
     DirectoryMd[DIRECTORY.md]
     Contributing[CONTRIBUTING.md]
     Security[SECURITY.md]
-    Todo[TODO/]
+    Todo[.todo/]
   end
 
   subgraph Chezmoi_Target_State["Chezmoi Target State [Home Directory]"]
