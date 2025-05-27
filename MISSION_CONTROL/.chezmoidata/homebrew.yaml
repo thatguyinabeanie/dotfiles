@@ -145,7 +145,6 @@ homebrew:
       - incus
       - jaq
       - jesseduffield/lazydocker/lazydocker
-      - jq
       - launchctl-completion
       - libtool
       - llvm
