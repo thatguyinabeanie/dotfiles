@@ -12,7 +12,7 @@ return {
 
       cmdline = { sources = { "cmdline" } },
       sources = {
-        default = { "lsp", "path", "luasnip", "buffer", "codecompanion" },
+        default = { "lsp", "path", "buffer", "copilot" },
       },
     },
   },

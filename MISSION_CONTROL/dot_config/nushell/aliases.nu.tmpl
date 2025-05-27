@@ -29,15 +29,20 @@ alias la = ls -la
 ##  CHEZMOI
 ##
 
-# Navigate to the chezmoi source directory
-alias dotfiles          = cd "{{ .chezmoi.sourceDir }}/.."
-# Edit the chezmoi source directory
-alias dotfiles-edit     = nvim "{{ .chezmoi.sourceDir }}/.."
-# Show the chezmoi data file
-alias chezmoi_data      = cat ~/.config/chezmoi/chezmoi.toml
-# Edit the chezmoi data file
-alias chezmoi_data_edit = nvim ~/.config/chezmoi/chezmoi.toml
-# Navigate to the ~/.config directory
+# Navigate to the chezmoi source directory or edit it with nvim
+def dotfiles [] {
+  nvim "{{ .chezmoi.sourceDir }}/.."
+}
+
+# Show the chezmoi data file or edit it with nvim
+def chezmoi-data [] {
+  nvim "~/.config/chezmoi/chezmoi.toml"
+}
+
+def config [] {
+  nvim "~/.config"
+}
+
 alias config            = cd ~/.config
 # Edit the ~/.config directory
 alias config_edit       = nvim ~/.config
