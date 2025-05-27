@@ -1,6 +1,6 @@
 -- automatically save and restore sessions
 -- https://github.com/rmagatti/auto-session
-
+if true then return {} end
 return {
   {
     "rmagatti/auto-session",
