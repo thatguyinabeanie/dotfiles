@@ -74,5 +74,8 @@
   "cursor.composer.shouldQueueWhenGenerating": true,
   "cursor.composer.shouldShowMarkdownHoverParticipantActions2": true,
   "editor.unfoldOnClickAfterEndOfLine": true,
-  "notebook.showFoldingControls": "always"
+  "notebook.showFoldingControls": "always",
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  }
 }
