@@ -123,7 +123,7 @@ dotfiles/
 - **README.md**: Main project overview and instructions.
 - **CONTRIBUTING.md**: How to contribute to this repo.
 - **LICENSE**: License for the project.
-- **TODO.md**: Project todos and ideas.
+- **.todo/**: Project todos and ideas.
 
 ---
 
