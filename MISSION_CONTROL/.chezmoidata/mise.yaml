@@ -11,8 +11,6 @@ mise:
       version: latest
     - name: fd
       version: latest
-    - name: fzf
-      version: latest
     - name: github-cli
       version: latest
     - name: gitui
@@ -116,8 +114,6 @@ mise:
     - name: eza
       version: latest
     - name: fd
-      version: latest
-    - name: fzf
       version: latest
     - name: github-cli
       version: latest
