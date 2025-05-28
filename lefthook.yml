@@ -16,7 +16,7 @@ pre-commit:
       glob: "*.go"
       run: |
         if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
-          cd __tests__
+          cd _tests_
           ./scripts/run_relevant_tests.sh
         else
           echo "No Go files changed, skipping tests"

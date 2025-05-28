@@ -31,14 +31,14 @@ The repository uses a ROOT-based structure:
 - `.chezmoiroot` points to `MISSION_CONTROL/` directory.
 - All dotfiles are stored under `MISSION_CONTROL/`.
 - Configuration files are in `MISSION_CONTROL/dot_config/`.
-- Tests are in `__tests__/`.
+- Tests are in `_tests_/`.
 
 ## Testing
 
 - Run tests with:
 
   ```bash
-  cd __tests__ && go test -v ./...
+  cd _tests_ && go test -v ./...
   ```
 
 - Test installation on a fresh system

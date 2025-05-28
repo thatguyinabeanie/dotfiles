@@ -14,6 +14,18 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
+-- Treewalker movement (normal & visual mode)
+vim.keymap.set({ 'n', 'v' }, '<M-h>', '<cmd>Treewalker Left<cr>', { desc = "Treewalker Left", silent = true })
+vim.keymap.set({ 'n', 'v' }, '<M-j>', '<cmd>Treewalker Down<cr>', { desc = "Treewalker Down", silent = true })
+vim.keymap.set({ 'n', 'v' }, '<M-k>', '<cmd>Treewalker Up<cr>', { desc = "Treewalker Up", silent = true })
+vim.keymap.set({ 'n', 'v' }, '<M-l>', '<cmd>Treewalker Right<cr>', { desc = "Treewalker Right", silent = true })
+
+-- Treewalker swapping (normal mode)
+vim.keymap.set('n', '<M-H>', '<cmd>Treewalker SwapLeft<cr>', { desc = "Treewalker Swap Left", silent = true })
+vim.keymap.set('n', '<M-J>', '<cmd>Treewalker SwapDown<cr>', { desc = "Treewalker Swap Down", silent = true })
+vim.keymap.set('n', '<M-K>', '<cmd>Treewalker SwapUp<cr>', { desc = "Treewalker Swap Up", silent = true })
+vim.keymap.set('n', '<M-L>', '<cmd>Treewalker SwapRight<cr>', { desc = "Treewalker Swap Right", silent = true })
+
 --
 -- LAZY PLUGINS KEYMAPS
 --
