@@ -161,48 +161,27 @@ def git_emoji_commit [msg: string] {
 ## SPOTIFY CONTROLLER (macOS)
 ##
 # Play/Pause/Next/Prev for Spotify (macOS)
-def spotify_play [] {
-  run-external osascript '-e' 'tell application "Spotify" to play'
-}
-def spotify_pause [] {
-  run-external osascript '-e' 'tell application "Spotify" to pause'
-}
-def spotify_next [] {
-  run-external osascript '-e' 'tell application "Spotify" to next track'
-}
-def spotify_prev [] {
-  run-external osascript '-e' 'tell application "Spotify" to previous track'
-}
-
-##
-## AI COMMAND HELPER
-##
-# Requires: set $env.OPENAI_API_KEY
-# Usage: ai "describe what you want"
-def ai [query: string] {
-  let prompt = $"You are a shell expert. Given the following request, output the best shell command only. Request: ($query)"
-  let body = {
-    model: "gpt-3.5-turbo"
-    messages: [
-      { role: "user" content: $prompt }
-    ]
-  }
-  http post https://api.openai.com/v1/chat/completions \
-    Authorization $"Bearer ($env.OPENAI_API_KEY)" \
-    Content-Type application/json \
-    ( $body | to json )
-  | from json
-  | get choices.0.message.content
-}
+#def spotify_play [] {
+#   run-external osascript '-e' 'tell application "Spotify" to play'
+# }
+# def spotify_pause [] {
+#   run-external osascript '-e' 'tell application "Spotify" to pause'
+# }
+# def spotify_next [] {
+#   run-external osascript '-e' 'tell application "Spotify" to next track'
+# }
+# def spotify_prev [] {
+#   run-external osascript '-e' 'tell application "Spotify" to previous track'
+# }
 
 ##
 ## ANIMATED TERMINAL TRANSITIONS
 ##
 # Animated clear command (fade out)
-def clear [] {
-  for i in (seq 1 10) {
-    print (char newline)
-    sleep 0.02sec
-  }
-  run-external clear
-}
+# def clear [] {
+#   for i in (seq 1 10) {
+#     print (char newline)
+#     sleep 0.02sec
+#   }
+#   run-external clear
+# }
