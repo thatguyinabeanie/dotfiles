@@ -206,4 +206,3 @@ This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to man
 ```bash
 lefthook run pre-commit
 ```
-hello world
