@@ -41,20 +41,19 @@
   "update.releaseTrack": "prerelease",
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.codeActions.triggerOnFocusChange": true,
-  "editor.codeLensFontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+  "editor.codeLensFontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
   "editor.experimental.treeSitterTelemetry": true,
   "editor.experimentalEditContextEnabled": true,
-  "editor.fontFamily": "Dank Mono, DankMono NerdFont, DankMono NerdFont Mono",
+  "editor.fontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
   "cursor.composer.cmdPFilePicker2": true,
   "cursor.composer.collapsePaneInputBoxPills": true,
   "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
   "workbench.preferredLightColorTheme": "Catppuccin Latte",
-  "workbench.iconTheme": "catppuccin-perfect-mocha",
   "markdown-preview-github-styles.colorTheme": "system",
   "window.autoDetectColorScheme": true,
   "cursor.preferNotificationsSameAsChat": true,
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "editor.fontLigatures": true,
   "[jsonc]": {
@@ -70,5 +69,8 @@
   "notebook.showFoldingControls": "always",
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-  }
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "workbench.iconTheme": "catppuccin-latte",
+  "terminal.integrated.fontLigatures": true
 }

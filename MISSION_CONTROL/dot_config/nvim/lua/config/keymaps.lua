@@ -96,14 +96,6 @@ vim.keymap.set("n", "<leader>Pw", "<cmd>TimerStart 25m Work<cr>", { desc = "Star
 vim.keymap.set("n", "<leader>Pb", "<cmd>TimerStart 5m Break<cr>", { desc = "Start short break (5m)" })
 vim.keymap.set("n", "<leader>PB", "<cmd>TimerStart 15m Long Break<cr>", { desc = "Start long break (15m)" })
 
---
--- MARP
---
-wk.add({
-  { "<leader>M", group = "MARP", icon = "🎁" },
-})
-vim.keymap.set("n", "<leader>Mt", "<cmd>MarpToggle<cr>", { desc = "Toggle MARP", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>Ms", "<cmd>MarpStatus<cr>", { desc = "MARP Status", noremap = true, silent = true })
 
 --
 -- LLM
@@ -136,3 +128,4 @@ vim.keymap.set("n", "<leader>Owp", "<cmd>ObsidianWorkspace personal<cr>", { desc
 vim.keymap.set("n", "<leader>Ows", "<cmd>ObsidianWorkspace smart-notes<cr>", { desc = "Switch to Smart Notes Workspace" })
 vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc = "Switch to Bramses Workspace" })
 -- Work workspace is conditionally added in the obsidian.lua.tmpl file
+
