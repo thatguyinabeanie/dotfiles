@@ -14,8 +14,8 @@ func init() {
 		panic(err)
 	}
 
-	// If we're in the __tests__ directory, we need to navigate to the project root
-	if filepath.Base(cwd) == "__tests__" {
+	// If we're in the _tests_ directory, we need to navigate to the project root
+	if filepath.Base(cwd) == "_tests_" {
 		err = os.Chdir("..")
 		if err != nil {
 			panic(err)
@@ -42,9 +42,9 @@ func TestConfigDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the __tests__ directory
+	// Navigate up one directory if we're in the _tests_ directory
 	var rootDir string
-	if filepath.Base(cwd) == "__tests__" {
+	if filepath.Base(cwd) == "_tests_" {
 		rootDir = filepath.Dir(cwd)
 	} else {
 		rootDir = cwd
@@ -85,9 +85,9 @@ func TestObsidianDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the __tests__ directory
+	// Navigate up one directory if we're in the _tests_ directory
 	var rootDir string
-	if filepath.Base(cwd) == "__tests__" {
+	if filepath.Base(cwd) == "_tests_" {
 		rootDir = filepath.Dir(cwd)
 	} else {
 		rootDir = cwd
@@ -127,9 +127,9 @@ func TestSourceDirectoryStructure(t *testing.T) {
 		t.Fatalf("Failed to get current working directory: %v", err)
 	}
 
-	// Navigate up one directory if we're in the __tests__ directory
+	// Navigate up one directory if we're in the _tests_ directory
 	var rootDir string
-	if filepath.Base(cwd) == "__tests__" {
+	if filepath.Base(cwd) == "_tests_" {
 		rootDir = filepath.Dir(cwd)
 	} else {
 		rootDir = cwd

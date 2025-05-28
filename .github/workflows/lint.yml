@@ -20,7 +20,7 @@ jobs:
         uses: golangci/golangci-lint-action@v8
         with:
           version: v2.1.6
-          working-directory: __tests__
+          working-directory: _tests_
           args: --max-issues-per-linter=0 --max-same-issues=0
   YAML:
     runs-on: ubuntu-latest

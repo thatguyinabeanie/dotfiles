@@ -18,9 +18,9 @@ gitleaks-report.json
 .vscode/settings.json
 
 # Test-related directories
-__tests__/.cache/
-__tests__/.coverage/
-__tests__/.history/
+_tests_/.cache/
+_tests_/.coverage/
+_tests_/.history/
 *.coverage
 *.deps
 *.result

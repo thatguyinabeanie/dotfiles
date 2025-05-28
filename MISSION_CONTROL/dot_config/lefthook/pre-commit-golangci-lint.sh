@@ -2,10 +2,10 @@
 
 set -e
 
-# List of test subdirectories to lint (relative to __tests__)
+# List of test subdirectories to lint (relative to _tests_)
 TEST_DIRS=("helpers" "integration" "unit")
 
-cd __tests__
+cd _tests_
 
 for dir in "${TEST_DIRS[@]}"; do
   if [ -d "$dir" ] && find "$dir" -maxdepth 1 -name '*.go' | grep -q .; then
