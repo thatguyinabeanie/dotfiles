@@ -23,7 +23,7 @@ if [ -f "$HOME/.config/mise/config.toml" ]; then
 	echo "🔵 Installed mise dependencies."
 
 	# First, save a list of your existing global packages for later migration
-	npm list -g --depth=0 >~/npm-global-packages.txt
+	npm list -g --depth=0 >"$HOME/npm-global-packages.txt"
 
 	# Create directories for global packages
 	mkdir -p ~/.npm-global
