@@ -57,7 +57,7 @@
   },
   "editor.fontLigatures": true,
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
   },
   "cursor.terminal.usePreviewBox": true,
   "editor.foldingImportsByDefault": true,
