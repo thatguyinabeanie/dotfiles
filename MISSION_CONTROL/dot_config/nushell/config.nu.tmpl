@@ -15,10 +15,10 @@ $env.config.show_banner = false
 
 zoxide init nushell         | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
 mise activate nu            | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
-# starship init nu            | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+starship init nu            | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 if ($env.HOME | path join ".cargo/env.nu" | path exists) {
   cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
 }
 
-# pokeget random --hide-name | fastfetch --file-raw -
+pokeget random --hide-name | fastfetch --file-raw -
