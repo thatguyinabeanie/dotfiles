@@ -32,21 +32,3 @@ alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'
 alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"'
 alias claude="~/.claude/local/claude"
 
-# --- AI Command Helper (requires OPENAI_API_KEY env var) ---
-ai() {
-  prompt="You are a shell expert. Given the following request, output the best shell command only. Request: $*"
-  curl -s https://api.openai.com/v1/chat/completions \
-    -H "Authorization: Bearer $OPENAI_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": '"$prompt"'}]}' \
-    | jq -r '.choices[0].message.content'
-}
-
-# --- Animated Terminal Clear ---
-function clear() {
-  for i in {1..10}; do
-    echo
-    sleep 0.02
-done
-  command clear
-}
