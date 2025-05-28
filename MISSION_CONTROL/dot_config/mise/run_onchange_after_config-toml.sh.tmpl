@@ -25,19 +25,24 @@ if [ -f "$HOME/.config/mise/config.toml" ]; then
 	# First, save a list of your existing global packages for later migration
 	npm list -g --depth=0 >~/npm-global-packages.txt
 
-	# Create a directory for your global packages
+	# Create directories for global packages
 	mkdir -p ~/.npm-global
+	mkdir -p ~/.pnpm-global
 
 	# Configure npm to use the new directory path
 	npm config set prefix ~/.npm-global
 
+	# Configure pnpm to use the new directory path
+	pnpm config set global-dir ~/.pnpm-global
+	pnpm config set global-bin-dir ~/.pnpm-global/bin
+
+	# Install pnpm and Claude Code
 	npm install -g pnpm
-	# Now reinstall Claude Code in the new location
 	npm install -g @anthropic-ai/claude-code
 
-  # Optional: Reinstall your previous global packages in the new location
-  # Look at ~/npm-global-packages.txt and install packages you want to keep
-  # npm install -g package1 package2 package3...
+	# Optional: Reinstall your previous global packages in the new location
+	# Look at ~/npm-global-packages.txt and install packages you want to keep
+	# npm install -g package1 package2 package3...
 
 else
 	echo "⚠️ ~/.config/mise/config.toml not found. No tools installed."

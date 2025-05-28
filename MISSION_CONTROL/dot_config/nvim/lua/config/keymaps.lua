@@ -98,13 +98,6 @@ vim.keymap.set("n", "<leader>PB", "<cmd>TimerStart 15m Long Break<cr>", { desc =
 
 
 --
--- LLM
---
-vim.keymap.set("n", "<leader>az", ":AugmentCode<CR>", { desc = "Augment Code", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ax", ":AugmentExplain<CR>", { desc = "Explain Code", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>af", ":AugmentRefactor<CR>", { desc = "Refactor Code", noremap = true, silent = true })
-
---
 -- OBSIDIAN
 --
 wk.add({
