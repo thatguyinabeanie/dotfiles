@@ -8,7 +8,6 @@
     "gopls": "${workspaceFolder}/.vscode/mise-tools/gopls"
   },
   "window.commandCenter": 1,
-  "workbench.colorTheme": "Catppuccin Mocha",
   "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
   "augment.nextEdit.showDiffInHover": true,
   "augment.nextEdit.highlightSuggestionsInTheEditor": true,
@@ -18,7 +17,7 @@
   "redhat.telemetry.enabled": true,
   "explorer.confirmDragAndDrop": false,
   "terminal.external.linuxExec": "ghostty",
-  "terminal.integrated.scrollback": 10000,
+  "terminal.integrated.scrollback": 100000,
   "terminal.integrated.stickyScroll.enabled": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
   "editor.fontSize": 16,
