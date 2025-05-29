@@ -1,3 +1,4 @@
+  # chezmoi: {"onchange": ["run_onchange_after-07-install-homebrew-packages.sh"]}
 homebrew:
   ##
   ## WORK BREWS AND CASKS
@@ -118,7 +119,7 @@ homebrew:
       - ffmpeg
       - findutils
       - fontconfig
-      - fzf # don't remove this, it's used by tmux-fzf-url. mise doesnt include fzf-tmux
+      - fzf
       - gcc
       - gcc@11
       - gcc@12

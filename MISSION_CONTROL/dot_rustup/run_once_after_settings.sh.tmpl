@@ -16,7 +16,7 @@ fi
 if [ "$RUST_INSTALLED" != "true" ]; then
   echo "🟠 Installing/Updating Rust toolchain via rustup..."
   
-  {{ if eq .platform.is_codespace true -}}
+  {{ if env "CODESPACES" -}}
   # Use minimal profile for Codespaces to save space
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal --no-modify-path
   {{ else -}}

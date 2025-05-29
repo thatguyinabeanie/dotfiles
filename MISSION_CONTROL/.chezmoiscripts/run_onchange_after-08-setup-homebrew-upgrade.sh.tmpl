@@ -1,6 +1,6 @@
 #!/bin/sh
 
-{{ if and (eq .platform.is_mac true) (eq .platform.has_brew true) -}}
+{{ if and (eq .chezmoi.os "darwin") (lookPath "brew") -}}
 echo "🟠 Setting up Homebrew automatic upgrades..."
 
 # Create log directory if it doesn't exist

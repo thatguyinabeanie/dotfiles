@@ -4,7 +4,7 @@
 # Pokemon: Scizor (#212) - Known for its precision and attention to detail,
 # just like these git hooks that catch small issues before they become problems.
 
-{{ if eq .platform.has_brew true -}}
+{{ if lookPath "brew" -}}
 echo "🟠 Setting up lefthook git hooks..."
 
 # Check if lefthook is installed
