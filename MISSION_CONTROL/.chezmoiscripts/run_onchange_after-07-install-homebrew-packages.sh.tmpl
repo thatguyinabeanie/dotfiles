@@ -116,7 +116,7 @@ if [ -n "$MAS_APPS" ]; then
   echo "Do you want to install Mac App Store apps? (y/N)"
   read -r install_mas
   if [ "$install_mas" = "y" ] || [ "$install_mas" = "Y" ]; then
-    echo "$MAS_APPS" | xargs -L1 bash -c 'eval "brew $0"'
+      echo "$MAS_APPS" | xargs -L1 brew  
   fi
 fi
 {{ end -}}
