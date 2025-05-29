@@ -1,10 +1,10 @@
 #!/bin/sh
 
-{{ if and (eq .platform.is_mac true) (eq .platform.has_brew false) -}}
-print "🟠 Installing Homebrew Package Manager for macOS."
+{{ if and (eq .chezmoi.os "darwin") (not (lookPath "brew")) -}}
+echo "🟠 Installing Homebrew Package Manager for macOS."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-print "🔵 Homebrew Package Manager installed."
-{{ else if and (eq .platform.is_linux true) (eq .platform.has_brew false) (not .platform.is_codespace) -}}
+echo "🔵 Homebrew Package Manager installed."
+{{ else if and (eq .chezmoi.os "linux") (not (lookPath "brew")) -}}
 # Only install Homebrew on Linux if explicitly requested
 if [ -t 0 ]; then
   echo "Homebrew is not installed. Do you want to install it? (y/N)"

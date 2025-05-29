@@ -19,10 +19,9 @@
 {{- $refreshPeriod := 168 }}
 {{/* Set default values based on environment */}}
 {{- $is_codespace := false -}}
-{{- if hasKey . "platform" -}}
-  {{- if hasKey .platform "is_codespace" -}}
-    {{- $is_codespace = .platform.is_codespace -}}
-  {{- end -}}
+{{/* Check if we're in a GitHub Codespace */}}
+{{- if env "CODESPACES" | not | not -}}
+  {{- $is_codespace = true -}}
 {{- end -}}
 {{- $GIT_NAME := "" -}}
 {{- $GITHUB_USERNAME := "" -}}

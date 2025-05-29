@@ -1,4 +1,5 @@
 {
+  "python.defaultInterpreterPath": "${workspaceFolder}/.vscode/mise-tools/python",
 	"debug.javascript.defaultRuntimeExecutable": {
 		"pwa-node": "${workspaceFolder}/.vscode/mise-tools/node"
 	},
@@ -80,9 +81,9 @@
 		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
 	},
 	"javascript.updateImportsOnFileMove.enabled": "always",
-	"workbench.iconTheme": "catppuccin-mocha",
+	"workbench.iconTheme": "catppuccin-latte",
 	"terminal.integrated.fontLigatures": true,
 	"mise.configureExtensionsUseSymLinks": true,
-	"mise.updateOpenTerminalsEnvAutomatically": true,
+	"mise.updateOpenTerminalsEnvAutomatically": false,
 	"extensions.disableExtensions": ["ms-python.python", "esbenp.prettier-vscode"]
 }
