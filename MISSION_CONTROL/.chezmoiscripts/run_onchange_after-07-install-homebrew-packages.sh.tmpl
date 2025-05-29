@@ -1,6 +1,7 @@
 #!/bin/sh
 
-{{ if eq .platform.has_brew true -}}
+# homebrew.yaml-hash: {{ (toYaml .homebrew | sha256sum) }}
+{{ if (lookPath "brew") -}}
 echo "🟠 Installing/Updating homebrew packages..."
 
 # Create a temporary Brewfile
@@ -17,21 +18,17 @@ tap {{ . | quote }}
 brew {{ . | quote }}
 {{ end }}
 
-{{ if eq .platform.is_mac true -}}
+{{ if eq .chezmoi.os "darwin" -}}
 ## macOS-specific casks and fonts
 {{ range .homebrew.shared.casks }}
 cask {{ . | quote }}
 {{ end }}
 
 {{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
-## Fonts (only install if user confirms)
-echo "Do you want to install fonts? (y/N)"
-read -r install_fonts
-if [ "$install_fonts" = "y" ] || [ "$install_fonts" = "Y" ]; then
+## Fonts (will be installed if user confirms later)
 {{ range .homebrew.shared.fonts }}
-  cask {{ . | quote }}
+# FONT: cask {{ . | quote }}
 {{ end }}
-fi
 {{ end -}}
 
 ##
@@ -43,14 +40,10 @@ brew {{ . | quote }}
 {{ end }}
 
 {{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
-## Work casks (only install if user confirms)
-echo "Do you want to install work casks? (y/N)"
-read -r install_work_casks
-if [ "$install_work_casks" = "y" ] || [ "$install_work_casks" = "Y" ]; then
+## Work casks (will be installed if user confirms later)
 {{ range .homebrew.work.casks }}
-  cask {{ . | quote }}
+# WORK: cask {{ . | quote }}
 {{ end }}
-fi
 {{ end -}}
 {{ end }}
 
@@ -63,23 +56,15 @@ brew {{ . | quote }}
 {{ end }}
 
 {{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
-## Personal casks (only install if user confirms)
-echo "Do you want to install personal casks? (y/N)"
-read -r install_personal_casks
-if [ "$install_personal_casks" = "y" ] || [ "$install_personal_casks" = "Y" ]; then
+## Personal casks (will be installed if user confirms later)
 {{ range .homebrew.personal.casks }}
-  cask {{ . | quote }}
+# PERSONAL: cask {{ . | quote }}
 {{ end }}
-fi
 
-## Mac App Store apps (only install if user confirms)
-echo "Do you want to install Mac App Store apps? (y/N)"
-read -r install_mas
-if [ "$install_mas" = "y" ] || [ "$install_mas" = "Y" ]; then
+## Mac App Store apps (will be installed if user confirms later)
 {{ range .homebrew.personal.mas }}
-  mas {{ . }}
+# MAS: mas {{ . }}
 {{ end }}
-fi
 {{ end -}}
 {{ end }}
 {{ end -}}
@@ -90,6 +75,51 @@ brew bundle --file="$BREWFILE" || echo "Some Homebrew packages failed to install
 
 # Clean up
 rm "$BREWFILE"
+
+# Handle interactive installations
+{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
+# Extract commented items from Brewfile for interactive installation
+PERSONAL_CASKS=$(grep "# PERSONAL: cask" "$BREWFILE" | sed 's/# PERSONAL: cask //g')
+WORK_CASKS=$(grep "# WORK: cask" "$BREWFILE" | sed 's/# WORK: cask //g')
+FONTS=$(grep "# FONT: cask" "$BREWFILE" | sed 's/# FONT: cask //g')
+MAS_APPS=$(grep "# MAS: mas" "$BREWFILE" | sed 's/# MAS: mas //g')
+
+# Install fonts if user confirms
+if [ -n "$FONTS" ]; then
+  echo "Do you want to install fonts? (y/N)"
+  read -r install_fonts
+  if [ "$install_fonts" = "y" ] || [ "$install_fonts" = "Y" ]; then
+    echo "$FONTS" | xargs -L1 brew install --cask
+  fi
+fi
+
+# Install work casks if user confirms
+if [ -n "$WORK_CASKS" ]; then
+  echo "Do you want to install work casks? (y/N)"
+  read -r install_work_casks
+  if [ "$install_work_casks" = "y" ] || [ "$install_work_casks" = "Y" ]; then
+    echo "$WORK_CASKS" | xargs -L1 brew install --cask
+  fi
+fi
+
+# Install personal casks if user confirms
+if [ -n "$PERSONAL_CASKS" ]; then
+  echo "Do you want to install personal casks? (y/N)"
+  read -r install_personal_casks
+  if [ "$install_personal_casks" = "y" ] || [ "$install_personal_casks" = "Y" ]; then
+    echo "$PERSONAL_CASKS" | xargs -L1 brew install --cask
+  fi
+fi
+
+# Install Mac App Store apps if user confirms
+if [ -n "$MAS_APPS" ]; then
+  echo "Do you want to install Mac App Store apps? (y/N)"
+  read -r install_mas
+  if [ "$install_mas" = "y" ] || [ "$install_mas" = "Y" ]; then
+    echo "$MAS_APPS" | xargs -L1 bash -c 'eval "brew $0"'
+  fi
+fi
+{{ end -}}
 
 echo "🔵 Installed/updated homebrew packages."
 {{ else -}}
