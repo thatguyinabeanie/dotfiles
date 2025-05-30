@@ -77,7 +77,7 @@ return {
     opts = {
       options = {
         diagnostics_indicator = function(count, level)
-          local icon = level:match("error") and " " or " "
+          local icon = level:match("error") and " " or " "
           return " " .. icon .. count
         end,
         indicator = {
@@ -101,32 +101,99 @@ return {
       end)
 
       opts.sections = {
-        lualine_a = { "mode" },
+        lualine_a = {
+          {
+            "mode",
+            fmt = function(str)
+              return str:sub(1, 1)
+            end,
+          },
+        },
         lualine_b = {
-          "branch",
-          "diff",
+          { "branch", icon = "" },
+          {
+            "diff",
+            symbols = { added = " ", modified = " ", removed = " " },
+            diff_color = {
+              added = { fg = "#a6e3a1" },
+              modified = { fg = "#f9e2af" },
+              removed = { fg = "#f38ba8" },
+            },
+          },
           {
             "diagnostics",
             sources = { "nvim_diagnostic" },
-            symbols = { error = " ", warn = " ", info = " ", hint = " " },
+            symbols = { error = " ", warn = " ", info = " ", hint = " " },
+            always_visible = false,
           },
         },
-        lualine_c = { "filename", "searchcount", "selectioncount" },
-        lualine_x = { "lsp_status", "encoding", "fileformat", "filetype" },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_c = {
+          {
+            "filename",
+            path = 1,
+            symbols = {
+              modified = "●",
+              readonly = "",
+              unnamed = "[No Name]",
+              newfile = "[New]",
+            },
+          },
+          { "searchcount", icon = "" },
+          { "selectioncount", icon = "󰒅" },
+        },
+        lualine_x = {
+          { "pipeline", icon = "" },
+          {
+            function()
+              local msg = "No Active Lsp"
+              local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+              local clients = vim.lsp.get_active_clients()
+              if next(clients) == nil then
+                return msg
+              end
+              for _, client in ipairs(clients) do
+                local filetypes = client.config.filetypes
+                if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                  return client.name
+                end
+              end
+              return msg
+            end,
+            icon = " LSP:",
+            color = { fg = "#89b4fa" },
+          },
+          { "encoding", icon = "󰉿" },
+          { "fileformat", icon = "" },
+          { "filetype", icon = "" },
+           {require('mcphub.extensions.lualine')},
+        },
+        lualine_y = {
+          { "progress", icon = "󰦨", separator = " ", padding = { left = 1, right = 0 } },
+          { "location", icon = "", padding = { left = 0, right = 1 } },
+        },
+        lualine_z = {
+          function()
+            return " " .. os.date("%R")
+          end,
+        },
       }
 
       opts.options = {
         icons_enabled = true,
         theme = "auto",
+        component_separators = { left = "", right = "" },
+        section_separators = { left = "", right = "" },
         disabled_filetypes = {
+          statusline = { "dashboard", "alpha", "starter" },
           winbar = {},
         },
+        ignore_focus = {},
+        always_divide_middle = true,
+        globalstatus = true,
         refresh = {
-          statusline = 500,
-          tabline = 500,
-          winbar = 500,
+          statusline = 1000,
+          tabline = 1000,
+          winbar = 1000,
         },
       }
     end,

@@ -7,5 +7,6 @@ return {
     -- optional, you can also install and use `yq` instead.
     build = "make",
     opts = {},
+    event = "VeryLazy"
   },
 }
