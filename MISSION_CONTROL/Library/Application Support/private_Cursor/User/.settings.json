@@ -81,7 +81,7 @@
 		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
 	},
 	"javascript.updateImportsOnFileMove.enabled": "always",
-	"workbench.iconTheme": "catppuccin-latte",
+	"workbench.iconTheme": "catppuccin-mocha",
 	"terminal.integrated.fontLigatures": true,
 	"mise.configureExtensionsUseSymLinks": true,
 	"mise.updateOpenTerminalsEnvAutomatically": false,

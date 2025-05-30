@@ -25,7 +25,7 @@ return {
         use_git_root = true, -- Set CWD to git root when opening Claude Code (if in git project)
       },
       -- Command settings
-      command = "claude", -- Command used to launch Claude Code
+      command = "~/.claude/local/claude", -- Command used to launch Claude Code
       -- Command variants
       command_variants = {
         -- Conversation management

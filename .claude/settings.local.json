@@ -1,3 +1,15 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(env)",
+      "Bash(nvim:*)",
+      "Bash(timeout:*)",
+      "Bash(claude mcp add fetch \"uvx mcp-server-fetch\")",
+      "Bash(claude mcp:*)",
+      "Bash(uvx mcp-server-git:*)",
+      "Bash(npx:*)",
+      "Bash(uvx mcp-server-fetch:*)"
+    ]
+  },
   "enableAllProjectMcpServers": false
 }
