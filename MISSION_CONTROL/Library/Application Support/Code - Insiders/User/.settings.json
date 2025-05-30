@@ -1,58 +1,51 @@
 {
-    "workbench.colorTheme": "Catppuccin Mocha",
-    "editor.fontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
-    "terminal.integrated.fontFamily": "monospace",
-    "workbench.iconTheme": "catppuccin-mocha",
-    "yaml.schemas": {
-        "file:///Users/beanie/.vscode-insiders/extensions/atlassian.atlascode-3.7.8/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
-    },
-    "extensions.experimental.affinity": {
-        "asvetliakov.vscode-neovim": 1
-    },
-    "github.copilot.enable": {
-        "*": false
-    },
-    "redhat.telemetry.enabled": true,
-    "explorer.confirmDelete": false,
-    "editor.tabSize": 2,
-    "editor.renderWhitespace": "trailing",
-    "files.associations": {
-        "*.nu.tmpl": "nushell"
-    },
-    "mise.binPath": "/opt/homebrew/bin/mise",
-    "editor.minimap.autohide": true,
-    "editor.minimap.maxColumn": 40,
-    "chat.editing.confirmEditRequestRetry": false,
-    "terminal.integrated.env.osx": {},
-    "notes.notesLocation": "/Users/gmendoza/source/civis-brain",
-    "github.copilot.chat.codesearch.enabled": true,
-    "accessibility.signalOptions.volume": 85,
-    "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
-    "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
-    "git.enableSmartCommit": true,
-    "mcp": {
-        "servers": {
-            "console-ninja": {
-                "command": "npx",
-                "args": [
-                    "-y",
-                    "-c",
-                    "node ~/.console-ninja/mcp/"
-                ]
-            }
-        }
-    },
-    "wallaby.startAutomatically": false,
-    "console-ninja.featureSet": "Community",
-    "chat.mcp.discovery.enabled": true,
-    "workbench.activityBar.location": "top",
-    "terminal.external.osxExec": "Ghostty.app",
-    "terminal.integrated.automationProfile.osx": {},
-    "nushellLanguageServer.trace.server": "messages",
-    "terminal.integrated.defaultProfile.osx": "zsh",
-    "editor.codeLensFontFamily": "FiraCode",
-    "editor.fontSize": 16,
-    "editor.codeActionsOnSave": {
-        
-    }
+	"workbench.colorTheme": "Catppuccin Mocha",
+	"editor.fontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
+	"terminal.integrated.fontFamily": "monospace",
+	"workbench.iconTheme": "catppuccin-mocha",
+	"yaml.schemas": {
+		"file:///Users/beanie/.vscode-insiders/extensions/atlassian.atlascode-3.7.8/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+	},
+	"extensions.experimental.affinity": {
+		"asvetliakov.vscode-neovim": 1
+	},
+	"github.copilot.enable": {
+		"*": false
+	},
+	"redhat.telemetry.enabled": true,
+	"explorer.confirmDelete": false,
+	"editor.tabSize": 2,
+	"editor.renderWhitespace": "trailing",
+	"files.associations": {
+		"*.nu.tmpl": "nushell"
+	},
+	"mise.binPath": "/opt/homebrew/bin/mise",
+	"editor.minimap.autohide": true,
+	"editor.minimap.maxColumn": 40,
+	"chat.editing.confirmEditRequestRetry": false,
+	"terminal.integrated.env.osx": {},
+	"notes.notesLocation": "/Users/gmendoza/source/civis-brain",
+	"github.copilot.chat.codesearch.enabled": true,
+	"accessibility.signalOptions.volume": 85,
+	"markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
+	"editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+	"git.enableSmartCommit": true,
+	"mcp": {
+		"servers": {
+			"console-ninja": {
+				"command": "npx",
+				"args": ["-y", "-c", "node ~/.console-ninja/mcp/"]
+			}
+		}
+	},
+	"wallaby.startAutomatically": false,
+	"console-ninja.featureSet": "Community",
+	"chat.mcp.discovery.enabled": true,
+	"workbench.activityBar.location": "top",
+	"terminal.external.osxExec": "Ghostty.app",
+	"terminal.integrated.automationProfile.osx": {},
+	"nushellLanguageServer.trace.server": "messages",
+	"terminal.integrated.defaultProfile.osx": "zsh",
+	"editor.codeLensFontFamily": "FiraCode",
+	"editor.fontSize": 16
 }

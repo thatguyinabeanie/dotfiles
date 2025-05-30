@@ -134,3 +134,40 @@ vim.keymap.set("n", "<leader>Ows", "<cmd>ObsidianWorkspace smart-notes<cr>", { d
 vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc = "Switch to Bramses Workspace" })
 -- Work workspace is conditionally added in the obsidian.lua.tmpl file
 
+--
+-- LLM/AI KEYMAPS ORGANIZATION
+--
+-- All AI/LLM tools are organized under two main prefixes:
+-- <leader>a - General AI tools (Avante, Claude, CodeCompanion)
+-- <leader>p - Copilot-specific features
+--
+-- <leader>a mappings:
+--   aa - Avante Ask
+--   ae - Avante Edit
+--   ar - Avante Refresh
+--   ac - Claude Code Toggle
+--   aC - Claude Code Continue
+--   aV - Claude Code Verbose
+--   ao - CodeCompanion Open Chat
+--   as - CodeCompanion Actions
+--   at - CodeCompanion Toggle
+--   ap - CopilotChat Prompt
+--   ah - CopilotChat Toggle
+--   ad - CopilotChat Debug
+--
+-- <leader>p mappings (Copilot-specific):
+--   pc - Toggle Chat
+--   ps - Stop
+--   pr - Reset
+--   pe - Explain
+--   pv - Review
+--   pf - Fix
+--   po - Optimize
+--   pd - Docs
+--   pt - Tests
+--   pp - Visual Prompt
+--   pq - Quick Chat
+--   ph - Help Actions
+--   pa - Prompt Actions
+--
+
