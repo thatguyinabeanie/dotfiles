@@ -1,6 +1,3 @@
-if true then
-  return {}
-end
 
 return {
   {
@@ -8,16 +5,26 @@ return {
     event = "VeryLazy",
     version = false, -- Never set this value to "*"! Never!
     opts = {
-      -- add any opts here
-      -- for example
-      provider = "openai",
+      -- Using Copilot as the main provider
+      provider = "copilot",
+      copilot = {
+        model = "claude-3.7-sonnet", -- or "gpt-4", "gpt-4o", etc.
+        timeout = 30000,
+        temperature = 0,
+      },
+      -- Keep OpenAI as a fallback option
       openai = {
         endpoint = "https://api.openai.com/v1",
-        model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-        timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+        model = "gpt-4.1",
+        timeout = 30000,
         temperature = 0,
-        max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-        --reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+        max_completion_tokens = 8192,
+      },
+      -- Avante keymaps
+      mappings = {
+        ask = "<leader>aa", -- ask
+        edit = "<leader>ae", -- edit
+        refresh = "<leader>ar", -- refresh
       },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
