@@ -94,5 +94,8 @@
   "workbench.iconTheme": "bearded-icons",
   "workbench.tree.indent": 20,
   "editor.codeActionsOnSave": {},
-  "makefile.configureOnOpen": true
+  "makefile.configureOnOpen": true,
+  "[lua]": {
+    "editor.defaultFormatter": "yinfei.luahelper"
+  }
 }
