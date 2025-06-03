@@ -110,7 +110,7 @@ func TestNvimCompletionEngine(t *testing.T) {
 				for _, pattern := range cmpPatterns {
 					if matched, _ := regexp.MatchString(pattern, string(content)); matched {
 						// Allow cmp references only in specific contexts
-						if !strings.Contains(path, "catppuccin.lua") || !strings.Contains(string(content), "cmp = false") {
+						if !(strings.Contains(path, "catppuccin.lua") && strings.Contains(string(content), "cmp = false")) { //nolint:staticcheck
 							t.Errorf("Found nvim-cmp reference in %s", path)
 						}
 					}

@@ -65,9 +65,9 @@ measure_startup() {
 check_startup_errors() {
     echo -e "\n${YELLOW}Checking for startup errors...${NC}"
     
-    # Capture any errors during startup
+    # Capture any errors during startup (exclude expected Mason termination message)
     local error_output
-    error_output=$(nvim --headless -c 'messages' -c 'qa' 2>&1 | grep -i -E 'error|warning|failed' || true)
+    error_output=$(nvim --headless -c 'messages' -c 'qa' 2>&1 | grep -i -E 'error|warning|failed' | grep -v -E "(Mason.*exiting while packages|Terminating all installations)" || true)
     
     if [ -z "$error_output" ]; then
         echo -e "${GREEN}✓ No startup errors detected${NC}"
