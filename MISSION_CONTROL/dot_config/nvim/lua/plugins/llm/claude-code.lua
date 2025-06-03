@@ -1,6 +1,6 @@
 return {
-  -- "greggh/claude-code.nvim",
-  dir = vim.fn.expand("~/source/claude-code.nvim"),
+  "thatguyinabeanie/claude-code.nvim",
+  -- dir = vim.fn.expand("~/source/claude-code.nvim"),
   dependencies = {
     "nvim-lua/plenary.nvim", -- Required for git operations
   },
