@@ -26,8 +26,7 @@ return {
       },
       default_integrations = true,
       integrations = {
-        cmp = true,
-        neogit = true,
+        -- Essential integrations
         blink_cmp = true,
         native_lsp = {
           enabled = true,
@@ -38,11 +37,6 @@ return {
             information = { "italic" },
             ok = { "italic" },
           },
-          ufo = true,
-          treesitter = true,
-          treesitter_context = true,
-          dap = true,
-          dap_ui = true,
           underlines = {
             errors = { "underline" },
             hints = { "underline" },
@@ -53,14 +47,40 @@ return {
           inlay_hints = {
             background = true,
           },
-          snacks = {
-            enabled = true,
-            indent_scope_color = "mocha",
-          },
-          mini = {
-            enabled = true,
-            indentscope_color = "mocha",
-          },
+        },
+        treesitter = true,
+        treesitter_context = true,
+        ufo = true,
+        -- Git
+        neogit = true,
+        gitsigns = true,
+        -- UI
+        snacks = true,
+        mini = {
+          enabled = true,
+          indentscope_color = "", -- Disabled, using Snacks scope
+        },
+        telescope = {
+          enabled = true,
+          style = "nvchad",
+        },
+        which_key = true,
+        mason = true,
+        noice = true,
+        notify = true,
+        -- Features
+        semantic_tokens = true,
+        flash = true,
+        markdown = true,
+        render_markdown = true,
+        -- Disabled
+        cmp = false, -- Using blink_cmp
+        dap = false, -- Load when debugging
+        dap_ui = false, -- Load when debugging
+        indent_blankline = {
+          enabled = false, -- Using Snacks indent/scope
+          scope_color = "",
+          colored_indent_levels = false,
         },
       },
     },
@@ -122,11 +142,23 @@ return {
           { "selectioncount", icon = "󰒅" },
         },
         lualine_x = {
-          { "pipeline", icon = "" },
+          {
+            function()
+              local ok, pipeline = pcall(require, "pipeline")
+              if ok and pipeline.get_status then
+                return pipeline.get_status()
+              end
+              return ""
+            end,
+            icon = "",
+            cond = function()
+              return package.loaded["pipeline"] ~= nil
+            end,
+          },
           {
             function()
               local msg = "No Active Lsp"
-              local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
+              local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
               local clients = vim.lsp.get_active_clients()
               if next(clients) == nil then
                 return msg
@@ -145,7 +177,7 @@ return {
           { "encoding", icon = "󰉿" },
           { "fileformat", icon = "" },
           { "filetype", icon = "" },
-           {require('mcphub.extensions.lualine')},
+          require('mcphub.extensions.lualine'),
         },
         lualine_y = {
           { "progress", icon = "󰦨", separator = " ", padding = { left = 1, right = 0 } },
@@ -177,5 +209,20 @@ return {
         },
       }
     end,
+  },
+  {
+    "f-person/auto-dark-mode.nvim",
+    opts = {
+      update_interval = 1000,
+      set_dark_mode = function()
+        vim.o.background = "dark"
+        vim.cmd("colorscheme catppuccin-mocha")
+      end,
+      set_light_mode = function()
+        vim.o.background = "light"
+        vim.cmd("colorscheme catppuccin-latte")
+      end,
+      fallback = "dark",
+    },
   },
 }

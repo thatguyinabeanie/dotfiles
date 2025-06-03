@@ -3,6 +3,9 @@ return {
     "saghen/blink.cmp",
     lazy = false,
     version = "*",
+    dependencies = {
+      "giuxtaposition/blink-cmp-copilot",
+    },
     opts = {
       keymap = {
         preset = "enter",
@@ -13,6 +16,14 @@ return {
       cmdline = { sources = { "cmdline" } },
       sources = {
         default = { "lsp", "path", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
     },
   },
