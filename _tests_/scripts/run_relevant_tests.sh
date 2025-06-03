@@ -155,7 +155,7 @@ run_tests_in_shards() {
     for ((i=0; i<SHARD_COUNT; i++)); do
         start=$((i * tests_per_shard))
         end=$((start + tests_per_shard))
-        if [ $start -lt $total_tests ]; then
+        if [ $start -lt "$total_tests" ]; then
             echo "Running shard $((i+1))/$SHARD_COUNT (tests $((start+1))-$((end > total_tests ? total_tests : end)))"
             for ((j=start; j<end && j<total_tests; j++)); do
                 run_test_with_cache "${test_files[$j]}" &

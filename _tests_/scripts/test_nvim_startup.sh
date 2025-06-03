@@ -21,7 +21,7 @@ measure_startup() {
     
     echo -e "${YELLOW}Running $iterations startup tests...${NC}"
     
-    for _ in $(seq 1 $iterations); do
+    for _ in $(seq 1 "$iterations"); do
         # Measure time for headless startup
         # Use different time command based on OS
         if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -36,7 +36,7 @@ measure_startup() {
             local end_time
             end_time=$(date +%s%N)
             # Calculate elapsed time in milliseconds
-            local elapsed=$((($end_time - $start_time) / 1000000))
+            local elapsed=$(((end_time - start_time) / 1000000))
         fi
         total_time=$((total_time + elapsed))
         
