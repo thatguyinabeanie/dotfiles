@@ -23,14 +23,21 @@ measure_startup() {
     
     for _ in $(seq 1 $iterations); do
         # Measure time for headless startup
-        local start_time
-        start_time=$(date +%s%N)
-        nvim --headless +qa 2>/dev/null
-        local end_time
-        end_time=$(date +%s%N)
-        
-        # Calculate elapsed time in milliseconds
-        local elapsed=$((($end_time - $start_time) / 1000000))
+        # Use different time command based on OS
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            # macOS doesn't support nanoseconds in date, use time command
+            local elapsed
+            elapsed=$( (time -p nvim --headless +qa 2>/dev/null) 2>&1 | grep real | awk '{print int($2 * 1000)}' )
+        else
+            # Linux supports nanoseconds
+            local start_time
+            start_time=$(date +%s%N)
+            nvim --headless +qa 2>/dev/null
+            local end_time
+            end_time=$(date +%s%N)
+            # Calculate elapsed time in milliseconds
+            local elapsed=$((($end_time - $start_time) / 1000000))
+        fi
         total_time=$((total_time + elapsed))
         
         echo -n "."
