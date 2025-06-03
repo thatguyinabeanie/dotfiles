@@ -144,15 +144,24 @@ return {
         lualine_x = {
           {
             function()
+              -- Safely try to get pipeline status
               local ok, pipeline = pcall(require, "pipeline")
-              if ok and pipeline.get_status then
-                return pipeline.get_status()
+              if ok and type(pipeline) == "table" and type(pipeline.get_status) == "function" then
+                local status_ok, status = pcall(pipeline.get_status)
+                if status_ok and status then
+                  return status
+                end
               end
               return ""
             end,
             icon = "",
             cond = function()
-              return package.loaded["pipeline"] ~= nil
+              -- Only show if pipeline is loaded and properly initialized
+              if package.loaded["pipeline"] ~= nil then
+                local pipeline = package.loaded["pipeline"]
+                return type(pipeline) == "table" and type(pipeline.get_status) == "function"
+              end
+              return false
             end,
           },
           {
