@@ -1,4 +1,4 @@
-  # chezmoi: {"onchange": ["run_onchange_after-07-install-homebrew-packages.sh"]}
+# chezmoi: {"onchange": ["run_onchange_after-07-install-homebrew-packages.sh"]}
 homebrew:
   ##
   ## WORK BREWS AND CASKS
@@ -158,7 +158,13 @@ homebrew:
       - links
       - lua
       - luajit
+      - luajit-openresty
       - luarocks
+      - luacheck
+      - luaradio
+      - luau
+      - luaver
+      - stylua
       - lua-language-server
       - lynx
       - make
