@@ -26,7 +26,6 @@ return {
         use_git_root = true, -- Set CWD to git root when opening Claude Code (if in git project)
       },
       -- Command settings
-      command = vim.fn.expand("~/.claude/local/claude"), -- Command used to launch Claude Code
       -- Command variants
       command_variants = {
         -- Conversation management

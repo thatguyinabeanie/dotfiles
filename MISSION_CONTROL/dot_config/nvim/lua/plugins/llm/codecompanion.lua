@@ -9,6 +9,12 @@ return {
       "zbirenbaum/copilot.lua",
       "saghen/blink.cmp",
     },
+    lazy = true,
+    cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
+    keys = {
+      { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanion - Toggle Chat" },
+      { "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion - Actions" },
+    },
     opts = {
       strategies = {
         chat = { adapter = "copilot" },

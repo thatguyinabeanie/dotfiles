@@ -55,9 +55,7 @@ return {
           fg = "#38BDF8",
         },
       },
-      cmp = {
-        highlight = "foreground",
-      },
+      -- Remove cmp config since we're using blink.cmp
       telescope = {
         utilities = {
           callback = function() end,
@@ -65,27 +63,5 @@ return {
       },
     },
   },
-  { "nvim-neotest/neotest-jest" },
-
-  {
-    "nvim-neotest/neotest",
-    requires = {
-      "nvim-neotest/neotest-jest",
-    },
-    opts = {
-      discovery = {
-        enabled = true,
-      },
-      adapters = {
-        require("neotest-jest")({
-          jestCommand = "npm test --",
-          jestConfigFile = "jest.config.js",
-          env = { CI = true },
-          cwd = function()
-            return vim.fn.getcwd()
-          end,
-        }),
-      },
-    },
-  },
+  -- Neotest configuration is in dev/neotest.lua
 }
