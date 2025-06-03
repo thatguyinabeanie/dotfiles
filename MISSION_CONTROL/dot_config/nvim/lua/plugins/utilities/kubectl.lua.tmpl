@@ -1,6 +1,12 @@
 return {
   {
     "ramilito/kubectl.nvim",
+    lazy = true,
+    ft = { "yaml", "helm" },
+    cmd = "Kubectl",
+    keys = {
+      { "<leader>k", "<cmd>Kubectl<cr>", desc = "Kubectl" },
+    },
     config = function()
       require("kubectl").setup()
     end,

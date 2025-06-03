@@ -24,10 +24,9 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
-      default_integrations = true,
+      default_integrations = false, -- Disable default integrations for better control
       integrations = {
-        cmp = true,
-        neogit = true,
+        -- Essential integrations (loaded immediately)
         blink_cmp = true,
         native_lsp = {
           enabled = true,
@@ -38,11 +37,6 @@ return {
             information = { "italic" },
             ok = { "italic" },
           },
-          ufo = true,
-          treesitter = true,
-          treesitter_context = true,
-          dap = true,
-          dap_ui = true,
           underlines = {
             errors = { "underline" },
             hints = { "underline" },
@@ -53,15 +47,39 @@ return {
           inlay_hints = {
             background = true,
           },
-          snacks = {
-            enabled = true,
-            indent_scope_color = "mocha",
-          },
-          mini = {
-            enabled = true,
-            indentscope_color = "mocha",
-          },
         },
+        treesitter = true,
+        treesitter_context = true,
+        -- Non-essential integrations (can be loaded on demand)
+        cmp = false, -- Using blink_cmp instead
+        neogit = true,
+        ufo = true,
+        dap = false, -- Load when debugging
+        dap_ui = false, -- Load when debugging
+        snacks = true,
+        mini = {
+          enabled = true,
+          indentscope_color = "", -- Disabled, using Snacks scope instead
+        },
+        -- Common integrations we want
+        gitsigns = true,
+        telescope = {
+          enabled = true,
+          style = "nvchad",
+        },
+        which_key = true,
+        indent_blankline = {
+          enabled = false, -- Disabled, using Snacks indent/scope instead
+          scope_color = "",
+          colored_indent_levels = false,
+        },
+        mason = true,
+        noice = true,
+        notify = true,
+        semantic_tokens = true,
+        flash = true,
+        markdown = true,
+        render_markdown = true,
       },
     },
   },

@@ -55,9 +55,7 @@ return {
           fg = "#38BDF8",
         },
       },
-      cmp = {
-        highlight = "foreground",
-      },
+      -- Remove cmp config since we're using blink.cmp
       telescope = {
         utilities = {
           callback = function() end,
