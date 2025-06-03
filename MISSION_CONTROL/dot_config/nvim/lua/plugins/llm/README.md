@@ -5,9 +5,10 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
 ## Active Plugins (Always Loaded)
 
 ### avante.nvim
+
 - **File**: `avante.lua`
 - **Purpose**: Cursor-like AI IDE experience in Neovim
-- **Features**: 
+- **Features**:
   - Side-by-side code suggestions
   - One-click code application
   - Multiple AI provider support (Copilot, OpenAI, Claude)
@@ -17,6 +18,7 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
   - `<leader>ar` - Refresh suggestions
 
 ### claude-code.nvim
+
 - **File**: `claude-code.lua`
 - **Purpose**: Claude AI integration via MCP (Model Context Protocol)
 - **Features**:
@@ -29,6 +31,7 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
 ## Lazy-Loaded Plugins
 
 ### codecompanion.nvim
+
 - **File**: `codecompanion.lua`
 - **Purpose**: Universal AI companion supporting multiple providers
 - **Loading**: On command/keymap
@@ -37,6 +40,7 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
   - `<leader>ca` - CodeCompanion actions
 
 ### copilot.lua
+
 - **File**: `copilot.lua`
 - **Purpose**: GitHub Copilot autocomplete suggestions
 - **Loading**: On InsertEnter event
@@ -46,6 +50,7 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
   - Context-aware suggestions
 
 ### CopilotChat.nvim
+
 - **File**: `copilot-chat.lua`
 - **Purpose**: Interactive chat interface for GitHub Copilot
 - **Loading**: Lazy loaded with keymaps
@@ -59,6 +64,7 @@ This directory contains Neovim plugins for integrating AI-powered coding assista
   - `<leader>pt` - Generate tests
 
 ### mcp-hub.nvim
+
 - **File**: `mcp-hub.lua`
 - **Purpose**: Model Context Protocol hub for managing AI models
 - **Features**:

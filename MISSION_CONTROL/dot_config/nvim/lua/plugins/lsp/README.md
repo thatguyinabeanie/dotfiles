@@ -5,6 +5,7 @@ This directory contains configurations for language servers, code completion, an
 ## Core LSP Infrastructure
 
 ### nvim-lspconfig
+
 - **File**: `nvim-lspconfig.lua`
 - **Purpose**: Configure Neovim's built-in LSP client
 - **Features**:
@@ -28,6 +29,7 @@ This directory contains configurations for language servers, code completion, an
   - `<leader>f` - Format code
 
 ### Mason.nvim
+
 - **File**: `mason.lua`
 - **Purpose**: Automatic installation and management of LSP servers, linters, and formatters
 - **Optimized For**:
@@ -42,6 +44,7 @@ This directory contains configurations for language servers, code completion, an
 ## Code Completion
 
 ### blink.cmp
+
 - **File**: `blink.lua`
 - **Purpose**: Fast, modern completion engine
 - **Features**:
@@ -58,6 +61,7 @@ This directory contains configurations for language servers, code completion, an
 ## Syntax and Code Understanding
 
 ### nvim-treesitter
+
 - **File**: `nvim-treesitter.lua.tmpl`
 - **Purpose**: Advanced syntax highlighting and code understanding
 - **Features**:
@@ -70,6 +74,7 @@ This directory contains configurations for language servers, code completion, an
 ## Language-Specific Enhancements
 
 ### TypeScript/JavaScript
+
 - **File**: `typescript.lua`
 - **Purpose**: Enhanced TypeScript/JavaScript development
 - **Plugins**:
@@ -83,6 +88,7 @@ This directory contains configurations for language servers, code completion, an
   - JSX/TSX support
 
 ### Ruby on Rails
+
 - **File**: `vim-rails.lua`
 - **Purpose**: Rails-specific navigation and commands
 - **Features**:

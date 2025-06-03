@@ -141,12 +141,18 @@ profile_startup() {
         # Get total time
         local total_time
         total_time=$(tail -1 /tmp/nvim-startup.log | awk '{print $1}')
-        echo -e "\n${GREEN}Total startup time: ${total_time}ms${NC}"
+        if [ -n "$total_time" ]; then
+            echo -e "\n${GREEN}Total startup time: ${total_time}ms${NC}"
+        else
+            echo -e "\n${YELLOW}Could not extract total startup time${NC}"
+        fi
         
         # Cleanup
         rm -f /tmp/nvim-startup.log
+        return 0
     else
         echo -e "${RED}✗ Failed to generate startup profile${NC}"
+        return 1
     fi
 }
 
@@ -164,7 +170,7 @@ main() {
     measure_startup 5 || failed=$((failed + 1))
     check_startup_errors || failed=$((failed + 1))
     check_lazy_loading || failed=$((failed + 1))
-    profile_startup
+    profile_startup || true  # Don't fail the test if profiling fails
     
     echo -e "\n====================================="
     if [ $failed -eq 0 ]; then

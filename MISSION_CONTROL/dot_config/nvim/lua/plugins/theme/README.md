@@ -5,6 +5,7 @@ This directory contains all theme and UI enhancement plugins for Neovim.
 ## Plugin Overview
 
 ### Core Theme
+
 - **catppuccin.lua** - Main colorscheme with optimized integrations
   - Loading: Immediate (priority = 1000)
   - Features: Custom palette, selective integrations, transparent background support
@@ -14,6 +15,7 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Features: Transparency toggle, theme switching helpers
 
 ### UI Components
+
 - **bufferline.lua** - Tab/buffer line at the top
   - Loading: Immediate (after colorscheme)
   - Features: Catppuccin integration, custom separators, diagnostics indicators
@@ -27,6 +29,7 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Features: Virtual text for references, implementations, definitions
 
 ### Visual Enhancements
+
 - **nvim-colorizer.lua** - Highlights color codes in files
   - Loading: VeryLazy event
   - Features: RGB/HSL highlighting, tailwind support, virtual text mode
@@ -38,6 +41,7 @@ This directory contains all theme and UI enhancement plugins for Neovim.
 ## Configuration Details
 
 ### Catppuccin Theme
+
 ```lua
 -- Optimized with minimal integrations
 default_integrations = false,
@@ -57,12 +61,14 @@ integrations = {
 ```
 
 ### Bufferline
+
 - Custom separator style: `slant`
 - Shows diagnostics from LSP
 - Groups buffers by directory
 - Mouse support for clicking tabs
 
 ### Lualine
+
 - Six sections: mode, git, diagnostics, filename, filetype, location
 - Integrated with:
   - Git status (branch, diff)
@@ -73,6 +79,7 @@ integrations = {
 ## Keymappings
 
 ### Bufferline Navigation
+
 - `<S-h>` - Previous buffer
 - `<S-l>` - Next buffer
 - `<leader>bp` - Toggle pin
@@ -84,6 +91,7 @@ integrations = {
 - `<leader>be` - Sort by extension
 
 ### Visual Whitespace
+
 - Automatically shows/hides based on context
 - No manual keymappings required
 
@@ -98,15 +106,19 @@ integrations = {
 ## Customization
 
 ### Changing Theme
+
 Update `MISSION_CONTROL/dot_config/nvim/lua/plugins/theme/catppuccin.lua`:
+
 ```lua
 flavour = "mocha",  -- Change to: latte, frappe, macchiato, mocha
 ```
 
 ### Transparency
+
 Toggle with `<leader>ut` (managed by LazyVim core)
 
 ### Status Line Components
+
 Add custom components to lualine sections in `lualine.lua`
 
 ## Dependencies
@@ -118,16 +130,19 @@ Add custom components to lualine sections in `lualine.lua`
 ## Troubleshooting
 
 ### Theme Not Loading
+
 - Check `:Lazy` for load errors
 - Ensure catppuccin loads with high priority
 - Verify no conflicting colorscheme commands
 
 ### Status Line Issues
+
 - Pipeline status wrapped in pcall for safety
 - Check `:LualineNotices` for component errors
 - Verify LSP is running for diagnostics
 
 ### Performance
+
 - Use `:Lazy profile` to check theme load times
 - Consider disabling unused catppuccin integrations
 - Reduce lualine update frequency if needed
