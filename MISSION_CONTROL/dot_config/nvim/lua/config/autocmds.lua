@@ -8,6 +8,23 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 --
+-- AUTO CHANGE TO GIT ROOT DIRECTORY
+--
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    -- Get the first argument
+    local first_arg = vim.fn.argv(0)
+    
+    -- If we're opening a directory
+    if first_arg ~= "" and vim.fn.isdirectory(first_arg) == 1 then
+      -- Change to the specified directory (don't go to git root)
+      vim.cmd("cd " .. vim.fn.fnameescape(first_arg))
+      vim.notify("Working directory: " .. first_arg, vim.log.levels.INFO)
+    end
+  end,
+})
+
+--
 -- LSP ATTACH
 --
 vim.api.nvim_create_autocmd({ "LspAttach" }, {

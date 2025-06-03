@@ -32,6 +32,12 @@ return {
       statuscolumn = { enabled = true },
       words = { enabled = true },
     },
+    -- Override LazyVim's default keymaps to use cwd instead of root
+    keys = {
+      { "<leader>ff", function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end, desc = "Find Files (cwd)" },
+      { "<leader><space>", function() Snacks.picker.files({ cwd = vim.fn.getcwd() }) end, desc = "Find Files (cwd)" },
+      { "<leader>fF", function() Snacks.picker.files({ cwd = LazyVim.root() }) end, desc = "Find Files (root)" },
+    },
   },
   {
     "folke/trouble.nvim",
