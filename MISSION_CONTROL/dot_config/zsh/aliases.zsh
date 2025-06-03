@@ -30,5 +30,5 @@ alias spotify_play='osascript -e "tell application \"Spotify\" to play"'
 alias spotify_pause='osascript -e "tell application \"Spotify\" to pause"'
 alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'
 alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"'
-alias claude="~/.claude/local/claude"
+# alias claude="~/.claude/local/claude"
 

@@ -7,18 +7,16 @@ return {
     opts = {
       -- Using Copilot as the main provider
       provider = "copilot",
-      copilot = {
-        model = "claude-3.7-sonnet", -- or "gpt-4", "gpt-4o", etc.
-        timeout = 30000,
-        temperature = 0,
-      },
-      -- Keep OpenAI as a fallback option
-      openai = {
-        endpoint = "https://api.openai.com/v1",
-        model = "gpt-4.1",
-        timeout = 30000,
-        temperature = 0,
-        max_completion_tokens = 8192,
+      providers = {
+        copilot = {
+          model = "claude-3.7-sonnet", -- Valid models: claude-3.5-sonnet, claude-3.7-sonnet, gpt-4o, gpt-4o-mini
+          timeout = 30000,
+          extra_request_body = {
+            temperature = 0,
+            max_tokens = 8192, -- Default for copilot is 20480
+          },
+        },
+        -- Keep OpenAI as a fallback option
       },
       -- Avante keymaps
       mappings = {
@@ -38,7 +36,7 @@ return {
       --- The below dependencies are optional,
       "echasnovski/mini.pick", -- for file_selector provider mini.pick
       "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-      "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+      "saghen/blink.cmp", -- autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- for file_selector provider fzf
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
       "zbirenbaum/copilot.lua", -- for providers='copilot'
