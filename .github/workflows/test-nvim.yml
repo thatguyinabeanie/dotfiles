@@ -2,6 +2,8 @@ name: Test Neovim Configuration
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'MISSION_CONTROL/dot_config/nvim/**'
       - '_tests_/**'
