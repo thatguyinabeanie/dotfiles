@@ -40,11 +40,13 @@ return {
       { "<leader>df", function() require("telescope").extensions.dap.frames() end, desc = "Debug: Frames" },
     },
     config = function()
-      local dap = require("dap")
-      local dapui = require("dapui")
-      
-      -- DAP UI setup
-      dapui.setup({
+      -- Defer the configuration to avoid startup issues
+      vim.schedule(function()
+        local dap = require("dap")
+        local dapui = require("dapui")
+        
+        -- DAP UI setup
+        dapui.setup({
         icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
         mappings = {
           expand = { "<CR>", "<2-LeftMouse>" },
@@ -95,13 +97,19 @@ return {
       
       -- Automatically open/close DAP UI
       dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
+        vim.schedule(function()
+          dapui.open()
+        end)
       end
       dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
+        vim.schedule(function()
+          dapui.close()
+        end)
       end
       dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+        vim.schedule(function()
+          dapui.close()
+        end)
       end
       
       -- JavaScript/TypeScript debugging
@@ -229,6 +237,7 @@ return {
       
       -- Load telescope extension
       require("telescope").load_extension("dap")
+      end) -- End of vim.schedule
     end,
   },
   {

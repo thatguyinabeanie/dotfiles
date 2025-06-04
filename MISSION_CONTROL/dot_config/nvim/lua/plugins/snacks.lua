@@ -70,7 +70,7 @@ return {
         },
       },
       quickfile = { enabled = true },
-      scope = { enabled = true }, -- Using this instead of other indent plugins
+      scope = { enabled = true },
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true }, -- Keep for word highlighting under cursor
