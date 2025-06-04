@@ -3,7 +3,8 @@ return {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
-        -- TypeScript/JavaScript (typescript-tools.nvim handles TS server)
+        -- TypeScript/JavaScript
+        "typescript-language-server",
         "eslint_d",
         "eslint-lsp",
         "prettierd",

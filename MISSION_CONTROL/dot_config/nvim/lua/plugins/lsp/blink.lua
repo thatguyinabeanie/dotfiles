@@ -1,7 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
-    event = "InsertEnter",
+    lazy = false,
     version = "*",
     dependencies = {
       "giuxtaposition/blink-cmp-copilot",
