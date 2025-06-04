@@ -13,6 +13,10 @@
 # Install all MCP servers
 "install-mcp" = { depends = ["install-npm-globals", "install-python-mcp"], description = "Install all MCP servers" }
 
+[hooks]
+# Automatically install MCP servers after tool installations
+"postinstall" = "mise run install-mcp"
+
 
 
 [settings]
