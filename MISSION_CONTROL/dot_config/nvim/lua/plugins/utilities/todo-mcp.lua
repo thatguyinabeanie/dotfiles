@@ -1,5 +1,6 @@
 return {
-  "thatguyinabeanie/todo-mcp.nvim",
+  -- "thatguyinabeanie/todo-mcp.nvim",
+  dir = vim.fn.expand("~/source/todo-mcp.nvim"),
   branch = "main",
   dependencies = {
     "nvim-lua/plenary.nvim",

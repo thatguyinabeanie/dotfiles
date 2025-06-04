@@ -1,7 +1,7 @@
 return {
-  "thatguyinabeanie/claude-code.nvim",
-  -- dir = vim.fn.expand("~/source/claude-code.nvim"),
-  branch = "ci-still-broken",
+  -- "thatguyinabeanie/claude-code.nvim",
+  dir = vim.fn.expand("~/source/claude-code.nvim"),
+  branch = "main",
   dependencies = {
     "nvim-lua/plenary.nvim", -- Required for git operations
   },
