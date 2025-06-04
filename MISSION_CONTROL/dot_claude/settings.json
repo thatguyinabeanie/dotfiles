@@ -47,8 +47,6 @@
       "Bash(touch:*)",
       "Bash(git add:*)",
       "Bash(NODE_ENV=development pnpm build)"
-    ],
-    "deny": [],
-    "model": "sonnet"
+    ]
   }
 }
