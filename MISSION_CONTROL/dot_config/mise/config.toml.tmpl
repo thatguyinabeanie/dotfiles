@@ -5,6 +5,14 @@
 {{- end }}
 {{- end }}
 
+[tasks]
+# Install global npm packages
+"install-npm-globals" = { run = "~/.config/mise/tasks/install-npm-globals.sh", description = "Install global npm packages" }
+# Install Python MCP servers
+"install-python-mcp" = { run = "~/.config/mise/tasks/install-python-mcp.sh", description = "Install Python MCP servers" }
+# Install all MCP servers
+"install-mcp" = { depends = ["install-npm-globals", "install-python-mcp"], description = "Install all MCP servers" }
+
 
 
 [settings]

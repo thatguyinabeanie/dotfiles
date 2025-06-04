@@ -1,0 +1,49 @@
+#!/bin/bash
+# Install MCP (Model Context Protocol) servers
+
+set -euo pipefail
+
+echo "🤖 Installing MCP servers..."
+
+# Install Node.js-based MCP servers globally via npm
+echo "📦 Installing npm-based MCP servers..."
+npm install -g \
+  @modelcontextprotocol/server-filesystem \
+  @modelcontextprotocol/server-memory \
+  mcp-neovim-server || {
+    echo "❌ Failed to install npm MCP servers"
+    # Don't exit with error, continue with Python packages
+  }
+
+# Check if uv is installed (fast Python package installer)
+if command -v uv &> /dev/null; then
+    echo "📦 Installing Python-based MCP servers with uv..."
+    uv tool install mcp-server-fetch
+    uv tool install mcp-server-git
+elif command -v pipx &> /dev/null; then
+    echo "📦 Installing Python-based MCP servers with pipx..."
+    pipx install mcp-server-fetch
+    pipx install mcp-server-git
+elif command -v pip3 &> /dev/null; then
+    echo "📦 Installing Python-based MCP servers with pip..."
+    pip3 install --user mcp-server-fetch mcp-server-git
+else
+    echo "⚠️  No Python package manager found (uv, pipx, or pip3)"
+    echo "   Install one of them to use fetch and git MCP servers"
+fi
+
+echo "✅ MCP servers installation complete!"
+
+# Verify installations
+echo ""
+echo "📋 Verifying MCP server installations:"
+echo -n "  filesystem: "
+command -v mcp-server-filesystem &> /dev/null && echo "✓" || echo "✗"
+echo -n "  memory: "
+command -v mcp-server-memory &> /dev/null && echo "✓" || echo "✗"
+echo -n "  neovim: "
+command -v mcp-neovim-server &> /dev/null && echo "✓" || echo "✗"
+echo -n "  fetch: "
+command -v mcp-server-fetch &> /dev/null && echo "✓" || echo "✗"
+echo -n "  git: "
+command -v mcp-server-git &> /dev/null && echo "✓" || echo "✗"
