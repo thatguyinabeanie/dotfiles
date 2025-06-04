@@ -1,6 +1,6 @@
 return {
   "thatguyinabeanie/todo-mcp.nvim",
-  branch = "fix-ui-ux",
+  branch = "main",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "kkharji/sqlite.lua",
