@@ -20,7 +20,6 @@ return {
 
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "copilot" },
-        cmdline = { "cmdline" },
         providers = {
           copilot = {
             name = "copilot",
@@ -29,6 +28,10 @@ return {
             async = true,
           },
         },
+      },
+      
+      cmdline = {
+        sources = { "cmdline" },
       },
       
       completion = {
