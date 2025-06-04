@@ -4,7 +4,6 @@
 
 local wk = require("which-key")
 
---
 -- SCROLLING
 --
 -- When scrolling, center the cursor vertically within the buffer window
@@ -13,6 +12,7 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 -- When searching, center the cursor vertically within the buffer window
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+
 
 -- Treewalker movement (normal & visual mode)
 vim.keymap.set({ 'n', 'v' }, '<M-h>', '<cmd>Treewalker Left<cr>', { desc = "Treewalker Left", silent = true })

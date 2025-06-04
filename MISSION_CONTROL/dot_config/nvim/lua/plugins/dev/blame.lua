@@ -2,7 +2,10 @@ return {
   {
     "FabijanZulj/blame.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    lazy = false,
+    cmd = { "BlameToggle" },
+    keys = {
+      { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Toggle blame" },
+    },
     config = function()
       require("blame").setup()
     end,

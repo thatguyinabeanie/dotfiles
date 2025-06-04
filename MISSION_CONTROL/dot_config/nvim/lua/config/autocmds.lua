@@ -7,6 +7,7 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+
 --
 -- AUTO CHANGE TO GIT ROOT DIRECTORY
 --
@@ -24,73 +25,31 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
---
--- LSP ATTACH
---
-vim.api.nvim_create_autocmd({ "LspAttach" }, {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client and client:supports_method("textDocument/completion") then
-      vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-    end
-  end,
-})
 
--- Handle LSP client attachment issues
--- vim.api.nvim_create_autocmd({ "BufEnter" }, {
---   callback = function(ev)
---     local bufnr = ev.buf
---     local ft = vim.bo[bufnr].filetype
---
---     -- Skip if buffer already has LSP clients attached
---     if #vim.lsp.get_active_clients({ bufnr = bufnr }) > 0 then
---       return
---     end
---
---     -- Attempt to attach LSP clients for this filetype
---     vim.defer_fn(function()
---       if vim.api.nvim_buf_is_valid(bufnr) then
---         vim.cmd("LspStart")
---       end
---     end, 100)
---   end,
--- })
 
 --
 -- BUFREAD< BUFNEWFILE
 --
+-- Template file syntax highlighting
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.nu.tmpl",
+  pattern = { "*.nu.tmpl", "*.lua.tmpl", "*.sh.tmpl", "*.zsh.tmpl", "*.toml.tmpl", "*.json.tmpl", "*.yaml.tmpl", "*.yml.tmpl" },
   callback = function()
-    vim.opt_local.syntax = "nu"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.lua.tmpl",
-  callback = function()
-    vim.opt_local.syntax = "lua"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern =  "*.sh.tmpl" ,
-  callback = function()
-    vim.opt_local.syntax = "sh"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-  pattern = { "*.zsh.tmpl" },
-  callback = function()
-    vim.opt_local.syntax = "zsh"
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "*.toml.tmpl",
-  callback = function()
-    vim.opt_local.syntax = "toml"
+    local filename = vim.fn.expand("%:t")
+    local base_ft = filename:match("%.(%w+)%.tmpl$")
+    if base_ft then
+      -- Set filetype based on the base extension
+      local filetype_map = {
+        nu = "nu",
+        lua = "lua",
+        sh = "sh",
+        zsh = "zsh",
+        toml = "toml",
+        json = "json",
+        yaml = "yaml",
+        yml = "yaml",
+      }
+      vim.bo.filetype = filetype_map[base_ft] or base_ft
+    end
   end,
 })
 

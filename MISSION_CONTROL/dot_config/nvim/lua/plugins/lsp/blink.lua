@@ -1,7 +1,7 @@
 return {
   {
     "saghen/blink.cmp",
-    lazy = false,
+    event = "InsertEnter",
     version = "*",
     dependencies = {
       "giuxtaposition/blink-cmp-copilot",
@@ -12,10 +12,15 @@ return {
         ["<S-Tab>"] = { "select_prev", "fallback" },
         ["<Tab>"] = { "select_next", "fallback" },
       },
+      
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
+      },
 
-      cmdline = { sources = { "cmdline" } },
       sources = {
-        default = { "lsp", "path", "buffer", "copilot" },
+        default = { "lsp", "path", "snippets", "buffer", "copilot" },
+        cmdline = { "cmdline" },
         providers = {
           copilot = {
             name = "copilot",
@@ -23,6 +28,23 @@ return {
             score_offset = 100,
             async = true,
           },
+        },
+      },
+      
+      completion = {
+        accept = {
+          auto_brackets = {
+            enabled = true,
+          },
+        },
+        menu = {
+          draw = {
+            treesitter = { "lsp" },
+          },
+        },
+        documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
         },
       },
     },
