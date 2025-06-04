@@ -1,6 +1,7 @@
 return {
-  "thatguyinabeanie/todo-mcp.nvim",
-  branch = "fix-ui-ux",
+  -- "thatguyinabeanie/todo-mcp.nvim",
+  dir = vim.fn.expand("~/source/todo-mcp.nvim"),
+  branch = "main",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "kkharji/sqlite.lua",

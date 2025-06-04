@@ -10,8 +10,7 @@ vim.g.maplocalleader = "\\"
 vim.opt.shell = "/bin/zsh"
 
 -- LazyVim auto format
-vim.g.autoformat = false
--- vim.g.autoformat = true
+vim.g.autoformat = true
 
 -- Snacks animations
 -- Set to `false` to globally disable all snacks animations
@@ -42,7 +41,7 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undodir = os.getenv("HOME") .. "/.local/state/nvim/undodir"
 vim.opt.undofile = true
-vim.opt.undolevels = 100000
+vim.opt.undolevels = 10000
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 vim.opt.wrap = false

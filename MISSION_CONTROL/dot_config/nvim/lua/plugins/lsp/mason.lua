@@ -5,7 +5,6 @@ return {
       ensure_installed = {
         -- TypeScript/JavaScript
         "typescript-language-server",
-        "vtsls", -- Alternative TS server
         "eslint_d",
         "eslint-lsp",
         "prettierd",

@@ -1,4 +1,11 @@
 {
+  "mcpServers": {
+    "mcphub": {
+      "command": "mcp-hub",
+      "args": ["--port", "37373", "--config", "~/.config/mcphub/servers.json"],
+      "env": {}
+    }
+  },
   "permissions": {
     "allow": [
       "Bash(rm:*)",

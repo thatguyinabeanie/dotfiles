@@ -1,0 +1,60 @@
+{
+	"nativeMCPServers": {
+		"mcphub": {
+			"autoApprove": ["get_current_servers", "toggle_mcp_server"]
+		}
+	},
+	"mcpServers": {
+		"filesystem": {
+			"command": "mcp-server-filesystem",
+			"args": ["/Users/beanie/.local/share/chezmoi"],
+			"env": [],
+			"autostart": true,
+			"disabled": false
+		},
+		"fetch": {
+			"command": "mcp-server-fetch",
+			"args": [],
+			"env": [],
+			"autostart": true,
+			"disabled": false
+		},
+		"memory": {
+			"command": "mcp-server-memory",
+			"args": [],
+			"env": [],
+			"autostart": true
+		},
+		"git": {
+			"command": "mcp-server-git",
+			"args": ["--repository", "/Users/beanie/.local/share/chezmoi"],
+			"env": [],
+			"autostart": true,
+			"disabled": false
+		},
+		"neovim": {
+			"command": "mcp-neovim-server",
+			"args": [],
+			"env": ["ALLOW_SHELL_COMMANDS=true"],
+			"autostart": true,
+			"disabled": false,
+			"autoApprove": [
+				"execute_lua",
+				"execute_command",
+				"read_file",
+				"delete_item",
+				"move_item",
+				"find_files",
+				"list_directory",
+				"write_file",
+				"replace_in_file",
+				"list_buffers",
+				"get_current_buffer",
+				"get_cursor_position",
+				"run_command",
+				"insert_text",
+				"replace_text"
+			]
+		}
+	}
+}
