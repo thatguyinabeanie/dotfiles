@@ -186,24 +186,55 @@ return {
       -- Python debugging
       local dap_python = require("dap-python")
       
-      -- Try to find python executable
-      local python_path = nil
-      local possible_paths = {
-        vim.fn.getcwd() .. "/.venv/bin/python",
-        vim.fn.getcwd() .. "/venv/bin/python",
-        vim.fn.expand("~/.pyenv/shims/python"),
-        "/usr/bin/python3",
-        "python3",
-        "python",
-      }
-      
-      for _, path in ipairs(possible_paths) do
-        if vim.fn.executable(path) == 1 then
-          python_path = path
-          break
+      -- Function to get the Python path from active virtual environment
+      local function get_python_path()
+        -- First check if a virtual environment is activated
+        local venv = vim.env.VIRTUAL_ENV
+        if venv then
+          local venv_python = venv .. "/bin/python"
+          if vim.fn.executable(venv_python) == 1 then
+            return venv_python
+          end
         end
+        
+        -- Check conda environment
+        local conda_prefix = vim.env.CONDA_PREFIX
+        if conda_prefix then
+          local conda_python = conda_prefix .. "/bin/python"
+          if vim.fn.executable(conda_python) == 1 then
+            return conda_python
+          end
+        end
+        
+        -- Check for uv virtual environment
+        local uv_venv = vim.fn.getcwd() .. "/.venv/bin/python"
+        if vim.fn.executable(uv_venv) == 1 then
+          -- Check if this is a uv-managed venv by looking for .venv/uv-managed marker
+          local uv_marker = vim.fn.getcwd() .. "/.venv/pyvenv.cfg"
+          if vim.fn.filereadable(uv_marker) == 1 then
+            return uv_venv
+          end
+        end
+        
+        -- Try to find python executable in common locations
+        local possible_paths = {
+          vim.fn.getcwd() .. "/.venv/bin/python",
+          vim.fn.expand("~/.pyenv/shims/python"),
+          "/usr/bin/python3",
+          "python3",
+          "python",
+        }
+        
+        for _, path in ipairs(possible_paths) do
+          if vim.fn.executable(path) == 1 then
+            return path
+          end
+        end
+        
+        return nil
       end
       
+      local python_path = get_python_path()
       if python_path then
         dap_python.setup(python_path)
         
