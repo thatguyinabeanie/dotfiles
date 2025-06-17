@@ -1,7 +1,7 @@
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
-source ~/.cache/carapace/init.nu
+# source ~/.cache/carapace/init.nu
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
 
