@@ -22,10 +22,27 @@ return {
         if not pipeline._pipelines then
           pipeline._pipelines = {}
         end
+        
+        -- Ensure workflows are initialized to prevent nil errors
+        if not pipeline._workflows then
+          pipeline._workflows = {}
+        end
+        
+        -- Monkey-patch the get_workflows function to handle nil values safely
+        local original_get_workflows = pipeline.get_workflows
+        if original_get_workflows then
+          pipeline.get_workflows = function(...)
+            local workflows = original_get_workflows(...)
+            return workflows or {}
+          end
+        end
+        
         local setup_ok = pcall(pipeline.setup, opts)
+        
         if not setup_ok then
           -- If setup fails, ensure minimal structure exists
           pipeline._pipelines = pipeline._pipelines or {}
+          pipeline._workflows = pipeline._workflows or {}
         end
       end
     end,
