@@ -23,28 +23,26 @@ return {
           pipeline._pipelines = {}
         end
         
-        -- Create a safe wrapper for vim.tbl_map to handle nil values
-        local original_tbl_map = vim.tbl_map
-        local safe_tbl_map = function(func, t)
-          if t == nil then
-            return {}
-          end
-          return original_tbl_map(func, t)
+        -- Ensure workflows are initialized to prevent nil errors
+        if not pipeline._workflows then
+          pipeline._workflows = {}
         end
         
-        -- Temporarily replace vim.tbl_map during setup
-        vim.tbl_map = safe_tbl_map
+        -- Monkey-patch the get_workflows function to handle nil values safely
+        local original_get_workflows = pipeline.get_workflows
+        if original_get_workflows then
+          pipeline.get_workflows = function(...)
+            local workflows = original_get_workflows(...)
+            return workflows or {}
+          end
+        end
         
         local setup_ok = pcall(pipeline.setup, opts)
-        
-        -- Restore original vim.tbl_map after setup
-        vim.schedule(function()
-          vim.tbl_map = original_tbl_map
-        end)
         
         if not setup_ok then
           -- If setup fails, ensure minimal structure exists
           pipeline._pipelines = pipeline._pipelines or {}
+          pipeline._workflows = pipeline._workflows or {}
         end
       end
     end,
