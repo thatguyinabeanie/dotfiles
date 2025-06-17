@@ -22,7 +22,26 @@ return {
         if not pipeline._pipelines then
           pipeline._pipelines = {}
         end
+        
+        -- Create a safe wrapper for vim.tbl_map to handle nil values
+        local original_tbl_map = vim.tbl_map
+        local safe_tbl_map = function(func, t)
+          if t == nil then
+            return {}
+          end
+          return original_tbl_map(func, t)
+        end
+        
+        -- Temporarily replace vim.tbl_map during setup
+        vim.tbl_map = safe_tbl_map
+        
         local setup_ok = pcall(pipeline.setup, opts)
+        
+        -- Restore original vim.tbl_map after setup
+        vim.schedule(function()
+          vim.tbl_map = original_tbl_map
+        end)
+        
         if not setup_ok then
           -- If setup fails, ensure minimal structure exists
           pipeline._pipelines = pipeline._pipelines or {}
