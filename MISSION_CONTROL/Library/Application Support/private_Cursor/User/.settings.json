@@ -60,7 +60,6 @@
   "editor.fontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
   "cursor.composer.cmdPFilePicker2": true,
   "cursor.composer.collapsePaneInputBoxPills": true,
-  "workbench.preferredDarkColorTheme": "Tokyo Night Storm",
   "workbench.preferredLightColorTheme": "Bearded Theme Coffee Cream",
   "markdown-preview-github-styles.colorTheme": "system",
   "window.autoDetectColorScheme": true,
@@ -98,5 +97,6 @@
   "[lua]": {
     "editor.defaultFormatter": "yinfei.luahelper"
   },
-  "docker.extension.enableComposeLanguageServer": false
+  "docker.extension.enableComposeLanguageServer": false,
+  "workbench.preferredDarkColorTheme": "Tokyo Night Storm"
 }
