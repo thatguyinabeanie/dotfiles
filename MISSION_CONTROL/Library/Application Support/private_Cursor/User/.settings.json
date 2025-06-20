@@ -98,5 +98,6 @@
     "editor.defaultFormatter": "yinfei.luahelper"
   },
   "docker.extension.enableComposeLanguageServer": false,
-  "workbench.preferredDarkColorTheme": "Tokyo Night Storm"
+  "workbench.preferredDarkColorTheme": "Tokyo Night Storm",
+  "githubPullRequests.pullBranch": "never"
 }
