@@ -23,4 +23,5 @@ _tests_/.history/
 *.coverage
 *.deps
 *.result
-.claude/settings.local.json
+!.claude
+!CLAUDE.md
