@@ -87,10 +87,6 @@ return {
           },
         },
       },
-      -- Configure the loading of task templates
-      template_dirs = {
-        vim.fn.stdpath("config") .. "/overseer/templates",
-      },
       -- Auto-detect tasks for various build systems
       auto_detect_success_color = {
         fg = "#98c379",
