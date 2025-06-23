@@ -1,9 +1,9 @@
 pre-commit:
   parallel: true
   commands:
-    pokemon-art:
-      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-pokemon.sh
-      stage_fixed: false
+    # pokemon-art:
+    #   run: MISSION_CONTROL/dot_config/lefthook/pre-commit-pokemon.sh
+    #   stage_fixed: false
     markdownlint-fix:
       glob: "**/*.md"
       run: markdownlint-cli2 --fix --config .markdownlint.yaml {files}
