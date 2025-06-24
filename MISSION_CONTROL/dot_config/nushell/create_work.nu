@@ -4,10 +4,10 @@
 # This script creates a secrets.nu file if it doesn't exist
 
 def main [] {
-    let work_file = ($env.HOME | path join ".config/nushell/work.nu")
+    let work_file = $env.HOME | path join ".config/nushell/work.nu"
 
-    if not ($secrets_file | path exists) {
-        print $"Creating ($secrets_file)..."
+    if not ($work_file | path exists) {
+        print $"Creating ($work_file)..."
 
         let content = "# work.nu
 #
@@ -23,7 +23,7 @@ def main [] {
 # Example (commented out):
 # alias burn_production = aws redshift global-db exec - DROP TABLE users;
 "
-        $content | save -f $secrets_file
+        $content | save -f $work_file
     }
 }
 

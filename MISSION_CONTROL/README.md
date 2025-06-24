@@ -57,8 +57,7 @@ After making changes to your local configuration:
 
 Each major section has its own README with more specific documentation:
 
-- [Chezmoi Scripts](.chezmoiscripts/README.md)
-- [Chezmoi Data](.chezmoidata/README.md)
+- [Chezmoi Scripts](.chezmoiscripts/.README.md)
 - [Neovim Configuration](dot_config/nvim/README.md)
 - [Nushell Configuration](dot_config/nushell/README.md)
 - [Git Configuration](dot_config/git/README.md)
