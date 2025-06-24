@@ -4,11 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a personal dotfiles repository managed by [Chezmoi](https://www.chezmoi.io/). The repository contains configuration files for various development tools and environments, organized under the `MISSION_CONTROL` directory which serves as the Chezmoi source state.
+This is a personal dotfiles repository managed by [Chezmoi](https://www.chezmoi.io/).
+The repository contains configuration files for various development tools and environments, organized under the `MISSION_CONTROL` directory which serves as the Chezmoi source state.
 
 ## Essential Commands
 
 ### Testing
+
 ```bash
 # Run all tests
 cd _tests_ && go test -v ./...
@@ -24,6 +26,7 @@ cd _tests_ && ./scripts/test_nvim_startup.sh
 ```
 
 ### Linting and Code Quality
+
 ```bash
 # Run all pre-commit hooks manually
 lefthook run pre-commit
@@ -39,6 +42,7 @@ gitleaks protect --staged --no-banner
 ```
 
 ### Chezmoi Management
+
 ```bash
 # Apply dotfiles changes
 chezmoi apply
@@ -56,10 +60,29 @@ chezmoi add ~/.config/newapp/config.toml
 chezmoi update
 ```
 
+### AI/LLM Tooling
+
+```bash
+# Install AI tooling dependencies
+mise run install-python-mcp  # Install MCP servers
+mise run install-npm-globals # Install global npm packages
+
+# Test MCP server connectivity
+mcphub list-servers
+mcphub test-server filesystem
+
+# AI development workflow
+# Use <leader>cc in Neovim to open CodeCompanion chat
+# Use <leader>aa in Neovim for Avante AI assistant
+# Use <C-g> for GitHub Copilot suggestions
+```
+
 ## Architecture Overview
 
 ### Directory Structure
+
 The repository uses Chezmoi's naming conventions:
+
 - `MISSION_CONTROL/` - Root directory (set by `.chezmoiroot`)
 - `dot_` prefix creates hidden files (e.g., `dot_config` → `.config`)
 - `private_` prefix for encrypted/sensitive files
@@ -67,20 +90,36 @@ The repository uses Chezmoi's naming conventions:
 - `empty_` prefix ensures directory creation
 
 ### Template System
+
 Configuration templates use Go template syntax and access variables from `.chezmoi.toml.tmpl`:
+
 - `WORK_ENVIRONMENT` - Boolean for work-specific configurations
 - `SHELL` - Preferred shell (nu/zsh)
 - `CATPPUCCIN_FLAVOR` - Theme variant (mocha/macchiato/frappe/latte)
 - Application-specific settings (terminal opacity, fonts, window sizes)
 
 ### External Repository Management
+
 The `.chezmoiexternal.toml.tmpl` file manages external Git repositories:
+
 - Personal and work repositories are conditionally cloned
 - Repositories refresh every 168 hours by default
 - Organized into categories: personal, work-frontend, work-backend, work-services
 
+### AI/LLM Integration Architecture
+
+Comprehensive AI toolchain integrated throughout the configuration:
+
+- **MCP (Model Context Protocol)**: Server configuration in `dot_config/mcphub/servers.json`
+- **LLM Plugins**: Modular plugin system in `dot_config/nvim/lua/plugins/llm/`
+- **Claude AI**: Dedicated configuration in `dot_claude/` with permissions and memories
+- **Multiple Providers**: Avante (Claude), CodeCompanion, GitHub Copilot, Claude Code integration
+- **Local Development**: Custom plugins for `claude-code.nvim` and `todo-mcp.nvim`
+
 ### Test Infrastructure
+
 Located in `_tests_/` directory:
+
 - Go-based test suite using virtual filesystem
 - Unit tests for configuration validation
 - Integration tests for complex setups
@@ -88,7 +127,9 @@ Located in `_tests_/` directory:
 - Test sharding and caching for performance
 
 ### Git Hooks (Lefthook)
+
 Pre-commit hooks run automatically and include:
+
 - Markdown linting and formatting
 - Shell script validation
 - Go tests and linting
@@ -106,24 +147,35 @@ Pre-commit hooks run automatically and include:
 ## Key Configuration Areas
 
 ### Shell Configurations
+
 - **Nushell**: Primary shell with custom commands and completions in `dot_config/nushell/`
 - **Zsh**: Alternative shell configuration in `dot_config/zsh/`
 - Shared aliases managed through templates
 
 ### Editor Setup
+
 - **Neovim**: Modular Lua configuration in `dot_config/nvim/`
 - LazyVim-based setup with custom plugins
 - Language-specific configurations
 
 ### Terminal Tools
+
 - **Tmux**: Terminal multiplexer with Catppuccin theme
 - **Ghostty/Kitty**: Terminal emulator configurations
 - **Starship**: Cross-shell prompt customization
 
 ### Development Tools
+
 - **Git**: Custom configuration and hooks
-- **Mise**: Tool version management
+- **Mise**: Tool version management with custom tasks for AI tooling
 - **Obsidian**: Knowledge management with vault configurations
+
+### AI Development Environment
+
+- **Neovim LLM Suite**: Comprehensive AI integration with Avante, CodeCompanion, Copilot
+- **MCP Servers**: Filesystem, git, memory, fetch, and neovim context providers
+- **Claude Code**: Native integration with permissions for bash commands and web domains
+- **Multiple IDEs**: Cursor and VS Code Insiders configurations managed via templates
 
 ## Important Notes
 
@@ -132,3 +184,6 @@ Pre-commit hooks run automatically and include:
 - Work environment configurations are kept separate and require `WORK_ENVIRONMENT=true`
 - Sensitive files (SSH keys, etc.) are encrypted with Chezmoi's encryption features
 - Test coverage threshold is set to 80% for Go tests
+- AI tooling requires MCP server installation via `mise run install-python-mcp`
+- Claude Code has specific bash command and web domain permissions configured
+- Multiple AI providers are available with consistent keybindings across Neovim
