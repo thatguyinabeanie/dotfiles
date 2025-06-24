@@ -3,11 +3,6 @@
 ##
 ## PERSONAL STUFF REPOSITORIES
 ##
-["personal/dotfiles"]
-type = "git-repo"
-refreshPeriod = "168h"
-url = "https://github.com/thatguyinabeanie/dotfiles.git"
-
 ["personal/thatguyinabeanie"]
 type = "git-repo"
 refreshPeriod = "168h"
@@ -138,6 +133,7 @@ url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
 {{ $services_repos := list
   "audience-creator"
   "civis-flask-service"
+  "civis-jupyter-python3"
   "civis-services-flask"
   "civis-services-streamlit"
   "docker-scratch"
