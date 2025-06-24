@@ -1,3 +1,5 @@
 node_modules
 .augment-guidelines
 .vscode/mise-tools/
+.claude/
+CLAUDE.*
