@@ -9,11 +9,6 @@ return {
     opts = {
       date_format = "%d.%m.%Y",
       virtual_style = "float",
-      views = {
-        default = "virtual",
-        virtual = "virtual",
-        window = "window",
-      },
       merge_consecutive = true,
       max_summary_width = 30,
       commit_detail_view = "vsplit",
@@ -25,5 +20,8 @@ return {
         close = { "<esc>", "q" },
       },
     },
+    config = function(_, opts)
+      require("blame").setup(opts)
+    end,
   },
 }
