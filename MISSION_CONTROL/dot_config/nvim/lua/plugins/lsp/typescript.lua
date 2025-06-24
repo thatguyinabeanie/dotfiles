@@ -30,6 +30,9 @@ return {
     "luckasRanarison/tailwind-tools.nvim",
     name = "tailwind-tools",
     build = ":UpdateRemotePlugins",
+    lazy = true,
+    ft = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+    cmd = { "TailwindConcealEnable", "TailwindConcealDisable", "TailwindConcealToggle", "TailwindColorEnable", "TailwindColorDisable", "TailwindColorToggle", "TailwindSort", "TailwindSortOnSaveEnable", "TailwindSortOnSaveDisable", "TailwindSortOnSaveToggle" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope.nvim",

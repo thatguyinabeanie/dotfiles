@@ -46,12 +46,15 @@ A cosmic journey through my development environment
 [Animated demo of the dotfiles in action will appear here]
 
 <!-- markdownlint-disable MD013 -->
+
 ![Demo Coming Soon](https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge)
+
 <!-- markdownlint-enable MD013 -->
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
 
 <!-- markdownlint-disable MD013 -->
+
 ![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
@@ -59,6 +62,7 @@ A cosmic journey through my development environment
 ![Tests](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/test.yml?label=Tests&style=flat-square)
 ![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
 ![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
+
 <!-- markdownlint-enable MD013 -->
 
 ## 🌟 Event Horizon
@@ -70,21 +74,23 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 
 <!-- markdownlint-disable MD013 -->
+
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)
+
 <!-- markdownlint-enable MD013 -->
 
 ## 🌠 Cosmic Variables
 
 During installation, you'll be prompted for several configuration values that will shape your universe:
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `WORK_ENVIRONMENT` | Enable work-specific configurations | `false` |
-| `SHELL` | Preferred shell (nu/zsh) | `nu` |
+| Variable            | Description                                  | Default |
+| ------------------- | -------------------------------------------- | ------- |
+| `WORK_ENVIRONMENT`  | Enable work-specific configurations          | `false` |
+| `SHELL`             | Preferred shell (nu/zsh)                     | `nu`    |
 | `CATPPUCCIN_FLAVOR` | Theme variant (mocha/macchiato/frappe/latte) | `mocha` |
-| `GIT_NAME` | Git commit author name | - |
-| `GIT_EMAIL` | Git commit author email | - |
-| `GITHUB_USERNAME` | GitHub username | - |
+| `GIT_NAME`          | Git commit author name                       | -       |
+| `GIT_EMAIL`         | Git commit author email                      | -       |
+| `GITHUB_USERNAME`   | GitHub username                              | -       |
 
 ## ⚡ Features
 
@@ -121,7 +127,9 @@ During installation, you'll be prompted for several configuration values that wi
 - **Git Hooks**: Automated code quality, linting, and security checks managed by Lefthook (detailed in its own section below).
 
 <!-- markdownlint-disable MD013 -->
+
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
+
 <!-- markdownlint-enable MD013 -->
 
 ## 🌌 Configuration Structure
@@ -153,12 +161,12 @@ Experience the beauty of Catppuccin in four delicious flavors that transform you
 
 [🔍 View Theme Gallery](#-theme-showcase)
 
-| Theme | Description |
-|-------|-------------|
-| Mocha (Dark) | Rich dark background with vibrant accents |
-| Macchiato (Dark) | Balanced dark theme with medium contrast |
-| Frappe (Dark) | Cozy dark theme with lower contrast |
-| Latte (Light) | Creamy light theme for daytime coding |
+| Theme            | Description                               |
+| ---------------- | ----------------------------------------- |
+| Mocha (Dark)     | Rich dark background with vibrant accents |
+| Macchiato (Dark) | Balanced dark theme with medium contrast  |
+| Frappe (Dark)    | Cozy dark theme with lower contrast       |
+| Latte (Light)    | Creamy light theme for daytime coding     |
 
 > **Note:** Replace [Placeholder] with actual screenshots of your environment in each theme variant.
 
@@ -187,12 +195,14 @@ MIT License - See [LICENSE](LICENSE) for details
 Made with ❤️ and cosmic energy
 
 <!-- markdownlint-disable MD013 -->
+
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
+
 <!-- markdownlint-enable MD013 -->
 
 ## 🚀 TODO
 
-See [TODO.md](./TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
+See [TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
 
 ## 🛡️ Git Hooks & Code Quality
 
