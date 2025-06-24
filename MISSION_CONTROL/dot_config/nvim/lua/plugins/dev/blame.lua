@@ -6,9 +6,6 @@ return {
     keys = {
       { "<leader>gb", "<cmd>BlameToggle<cr>", desc = "Toggle blame" },
     },
-    config = function()
-      require("blame").setup()
-    end,
     opts = {
       date_format = "%d.%m.%Y",
       virtual_style = "float",
