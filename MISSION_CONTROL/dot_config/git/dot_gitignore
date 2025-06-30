@@ -3,3 +3,4 @@ node_modules
 .vscode/mise-tools/
 .claude/
 CLAUDE.*
+GEMINI.*

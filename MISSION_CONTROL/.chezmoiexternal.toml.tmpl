@@ -79,6 +79,11 @@ url = "https://github.com/thatguyinabeanie/todo-mcp.nvim.git"
 type = "git-repo"
 refreshPeriod = "168h"
 
+["source/mcp-neovim-server"]
+url = "https://github.com/thatguyinabeanie/mcp-neovim-server.git"
+type = "git-repo"
+refreshPeriod = "168h"
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 
 ##
@@ -115,7 +120,9 @@ url = "https://github.com/{{ $.git.config.work_org }}/{{ . }}.git"
   "jdbctool"
   "local-k8s-setup"
   "notebooks-arproxy"
+  "datascience-python"
   "platform-gds-connector"
+  "civis-python"
   "ruby_audit"
   "sniffer"
   "sailplan"
