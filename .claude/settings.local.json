@@ -10,7 +10,8 @@
       "Bash(chezmoi apply:*)",
       "WebFetch(domain:github.com)",
       "Bash(find:*)",
-      "WebFetch(domain:www.lazyvim.org)"
+      "WebFetch(domain:www.lazyvim.org)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

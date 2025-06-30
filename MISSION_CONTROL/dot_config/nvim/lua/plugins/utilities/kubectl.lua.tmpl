@@ -8,6 +8,17 @@ return {
       { "<leader>k", "<cmd>Kubectl<cr>", desc = "Kubectl" },
     },
     config = function()
+      -- Patch for nvim_set_option_value API change
+      local original_nvim_set_option_value = vim.api.nvim_set_option_value
+      vim.api.nvim_set_option_value = function(name, value, opts)
+        if type(opts) == "number" then
+          -- Handle legacy buffer number parameter
+          original_nvim_set_option_value(name, value, { buf = opts })
+        else
+          original_nvim_set_option_value(name, value, opts or {})
+        end
+      end
+      
       require("kubectl").setup()
     end,
   },
