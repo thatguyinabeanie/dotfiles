@@ -202,7 +202,7 @@ Made with ❤️ and cosmic energy
 
 ## 🚀 TODO
 
-See [TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
+See [.todo/TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
 
 ## 🛡️ Git Hooks & Code Quality
 
@@ -216,3 +216,134 @@ This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to man
 ```bash
 lefthook run pre-commit
 ```
+
+## 🗂️ Chezmoi Navigation
+
+Quick navigation to your dotfiles directory with convenient aliases and tmux keybindings:
+
+### Shell Aliases
+
+Both Nushell and Zsh include helpful aliases for working with your dotfiles:
+
+```bash
+# Change directory to chezmoi source
+dotfiles_cd
+
+# Open Neovim at chezmoi directory
+dotfiles
+```
+
+### Tmux Keybindings
+
+Integrated tmux shortcuts for quick dotfiles access:
+
+| Keybinding      | Action                                                        |
+| --------------- | ------------------------------------------------------------- |
+| `Ctrl+b Ctrl+d` | Create new tmux window at ~/.local/share/chezmoi              |
+| `Ctrl+b Ctrl+e` | Create new tmux window at ~/.local/share/chezmoi and run nvim |
+
+These keybindings make it easy to jump into your dotfiles configuration from any tmux session.
+
+## 🤖 AI/LLM Development Environment
+
+Comprehensive AI toolchain with multiple providers and seamless integration:
+
+### MCP (Model Context Protocol) Servers
+```bash
+# Install MCP servers
+mise run install-python-mcp
+
+# Test connectivity
+mcphub list-servers
+mcphub test-server filesystem
+```
+
+### Neovim AI Integration
+
+| Keybinding | Provider | Action |
+|------------|----------|--------|
+| `<leader>aa` | Avante (Claude) | Open AI assistant |
+| `<leader>cc` | CodeCompanion | Open chat interface |
+| `<C-g>` | GitHub Copilot | Show suggestions |
+
+### Available Providers
+- **Avante**: Claude integration for code assistance
+- **CodeCompanion**: Multi-provider chat interface
+- **GitHub Copilot**: Code completion and suggestions
+- **Claude Code**: Native CLI integration with permissions
+
+## 🛠️ Shell Productivity Features
+
+Enhanced shell experience with powerful aliases and functions:
+
+### GitHub Workflow
+```bash
+# Repository management
+gh-create-repo <name> [--private] [--description "desc"]
+gh-clone-repo <repo> [--destination dir]
+gh-list-repos [--limit 30]
+gh-delete-repo <repo>
+gh-open-repo <repo>
+```
+
+### Git Enhancements
+```bash
+# Interactive emoji commits (requires fzf)
+git_emoji_commit "your commit message"
+```
+
+### System & Productivity
+```bash
+# Pokemon-themed system info
+poke_system_info
+
+# Obsidian vault management
+obsidian_nvim [personal|work|smart-notes|bramses]
+
+# macOS Spotify controls
+spotify_play / spotify_pause / spotify_next / spotify_prev
+```
+
+### File Management
+- `y` - Yazi file manager
+- `cat` - Enhanced with bat (syntax highlighting)
+- `ls/l/la` - Enhanced directory listing with eza
+
+## 📋 Tmux Workflow Reference
+
+Advanced tmux configuration with vim-like navigation:
+
+### Pane Management
+| Keybinding | Action |
+|------------|--------|
+| `h/j/k/l` | Navigate panes (vim-style) |
+| `v` or `\|` | Vertical split |
+| `-` or `s` | Horizontal split |
+| `z` | Toggle pane zoom |
+| `X` | Kill pane |
+
+### Window Management
+| Keybinding | Action |
+|------------|--------|
+| `S` | Choose session |
+| `"` | Choose window |
+| `^A` | Last window |
+| `^W` | List windows |
+
+### Resize & Navigation
+| Keybinding | Action |
+|------------|--------|
+| `,` / `.` | Resize left/right |
+| `-` / `=` | Resize down/up |
+| `C-S-k` | Clear screen |
+
+### Copy Mode (Vim-style)
+| Keybinding | Action |
+|------------|--------|
+| `v` | Begin selection |
+| `C-v` | Rectangle toggle |
+| `y` | Copy selection |
+
+## 📦 External Repository Management
+
+Automatic cloning and management of personal and work repositories with conditional loading based on environment settings. Repositories refresh every 168 hours and are organized into categories (personal, work-frontend, work-backend, work-services).
