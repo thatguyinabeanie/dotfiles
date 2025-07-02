@@ -36,6 +36,11 @@ def dotfiles [] {
   nvim "{{ .chezmoi.sourceDir }}/.."
 }
 
+# Change directory to the chezmoi source directory
+def dotfiles_cd [] {
+  cd "{{ .chezmoi.sourceDir }}/.."
+}
+
 # Show the chezmoi data file or edit it with nvim
 def chezmoi-data [] {
   nvim "~/.config/chezmoi/chezmoi.toml"

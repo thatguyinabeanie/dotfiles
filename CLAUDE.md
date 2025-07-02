@@ -58,6 +58,7 @@ chezmoi add ~/.config/newapp/config.toml
 
 # Update from the repository
 chezmoi update
+
 ```
 
 ### AI/LLM Tooling
