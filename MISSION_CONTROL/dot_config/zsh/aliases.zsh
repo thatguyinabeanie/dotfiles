@@ -32,3 +32,15 @@ alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'
 alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"'
 # alias claude="~/.claude/local/claude"
 
+##
+## CHEZMOI
+##
+
+# Navigate to the chezmoi source directory
+alias dotfiles_cd="cd ~/.local/share/chezmoi"
+
+# Open nvim at the chezmoi source directory
+function dotfiles() {
+  nvim ~/.local/share/chezmoi
+}
+

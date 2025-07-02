@@ -1,6 +1,7 @@
 node_modules
 .augment-guidelines
 .vscode/mise-tools/
+.vscode/settings.json
 .claude/
 CLAUDE.*
 GEMINI.*
