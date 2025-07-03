@@ -25,3 +25,5 @@ _tests_/.history/
 *.result
 !.claude
 !CLAUDE.md
+!GEMINI.md
+!AGENTS.md
