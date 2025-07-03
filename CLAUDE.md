@@ -32,7 +32,7 @@ cd _tests_ && ./scripts/test_nvim_startup.sh
 lefthook run pre-commit
 
 # Run specific linters
-markdownlint-cli2 --config .markdownlint.yaml "**/*.md"
+vale --config .vale.ini "**/*.md"
 cd _tests_ && golangci-lint run
 yamllint -c .yamllint.yml .
 shellcheck MISSION_CONTROL/dot_config/lefthook/*.sh
