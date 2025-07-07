@@ -1,10 +1,10 @@
 # 📚 Obsidian Configuration
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/480.png" width="150" alt="Uxie" />
 </div>
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 This directory contains configuration files for [Obsidian](https://obsidian.md/), a powerful knowledge base that works on top of a local folder of plain text Markdown files.
 
