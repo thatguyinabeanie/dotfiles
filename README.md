@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD013 MD033 MD037 MD040 -->
+
 <div align="center">
   <pre style="line-height:1.2;background-color:transparent;border:none;color:white">
     <span style="color:#F5A97F">                                    &#42;     .--.                                  </span>
@@ -29,7 +29,7 @@
     <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div>
   </pre>
 </div>
-<!-- markdownlint-enable MD013 MD033 MD037 MD040 -->
+
 
 # ⭐️ Dotfiles 🌌
 
@@ -45,15 +45,15 @@ A cosmic journey through my development environment
 
 [Animated demo of the dotfiles in action will appear here]
 
-<!-- markdownlint-disable MD013 -->
+
 
 ![Demo Coming Soon](https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge)
 
-<!-- markdownlint-enable MD013 -->
+
 
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
 
-<!-- markdownlint-disable MD013 -->
+
 
 ![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
@@ -63,7 +63,7 @@ A cosmic journey through my development environment
 ![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
 ![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
 
-<!-- markdownlint-enable MD013 -->
+
 
 ## 🌟 Event Horizon
 
@@ -73,11 +73,11 @@ One command to cross the event horizon and pull in all configurations:
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 
-<!-- markdownlint-disable MD013 -->
+
 
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)
 
-<!-- markdownlint-enable MD013 -->
+
 
 ## 🌠 Cosmic Variables
 
@@ -126,11 +126,11 @@ During installation, you'll be prompted for several configuration values that wi
 - **Kubernetes**: K9s for streamlined Kubernetes cluster management.
 - **Git Hooks**: Automated code quality, linting, and security checks managed by Lefthook (detailed in its own section below).
 
-<!-- markdownlint-disable MD013 -->
+
 
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
 
-<!-- markdownlint-enable MD013 -->
+
 
 ## 🌌 Configuration Structure
 
@@ -194,11 +194,11 @@ MIT License - See [LICENSE](LICENSE) for details
 
 Made with ❤️ and cosmic energy
 
-<!-- markdownlint-disable MD013 -->
+
 
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
 
-<!-- markdownlint-enable MD013 -->
+
 
 ## 🚀 TODO
 

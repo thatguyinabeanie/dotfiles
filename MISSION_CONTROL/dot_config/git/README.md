@@ -1,10 +1,10 @@
 # 🌿 Git Configuration 🔄
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/83.png" width="150" alt="Farfetch'd" />
 </div>
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 This directory contains Git configuration files and hooks for the dotfiles repository.
 
@@ -34,7 +34,7 @@ The repository uses [Lefthook](https://github.com/evilmartians/lefthook) to enfo
   - Language-specific Linting
     - Go: golangci-lint
     - Shell: shellcheck
-    - Markdown: markdownlint
+    - Markdown: vale
     - YAML: yamllint
   - Chezmoi Validation
     - Template format checking

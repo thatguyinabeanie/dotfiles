@@ -1,10 +1,10 @@
 # 🌟 MISSION_CONTROL
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/801.png" width="150" alt="Magearna" />
 </div>
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 This is the main directory managed by chezmoi, containing all configuration files and scripts for your cosmic development environment.
 

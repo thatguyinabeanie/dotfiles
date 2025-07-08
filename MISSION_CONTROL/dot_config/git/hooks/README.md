@@ -49,7 +49,7 @@ Edit the scripts in this directory or update `lefthook.yml` to add or modify hoo
 
 - **Go**: golangci-lint
 - **Shell**: shellcheck
-- **Markdown**: markdownlint
+- **Markdown**: vale
 - **YAML**: yamllint
 
 ### Chezmoi Validation

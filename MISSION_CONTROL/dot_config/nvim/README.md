@@ -1,10 +1,10 @@
 # 👾 Neovim Configuration
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/178.png" width="150" alt="Xatu" />
 </div>
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 A modern Neovim configuration built on top of LazyVim,
 featuring a beautiful and functional setup with various plugins and customizations.

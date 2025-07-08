@@ -86,7 +86,7 @@ dotfiles/
 ├── .chezmoiroot                    # Marker file for chezmoi root
 ├── .gitignore                      # Git ignore rules
 ├── .markdown-link-check.json        # Markdown link checker config
-├── .markdownlint.yaml              # Markdown linting config
+├── .vale.ini                       # Vale prose linting config
 ├── .pre-commit-config.yaml         # Pre-commit hook config
 ├── .yamllint.yml                   # YAML linting config
 ├── CONTRIBUTING.md                 # Contributing guide
