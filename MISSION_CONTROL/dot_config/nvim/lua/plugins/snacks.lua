@@ -72,10 +72,7 @@ return {
         },
       },
       quickfile = { enabled = true },
-      -- Temporarily disable scope if window ID errors persist
-      scope = { 
-        enabled = false, -- Disable until snacks.nvim fixes window ID issues
-      },
+      scope = { enabled = true },
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true }, -- Keep for word highlighting under cursor
