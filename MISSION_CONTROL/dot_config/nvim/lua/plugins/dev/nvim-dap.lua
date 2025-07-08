@@ -237,6 +237,12 @@ return {
           end
         end
         
+        -- Final fallback: use system Python from PATH
+        local system_python = vim.fn.exepath('python3') or vim.fn.exepath('python')
+        if system_python and system_python ~= "" then
+          return system_python
+        end
+        
         return nil
       end
       
