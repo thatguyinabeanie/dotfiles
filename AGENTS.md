@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Essential guidance for coding agents working with this Chezmoi dotfiles repository.
+Essential guidance for coding agents working with this Chezmoi dot files repository.
 
 ## Essential Commands
 
