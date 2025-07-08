@@ -95,129 +95,47 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
-    opts = function(_, opts)
-      table.insert(opts.sections.lualine_x, function()
-        return "👻"
-      end)
-
-      opts.sections = {
-        lualine_a = {
-          {
-            "mode",
-            fmt = function(str)
-              return str:sub(1, 1)
-            end,
-          },
-        },
-        lualine_b = {
-          { "branch", icon = "" },
-          {
-            "diff",
-            symbols = { added = " ", modified = " ", removed = " " },
-            diff_color = {
-              added = { fg = "#a6e3a1" },
-              modified = { fg = "#f9e2af" },
-              removed = { fg = "#f38ba8" },
+    config = function()
+      require('lualine').setup({
+        sections = {
+          lualine_a = { "mode" },
+          lualine_b = { "branch", "diff" },
+          lualine_c = { "filename" },
+          lualine_x = {
+            {
+              function()
+                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+                local clients = vim.lsp.get_active_clients()
+                for _, client in ipairs(clients) do
+                  local filetypes = client.config.filetypes
+                  if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                    return client.name
+                  end
+                end
+                return ""
+              end,
+              cond = function()
+                local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+                local clients = vim.lsp.get_active_clients()
+                if next(clients) == nil then return false end
+                for _, client in ipairs(clients) do
+                  local filetypes = client.config.filetypes
+                  if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                    return true
+                  end
+                end
+                return false
+              end,
             },
           },
-          {
-            "diagnostics",
-            sources = { "nvim_diagnostic" },
-            symbols = { error = " ", warn = " ", info = " ", hint = " " },
-            always_visible = false,
-          },
+          lualine_y = { "location" },
+          lualine_z = { "progress" },
         },
-        lualine_c = {
-          {
-            "filename",
-            path = 1,
-            symbols = {
-              modified = "●",
-              readonly = "",
-              unnamed = "[No Name]",
-              newfile = "[New]",
-            },
-          },
-          { "searchcount", icon = "" },
-          { "selectioncount", icon = "󰒅" },
+        options = {
+          theme = "auto",
+          globalstatus = true,
         },
-        lualine_x = {
-          {
-            function()
-              -- Safely try to get pipeline status
-              local ok, pipeline = pcall(require, "pipeline")
-              if ok and pipeline and type(pipeline.get_status) == "function" then
-                local status_ok, status = pcall(pipeline.get_status)
-                if status_ok and status and type(status) == "string" then
-                  return status
-                end
-              end
-              return ""
-            end,
-            icon = "",
-            cond = function()
-              -- Only show if pipeline is loaded and properly initialized
-              local pipeline = package.loaded["pipeline"]
-              if pipeline and type(pipeline) == "table" and type(pipeline.get_status) == "function" then
-                -- Ensure pipeline has necessary data structures
-                return pipeline._pipelines ~= nil
-              end
-              return false
-            end,
-          },
-          {
-            function()
-              local msg = "No Active Lsp"
-              local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
-              local clients = vim.lsp.get_active_clients()
-              if next(clients) == nil then
-                return msg
-              end
-              for _, client in ipairs(clients) do
-                local filetypes = client.config.filetypes
-                if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-                  return client.name
-                end
-              end
-              return msg
-            end,
-            icon = " LSP:",
-            color = { fg = "#89b4fa" },
-          },
-          { "encoding", icon = "󰉿" },
-          { "fileformat", icon = "" },
-          { "filetype", icon = "" },
-          require('mcphub.extensions.lualine'),
-        },
-        lualine_y = {
-          { "progress", icon = "󰦨", separator = " ", padding = { left = 1, right = 0 } },
-          { "location", icon = "", padding = { left = 0, right = 1 } },
-        },
-        lualine_z = {
-          function()
-            return " " .. os.date("%R")
-          end,
-        },
-      }
-
-      opts.options = {
-        icons_enabled = true,
-        theme = "auto",
-        component_separators = { left = "", right = "" },
-        section_separators = { left = "", right = "" },
-        disabled_filetypes = {
-          statusline = { "dashboard", "alpha", "starter" },
-          winbar = {},
-        },
-        ignore_focus = {},
-        always_divide_middle = true,
-        globalstatus = true,
-        refresh = {
-          statusline = 2000,
-          tabline = 2000,
-          winbar = 2000,
-        },
-      }
+      })
     end,
   },
   {

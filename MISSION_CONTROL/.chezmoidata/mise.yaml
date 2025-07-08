@@ -87,6 +87,73 @@ mise:
     - name: hadolint
       version: latest
 
+  # Python packages (installed via uv/pipx)
+  python_packages:
+    # MCP servers
+    - name: mcp-server-fetch
+      description: "MCP server for web fetching"
+    - name: mcp-server-git
+      description: "MCP server for git operations"
+
+    # Development tools
+    - name: black
+      description: "Code formatter"
+    - name: ruff
+      description: "Fast linter and formatter"
+    - name: mypy
+      description: "Type checker"
+    - name: pytest
+      description: "Testing framework"
+    - name: pre-commit
+      description: "Git hooks framework"
+    - name: debugpy
+      description: "Python debugger"
+    - name: isort
+      description: "Import sorter"
+    - name: flake8
+      description: "Python linter"
+
+    # Productivity tools
+    - name: httpie
+      description: "HTTP client"
+    - name: rich-cli
+      description: "Rich text and beautiful formatting"
+    - name: typer-cli
+      description: "CLI builder"
+    - name: cookiecutter
+      description: "Project templates"
+
+    # Data tools
+    - name: jupyter
+      description: "Interactive notebooks"
+    - name: pandas-profiling
+      description: "Data analysis"
+    - name: streamlit
+      description: "Web apps for data"
+
+    # System tools
+    - name: psutil
+      description: "System monitoring"
+    - name: watchdog
+      description: "File system monitoring"
+
+  # NPM global packages
+  npm_packages:
+    - name: "@anthropic-ai/claude-code"
+      description: "Claude Code integration"
+    - name: "@google/gemini-cli"
+      description: "Gemini CLI tool"
+    - name: "@modelcontextprotocol/server-filesystem"
+      description: "MCP filesystem server"
+    - name: "@modelcontextprotocol/server-memory"
+      description: "MCP memory server"
+    - name: "mcp-hub"
+      description: "MCP hub tool"
+    - name: "mcp-neovim-server"
+      description: "MCP Neovim server"
+    - name: "pnpm"
+      description: "Fast package manager"
+
   # Optional tools (previously installed via Homebrew)
   optional_tools:
     - name: erlang
