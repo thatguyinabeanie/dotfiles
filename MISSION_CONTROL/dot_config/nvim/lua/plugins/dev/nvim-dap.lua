@@ -188,7 +188,13 @@ return {
       
       -- Function to get the Python path from active virtual environment
       local function get_python_path()
-        -- First check if a virtual environment is activated
+        -- First check for Mason-installed debugpy
+        local mason_debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+        if vim.fn.executable(mason_debugpy) == 1 then
+          return mason_debugpy
+        end
+        
+        -- Check if a virtual environment is activated
         local venv = vim.env.VIRTUAL_ENV
         if venv then
           local venv_python = venv .. "/bin/python"

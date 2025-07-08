@@ -30,12 +30,14 @@ return {
         enabled = true,
         char = "│",
         animate = {
-          enabled = false, -- Set to true if you want animations
+          enabled = false, -- Animations can cause timing issues
         },
         scope = {
           enabled = true,
           char = "│",
           underline = true,
+          -- Add safeguards for window management
+          safe_mode = true,
         },
         indent = {
           enabled = true,
@@ -49,7 +51,7 @@ return {
             "SnacksIndent6",
             "SnacksIndent7",
             "SnacksIndent8",
-          }, -- Colored indent levels
+          },
         },
       },
       input = { enabled = true },
@@ -70,7 +72,10 @@ return {
         },
       },
       quickfile = { enabled = true },
-      scope = { enabled = true },
+      -- Temporarily disable scope if window ID errors persist
+      scope = { 
+        enabled = false, -- Disable until snacks.nvim fixes window ID issues
+      },
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true }, -- Keep for word highlighting under cursor
