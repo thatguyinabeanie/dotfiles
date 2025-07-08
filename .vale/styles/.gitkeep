@@ -1,0 +1,5 @@
+# This directory contains Vale style packages
+# Styles will be automatically downloaded when Vale runs
+
+# To install additional styles, run:
+# vale sync

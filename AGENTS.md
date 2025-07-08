@@ -20,7 +20,7 @@ cd _tests_ && ./scripts/run_relevant_tests.sh
 # Lint and format
 lefthook run pre-commit                    # Run all pre-commit hooks
 cd _tests_ && golangci-lint run            # Go linting
-markdownlint-cli2 --config .markdownlint.yaml "**/*.md"  # Markdown linting
+vale --config .vale.ini "**/*.md"          # Markdown linting
 
 # Chezmoi operations
 chezmoi diff                               # Preview changes

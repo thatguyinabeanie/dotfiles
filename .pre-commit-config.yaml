@@ -63,16 +63,12 @@ repos:
         files: \.(sh|bash)$
 
   # Markdown linting - Meowth (#52) - Articulate and precise, like well-formatted markdown
-  # TODO: Improve pre-commit-markdownlint.sh to handle automatic fixing of common issues:
-  # - Add language tags to code blocks (MD040)
-  # - Add blank lines around lists (MD032)
-  # - Break long lines or configure to ignore them (MD013)
   - repo: local
     hooks:
-      - id: markdownlint
+      - id: vale
         name: 📝 Markdown linting
-        entry: MISSION_CONTROL/.chezmoiscripts/precommit/pre-commit-markdownlint.sh
-        args: [--config, .markdownlint.yaml, --fix]
+        entry: vale
+        args: [--config, .vale.ini]
         language: system
         types: [markdown]
         exclude: MISSION_CONTROL/dot_config/git/hooks/README.md

@@ -16,7 +16,7 @@ return {
         
         -- Markdown
         "marksman",
-        "markdownlint-cli2",
+        "vale",
         
         -- General tools
         "lua-language-server", -- For Neovim config

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chezmoi:*)"
+      "Bash(chezmoi:*)",
+      "Bash(vale:*)"
     ],
     "deny": []
   }

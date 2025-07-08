@@ -38,7 +38,7 @@ This directory contains configurations for language servers, code completion, an
   - Markdown editing
 - **Auto-installed Tools**:
   - Language servers: `typescript-language-server`, `vtsls`, `ruby-lsp`, `marksman`
-  - Linters: `eslint_d`, `standardrb`, `markdownlint-cli2`
+  - Linters: `eslint_d`, `standardrb`, `vale`
   - Formatters: `prettierd`, `stylua`
 
 ## Code Completion

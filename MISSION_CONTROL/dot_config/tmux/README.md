@@ -1,35 +1,35 @@
-<!-- markdownlint-disable MD033 -->
+
 <div align="center">
-<!-- markdownlint-enable MD033 -->
+
 
 # 🖥️ Tmux Configuration 🔄
 
-<!-- markdownlint-disable MD013 -->
-A modern and functional Tmux configuration with Catppuccin theme integration, custom keybindings, and productivity features.
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD013 MD045 -->
+A modern and functional Tmux configuration with Catppuccin theme integration, custom keybindings, and productivity features.
+
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/85.png" width="150" alt="Dodrio" />
 </div>
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 ![Tmux](https://img.shields.io/badge/Tool-Tmux_3.0+-blue?style=flat-square&logo=tmux)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![Chezmoi](https://img.shields.io/badge/Managed_with-Chezmoi-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 
-<!-- markdownlint-disable MD033 -->
+
 </div>
-<!-- markdownlint-enable MD033 -->
+
 
 ## 🌟 Features
 
 ### 🎨 Theme
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png" width="50" align="right" />
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 - **Catppuccin Integration**: Beautiful and consistent theming
 - **Transparency**: Support for transparent backgrounds
@@ -73,9 +73,9 @@ tmux/
 
 ### 🎨 Theme
 
-<!-- markdownlint-disable MD013 MD045 -->
+
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/134.png" width="50" align="right" />
-<!-- markdownlint-enable MD013 MD045 -->
+
 
 The configuration uses Catppuccin theme with:
 
@@ -107,14 +107,14 @@ The Pomodoro timer configuration includes:
 
 ## 🙏 Contributing
 
-<!-- markdownlint-disable MD013 -->
-Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨
-<!-- markdownlint-enable MD013 -->
 
-<!-- markdownlint-disable MD033 MD013 MD045 -->
+Feel free to submit issues and enhancement requests! Together we can make this terminal multiplexer configuration even better! ✨
+
+
+
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/135.png" width="100" />
 
 Made with ❤️ and terminal magic
 </div>
-<!-- markdownlint-enable MD033 MD013 MD045 -->
+
