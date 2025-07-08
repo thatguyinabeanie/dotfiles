@@ -7,17 +7,17 @@
 
 [tasks]
 # Install global npm packages
-"install-npm-globals" = { run = "~/.config/mise/tasks/install-npm-globals.sh", description = "Install global npm packages" }
-# Install Python MCP servers
-"install-python-mcp" = { run = "~/.config/mise/tasks/install-python-mcp.sh", description = "Install Python MCP servers" }
-# Install all MCP servers
-"install-mcp" = { depends = ["install-npm-globals", "install-python-mcp"], description = "Install all MCP servers" }
+"install-npm-globals" = { run = "~/.config/mise/scripts/install-npm-globals.sh", description = "Install global npm packages" }
+# Install Python development tools and MCP servers
+"install-python-tools" = { run = "~/.config/mise/scripts/install-python-tools.sh", description = "Install Python development tools and MCP servers" }
+# Python project detection hook
+"python-project-hook" = { run = "~/.config/mise/scripts/python-project-hook.sh", description = "Auto-setup Python tools for projects" }
+# Install all development tools
+"install-dev-tools" = { depends = ["install-npm-globals", "install-python-tools"], description = "Install all development tools" }
 
 [hooks]
-# Automatically install MCP servers after tool installations
-"postinstall" = "mise run install-mcp"
-
-
+# Auto-setup Python tools when entering directories with Python projects
+"cd" = "~/.config/mise/scripts/python-project-hook.sh"
 
 [settings]
 {{ if env "CODESPACES" | not | not -}}
@@ -28,14 +28,13 @@ jobs                                = {{ sub (output "sysctl" "-n" "hw.ncpu" | t
 jobs                                = {{ sub (output "nproc" | trim | atoi) 2 }}                # number of plugins or runtimes to install in parallel
 {{ end -}}
 always_keep_download                = false         # deleted after install by default
-http_timeout                        = "30s"         # set the timeout for http requests as duration string, see `MISE_HTTP_TIMEOUT`
-
-python.uv_venv_auto                 = true          #
-idiomatic_version_file_enable_tools = ["ruby"]      #
-trusted_config_paths                = ['~/source']  #
-env_file                            = '.env'        #
+http_timeout                        = "30s"         # set the timeout for http requests as duration string
+python.uv_venv_auto                 = true          # automatically create virtual environments with uv
+idiomatic_version_file_enable_tools = ["ruby"]      # enable version files for specific tools
+trusted_config_paths                = ['~/.config']  # trusted paths for config files
+env_file                            = '.env'        # environment file to load
 experimental                        = true          # enable experimental features
-verbose                             = false         # set to true to see full installation output, see `MISE_VERBOSE`
+verbose                             = false         # set to true to see full installation output
 raw                                 = false         # set to true to directly pipe plugins to stdin/stdout/stderr
-yes                                 = true          # set to true to automatically answer yes to all prompts
+yes                                 = true          # automatically answer yes to all prompts
 

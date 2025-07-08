@@ -1,4 +1,3 @@
-
 <div align="center">
   <pre style="line-height:1.2;background-color:transparent;border:none;color:white">
     <span style="color:#F5A97F">                                    &#42;     .--.                                  </span>
@@ -30,7 +29,6 @@
   </pre>
 </div>
 
-
 # ⭐️ Dotfiles 🌌
 
 My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup that's out of this world 🚀
@@ -45,15 +43,9 @@ A cosmic journey through my development environment
 
 [Animated demo of the dotfiles in action will appear here]
 
-
-
 ![Demo Coming Soon](https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge)
 
-
-
 **See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
-
-
 
 ![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
@@ -63,8 +55,6 @@ A cosmic journey through my development environment
 ![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
 ![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
 
-
-
 ## 🌟 Event Horizon
 
 One command to cross the event horizon and pull in all configurations:
@@ -73,11 +63,7 @@ One command to cross the event horizon and pull in all configurations:
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 ```
 
-
-
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)
-
-
 
 ## 🌠 Cosmic Variables
 
@@ -126,11 +112,7 @@ During installation, you'll be prompted for several configuration values that wi
 - **Kubernetes**: K9s for streamlined Kubernetes cluster management.
 - **Git Hooks**: Automated code quality, linting, and security checks managed by Lefthook (detailed in its own section below).
 
-
-
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
-
-
 
 ## 🌌 Configuration Structure
 
@@ -152,8 +134,6 @@ dotfiles/
 │   └── ...
 └── 🌠 .chezmoi.toml.tmpl
 ```
-
-For a full, visual map and detailed explanation of the repository structure, see the new [DIRECTORY.md](./DIRECTORY.md) file!
 
 ## 🎨 Theme Showcase
 
@@ -194,11 +174,7 @@ MIT License - See [LICENSE](LICENSE) for details
 
 Made with ❤️ and cosmic energy
 
-
-
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
-
-
 
 ## 🚀 TODO
 
@@ -249,6 +225,7 @@ These keybindings make it easy to jump into your dotfiles configuration from any
 Comprehensive AI toolchain with multiple providers and seamless integration:
 
 ### MCP (Model Context Protocol) Servers
+
 ```bash
 # Install MCP servers
 mise run install-python-mcp
@@ -260,13 +237,14 @@ mcphub test-server filesystem
 
 ### Neovim AI Integration
 
-| Keybinding | Provider | Action |
-|------------|----------|--------|
-| `<leader>aa` | Avante (Claude) | Open AI assistant |
-| `<leader>cc` | CodeCompanion | Open chat interface |
-| `<C-g>` | GitHub Copilot | Show suggestions |
+| Keybinding   | Provider        | Action              |
+| ------------ | --------------- | ------------------- |
+| `<leader>aa` | Avante (Claude) | Open AI assistant   |
+| `<leader>cc` | CodeCompanion   | Open chat interface |
+| `<C-g>`      | GitHub Copilot  | Show suggestions    |
 
 ### Available Providers
+
 - **Avante**: Claude integration for code assistance
 - **CodeCompanion**: Multi-provider chat interface
 - **GitHub Copilot**: Code completion and suggestions
@@ -277,6 +255,7 @@ mcphub test-server filesystem
 Enhanced shell experience with powerful aliases and functions:
 
 ### GitHub Workflow
+
 ```bash
 # Repository management
 gh-create-repo <name> [--private] [--description "desc"]
@@ -287,12 +266,14 @@ gh-open-repo <repo>
 ```
 
 ### Git Enhancements
+
 ```bash
 # Interactive emoji commits (requires fzf)
 git_emoji_commit "your commit message"
 ```
 
 ### System & Productivity
+
 ```bash
 # Pokemon-themed system info
 poke_system_info
@@ -305,6 +286,7 @@ spotify_play / spotify_pause / spotify_next / spotify_prev
 ```
 
 ### File Management
+
 - `y` - Yazi file manager
 - `cat` - Enhanced with bat (syntax highlighting)
 - `ls/l/la` - Enhanced directory listing with eza
@@ -314,35 +296,39 @@ spotify_play / spotify_pause / spotify_next / spotify_prev
 Advanced tmux configuration with vim-like navigation:
 
 ### Pane Management
-| Keybinding | Action |
-|------------|--------|
-| `h/j/k/l` | Navigate panes (vim-style) |
-| `v` or `\|` | Vertical split |
-| `-` or `s` | Horizontal split |
-| `z` | Toggle pane zoom |
-| `X` | Kill pane |
+
+| Keybinding  | Action                     |
+| ----------- | -------------------------- |
+| `h/j/k/l`   | Navigate panes (vim-style) |
+| `v` or `\|` | Vertical split             |
+| `-` or `s`  | Horizontal split           |
+| `z`         | Toggle pane zoom           |
+| `X`         | Kill pane                  |
 
 ### Window Management
-| Keybinding | Action |
-|------------|--------|
-| `S` | Choose session |
-| `"` | Choose window |
-| `^A` | Last window |
-| `^W` | List windows |
+
+| Keybinding | Action         |
+| ---------- | -------------- |
+| `S`        | Choose session |
+| `"`        | Choose window  |
+| `^A`       | Last window    |
+| `^W`       | List windows   |
 
 ### Resize & Navigation
-| Keybinding | Action |
-|------------|--------|
-| `,` / `.` | Resize left/right |
-| `-` / `=` | Resize down/up |
-| `C-S-k` | Clear screen |
+
+| Keybinding | Action            |
+| ---------- | ----------------- |
+| `,` / `.`  | Resize left/right |
+| `-` / `=`  | Resize down/up    |
+| `C-S-k`    | Clear screen      |
 
 ### Copy Mode (Vim-style)
-| Keybinding | Action |
-|------------|--------|
-| `v` | Begin selection |
-| `C-v` | Rectangle toggle |
-| `y` | Copy selection |
+
+| Keybinding | Action           |
+| ---------- | ---------------- |
+| `v`        | Begin selection  |
+| `C-v`      | Rectangle toggle |
+| `y`        | Copy selection   |
 
 ## 📦 External Repository Management
 

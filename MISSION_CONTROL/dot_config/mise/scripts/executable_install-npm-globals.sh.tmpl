@@ -1,22 +1,20 @@
 #!/bin/bash
 # Task to install global npm packages
 # Run with: mise run install-npm-globals
+# Packages are defined in .chezmoidata/mise.yaml
 
 set -euo pipefail
 
 echo "📦 Installing global npm packages..."
 
-# Global npm packages to install
+# Global npm packages from mise.yaml (injected via Chezmoi templating)
 NPM_PACKAGES=(
-	"@anthropic-ai/claude-code"
-	"@google/gemini-cli"
-	"@modelcontextprotocol/server-filesystem"
-	"@modelcontextprotocol/server-memory"
-	"vale"
-	"mcp-hub"
-	"mcp-neovim-server"
-	"pnpm"
+{{- range .mise.npm_packages }}
+	"{{ .name }}"  # {{ .description }}
+{{- end }}
 )
+
+echo "📋 Found ${#NPM_PACKAGES[@]} npm packages to install"
 
 for package in "${NPM_PACKAGES[@]}"; do
 	echo "  Installing $package..."

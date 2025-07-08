@@ -30,12 +30,14 @@ return {
         enabled = true,
         char = "│",
         animate = {
-          enabled = false, -- Set to true if you want animations
+          enabled = false, -- Animations can cause timing issues
         },
         scope = {
           enabled = true,
           char = "│",
           underline = true,
+          -- Add safeguards for window management
+          safe_mode = true,
         },
         indent = {
           enabled = true,
@@ -49,7 +51,7 @@ return {
             "SnacksIndent6",
             "SnacksIndent7",
             "SnacksIndent8",
-          }, -- Colored indent levels
+          },
         },
       },
       input = { enabled = true },
