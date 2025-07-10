@@ -26,34 +26,32 @@ return {
         -- Only load when actually browsing
       },
       image = { enabled = false }, -- Disabled to reduce overhead
-      indent = { 
-        enabled = true,
-        char = "│",
-        animate = {
-          enabled = false, -- Animations can cause timing issues
-        },
-        scope = {
-          enabled = true,
-          char = "│",
-          underline = true,
-          -- Add safeguards for window management
-          safe_mode = true,
-        },
-        indent = {
-          enabled = true,
-          char = "│",
-          hl = {
-            "SnacksIndent1",
-            "SnacksIndent2",
-            "SnacksIndent3",
-            "SnacksIndent4",
-            "SnacksIndent5",
-            "SnacksIndent6",
-            "SnacksIndent7",
-            "SnacksIndent8",
-          },
-        },
-      },
+      -- Temporarily disabled due to window ID errors - use indent-blankline.nvim instead
+      -- indent = { 
+      --   enabled = true,
+      --   char = "│",
+      --   animate = {
+      --     enabled = false, -- Animations can cause timing issues
+      --   },
+      --   scope = {
+      --     enabled = false, -- Disabled to prevent invalid window ID errors
+      --   },
+      --   indent = {
+      --     enabled = true,
+      --     char = "│",
+      --     hl = {
+      --       "SnacksIndent1",
+      --       "SnacksIndent2",
+      --       "SnacksIndent3",
+      --       "SnacksIndent4",
+      --       "SnacksIndent5",
+      --       "SnacksIndent6",
+      --       "SnacksIndent7",
+      --       "SnacksIndent8",
+      --     },
+      --   },
+      -- },
+      indent = { enabled = false }, -- Disabled - using indent-blankline.nvim instead
       input = { enabled = true },
       notifier = { enabled = true },
       picker = {
@@ -72,7 +70,7 @@ return {
         },
       },
       quickfile = { enabled = true },
-      scope = { enabled = true },
+      scope = { enabled = false }, -- Disabled - using indent-blankline.nvim instead
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       words = { enabled = true }, -- Keep for word highlighting under cursor
