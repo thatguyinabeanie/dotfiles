@@ -102,6 +102,14 @@ nushell/
 - **`reset_nvim`**: Reset Neovim configuration
 - **`obsidian_nvim`**: Open Obsidian vault in Neovim
 
+### 🐳 Docker Management
+
+- **`docker_purge`**: Complete Docker cleanup with confirmation
+- **`docker_purge --force`**: Force cleanup without confirmation
+- **`docker_nuke`**: Alias for force cleanup
+
+> ⚠️ **Warning**: These functions remove ALL Docker containers, volumes, images, networks, and build cache.
+
 ## 🌠 Installation
 
 1. Clone this repository using Chezmoi:

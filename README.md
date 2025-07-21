@@ -321,6 +321,17 @@ obsidian_nvim [personal|work|smart-notes|bramses]
 spotify_play / spotify_pause / spotify_next / spotify_prev
 ```
 
+### Docker Management
+
+```bash
+# Complete Docker cleanup (removes ALL containers, volumes, images)
+docker_purge                    # Interactive with confirmation
+docker_purge --force            # Skip confirmation  
+docker_nuke                     # Alias for force purge
+```
+
+> ⚠️ **Warning**: These commands will remove ALL Docker containers, volumes, images, networks, and build cache. Use with caution in development environments.
+
 ### File Management
 
 - `y` - Yazi file manager

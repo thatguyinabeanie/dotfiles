@@ -182,6 +182,48 @@ def git_emoji_commit [msg: string] {
 # }
 
 ##
+## DOCKER MANAGEMENT
+##
+
+# Purge all Docker containers, volumes, and images
+def docker_purge [
+    --force (-f) = false  # Skip confirmation prompt
+] {
+    if not $force {
+        let confirm = (input "This will remove ALL Docker containers, volumes, and images. Continue? (y/N): ")
+        if ($confirm | str downcase) != "y" and ($confirm | str downcase) != "yes" {
+            print "Operation cancelled."
+            return
+        }
+    }
+    
+    print "🧹 Purging Docker containers..."
+    try { docker container prune -f } catch { print "No containers to remove" }
+    
+    print "🧹 Purging Docker volumes..."
+    try { docker volume prune -a -f } catch { print "No volumes to remove" }
+    
+    print "🧹 Purging Docker images..."
+    try { docker image prune -a -f } catch { print "No images to remove" }
+    
+    print "🧹 Purging Docker networks..."
+    try { docker network prune -f } catch { print "No networks to remove" }
+    
+    print "🧹 Purging Docker build cache..."
+    try { docker builder prune -a -f } catch { print "No build cache to remove" }
+    
+    print "✅ Docker purge complete!"
+    
+    # Show remaining usage
+    try { docker system df } catch { print "Could not display disk usage" }
+}
+
+# Quick alias for docker purge with force flag
+def docker_nuke [] {
+    docker_purge --force true
+}
+
+##
 ## ANIMATED TERMINAL TRANSITIONS
 ##
 # Animated clear command (fade out)
