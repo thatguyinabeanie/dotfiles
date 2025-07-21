@@ -23,7 +23,7 @@ _tests_/.history/
 *.coverage
 *.deps
 *.result
-!.claude
+!.claude/settings.json
 !CLAUDE.md
 !GEMINI.md
 !AGENTS.md

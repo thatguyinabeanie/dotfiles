@@ -135,20 +135,56 @@ dotfiles/
 └── 🌠 .chezmoi.toml.tmpl
 ```
 
-## 🎨 Theme Showcase
+## 🎨 Theme Control System
 
-Experience the beauty of Catppuccin in four delicious flavors that transform your development environment:
+This dotfiles configuration features an advanced theme management system that gives you complete control over your development environment's appearance across all applications.
 
-[🔍 View Theme Gallery](#-theme-showcase)
+### 🎛️ Theme Configuration
 
-| Theme            | Description                               |
-| ---------------- | ----------------------------------------- |
-| Mocha (Dark)     | Rich dark background with vibrant accents |
-| Macchiato (Dark) | Balanced dark theme with medium contrast  |
-| Frappe (Dark)    | Cozy dark theme with lower contrast       |
-| Latte (Light)    | Creamy light theme for daytime coding     |
+Control your theme experience through three simple variables in `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
 
-> **Note:** Replace [Placeholder] with actual screenshots of your environment in each theme variant.
+```toml
+[data]
+THEME_MODE = "system"              # Control behavior: "system", "dark", "light"
+THEME_LIGHT = "catppuccin-latte"   # Your preferred light theme
+THEME_DARK = "catppuccin-mocha"    # Your preferred dark theme
+```
+
+### 🌈 Theme Modes
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| **system** | Automatically switches between light/dark themes based on macOS system appearance | Perfect for following your system's day/night cycle |
+| **dark** | Always uses your chosen dark theme | For consistent dark mode experience |
+| **light** | Always uses your chosen light theme | For consistent light mode experience |
+
+### 🚀 Supported Applications
+
+Both **Ghostty** and **Neovim** automatically respect your theme configuration:
+
+- **Ghostty**: Uses native macOS system appearance detection or forces static themes
+- **Neovim**: Employs auto-dark-mode plugin for system mode, static colorschemes for manual modes
+- **All other apps**: Consistently themed using the centralized Catppuccin configuration
+
+### 🎨 Available Catppuccin Flavors
+
+Experience the beauty of Catppuccin in four delicious flavors:
+
+| Theme            | Description                               | Best For |
+| ---------------- | ----------------------------------------- | -------- |
+| catppuccin-mocha | Rich dark background with vibrant accents | Night coding sessions |
+| catppuccin-macchiato | Balanced dark theme with medium contrast | Versatile dark theme |
+| catppuccin-frappe | Cozy dark theme with lower contrast | Easy on the eyes |
+| catppuccin-latte | Creamy light theme perfect for daytime | Daylight coding |
+
+### ⚡ Quick Theme Changes
+
+1. Edit your theme preferences in `chezmoi.toml`
+2. Run `chezmoi apply` to update all configurations
+3. Restart Ghostty and Neovim to see changes
+4. All applications automatically use consistent theming
+
+> **Mix & Match**: You can use different themes for light and dark modes (e.g., `THEME_LIGHT = "catppuccin-latte"` and `THEME_DARK = "catppuccin-frappe"`)
 
 ## 🌍 Dependencies
 

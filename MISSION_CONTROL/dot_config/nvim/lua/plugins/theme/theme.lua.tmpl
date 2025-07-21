@@ -88,7 +88,11 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-mocha",
+{{ if eq .THEME_MODE "light" -}}
+      colorscheme = "{{ .THEME_LIGHT }}",
+{{ else -}}
+      colorscheme = "{{ .THEME_DARK }}",
+{{ end -}}
     },
   },
   {
@@ -138,19 +142,21 @@ return {
       })
     end,
   },
+{{ if eq .THEME_MODE "system" -}}
   {
     "f-person/auto-dark-mode.nvim",
     opts = {
       update_interval = 1000,
       set_dark_mode = function()
         vim.o.background = "dark"
-        vim.cmd("colorscheme catppuccin-mocha")
+        vim.cmd("colorscheme {{ .THEME_DARK }}")
       end,
       set_light_mode = function()
         vim.o.background = "light"
-        vim.cmd("colorscheme catppuccin-latte")
+        vim.cmd("colorscheme {{ .THEME_LIGHT }}")
       end,
       fallback = "dark",
     },
   },
+{{ end -}}
 }

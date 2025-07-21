@@ -107,11 +107,29 @@ integrations = {
 
 ### Changing Theme
 
-Update `MISSION_CONTROL/dot_config/nvim/lua/plugins/theme/catppuccin.lua`:
+The theme system is centrally managed through chezmoi configuration. Update `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
 
-```lua
-flavour = "mocha",  -- Change to: latte, frappe, macchiato, mocha
+```toml
+[data]
+THEME_MODE = "system"              # Options: "system", "dark", "light"
+THEME_LIGHT = "catppuccin-latte"   # Light theme variant
+THEME_DARK = "catppuccin-mocha"    # Dark theme variant
 ```
+
+Then run `chezmoi apply` to update the Neovim configuration.
+
+#### Theme Modes
+
+- **"system"**: Automatically switches between light/dark themes using auto-dark-mode plugin
+- **"dark"**: Forces the chosen dark theme, disables auto-dark-mode
+- **"light"**: Forces the chosen light theme, disables auto-dark-mode
+
+#### Available Themes
+
+- `catppuccin-latte` (light)
+- `catppuccin-frappe` (dark) 
+- `catppuccin-macchiato` (dark)
+- `catppuccin-mocha` (dark)
 
 ### Transparency
 
