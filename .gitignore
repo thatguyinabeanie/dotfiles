@@ -27,3 +27,7 @@ _tests_/.history/
 !CLAUDE.md
 !GEMINI.md
 !AGENTS.md
+
+# Vale downloaded styles (external packages)
+.vale/styles/Google/
+.vale/styles/write-good/
