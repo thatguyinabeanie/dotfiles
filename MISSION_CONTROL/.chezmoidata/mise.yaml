@@ -17,6 +17,8 @@ mise:
       version: latest
     - name: jq
       version: latest
+    - name: k9s
+      version: latest
     - name: neovim
       version: stable
     - name: ripgrep
@@ -27,6 +29,8 @@ mise:
       version: latest
     - name: zoxide
       version: latest
+    - name: java
+      version: zulu-8
 
   # Development languages and runtimes
   languages:
