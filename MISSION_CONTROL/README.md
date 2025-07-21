@@ -16,7 +16,7 @@ This is the main directory managed by chezmoi, containing all configuration file
 - **`dot_config/`** - Configuration files for applications (maps to `~/.config/`)
 - **`dot_local/`** - User-specific data files (maps to `~/.local/`)
 - **`dot_personal/`** - Personal data and configuration
-- **`empty_dot_config/`** - Empty directory structure for configs (e.g., Obsidian vault)
+- **`empty_dot_config/`** - Empty directory structure for configs (for example, Obsidian vault)
 - **`private_dot_ssh/`** - SSH configuration (encrypted)
 - **`Library/`** - macOS Library directory contents
 
@@ -24,7 +24,7 @@ This is the main directory managed by chezmoi, containing all configuration file
 
 The `.chezmoiroot` file in the parent directory points chezmoi to this directory as the source of truth. Files and directories are processed according to the following conventions:
 
-- Files/dirs prefixed with `dot_` become hidden (e.g., `dot_config` → `.config`)
+- Files/dirs prefixed with `dot_` become hidden (for example, `dot_config` → `.config`)
 - Files/dirs prefixed with `private_` are treated as sensitive (may be encrypted)
 - Files/dirs prefixed with `symlink_` become symbolic links
 - Files with `.tmpl` extension are processed as templates

@@ -251,13 +251,13 @@ func TestNvimThemeConfiguration(t *testing.T) {
 
 		// First check if the file exists
 		if _, err := os.Stat(catppuccinPath); os.IsNotExist(err) {
-			// File might have been consolidated into theme.lua
-			catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua")
+			// File might have been consolidated into theme.lua.tmpl
+			catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
 		} else {
-			// If catppuccin.lua exists but redirects, use theme.lua instead
+			// If catppuccin.lua exists but redirects, use theme.lua.tmpl instead
 			content, _ := os.ReadFile(catppuccinPath)
 			if strings.Contains(string(content), "moved to theme.lua") {
-				catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua")
+				catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
 			}
 		}
 
@@ -340,7 +340,7 @@ func TestNvimPipelineIntegration(t *testing.T) {
 
 	// Navigate to the repo root and then to the theme file
 	repoRoot := filepath.Dir(filepath.Dir(wd)) // Go up from _tests_/unit to repo root
-	themePath := filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua")
+	themePath := filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
 
 	content, err := os.ReadFile(themePath)
 	if err != nil {
