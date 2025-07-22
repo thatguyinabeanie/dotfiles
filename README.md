@@ -31,21 +31,21 @@
 
 # ⭐️ Dotfiles 🌌
 
-My personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup that's out of this world 🚀
+Personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup out of this world 🚀
 
 ![Cosmic Cat](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/789.png)
 
 ## 🎬 Demo
 
-### A Cosmic Journey
+### A cosmic journey
 
-A cosmic journey through my development environment
+A cosmic journey through the development environment
 
-[Animated demo of the dotfiles in action will appear here]
+[Animated demo of the dotfiles in action appears here]
 
 ![Demo Coming Soon](https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge)
 
-**See it in action:** Nushell, Neovim, Tmux, and more with Catppuccin theming
+**See it in action**: nushell, Neovim, Tmux, and more with Catppuccin theming
 
 ![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
@@ -55,7 +55,7 @@ A cosmic journey through my development environment
 ![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
 ![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
 
-## 🌟 Event Horizon
+## 🌟 Event horizon
 
 One command to cross the event horizon and pull in all configurations:
 
@@ -65,9 +65,9 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply thatguyinabeanie
 
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)
 
-## 🌠 Cosmic Variables
+## 🌠 Cosmic variables
 
-During installation, you'll be prompted for several configuration values that will shape your universe:
+During installation, the system prompts for configuration values that shape your universe:
 
 | Variable            | Description                                  | Default |
 | ------------------- | -------------------------------------------- | ------- |
@@ -80,7 +80,7 @@ During installation, you'll be prompted for several configuration values that wi
 
 ## ⚡ Features
 
-### 🚀 Modern Development Environment
+### 🚀 Modern development environment
 
 ![Pikachu](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png)
 
@@ -88,20 +88,20 @@ During installation, you'll be prompted for several configuration values that wi
 - **Editors**: Neovim as the primary editor, with configurations for VS Code also available.
 - **Terminals**: Configurations for Kitty and Ghostty terminal emulators.
 - **Multiplexing**: Tmux for powerful terminal session management.
-- **Version Control**: Git, integrated with various tools and quality checks.
+- **Version Control**: Git, integrated with many tools and quality checks.
 - **Tool Versioning**: Consistent development tool versions managed by Mise.
 - **Prompt**: Highly customizable and informative prompt with Starship.
 
-### 📝 Knowledge Management
+### 📝 Knowledge management
 
 ![Cosmog](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/790.png)
 
 - **Obsidian**: For extensive note-taking and personal knowledge base.
-  - Multiple vault support (e.g., personal and work).
+  - Support for many vaults (for example, personal and work).
   - Templated configuration based on environment.
   - Neovim integration via Obsidian.nvim.
 
-### 🛠️ Key Utilities & Productivity Boosters
+### 🛠️ Key utilities & productivity boosters
 
 ![Minior](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/774.png)
 
@@ -114,7 +114,7 @@ During installation, you'll be prompted for several configuration values that wi
 
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
 
-## 🌌 Configuration Structure
+## 🌌 Configuration structure
 
 ```shell
 dotfiles/
@@ -135,20 +135,56 @@ dotfiles/
 └── 🌠 .chezmoi.toml.tmpl
 ```
 
-## 🎨 Theme Showcase
+## 🎨 Theme control system
 
-Experience the beauty of Catppuccin in four delicious flavors that transform your development environment:
+This dotfiles configuration features an advanced theme management system that gives you complete control over your development environment's appearance across all applications.
 
-[🔍 View Theme Gallery](#-theme-showcase)
+### 🎛️ Theme configuration
 
-| Theme            | Description                               |
-| ---------------- | ----------------------------------------- |
-| Mocha (Dark)     | Rich dark background with vibrant accents |
-| Macchiato (Dark) | Balanced dark theme with medium contrast  |
-| Frappe (Dark)    | Cozy dark theme with lower contrast       |
-| Latte (Light)    | Creamy light theme for daytime coding     |
+Control your theme experience through three simple variables in `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
 
-> **Note:** Replace [Placeholder] with actual screenshots of your environment in each theme variant.
+```toml
+[data]
+THEME_MODE = "system"              # Control behavior: "system", "dark", "light"
+THEME_LIGHT = "catppuccin-latte"   # Your preferred light theme
+THEME_DARK = "catppuccin-mocha"    # Your preferred dark theme
+```
+
+### 🌈 Theme modes
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| **system** | Automatically switches between light/dark themes based on macOS system appearance | Perfect for following your system's day/night cycle |
+| **dark** | Always uses your chosen dark theme | For consistent dark mode experience |
+| **light** | Always uses your chosen light theme | For consistent light mode experience |
+
+### 🚀 Supported applications
+
+Both **Ghostty** and **Neovim** automatically respect your theme configuration:
+
+- **Ghostty**: Uses native macOS system appearance detection or forces static themes
+- **Neovim**: Employs auto-dark-mode plugin for system mode, static colorschemes for manual modes
+- **All other apps**: Consistently themed using the centralized Catppuccin configuration
+
+### 🎨 Available catppuccin flavors
+
+Experience the beauty of Catppuccin in four delicious flavors:
+
+| Theme            | Description                               | Best For |
+| ---------------- | ----------------------------------------- | -------- |
+| catppuccin-mocha | Rich dark background with vibrant accents | Night coding sessions |
+| catppuccin-macchiato | Balanced dark theme with medium contrast | Versatile dark theme |
+| catppuccin-frappe | Cozy dark theme with lower contrast | Easy on the eyes |
+| catppuccin-latte | Creamy light theme perfect for daytime | Daylight coding |
+
+### ⚡ Quick theme changes
+
+1. Edit your theme preferences in `chezmoi.toml`
+2. Run `chezmoi apply` to update all configurations
+3. Restart Ghostty and Neovim to see changes
+4. All applications automatically use consistent theming
+
+> **Mix & Match**: You can use different themes for light and dark modes, for example `THEME_LIGHT = "catppuccin-latte"` and `THEME_DARK = "catppuccin-frappe"`
 
 ## 🌍 Dependencies
 
@@ -160,7 +196,7 @@ Experience the beauty of Catppuccin in four delicious flavors that transform you
 
 ## 🌠 Contributing
 
-Feel free to submit issues and enhancement requests! Together we can make this configuration shine brighter than a supernova! ✨
+Submit issues and enhancement requests to help make this configuration shine brighter than a supernova.
 
 ## 📜 License
 
@@ -168,7 +204,7 @@ MIT License - See [LICENSE](LICENSE) for details
 
 ## 💡 Ideas
 
-- Managing aliases across multiple shells with chezmoi templates and a chezmoidata yaml
+- Managing aliases across different shells with chezmoi templates and a chezmoidata yaml
 
 ![Lunala](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/792.png)
 
@@ -176,15 +212,15 @@ Made with ❤️ and cosmic energy
 
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
 
-## 🚀 TODO
+## 🚀 Todo
 
 See [.todo/TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
 
-## 🛡️ Git Hooks & Code Quality
+## 🛡️ Git hooks & code quality
 
-This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to manage all Git hooks for code quality, linting, and security. All previous pre-commit hooks are now managed by Lefthook.
+This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to manage all Git hooks for code quality, linting, and security. Lefthook now manages all previous pre-commit hooks.
 
-### 🚀 Running Hooks
+### 🚀 Running hooks
 
 - Hooks run automatically on `git commit`.
 - To run all pre-commit hooks manually:
@@ -193,11 +229,11 @@ This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to man
 lefthook run pre-commit
 ```
 
-## 🗂️ Chezmoi Navigation
+## 🗂️ Chezmoi navigation
 
 Quick navigation to your dotfiles directory with convenient aliases and tmux keybindings:
 
-### Shell Aliases
+### Shell aliases
 
 Both Nushell and Zsh include helpful aliases for working with your dotfiles:
 
@@ -209,7 +245,7 @@ dotfiles_cd
 dotfiles
 ```
 
-### Tmux Keybindings
+### Tmux keybindings
 
 Integrated tmux shortcuts for quick dotfiles access:
 
@@ -220,11 +256,11 @@ Integrated tmux shortcuts for quick dotfiles access:
 
 These keybindings make it easy to jump into your dotfiles configuration from any tmux session.
 
-## 🤖 AI/LLM Development Environment
+## 🤖 Development environment for AI
 
-Comprehensive AI toolchain with multiple providers and seamless integration:
+Comprehensive AI toolchain with many providers and seamless integration:
 
-### MCP (Model Context Protocol) Servers
+### Model context protocol servers
 
 ```bash
 # Install MCP servers
@@ -235,26 +271,26 @@ mcphub list-servers
 mcphub test-server filesystem
 ```
 
-### Neovim AI Integration
+### Artificial intelligence integration for Neovim
 
 | Keybinding   | Provider        | Action              |
 | ------------ | --------------- | ------------------- |
-| `<leader>aa` | Avante (Claude) | Open AI assistant   |
+| `<leader>aa` | Avante Claude   | Open AI assistant   |
 | `<leader>cc` | CodeCompanion   | Open chat interface |
 | `<C-g>`      | GitHub Copilot  | Show suggestions    |
 
-### Available Providers
+### Available providers
 
-- **Avante**: Claude integration for code assistance
+- **Avante**: Claude integration for code help
 - **CodeCompanion**: Multi-provider chat interface
 - **GitHub Copilot**: Code completion and suggestions
-- **Claude Code**: Native CLI integration with permissions
+- **Claude Code**: Native command-line tool integration with permissions
 
-## 🛠️ Shell Productivity Features
+## 🛠️ Shell productivity features
 
 Enhanced shell experience with powerful aliases and functions:
 
-### GitHub Workflow
+### Github workflow
 
 ```bash
 # Repository management
@@ -265,14 +301,14 @@ gh-delete-repo <repo>
 gh-open-repo <repo>
 ```
 
-### Git Enhancements
+### Git enhancements
 
 ```bash
 # Interactive emoji commits (requires fzf)
 git_emoji_commit "your commit message"
 ```
 
-### System & Productivity
+### System & productivity
 
 ```bash
 # Pokemon-themed system info
@@ -285,27 +321,38 @@ obsidian_nvim [personal|work|smart-notes|bramses]
 spotify_play / spotify_pause / spotify_next / spotify_prev
 ```
 
-### File Management
+### Docker management
+
+```bash
+# Complete Docker cleanup (removes ALL containers, volumes, images)
+docker_purge                    # Interactive with confirmation
+docker_purge --force            # Skip confirmation  
+docker_nuke                     # Alias for force purge
+```
+
+> ⚠️ **Warning**: These commands remove Docker containers, volumes, images, networks, and build cache. Use with caution in development environments.
+
+### File management
 
 - `y` - Yazi file manager
-- `cat` - Enhanced with bat (syntax highlighting)
+- `cat` - Enhanced with bat for syntax highlighting
 - `ls/l/la` - Enhanced directory listing with eza
 
-## 📋 Tmux Workflow Reference
+## 📋 Tmux workflow reference
 
 Advanced tmux configuration with vim-like navigation:
 
-### Pane Management
+### Pane management
 
 | Keybinding  | Action                     |
 | ----------- | -------------------------- |
-| `h/j/k/l`   | Navigate panes (vim-style) |
+| `h/j/k/l`   | Navigate panes in vim style |
 | `v` or `\|` | Vertical split             |
 | `-` or `s`  | Horizontal split           |
 | `z`         | Toggle pane zoom           |
 | `X`         | Kill pane                  |
 
-### Window Management
+### Window management
 
 | Keybinding | Action         |
 | ---------- | -------------- |
@@ -314,7 +361,7 @@ Advanced tmux configuration with vim-like navigation:
 | `^A`       | Last window    |
 | `^W`       | List windows   |
 
-### Resize & Navigation
+### Resize & navigation
 
 | Keybinding | Action            |
 | ---------- | ----------------- |
@@ -322,7 +369,7 @@ Advanced tmux configuration with vim-like navigation:
 | `-` / `=`  | Resize down/up    |
 | `C-S-k`    | Clear screen      |
 
-### Copy Mode (Vim-style)
+### Copy mode
 
 | Keybinding | Action           |
 | ---------- | ---------------- |
@@ -330,6 +377,6 @@ Advanced tmux configuration with vim-like navigation:
 | `C-v`      | Rectangle toggle |
 | `y`        | Copy selection   |
 
-## 📦 External Repository Management
+## 📦 External repository management
 
-Automatic cloning and management of personal and work repositories with conditional loading based on environment settings. Repositories refresh every 168 hours and are organized into categories (personal, work-frontend, work-backend, work-services).
+Automatic cloning and management of personal and work repositories with conditional loading based on environment settings. Repositories refresh every 168 hours and organize into categories: personal, work-frontend, work-backend, work-services.

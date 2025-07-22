@@ -44,3 +44,49 @@ function dotfiles() {
   nvim ~/.local/share/chezmoi
 }
 
+##
+## DOCKER MANAGEMENT
+##
+
+# Purge all Docker containers, volumes, and images
+function docker_purge() {
+    local force=false
+    
+    # Check for force flag
+    if [[ "$1" == "-f" || "$1" == "--force" ]]; then
+        force=true
+    fi
+    
+    if [[ "$force" != true ]]; then
+        echo -n "This will remove ALL Docker containers, volumes, and images. Continue? (y/N): "
+        read confirm
+        if [[ "$confirm" != "y" && "$confirm" != "Y" && "$confirm" != "yes" ]]; then
+            echo "Operation cancelled."
+            return 1
+        fi
+    fi
+    
+    echo "🧹 Purging Docker containers..."
+    docker container prune -f 2>/dev/null || echo "No containers to remove"
+    
+    echo "🧹 Purging Docker volumes..."
+    docker volume prune -a -f 2>/dev/null || echo "No volumes to remove"
+    
+    echo "🧹 Purging Docker images..."
+    docker image prune -a -f 2>/dev/null || echo "No images to remove"
+    
+    echo "🧹 Purging Docker networks..."
+    docker network prune -f 2>/dev/null || echo "No networks to remove"
+    
+    echo "🧹 Purging Docker build cache..."
+    docker builder prune -a -f 2>/dev/null || echo "No build cache to remove"
+    
+    echo "✅ Docker purge complete!"
+    
+    # Show remaining usage
+    docker system df 2>/dev/null || echo "Could not display disk usage"
+}
+
+# Quick alias for docker purge with force flag
+alias docker_nuke="docker_purge -f"
+

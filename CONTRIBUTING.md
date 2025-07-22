@@ -1,8 +1,8 @@
-# Contributing to Dotfiles
+# Contributing to dotfiles
 
-Thank you for your interest in contributing! This document outlines the process for contributing.
+Thank you for your interest in contributing. This document outlines the process for contributing.
 
-## Getting Started
+## Getting started
 
 1. Fork the repository.
 2. Create a new branch for your feature/fix.
@@ -10,7 +10,7 @@ Thank you for your interest in contributing! This document outlines the process 
 4. Test your changes.
 5. Submit a pull request.
 
-## Development Setup
+## Development setup
 
 - Install Chezmoi:
 
@@ -24,7 +24,7 @@ Thank you for your interest in contributing! This document outlines the process 
   chezmoi init --apply your_github_username
   ```
 
-## Repository Structure
+## Repository structure
 
 The repository uses a ROOT-based structure:
 
@@ -44,7 +44,7 @@ The repository uses a ROOT-based structure:
 - Test installation on a fresh system
 - Verify all GitHub Actions pass
 
-## Pull Request Process
+## Pull request process
 
 1. Update documentation if needed
 2. Add tests for new features
@@ -52,23 +52,23 @@ The repository uses a ROOT-based structure:
 4. Update the README.md if needed
 5. Reference any related issues
 
-## Code Style
+## Code style
 
 - Follow the style guides for each language.
 - Use the provided linters and formatters.
 
-## Submitting Changes
+## Submitting changes
 
 - Ensure all tests and linters pass before submitting a PR.
 - Add clear, descriptive commit messages.
 - Reference related issues in your PR description.
 
-## Git Hooks & Code Quality
+## Git hooks & code quality
 
 This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to manage all Git hooks for code quality, linting, and security.
 All previous pre-commit hooks are now managed by Lefthook.
 
-### Running Hooks
+### Running hooks
 
 - Hooks run automatically on `git commit`.
 - To run all pre-commit hooks manually:
@@ -88,7 +88,7 @@ All previous pre-commit hooks are now managed by Lefthook.
 - The configuration is in `lefthook.yml` at the repository root.
 - Custom scripts are in `MISSION_CONTROL/.chezmoiscripts/precommit/`.
 
-### Adding/Modifying Hooks
+### Adding/modifying hooks
 
 - Edit `lefthook.yml` to add or change hooks.
 - Place new scripts in the precommit directory and make them executable.

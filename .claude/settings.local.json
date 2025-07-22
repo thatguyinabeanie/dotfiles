@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(chezmoi:*)",
-      "Bash(vale:*)"
-    ],
-    "deny": []
-  }
-}
