@@ -256,7 +256,7 @@ Integrated tmux shortcuts for quick dotfiles access:
 
 These keybindings make it easy to jump into your dotfiles configuration from any tmux session.
 
-## 🤖 AI development environment
+## 🤖 Development environment for AI
 
 Comprehensive AI toolchain with many providers and seamless integration:
 
@@ -271,7 +271,7 @@ mcphub list-servers
 mcphub test-server filesystem
 ```
 
-### Neovim AI integration
+### Artificial intelligence integration for Neovim
 
 | Keybinding   | Provider        | Action              |
 | ------------ | --------------- | ------------------- |

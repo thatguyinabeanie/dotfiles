@@ -14,7 +14,7 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Loading: Immediate
   - Features: Transparency toggle, theme switching helpers
 
-### UI components
+### User interface components
 
 - **bufferline.lua** - Tab/buffer line at the top
   - Loading: Immediate (after colorscheme)
