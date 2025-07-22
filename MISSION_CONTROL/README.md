@@ -6,12 +6,12 @@
 </div>
 
 
-This is the main directory managed by chezmoi, containing all configuration files and scripts for your cosmic development environment.
+This directory managed by chezmoi contains all configuration files and scripts for your cosmic development environment.
 
-## 📂 Directory Structure
+## 📂 Directory structure
 
 - **`.chezmoidata/`** - YAML configuration data files used in templates
-- **`.chezmoiscripts/`** - Scripts that run at various stages of installation
+- **`.chezmoiscripts/`** - Scripts that run at different stages of installation
 - **`.chezmoitemplates/`** - Reusable template fragments for configuration files
 - **`dot_config/`** - Configuration files for applications (maps to `~/.config/`)
 - **`dot_local/`** - User-specific data files (maps to `~/.local/`)
@@ -20,9 +20,9 @@ This is the main directory managed by chezmoi, containing all configuration file
 - **`private_dot_ssh/`** - SSH configuration (encrypted)
 - **`Library/`** - macOS Library directory contents
 
-## 🔄 How It Works
+## 🔄 How it works
 
-The `.chezmoiroot` file in the parent directory points chezmoi to this directory as the source of truth. Files and directories are processed according to the following conventions:
+The `.chezmoiroot` file in the parent directory points chezmoi to this directory as the source of truth. Chezmoi processes files and directories according to the following conventions:
 
 - Files/dirs prefixed with `dot_` become hidden (for example, `dot_config` → `.config`)
 - Files/dirs prefixed with `private_` are treated as sensitive (may be encrypted)

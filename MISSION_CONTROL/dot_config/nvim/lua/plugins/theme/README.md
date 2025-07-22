@@ -1,20 +1,20 @@
-# Theme Plugins
+# Theme plugins
 
 This directory contains all theme and UI enhancement plugins for Neovim.
 
-## Plugin Overview
+## Plugin overview
 
-### Core Theme
+### Core theme
 
 - **catppuccin.lua** - Main colorscheme with optimized integrations
   - Loading: Immediate (priority = 1000)
   - Features: Custom palette, selective integrations, transparent background support
 
-- **theme.lua** - Additional theme utilities and LazyVim integration
+- **theme.lua** - Extra theme utilities and LazyVim integration
   - Loading: Immediate
   - Features: Transparency toggle, theme switching helpers
 
-### UI Components
+### UI components
 
 - **bufferline.lua** - Tab/buffer line at the top
   - Loading: Immediate (after colorscheme)
@@ -28,11 +28,11 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Loading: On demand (lazy = true)
   - Features: Virtual text for references, implementations, definitions
 
-### Visual Enhancements
+### Visual enhancements
 
 - **nvim-colorizer.lua** - Highlights color codes in files
   - Loading: VeryLazy event
-  - Features: RGB/HSL highlighting, tailwind support, virtual text mode
+  - Features: Red/Green/Blue highlighting, tailwind support, virtual text mode
 
 - **visual-whitespace.lua** - Shows whitespace characters
   - Loading: VeryLazy event

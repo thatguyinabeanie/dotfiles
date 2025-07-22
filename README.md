@@ -290,7 +290,7 @@ mcphub test-server filesystem
 
 Enhanced shell experience with powerful aliases and functions:
 
-### GitHub workflow
+### Github workflow
 
 ```bash
 # Repository management
