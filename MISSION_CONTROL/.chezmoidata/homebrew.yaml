@@ -27,7 +27,8 @@ homebrew:
   ## PERSONAL BREWS, CASKS, and MASs
   ##
   personal:
-    brews: []
+    brews:
+      - docker-completion
     affinity:
       - affinity-designer
       - affinity-photo
@@ -38,6 +39,7 @@ homebrew:
       - blender
       - darktable
       - discord
+      - docker
       - obs
       - google-chrome
       - spotify
@@ -72,7 +74,6 @@ homebrew:
     casks:
       - codeql
       - cursor
-      - docker
       - ghostty
       - kitty
       - postman
@@ -110,7 +111,6 @@ homebrew:
       - diff-so-fancy
       - direnv
       - docutils
-      - docker-completion
       - dockerfile-language-server
       - dotdrop
       - dust
