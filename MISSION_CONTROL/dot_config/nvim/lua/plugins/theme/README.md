@@ -1,20 +1,20 @@
-# Theme Plugins
+# Theme plugins
 
 This directory contains all theme and UI enhancement plugins for Neovim.
 
-## Plugin Overview
+## Plugin overview
 
-### Core Theme
+### Core theme
 
 - **catppuccin.lua** - Main colorscheme with optimized integrations
   - Loading: Immediate (priority = 1000)
   - Features: Custom palette, selective integrations, transparent background support
 
-- **theme.lua** - Additional theme utilities and LazyVim integration
+- **theme.lua** - Extra theme utilities and LazyVim integration
   - Loading: Immediate
   - Features: Transparency toggle, theme switching helpers
 
-### UI Components
+### User interface components
 
 - **bufferline.lua** - Tab/buffer line at the top
   - Loading: Immediate (after colorscheme)
@@ -28,19 +28,19 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Loading: On demand (lazy = true)
   - Features: Virtual text for references, implementations, definitions
 
-### Visual Enhancements
+### Visual enhancements
 
 - **nvim-colorizer.lua** - Highlights color codes in files
   - Loading: VeryLazy event
-  - Features: RGB/HSL highlighting, tailwind support, virtual text mode
+  - Features: Red/Green/Blue highlighting, tailwind support, virtual text mode
 
 - **visual-whitespace.lua** - Shows whitespace characters
   - Loading: VeryLazy event
   - Features: Configurable space/tab indicators, EOL markers
 
-## Configuration Details
+## Configuration details
 
-### Catppuccin Theme
+### Catppuccin theme
 
 ```lua
 -- Optimized with minimal integrations
@@ -95,7 +95,7 @@ integrations = {
 - Automatically shows/hides based on context
 - No manual keymappings required
 
-## Performance Considerations
+## Performance considerations
 
 1. **Catppuccin** loads immediately with high priority to prevent flashing
 2. **Bufferline** loads after colorscheme to ensure proper theming
@@ -107,11 +107,29 @@ integrations = {
 
 ### Changing Theme
 
-Update `MISSION_CONTROL/dot_config/nvim/lua/plugins/theme/catppuccin.lua`:
+The theme system is centrally managed through chezmoi configuration. Update `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
 
-```lua
-flavour = "mocha",  -- Change to: latte, frappe, macchiato, mocha
+```toml
+[data]
+THEME_MODE = "system"              # Options: "system", "dark", "light"
+THEME_LIGHT = "catppuccin-latte"   # Light theme variant
+THEME_DARK = "catppuccin-mocha"    # Dark theme variant
 ```
+
+Then run `chezmoi apply` to update the Neovim configuration.
+
+#### Theme modes
+
+- **"system"**: Automatically switches between light/dark themes using auto-dark-mode plugin
+- **"dark"**: Forces the chosen dark theme, disables auto-dark-mode
+- **"light"**: Forces the chosen light theme, disables auto-dark-mode
+
+#### Available themes
+
+- catppuccin-latte for light mode
+- catppuccin-frappe for dark mode 
+- `catppuccin-macchiato` (dark)
+- `catppuccin-mocha` (dark)
 
 ### Transparency
 

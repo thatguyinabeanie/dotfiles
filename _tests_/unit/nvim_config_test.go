@@ -194,42 +194,42 @@ func TestNvimMasonOptimization(t *testing.T) {
 func TestNvimThemeConfiguration(t *testing.T) {
 	t.Run("No duplicate theme configurations", func(t *testing.T) {
 		themePath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme")
-		
+
 		// Check that certain plugins are not duplicated
 		pluginCounts := make(map[string]int)
-		
+
 		err := filepath.Walk(themePath, func(path string, _ os.FileInfo, err error) error {
 			if err != nil {
 				return err
 			}
-			
+
 			if strings.HasSuffix(path, ".lua") {
 				content, err := os.ReadFile(path)
 				if err != nil {
 					return err
 				}
-				
+
 				// Check for plugin definitions
 				plugins := []string{
 					"akinsho/bufferline.nvim",
 					"nvim-lualine/lualine.nvim",
 					"catppuccin/nvim",
 				}
-				
+
 				for _, plugin := range plugins {
 					if strings.Contains(string(content), fmt.Sprintf("\"%s\"", plugin)) ||
-					   strings.Contains(string(content), fmt.Sprintf("'%s'", plugin)) {
+						strings.Contains(string(content), fmt.Sprintf("'%s'", plugin)) {
 						pluginCounts[plugin]++
 					}
 				}
 			}
 			return nil
 		})
-		
+
 		if err != nil {
 			t.Errorf("Error walking theme directory: %v", err)
 		}
-		
+
 		// Check for duplicates
 		for plugin, count := range pluginCounts {
 			if count > 1 {
@@ -239,14 +239,28 @@ func TestNvimThemeConfiguration(t *testing.T) {
 	})
 
 	t.Run("Catppuccin integrations optimized", func(t *testing.T) {
-		catppuccinPath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "catppuccin.lua")
-		
+		// Get the working directory and build the path dynamically
+		wd, err := os.Getwd()
+		if err != nil {
+			t.Fatalf("Failed to get working directory: %v", err)
+		}
+
+		// Navigate to the repo root and then to the theme file
+		repoRoot := filepath.Dir(filepath.Dir(wd)) // Go up from _tests_/unit to repo root
+		catppuccinPath := filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "catppuccin.lua")
+
 		// First check if the file exists
 		if _, err := os.Stat(catppuccinPath); os.IsNotExist(err) {
-			// File might have been consolidated into theme.lua
-			catppuccinPath = filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua")
+			// File might have been consolidated into theme.lua.tmpl
+			catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
+		} else {
+			// If catppuccin.lua exists but redirects, use theme.lua.tmpl instead
+			content, _ := os.ReadFile(catppuccinPath)
+			if strings.Contains(string(content), "moved to theme.lua") {
+				catppuccinPath = filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
+			}
 		}
-		
+
 		content, err := os.ReadFile(catppuccinPath)
 		if err != nil {
 			t.Fatalf("Failed to read catppuccin configuration: %v", err)
@@ -259,9 +273,9 @@ func TestNvimThemeConfiguration(t *testing.T) {
 
 		// Check that unnecessary integrations are disabled
 		disabledIntegrations := []string{
-			"cmp = false",           // Should use blink_cmp
-			"dap = false",          // Load when debugging
-			"dap_ui = false",       // Load when debugging
+			"cmp = false",    // Should use blink_cmp
+			"dap = false",    // Load when debugging
+			"dap_ui = false", // Load when debugging
 		}
 
 		for _, integration := range disabledIntegrations {
@@ -286,8 +300,8 @@ func TestNvimStartupOptimizations(t *testing.T) {
 	}
 
 	// Check that the server socket code is wrapped properly
-	if strings.Contains(string(content), "vim.fn.serverstart(socket_path)") && 
-	   !strings.Contains(string(content), "vim.schedule(function()") {
+	if strings.Contains(string(content), "vim.fn.serverstart(socket_path)") &&
+		!strings.Contains(string(content), "vim.schedule(function()") {
 		t.Error("Server socket creation should be inside vim.schedule callback")
 	}
 }
@@ -318,7 +332,16 @@ func TestNvimSnacksOptimization(t *testing.T) {
 
 // TestNvimPipelineIntegration verifies pipeline.nvim is safely integrated
 func TestNvimPipelineIntegration(t *testing.T) {
-	themePath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua")
+	// Get the working directory and build the path dynamically
+	wd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("Failed to get working directory: %v", err)
+	}
+
+	// Navigate to the repo root and then to the theme file
+	repoRoot := filepath.Dir(filepath.Dir(wd)) // Go up from _tests_/unit to repo root
+	themePath := filepath.Join(repoRoot, "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "theme", "theme.lua.tmpl")
+
 	content, err := os.ReadFile(themePath)
 	if err != nil {
 		t.Fatalf("Failed to read theme.lua: %v", err)
@@ -334,4 +357,3 @@ func TestNvimPipelineIntegration(t *testing.T) {
 		t.Error("Pipeline component should have a condition function to check if loaded")
 	}
 }
-
