@@ -1,4 +1,4 @@
-# AGENTS.md
+# Agents.md
 
 Essential guidance for coding agents working with this Chezmoi dot files repository.
 

@@ -38,9 +38,9 @@ This directory contains all theme and UI enhancement plugins for Neovim.
   - Loading: VeryLazy event
   - Features: Configurable space/tab indicators, EOL markers
 
-## Configuration Details
+## Configuration details
 
-### Catppuccin Theme
+### Catppuccin theme
 
 ```lua
 -- Optimized with minimal integrations
@@ -95,7 +95,7 @@ integrations = {
 - Automatically shows/hides based on context
 - No manual keymappings required
 
-## Performance Considerations
+## Performance considerations
 
 1. **Catppuccin** loads immediately with high priority to prevent flashing
 2. **Bufferline** loads after colorscheme to ensure proper theming
