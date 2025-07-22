@@ -184,7 +184,7 @@ Experience the beauty of Catppuccin in four delicious flavors:
 3. Restart Ghostty and Neovim to see changes
 4. All applications automatically use consistent theming
 
-> **Mix & Match**: You can use different themes for light and dark modes (for example, `THEME_LIGHT = "catppuccin-latte"` and `THEME_DARK = "catppuccin-frappe"`)
+> **Mix & Match**: You can use different themes for light and dark modes, for example `THEME_LIGHT = "catppuccin-latte"` and `THEME_DARK = "catppuccin-frappe"`
 
 ## 🌍 Dependencies
 
@@ -260,7 +260,7 @@ These keybindings make it easy to jump into your dotfiles configuration from any
 
 Comprehensive AI toolchain with many providers and seamless integration:
 
-### Model Context Protocol servers
+### Model context protocol servers
 
 ```bash
 # Install MCP servers
@@ -335,7 +335,7 @@ docker_nuke                     # Alias for force purge
 ### File management
 
 - `y` - Yazi file manager
-- `cat` - Enhanced with bat (syntax highlighting)
+- `cat` - Enhanced with bat for syntax highlighting
 - `ls/l/la` - Enhanced directory listing with eza
 
 ## 📋 Tmux workflow reference
@@ -346,7 +346,7 @@ Advanced tmux configuration with vim-like navigation:
 
 | Keybinding  | Action                     |
 | ----------- | -------------------------- |
-| `h/j/k/l`   | Navigate panes (vim-style) |
+| `h/j/k/l`   | Navigate panes in vim style |
 | `v` or `\|` | Vertical split             |
 | `-` or `s`  | Horizontal split           |
 | `z`         | Toggle pane zoom           |
@@ -379,4 +379,4 @@ Advanced tmux configuration with vim-like navigation:
 
 ## 📦 External repository management
 
-Automatic cloning and management of personal and work repositories with conditional loading based on environment settings. Repositories refresh every 168 hours and organize into categories (personal, work-frontend, work-backend, work-services).
+Automatic cloning and management of personal and work repositories with conditional loading based on environment settings. Repositories refresh every 168 hours and organize into categories: personal, work-frontend, work-backend, work-services.
