@@ -2,7 +2,7 @@
 
 Essential guidance for coding agents working with this Chezmoi dot files repository.
 
-## Essential Commands
+## Essential commands
 
 ```bash
 # Run all tests
@@ -21,11 +21,11 @@ lefthook run pre-commit
 chezmoi apply && chezmoi diff
 ```
 
-## Theme Configuration
+## Theme configuration
 
 This repository implements a flexible theme management system that allows manual control over theme behavior across applications.
 
-### Theme Variables
+### Theme variables
 
 Configure themes by editing `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
 
@@ -36,13 +36,13 @@ THEME_LIGHT = "catppuccin-latte"   # Light theme variant
 THEME_DARK = "catppuccin-mocha"    # Dark theme variant
 ```
 
-### Theme Modes
+### Theme modes
 
 - **"system"**: Automatically switches between light/dark based on macOS system appearance
 - **"dark"**: Forces dark theme regardless of system setting
 - **"light"**: Forces light theme regardless of system setting
 
-### Supported Applications
+### Supported applications
 
 - **Ghostty**: Uses conditional theme configuration with native macOS integration
 - **Neovim**: Uses auto-dark-mode plugin for system mode, static colorschemes for manual modes
@@ -54,7 +54,7 @@ THEME_DARK = "catppuccin-mocha"    # Dark theme variant
 2. Run `chezmoi apply` to update configurations
 3. Restart applications to pick up new theme settings
 
-## Code Style Guidelines
+## Code style guidelines
 
 - **Go**: Use standard Go conventions, snake_case for test functions, table-driven tests
 - **Imports**: Group stdlib, third-party, local packages with blank lines between groups

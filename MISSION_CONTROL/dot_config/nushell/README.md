@@ -102,7 +102,7 @@ nushell/
 - **`reset_nvim`**: Reset Neovim configuration
 - **`obsidian_nvim`**: Open Obsidian vault in Neovim
 
-### 🐳 Docker Management
+### 🐳 Docker management
 
 - **`docker_purge`**: Complete Docker cleanup with confirmation
 - **`docker_purge --force`**: Force cleanup without confirmation

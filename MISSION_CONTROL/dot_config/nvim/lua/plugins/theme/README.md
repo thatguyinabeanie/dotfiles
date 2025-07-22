@@ -118,16 +118,16 @@ THEME_DARK = "catppuccin-mocha"    # Dark theme variant
 
 Then run `chezmoi apply` to update the Neovim configuration.
 
-#### Theme Modes
+#### Theme modes
 
 - **"system"**: Automatically switches between light/dark themes using auto-dark-mode plugin
 - **"dark"**: Forces the chosen dark theme, disables auto-dark-mode
 - **"light"**: Forces the chosen light theme, disables auto-dark-mode
 
-#### Available Themes
+#### Available themes
 
-- `catppuccin-latte` (light)
-- `catppuccin-frappe` (dark) 
+- catppuccin-latte for light mode
+- catppuccin-frappe for dark mode 
 - `catppuccin-macchiato` (dark)
 - `catppuccin-mocha` (dark)
 
