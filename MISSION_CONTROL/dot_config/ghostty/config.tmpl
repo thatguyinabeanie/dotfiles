@@ -42,8 +42,14 @@ macos-option-as-alt = true
 ## THEME
 ##
 #bold-is-bright = true
-# theme = catppuccin-{{ .CATPPUCCIN_FLAVOR }}
-theme = light:catppuccin-latte,dark:catppuccin-mocha
+# Static theme fallback: catppuccin-{{ .CATPPUCCIN_FLAVOR }}
+{{ if eq .THEME_MODE "system" -}}
+theme = light:{{ .THEME_LIGHT }},dark:{{ .THEME_DARK }}
+{{ else if eq .THEME_MODE "dark" -}}
+theme = {{ .THEME_DARK }}
+{{ else if eq .THEME_MODE "light" -}}
+theme = {{ .THEME_LIGHT }}
+{{ end -}}
 
 ##
 ## FONT + CURSOR

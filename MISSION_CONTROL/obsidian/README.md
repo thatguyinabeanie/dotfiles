@@ -42,7 +42,7 @@ The configuration supports two primary vaults:
 The `.chezmoiexternal.toml.tmpl` file defines external repositories that will be cloned as Obsidian vaults:
 
 - **obsidian-vault**: Personal vault repository
-- **bramses-highly-opinionated-vault-2023**: Example vault with useful templates
+- **bramses-opinionated-vault-2023**: Example vault with useful templates
 - **smart-notes**: Example vault with note-taking methodology
 - **obsidian-vault-work**: Work vault repository (only when `WORK_ENVIRONMENT` is true)
 

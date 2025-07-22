@@ -6,3 +6,4 @@ node_modules
 CLAUDE.*
 GEMINI.*
 AGENTS.md
+*mise.toml
