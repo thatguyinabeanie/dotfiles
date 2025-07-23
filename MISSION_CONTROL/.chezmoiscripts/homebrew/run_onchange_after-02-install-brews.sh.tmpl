@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# brews.yaml-hash: {{ include ".chezmoidata/homebrew/brews.yaml" | sha256sum }}
+
+{{ template "homebrew-helpers.sh" . }}
+
+check_brew "brews"
+
+# Build brewfile content
+BREWS=""
+
+# Always add shared brews
+{{ range .brews.shared -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+
+# Add environment-specific brews
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
+# Add work brews
+{{ range .brews.work -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+{{ else -}}
+# Add personal brews
+{{ range .brews.personal -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+{{ end -}}
+
+install_packages "brews" "$BREWS"

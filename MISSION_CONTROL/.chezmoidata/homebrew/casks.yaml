@@ -1,0 +1,36 @@
+casks:
+  personal:
+    - 1password
+    - 1password-cli
+    - affinity-designer
+    - affinity-photo
+    - affinity-publisher
+    - blender
+    - darktable
+    - discord
+    - docker
+    - obs
+    - google-chrome
+    - spotify
+    - ableton-live-suite
+    - roon
+  work:
+    - aws-vpn-client
+    - lastpass
+    - slack
+    - temurin@8
+  shared:
+    - codeql
+    - cursor
+    - ghostty
+    - kitty
+    - postman
+    - visual-studio-code@insiders
+    - disk-inventory-x
+    - karabiner-elements
+    - keka
+    - nightfall
+    - obsidian
+    - opera-gx
+    - raycast
+    - zed

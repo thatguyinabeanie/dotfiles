@@ -1,19 +1,48 @@
 [tools]
-{{- range $index, $tool := .mise.tools }}
+# Tools from tools.yaml sections
+{{- range $section_name, $tools := .tools }}
+{{- range $tool := $tools }}
+{{- if and (index $tool "name") (index $tool "version") }}
+{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Languages from languages.yaml sections  
+{{- range $ecosystem_name, $tools := .languages }}
+{{- range $tool := $tools }}
+{{- if and (index $tool "name") (index $tool "version") }}
+{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Node.js package managers from node.yaml
+{{- range $tool := (index .nodejs "package-managers") }}
 {{- if and (index $tool "name") (index $tool "version") }}
 {{ index $tool "name" }} = {{ index $tool "version" | quote }}
 {{- end }}
 {{- end }}
 
-[tasks]
-# Install global npm packages
-"install-npm-globals" = { run = "~/.config/mise/scripts/install-npm-globals.sh", description = "Install global npm packages" }
-# Install Python development tools and MCP servers
-"install-python-tools" = { run = "~/.config/mise/scripts/install-python-tools.sh", description = "Install Python development tools and MCP servers" }
-# Python project detection hook
-"python-project-hook" = { run = "~/.config/mise/scripts/python-project-hook.sh", description = "Auto-setup Python tools for projects" }
-# Install all development tools
-"install-dev-tools" = { depends = ["install-npm-globals", "install-python-tools"], description = "Install all development tools" }
+# Python tools from python.yaml (only items with versions)
+{{- range $tool := .python }}
+{{- if and (index $tool "name") (index $tool "version") }}
+{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- end }}
+{{- end }}
+
+# Global npm packages from node.yaml
+{{- range $package := .nodejs.global }}
+"npm:{{ index $package "name" }}" = "latest"
+{{- end }}
+
+[tasks.install-python-tools]
+description = "Install Python global packages"
+run = [
+{{- range $package := .python_packages }}
+  "pipx install {{ index $package "name" }} || echo 'Failed to install {{ index $package "name" }}'",
+{{- end }}
+]
 
 [hooks]
 # Auto-setup Python tools when entering directories with Python projects
@@ -37,4 +66,3 @@ experimental                        = true          # enable experimental featur
 verbose                             = false         # set to true to see full installation output
 raw                                 = false         # set to true to directly pipe plugins to stdin/stdout/stderr
 yes                                 = true          # automatically answer yes to all prompts
-

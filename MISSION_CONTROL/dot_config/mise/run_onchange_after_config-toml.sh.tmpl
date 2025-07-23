@@ -1,53 +1,38 @@
 #!/bin/sh
 
-# This script will run whenever the source file changes
-# The hash below will trigger chezmoi to update this file when the source changes
-# mise.toml hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
+# This script runs when mise config changes
+# mise config hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }}
 
-{{ if env "CHEZMOI_INTERACTIVE" | eq "1" -}}
-# Interactive mode - install everything from the user's mise.toml without prompting
-echo "🟠 Installing mise dependencies from ~/.config/mise/config.toml..."
+#=============================================================================
+# CONFIGURATION & ENVIRONMENT CHECKS
+#=============================================================================
 
-# Check if mise.toml exists
-if [ -f "$HOME/.config/mise/config.toml" ]; then
-	# Run mise install to install all tools defined in the config
-	mise install
-
-	# Rebuild bat themes if bat is installed
-	if command -v bat >/dev/null 2>&1; then
-		echo "🟠 Rebuilding bat themes..."
-		bat cache --build
-		echo "🔵 Rebuilt bat themes."
-	fi
-
-	echo "🔵 Installed mise dependencies."
-
-	# First, save a list of your existing global packages for later migration
-	# npm list -g --depth=0 >"$HOME/npm-global-packages.txt"
-	#
-	# # Create directories for global packages
-	# mkdir -p ~/.npm-global
-	# mkdir -p ~/.pnpm-global
-	#
-	# # Configure npm to use the new directory path
-	# npm config set prefix ~/.npm-global
-	#
-	# # Configure pnpm to use the new directory path
-	# pnpm config set global-dir ~/.pnpm-global
-	# pnpm config set global-bin-dir ~/.pnpm-global/bin
-	#
-	# # Install pnpm and Claude Code
-	# npm install -g pnpm
-	# npm install -g @anthropic-ai/claude-code
-
-	# Optional: Reinstall your previous global packages in the new location
-	# Look at ~/npm-global-packages.txt and install packages you want to keep
-	# npm install -g package1 package2 package3...
-
-else
-	echo "⚠️ ~/.config/mise/config.toml not found. No tools installed."
-fi
-{{ else -}}
-# Non-interactive mode - don't do anything
+{{ if env "CHEZMOI_INTERACTIVE" | ne "1" -}}
 echo "🔵 Skipping mise dependencies installation in non-interactive mode."
+exit 0
 {{ end -}}
+
+# Check if mise config exists
+if [ ! -f "$HOME/.config/mise/config.toml" ]; then
+	echo "⚠️ ~/.config/mise/config.toml not found. No tools installed."
+	exit 0
+fi
+
+#=============================================================================
+# MISE TOOL INSTALLATION
+#=============================================================================
+
+echo "🟠 Installing mise dependencies from ~/.config/mise/config.toml..."
+mise install
+echo "🔵 Installed mise dependencies."
+
+#=============================================================================
+# POST-INSTALLATION SETUP
+#=============================================================================
+
+# Rebuild bat themes if bat is available
+if command -v bat >/dev/null 2>&1; then
+	echo "🟠 Rebuilding bat themes..."
+	bat cache --build >/dev/null 2>&1
+	echo "🔵 Rebuilt bat themes."
+fi

@@ -1,0 +1,72 @@
+languages:
+  # =============================================================================
+  # RUST ECOSYSTEM - Rust runtime and package managers
+  # =============================================================================
+  rust:
+    # Runtime & Package Managers
+    - name: cargo-binstall
+      version: latest
+      description: "Binary installer for Rust crates"
+    - name: rust
+      version: nightly
+      description: "Rust systems programming language"
+
+  # =============================================================================
+  # JAVA ECOSYSTEM - Java runtime and build tools
+  # =============================================================================
+  java:
+    # Runtime & Build Tools
+    - name: gradle
+      version: latest
+      description: "Build automation tool"
+    - name: java
+      version: zulu-8
+      description: "Java runtime (Zulu JDK 8)"
+
+  # =============================================================================
+  # GO ECOSYSTEM - Go runtime and tools
+  # =============================================================================
+  go:
+    # Runtime
+    - name: go
+      version: 1
+      description: "Go programming language"
+
+    # Development Tools
+    - name: golangci-lint
+      version: latest
+      description: "Go linter aggregator"
+    - name: golangci-lint-langserver
+      version: latest
+      description: "Go linter language server"
+
+  # =============================================================================
+  # LUA ECOSYSTEM - Lua runtime and tools
+  # =============================================================================
+  lua:
+    # Runtime
+    - name: lua
+      version: latest
+      description: "Lua scripting language"
+
+    # Development Tools
+    - name: stylua
+      version: latest
+      description: "Lua code formatter"
+
+  # =============================================================================
+  # OTHER LANGUAGES - Additional programming languages
+  # =============================================================================
+  other_languages:
+    - name: elixir
+      version: latest
+      description: "Elixir programming language"
+    - name: erlang
+      version: latest
+      description: "Erlang runtime (Elixir dependency)"
+    - name: ruby
+      version: 3.2.7
+      description: "Ruby programming language"
+    - name: zig
+      version: latest
+      description: "Zig systems programming language"
