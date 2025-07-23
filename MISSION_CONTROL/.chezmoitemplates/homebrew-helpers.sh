@@ -1,5 +1,6 @@
 #!/bin/bash
 # Shared Homebrew Helper Functions
+# shellcheck disable=SC1054,SC1083,SC1073,SC1072
 
 setup_homebrew_path() {
 {{ if eq .chezmoi.os "darwin" -}}
@@ -37,13 +38,6 @@ install_packages() {
 		echo "$emoji Installing $category..."
 		echo "$brewfile_content" | brew bundle --file=- --quiet
 		echo "🔵 $category installation complete"
-	fi
-}
-
-check_brew() {
-	if ! command -v brew >/dev/null 2>&1; then
-		echo "⚠️  Homebrew not installed. Skipping $1."
-		exit 0
 	fi
 }
 
