@@ -68,6 +68,7 @@ brews:
     - libffi
     - libpq
     - links
+    - luajit
     - luajit-openresty
     - luarocks
     - luacheck
