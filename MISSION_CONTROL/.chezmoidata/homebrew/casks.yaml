@@ -21,6 +21,7 @@ casks:
   shared:
     - codeql
     - cursor
+    - espanso
     - ghostty
     - kitty
     - postman
