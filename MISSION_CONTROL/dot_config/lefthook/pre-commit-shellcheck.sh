@@ -4,6 +4,11 @@ SHELL_FILES=()
 for arg in "$@"; do
   case "$arg" in
     *.sh|*.bash)
+      # Skip template files that contain Chezmoi syntax
+      if [[ "$arg" == *".tmpl" ]] || [[ "$arg" == *".chezmoitemplates/"* ]]; then
+        echo "Skipping template file: $arg"
+        continue
+      fi
       if [ -f "$arg" ]; then
         SHELL_FILES+=("$arg")
       fi

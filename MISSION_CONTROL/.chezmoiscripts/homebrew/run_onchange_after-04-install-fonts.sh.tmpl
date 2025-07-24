@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# fonts.yaml-hash: {{ include ".chezmoidata/homebrew/fonts.yaml" | sha256sum }}
+
+{{ template "homebrew-helpers.sh" . }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+check_brew "fonts"
+
+# Build fonts content
+FONTS=""
+
+{{ range .fonts -}}
+FONTS="${FONTS}cask \"{{ . }}\"\n"
+{{ end }}
+
+install_packages "fonts" "$FONTS"
+{{ else -}}
+echo "⏭️  Skipping fonts (not on macOS)"
+{{ end -}}

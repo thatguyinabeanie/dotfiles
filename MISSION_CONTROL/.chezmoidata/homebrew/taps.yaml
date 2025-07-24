@@ -1,0 +1,7 @@
+taps:
+  - adoptopenjdk/openjdk
+  - charmbracelet/tap
+  - domt4/autoupdate
+  - hashicorp/tap
+  - jesseduffield/lazydocker
+  - nikitabobko/tap
