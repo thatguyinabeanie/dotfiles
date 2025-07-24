@@ -2,7 +2,7 @@
 
 source ~/.config/nushell/env.nu
 
-if ($env | get -i TMUX | is-empty ) {
+if ($env | get --optional TMUX | is-empty ) {
   exec "/opt/homebrew/bin/tmux" new-session -A -s "ghostty"
 } else {
   /opt/homebrew/bin/nu
