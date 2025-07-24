@@ -22,9 +22,9 @@ fi
 # MISE TOOL INSTALLATION
 #=============================================================================
 
-echo "🟠 Installing mise dependencies from ~/.config/mise/config.toml..."
+echo "🟠 Installing mise dependencies..."
 mise install
-echo "🔵 Installed mise dependencies."
+echo "🔵 Installed mise dependencies"
 
 #=============================================================================
 # POST-INSTALLATION SETUP
@@ -34,5 +34,5 @@ echo "🔵 Installed mise dependencies."
 if command -v bat >/dev/null 2>&1; then
 	echo "🟠 Rebuilding bat themes..."
 	bat cache --build >/dev/null 2>&1
-	echo "🔵 Rebuilt bat themes."
+	echo "🔵 Rebuilt bat themes"
 fi
