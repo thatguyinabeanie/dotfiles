@@ -18,8 +18,7 @@ def main [
     
     # Check if hyperfine is available
     if (which hyperfine | is-empty) {
-        print "❌ hyperfine not found. Install with: mise install hyperfine"
-        exit 1
+        return error "❌ hyperfine not found. Install with: mise install hyperfine"
     }
     
     let timestamp = (date now | format date "%Y%m%d_%H%M%S")
