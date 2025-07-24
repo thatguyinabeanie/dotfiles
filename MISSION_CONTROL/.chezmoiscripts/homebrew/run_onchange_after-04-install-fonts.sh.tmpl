@@ -11,8 +11,7 @@ check_brew "fonts"
 FONTS=""
 
 {{ range .fonts -}}
-FONTS="${FONTS}cask \"{{ . }}\"
-"
+FONTS="${FONTS}cask \"{{ . }}\"\n"
 {{ end }}
 
 install_packages "fonts" "$FONTS"
