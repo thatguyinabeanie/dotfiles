@@ -126,8 +126,7 @@ main() {
     fi
     mise_tools=$(echo "$mise_tools" | grep -v '^$' | sort -u)
 
-    # Combine all tracked packages
-    # Note: all_tracked is used for completeness but not actively referenced
+    # Combine all tracked packages (if needed in the future)
 
     # Function to check if a tap package should be considered tracked
     is_tap_package_tracked() {
