@@ -50,6 +50,15 @@ languages:
       description: "Lua scripting language"
 
     # Development Tools
+    - name: lua-language-server
+      version: latest
+      description: "Lua language server"
+    - name: luajit
+      version: latest
+      description: "LuaJIT Just-In-Time Compiler"
+    - name: luau
+      version: latest
+      description: "Luau programming language"
     - name: stylua
       version: latest
       description: "Lua code formatter"

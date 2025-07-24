@@ -8,7 +8,7 @@ casks:
     - blender
     - darktable
     - discord
-    - docker
+    - docker-desktop
     - obs
     - google-chrome
     - spotify
@@ -18,7 +18,6 @@ casks:
     - aws-vpn-client
     - lastpass
     - slack
-    - temurin@8
   shared:
     - codeql
     - cursor

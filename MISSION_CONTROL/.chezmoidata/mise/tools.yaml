@@ -45,12 +45,6 @@ tools:
     - name: starship
       version: latest
       description: "Cross-shell prompt"
-    - name: tmux
-      version: latest
-      description: "Terminal multiplexer"
-    - name: neovim
-      version: stable
-      description: "Modern Vim editor"
     - name: zoxide
       version: latest
       description: "Smart cd command"

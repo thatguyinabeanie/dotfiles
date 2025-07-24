@@ -33,3 +33,5 @@ nodejs:
       description: "MCP server registry and manager"
     - name: "mcp-neovim-server"
       description: "MCP server for Neovim integration"
+    - name: vercel
+      description: "Vercel CLI tool"

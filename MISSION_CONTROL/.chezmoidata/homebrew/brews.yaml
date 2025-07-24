@@ -15,12 +15,9 @@ brews:
     - v8
   shared:
     - ack
-    - ag
     - age
-    - autoconf
     - automake
     - bandwhich
-    - bash
     - bash-completion
     - bash-language-server
     - btop
@@ -39,15 +36,16 @@ brews:
     - dotdrop
     - dust
     - exiftool
+    - ffmpeg
     - findutils
-    - fontconfig
+    - fish
+    - fish-lsp
+    - fnm
     - fzf
-    - gcc
     - gcc@11
     - gcc@12
     - gem-completion
     - gdu
-    - glib
     - gifsicle
     - git
     - git-delta
@@ -55,13 +53,10 @@ brews:
     - gnu-indent
     - gnu-sed
     - gnu-tar
-    - gmp
     - gopls
     - gping
     - grep
-    - grpc
     - grex
-    - harfbuzz
     - hashicorp/tap/packer
     - helix
     - imagemagick
@@ -69,12 +64,8 @@ brews:
     - jaq
     - jesseduffield/lazydocker/lazydocker
     - launchctl-completion
-    - libtool
-    - llvm
     - lazygit
-    - libyaml
     - libffi
-    - libgit2
     - libpq
     - links
     - luajit-openresty
@@ -90,13 +81,12 @@ brews:
     - markdown-oxide
     - marksman
     - mas
+    - neovim
     - mise
     - ncdu
-    - ncurses
     - nushell
     - open-completion
     - ossp-uuid
-    - openssl@3
     - pandoc
     - pkgconf
     - poppler
@@ -111,27 +101,22 @@ brews:
     - reattach-to-user-namespace
     - redis
     - rename
-    - readline
     - rust-analyzer
     - ruby-completion
     - sesh
     - sevenzip
     - sd
-    - sdl2
     - sk
     - tflint
     - thefuck
     - tig
+    - tmux
     - tmuxinator-completion
     - tokei
     - trash
     - tree
-    - tree-sitter
     - tectonic
     - unzip
-    - usage
-    - wget
-    - xz
     - yamlfix
     - yamlfmt
     - yamllint
@@ -139,5 +124,6 @@ brews:
     - yazi
     - yq
     - zls
-    - zstd
+    - zsh
+    - zsh-completions
     - zsh-autosuggestions
