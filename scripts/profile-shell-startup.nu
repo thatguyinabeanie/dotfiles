@@ -159,16 +159,19 @@ def check_dependencies [] {
     let missing = ($tools | where { |tool| (which $tool | is-empty) })
     
     if ($missing | is-not-empty) {
-        print $"❌ Missing tools: ($missing | str join ', ')"
-        print "Install with: mise install hyperfine"
-        exit 1
+        let error_message = $"❌ Missing tools: ($missing | str join ', ')\nInstall with: mise install hyperfine"
+        return error $error_message
     }
     true
 }
 
 # Quick profile function for convenience
 def "main quick" [] {
-    if not (check_dependencies) { exit 1 }
+    let dependencies_check = check_dependencies
+    if $dependencies_check != $true {
+        print $dependencies_check
+        return $dependencies_check
+    }
     
     print "⚡ Quick shell startup profile...\n"
     ^hyperfine --runs 5 --warmup 2 "nu -c 'exit'" | str trim
