@@ -43,8 +43,9 @@ main() {
     echo
 
     # Verify we're in a chezmoi repository
-    if [[ ! -d "MISSION_CONTROL/.chezmoidata" ]]; then
-        echo "❌ Error: Not in chezmoi repository root. Run from your chezmoi directory."
+    CHEZMOI_ROOT=$(chezmoi source-path 2>/dev/null || echo "")
+    if [[ -z "$CHEZMOI_ROOT" || ! -d "$CHEZMOI_ROOT/.chezmoidata" ]]; then
+        echo "❌ Error: Not in chezmoi repository root. Ensure chezmoi is installed and run this script from your chezmoi directory."
         exit 1
     fi
 
@@ -68,7 +69,7 @@ main() {
 
     # Get tracked packages from homebrew config
     log "Reading homebrew configuration..."
-    cd "MISSION_CONTROL/.chezmoidata/homebrew"
+    cd "$CHEZMOI_ROOT/.chezmoidata/homebrew"
 
     # Extract all tracked brews from config (handle nested YAML structure)
     tracked_brews=()

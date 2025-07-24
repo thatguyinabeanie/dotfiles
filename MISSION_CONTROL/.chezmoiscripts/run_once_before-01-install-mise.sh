@@ -26,6 +26,13 @@ if ! command -v mise >/dev/null 2>&1; then
     fi
   else
     echo "❌ Neither curl nor wget is installed. Cannot install mise."
+    echo "👉 To install curl or wget, try the following commands based on your system:"
+    echo "   - Debian/Ubuntu: sudo apt update && sudo apt install curl wget"
+    echo "   - RHEL/CentOS: sudo yum install curl wget"
+    echo "   - macOS: brew install curl wget"
+    echo "For more information, visit:"
+    echo "   - curl: https://curl.se/docs/install.html"
+    echo "   - wget: https://www.gnu.org/software/wget/"
     exit 1
   fi
 

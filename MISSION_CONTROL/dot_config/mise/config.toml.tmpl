@@ -37,7 +37,7 @@
 {{- end }}
 
 [tasks.install-python-tools]
-description = "Install Python global packages"
+description = "Install Python global packages via pipx"
 run = [
 {{- range $package := .python_packages }}
   "pipx install {{ index $package "name" }} || echo 'Failed to install {{ index $package "name" }}'",

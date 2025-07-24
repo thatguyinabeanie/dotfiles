@@ -12,8 +12,7 @@ check_brew "mas apps"
 MAS_APPS=""
 
 {{ range .mas -}}
-MAS_APPS="${MAS_APPS}mas {{ . }}
-"
+MAS_APPS="${MAS_APPS}mas {{ . }}\n"
 {{ end }}
 
 install_packages "mas" "$MAS_APPS"
