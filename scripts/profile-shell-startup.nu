@@ -18,7 +18,7 @@ def main [
     
     # Check if hyperfine is available
     if (which hyperfine | is-empty) {
-        return error "❌ hyperfine not found. Install with: mise install hyperfine"
+        error make {msg: "❌ hyperfine not found. Install with: mise install hyperfine"}
     }
     
     let timestamp = (date now | format date "%Y%m%d_%H%M%S")
@@ -50,11 +50,7 @@ def main [
 
 def run_basic_profile [runs: int, output_base: string] {
     # Basic startup comparison
-    ^hyperfine --runs $runs --warmup 3 \
-        --export-markdown $"($output_base)_basic.md" \
-        --export-json $"($output_base)_basic.json" \
-        "nu --no-config-file -c 'exit'" \
-        "nu -c 'exit'" | str trim
+    ^hyperfine --runs $runs --warmup 3 --export-markdown $"($output_base)_basic.md" --export-json $"($output_base)_basic.json" "nu --no-config-file -c 'exit'" "nu -c 'exit'" | str trim
 }
 
 def run_component_analysis [runs: int] {
@@ -159,19 +155,14 @@ def check_dependencies [] {
     let missing = ($tools | where { |tool| (which $tool | is-empty) })
     
     if ($missing | is-not-empty) {
-        let error_message = $"❌ Missing tools: ($missing | str join ', ')\nInstall with: mise install hyperfine"
-        return error $error_message
+        error make {msg: $"❌ Missing tools: ($missing | str join ', '). Install with: mise install hyperfine"}
     }
     true
 }
 
 # Quick profile function for convenience
 def "main quick" [] {
-    let dependencies_check = check_dependencies
-    if $dependencies_check != $true {
-        print $dependencies_check
-        return $dependencies_check
-    }
+    check_dependencies
     
     print "⚡ Quick shell startup profile...\n"
     ^hyperfine --runs 5 --warmup 2 "nu -c 'exit'" | str trim
@@ -182,7 +173,7 @@ def "main monitor" [
     --interval (-i): duration = 1hr  # How often to profile
     --threshold (-t): int = 100      # Alert if startup time > threshold (ms)
 ] {
-    print $"🔄 Starting continuous monitoring (every ($interval))..."
+    print $"🔄 Starting continuous monitoring (every ($interval | into string))..."
     print $"⚠️  Will alert if startup time exceeds ($threshold)ms\n"
     
     loop {
