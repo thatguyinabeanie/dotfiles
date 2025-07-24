@@ -1,9 +1,14 @@
 #!/bin/sh
 
+# Source shared homebrew helper functions
+{{ template "homebrew-helpers.sh" . }}
+
 {{ if and (eq .chezmoi.os "darwin") (not (lookPath "brew")) -}}
 echo "🟠 Installing Homebrew Package Manager for macOS."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+setup_homebrew_path
 echo "🔵 Homebrew Package Manager installed."
+
 {{ else if and (eq .chezmoi.os "linux") (not (lookPath "brew")) -}}
 # Only install Homebrew on Linux if explicitly requested
 if [ -t 0 ]; then
@@ -12,6 +17,7 @@ if [ -t 0 ]; then
   if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
     echo "🟠 Installing Homebrew Package Manager for Linux."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    setup_homebrew_path
     echo "🔵 Homebrew Package Manager installed."
   else
     echo "Skipping Homebrew installation."
@@ -19,6 +25,12 @@ if [ -t 0 ]; then
 else
   echo "Non-interactive session, skipping Homebrew installation on Linux."
 fi
+
 {{ else -}}
-echo "Homebrew is already installed or not needed for this platform."
+echo "🔵 Homebrew is already installed or not needed for this platform."
+
+# If homebrew is already installed, ensure PATH is configured
+{{ if lookPath "brew" -}}
+setup_homebrew_path
+{{ end -}}
 {{ end -}}

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Source shared homebrew helper functions
+{{ template "homebrew-helpers.sh" . }}
+
+{{ if and (eq .chezmoi.os "darwin") (lookPath "brew") -}}
+echo "🕒 Setting up Homebrew automatic upgrades..."
+
+# Setup Homebrew PATH first
+setup_homebrew_path
+
+# Check if autoupdate is already running
+if brew autoupdate status 2>&1 | grep -q "not configured"; then
+  # Configure homebrew autoupdate (command available after domt4/autoupdate tap)
+  brew autoupdate start --upgrade --cleanup --immediate{{- if not .WORK_ENVIRONMENT }} --sudo{{- end }}
+fi
+
+echo "🔵 Homebrew automatic upgrades enabled with cleanup{{ if not .WORK_ENVIRONMENT }}, sudo support,{{ end }} and immediate start"
+
+{{ else -}}
+echo "⏭️ Skipping Homebrew automatic upgrades (not on macOS or Homebrew not installed)"
+{{ end -}}

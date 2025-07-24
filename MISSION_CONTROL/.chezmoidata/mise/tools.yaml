@@ -1,0 +1,132 @@
+tools:
+  # =============================================================================
+  # SYSTEM MONITORING & INFO - System monitoring and information tools
+  # =============================================================================
+  system_tools:
+    - name: bottom
+      version: latest
+      description: "System monitor (htop alternative)"
+    - name: fastfetch
+      version: latest
+      description: "System information tool"
+
+  # =============================================================================
+  # FILE & SEARCH TOOLS - File browsing, searching, and content viewing
+  # =============================================================================
+  file_tools:
+    - name: bat
+      version: latest
+      description: "Cat clone with syntax highlighting"
+    - name: eza
+      version: latest
+      description: "Modern ls replacement"
+    - name: fd
+      version: latest
+      description: "Fast find alternative"
+    - name: ripgrep
+      version: latest
+      description: "Fast grep alternative"
+
+  # =============================================================================
+  # DATA PROCESSING - JSON, benchmarking, and data manipulation tools
+  # =============================================================================
+  data_tools:
+    - name: jq
+      version: latest
+      description: "JSON processor"
+    - name: hyperfine
+      version: latest
+      description: "Command-line benchmarking tool"
+
+  # =============================================================================
+  # TERMINAL & SHELL TOOLS - Terminal multiplexers, prompts, navigation, editors
+  # =============================================================================
+  terminal_tools:
+    - name: starship
+      version: latest
+      description: "Cross-shell prompt"
+    - name: zoxide
+      version: latest
+      description: "Smart cd command"
+
+  # =============================================================================
+  # DOCUMENTATION & PRESENTATION - Documentation generation and presentation
+  # =============================================================================
+  docs_tools:
+    - name: marp-cli
+      version: latest
+      description: "Markdown presentation tool"
+    - name: mdbook
+      version: latest
+      description: "Book generator from Markdown"
+
+  # =============================================================================
+  # CLOUD & INFRASTRUCTURE - DevOps and cloud tools
+  # =============================================================================
+  infrastructure_tools:
+    - name: helm
+      version: latest
+      description: "Kubernetes package manager"
+    - name: k9s
+      version: latest
+      description: "Kubernetes CLI"
+    - name: kubectl
+      version: latest
+      description: "Kubernetes CLI"
+    - name: terraform
+      version: latest
+      description: "Infrastructure as code"
+
+  # =============================================================================
+  # BUILD & CI/CD TOOLS - Build systems and continuous integration
+  # =============================================================================
+  build_tools:
+    - name: act
+      version: latest
+      description: "Local GitHub Actions runner"
+    - name: cmake
+      version: latest
+      description: "Build system generator"
+
+  # =============================================================================
+  # LINTING & QUALITY - Code and content quality assurance tools
+  # =============================================================================
+  quality_tools:
+    - name: hadolint
+      version: latest
+      description: "Dockerfile linter"
+    - name: shellcheck
+      version: latest
+      description: "Shell script linter"
+    - name: vale
+      version: latest
+      description: "Prose linter"
+
+  # =============================================================================
+  # GIT TOOLS - Version control and Git-related utilities
+  # =============================================================================
+  git_tools:
+    - name: delta
+      version: latest
+      description: "Git diff viewer"
+    - name: github-cli
+      version: latest
+      description: "GitHub CLI tool"
+    - name: gitleaks
+      version: latest
+      description: "Secret scanner for git repos"
+    - name: gitsign
+      version: latest
+      description: "Keyless Git signing"
+    - name: gitui
+      version: latest
+      description: "Git TUI interface"
+
+  # =============================================================================
+  # AI & LLM TOOLS - AI assistants with versions
+  # =============================================================================
+  ai_tools:
+    # AI CLI Tools
+    - name: claude
+      version: latest
+      description: "Anthropic Claude CLI"
