@@ -58,8 +58,15 @@ main() {
 
     # Get installed packages
     log "Getting installed Homebrew packages..."
-    mapfile -t installed_formulae < <(brew leaves)
-    mapfile -t installed_casks < <(brew list --cask)
+    installed_formulae=()
+    while IFS= read -r line; do
+        installed_formulae+=("$line")
+    done < <(brew leaves)
+    
+    installed_casks=()
+    while IFS= read -r line; do
+        installed_casks+=("$line")
+    done < <(brew list --cask)
     
     # Build dependency map (much faster bulk approach)
     log "Building dependency map..."
@@ -193,7 +200,10 @@ main() {
         
         if [[ ${#untracked_brews[@]} -gt 0 ]]; then
             echo "Add to MISSION_CONTROL/.chezmoidata/homebrew/brews.yaml:"
-            mapfile -t sorted_brews < <(printf '%s\n' "${untracked_brews[@]}" | sort)
+            sorted_brews=()
+            while IFS= read -r line; do
+                sorted_brews+=("$line")
+            done < <(printf '%s\n' "${untracked_brews[@]}" | sort)
             for pkg in "${sorted_brews[@]}"; do
                 dependents_list=$(get_dependents "$pkg")
                 if [[ -n "$dependents_list" ]]; then
@@ -207,7 +217,10 @@ main() {
         
         if [[ ${#untracked_casks[@]} -gt 0 ]]; then
             echo "Add to MISSION_CONTROL/.chezmoidata/homebrew/casks.yaml:"
-            mapfile -t sorted_casks < <(printf '%s\n' "${untracked_casks[@]}" | sort)
+            sorted_casks=()
+            while IFS= read -r line; do
+                sorted_casks+=("$line")
+            done < <(printf '%s\n' "${untracked_casks[@]}" | sort)
             for cask in "${sorted_casks[@]}"; do
                 dependents_list=$(get_dependents "$cask")
                 if [[ -n "$dependents_list" ]]; then
@@ -225,7 +238,10 @@ main() {
         warning "MISE CONFLICTS:"
         echo "==============="
         echo "Remove from Homebrew to avoid conflicts:"
-        mapfile -t sorted_mise < <(printf '%s\n' "${mise_managed_but_also_homebrew[@]}" | sort)
+        sorted_mise=()
+        while IFS= read -r line; do
+            sorted_mise+=("$line")
+        done < <(printf '%s\n' "${mise_managed_but_also_homebrew[@]}" | sort)
         for pkg in "${sorted_mise[@]}"; do
             echo "    brew uninstall $pkg"
         done

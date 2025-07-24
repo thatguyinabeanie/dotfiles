@@ -57,10 +57,16 @@ main() {
 
     # Get explicitly installed packages (leaves)
     log "Getting explicitly installed packages..."
-    mapfile -t explicitly_installed < <(brew leaves)
+    explicitly_installed=()
+    while IFS= read -r line; do
+        explicitly_installed+=("$line")
+    done < <(brew leaves)
     
     # Get all installed packages
-    mapfile -t all_installed < <(brew list --formula)
+    all_installed=()
+    while IFS= read -r line; do
+        all_installed+=("$line")
+    done < <(brew list --formula)
     
     if [[ $VERBOSE == true ]]; then
         echo "Explicitly installed (leaves): ${#explicitly_installed[@]} packages"
