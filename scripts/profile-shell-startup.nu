@@ -19,7 +19,7 @@ def main [
     # Check if hyperfine is available
     if (which hyperfine | is-empty) {
         print "❌ hyperfine not found. Install with: mise install hyperfine"
-        return
+        exit 1
     }
     
     let timestamp = (date now | format date "%Y%m%d_%H%M%S")
@@ -162,14 +162,14 @@ def check_dependencies [] {
     if ($missing | is-not-empty) {
         print $"❌ Missing tools: ($missing | str join ', ')"
         print "Install with: mise install hyperfine"
-        return false
+        exit 1
     }
     true
 }
 
 # Quick profile function for convenience
 def "main quick" [] {
-    if not (check_dependencies) { return }
+    if not (check_dependencies) { exit 1 }
     
     print "⚡ Quick shell startup profile...\n"
     ^hyperfine --runs 5 --warmup 2 "nu -c 'exit'" | str trim
