@@ -18,9 +18,9 @@ if [ "$RUST_INSTALLED" != "true" ]; then
   
   {{ if env "CODESPACES" -}}
   # Use minimal profile for Codespaces to save space
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal --no-modify-path
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile minimal --no-modify-path >/dev/null 2>&1
   {{ else -}}
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --profile default --no-modify-path
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly --profile default --no-modify-path >/dev/null 2>&1
   {{ end -}}
   
   echo "🔵 Rust toolchain installed/updated via rustup."
