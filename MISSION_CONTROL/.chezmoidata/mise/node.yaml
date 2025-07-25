@@ -23,6 +23,8 @@ nodejs:
       description: "Claude AI code integration"
     - name: "@google/gemini-cli"
       description: "Google Gemini CLI tool"
+    - name: "opencode-ai"
+      description: "OpenCode AI CLI tool"
 
     # MCP Servers (NPM packages)
     - name: "@modelcontextprotocol/server-filesystem"
