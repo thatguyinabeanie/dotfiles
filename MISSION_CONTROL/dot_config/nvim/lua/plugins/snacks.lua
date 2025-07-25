@@ -66,7 +66,7 @@ return {
           enabled = false,
         },
         scope = {
-          enabled = true,
+          enabled = false,
           char = "│",
           underline = true,
         },
@@ -74,6 +74,7 @@ return {
           enabled = false,
         },
         filter = function(buf)
+          if not buf or buf == 0 then return false end
           return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
         end,
       },
