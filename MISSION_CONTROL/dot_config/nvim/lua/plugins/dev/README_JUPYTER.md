@@ -37,9 +37,12 @@ mise install
 
 # Update Neovim remote plugins (required for Molten)
 nvim --headless -c "UpdateRemotePlugins" -c "qa"
+
+# Restart tmux to enable passthrough (required for image support)
+tmux kill-server && tmux
 ```
 
-**Note on Image Support**: Image rendering (image.nvim) is currently disabled due to Lua 5.1 dependency conflicts. The core Jupyter functionality (code execution, output display) works perfectly without it. Images will be displayed in floating windows instead of inline.
+**Image Support**: Now fully enabled with tmux passthrough support. Images from matplotlib, plotly, and other libraries will render inline in your terminal.
 
 ## Troubleshooting
 
@@ -49,18 +52,20 @@ nvim --headless -c "UpdateRemotePlugins" -c "qa"
 3. Update remote plugins: `:UpdateRemotePlugins`
 4. Restart Neovim after plugin installation
 
-### If you see "lua version 5.1 needed" errors:
-This is related to image.nvim dependencies. The error is harmless as image support is currently disabled. Core Molten functionality will work fine.
+### If images don't display:
+1. Check if tmux passthrough is enabled: `tmux show-options -g allow-passthrough`
+2. Restart tmux session: `tmux kill-server && tmux`
+3. Verify terminal compatibility: Should work with Ghostty/Kitty
+4. Check image.nvim status: `:checkhealth image`
 
-### To enable image support later:
+### If you see luarocks errors:
 1. Install lua 5.1: `mise install lua@5.1.5`
-2. Set up luarocks with lua 5.1
-3. Enable image.nvim in the configuration
-4. Restart Neovim
+2. Restart Neovim to rebuild luarocks dependencies
+3. The configuration will gracefully fallback if image support fails
 
 ### Performance issues:
 1. Reduce output limits in configuration
-2. Use floating windows instead of virtual text
+2. Use floating windows instead of virtual text if needed
 3. Clear outputs regularly with `<leader>mc`
 
 ## Advanced Usage
