@@ -7,7 +7,11 @@ alias l="eza -l"
 alias la="eza -la"
 
 # --- Git Commit Emoji Selector (requires fzf) ---
+# Interactive emoji selector for semantic commit messages
+# Usage: git_emoji_commit "your commit message"
+# Example: git_emoji_commit "add user authentication" -> "✨ feat: add user authentication"
 function git_emoji_commit() {
+  # Define emoji mapping for common commit types
   local emojis=(
     "✨ feat: A new feature"
     "🐛 fix: A bug fix"
@@ -20,16 +24,30 @@ function git_emoji_commit() {
     "🔀 merge: Merge branches"
     "⬆️ upgrade: Dependency upgrades"
   )
-  local choice=$(printf '%s\n' "${emojis[@]}" | fzf)
+  
+  # Use fzf for interactive selection
+  local choice=$(printf '%s\n' "${emojis[@]}" | fzf --prompt="Select commit type: ")
+  
+  # Exit if no selection made (user pressed ESC)
+  if [[ -z "$choice" ]]; then
+    echo "No commit type selected. Aborting."
+    return 1
+  fi
+  
+  # Extract emoji from selection (first token)
   local emoji=$(echo $choice | awk '{print $1}')
+  
+  # Create commit with emoji prefix and user message
   git commit -m "$emoji $*"
 }
 
 # --- Spotify Controller (macOS) ---
-alias spotify_play='osascript -e "tell application \"Spotify\" to play"'
-alias spotify_pause='osascript -e "tell application \"Spotify\" to pause"'
-alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'
-alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"'
+# AppleScript-based Spotify controls for macOS
+# Requires Spotify app to be installed and running
+alias spotify_play='osascript -e "tell application \"Spotify\" to play"'    # Resume/start playback
+alias spotify_pause='osascript -e "tell application \"Spotify\" to pause"'  # Pause current track
+alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'     # Skip to next track
+alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"' # Go to previous track
 # alias claude="~/.claude/local/claude"
 
 ##
@@ -49,44 +67,67 @@ function dotfiles() {
 ##
 
 # Purge all Docker containers, volumes, and images
+# ⚠️ WARNING: This is a destructive operation that removes ALL Docker data
+# Usage: docker_purge [--force|-f]
+# --force: Skip confirmation prompts (use with caution!)
 function docker_purge() {
     local force=false
     
-    # Check for force flag
+    # Parse command line arguments
     if [[ "$1" == "-f" || "$1" == "--force" ]]; then
         force=true
     fi
     
+    # Safety confirmation unless force flag is used
     if [[ "$force" != true ]]; then
-        echo -n "This will remove ALL Docker containers, volumes, and images. Continue? (y/N): "
+        echo "⚠️  WARNING: This will remove ALL Docker data including:"
+        echo "   • All containers (running and stopped)"
+        echo "   • All volumes (data will be lost!)"
+        echo "   • All images (will need to re-download)"
+        echo "   • All networks and build cache"
+        echo
+        echo -n "Are you sure you want to continue? (y/N): "
         read confirm
+        
+        # Accept various positive responses
         if [[ "$confirm" != "y" && "$confirm" != "Y" && "$confirm" != "yes" ]]; then
             echo "Operation cancelled."
             return 1
         fi
     fi
     
+    echo "🧹 Starting Docker system purge..."
+    
+    # Remove all containers (running will be stopped first)
     echo "🧹 Purging Docker containers..."
-    docker container prune -f 2>/dev/null || echo "No containers to remove"
+    docker container prune -f 2>/dev/null || echo "ℹ️  No containers to remove"
     
+    # Remove all volumes (THIS DESTROYS DATA!)
     echo "🧹 Purging Docker volumes..."
-    docker volume prune -a -f 2>/dev/null || echo "No volumes to remove"
+    docker volume prune -a -f 2>/dev/null || echo "ℹ️  No volumes to remove"
     
+    # Remove all images (forces re-download)
     echo "🧹 Purging Docker images..."
-    docker image prune -a -f 2>/dev/null || echo "No images to remove"
+    docker image prune -a -f 2>/dev/null || echo "ℹ️  No images to remove"
     
+    # Remove unused networks
     echo "🧹 Purging Docker networks..."
-    docker network prune -f 2>/dev/null || echo "No networks to remove"
+    docker network prune -f 2>/dev/null || echo "ℹ️  No networks to remove"
     
+    # Remove build cache (saves disk space)
     echo "🧹 Purging Docker build cache..."
-    docker builder prune -a -f 2>/dev/null || echo "No build cache to remove"
+    docker builder prune -a -f 2>/dev/null || echo "ℹ️  No build cache to remove"
     
     echo "✅ Docker purge complete!"
+    echo
     
-    # Show remaining usage
+    # Show remaining disk usage for verification
+    echo "📊 Remaining Docker disk usage:"
     docker system df 2>/dev/null || echo "Could not display disk usage"
 }
 
 # Quick alias for docker purge with force flag
+# Bypasses all confirmation prompts - use with extreme caution!
+# Equivalent to: docker_purge --force
 alias docker_nuke="docker_purge -f"
 
