@@ -9,30 +9,36 @@ The goal is to configure the dotfiles repository so that running `chezmoi init` 
 ## Implementation Plan
 
 ### Phase 1: Research & Foundation
+
 1. **Research current git configuration in dotfiles** - Check `MISSION_CONTROL/dot_config/git/` for current git config templates
 2. **Check existing 1Password SSH configuration** - Look at existing SSH configuration in `MISSION_CONTROL/private_dot_ssh/` and `MISSION_CONTROL/dot_config/1Password/`
 
 ### Phase 2: Automated Installation & Prerequisites
+
 3. **Create chezmoi script to install 1Password CLI** - Create `run_once_before-XX-install-1password-cli.sh` in `.chezmoiscripts/`
 4. **Create script to configure 1Password SSH agent** - Script to enable SSH agent in 1Password app settings
 5. **Add 1Password authentication check script** - Verify user is logged into 1Password
 
 ### Phase 3: Automated Key Management
+
 6. **Create automated SSH signing key setup script** - Script to automatically create SSH key in 1Password if it doesn't exist
 7. **Key retrieval automation** - Script to get the public key from 1Password for git configuration
 
 ### Phase 4: Configuration Templates
+
 8. **Configure git to use 1Password SSH agent for signing** - Update git configuration to use SSH signing
 9. **Update git config templates for commit signing** - Modify `.gitconfig.tmpl` with conditional signing configuration
 10. **Create conditional templates for different systems** - Make templates work on macOS, Linux, etc.
 
 ### Phase 5: Testing & Documentation
+
 11. **Test signed commit configuration** - Verify that commits are properly signed
 12. **Document the automated setup process** - Add comprehensive documentation
 
 ## Proposed File Structure
 
 ### Chezmoi Scripts
+
 ```
 MISSION_CONTROL/.chezmoiscripts/
 ├── run_once_before-XX-install-1password-cli.sh
@@ -41,6 +47,7 @@ MISSION_CONTROL/.chezmoiscripts/
 ```
 
 ### Configuration Templates
+
 ```
 MISSION_CONTROL/dot_config/
 ├── git/
@@ -54,22 +61,26 @@ MISSION_CONTROL/dot_config/
 ## Key Automation Features
 
 ### Smart Detection
+
 - Check if 1Password CLI is installed
 - Verify 1Password SSH agent is enabled
 - Detect if signing key already exists
 - Handle first-time setup vs. existing configurations
 
 ### Conditional Execution
+
 - Only run scripts when 1Password is available/installed
 - Graceful fallbacks if 1Password isn't set up
 - Cross-platform compatibility (macOS, Linux)
 
 ### Idempotent Operations
+
 - Scripts can run multiple times safely
 - No duplicate key creation
 - Handles partial configurations gracefully
 
 ### Error Handling
+
 - Fallback configurations for systems without 1Password
 - Clear error messages for missing prerequisites
 - Continue setup even if signing setup fails
@@ -77,6 +88,7 @@ MISSION_CONTROL/dot_config/
 ## Implementation Components
 
 ### 1Password CLI Installation
+
 ```bash
 # Check if 1Password CLI is installed
 # Install via package manager if missing
@@ -84,6 +96,7 @@ MISSION_CONTROL/dot_config/
 ```
 
 ### SSH Agent Configuration
+
 ```bash
 # Enable 1Password SSH agent
 # Configure SSH to use 1Password agent
@@ -91,6 +104,7 @@ MISSION_CONTROL/dot_config/
 ```
 
 ### SSH Signing Key Setup
+
 ```bash
 # Check if git signing key exists in 1Password
 # Generate new SSH key for signing if needed
@@ -98,6 +112,7 @@ MISSION_CONTROL/dot_config/
 ```
 
 ### Git Configuration Templates
+
 ```toml
 # Conditional signing configuration
 {{- if .onepassword.available }}
@@ -116,21 +131,25 @@ MISSION_CONTROL/dot_config/
 ## Benefits
 
 ### Security
+
 - SSH keys stored securely in 1Password
 - No plaintext keys on filesystem
 - Centralized key management
 
 ### Convenience
+
 - Automatic setup on new systems
 - No manual key generation
 - Seamless integration with existing workflow
 
 ### Modern Approach
+
 - SSH signing is simpler than GPG signing
 - Better integration with modern tools
 - Reduced complexity compared to GPG
 
 ### Maintainability
+
 - Declarative configuration
 - Version controlled setup
 - Consistent across all systems

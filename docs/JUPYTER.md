@@ -5,6 +5,7 @@ This configuration adds comprehensive Jupyter notebook support to your Neovim se
 ## Features
 
 ### 🔥 **Molten.nvim - Interactive Execution**
+
 - Real-time code execution with Jupyter kernels
 - Inline plots and visualizations via image.nvim
 - Virtual text output display (clean, Jupyter-like experience)
@@ -12,17 +13,20 @@ This configuration adds comprehensive Jupyter notebook support to your Neovim se
 - Save/load notebook state
 
 ### 📝 **Jupytext.nvim - File Format Conversion**
+
 - Edit .ipynb files as clean Python/Markdown
 - Automatic synchronization between formats
 - Git-friendly workflow (version control .py files)
 - Support for multiple output formats (py:percent, markdown, quarto)
 
 ### 🖼️ **Image.nvim - Visualization Support**
+
 - Inline image rendering in terminal (Kitty/Ghostty compatible)
 - Matplotlib, Plotly, and other plot libraries supported
 - Optimized for your tmux workflow
 
 ### 🧠 **Otter.nvim - LSP Integration**
+
 - Full LSP support for embedded code blocks
 - Autocompletion and diagnostics in notebook cells
 - Works with your existing LSP setup
@@ -47,23 +51,27 @@ tmux kill-server && tmux
 ## Troubleshooting
 
 ### If kernels don't start:
+
 1. Check Python environment: `:MoltenInfo`
 2. Verify pynvim installation: `python -c "import pynvim"`
 3. Update remote plugins: `:UpdateRemotePlugins`
 4. Restart Neovim after plugin installation
 
 ### If images don't display:
+
 1. Check if tmux passthrough is enabled: `tmux show-options -g allow-passthrough`
 2. Restart tmux session: `tmux kill-server && tmux`
 3. Verify terminal compatibility: Should work with Ghostty/Kitty
 4. Check image.nvim status: `:checkhealth image`
 
 ### If you see luarocks errors:
+
 1. Install lua 5.1: `mise install lua@5.1.5`
 2. Restart Neovim to rebuild luarocks dependencies
 3. The configuration will gracefully fallback if image support fails
 
 ### Performance issues:
+
 1. Reduce output limits in configuration
 2. Use floating windows instead of virtual text if needed
 3. Clear outputs regularly with `<leader>mc`
@@ -71,6 +79,7 @@ tmux kill-server && tmux
 ## Advanced Usage
 
 ### Custom Kernel Initialization
+
 ```lua
 -- Auto-detect conda/virtualenv and initialize appropriate kernel
 vim.keymap.set("n", "<leader>ma", function()
@@ -85,6 +94,7 @@ end)
 ```
 
 ### Integration with Obsidian
+
 The setup integrates with your existing Obsidian workflow for research documentation and note-taking.
 
 This transforms your Neovim into a **physics research powerhouse** with Jupyter-level interactivity 🚀

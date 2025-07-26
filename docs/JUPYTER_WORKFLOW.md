@@ -4,21 +4,22 @@ Quick reference for using Jupyter notebooks and scientific Python within Neovim.
 
 ## 🚀 Essential Keybindings
 
-| Key | Action | Context |
-|-----|--------|---------|
-| `<leader>mi` | **Initialize kernel** | Start Python/Julia/R kernel |
+| Key          | Action                 | Context                                  |
+| ------------ | ---------------------- | ---------------------------------------- |
+| `<leader>mi` | **Initialize kernel**  | Start Python/Julia/R kernel              |
 | `<leader>mr` | **Run cell/selection** | Execute current cell or visual selection |
-| `<leader>mo` | **Show output** | Display kernel output buffer |
-| `<leader>md` | **Delete output** | Clear current cell output |
-| `<leader>mh` | **Hide output** | Hide output for current cell |
-| `<leader>ml` | **Evaluate line** | Run current line only |
-| `<leader>mv` | **Evaluate visual** | Run visual selection |
-| `<leader>mk` | **Interrupt kernel** | Stop running execution |
-| `<leader>mx` | **Restart kernel** | Fresh kernel restart |
+| `<leader>mo` | **Show output**        | Display kernel output buffer             |
+| `<leader>md` | **Delete output**      | Clear current cell output                |
+| `<leader>mh` | **Hide output**        | Hide output for current cell             |
+| `<leader>ml` | **Evaluate line**      | Run current line only                    |
+| `<leader>mv` | **Evaluate visual**    | Run visual selection                     |
+| `<leader>mk` | **Interrupt kernel**   | Stop running execution                   |
+| `<leader>mx` | **Restart kernel**     | Fresh kernel restart                     |
 
 ## 📝 Cell Formats
 
 ### Python Script with Jupyter Cells
+
 ```python
 # %%
 import numpy as np
@@ -41,6 +42,7 @@ print(f"Max value: {y.max():.3f}")
 ```
 
 ### Markdown Cells (in .md files)
+
 ````markdown
 ```python
 # Code block that can be executed
@@ -58,7 +60,7 @@ Convert between formats using jupytext.nvim:
 -- Convert .ipynb to .py
 :lua require('jupytext').convert_to_py()
 
--- Convert .py to .ipynb  
+-- Convert .py to .ipynb
 :lua require('jupytext').convert_to_notebook()
 
 -- Sync paired files
@@ -68,6 +70,7 @@ Convert between formats using jupytext.nvim:
 ## 🎯 Workflow Examples
 
 ### 1. Data Analysis Session
+
 ```python
 # %%
 import pandas as pd
@@ -90,6 +93,7 @@ df.describe()
 ```
 
 ### 2. Machine Learning Pipeline
+
 ```python
 # %%
 from sklearn.model_selection import train_test_split
@@ -113,13 +117,14 @@ print(classification_report(y_test, y_pred))
 ```
 
 ### 3. Interactive Plotting
+
 ```python
 # %%
 import plotly.express as px
 import plotly.graph_objects as go
 
 # Interactive scatter plot
-fig = px.scatter(df, x='feature1', y='feature2', 
+fig = px.scatter(df, x='feature1', y='feature2',
                 color='category', size='value',
                 hover_data=['extra_info'])
 fig.show()
@@ -128,7 +133,7 @@ fig.show()
 # Custom plotly figure
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=x, y=y, mode='lines+markers'))
-fig.update_layout(title='Custom Plot', 
+fig.update_layout(title='Custom Plot',
                   xaxis_title='X Values',
                   yaxis_title='Y Values')
 fig.show()
@@ -137,9 +142,10 @@ fig.show()
 ## 🔧 Advanced Commands
 
 ### Kernel Management
+
 ```vim
 :MoltenInfo                    " Show kernel info
-:MoltenDelete                  " Delete all outputs  
+:MoltenDelete                  " Delete all outputs
 :MoltenInterrupt               " Interrupt kernel
 :MoltenRestart                 " Restart kernel
 :MoltenEvaluateOperator        " Set up operator mode
@@ -148,6 +154,7 @@ fig.show()
 ```
 
 ### Output Management
+
 ```vim
 :MoltenNext                    " Go to next output
 :MoltenPrev                    " Go to previous output
@@ -212,6 +219,7 @@ plt.show()  # Renders directly in terminal!
 ## 🔍 Debugging
 
 ### Check Kernel Status
+
 ```python
 # %%
 import sys
@@ -227,6 +235,7 @@ except ImportError:
 ```
 
 ### Common Issues
+
 - **Kernel won't start**: Check mise Python installation
 - **Images not showing**: Verify tmux passthrough enabled
 - **Import errors**: Check if package installed in mise environment

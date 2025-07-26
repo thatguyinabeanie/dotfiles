@@ -22,11 +22,19 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     -- Only sync if jupytext is available and this is a paired file
     if vim.fn.executable("jupytext") == 1 then
       local file = vim.fn.expand("%")
-      -- Check if this file has a jupytext pairing
-      local has_pairing = vim.fn.system("jupytext --test " .. vim.fn.shellescape(file))
-      if vim.v.shell_error == 0 then
-        vim.cmd("silent !jupytext --sync " .. vim.fn.shellescape(file))
-      end
+      -- Check if this file has a jupytext pairing using async vim.system
+      vim.system({ "jupytext", "--test", file }, {
+        stdout_buffered = true,
+        stderr_buffered = true,
+        on_exit = function(_, return_code)
+          if return_code == 0 then
+            -- File has pairing, sync it
+            vim.system({ "jupytext", "--sync", file }, {
+              detach = true, -- Run in background
+            })
+          end
+        end,
+      })
     end
   end,
 })
@@ -60,29 +68,6 @@ return {
   -- File format handling - convert between .ipynb and plain text formats
   {
     "GCBallesteros/jupytext.nvim",
-    init = function()
-      -- Create a fixed health check module before the plugin loads
-      package.preload["jupytext.health"] = function()
-        return {
-          check = function()
-            vim.health.start("jupytext")
-            
-            -- Check if jupytext executable is available
-            if vim.fn.executable("jupytext") == 1 then
-              vim.health.ok("jupytext executable found")
-              
-              -- Check jupytext version
-              local version_cmd = vim.fn.system("jupytext --version 2>/dev/null")
-              if vim.v.shell_error == 0 then
-                vim.health.ok("jupytext version: " .. vim.trim(version_cmd))
-              end
-            else
-              vim.health.warn("jupytext executable not found", "Install with: pip install jupytext")
-            end
-          end
-        }
-      end
-    end,
     config = function()
       require('jupytext').setup({
         style = "markdown",
@@ -90,7 +75,7 @@ return {
         force_ft = nil,
       })
     end,
-    lazy = false, -- Don't lazy load for immediate availability
+    lazy = false,
   },
 
   -- Interactive execution with Jupyter kernels (core functionality)
@@ -158,22 +143,22 @@ return {
       -- Additional Jupyter workflow keybindings
       { "<leader>Js", function()
           local file = vim.fn.expand("%")
-          vim.cmd("!jupytext --sync " .. vim.fn.shellescape(file))
+          vim.system({ "jupytext", "--sync", file }, { detach = true })
         end, desc = "Sync with jupytext" },
       
       { "<leader>Jp", function()
           local file = vim.fn.expand("%")
-          vim.cmd("!jupytext --to py:percent " .. vim.fn.shellescape(file))
+          vim.system({ "jupytext", "--to", "py:percent", file }, { detach = true })
         end, desc = "Convert to Python percent format" },
       
       { "<leader>Jn", function()
           local file = vim.fn.expand("%")
-          vim.cmd("!jupytext --to notebook " .. vim.fn.shellescape(file))
+          vim.system({ "jupytext", "--to", "notebook", file }, { detach = true })
         end, desc = "Convert to notebook format" },
       
       { "<leader>Jm", function()
           local file = vim.fn.expand("%")
-          vim.cmd("!jupytext --to markdown " .. vim.fn.shellescape(file))
+          vim.system({ "jupytext", "--to", "markdown", file }, { detach = true })
         end, desc = "Convert to markdown format" },
       
       { "<leader>Ma", function()
