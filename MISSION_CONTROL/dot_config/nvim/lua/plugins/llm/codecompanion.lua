@@ -11,10 +11,6 @@ return {
     },
     lazy = true,
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
-    keys = {
-      { "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", desc = "CodeCompanion - Toggle Chat" },
-      { "<leader>ca", "<cmd>CodeCompanionActions<cr>", desc = "CodeCompanion - Actions" },
-    },
     opts = {
       strategies = {
         chat = { adapter = "copilot" },
@@ -23,19 +19,29 @@ return {
       },
       adapters = {
         copilot = {
-          -- Updated to use Claude Sonnet 4 through Copilot
           schema = {
             model = {
-              default = "claude-sonnet-4-20250514", -- Claude Sonnet 4
+              default = "claude-3.5-sonnet", -- Use standard Claude model name
             },
           },
         },
       },
       -- Enable logging for debugging
-      log_level = "INFO", -- Change to "DEBUG" for more detailed logs
+      log_level = "INFO",
       -- Default display mode
       display = {
-        chat = "float", -- Options: "float" or "buffer"
+        chat = {
+          window = {
+            layout = "float", -- or "vertical", "horizontal"
+          },
+        },
+      },
+      -- Required window configuration
+      window = {
+        layout = "float",
+        width = 0.4,
+        height = 0.8,
+        border = "rounded",
       },
     },
     keys = {

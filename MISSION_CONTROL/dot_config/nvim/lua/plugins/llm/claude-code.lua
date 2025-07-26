@@ -17,4 +17,3 @@ else
   -- Return empty table if directory doesn't exist (CI environment)
   return {}
 end
-
