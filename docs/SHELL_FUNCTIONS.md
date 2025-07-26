@@ -186,6 +186,31 @@ def docker_purge [--force (-f)] {
 }
 ```
 
+```bash
+# Bash/Zsh equivalent implementation
+docker_purge() {
+    local force=false
+    
+    # Parse arguments
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --force|-f) force=true; shift ;;
+            *) echo "Unknown option: $1"; return 1 ;;
+        esac
+    done
+    
+    if [[ "$force" != "true" ]]; then
+        echo "⚠️  WARNING: This will remove ALL Docker data!"
+        read -p "Continue? (y/N): " confirm
+        [[ "$confirm" != "y" ]] && return 0
+    fi
+    
+    echo "🧹 Cleaning Docker system..."
+    docker system prune --all --volumes --force
+    echo "✅ Docker cleanup complete"
+}
+```
+
 ## 🔧 Configuration & Setup
 
 ### Function Discovery
