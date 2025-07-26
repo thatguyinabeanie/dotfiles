@@ -1,0 +1,56 @@
+[tools]
+# Core development tools for this repository
+go = "1.24"                    # Go runtime (from go.mod requirement)
+golangci-lint = "latest"       # Go linter (used in lefthook)
+opencode = "latest"            # Already present - AI coding tool
+
+# Shell and text processing
+shellcheck = "latest"          # Shell script linter (used in lefthook)  
+vale = "latest"                # Prose linter (used in lefthook)
+yamllint = "latest"            # YAML linter (used in lefthook)
+
+# Security and secrets scanning
+gitleaks = "latest"            # Secrets scanner (used in lefthook)
+
+# Chezmoi dotfiles management
+chezmoi = "latest"             # Dotfiles manager (core to this repo)
+
+# Node.js ecosystem (for scripts and tools)
+node = "22"                    # Node.js runtime
+pnpm = "latest"                # Package manager
+
+[tasks.test]
+description = "Run all Go tests"
+run = "cd _tests_ && go test -v ./..."
+
+[tasks.test-changed]
+description = "Run tests for changed files only"
+run = "cd _tests_ && ./scripts/run_relevant_tests.sh"
+
+[tasks.test-nvim]
+description = "Test Neovim configuration startup"
+run = "_tests_/scripts/test_nvim_startup.sh"
+
+[tasks.lint]
+description = "Run all quality checks"
+run = "lefthook run pre-commit"
+
+[tasks.apply]
+description = "Apply dotfiles changes"
+run = "chezmoi apply"
+
+[tasks.diff]
+description = "Show dotfiles differences"
+run = "chezmoi diff"
+
+[tasks.sync]
+description = "Apply dotfiles and show diff"
+run = ["chezmoi apply", "chezmoi diff"]
+
+[settings]
+jobs = 4                           # Parallel installation jobs
+always_keep_download = false       # Clean up downloads after install
+http_timeout = "30s"              # HTTP request timeout
+experimental = true               # Enable experimental features
+verbose = false                   # Reduce noise in output
+yes = true                        # Auto-confirm prompts

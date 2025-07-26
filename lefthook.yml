@@ -10,14 +10,7 @@ pre-commit:
     shellcheck:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
     go-tests:
-      glob: "*.go"
-      run: |
-        if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep '\.go$')" ]; then
-          cd _tests_
-          ./scripts/run_relevant_tests.sh
-        else
-          echo "No Go files changed, skipping tests"
-        fi
+      run: mise run test
     go-lint:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-golangci-lint.sh {staged_files}
     yamllint:

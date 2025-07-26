@@ -59,7 +59,6 @@ languages:
     - name: stylua
       version: latest
       description: "Lua code formatter"
-
   # =============================================================================
   # OTHER LANGUAGES - Additional programming languages
   # =============================================================================

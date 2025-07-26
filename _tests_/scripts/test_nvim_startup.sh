@@ -156,8 +156,10 @@ profile_startup() {
             echo -e "\n${YELLOW}Could not extract total startup time${NC}"
         fi
         
-        # Cleanup
-        rm -f /tmp/nvim-startup.log
+        # Cleanup (but preserve for CI artifact upload)
+        if [ "${CI:-false}" != "true" ]; then
+            rm -f /tmp/nvim-startup.log
+        fi
         return 0
     else
         echo -e "${RED}✗ Failed to generate startup profile${NC}"

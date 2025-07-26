@@ -1,7 +1,3 @@
-if true then
-  return {}
-end
-
 return {
   {
     "yetone/avante.nvim",
@@ -12,7 +8,7 @@ return {
       provider = "copilot",
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet", -- Valid models: claude-3.5-sonnet, claude-3.7-sonnet, gpt-4o, gpt-4o-mini
+          model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
           timeout = 30000,
           extra_request_body = {
             temperature = 0,

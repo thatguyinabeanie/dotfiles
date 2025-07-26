@@ -308,7 +308,7 @@ func TestNvimStartupOptimizations(t *testing.T) {
 
 // TestNvimSnacksOptimization verifies Snacks.nvim is properly configured
 func TestNvimSnacksOptimization(t *testing.T) {
-	snacksPath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "snacks.lua")
+	snacksPath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "utilities", "snacks.lua")
 	content, err := os.ReadFile(snacksPath)
 	if err != nil {
 		t.Fatalf("Failed to read snacks.lua: %v", err)
@@ -322,6 +322,11 @@ func TestNvimSnacksOptimization(t *testing.T) {
 	// Check that scope is enabled (replacing other indent plugins)
 	if !strings.Contains(string(content), "scope = { enabled = true }") {
 		t.Error("Snacks scope module should be enabled")
+	}
+
+	// Check that indent scope is disabled (since we use the main scope module)
+	if !strings.Contains(string(content), "scope = {\n          enabled = false") {
+		t.Error("Snacks indent scope should be disabled when main scope is enabled")
 	}
 
 	// Check for proper indent configuration
