@@ -12,6 +12,7 @@ return {
       "mxsdev/nvim-dap-vscode-js", -- JavaScript/TypeScript
       "suketa/nvim-dap-ruby", -- Ruby
       "mfussenegger/nvim-dap-python", -- Python
+      "leoluz/nvim-dap-go", -- Go
       
       -- Mason integration for automatic debugger installation
       "jay-babu/mason-nvim-dap.nvim",
@@ -38,6 +39,10 @@ return {
       { "<leader>dlb", function() require("telescope").extensions.dap.list_breakpoints() end, desc = "Debug: List Breakpoints" },
       { "<leader>dv", function() require("telescope").extensions.dap.variables() end, desc = "Debug: Variables" },
       { "<leader>df", function() require("telescope").extensions.dap.frames() end, desc = "Debug: Frames" },
+      
+      -- Go-specific debugging (only loads if in Go file)
+      { "<leader>dgt", function() require("dap-go").debug_test() end, desc = "Debug: Go Test", ft = "go" },
+      { "<leader>dgl", function() require("dap-go").debug_last_test() end, desc = "Debug: Go Last Test", ft = "go" },
     },
     config = function()
       -- Defer the configuration to avoid startup issues
@@ -56,25 +61,51 @@ return {
           repl = "r",
           toggle = "t",
         },
+        controls = {
+          enabled = true,
+          element = "repl",
+          icons = {
+            pause = "",
+            play = "",
+            step_into = "",
+            step_over = "",
+            step_out = "",
+            step_back = "",
+            run_last = "↻",
+            terminate = "□",
+          },
+        },
+        floating = {
+          max_height = nil,
+          max_width = nil,
+          border = "rounded",
+          mappings = {
+            close = { "q", "<Esc>" },
+          },
+        },
         layouts = {
           {
             elements = {
-              { id = "scopes", size = 0.25 },
-              { id = "breakpoints", size = 0.25 },
+              { id = "scopes", size = 0.30 },
+              { id = "breakpoints", size = 0.20 },
               { id = "stacks", size = 0.25 },
               { id = "watches", size = 0.25 },
             },
-            size = 40,
+            size = 45, -- Slightly wider for better visibility
             position = "right",
           },
           {
             elements = {
-              { id = "repl", size = 0.5 },
-              { id = "console", size = 0.5 },
+              { id = "repl", size = 0.6 },
+              { id = "console", size = 0.4 },
             },
-            size = 0.25,
+            size = 0.3, -- Slightly taller
             position = "bottom",
           },
+        },
+        render = {
+          max_type_length = nil,
+          max_value_lines = 100,
         },
       })
       
@@ -88,6 +119,15 @@ return {
         commented = false,
         only_first_definition = true,
         all_references = false,
+        clear_on_continue = false,
+        display_callback = function(variable, buf, stackframe, node, options)
+          -- Customize the virtual text display
+          if options.virt_text_pos == 'inline' then
+            return ' = ' .. variable.value
+          else
+            return variable.name .. ' = ' .. variable.value
+          end
+        end,
         filter_references_pattern = "<module",
         virt_text_pos = "eol",
         all_frames = false,
@@ -183,6 +223,49 @@ return {
       -- Ruby debugging
       require("dap-ruby").setup()
       
+      -- Go debugging
+      require("dap-go").setup({
+        -- Additional dap configurations can be added.
+        -- dap_configurations accepts a list of tables where each entry
+        -- represents a dap configuration. For more details do:
+        -- :help dap-configuration
+        dap_configurations = {
+          {
+            -- Must be "go" or it will be ignored by the plugin
+            type = "go",
+            name = "Attach remote",
+            mode = "remote",
+            request = "attach",
+          },
+        },
+        -- delve configurations
+        delve = {
+          -- the path to the executable dlv which will be used for debugging.
+          -- by default, this is the "dlv" executable on your PATH.
+          path = "dlv",
+          -- time to wait for delve to initialize the debug session.
+          -- default to 20 seconds
+          initialize_timeout_sec = 20,
+          -- a string that defines the port to start delve debugger.
+          -- default to string "${port}" which instructs nvim-dap
+          -- to start the process in a random available port
+          port = "${port}",
+          -- additional args to pass to dlv
+          args = {},
+          -- the build flags that are passed to delve.
+          -- defaults to empty string, but can be used to provide flags
+          -- such as "-tags=unit" to make sure the test suite is
+          -- compiled with the same flags as the code being tested.
+          -- Or add "-race" or "-msan" if your program uses it.
+          build_flags = "",
+        },
+        -- options related to running closest test
+        tests = {
+          -- enables verbosity when running the test.
+          verbose = false,
+        },
+      })
+      
       -- Python debugging
       local dap_python = require("dap-python")
       
@@ -271,6 +354,37 @@ return {
         })
       end
       
+      -- Rust debugging configuration (manual setup since no dedicated plugin exists)
+      dap.adapters.codelldb = {
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = vim.fn.stdpath("data") .. "/mason/bin/codelldb",
+          args = { "--port", "${port}" },
+        },
+      }
+      
+      dap.configurations.rust = {
+        {
+          name = "Launch file",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+        {
+          name = "Attach to process",
+          type = "codelldb",
+          request = "attach",
+          pid = function()
+            return require("dap.utils").pick_process({ filter = "target/debug" })
+          end,
+        },
+      }
+      
       -- Signs
       vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "DapBreakpoint", linehl = "", numhl = "" })
       vim.fn.sign_define("DapBreakpointCondition", { text = "🟡", texthl = "DapBreakpoint", linehl = "", numhl = "" })
@@ -291,12 +405,13 @@ return {
       "williamboman/mason.nvim",
       "mfussenegger/nvim-dap",
     },
-    opts = {
-      ensure_installed = {
-        "js-debug-adapter", -- JavaScript/TypeScript
-        "debugpy", -- Python
-      },
-      automatic_installation = true,
+      opts = {
+        ensure_installed = {
+          "js-debug-adapter", -- JavaScript/TypeScript
+          "debugpy", -- Python
+          "delve", -- Go
+          "codelldb", -- Rust/C/C++
+        },      automatic_installation = true,
       handlers = {},
     },
   },
