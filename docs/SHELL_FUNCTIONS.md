@@ -152,10 +152,13 @@ cat         # Enhanced with bat (syntax highlighting)
 ls/l/la     # Enhanced with eza (better formatting)
 ```
 
-## 🛠️ Advanced Functions (Nushell)
+## 🛠️ Advanced Functions (Nushell-specific)
+
+These examples show the Nushell implementations of functions that are also available in Bash/Zsh with equivalent functionality.
 
 ### Repository Cloning with Error Handling
 ```nushell
+# Nushell implementation with enhanced error handling
 def gh-clone-repo [repo: string, --destination (-d): string] {
     let dest = if ($destination | is-empty) { "." } else { $destination }
     try {
@@ -169,6 +172,7 @@ def gh-clone-repo [repo: string, --destination (-d): string] {
 
 ### Safe Docker Operations
 ```nushell
+# Nushell implementation with interactive confirmation
 def docker_purge [--force (-f)] {
     if not $force {
         print "⚠️  WARNING: This will remove ALL Docker data!"

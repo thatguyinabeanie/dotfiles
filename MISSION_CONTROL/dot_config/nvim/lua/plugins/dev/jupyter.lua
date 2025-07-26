@@ -38,7 +38,7 @@ return {
       vim.g.molten_output_crop_border = true
       vim.g.molten_enter_output_behavior = "open_then_enter"
       
-      -- Image display settings (now that tmux passthrough is enabled)
+      -- Image display settings (applied if image.nvim is available)
       vim.g.molten_image_location = "both" -- Show in both float and virtual text
       vim.g.molten_auto_image_popup = false -- Don't auto-popup images
     end,

@@ -129,7 +129,8 @@ steps:
 - name: Neovim Startup Test
   run: |
     timeout 30s nvim --headless -c "lua print('Startup test')" -c "qa"
-    if [ $? -eq 124 ]; then
+    exit_code=$?
+    if [ $exit_code -eq 124 ]; then
       echo "Neovim startup timeout - configuration issue detected"
       exit 1
     fi
