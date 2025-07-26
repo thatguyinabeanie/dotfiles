@@ -9,6 +9,7 @@ return {
     opts = {
       -- Enhanced keymap beyond LazyVim defaults (preset = "enter", <C-y> = select_and_accept)
       keymap = {
+        preset = "enter", -- Your original preset - gives you <Enter> to accept, <C-y> for select_and_accept
         ["<C-p>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
         ["<C-j>"] = { "select_next", "fallback" },
@@ -16,6 +17,12 @@ return {
         ["<C-b>"] = { "scroll_documentation_up", "fallback" },
         ["<C-f>"] = { "scroll_documentation_down", "fallback" },
         ["<C-e>"] = { "hide", "fallback" },
+      },
+
+      -- Your original appearance settings
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
       },
 
       -- Add copilot and lazydev to default sources (LazyVim defaults: lsp, path, snippets, buffer)
@@ -68,6 +75,11 @@ return {
 
       -- Enhanced beyond LazyVim defaults
       completion = {
+        accept = {
+          auto_brackets = {
+            enabled = true, -- Your original auto-brackets feature
+          },
+        },
         trigger = {
           prefetch_on_insert = true,
         },
@@ -78,6 +90,7 @@ return {
           border = "rounded",
           scrollbar = true,
           draw = {
+            treesitter = { "lsp" }, -- Your original treesitter integration
             padding = 3,
             gap = 2,
             columns = {
@@ -110,12 +123,10 @@ return {
         },
         documentation = {
           auto_show = true,
-          auto_show_delay_ms = 100,
+          auto_show_delay_ms = 200, -- Your original delay (was 100, back to your 200)
           window = {
             border = "rounded",
             scrollbar = true,
-            max_width = 80,
-            max_height = 20,
           },
         },
       },

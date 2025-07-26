@@ -20,7 +20,7 @@ if [[ -f "pyproject.toml" ]] || [[ -f "requirements.txt" ]] || [[ -f "setup.py" 
 			requirements_files+=("$pattern")
 		fi
 	done
-	
+
 	if [[ ${#requirements_files[@]} -gt 0 ]]; then
 		if command -v uv >/dev/null 2>&1 && [ ! -d .venv ]; then
 			echo "📦 Creating uv virtual environment for Python project..."
