@@ -82,13 +82,7 @@ return {
             total = 300,
           },
         },
-        scope = {
-          enabled = true, -- Enable scope highlighting (replaces mini.indentscope)
-          char = "│", -- Character for scope highlighting  
-          underline = false, -- Don't underline scope
-          hl = "IblScope", -- Highlight group for scope (compatible with indent-blankline)
-          priority = 200, -- Higher priority than regular indent guides
-        },
+        scope = { enabled = true },
         chunk = {
           enabled = false, -- Keep chunks disabled for cleaner look
         },
