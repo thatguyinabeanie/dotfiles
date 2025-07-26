@@ -309,7 +309,7 @@ def docker_purge [
 # Equivalent to: docker_purge --force
 # ⚠️ DANGER: This will immediately destroy all Docker data without confirmation
 def docker_nuke [] {
-    docker_purge --force
+    docker_purge --force=true
 }
 
 ##
