@@ -41,8 +41,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     vim.schedule(function()
       -- Only import if Molten is available and initialized
       if vim.fn.exists(":MoltenImportOutput") == 2 then
-        local molten_status = require("molten.status")
-        if molten_status.initialized() ~= "" then
+        local ok, molten_status = pcall(require, "molten.status")
+        if ok and molten_status.initialized() ~= "" then
           vim.cmd("MoltenImportOutput")
         end
       end

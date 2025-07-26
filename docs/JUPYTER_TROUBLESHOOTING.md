@@ -156,8 +156,8 @@ mise exec python -- jupytext --to ipynb script.py
 btop
 
 # Check available memory
-free -h  # Linux
-vm_stat  # macOS
+free -h  # Command to check available memory on Linux
+vm_stat  # Command to check available memory on macOS
 ```
 
 **Solutions**:

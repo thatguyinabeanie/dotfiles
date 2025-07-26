@@ -18,11 +18,8 @@ return {
     },
     build = ":UpdateRemotePlugins",
     init = function()
-      -- Check if image.nvim is available
-      local has_image = pcall(require, "image")
-      
       -- Output display configuration (optimized for terminal with image support)
-      vim.g.molten_image_provider = has_image and "image.nvim" or "none"
+      vim.g.molten_image_provider = "image.nvim"
       vim.g.molten_auto_open_output = false -- Use virtual text for cleaner interface
       vim.g.molten_virt_text_output = true -- Show output as virtual text
       vim.g.molten_virt_text_max_lines = 12 -- Show more lines for detailed output
@@ -42,10 +39,8 @@ return {
       vim.g.molten_enter_output_behavior = "open_then_enter"
       
       -- Image display settings (now that tmux passthrough is enabled)
-      if has_image then
-        vim.g.molten_image_location = "both" -- Show in both float and virtual text
-        vim.g.molten_auto_image_popup = false -- Don't auto-popup images
-      end
+      vim.g.molten_image_location = "both" -- Show in both float and virtual text
+      vim.g.molten_auto_image_popup = false -- Don't auto-popup images
     end,
     keys = {
       -- Kernel management
