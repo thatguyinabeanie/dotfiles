@@ -54,13 +54,16 @@ return {
               icon = " ",
               key = "s",
               desc = "Restore Session",
-              action = [[<cmd>lua require("persistence").load()<cr>]],
+              action = function()
+                require("persistence").load()
+              end,
             },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
         },
       },
+      dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = {
         enabled = true,
         -- Only load when actually browsing
@@ -84,21 +87,33 @@ return {
         },
         scope = { enabled = true },
         chunk = {
-          enabled = false, -- Keep chunks disabled for cleaner look
+          enabled = true,
         },
         filter = function(buf)
-          if not buf or buf == 0 then return false end
+          if not buf or buf == 0 then
+            return false
+          end
           local bt = vim.bo[buf].buftype
           local ft = vim.bo[buf].filetype
           -- Filter out special buffer types and filetypes
-          if bt ~= "" then return false end
-          if ft == "help" or ft == "alpha" or ft == "dashboard" or ft == "neo-tree" or ft == "Trouble" or ft == "lazy" then
+          if bt ~= "" then
+            return false
+          end
+          if
+            ft == "help"
+            or ft == "alpha"
+            or ft == "dashboard"
+            or ft == "neo-tree"
+            or ft == "Trouble"
+            or ft == "lazy"
+          then
             return false
           end
           return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false
         end,
       },
       input = { enabled = true },
+      lazygit = { enabled = true }, -- LazyGit integration
       notifier = { enabled = true },
       picker = {
         enabled = true,
@@ -106,6 +121,10 @@ return {
         exclude = { -- add folder names here to exclude
           ".git",
           "node_modules",
+        },
+        layout = {
+          preset = "default", -- Force default layout (horizontal with floating preview)
+          cycle = true,
         },
         sources = {
           explorer = {
@@ -117,10 +136,14 @@ return {
         },
       },
       quickfile = { enabled = true },
+      rename = { enabled = true }, -- LSP file renaming with plugin integration
       scope = { enabled = true }, -- Enable scope detection (replaces mini.indentscope)
+      scratch = { enabled = true }, -- Persistent scratch buffers
       scroll = { enabled = true }, -- Enable scroll animations
       statuscolumn = { enabled = true },
+      terminal = { enabled = true }, -- Floating/split terminals
       words = { enabled = true }, -- Keep for word highlighting under cursor
+      zen = { enabled = true }, -- Distraction-free coding mode
     },
     -- Override LazyVim's default keymaps to use cwd instead of root
     keys = {
@@ -152,6 +175,68 @@ return {
           Snacks.gitbrowse()
         end,
         desc = "Git Browse",
+      },
+      -- LazyGit integration
+      {
+        "<leader>gg",
+        function()
+          Snacks.lazygit()
+        end,
+        desc = "LazyGit",
+      },
+      -- Terminal
+      {
+        "<c-/>",
+        function()
+          Snacks.terminal()
+        end,
+        desc = "Terminal",
+      },
+      -- Zen mode
+      {
+        "<leader>z",
+        function()
+          Snacks.zen()
+        end,
+        desc = "Zen Mode",
+      },
+      {
+        "<leader>Z",
+        function()
+          Snacks.zen.zoom()
+        end,
+        desc = "Zen Zoom",
+      },
+      -- Scratch buffers
+      {
+        "<leader>.",
+        function()
+          Snacks.scratch()
+        end,
+        desc = "Scratch Buffer",
+      },
+      {
+        "<leader>S",
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = "Select Scratch Buffer",
+      },
+      -- Dim toggle
+      {
+        "<leader>ud",
+        function()
+          Snacks.dim.toggle()
+        end,
+        desc = "Toggle Dim",
+      },
+      -- File rename
+      {
+        "<leader>cR",
+        function()
+          Snacks.rename.rename_file()
+        end,
+        desc = "Rename File",
       },
     },
   },
