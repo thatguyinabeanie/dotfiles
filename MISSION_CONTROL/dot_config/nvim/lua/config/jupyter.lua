@@ -123,5 +123,3 @@ plt.style.use('default')
   
   vim.api.nvim_put(vim.split(template, "\n"), "l", true, true)
 end, { desc = "Insert notebook template" })
-
-return {}
