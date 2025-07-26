@@ -3,6 +3,13 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      -- Ensure UI overrides are properly set
+      if opts.input and opts.input.enabled then
+        require("snacks.input").enable()
+      end
+    end,
     opts = {
       bigfile = { enabled = true },
       dashboard = {
@@ -47,44 +54,77 @@ return {
               icon = " ",
               key = "s",
               desc = "Restore Session",
-              action = [[<cmd>lua require("persistence").load()<cr>]],
+              action = function()
+                require("persistence").load()
+              end,
             },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
         },
       },
+      dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = {
         enabled = true,
         -- Only load when actually browsing
       },
-      image = { enabled = false }, -- Disabled to reduce overhead
+      image = { enabled = true }, -- Enable image support
       indent = {
         enabled = true,
-        char = "│",
+        char = "│", -- Main indent character (same as indent-blankline default)
+        blank = "│", -- Character for blank lines
+        only_scope = false, -- Show all indent guides, not just scope
+        only_current = false, -- Show indent guides for all levels
+        hl = "IblIndent", -- Highlight group for indent guides (compatible with indent-blankline)
         animate = {
-          enabled = false,
+          enabled = true,
+          style = "out", -- Animation style for indent changes
+          easing = "linear",
+          duration = {
+            step = 20,
+            total = 300,
+          },
         },
-        scope = {
-          enabled = false,
-          char = "│",
-          underline = true,
-        },
+        scope = { enabled = true },
         chunk = {
-          enabled = false,
+          enabled = true,
         },
         filter = function(buf)
-          if not buf or buf == 0 then return false end
-          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
+          if not buf or buf == 0 then
+            return false
+          end
+          local bt = vim.bo[buf].buftype
+          local ft = vim.bo[buf].filetype
+          -- Filter out special buffer types and filetypes
+          if bt ~= "" then
+            return false
+          end
+          if
+            ft == "help"
+            or ft == "alpha"
+            or ft == "dashboard"
+            or ft == "neo-tree"
+            or ft == "Trouble"
+            or ft == "lazy"
+          then
+            return false
+          end
+          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false
         end,
       },
       input = { enabled = true },
+      lazygit = { enabled = true }, -- LazyGit integration
       notifier = { enabled = true },
       picker = {
         enabled = true,
+        ui_select = true, -- Enable vim.ui.select override
         exclude = { -- add folder names here to exclude
           ".git",
           "node_modules",
+        },
+        layout = {
+          preset = "default", -- Force default layout (horizontal with floating preview)
+          cycle = true,
         },
         sources = {
           explorer = {
@@ -96,10 +136,14 @@ return {
         },
       },
       quickfile = { enabled = true },
-      scope = { enabled = true },
-      scroll = { enabled = false },
+      rename = { enabled = true }, -- LSP file renaming with plugin integration
+      scope = { enabled = true }, -- Enable scope detection (replaces mini.indentscope)
+      scratch = { enabled = true }, -- Persistent scratch buffers
+      scroll = { enabled = true }, -- Enable scroll animations
       statuscolumn = { enabled = true },
+      terminal = { enabled = true }, -- Floating/split terminals
       words = { enabled = true }, -- Keep for word highlighting under cursor
+      zen = { enabled = true }, -- Distraction-free coding mode
     },
     -- Override LazyVim's default keymaps to use cwd instead of root
     keys = {
@@ -132,13 +176,67 @@ return {
         end,
         desc = "Git Browse",
       },
+      -- LazyGit integration
       {
-        "<leader>gb",
+        "<leader>gg",
         function()
-          Snacks.gitbrowse()
+          Snacks.lazygit()
         end,
-        desc = "Git Browse",
-        mode = "v",
+        desc = "LazyGit",
+      },
+      -- Terminal
+      {
+        "<c-/>",
+        function()
+          Snacks.terminal()
+        end,
+        desc = "Terminal",
+      },
+      -- Zen mode
+      {
+        "<leader>z",
+        function()
+          Snacks.zen()
+        end,
+        desc = "Zen Mode",
+      },
+      {
+        "<leader>Z",
+        function()
+          Snacks.zen.zoom()
+        end,
+        desc = "Zen Zoom",
+      },
+      -- Scratch buffers
+      {
+        "<leader>.",
+        function()
+          Snacks.scratch()
+        end,
+        desc = "Scratch Buffer",
+      },
+      {
+        "<leader>S",
+        function()
+          Snacks.scratch.select()
+        end,
+        desc = "Select Scratch Buffer",
+      },
+      -- Dim toggle
+      {
+        "<leader>ud",
+        function()
+          Snacks.dim.toggle()
+        end,
+        desc = "Toggle Dim",
+      },
+      -- File rename
+      {
+        "<leader>cR",
+        function()
+          Snacks.rename.rename_file()
+        end,
+        desc = "Rename File",
       },
     },
   },

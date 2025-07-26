@@ -1,9 +1,81 @@
+-- Jupyter notebook workflow automations and file type configurations
+vim.api.nvim_create_augroup("JupyterWorkflow", { clear = true })
+
+-- File type detection for Jupyter notebooks
+vim.filetype.add({
+  extension = {
+    ipynb = function()
+      -- If jupytext is available, treat as markdown/python
+      if vim.fn.executable("jupytext") == 1 then
+        return "python"
+      end
+      return "json"
+    end,
+  },
+})
+
+-- Auto-sync jupytext files on save
+vim.api.nvim_create_autocmd("BufWritePost", {
+  group = "JupyterWorkflow",
+  pattern = { "*.ipynb", "*.py", "*.md", "*.qmd" },
+  callback = function()
+    -- Only sync if jupytext is available and this is a paired file
+    if vim.fn.executable("jupytext") == 1 then
+      local file = vim.fn.expand("%")
+      -- Check if this file has a jupytext pairing using async vim.system
+      vim.system({ "jupytext", "--test", file }, {
+        stdout_buffered = true,
+        stderr_buffered = true,
+        on_exit = function(_, return_code)
+          if return_code == 0 then
+            -- File has pairing, sync it
+            vim.system({ "jupytext", "--sync", file }, {
+              detach = true, -- Run in background
+            })
+          end
+        end,
+      })
+    end
+  end,
+})
+
+-- Auto-import Molten outputs when opening notebook files
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = "JupyterWorkflow",
+  pattern = "*.ipynb",
+  callback = function()
+    vim.schedule(function()
+      -- Only import if Molten is available and initialized
+      if vim.fn.exists(":MoltenImportOutput") == 2 then
+        local ok, molten_status = pcall(require, "molten.status")
+        if ok and molten_status.initialized() ~= "" then
+          vim.cmd("MoltenImportOutput")
+        end
+      end
+    end)
+  end,
+})
+
+-- Enhanced which-key groups for Jupyter operations
+if pcall(require, "which-key") then
+  require("which-key").add({
+    { "<leader>M", group = "Molten/Jupyter" },
+    { "<leader>J", group = "Jupyter Tools" },
+  })
+end
+
 return {
   -- File format handling - convert between .ipynb and plain text formats
   {
     "GCBallesteros/jupytext.nvim",
-    config = true,
-    lazy = false, -- Don't lazy load for immediate availability
+    config = function()
+      require('jupytext').setup({
+        style = "markdown",
+        output_extension = "md",
+        force_ft = nil,
+      })
+    end,
+    lazy = false,
   },
 
   -- Interactive execution with Jupyter kernels (core functionality)
@@ -44,29 +116,93 @@ return {
     end,
     keys = {
       -- Kernel management
-      { "<leader>mi", ":MoltenInit<CR>", desc = "Initialize Molten" },
-      { "<leader>md", ":MoltenDeinit<CR>", desc = "Deinitialize Molten" },
-      { "<leader>mk", ":MoltenInfo<CR>", desc = "Molten kernel info" },
+      { "<leader>Mi", ":MoltenInit<CR>", desc = "Initialize Molten" },
+      { "<leader>Md", ":MoltenDeinit<CR>", desc = "Deinitialize Molten" },
+      { "<leader>Mk", ":MoltenInfo<CR>", desc = "Molten kernel info" },
       
       -- Code execution
-      { "<leader>me", ":MoltenEvaluateOperator<CR>", desc = "Evaluate operator" },
-      { "<leader>ml", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
-      { "<leader>mr", ":MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" },
-      { "<leader>mv", ":<C-u>MoltenEvaluateVisual<CR>gv", mode = "v", desc = "Evaluate visual selection" },
+      { "<leader>Me", ":MoltenEvaluateOperator<CR>", desc = "Evaluate operator" },
+      { "<leader>Ml", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
+      { "<leader>Mr", ":MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" },
+      { "<leader>Mv", ":<C-u>MoltenEvaluateVisual<CR>gv", mode = "v", desc = "Evaluate visual selection" },
       
       -- Output management
-      { "<leader>mo", ":MoltenToggleOutput<CR>", desc = "Toggle output display" },
-      { "<leader>mh", ":MoltenHideOutput<CR>", desc = "Hide output" },
-      { "<leader>ms", ":MoltenShowOutput<CR>", desc = "Show output" },
-      { "<leader>mc", ":MoltenDelete<CR>", desc = "Delete Molten cell" },
+      { "<leader>Mo", ":MoltenToggleOutput<CR>", desc = "Toggle output display" },
+      { "<leader>Mh", ":MoltenHideOutput<CR>", desc = "Hide output" },
+      { "<leader>Ms", ":MoltenShowOutput<CR>", desc = "Show output" },
+      { "<leader>Mc", ":MoltenDelete<CR>", desc = "Delete Molten cell" },
       
       -- Cell navigation
-      { "<leader>mp", ":MoltenPrev<CR>", desc = "Go to previous cell" },
-      { "<leader>mn", ":MoltenNext<CR>", desc = "Go to next cell" },
+      { "<leader>Mp", ":MoltenPrev<CR>", desc = "Go to previous cell" },
+      { "<leader>Mn", ":MoltenNext<CR>", desc = "Go to next cell" },
       
       -- Notebook operations
-      { "<leader>mI", ":MoltenImportOutput<CR>", desc = "Import notebook outputs" },
-      { "<leader>mE", ":MoltenExportOutput!<CR>", desc = "Export to .ipynb" },
+      { "<leader>MI", ":MoltenImportOutput<CR>", desc = "Import notebook outputs" },
+      { "<leader>ME", ":MoltenExportOutput!<CR>", desc = "Export to .ipynb" },
+      
+      -- Additional Jupyter workflow keybindings
+      { "<leader>Js", function()
+          local file = vim.fn.expand("%")
+          vim.system({ "jupytext", "--sync", file }, { detach = true })
+        end, desc = "Sync with jupytext" },
+      
+      { "<leader>Jp", function()
+          local file = vim.fn.expand("%")
+          vim.system({ "jupytext", "--to", "py:percent", file }, { detach = true })
+        end, desc = "Convert to Python percent format" },
+      
+      { "<leader>Jn", function()
+          local file = vim.fn.expand("%")
+          vim.system({ "jupytext", "--to", "notebook", file }, { detach = true })
+        end, desc = "Convert to notebook format" },
+      
+      { "<leader>Jm", function()
+          local file = vim.fn.expand("%")
+          vim.system({ "jupytext", "--to", "markdown", file }, { detach = true })
+        end, desc = "Convert to markdown format" },
+      
+      { "<leader>Ma", function()
+          local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+          if venv then
+            -- Extract environment name from path
+            local kernel_name = string.match(venv, "/.+/(.+)")
+            if kernel_name then
+              vim.cmd(("MoltenInit %s"):format(kernel_name))
+            else
+              vim.cmd("MoltenInit python3")
+            end
+          else
+            vim.cmd("MoltenInit python3")
+          end
+        end, desc = "Auto-initialize kernel" },
+      
+      { "<leader>Jt", function()
+          local template = [[# Physics/Data Science Notebook
+
+## Setup
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+from scipy import stats
+import seaborn as sns
+
+# Configure matplotlib for better plots
+plt.style.use('default')
+%matplotlib inline
+```
+
+## Data Analysis
+
+## Visualization
+
+## Results
+
+## Conclusion
+]]
+          
+          vim.api.nvim_put(vim.split(template, "\n"), "l", true, true)
+        end, desc = "Insert notebook template" },
     },
   },
 
