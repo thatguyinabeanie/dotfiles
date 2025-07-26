@@ -59,3 +59,7 @@ vim.opt.signcolumn = "yes"
 
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
 
+-- Provider configurations
+-- Set Python3 provider to use mise shim (stable path that dynamically resolves versions)
+vim.g.python3_host_prog = vim.env.HOME .. "/.local/share/mise/shims/python3"
+
