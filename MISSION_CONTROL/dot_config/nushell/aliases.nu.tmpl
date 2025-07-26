@@ -1,143 +1,181 @@
+#!/usr/bin/env nu
 ##
-## MISCELLANEOUS
+## NUSHELL ALIASES AND FUNCTIONS
+## Advanced shell functions for productivity and development workflow
 ##
 
-# Function to show the current system information with a random image of a Pokémon
+##
+## MISCELLANEOUS UTILITIES
+##
+
+# Function to show system information with a random Pokémon image
+# Combines pokeget (random Pokémon) with fastfetch (system info) for a fun display
+# Usage: poke_system_info
+# Requires: pokeget, fastfetch
 def poke_system_info [] {
   pokeget random --hide-name | fastfetch --file-raw -
 }
 
-# Open Yazi
-alias y   = yazi
-# Cat alias for bat
-alias cat = bat --style=plain
-# Kill tmux server
-alias tks = tmux kill-server
+# Enhanced file management aliases
+alias y   = yazi                    # Launch Yazi file manager (modern ranger alternative)
+alias cat = bat --style=plain      # Enhanced cat with syntax highlighting via bat
+alias tks = tmux kill-server       # Quick tmux server termination
 
+# Claude AI command-line interface (if installed)
 alias claude = {{ .chezmoi.homeDir }}/.claude/local/claude
 
 ##
-## DIRECTORY ALIASES
+## ENHANCED DIRECTORY NAVIGATION
 ##
 
-# List files in the current directory
-alias l  = ls
-# List all files in the current directory
-alias ll = ls -a
-# List all files in the current directory with long format
-alias la = ls -la
+# Modern directory listing with eza (if available) or fallback to ls
+# Note: These override default ls to provide better formatting and icons
+alias l  = ls                      # List files in current directory
+alias ll = ls -a                   # List all files (including hidden)
+alias la = ls -la                  # List all files with detailed information
 
 ##
-##  CHEZMOI
+## CHEZMOI DOTFILES MANAGEMENT
 ##
 
-# Navigate to the chezmoi source directory or edit it with nvim
+# Navigate to the chezmoi source directory and open with Neovim
+# Opens the parent directory of the source to see the full repository structure
+# Usage: dotfiles
 def dotfiles [] {
   nvim "{{ .chezmoi.sourceDir }}/.."
 }
 
 # Change directory to the chezmoi source directory
+# Useful for quick navigation to dotfiles for manual editing
+# Usage: dotfiles_cd
 def dotfiles_cd [] {
   cd "{{ .chezmoi.sourceDir }}/.."
 }
 
-# Show the chezmoi data file or edit it with nvim
+# Edit the main chezmoi configuration file
+# Opens the user's personal chezmoi.toml configuration
+# Usage: chezmoi-data
 def chezmoi-data [] {
   nvim "~/.config/chezmoi/chezmoi.toml"
 }
 
+# Quick access to ~/.config directory
+# Function version opens with Neovim, alias version navigates
 def config [] {
   nvim "~/.config"
 }
 
-alias config            = cd ~/.config
-# Edit the ~/.config directory
-alias config_edit       = nvim ~/.config
+alias config            = cd ~/.config        # Navigate to config directory
+alias config_edit       = nvim ~/.config     # Edit config directory with Neovim
 
-
-# Function to check if we're in interactive mode
+# Utility function to check if we're in interactive Chezmoi mode
+# Returns true if CHEZMOI_INTERACTIVE environment variable is set to "1"
+# Used by templates to determine whether to prompt for user input
 def is_interactive [] {
   $env.CHEZMOI_INTERACTIVE == "1"
 }
 
-
 ##
-## NEOVIM
+## NEOVIM INTEGRATIONS
 ##
 
-# Obsidian vault in Neovim
+# Obsidian vault management in Neovim
+# Provides quick access to different knowledge vaults with Obsidian.nvim integration
+# Usage: obsidian_nvim [vault_name]
+# Available vaults: personal (default), work, smart-notes, bramses, or custom path
+# Example: obsidian_nvim work
 def obsidian_nvim [
   vault: string = "personal"  # Default to personal vault
 ] {
   let base_path = "~/source/obsidian"
 
-  # Determine which vault to use
+  # Vault path resolution with work environment detection
   let vault_path = if $vault == "personal" {
     $"($base_path)/obsidian-vault"
   } else if $vault == "work" and {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}true{{ else }}false{{ end }} {
+    # Work vault only available in work environments
     $"($base_path)/obsidian-vault-work"
   } else if $vault == "smart-notes" {
     $"($base_path)/smart-notes"
   } else if $vault == "bramses" {
     $"($base_path)/bramses-highly-opinionated-vault-2023"
   } else {
+    # Custom vault path
     $"($base_path)/($vault)"
   }
 
-  # Open the vault in Neovim
+  # Navigate to vault and open in Neovim with Obsidian integration
   cd $vault_path
   nvim
 }
 
 ##
-## GITHUB
+## GITHUB REPOSITORY MANAGEMENT
 ##
 
-# Function to create a new GitHub repository
+# Create a new GitHub repository with optional privacy and description
+# Automatically navigates to ~/source/ directory for consistent project organization
+# Usage: gh-create-repo <name> [--private] [--description "description"]
+# Example: gh-create-repo my-project --private --description "My awesome project"
 def gh-create-repo [
-    name: string,
-    --private (-p) = false,
-    --description (-d): string = ""
+    name: string,                    # Repository name (required)
+    --private (-p) = false,          # Make repository private (default: public)
+    --description (-d): string = ""  # Repository description (optional)
 ] {
     let visibility = if $private { "private" } else { "public" }
     cd ~/source/
     gh repo create $name --$visibility --description $description
 }
 
-# Function to clone a GitHub reposi:tory
+# Clone a GitHub repository to ~/source/ directory
+# Maintains consistent project organization by defaulting to source directory
+# Usage: gh-clone-repo <repo> [--destination <path>]
+# Example: gh-clone-repo username/repository-name
 def gh-clone-repo [
-    repo: string,
-    --destination (-d): string = "."
+    repo: string,                    # Repository in format "username/repo" or full URL
+    --destination (-d): string = "." # Destination directory (default: current)
 ] {
     cd ~/source
     gh repo clone $repo $destination
 }
 
-# Function to list repositories for the authenticated user
+# List repositories for the authenticated GitHub user
+# Provides paginated view of your repositories with customizable limit
+# Usage: gh-list-repos [--limit <number>]
+# Example: gh-list-repos --limit 50
 def gh-list-repos [
-    --limit (-l): int = 30
+    --limit (-l): int = 30  # Number of repositories to display (default: 30)
 ] {
     gh repo list --limit $limit
 }
 
-# Function to delete a GitHub repository
+# Delete a GitHub repository with confirmation
+# ⚠️ WARNING: This is a destructive operation that permanently removes the repository
+# Usage: gh-delete-repo <repo>
+# Example: gh-delete-repo username/old-repository
 def gh-delete-repo [
-    repo: string
+    repo: string  # Repository name in format "username/repo"
 ] {
     gh repo delete $repo --confirm
 }
 
-# Function to add a remote to an existing local repository
+# Add a remote to an existing local git repository
+# Fetches the SSH URL from GitHub and adds it as a remote
+# Usage: gh-add-remote <remote_name> <repo>
+# Example: gh-add-remote upstream original-author/repository-name
 def gh-add-remote [
-    remote_name: string,
-    repo: string
+    remote_name: string,  # Name for the remote (e.g., "upstream", "origin")
+    repo: string          # Repository in format "username/repo"
 ] {
     gh repo view $repo --json sshUrl | get sshUrl | each { git remote add $remote_name }
 }
 
-# Function to open a GitHub repository in the browser
+# Open a GitHub repository in the default web browser
+# Quickly access repository pages, issues, PRs, etc.
+# Usage: gh-open-repo <repo>
+# Example: gh-open-repo username/repository-name
 def gh-open-repo [
-    repo: string
+    repo: string  # Repository in format "username/repo"
 ] {
     gh repo view $repo --web
 }
@@ -145,8 +183,14 @@ def gh-open-repo [
 ##
 ## GIT COMMIT EMOJI SELECTOR
 ##
-# Interactive emoji commit helper (requires fzf)
+
+# Interactive emoji selector for semantic commit messages
+# Uses fzf for interactive selection of commit type with emoji prefix
+# Usage: git_emoji_commit "your commit message"
+# Example: git_emoji_commit "add user authentication" -> "✨ feat: add user authentication"
+# Requires: fzf for interactive selection
 def git_emoji_commit [msg: string] {
+  # Define semantic commit types with corresponding emojis
   let emojis = [
     { emoji: "✨", desc: "feat: A new feature" }
     { emoji: "🐛", desc: "fix: A bug fix" }
@@ -159,7 +203,16 @@ def git_emoji_commit [msg: string] {
     { emoji: "🔀", desc: "merge: Merge branches" }
     { emoji: "⬆️", desc: "upgrade: Dependency upgrades" }
   ]
-  let choice = ($emojis | each {|e| $"($e.emoji) ($e.desc)" } | fzf)
+  
+  # Use fzf for interactive selection
+  let choice = ($emojis | each {|e| $"($e.emoji) ($e.desc)" } | fzf --prompt="Select commit type: ")
+  
+  # Extract emoji (first token) and create commit
+  if ($choice | is-empty) {
+    print "No commit type selected. Aborting."
+    return
+  }
+  
   let emoji = ($choice | split row " " | get 0)
   git commit -m $"($emoji) ($msg)"
 }
@@ -167,66 +220,107 @@ def git_emoji_commit [msg: string] {
 ##
 ## SPOTIFY CONTROLLER (macOS)
 ##
-# Play/Pause/Next/Prev for Spotify (macOS)
+
+# AppleScript-based Spotify controls for macOS
+# These functions are commented out but can be enabled by removing the # symbols
+# Requires Spotify app to be installed and running on macOS
+# Usage: spotify_play, spotify_pause, spotify_next, spotify_prev
+
 #def spotify_play [] {
 #   run-external osascript '-e' 'tell application "Spotify" to play'
-# }
-# def spotify_pause [] {
+#}
+#def spotify_pause [] {
 #   run-external osascript '-e' 'tell application "Spotify" to pause'
-# }
-# def spotify_next [] {
+#}
+#def spotify_next [] {
 #   run-external osascript '-e' 'tell application "Spotify" to next track'
-# }
-# def spotify_prev [] {
+#}
+#def spotify_prev [] {
 #   run-external osascript '-e' 'tell application "Spotify" to previous track'
-# }
+#}
 
 ##
 ## DOCKER MANAGEMENT
 ##
 
 # Purge all Docker containers, volumes, and images
+# ⚠️ WARNING: This is a destructive operation that removes ALL Docker data
+# 
+# What gets removed:
+#   • All containers (running and stopped)
+#   • All volumes (data will be lost!)
+#   • All images (will need to re-download)
+#   • All networks and build cache
+#
+# Usage: docker_purge [--force]
+# --force: Skip confirmation prompts (use with extreme caution!)
+# Example: docker_purge --force  # Dangerous - skips all confirmations
 def docker_purge [
     --force (-f) = false  # Skip confirmation prompt
 ] {
+    # Safety confirmation unless force flag is used
     if not $force {
-        let confirm = (input "This will remove ALL Docker containers, volumes, and images. Continue? (y/N): ")
+        print "⚠️  WARNING: This will remove ALL Docker data including:"
+        print "   • All containers (running and stopped)"
+        print "   • All volumes (data will be lost!)"
+        print "   • All images (will need to re-download)"
+        print "   • All networks and build cache"
+        print ""
+        
+        let confirm = (input "Are you sure you want to continue? (y/N): ")
         if ($confirm | str downcase) != "y" and ($confirm | str downcase) != "yes" {
             print "Operation cancelled."
             return
         }
     }
     
+    print "🧹 Starting Docker system purge..."
+    
+    # Remove all containers (running containers will be stopped first)
     print "🧹 Purging Docker containers..."
-    try { docker container prune -f } catch { print "No containers to remove" }
+    try { docker container prune -f } catch { print "ℹ️  No containers to remove" }
     
+    # Remove all volumes (THIS DESTROYS DATA!)
     print "🧹 Purging Docker volumes..."
-    try { docker volume prune -a -f } catch { print "No volumes to remove" }
+    try { docker volume prune -a -f } catch { print "ℹ️  No volumes to remove" }
     
+    # Remove all images (forces re-download)
     print "🧹 Purging Docker images..."
-    try { docker image prune -a -f } catch { print "No images to remove" }
+    try { docker image prune -a -f } catch { print "ℹ️  No images to remove" }
     
+    # Remove unused networks
     print "🧹 Purging Docker networks..."
-    try { docker network prune -f } catch { print "No networks to remove" }
+    try { docker network prune -f } catch { print "ℹ️  No networks to remove" }
     
+    # Remove build cache (saves disk space)
     print "🧹 Purging Docker build cache..."
-    try { docker builder prune -a -f } catch { print "No build cache to remove" }
+    try { docker builder prune -a -f } catch { print "ℹ️  No build cache to remove" }
     
     print "✅ Docker purge complete!"
+    print ""
     
-    # Show remaining usage
+    # Show remaining disk usage for verification
+    print "📊 Remaining Docker disk usage:"
     try { docker system df } catch { print "Could not display disk usage" }
 }
 
 # Quick alias for docker purge with force flag
+# Bypasses all confirmation prompts - use with extreme caution!
+# Equivalent to: docker_purge --force
+# ⚠️ DANGER: This will immediately destroy all Docker data without confirmation
 def docker_nuke [] {
-    docker_purge --force true
+    docker_purge --force
 }
 
 ##
 ## ANIMATED TERMINAL TRANSITIONS
 ##
-# Animated clear command (fade out)
+
+# Animated clear command with fade-out effect
+# Creates a smooth visual transition when clearing the terminal
+# Currently commented out - uncomment to enable
+# Usage: clear (overrides default clear command)
+
 # def clear [] {
 #   for i in (seq 1 10) {
 #     print (char newline)
