@@ -51,8 +51,8 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 -- Enhanced which-key groups for Jupyter operations
 if pcall(require, "which-key") then
   require("which-key").add({
-    { "<leader>m", group = "Molten/Jupyter" },
-    { "<leader>j", group = "Jupyter Tools" },
+    { "<leader>M", group = "Molten/Jupyter" },
+    { "<leader>J", group = "Jupyter Tools" },
   })
 end
 
@@ -131,52 +131,52 @@ return {
     end,
     keys = {
       -- Kernel management
-      { "<leader>mi", ":MoltenInit<CR>", desc = "Initialize Molten" },
-      { "<leader>md", ":MoltenDeinit<CR>", desc = "Deinitialize Molten" },
-      { "<leader>mk", ":MoltenInfo<CR>", desc = "Molten kernel info" },
+      { "<leader>Mi", ":MoltenInit<CR>", desc = "Initialize Molten" },
+      { "<leader>Md", ":MoltenDeinit<CR>", desc = "Deinitialize Molten" },
+      { "<leader>Mk", ":MoltenInfo<CR>", desc = "Molten kernel info" },
       
       -- Code execution
-      { "<leader>me", ":MoltenEvaluateOperator<CR>", desc = "Evaluate operator" },
-      { "<leader>ml", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
-      { "<leader>mr", ":MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" },
-      { "<leader>mv", ":<C-u>MoltenEvaluateVisual<CR>gv", mode = "v", desc = "Evaluate visual selection" },
+      { "<leader>Me", ":MoltenEvaluateOperator<CR>", desc = "Evaluate operator" },
+      { "<leader>Ml", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
+      { "<leader>Mr", ":MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" },
+      { "<leader>Mv", ":<C-u>MoltenEvaluateVisual<CR>gv", mode = "v", desc = "Evaluate visual selection" },
       
       -- Output management
-      { "<leader>mo", ":MoltenToggleOutput<CR>", desc = "Toggle output display" },
-      { "<leader>mh", ":MoltenHideOutput<CR>", desc = "Hide output" },
-      { "<leader>ms", ":MoltenShowOutput<CR>", desc = "Show output" },
-      { "<leader>mc", ":MoltenDelete<CR>", desc = "Delete Molten cell" },
+      { "<leader>Mo", ":MoltenToggleOutput<CR>", desc = "Toggle output display" },
+      { "<leader>Mh", ":MoltenHideOutput<CR>", desc = "Hide output" },
+      { "<leader>Ms", ":MoltenShowOutput<CR>", desc = "Show output" },
+      { "<leader>Mc", ":MoltenDelete<CR>", desc = "Delete Molten cell" },
       
       -- Cell navigation
-      { "<leader>mp", ":MoltenPrev<CR>", desc = "Go to previous cell" },
-      { "<leader>mn", ":MoltenNext<CR>", desc = "Go to next cell" },
+      { "<leader>Mp", ":MoltenPrev<CR>", desc = "Go to previous cell" },
+      { "<leader>Mn", ":MoltenNext<CR>", desc = "Go to next cell" },
       
       -- Notebook operations
-      { "<leader>mI", ":MoltenImportOutput<CR>", desc = "Import notebook outputs" },
-      { "<leader>mE", ":MoltenExportOutput!<CR>", desc = "Export to .ipynb" },
+      { "<leader>MI", ":MoltenImportOutput<CR>", desc = "Import notebook outputs" },
+      { "<leader>ME", ":MoltenExportOutput!<CR>", desc = "Export to .ipynb" },
       
       -- Additional Jupyter workflow keybindings
-      { "<leader>js", function()
+      { "<leader>Js", function()
           local file = vim.fn.expand("%")
           vim.cmd("!jupytext --sync " .. vim.fn.shellescape(file))
         end, desc = "Sync with jupytext" },
       
-      { "<leader>jp", function()
+      { "<leader>Jp", function()
           local file = vim.fn.expand("%")
           vim.cmd("!jupytext --to py:percent " .. vim.fn.shellescape(file))
         end, desc = "Convert to Python percent format" },
       
-      { "<leader>jn", function()
+      { "<leader>Jn", function()
           local file = vim.fn.expand("%")
           vim.cmd("!jupytext --to notebook " .. vim.fn.shellescape(file))
         end, desc = "Convert to notebook format" },
       
-      { "<leader>jm", function()
+      { "<leader>Jm", function()
           local file = vim.fn.expand("%")
           vim.cmd("!jupytext --to markdown " .. vim.fn.shellescape(file))
         end, desc = "Convert to markdown format" },
       
-      { "<leader>ma", function()
+      { "<leader>Ma", function()
           local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
           if venv then
             -- Extract environment name from path
@@ -191,7 +191,7 @@ return {
           end
         end, desc = "Auto-initialize kernel" },
       
-      { "<leader>jt", function()
+      { "<leader>Jt", function()
           local template = [[# Physics/Data Science Notebook
 
 ## Setup

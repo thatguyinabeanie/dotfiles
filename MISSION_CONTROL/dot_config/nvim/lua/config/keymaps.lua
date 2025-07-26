@@ -36,13 +36,14 @@ vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" }
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 
 --
--- CONTROL BUFFERS
+-- CONTROL BUFFERS  
 --
-vim.keymap.set("n", "<leader>bss", "<cmd>w<cr>", { desc = "Save Current Buffer" })
-vim.keymap.set("n", "<leader>bsa", "<cmd>w<cr>", { desc = "Save All Buffers" })
-vim.keymap.set("n", "<leader>bsq", "<cmd>wqa<cr>", { desc = "Save All Buffers and Quit" })
-vim.keymap.set("n", "<leader>bq<cr>", "<cmd>bq<cr>", { desc = "Quit Current Buffer" })
-vim.keymap.set("n", "<leader>bqa", "<cmd>bqa<cr>", { desc = "Quit All Buffers" })
+vim.keymap.set("n", "<leader>bs", ":w<CR>", { desc = "Save buffer" })
+vim.keymap.set("n", "<leader>bS", ":wa<CR>", { desc = "Save all buffers" })
+vim.keymap.set("n", "<leader>bq", ":wq<CR>", { desc = "Save & quit buffer" })
+vim.keymap.set("n", "<leader>bQ", ":wqa<CR>", { desc = "Save & quit all" })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>bD", ":qa!<CR>", { desc = "Force quit all" })
 
 --
 -- COPY RELATIVE PATH OF CURRENT BUFFER

@@ -159,14 +159,6 @@ return {
         end,
         desc = "Git Browse",
       },
-      {
-        "<leader>gb",
-        function()
-          Snacks.gitbrowse()
-        end,
-        desc = "Git Browse",
-        mode = "v",
-      },
     },
   },
   {
