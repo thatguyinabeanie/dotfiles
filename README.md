@@ -186,6 +186,31 @@ Experience the beauty of Catppuccin in four delicious flavors:
 
 > **Mix & Match**: You can use different themes for light and dark modes, for example `THEME_LIGHT = "catppuccin-latte"` and `THEME_DARK = "catppuccin-frappe"`
 
+## 🧪 Scientific computing & Jupyter
+
+![Rotom](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/479.png)
+
+Complete scientific Python environment with interactive Jupyter notebook support directly in Neovim:
+
+- **Scientific Stack**: NumPy, Pandas, Matplotlib, Seaborn, Plotly, Scikit-learn
+- **Interactive Execution**: Run code cells with `<leader>mr`, initialize kernels with `<leader>mi`
+- **Inline Visualization**: Plots render directly in terminal via image.nvim
+- **Notebook Conversion**: Seamless `.py` ↔ `.ipynb` file format conversion
+- **LSP Integration**: Full autocompletion and error checking for code cells
+
+**Quick start**:
+```python
+# %%
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 2*np.pi, 100)
+plt.plot(x, np.sin(x))
+plt.show()  # Renders inline!
+```
+
+[![View Jupyter Guide](https://img.shields.io/badge/View_Jupyter_Guide-22863a?style=for-the-badge)](docs/JUPYTER.md)
+
 ## 🌍 Dependencies
 
 - [Chezmoi](https://www.chezmoi.io/) - Dotfile manager
