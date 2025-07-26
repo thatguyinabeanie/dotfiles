@@ -10,7 +10,7 @@ return {
     },
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
-      model = "claude-3.7-sonnet", -- GPT-4 model to use, can be 'gpt-3.5-turbo' or 'gpt-4'
+      model = "claude-sonnet-4-20250514", -- Claude Sonnet 4
       temperature = 0.1,
       auto_follow_cursor = true, -- Auto-follow cursor in chat
       auto_insert_mode = true, -- Automatically enter insert mode when opening window

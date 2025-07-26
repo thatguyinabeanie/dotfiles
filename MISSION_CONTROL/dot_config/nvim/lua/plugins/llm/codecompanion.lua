@@ -23,10 +23,10 @@ return {
       },
       adapters = {
         copilot = {
-          -- You can override model settings here if needed
+          -- Updated to use Claude Sonnet 4 through Copilot
           schema = {
             model = {
-              default = "claude-3.5-sonnet",
+              default = "claude-sonnet-4-20250514", -- Claude Sonnet 4
             },
           },
         },

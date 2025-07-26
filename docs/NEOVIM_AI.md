@@ -142,8 +142,32 @@ Model Context Protocol servers for enhanced functionality.
 ```bash
 # Set up API keys (add to your shell profile)
 export ANTHROPIC_API_KEY="your_claude_key"
-export OPENAI_API_KEY="your_openai_key"
+export OPENAI_API_KEY="your_openai_key" 
 export GEMINI_API_KEY="your_gemini_key"
+
+# For Claude Sonnet 4 via GitHub Copilot (recommended)
+# No additional API key needed - uses your GitHub Copilot subscription
+```
+
+### Claude Sonnet 4 Setup
+
+All AI tools in this configuration are now set to use **Claude Sonnet 4** (`claude-sonnet-4-20250514`) via GitHub Copilot. This provides:
+
+- **CodeCompanion**: Full chat interface with Claude Sonnet 4
+- **CopilotChat**: Enhanced chat with Claude Sonnet 4 models  
+- **Avante**: AI-powered editing with Claude Sonnet 4
+
+#### Prerequisites
+1. Active GitHub Copilot subscription
+2. Copilot authenticated in Neovim (run `:Copilot setup` if not already done)
+
+#### Testing Your Setup
+```bash
+# Check if Copilot is properly authenticated
+echo $COPILOT_API_KEY  # Should show your token (if using direct API)
+
+# Or test in Neovim
+nvim -c ":Copilot setup"
 ```
 
 ### Custom Prompts
@@ -153,7 +177,7 @@ Create custom prompts for common tasks:
 -- Add to your Neovim config
 local custom_prompts = {
   code_review = "Review this code for:\n- Performance issues\n- Security vulnerabilities\n- Best practices\n- Code style",
-  optimize = "Optimize this code for:\n- Performance\n- Memory usage\n- Readability",
+  optimize = "Optimize this code for:\n- Performance\n- Memory usage\n- Readability", 
   test_gen = "Generate comprehensive unit tests for this function including edge cases",
 }
 ```
