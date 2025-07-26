@@ -3,6 +3,13 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
+    config = function(_, opts)
+      require("snacks").setup(opts)
+      -- Ensure UI overrides are properly set
+      if opts.input and opts.input.enabled then
+        require("snacks.input").enable()
+      end
+    end,
     opts = {
       bigfile = { enabled = true },
       dashboard = {
@@ -58,30 +65,50 @@ return {
         enabled = true,
         -- Only load when actually browsing
       },
-      image = { enabled = false }, -- Disabled to reduce overhead
+      image = { enabled = true }, -- Enable image support
       indent = {
         enabled = true,
-        char = "│",
+        char = "│", -- Main indent character (same as indent-blankline default)
+        blank = "│", -- Character for blank lines
+        only_scope = false, -- Show all indent guides, not just scope
+        only_current = false, -- Show indent guides for all levels
+        hl = "IblIndent", -- Highlight group for indent guides (compatible with indent-blankline)
         animate = {
-          enabled = false,
+          enabled = true,
+          style = "out", -- Animation style for indent changes
+          easing = "linear",
+          duration = {
+            step = 20,
+            total = 300,
+          },
         },
         scope = {
-          enabled = false,
-          char = "│",
-          underline = true,
+          enabled = true, -- Enable scope highlighting (replaces mini.indentscope)
+          char = "│", -- Character for scope highlighting  
+          underline = false, -- Don't underline scope
+          hl = "IblScope", -- Highlight group for scope (compatible with indent-blankline)
+          priority = 200, -- Higher priority than regular indent guides
         },
         chunk = {
-          enabled = false,
+          enabled = false, -- Keep chunks disabled for cleaner look
         },
         filter = function(buf)
           if not buf or buf == 0 then return false end
-          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
+          local bt = vim.bo[buf].buftype
+          local ft = vim.bo[buf].filetype
+          -- Filter out special buffer types and filetypes
+          if bt ~= "" then return false end
+          if ft == "help" or ft == "alpha" or ft == "dashboard" or ft == "neo-tree" or ft == "Trouble" or ft == "lazy" then
+            return false
+          end
+          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false
         end,
       },
       input = { enabled = true },
       notifier = { enabled = true },
       picker = {
         enabled = true,
+        ui_select = true, -- Enable vim.ui.select override
         exclude = { -- add folder names here to exclude
           ".git",
           "node_modules",
@@ -96,8 +123,8 @@ return {
         },
       },
       quickfile = { enabled = true },
-      scope = { enabled = true },
-      scroll = { enabled = false },
+      scope = { enabled = true }, -- Enable scope detection (replaces mini.indentscope)
+      scroll = { enabled = true }, -- Enable scroll animations
       statuscolumn = { enabled = true },
       words = { enabled = true }, -- Keep for word highlighting under cursor
     },
