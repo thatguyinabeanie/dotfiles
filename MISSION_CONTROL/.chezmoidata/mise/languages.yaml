@@ -69,6 +69,9 @@ languages:
     - name: erlang
       version: latest
       description: "Erlang runtime (Elixir dependency)"
+    - name: julia
+      version: 1.11.6
+      description: "Julia programming language for scientific computing"
     - name: ruby
       version: 3.2.7
       description: "Ruby programming language"
