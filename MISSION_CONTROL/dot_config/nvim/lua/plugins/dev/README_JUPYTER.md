@@ -87,4 +87,4 @@ end)
 ### Integration with Obsidian
 The setup integrates with your existing Obsidian workflow for research documentation and note-taking.
 
-This transforms your Neovim into a **physics research powerhouse** with Jupyter-level interactivity! 🚀
+This transforms your Neovim into a **physics research powerhouse** with Jupyter-level interactivity 🚀

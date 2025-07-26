@@ -1,8 +1,8 @@
-# Testing Infrastructure & CI/CD
+# Testing infrastructure & CI/CD
 
 Comprehensive guide to the testing system and continuous integration setup for the dotfiles repository.
 
-## 🏗️ Testing Architecture
+## 🏗️ Testing architecture
 
 ```
 Testing Infrastructure:
@@ -22,13 +22,13 @@ Testing Infrastructure:
     └── test_nvim_startup.sh    # Neovim startup validation
 ```
 
-## 🧪 Test Types & Coverage
+## 🧪 Test types & coverage
 
-### Unit Tests
+### Unit tests
 **Location**: `_tests_/unit/`
-**Purpose**: Test individual components and configurations
+**Purpose**: test individual components and configurations
 
-#### Configuration Tests (`config_test.go`)
+#### Configuration tests (`config_test.go`)
 ```go
 // Tests chezmoi configuration validity
 func TestChezmoiConfig(t *testing.T) {
@@ -45,7 +45,7 @@ func TestMiseConfig(t *testing.T) {
 }
 ```
 
-#### Neovim Tests (`nvim_config_test.go`)
+#### Neovim tests (`nvim_config_test.go`)
 ```go
 // Tests plugin configuration integrity
 func TestNeovimPlugins(t *testing.T) {

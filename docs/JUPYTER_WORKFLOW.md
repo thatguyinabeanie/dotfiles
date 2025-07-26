@@ -238,4 +238,4 @@ except ImportError:
 - [Jupyter cell format](https://jupytext.readthedocs.io/en/latest/formats.html#the-percent-format)
 - [Scientific Python ecosystem](https://scipy.org/)
 
-Happy scientific computing! 🚀
+Happy scientific computing 🚀
