@@ -1,230 +1,90 @@
-# Jupyter Notebook Support
+# Jupyter Notebook Support in Neovim
 
-This dotfiles repository includes a complete scientific Python environment with interactive Jupyter notebook support directly in Neovim.
+This configuration adds comprehensive Jupyter notebook support to your Neovim setup, transforming it into a powerful physics and data science IDE.
 
-## 🚀 Quick Start
+## Features
 
-1. **Apply dotfiles**: `chezmoi apply`
-2. **Start coding**: Create a `.py` or `.ipynb` file
-3. **Initialize kernel**: `<leader>mi` to start Python kernel
-4. **Execute code**: `<leader>mr` to run current cell/selection
+### 🔥 **Molten.nvim - Interactive Execution**
+- Real-time code execution with Jupyter kernels
+- Inline plots and visualizations via image.nvim
+- Virtual text output display (clean, Jupyter-like experience)
+- Multiple kernel support (Python, Julia, R)
+- Save/load notebook state
 
-## 📦 What's Included
+### 📝 **Jupytext.nvim - File Format Conversion**
+- Edit .ipynb files as clean Python/Markdown
+- Automatic synchronization between formats
+- Git-friendly workflow (version control .py files)
+- Support for multiple output formats (py:percent, markdown, quarto)
 
-### Scientific Python Stack
-- **Core**: numpy, pandas, matplotlib, seaborn, plotly
-- **Machine Learning**: scikit-learn, scipy, statsmodels
-- **Jupyter**: jupyter, ipython, ipykernel
-- **Development**: black, isort, flake8
+### 🖼️ **Image.nvim - Visualization Support**
+- Inline image rendering in terminal (Kitty/Ghostty compatible)
+- Matplotlib, Plotly, and other plot libraries supported
+- Optimized for your tmux workflow
 
-All managed via `mise` and automatically installed.
+### 🧠 **Otter.nvim - LSP Integration**
+- Full LSP support for embedded code blocks
+- Autocompletion and diagnostics in notebook cells
+- Works with your existing LSP setup
 
-### Neovim Plugins
-- **molten.nvim**: Interactive code execution with kernels
-- **jupytext.nvim**: Convert between `.py`/`.ipynb` formats
-- **image.nvim**: Inline plot rendering in terminal
-- **otter.nvim**: LSP support for embedded code blocks
+## Installation
 
-## 🎯 Core Workflows
+The plugins will be automatically installed via Lazy.nvim. Python dependencies are managed through mise:
 
-### 1. Python Script with Jupyter Cells
-
-Create a `.py` file with Jupyter-style cells:
-
-```python
-# %%
-import numpy as np
-import matplotlib.pyplot as plt
-
-# %%
-x = np.linspace(0, 2*np.pi, 100)
-y = np.sin(x)
-
-plt.figure(figsize=(10, 6))
-plt.plot(x, y)
-plt.title("Sine Wave")
-plt.show()
-
-# %%
-# More analysis here...
-```
-
-**Usage**:
-- `<leader>mi`: Initialize Python kernel
-- `<leader>mr`: Run current cell (between `# %%` markers)
-- `<leader>mo`: Show kernel output
-- `<leader>md`: Delete current cell output
-
-### 2. Working with Notebooks
-
-**Convert formats**:
-- `:lua require('jupytext').convert_to_py()`: .ipynb → .py
-- `:lua require('jupytext').convert_to_notebook()`: .py → .ipynb
-
-**Interactive editing**:
-- Open `.ipynb` files directly in Neovim
-- Edit as JSON or convert to `.py` for better version control
-
-### 3. Data Science Workflow
-
-```python
-# %%
-import pandas as pd
-import seaborn as sns
-
-# Load data
-df = pd.read_csv('data.csv')
-df.head()
-
-# %%
-# Quick visualization
-sns.scatterplot(data=df, x='feature1', y='feature2', hue='category')
-plt.show()
-
-# %%
-# Statistical analysis
-from scipy import stats
-correlation, p_value = stats.pearsonr(df['feature1'], df['feature2'])
-print(f"Correlation: {correlation:.3f}, p-value: {p_value:.3f}")
-```
-
-## ⌨️ Keybindings
-
-| Key | Action | Description |
-|-----|--------|-------------|
-| `<leader>mi` | Initialize kernel | Start Python/Julia/R kernel |
-| `<leader>mr` | Run cell | Execute current cell or selection |
-| `<leader>mo` | Show output | Display kernel output buffer |
-| `<leader>md` | Delete output | Clear current cell output |
-| `<leader>mh` | Hide output | Hide output for current cell |
-| `<leader>ml` | Evaluate line | Run current line |
-| `<leader>mv` | Evaluate visual | Run visual selection |
-| `<leader>mk` | Interrupt kernel | Stop running execution |
-| `<leader>mx` | Restart kernel | Fresh kernel restart |
-
-## 🔧 Configuration
-
-### Python Environment
-Configure Python packages in `MISSION_CONTROL/.chezmoidata/mise/python.yaml`:
-
-```yaml
-packages:
-  - numpy
-  - pandas
-  - matplotlib
-  - your-package-here
-```
-
-### Tmux Integration
-Required for inline images. Already configured with:
 ```bash
-set -g allow-passthrough "on"
-```
-
-### Kernel Management
-Molten automatically manages kernels, but you can also:
-- `:MoltenEvaluateOperator`: Set up operator for quick execution
-- `:MoltenDelete`: Remove all outputs
-- `:MoltenInfo`: Show kernel information
-
-## 🎨 Advanced Features
-
-### Inline Plots
-Plots automatically render inline when using compatible terminals (Kitty, WezTerm):
-
-```python
-# %%
-import matplotlib.pyplot as plt
-import numpy as np
-
-# This will show inline in your terminal
-plt.plot(np.random.randn(100).cumsum())
-plt.show()
-```
-
-### Multiple Kernels
-Run different languages simultaneously:
-
-```python
-# Python cell
-# %%
-import numpy as np
-data = np.array([1, 2, 3, 4, 5])
-```
-
-```julia
-# Julia cell (requires Julia kernel)
-# %%
-using Statistics
-mean(data)  # If data is shared between kernels
-```
-
-### LSP Integration
-Otter.nvim provides full LSP support for code cells:
-- Autocompletion
-- Error checking
-- Go to definition
-- Hover documentation
-
-## 🔍 Troubleshooting
-
-### Common Issues
-
-**1. "No kernel available"**
-```bash
-# Ensure Python packages are installed
+# Install Python packages via mise configuration
 mise install
-# Initialize kernel in Neovim
-<leader>mi
-```
 
-**2. "Images not displaying"**
-```bash
-# Check tmux passthrough
-tmux show-options -g allow-passthrough
-# Should show: allow-passthrough on
+# Update Neovim remote plugins (required for Molten)
+nvim --headless -c "UpdateRemotePlugins" -c "qa"
 
-# Restart tmux if needed
+# Restart tmux to enable passthrough (required for image support)
 tmux kill-server && tmux
 ```
 
-**3. "Module not found"**
-```bash
-# Check mise Python environment
-mise which python
-mise exec python -- pip list
+**Image Support**: Now fully enabled with tmux passthrough support. Images from matplotlib, plotly, and other libraries will render inline in your terminal.
+
+## Troubleshooting
+
+### If kernels don't start:
+1. Check Python environment: `:MoltenInfo`
+2. Verify pynvim installation: `python -c "import pynvim"`
+3. Update remote plugins: `:UpdateRemotePlugins`
+4. Restart Neovim after plugin installation
+
+### If images don't display:
+1. Check if tmux passthrough is enabled: `tmux show-options -g allow-passthrough`
+2. Restart tmux session: `tmux kill-server && tmux`
+3. Verify terminal compatibility: Should work with Ghostty/Kitty
+4. Check image.nvim status: `:checkhealth image`
+
+### If you see luarocks errors:
+1. Install lua 5.1: `mise install lua@5.1.5`
+2. Restart Neovim to rebuild luarocks dependencies
+3. The configuration will gracefully fallback if image support fails
+
+### Performance issues:
+1. Reduce output limits in configuration
+2. Use floating windows instead of virtual text if needed
+3. Clear outputs regularly with `<leader>mc`
+
+## Advanced Usage
+
+### Custom Kernel Initialization
+```lua
+-- Auto-detect conda/virtualenv and initialize appropriate kernel
+vim.keymap.set("n", "<leader>ma", function()
+  local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
+  if venv then
+    local kernel_name = string.match(venv, "/.+/(.+)")
+    vim.cmd(("MoltenInit %s"):format(kernel_name))
+  else
+    vim.cmd("MoltenInit python3")
+  end
+end)
 ```
 
-**4. "Kernel died/crashed"**
-- `<leader>mx`: Restart kernel
-- Check output buffer with `<leader>mo` for error details
+### Integration with Obsidian
+The setup integrates with your existing Obsidian workflow for research documentation and note-taking.
 
-### Performance Tips
-
-1. **Large datasets**: Use `df.head()` for initial exploration
-2. **Memory management**: Delete unused variables with `del variable`
-3. **Plotting**: Set `plt.ioff()` for non-interactive mode when needed
-
-## 📚 Learning Resources
-
-- [Molten.nvim documentation](https://github.com/benlubas/molten-nvim)
-- [Jupyter cell format guide](https://jupytext.readthedocs.io/en/latest/formats.html#the-percent-format)
-- [Scientific Python tutorials](https://scipy-lectures.org/)
-
-## 🛠️ Customization
-
-### Adding New Kernels
-```bash
-# Install kernel (example: Julia)
-mise use julia@latest
-julia -e 'using Pkg; Pkg.add("IJulia")'
-
-# Use in Neovim
-:MoltenInit julia
-```
-
-### Custom Keybindings
-Edit `MISSION_CONTROL/dot_config/nvim/lua/plugins/dev/jupyter.lua` to customize keybindings.
-
-### Additional Python Packages
-Add to `MISSION_CONTROL/.chezmoidata/mise/python.yaml` and run `chezmoi apply`.
+This transforms your Neovim into a **physics research powerhouse** with Jupyter-level interactivity 🚀
