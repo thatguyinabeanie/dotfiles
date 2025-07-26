@@ -10,7 +10,7 @@ return {
     },
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
-      model = "claude-3.5-sonnet", -- Use standard Claude model name
+      model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
       temperature = 0.1,
       auto_follow_cursor = true, -- Auto-follow cursor in chat
       auto_insert_mode = true, -- Automatically enter insert mode when opening window

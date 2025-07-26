@@ -8,7 +8,7 @@ return {
       provider = "copilot",
       providers = {
         copilot = {
-          model = "claude-3.5-sonnet", -- Use standard Claude model name
+          model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
           timeout = 30000,
           extra_request_body = {
             temperature = 0,

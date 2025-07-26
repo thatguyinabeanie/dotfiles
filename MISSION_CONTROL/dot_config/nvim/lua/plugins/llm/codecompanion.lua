@@ -13,41 +13,44 @@ return {
     cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat" },
     opts = {
       strategies = {
-        chat = { adapter = "copilot" },
-        inline = { adapter = "copilot" },
-        agent = { adapter = "copilot" },
-      },
-      adapters = {
-        copilot = {
-          schema = {
-            model = {
-              default = "claude-3.5-sonnet", -- Use standard Claude model name
-            },
+        chat = {
+          adapter = {
+            name = "copilot",
+            model = "claude-sonnet-4",
+          },
+        },
+        inline = {
+          adapter = {
+            name = "copilot", 
+            model = "claude-sonnet-4",
+          },
+        },
+        agent = {
+          adapter = {
+            name = "copilot",
+            model = "claude-sonnet-4", 
           },
         },
       },
       -- Enable logging for debugging
-      log_level = "INFO",
-      -- Default display mode
+      opts = {
+        log_level = "INFO",
+      },
+      -- Display configuration
       display = {
         chat = {
           window = {
-            layout = "float", -- or "vertical", "horizontal"
+            layout = "vertical", -- vertical split instead of float
+            width = 0.4,
+            height = 0.8,
           },
         },
-      },
-      -- Required window configuration
-      window = {
-        layout = "float",
-        width = 0.4,
-        height = 0.8,
-        border = "rounded",
       },
     },
     keys = {
       { "<leader>ao", "<cmd>CodeCompanionChat<cr>", desc = "Code Companion Open Chat" },
       { "<leader>as", "<cmd>CodeCompanionActions<cr>", desc = "Code Companion Actions" },
-      { "<leader>at", "<cmd>CodeCompanionToggle<cr>", desc = "Code Companion Toggle" },
+      { "<leader>at", "<cmd>CodeCompanionChat Toggle<cr>", desc = "Code Companion Toggle Chat" },
       -- Visual mode mappings
       { "<leader>ao", "<cmd>CodeCompanionChat<cr>", mode = "v", desc = "Code Companion Open Chat" },
       { "<leader>as", "<cmd>CodeCompanionActions<cr>", mode = "v", desc = "Code Companion Actions" },
