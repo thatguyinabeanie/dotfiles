@@ -10,7 +10,7 @@ Testing Infrastructure:
 │   ├── config_test.go           # Configuration validation
 │   └── nvim_config_test.go      # Neovim setup testing
 ├── Integration Tests (_tests_/integration/)
-│   ├── fs_test.go              # File system operations  
+│   ├── fs_test.go              # File system operations
 │   └── obsidian_test.go        # Obsidian integration
 ├── GitHub Actions (.github/workflows/)
 │   ├── test.yml                # Main test suite
@@ -25,10 +25,12 @@ Testing Infrastructure:
 ## 🧪 Test types & coverage
 
 ### Unit tests
+
 **Location**: `_tests_/unit/`
 **Purpose**: test individual components and configurations
 
 #### Configuration tests (`config_test.go`)
+
 ```go
 // Tests chezmoi configuration validity
 func TestChezmoiConfig(t *testing.T) {
@@ -46,6 +48,7 @@ func TestMiseConfig(t *testing.T) {
 ```
 
 #### Neovim tests (`nvim_config_test.go`)
+
 ```go
 // Tests plugin configuration integrity
 func TestNeovimPlugins(t *testing.T) {
@@ -63,10 +66,12 @@ func TestLuaConfig(t *testing.T) {
 ```
 
 ### Integration Tests
+
 **Location**: `_tests_/integration/`
 **Purpose**: Test cross-component functionality and real-world scenarios
 
 #### File System Tests (`fs_test.go`)
+
 ```go
 // Tests file operations and permissions
 func TestFileSystemOperations(t *testing.T) {
@@ -84,6 +89,7 @@ func TestChezmoiApply(t *testing.T) {
 ```
 
 #### Obsidian Integration (`obsidian_test.go`)
+
 ```go
 // Tests vault setup and configuration
 func TestObsidianSetup(t *testing.T) {
@@ -96,6 +102,7 @@ func TestObsidianSetup(t *testing.T) {
 ## 🚀 CI/CD Workflows
 
 ### Main Test Suite (`.github/workflows/test.yml`)
+
 **Triggers**: Push to main, pull requests
 **Matrix Strategy**: Multiple OS and Go versions
 
@@ -110,7 +117,7 @@ steps:
     run: |
       cd _tests_
       go test -v ./... -coverprofile=coverage.out
-      
+
   - name: Coverage Check
     run: |
       coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
@@ -121,6 +128,7 @@ steps:
 ```
 
 ### Neovim-Specific Tests (`.github/workflows/test-nvim.yml`)
+
 **Purpose**: Validate Neovim configuration in multiple environments
 **Special Features**: Performance testing and startup time validation
 
@@ -148,6 +156,7 @@ steps:
 ## 🎯 Smart Test Execution
 
 ### Relevant Tests Runner (`run_relevant_tests.sh`)
+
 **Purpose**: Run only tests affected by changes (performance optimization)
 
 ```bash
@@ -174,6 +183,7 @@ go test -v ./unit/config_test.go
 ```
 
 **Features**:
+
 - **Change detection** via git diff analysis
 - **Selective execution** based on modified components
 - **Performance optimization** (faster CI runs)
@@ -182,6 +192,7 @@ go test -v ./unit/config_test.go
 ## 📊 Coverage & Quality Metrics
 
 ### Coverage Requirements
+
 - **Minimum threshold**: 80% code coverage
 - **Enforcement**: CI fails if coverage drops below threshold
 - **Reporting**: Coverage reports generated for each PR
@@ -198,6 +209,7 @@ fi
 ```
 
 ### Quality Gates
+
 1. **Lint checks** (golangci-lint)
 2. **Security scanning** (gitleaks, gosec)
 3. **Configuration validation** (yamllint, shellcheck)
@@ -206,6 +218,7 @@ fi
 ## 🔧 Local Development
 
 ### Running Tests Locally
+
 ```bash
 # Run all tests
 cd _tests_
@@ -221,16 +234,17 @@ go tool cover -html=coverage.out  # View coverage report
 ```
 
 ### Test Development Guidelines
+
 ```go
 // Test naming convention
 func TestFeatureName(t *testing.T) {
     // Setup
     setup := createTestEnvironment()
     defer cleanup(setup)
-    
+
     // Execute
     result := functionUnderTest(input)
-    
+
     // Assert
     assert.Equal(t, expected, result)
     assert.NoError(t, err)
@@ -246,7 +260,7 @@ func TestMultipleScenarios(t *testing.T) {
         {"basic_case", "input1", "output1"},
         {"edge_case", "input2", "output2"},
     }
-    
+
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
             result := processInput(tt.input)
@@ -261,6 +275,7 @@ func TestMultipleScenarios(t *testing.T) {
 ### Common Test Failures
 
 #### Template Rendering Errors
+
 ```bash
 # Debug template issues
 chezmoi execute-template < problematic_template.tmpl
@@ -268,6 +283,7 @@ chezmoi data  # Check available template data
 ```
 
 #### Neovim Plugin Conflicts
+
 ```bash
 # Check plugin health
 nvim --headless -c "checkhealth" -c "qa"
@@ -277,6 +293,7 @@ nvim -u NONE  # Start without plugins
 ```
 
 #### Coverage Drops
+
 ```bash
 # Identify uncovered code
 go tool cover -func=coverage.out | grep -v "100.0%"
@@ -286,6 +303,7 @@ go tool cover -func=coverage.out | grep -v "100.0%"
 ```
 
 ### Performance Issues
+
 ```bash
 # Profile test execution
 go test -v ./... -cpuprofile=cpu.prof
@@ -298,19 +316,21 @@ go test -v ./... -timeout=30s  # Set timeout limits
 ## 📈 Metrics & Monitoring
 
 ### Test Metrics Tracked
+
 - **Execution time** (per test suite)
 - **Coverage percentage** (per package)
 - **Failure rate** (trending over time)
 - **Startup performance** (Neovim initialization time)
 
 ### GitHub Actions Insights
+
 ```yaml
 # Performance tracking in CI
 - name: Track Performance
   run: |
     echo "Test execution time: $(date)" > performance.log
     time go test -v ./... >> performance.log
-    
+
     # Upload metrics for trending analysis
     if [ "$GITHUB_EVENT_NAME" = "push" ]; then
       # Store metrics for performance tracking
@@ -321,6 +341,7 @@ go test -v ./... -timeout=30s  # Set timeout limits
 ## 🔮 Future Enhancements
 
 ### Planned Improvements
+
 1. **Mutation testing** for better test quality validation
 2. **Visual regression testing** for Neovim UI components
 3. **Integration with external services** (API testing)
@@ -328,6 +349,7 @@ go test -v ./... -timeout=30s  # Set timeout limits
 5. **Automated test generation** for new configurations
 
 ### Test Automation
+
 - **Auto-generated tests** for new Neovim plugins
 - **Configuration validation rules** as code
 - **Dependency testing** for external tools

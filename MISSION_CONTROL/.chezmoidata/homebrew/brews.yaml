@@ -20,10 +20,13 @@ brews:
     - bandwhich
     - bash-completion
     - bash-language-server
+    - bison
     - btop
     - bundler-completion
     - carapace
+    - chafa
     - chezmoi
+    - composer
     - cspell
     - colordiff
     - coreutils
@@ -46,6 +49,7 @@ brews:
     - gcc@12
     - gem-completion
     - gdu
+    - ghostscript
     - gifsicle
     - git
     - git-delta
@@ -89,7 +93,9 @@ brews:
     - open-completion
     - ossp-uuid
     - pandoc
+    - php
     - pkgconf
+    - pngpaste
     - poppler
     - prettier
     - lefthook
@@ -118,6 +124,7 @@ brews:
     - tree
     - tectonic
     - unzip
+    - viu
     - yamlfix
     - yamlfmt
     - yamllint

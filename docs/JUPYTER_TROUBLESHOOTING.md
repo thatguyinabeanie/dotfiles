@@ -27,12 +27,14 @@ mise exec python -- python -m ipykernel_launcher
 ### Kernel dies immediately
 
 **Check kernel logs**:
+
 ```vim
 :MoltenInfo  " Shows kernel status and errors
 :messages    " Check Neovim error messages
 ```
 
 **Common fixes**:
+
 - Restart Neovim completely
 - Check for Python import errors in the output buffer (`<leader>mo`)
 - Ensure no conflicting Python installations
@@ -42,6 +44,7 @@ mise exec python -- python -m ipykernel_launcher
 ### "tmux does not have allow-passthrough enabled"
 
 **Quick fix**:
+
 ```bash
 # Enable passthrough in current session
 tmux set-option -g allow-passthrough on
@@ -51,6 +54,7 @@ tmux kill-server && tmux
 ```
 
 **Permanent fix**: The configuration should already include this, but verify:
+
 ```bash
 grep "allow-passthrough" ~/.config/tmux/tmux.conf
 # Should show: set -g allow-passthrough "on"
@@ -59,12 +63,14 @@ grep "allow-passthrough" ~/.config/tmux/tmux.conf
 ### Images not displaying in terminal
 
 **Check terminal compatibility**:
+
 - ✅ **Kitty**: Full support
-- ✅ **WezTerm**: Good support  
+- ✅ **WezTerm**: Good support
 - ❌ **iTerm2**: Limited support
 - ❌ **Standard Terminal**: No support
 
 **Test image display**:
+
 ```python
 # %%
 import matplotlib.pyplot as plt
@@ -74,6 +80,7 @@ plt.show()
 ```
 
 **Alternative solutions**:
+
 - Use `plt.savefig('plot.png')` and open externally
 - Switch to a compatible terminal emulator
 - Disable image.nvim temporarily in plugin config
@@ -83,6 +90,7 @@ plt.show()
 ### ImportError: No module named 'package_name'
 
 **Check mise Python environment**:
+
 ```bash
 # Verify which Python is being used
 mise which python
@@ -92,6 +100,7 @@ mise exec python -- python -c "import sys; print(sys.executable)"
 ```
 
 **Install missing packages**:
+
 ```yaml
 # Add to MISSION_CONTROL/.chezmoidata/mise/python.yaml
 packages:
@@ -106,6 +115,7 @@ chezmoi apply
 ### Package version conflicts
 
 **Reset Python environment**:
+
 ```bash
 # Uninstall and reinstall Python
 mise uninstall python
@@ -120,12 +130,14 @@ chezmoi apply
 ### Molten.nvim not loading
 
 **Check plugin installation**:
+
 ```vim
 :Lazy  " Open plugin manager
 # Find molten.nvim and check for errors
 ```
 
 **Common solutions**:
+
 ```bash
 # Update plugins
 nvim --headless -c "Lazy! sync" -c "q"
@@ -137,6 +149,7 @@ nvim --headless -c "lua require('molten')" -c "q"
 ### Jupytext conversion errors
 
 **Manual conversion**:
+
 ```bash
 # Install jupytext globally
 mise exec python -- pip install jupytext
@@ -151,6 +164,7 @@ mise exec python -- jupytext --to ipynb script.py
 ### Slow kernel startup
 
 **Check system resources**:
+
 ```bash
 # Monitor system load
 btop
@@ -161,6 +175,7 @@ vm_stat  # Command to check available memory on macOS
 ```
 
 **Solutions**:
+
 - Close other applications
 - Restart kernel: `<leader>mx`
 - Use smaller datasets for testing
@@ -168,6 +183,7 @@ vm_stat  # Command to check available memory on macOS
 ### High memory usage
 
 **Memory management**:
+
 ```python
 # %%
 # Clear large variables
@@ -235,7 +251,7 @@ print(f"Python version: {sys.version}")
 print(f"Working directory: {os.getcwd()}")
 
 try:
-    result = subprocess.run(['mise', 'which', 'python'], 
+    result = subprocess.run(['mise', 'which', 'python'],
                           capture_output=True, text=True)
     print(f"Mise Python: {result.stdout.strip()}")
 except:
@@ -244,7 +260,7 @@ except:
 print("\n=== Installed Packages ===")
 try:
     import pkg_resources
-    packages = [f"{pkg.key}=={pkg.version}" 
+    packages = [f"{pkg.key}=={pkg.version}"
                for pkg in pkg_resources.working_set]
     for pkg in sorted(packages)[:10]:  # Show first 10
         print(pkg)
@@ -259,7 +275,7 @@ except:
 ```vim
 " Neovim commands for debugging
 :checkhealth molten      " Check molten.nvim health
-:messages                " Show error messages  
+:messages                " Show error messages
 :MoltenInfo              " Kernel status
 ```
 
@@ -272,13 +288,13 @@ chezmoi doctor          # Check chezmoi status
 
 ### Common error patterns
 
-| Error Message | Likely Cause | Solution |
-|---------------|--------------|----------|
-| "No such file or directory: python" | Missing Python installation | `mise install python` |
-| "Kernel died" | Python import error | Check packages, restart kernel |
-| "tmux passthrough" | Terminal configuration | Enable tmux passthrough |
-| "Module not found" | Missing package | Add to mise python.yaml |
-| "Connection refused" | Kernel communication issue | Restart Neovim, check firewall |
+| Error Message                       | Likely Cause                | Solution                       |
+| ----------------------------------- | --------------------------- | ------------------------------ |
+| "No such file or directory: python" | Missing Python installation | `mise install python`          |
+| "Kernel died"                       | Python import error         | Check packages, restart kernel |
+| "tmux passthrough"                  | Terminal configuration      | Enable tmux passthrough        |
+| "Module not found"                  | Missing package             | Add to mise python.yaml        |
+| "Connection refused"                | Kernel communication issue  | Restart Neovim, check firewall |
 
 ### Recovery commands
 

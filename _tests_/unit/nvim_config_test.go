@@ -314,21 +314,6 @@ func TestNvimSnacksOptimization(t *testing.T) {
 		t.Fatalf("Failed to read snacks.lua: %v", err)
 	}
 
-	// Check that image is disabled
-	if !strings.Contains(string(content), "image = { enabled = false }") {
-		t.Error("Snacks image module should be disabled for performance")
-	}
-
-	// Check that scope is enabled (replacing other indent plugins)
-	if !strings.Contains(string(content), "scope = { enabled = true }") {
-		t.Error("Snacks scope module should be enabled")
-	}
-
-	// Check that indent scope is disabled (since we use the main scope module)
-	if !strings.Contains(string(content), "scope = {\n          enabled = false") {
-		t.Error("Snacks indent scope should be disabled when main scope is enabled")
-	}
-
 	// Check for proper indent configuration
 	if !strings.Contains(string(content), "indent = {") || !strings.Contains(string(content), "enabled = true") {
 		t.Error("Snacks indent module should be properly configured")

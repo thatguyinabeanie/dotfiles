@@ -1,6 +1,7 @@
 return {
   {
     "williamboman/mason.nvim",
+    version = "^2",
     opts = {
       ensure_installed = {
         -- TypeScript/JavaScript
@@ -8,16 +9,16 @@ return {
         "eslint_d",
         "eslint-lsp",
         "prettierd",
-        
+
         -- Ruby
         "ruby-lsp",
         "standardrb",
         "haml-lint",
-        
+
         -- Markdown
         "marksman",
         "vale",
-        
+
         -- General tools
         "lua-language-server", -- For Neovim config
         "stylua", -- For Neovim config formatting

@@ -5,6 +5,7 @@ Comprehensive guide to the mise-based dependency management system that provides
 ## 🎯 What is Mise?
 
 Mise is a modern runtime manager that replaces tools like asdf, nvm, pyenv, rbenv, etc. with a single, fast, and reliable solution for managing:
+
 - **Programming languages** (Python, Node.js, Go, Rust, etc.)
 - **Development tools** (CLI utilities, formatters, linters)
 - **Environment variables** (project-specific configurations)
@@ -27,6 +28,7 @@ Dotfiles Mise Integration:
 ## ⚙️ Configuration Files
 
 ### 1. Main Configuration (`config.toml.tmpl`)
+
 ```toml
 # Global mise configuration with templating support
 [tools]
@@ -44,17 +46,19 @@ after_use = ["~/.config/mise/scripts/python-project-hook.sh"]
 ```
 
 ### 2. Language Versions (`languages.yaml`)
+
 ```yaml
 # Centralized language version management
 languages:
-  python: "3.12"         # Python version
-  node: "20"             # Node.js LTS
-  go: "1.21"             # Go version
-  rust: "stable"         # Rust channel
-  lua: "5.4"             # Lua version
+  python: "3.12" # Python version
+  node: "20" # Node.js LTS
+  go: "1.21" # Go version
+  rust: "stable" # Rust channel
+  lua: "5.4" # Lua version
 ```
 
 ### 3. Python Packages (`python.yaml`)
+
 ```yaml
 # Global Python packages for data science and development
 packages:
@@ -64,18 +68,18 @@ packages:
   - matplotlib
   - seaborn
   - plotly
-  
+
   # Machine Learning
   - scikit-learn
   - scipy
   - statsmodels
-  
+
   # Development Tools
-  - black           # Code formatter
-  - isort           # Import sorter
-  - flake8          # Linter
-  - pytest          # Testing framework
-  
+  - black # Code formatter
+  - isort # Import sorter
+  - flake8 # Linter
+  - pytest # Testing framework
+
   # Jupyter Ecosystem
   - jupyter
   - ipython
@@ -85,6 +89,7 @@ packages:
 ## 🔧 Automatic Environment Setup
 
 ### Python Project Hook
+
 The system automatically detects Python projects and sets up environments:
 
 ```bash
@@ -94,17 +99,17 @@ The system automatically detects Python projects and sets up environments:
 # Detect Python project indicators
 if [[ -f "pyproject.toml" || -f "requirements.txt" || -f "setup.py" ]]; then
     echo "🐍 Python project detected"
-    
+
     # Install project dependencies
     if [[ -f "requirements.txt" ]]; then
         mise exec python -- pip install -r requirements.txt
     fi
-    
+
     # Install development dependencies
     if [[ -f "requirements-dev.txt" ]]; then
         mise exec python -- pip install -r requirements-dev.txt
     fi
-    
+
     # Setup pre-commit hooks if configured
     if [[ -f ".pre-commit-config.yaml" ]]; then
         mise exec python -- pre-commit install
@@ -113,6 +118,7 @@ fi
 ```
 
 ### Features:
+
 - **Automatic detection** of Python projects
 - **Dependency installation** from requirements files
 - **Pre-commit hook setup** for code quality
@@ -121,6 +127,7 @@ fi
 ## 🚀 Usage Examples
 
 ### Basic Commands
+
 ```bash
 # Install a language version
 mise install python@3.12
@@ -143,6 +150,7 @@ mise current
 ```
 
 ### Project-Specific Configuration
+
 ```bash
 # Navigate to project
 cd my-python-project
@@ -160,6 +168,7 @@ mise install
 ```
 
 ### Environment Variables
+
 ```bash
 # Set project-specific environment variables
 mise set DATABASE_URL=postgres://localhost/mydb
@@ -175,6 +184,7 @@ mise exec -- python manage.py runserver
 ## 📦 Package Management
 
 ### Python Packages
+
 Global packages are automatically installed via the `python.yaml` configuration:
 
 ```yaml
@@ -185,11 +195,13 @@ packages:
 ```
 
 Then apply with:
+
 ```bash
 chezmoi apply
 ```
 
 ### Rust Crates (via Cargo)
+
 ```bash
 # Cargo setup script installs common tools
 ./scripts/setup-cargo.sh
@@ -203,6 +215,7 @@ chezmoi apply
 ```
 
 ### Node.js Global Packages
+
 ```bash
 # Install global tools
 mise exec npm -- install -g typescript
@@ -213,6 +226,7 @@ mise exec npm -- install -g prettier
 ## 🔄 Workflow Integration
 
 ### Chezmoi Integration
+
 ```bash
 # Template processing with mise data
 {{ if .mise.python_available }}
@@ -226,6 +240,7 @@ mise exec npm -- install -g prettier
 ```
 
 ### Shell Integration
+
 ```bash
 # Automatic activation in shell
 eval "$(mise activate zsh)"     # For Zsh
@@ -236,6 +251,7 @@ mise ps  # Show active tools and versions
 ```
 
 ### Editor Integration
+
 ```lua
 -- Neovim integration (automatic)
 -- Mise tools are available in Neovim's PATH
@@ -245,6 +261,7 @@ mise ps  # Show active tools and versions
 ## 🧪 Advanced Features
 
 ### Task Runner
+
 ```toml
 # In project .mise.toml
 [tasks.test]
@@ -265,6 +282,7 @@ mise run lint
 ```
 
 ### Environment Templates
+
 ```toml
 # Global template in config.toml
 [env]
@@ -274,6 +292,7 @@ NODE_PATH = "{{exec_path}}/node"
 ```
 
 ### Plugin System
+
 ```bash
 # Add custom tool plugins
 mise plugin install terraform https://github.com/asdf-community/asdf-terraform.git
@@ -288,6 +307,7 @@ mise use terraform@1.6.0
 ### Common Issues
 
 #### Tools Not Found
+
 ```bash
 # Check mise installation
 mise doctor
@@ -300,6 +320,7 @@ mise activate zsh >> ~/.zshrc
 ```
 
 #### Version Conflicts
+
 ```bash
 # Check active versions
 mise current
@@ -312,6 +333,7 @@ mise cache clear
 ```
 
 #### Python Package Issues
+
 ```bash
 # Check Python environment
 mise exec python -- which python
@@ -322,6 +344,7 @@ chezmoi apply  # Reapplies python.yaml
 ```
 
 ### Performance Optimization
+
 ```toml
 # In config.toml
 [settings]
@@ -333,6 +356,7 @@ disable_tools = ["ruby"]  # Skip unused tools
 ## 📊 Monitoring & Maintenance
 
 ### Version Tracking
+
 ```bash
 # Check for updates
 mise outdated
@@ -345,6 +369,7 @@ mise upgrade python
 ```
 
 ### Health Checks
+
 ```bash
 # Comprehensive system check
 mise doctor
@@ -355,6 +380,7 @@ mise which node
 ```
 
 ### Cleanup
+
 ```bash
 # Remove unused versions
 mise prune
@@ -369,11 +395,12 @@ mise uninstall python@3.10
 ## 🔮 Integration Examples
 
 ### CI/CD Pipeline
+
 ```yaml
 # GitHub Actions
 - name: Setup mise
   uses: jdx/mise-action@v2
-  
+
 - name: Install dependencies
   run: mise install
 
@@ -382,6 +409,7 @@ mise uninstall python@3.10
 ```
 
 ### Docker Integration
+
 ```dockerfile
 # Install mise in Docker
 RUN curl https://mise.run | sh
@@ -393,6 +421,7 @@ RUN mise install
 ```
 
 ### VS Code Integration
+
 ```json
 {
   "python.defaultInterpreterPath": "mise exec python -- which python",

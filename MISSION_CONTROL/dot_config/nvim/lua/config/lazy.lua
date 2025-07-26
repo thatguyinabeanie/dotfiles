@@ -25,7 +25,6 @@ require("lazy").setup({
     { import = "plugins/lsp" },
     { import = "plugins/utilities" },
     { import = "plugins/theme" },
-    { import = "plugins" },
   },
   defaults = {
     lazy = false,
