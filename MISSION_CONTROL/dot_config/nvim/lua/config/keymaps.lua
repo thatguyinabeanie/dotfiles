@@ -83,6 +83,35 @@ vim.keymap.set("n", "<leader>bV", function()
   end
 end, { desc = "Open in Cursor " })
 
+--
+-- OPEN CURRENT BUFFER IN VS Code Insiders
+--
+vim.keymap.set("n", "<leader>bI", function()
+  local current_file = vim.fn.expand("%:p")
+  if current_file == "" then
+    vim.notify("No file in current buffer", vim.log.levels.ERROR)
+    return
+  end
+
+  local vscode_insiders_path = "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron"
+
+  if vim.fn.executable(vscode_insiders_path) == 1 then
+    local success = os.execute(string.format('"%s" "%s" &', vscode_insiders_path, current_file))
+    if not success then
+      vim.notify("Failed to open VS Code Insiders.", vim.log.levels.ERROR)
+    else
+      vim.notify("Opening in VS Code Insiders: " .. current_file, vim.log.levels.INFO)
+    end
+  else
+    local success = os.execute(string.format('open -a "Visual Studio Code - Insiders" "%s"', current_file))
+    if not success then
+      vim.notify("Failed to open VS Code Insiders using open command", vim.log.levels.ERROR)
+    else
+      vim.notify("Opening in VS Code Insiders: " .. current_file, vim.log.levels.INFO)
+    end
+  end
+end, { desc = "Open in VS Code Insiders" })
+
 vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open nvim's lsp.log file." })
 vim.keymap.set("n", "<leader>xd", function()
   local log_file = vim.fn.expand("~/.local/state/nvim/lsp.log")
