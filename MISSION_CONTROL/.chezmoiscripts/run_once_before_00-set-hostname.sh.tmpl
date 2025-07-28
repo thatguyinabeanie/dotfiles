@@ -1,0 +1,35 @@
+#!/bin/bash
+{{- /* Only run if hostname needs to be set and we have the info */ -}}
+{{- $target_hostname := "" -}}
+{{- $current_hostname := output "hostname" | trim -}}
+
+{{- /* Determine target hostname from various sources */ -}}
+{{- if env "HOSTNAME" -}}
+  {{- $target_hostname = env "HOSTNAME" -}}
+{{- else if hasKey . "hostname" -}}
+  {{- $target_hostname = .hostname -}}
+{{- end -}}
+
+{{- if and $target_hostname (ne $target_hostname $current_hostname) }}
+
+set -euo pipefail
+
+TARGET_HOSTNAME="{{ $target_hostname }}"
+CURRENT_HOSTNAME="{{ $current_hostname }}"
+
+echo "🔧 Setting hostname from $CURRENT_HOSTNAME to $TARGET_HOSTNAME"
+
+# Set all hostname variants on macOS
+sudo scutil --set ComputerName "$TARGET_HOSTNAME"
+sudo scutil --set LocalHostName "$TARGET_HOSTNAME"
+sudo scutil --set HostName "$TARGET_HOSTNAME"
+
+# Flush DNS cache
+sudo dscacheutil -flushcache
+
+echo "✅ Hostname set to: $TARGET_HOSTNAME"
+echo "ℹ️  You may need to restart Terminal for all changes to take effect"
+
+{{- else }}
+echo "✅ Hostname already correct: {{ $current_hostname }}"
+{{- end }}
