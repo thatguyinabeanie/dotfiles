@@ -6,29 +6,116 @@
 {{- else if eq (env "CHEZMOI_INTERACTIVE") "0" -}}
   {{- $interactive = false -}}
 {{- else -}}
-  {{- /* Fall back to checking if stdin is a TTY */ -}}
-  {{- $interactive = stdinIsATTY -}}
+  {{- /* Default to non-interactive for template testing */ -}}
+  {{- $interactive = false -}}
 {{- end -}}
 
 {{- $current_hostname := output "hostname" | trim -}}
 
-{{/* Read from system defaults (persistent machine identity) */}}
+{{/* Cross-platform machine identity detection */}}
 {{- $system_work_env := false -}}
 {{- $system_work_org := "" -}}
 {{- $system_machine_type := "unknown" -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "work_environment" 2>/dev/null | trim -}}
-  {{- if eq . "1" -}}
-    {{- $system_work_env = true -}}
+{{/* Detect storage method and read values directly */}}
+{{- $os := output "uname" "-s" | trim -}}
+{{- $storage_method := "xdg_config" -}}
+{{- if eq $os "Darwin" -}}
+  {{- $storage_method = "macos_defaults" -}}
+{{- else if eq $os "Linux" -}}
+  {{- if lookPath "dconf" -}}
+    {{- $storage_method = "dconf" -}}
+  {{- else if lookPath "gsettings" -}}
+    {{- $storage_method = "gsettings" -}}
+  {{- else -}}
+    {{- $storage_method = "xdg_config" -}}
   {{- end -}}
 {{- end -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "work_org" 2>/dev/null | trim -}}
-  {{- $system_work_org = . -}}
+{{/* Read work environment */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine work_environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "1") (eq . "true") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/work-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine work-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^work_environment=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- if or (eq . "true") (eq . "1") -}}
+        {{- $system_work_env = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "machine_type" 2>/dev/null | trim -}}
-  {{- $system_machine_type = . -}}
+{{/* Read work organization */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine work_org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/work-org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine work-org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^work_org=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_work_org = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read machine type */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine machine_type 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_machine_type = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/machine-type 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_machine_type = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine machine-type 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_machine_type = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^machine_type=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_machine_type = . -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{/* Define hostname mappings */}}
@@ -91,12 +178,12 @@
 {{- end -}}
 
 {{/* Resolve configuration with precedence: env vars → hostname mapping → system defaults → prompts → defaults */}}
-{{- $WORK_ENVIRONMENT := env "WORK_ENVIRONMENT" | default ($host_config.work_environment | default $system_work_env) -}}
-{{- $WORK_ORG := env "WORK_ORG" | default ($host_config.work_org | default $system_work_org) -}}
-{{- $SHELL := env "SHELL_PREF" | default ($host_config.shell | default "nu") -}}
-{{- $CATPPUCCIN_FLAVOR := env "CATPPUCCIN_FLAVOR" | default ($host_config.catppuccin_flavor | default "mocha") -}}
-{{- $THEME_MODE := env "THEME_MODE" | default ($host_config.theme_mode | default "dark") -}}
-{{- $MACHINE_TYPE := env "MACHINE_TYPE" | default ($host_config.machine_type | default $system_machine_type) -}}
+{{- $WORK_ENVIRONMENT := env "WORK_ENVIRONMENT" | default (get $host_config "work_environment" | default $system_work_env) -}}
+{{- $WORK_ORG := env "WORK_ORG" | default (get $host_config "work_org" | default $system_work_org) -}}
+{{- $SHELL := env "SHELL_PREF" | default (get $host_config "shell" | default "nu") -}}
+{{- $CATPPUCCIN_FLAVOR := env "CATPPUCCIN_FLAVOR" | default (get $host_config "catppuccin_flavor" | default "mocha") -}}
+{{- $THEME_MODE := env "THEME_MODE" | default (get $host_config "theme_mode" | default "dark") -}}
+{{- $MACHINE_TYPE := env "MACHINE_TYPE" | default (get $host_config "machine_type" | default $system_machine_type) -}}
 
 {{/* Git configuration */}}
 {{- $GIT_NAME := "" -}}
@@ -111,7 +198,7 @@
 {{- else -}}
   {{- $GIT_NAME = env "GIT_NAME" | default "GitHub Actions" -}}
   {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "github-actions" -}}
-  {{- $GIT_EMAIL = env "GIT_EMAIL" | default ($host_config.git_email | default "github-actions@github.com") -}}
+  {{- $GIT_EMAIL = env "GIT_EMAIL" | default (get $host_config "git_email" | default "github-actions@github.com") -}}
 {{- end -}}
 {{/* Interactive prompts for missing values */}}
 {{- if $interactive -}}

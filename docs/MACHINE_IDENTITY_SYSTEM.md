@@ -5,6 +5,7 @@ A comprehensive system for managing dotfiles across multiple machines with persi
 ## Overview
 
 This system provides:
+
 - **Persistent machine identity** that survives chezmoi resets
 - **Automatic environment detection** (work vs personal)
 - **Hostname management** with mapping configurations
@@ -13,20 +14,36 @@ This system provides:
 
 ## Architecture
 
-### 1. System-Level Persistence
+### 1. Cross-Platform Persistence
 
-Machine identity is stored in macOS defaults database, which persists through:
+Machine identity is stored using platform-appropriate methods that persist through:
+
 - Chezmoi configuration resets
 - User directory cleanup
 - Dotfiles repository changes
 - System updates (but not OS reinstalls)
 
+**macOS**: Uses `defaults` database
 ```bash
-# Machine identity storage
 defaults write com.chezmoi.machine work_environment -bool true
 defaults write com.chezmoi.machine work_org -string "mycompany"
-defaults write com.chezmoi.machine machine_type -string "work-laptop"
-defaults write com.chezmoi.machine setup_date -string "$(date -Iseconds)"
+```
+
+**Linux**: Automatically detects and uses the best available method:
+- **dconf** (GNOME/GTK environments)
+- **gsettings** (GNOME with schema)
+- **XDG config** (fallback, most portable)
+
+**Example storage locations**:
+```bash
+# dconf (Linux/GNOME)
+dconf write /com/chezmoi/machine/work-environment true
+
+# XDG config (Linux fallback)
+~/.config/chezmoi/machine-identity
+
+# macOS defaults
+defaults write com.chezmoi.machine work_environment -bool true
 ```
 
 ### 2. Hostname Configuration Mapping
@@ -102,22 +119,28 @@ Settings are resolved in order of precedence:
 
 {{- $current_hostname := output "hostname" | trim -}}
 
-{{/* Read from system defaults */}}
+{{/* Cross-platform machine identity detection */}}
 {{- $system_work_env := false -}}
 {{- $system_work_org := "" -}}
 {{- $system_machine_type := "unknown" -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "work_environment" 2>/dev/null | trim -}}
-  {{- if eq . "1" -}}
+{{/* Source machine identity helpers */}}
+{{- $machine_identity_script := joinPath .chezmoi.sourceDir "scripts" "machine-identity-helpers.sh" -}}
+
+{{/* Read work environment */}}
+{{- with output "bash" "-c" (printf "source %s && read_machine_identity work_environment" ($machine_identity_script | quote)) | trim -}}
+  {{- if or (eq . "true") (eq . "1") -}}
     {{- $system_work_env = true -}}
   {{- end -}}
 {{- end -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "work_org" 2>/dev/null | trim -}}
+{{/* Read work organization */}}
+{{- with output "bash" "-c" (printf "source %s && read_machine_identity work_org" ($machine_identity_script | quote)) | trim -}}
   {{- $system_work_org = . -}}
 {{- end -}}
 
-{{- with output "defaults" "read" "com.chezmoi.machine" "machine_type" 2>/dev/null | trim -}}
+{{/* Read machine type */}}
+{{- with output "bash" "-c" (printf "source %s && read_machine_identity machine_type" ($machine_identity_script | quote)) | trim -}}
   {{- $system_machine_type = . -}}
 {{- end -}}
 
@@ -210,7 +233,7 @@ INTERACTIVE = {{ $interactive }}
 [data.ghostty]
 {{- if eq $MACHINE_TYPE "server" }}
 font_size = "18"
-window_width = "120" 
+window_width = "120"
 window_height = "40"
 {{- else if eq $MACHINE_TYPE "desktop" }}
 font_size = "26"
@@ -281,7 +304,7 @@ fi
 if [[ -z "${MACHINE_TYPE:-}" ]]; then
     echo "Select machine type:"
     echo "1) laptop"
-    echo "2) desktop" 
+    echo "2) desktop"
     echo "3) server"
     read -p "Choice (1-3): " choice
     case $choice in
@@ -308,7 +331,7 @@ if [[ "${NEW_HOSTNAME}" != "${CURRENT_HOSTNAME}" ]]; then
     sudo scutil --set ComputerName "${NEW_HOSTNAME}"
     sudo scutil --set LocalHostName "${NEW_HOSTNAME}"
     sudo scutil --set HostName "${NEW_HOSTNAME}"
-    
+
     # Flush DNS cache
     sudo dscacheutil -flushcache
     echo "✅ Hostname set to: ${NEW_HOSTNAME}"
@@ -378,16 +401,31 @@ echo "✅ Hostname already correct: {{ $current_hostname }}"
 
 ### Initial Setup
 
+**macOS**:
 ```bash
 # Work laptop setup
 WORK_ENVIRONMENT=true WORK_ORG=mycompany HOSTNAME=gmendoza-work-mbp ./scripts/setup-machine-identity.sh
 chezmoi init --apply thatguyinabeanie
 
-# Personal machine setup  
+# Personal machine setup
 HOSTNAME=gmendoza-personal ./scripts/setup-machine-identity.sh
 chezmoi init --apply thatguyinabeanie
+```
 
-# Interactive setup (will prompt for values)
+**Linux**:
+```bash
+# Work laptop setup (auto-detects dconf/gsettings/XDG)
+WORK_ENVIRONMENT=true WORK_ORG=mycompany HOSTNAME=gmendoza-work-laptop ./scripts/setup-machine-identity.sh
+chezmoi init --apply thatguyinabeanie
+
+# Server setup
+MACHINE_TYPE=server HOSTNAME=gmendoza-homelab ./scripts/setup-machine-identity.sh
+chezmoi init --apply thatguyinabeanie
+```
+
+**Cross-platform interactive setup**:
+```bash
+# Interactive setup (will prompt for values and auto-detect storage method)
 ./scripts/setup-machine-identity.sh
 chezmoi init --apply thatguyinabeanie
 ```
@@ -433,45 +471,89 @@ defaults delete com.chezmoi.machine
 ## Management Commands
 
 ### Query Machine Identity
+
+**Cross-platform**:
 ```bash
 # View all machine settings
-defaults read com.chezmoi.machine
+./scripts/machine-identity-helpers.sh list
 
 # View specific setting
-defaults read com.chezmoi.machine work_environment
-defaults read com.chezmoi.machine work_org
+./scripts/machine-identity-helpers.sh read work_environment
+./scripts/machine-identity-helpers.sh read work_org
+```
+
+**Platform-specific**:
+```bash
+# macOS
+defaults read com.chezmoi.machine
+
+# Linux (dconf)
+dconf dump /com/chezmoi/machine/
+
+# Linux (XDG config)
+cat ~/.config/chezmoi/machine-identity
 ```
 
 ### Update Machine Identity
+
+**Cross-platform**:
 ```bash
 # Change work org
-defaults write com.chezmoi.machine work_org -string "newcompany"
+./scripts/machine-identity-helpers.sh write work_org "newcompany"
 
 # Change machine type
-defaults write com.chezmoi.machine machine_type -string "desktop"
+./scripts/machine-identity-helpers.sh write machine_type "desktop"
 
 # Apply changes
 chezmoi apply
 ```
 
+**Platform-specific**:
+```bash
+# macOS
+defaults write com.chezmoi.machine work_org -string "newcompany"
+
+# Linux (dconf)
+dconf write /com/chezmoi/machine/work-org "'newcompany'"
+
+# Linux (XDG config) - edit ~/.config/chezmoi/machine-identity
+```
+
 ### Reset Machine Identity
+
+**Cross-platform**:
 ```bash
 # Complete reset
-defaults delete com.chezmoi.machine
+./scripts/machine-identity-helpers.sh delete
 
 # Run setup again
 ./scripts/setup-machine-identity.sh
 ```
 
+**Platform-specific**:
+```bash
+# macOS
+defaults delete com.chezmoi.machine
+
+# Linux (dconf)
+dconf reset -f /com/chezmoi/machine/
+
+# Linux (XDG config)
+rm ~/.config/chezmoi/machine-identity
+```
+
 ## Benefits
 
-1. **Persistent Identity**: Machine configuration survives any chezmoi reset
-2. **Multi-Machine Support**: Each machine can have different configurations
-3. **Flexible Overrides**: Environment variables can override any setting
-4. **Automatic Detection**: New setups automatically detect the environment
-5. **Easy Management**: Simple commands to query and update machine identity
-6. **Work/Personal Separation**: Clean separation of configurations
-7. **Machine-Specific Tuning**: Different settings for laptops, desktops, servers
+1. **Cross-Platform Support**: Works on macOS, Linux, and other Unix-like systems
+2. **Intelligent Storage Detection**: Automatically uses the best storage method available
+3. **Persistent Identity**: Machine configuration survives any chezmoi reset
+4. **Multi-Machine Support**: Each machine can have different configurations
+5. **Flexible Overrides**: Environment variables can override any setting
+6. **Automatic Detection**: New setups automatically detect the environment
+7. **Easy Management**: Simple commands to query and update machine identity
+8. **Work/Personal Separation**: Clean separation of configurations
+9. **Machine-Specific Tuning**: Different settings for laptops, desktops, servers
+10. **Fallback Support**: Graceful degradation when preferred storage methods aren't available
 
 ## Future Enhancements
 

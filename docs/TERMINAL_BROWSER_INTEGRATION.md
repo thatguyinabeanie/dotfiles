@@ -7,6 +7,7 @@ This document outlines the plan for configuring existing tmux URL handling plugi
 ## Current Setup
 
 The current tmux configuration already includes:
+
 - URL detection and highlighting in terminal output
 - Fuzzy finder overlay for URL selection (`tmux-fzf-url` plugin)
 - Working URL extraction from git push output and other terminal content
@@ -16,11 +17,13 @@ The current tmux configuration already includes:
 ## Terminal Browser Options
 
 ### Lightweight Options
+
 - **lynx**: Most mature, excellent for accessibility, basic HTML support
 - **w3m**: Good table rendering, inline image support in some terminals
 - **links/elinks**: Better CSS support, tabbed browsing (elinks)
 
 ### Modern Options
+
 - **browsh**: Firefox-backed, full JavaScript/CSS support, Unicode rendering
 - **carbonyl**: Chromium-based, 60 FPS rendering, full modern web standards
 
@@ -76,6 +79,7 @@ esac
 ```
 
 Then configure tmux:
+
 ```bash
 set -g @fzf-url-open "terminal-url-handler"
 ```
@@ -83,18 +87,21 @@ set -g @fzf-url-open "terminal-url-handler"
 ## Implementation Steps
 
 ### Phase 1: Basic Terminal Browser Integration
+
 1. **Install terminal browser**: Choose primary terminal browser (recommend starting with `lynx`)
 2. **Configure tmux-fzf-url**: Add `@fzf-url-open` setting to tmux configuration
 3. **Test workflow**: Verify URLs open in terminal browser instead of system browser
 4. **Optimize browser settings**: Configure terminal browser options for best experience
 
 ### Phase 2: Enhanced Configuration
+
 1. **Install additional browsers**: Add `w3m`, `browsh`, or `carbonyl` for different use cases
 2. **Create smart handler**: Implement conditional URL routing based on URL patterns
 3. **Optimize tmux appearance**: Configure fzf popup options for better UX
 4. **Add keybinding customization**: Adjust tmux keybindings if needed
 
 ### Phase 3: Workflow Integration
+
 1. **Performance testing**: Evaluate different browsers for common development URLs
 2. **Custom configurations**: Create browser-specific configuration files
 3. **Documentation**: Document preferred settings and usage patterns
@@ -103,6 +110,7 @@ set -g @fzf-url-open "terminal-url-handler"
 ## Terminal Browser Command Options
 
 ### Lynx Configuration
+
 ```bash
 # Basic usage
 lynx -accept_all_cookies "$url"
@@ -113,6 +121,7 @@ lynx -cfg ~/.lynxrc "$url"  # Custom config file
 ```
 
 ### w3m Configuration
+
 ```bash
 # Basic usage
 w3m -M -T text/html "$url"
@@ -122,6 +131,7 @@ w3m -M -cookie -T text/html -o auto_image=TRUE "$url"
 ```
 
 ### Browsh Configuration
+
 ```bash
 # Basic usage
 browsh --startup-url "$url"
@@ -144,6 +154,7 @@ set -g @fzf-url-history-limit '3000'
 ## Expected Benefits
 
 ### Development Workflow Improvements
+
 - **Faster URL access**: No context switching to external browser
 - **Keyboard-centric workflow**: Maintain terminal-focused development environment
 - **Reduced resource usage**: Lightweight browsers consume less memory/CPU
@@ -151,6 +162,7 @@ set -g @fzf-url-history-limit '3000'
 - **Consistent interface**: Unified terminal experience
 
 ### Use Case Scenarios
+
 - **GitHub PR URLs**: Quick review of PR descriptions and changes
 - **Documentation links**: Fast access to API docs and README files
 - **Local development servers**: View localhost applications without browser switching
@@ -160,6 +172,7 @@ set -g @fzf-url-history-limit '3000'
 ## Fallback Strategies
 
 ### Browser Availability Checking
+
 ```bash
 # Check if terminal browser is available
 if command -v lynx >/dev/null 2>&1; then
@@ -172,6 +185,7 @@ fi
 ```
 
 ### Hybrid Approach
+
 - Keep original browser opening as secondary option
 - Add tmux keybinding for system browser when needed
 - Configure different keybindings for different browser types
@@ -179,6 +193,7 @@ fi
 ## Installation Requirements
 
 ### Terminal Browsers
+
 ```bash
 # macOS with Homebrew
 brew install lynx w3m links
@@ -195,6 +210,7 @@ sudo yum install lynx w3m links elinks
 ```
 
 ### Configuration Files
+
 - Terminal browser config files (`.lynxrc`, `.w3m/config`, etc.)
 - Smart URL handler script
 - Updated tmux configuration
@@ -202,6 +218,7 @@ sudo yum install lynx w3m links elinks
 ## Testing Plan
 
 ### Validation Steps
+
 1. **URL detection**: Verify existing URL detection still works
 2. **Selection interface**: Confirm fzf overlay functions correctly
 3. **Browser opening**: Test URLs open in configured terminal browser
@@ -209,6 +226,7 @@ sudo yum install lynx w3m links elinks
 5. **Compatibility**: Test with various URL types (GitHub, docs, localhost)
 
 ### Test Cases
+
 - GitHub PR URLs from git push output
 - Documentation links from terminal output
 - Local development server URLs
@@ -218,12 +236,14 @@ sudo yum install lynx w3m links elinks
 ## Maintenance Considerations
 
 ### Regular Tasks
+
 - Update terminal browser configurations for optimal performance
 - Review and update smart URL handler patterns
 - Monitor tmux plugin updates for new features
 - Backup configuration files with chezmoi
 
 ### Troubleshooting
+
 - Browser compatibility issues with specific websites
 - Terminal rendering problems
 - Performance optimization needs
@@ -240,6 +260,7 @@ sudo yum install lynx w3m links elinks
 ## Future Enhancements
 
 ### Potential Improvements
+
 - Custom terminal browser themes matching system theme
 - Integration with terminal multiplexer sessions
 - Bookmarking system for frequently accessed URLs
@@ -247,6 +268,7 @@ sudo yum install lynx w3m links elinks
 - Advanced URL pattern matching and routing
 
 ### Integration Opportunities
+
 - Combine with existing development tools and scripts
 - Enhance with shell aliases and functions
 - Integrate with git workflow automation

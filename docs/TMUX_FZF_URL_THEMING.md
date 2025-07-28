@@ -17,16 +17,19 @@ set -g @fzf-url-fzf-options '--color fg:#bbccdd,fg+:#ddeeff,bg:#334455,border:#7
 fzf provides extensive color customization options for different UI elements:
 
 ### Basic Colors
+
 - `fg` - Default foreground color
 - `bg` - Default background color
 - `fg+` - Foreground color for current line
 - `bg+` - Background color for current line
 
 ### Highlight Colors
+
 - `hl` - Highlight color for matching characters
 - `hl+` - Highlight color for matching characters on current line
 
 ### Interface Elements
+
 - `info` - Info line color (shows match count, etc.)
 - `prompt` - Input prompt color
 - `pointer` - Selection pointer/cursor color
@@ -36,6 +39,7 @@ fzf provides extensive color customization options for different UI elements:
 - `border` - Border color around the interface
 
 ### Preview Window (if used)
+
 - `preview-fg` - Preview window foreground color
 - `preview-bg` - Preview window background color
 - `preview-border` - Preview window border color
@@ -116,6 +120,7 @@ set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview
 Beyond colors, you can customize the appearance and behavior of the fzf overlay:
 
 ### Popup Positioning
+
 ```bash
 # Center popup, 80% width, 60% height
 --tmux center,80%,60%
@@ -131,6 +136,7 @@ Beyond colors, you can customize the appearance and behavior of the fzf overlay:
 ```
 
 ### Border Styles
+
 ```bash
 # Add border around the interface
 --border
@@ -145,6 +151,7 @@ Beyond colors, you can customize the appearance and behavior of the fzf overlay:
 ```
 
 ### Layout Options
+
 ```bash
 # Reverse layout (input at top)
 --layout=reverse
@@ -194,21 +201,25 @@ set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview
 fzf accepts colors in several formats:
 
 ### Hex Colors
+
 ```bash
 --color fg:#ffffff,bg:#000000
 ```
 
 ### Named Colors
+
 ```bash
 --color fg:white,bg:black
 ```
 
 ### 256-Color Palette
+
 ```bash
 --color fg:15,bg:0
 ```
 
 ### ANSI Colors
+
 ```bash
 --color fg:bright-white,bg:black
 ```
@@ -216,12 +227,14 @@ fzf accepts colors in several formats:
 ## Testing Your Theme
 
 ### Quick Theme Test
+
 ```bash
 # Test your theme configuration
 echo -e "https://github.com\nhttps://google.com\nhttps://stackoverflow.com" | fzf --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8,fg:#cdd6f4,header:#94e2d5,info:#cba6f7,pointer:#f5e0dc,marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8,border:#6c7086 --tmux center,80%,60% --border
 ```
 
 ### Theme Validation Script
+
 ```bash
 #!/bin/bash
 # ~/.local/bin/validate-fzf-theme
@@ -249,6 +262,7 @@ fi
 3. **Inconsistent appearance**: Check for conflicting FZF_DEFAULT_OPTS
 
 ### Debug Commands
+
 ```bash
 # Check current tmux-fzf-url configuration
 tmux show-options -g | grep fzf-url
@@ -280,6 +294,7 @@ echo $COLORTERM
 ## Related Configuration
 
 This theming works in conjunction with:
+
 - [Terminal Browser Integration](./TERMINAL_BROWSER_INTEGRATION.md)
 - tmux color scheme configuration
 - Terminal emulator theme settings

@@ -78,6 +78,7 @@ brews:
     - luau
     - luaver
     - lynx
+    - w3m
     - make
     - man2html
     - markdown-toc
