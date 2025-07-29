@@ -3,13 +3,18 @@ source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
 # source ~/.cache/carapace/init.nu
 
-{{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}source ~/.config/nushell/work.nu{{ end }}
+{{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}
+source ~/.config/nushell/work.nu
+{{ end }}
 
 {{ if hasKey . "CATPPUCCIN_FLAVOR"  }}
 source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
 {{ else }}
 source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu
 {{ end }}
+
+# Source FZF theme
+source ~/.config/fzf/fzf-theme.nu
 
 $env.config.show_banner = false
 

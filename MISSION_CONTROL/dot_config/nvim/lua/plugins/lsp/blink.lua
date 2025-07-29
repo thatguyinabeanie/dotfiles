@@ -19,56 +19,24 @@ return {
         ["<C-e>"] = { "hide", "fallback" },
       },
 
-      -- Your original appearance settings
+      -- Appearance settings
       appearance = {
-        use_nvim_cmp_as_default = true,
-        nerd_font_variant = 'mono'
+        nerd_font_variant = 'mono',
       },
 
       -- Add copilot and lazydev to default sources (LazyVim defaults: lsp, path, snippets, buffer)
       sources = {
         default = { "lsp", "path", "snippets", "buffer", "lazydev", "copilot" },
-        per_filetype = {
-          -- Optimize for specific filetypes
-          gitcommit = { "buffer", "path" }, -- Override for commit messages
-          markdown = { "buffer", "copilot" }, -- Add copilot for markdown
-        },
         providers = {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
-            score_offset = 100, -- High priority for lazydev completions
           },
           copilot = {
             name = "copilot",
             module = "blink-cmp-copilot",
-            score_offset = 90, -- Lower than LSP to show after primary suggestions
+            score_offset = 100,
             async = true,
-            min_keyword_length = 0, -- Allow single character triggers
-            timeout_ms = 5000, -- Increase timeout for network requests
-            transform_items = function(_, items)
-              -- Remove icon from label since we handle it in kind_icon
-              for _, item in ipairs(items) do
-                item.labelDetails = { description = "AI" }
-              end
-              return items
-            end,
-          },
-          buffer = {
-            -- Enhanced buffer source from visible windows only
-            opts = {
-              get_bufnrs = function()
-                return vim
-                  .iter(vim.api.nvim_list_wins())
-                  :map(function(win)
-                    return vim.api.nvim_win_get_buf(win)
-                  end)
-                  :filter(function(buf)
-                    return vim.bo[buf].buftype ~= "nofile"
-                  end)
-                  :totable()
-              end,
-            },
           },
         },
       },
@@ -79,9 +47,6 @@ return {
           auto_brackets = {
             enabled = true, -- Your original auto-brackets feature
           },
-        },
-        trigger = {
-          prefetch_on_insert = true,
         },
         list = {
           max_items = 50,
@@ -102,14 +67,14 @@ return {
                 ellipsis = true,
                 text = function(ctx)
                   if ctx.source_name == "copilot" then
-                    return "AI" -- Use text instead of problematic icons
+                    return ""
                   end
                   local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
                   return kind_icon
                 end,
                 highlight = function(ctx)
                   if ctx.source_name == "copilot" then
-                    return "Keyword" -- Use a different highlight group
+                    return "Special"
                   end
                   local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
                   return hl
@@ -119,7 +84,6 @@ return {
           },
           -- Ensure selection is visible
           auto_show = true,
-          selection = "auto_insert",
         },
         documentation = {
           auto_show = true,

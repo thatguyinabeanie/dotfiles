@@ -1,3 +1,5 @@
+if true then return {} end
+
 local plugin_dir = vim.fn.expand("~/source/claude-code.nvim")
 
 -- Only load if the local development directory exists

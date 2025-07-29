@@ -1,4 +1,5 @@
 -- https://codecompanion.olimorris.dev/
+if true then return {} end
 
 return {
   {
@@ -21,14 +22,14 @@ return {
         },
         inline = {
           adapter = {
-            name = "copilot", 
+            name = "copilot",
             model = "claude-sonnet-4",
           },
         },
         agent = {
           adapter = {
             name = "copilot",
-            model = "claude-sonnet-4", 
+            model = "claude-sonnet-4",
           },
         },
       },
@@ -54,6 +55,6 @@ return {
       -- Visual mode mappings
       { "<leader>ao", "<cmd>CodeCompanionChat<cr>", mode = "v", desc = "Code Companion Open Chat" },
       { "<leader>as", "<cmd>CodeCompanionActions<cr>", mode = "v", desc = "Code Companion Actions" },
-    }
+    },
   },
 }
