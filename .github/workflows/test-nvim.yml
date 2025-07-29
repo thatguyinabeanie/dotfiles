@@ -36,10 +36,3 @@ jobs:
         run: |
           cd _tests_
           go test -v ./unit -run TestNvim
-
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: _tests_/test-results/
