@@ -21,8 +21,8 @@
 {{- else if eq (env "CHEZMOI_INTERACTIVE") "0" -}}
   {{- $interactive = false -}}
 {{- else -}}
-  {{- /* Fall back to checking if stdin is a TTY (terminal session) */ -}}
-  {{- $interactive = stdinIsATTY -}}
+  {{- /* Fall back to assuming interactive for manual runs */ -}}
+  {{- $interactive = true -}}
 {{- end -}}
 
 {{- $current_hostname := output "hostname" | trim -}}
