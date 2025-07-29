@@ -69,7 +69,7 @@ return {
   {
     "GCBallesteros/jupytext.nvim",
     config = function()
-      require('jupytext').setup({
+      require("jupytext").setup({
         style = "markdown",
         output_extension = "md",
         force_ft = nil,
@@ -82,11 +82,11 @@ return {
   {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- Use stable version
-    dependencies = { 
+    dependencies = {
       {
         "3rd/image.nvim",
         optional = false, -- Make image.nvim required now that we fixed tmux
-      }
+      },
     },
     build = ":UpdateRemotePlugins",
     init = function()
@@ -97,19 +97,19 @@ return {
       vim.g.molten_virt_text_max_lines = 12 -- Show more lines for detailed output
       vim.g.molten_wrap_output = true -- Wrap long output lines
       vim.g.molten_virt_lines_off_by_1 = true -- Better spacing in markdown files
-      
+
       -- Performance and behavior settings
       vim.g.molten_output_show_exec_time = true -- Show execution timing
       vim.g.molten_limit_output_chars = 1000000 -- Handle large datasets
       vim.g.molten_tick_rate = 500 -- Update frequency in ms
       vim.g.molten_copy_output = false -- Don't auto-copy to clipboard
-      
+
       -- Window styling (when floating windows are used)
       vim.g.molten_output_win_max_height = 20
       vim.g.molten_output_win_border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" }
       vim.g.molten_output_crop_border = true
       vim.g.molten_enter_output_behavior = "open_then_enter"
-      
+
       -- Image display settings (applied if image.nvim is available)
       vim.g.molten_image_location = "both" -- Show in both float and virtual text
       vim.g.molten_auto_image_popup = false -- Don't auto-popup images
@@ -119,49 +119,67 @@ return {
       { "<leader>Mi", ":MoltenInit<CR>", desc = "Initialize Molten" },
       { "<leader>Md", ":MoltenDeinit<CR>", desc = "Deinitialize Molten" },
       { "<leader>Mk", ":MoltenInfo<CR>", desc = "Molten kernel info" },
-      
+
       -- Code execution
       { "<leader>Me", ":MoltenEvaluateOperator<CR>", desc = "Evaluate operator" },
       { "<leader>Ml", ":MoltenEvaluateLine<CR>", desc = "Evaluate line" },
       { "<leader>Mr", ":MoltenReevaluateCell<CR>", desc = "Re-evaluate cell" },
       { "<leader>Mv", ":<C-u>MoltenEvaluateVisual<CR>gv", mode = "v", desc = "Evaluate visual selection" },
-      
+
       -- Output management
       { "<leader>Mo", ":MoltenToggleOutput<CR>", desc = "Toggle output display" },
       { "<leader>Mh", ":MoltenHideOutput<CR>", desc = "Hide output" },
       { "<leader>Ms", ":MoltenShowOutput<CR>", desc = "Show output" },
       { "<leader>Mc", ":MoltenDelete<CR>", desc = "Delete Molten cell" },
-      
+
       -- Cell navigation
       { "<leader>Mp", ":MoltenPrev<CR>", desc = "Go to previous cell" },
       { "<leader>Mn", ":MoltenNext<CR>", desc = "Go to next cell" },
-      
+
       -- Notebook operations
       { "<leader>MI", ":MoltenImportOutput<CR>", desc = "Import notebook outputs" },
       { "<leader>ME", ":MoltenExportOutput!<CR>", desc = "Export to .ipynb" },
-      
+
       -- Additional Jupyter workflow keybindings
-      { "<leader>Js", function()
+      {
+        "<leader>Js",
+        function()
           local file = vim.fn.expand("%")
           vim.system({ "jupytext", "--sync", file }, { detach = true })
-        end, desc = "Sync with jupytext" },
-      
-      { "<leader>Jp", function()
+        end,
+        desc = "Sync with jupytext",
+      },
+
+      {
+        "<leader>Jp",
+        function()
           local file = vim.fn.expand("%")
           vim.system({ "jupytext", "--to", "py:percent", file }, { detach = true })
-        end, desc = "Convert to Python percent format" },
-      
-      { "<leader>Jn", function()
+        end,
+        desc = "Convert to Python percent format",
+      },
+
+      {
+        "<leader>Jn",
+        function()
           local file = vim.fn.expand("%")
           vim.system({ "jupytext", "--to", "notebook", file }, { detach = true })
-        end, desc = "Convert to notebook format" },
-      
-      { "<leader>Jm", function()
+        end,
+        desc = "Convert to notebook format",
+      },
+
+      {
+        "<leader>Jm",
+        function()
           local file = vim.fn.expand("%")
           vim.system({ "jupytext", "--to", "markdown", file }, { detach = true })
-        end, desc = "Convert to markdown format" },
-      
-      { "<leader>Ma", function()
+        end,
+        desc = "Convert to markdown format",
+      },
+
+      {
+        "<leader>Ma",
+        function()
           local venv = os.getenv("VIRTUAL_ENV") or os.getenv("CONDA_PREFIX")
           if venv then
             -- Extract environment name from path
@@ -174,9 +192,13 @@ return {
           else
             vim.cmd("MoltenInit python3")
           end
-        end, desc = "Auto-initialize kernel" },
-      
-      { "<leader>Jt", function()
+        end,
+        desc = "Auto-initialize kernel",
+      },
+
+      {
+        "<leader>Jt",
+        function()
           local template = [[# Physics/Data Science Notebook
 
 ## Setup
@@ -200,9 +222,11 @@ plt.style.use('default')
 
 ## Conclusion
 ]]
-          
+
           vim.api.nvim_put(vim.split(template, "\n"), "l", true, true)
-        end, desc = "Insert notebook template" },
+        end,
+        desc = "Insert notebook template",
+      },
     },
   },
 
@@ -224,7 +248,7 @@ plt.style.use('default')
     },
     config = function(_, opts)
       require("otter").setup(opts)
-      
+
       -- Auto-activate otter for markdown and quarto files
       vim.api.nvim_create_autocmd("FileType", {
         pattern = { "markdown", "quarto", "ipynb" },
