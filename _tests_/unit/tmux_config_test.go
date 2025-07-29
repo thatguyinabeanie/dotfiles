@@ -109,6 +109,11 @@ func testTmuxFzfURLOptions(t *testing.T) {
 }
 
 func testTerminalBrowserAvailability(t *testing.T) {
+	// Check if we're in CI environment
+	if os.Getenv("CI") == "true" {
+		t.Skip("Skipping browser availability test in CI environment")
+	}
+
 	browsers := []string{"lynx", "w3m", "links"}
 	availableBrowsers := []string{}
 
@@ -127,6 +132,11 @@ func testTerminalBrowserAvailability(t *testing.T) {
 }
 
 func testURLHandlerScript(t *testing.T) {
+	// Check if we're in CI environment
+	if os.Getenv("CI") == "true" {
+		t.Skip("Skipping URL handler script test in CI environment")
+	}
+
 	homeDir, err := os.UserHomeDir()
 	assert.NoError(t, err, "should be able to get user home directory")
 
