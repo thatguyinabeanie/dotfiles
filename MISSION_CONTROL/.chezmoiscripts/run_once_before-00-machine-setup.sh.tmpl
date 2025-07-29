@@ -4,201 +4,201 @@ set -euo pipefail
 
 # Detect the best storage method for the current platform
 detect_storage_method() {
-    local os_type="$(/usr/bin/uname -s)"
-    
-    case "${os_type}" in
-        Darwin*)
-            echo "macos_defaults"
-            ;;
-        Linux*)
-            # Check for available storage methods in order of preference
-            if command -v dconf >/dev/null 2>&1; then
-                echo "dconf"
-            elif command -v gsettings >/dev/null 2>&1; then
-                echo "gsettings"
-            else
-                echo "xdg_config"
-            fi
-            ;;
-        *)
-            echo "xdg_config"  # Fallback to XDG for other Unix-like systems
-            ;;
-    esac
+  local os_type="$(/usr/bin/uname -s)"
+  
+  case "${os_type}" in
+    Darwin*)
+      echo "macos_defaults"
+      ;;
+    Linux*)
+      # Check for available storage methods in order of preference
+      if command -v dconf >/dev/null 2>&1; then
+        echo "dconf"
+      elif command -v gsettings >/dev/null 2>&1; then
+        echo "gsettings"
+      else
+        echo "xdg_config"
+      fi
+      ;;
+    *)
+      echo "xdg_config"  # Fallback to XDG for other Unix-like systems
+      ;;
+  esac
 }
 
 # Read a machine identity value
 read_machine_identity() {
-    local key="$1"
-    local storage_method="${2:-$(detect_storage_method)}"
-    
-    case "${storage_method}" in
-        macos_defaults)
-            defaults read com.chezmoi.machine "${key}" 2>/dev/null || echo ""
-            ;;
-        dconf)
-            local dconf_key="/com/chezmoi/machine/${key//_/-}"
-            dconf read "${dconf_key}" 2>/dev/null | sed 's/^.\(.*\).$/\1/' || echo ""
-            ;;
-        gsettings)
-            gsettings get com.chezmoi.machine "${key//_/-}" 2>/dev/null | sed 's/^.\(.*\).$/\1/' || echo ""
-            ;;
-        xdg_config)
-            local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/machine-identity"
-            if [[ -f "${config_file}" ]]; then
-                grep "^${key}=" "${config_file}" 2>/dev/null | cut -d'=' -f2- | sed 's/^"\(.*\)"$/\1/' || echo ""
-            else
-                echo ""
-            fi
-            ;;
-    esac
+  local key="$1"
+  local storage_method="${2:-$(detect_storage_method)}"
+  
+  case "${storage_method}" in
+    macos_defaults)
+      defaults read com.chezmoi.machine "${key}" 2>/dev/null || echo ""
+      ;;
+    dconf)
+      local dconf_key="/com/chezmoi/machine/${key//_/-}"
+      dconf read "${dconf_key}" 2>/dev/null | sed 's/^.\(.*\).$/\1/' || echo ""
+      ;;
+    gsettings)
+      gsettings get com.chezmoi.machine "${key//_/-}" 2>/dev/null | sed 's/^.\(.*\).$/\1/' || echo ""
+      ;;
+    xdg_config)
+      local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/machine-identity"
+      if [[ -f "${config_file}" ]]; then
+        grep "^${key}=" "${config_file}" 2>/dev/null | cut -d'=' -f2- | sed 's/^"\(.*\)"$/\1/' || echo ""
+      else
+        echo ""
+      fi
+      ;;
+  esac
 }
 
 # Write a machine identity value
 write_machine_identity() {
-    local key="$1"
-    local value="$2"
-    local storage_method="${3:-$(detect_storage_method)}"
-    
-    case "${storage_method}" in
-        macos_defaults)
-            case "${key}" in
-                work_environment)
-                    defaults write com.chezmoi.machine "${key}" -bool "${value}"
-                    ;;
-                *)
-                    defaults write com.chezmoi.machine "${key}" -string "${value}"
-                    ;;
-            esac
-            ;;
-        dconf)
-            local dconf_key="/com/chezmoi/machine/${key//_/-}"
-            case "${key}" in
-                work_environment)
-                    dconf write "${dconf_key}" "${value,,}"
-                    ;;
-                *)
-                    dconf write "${dconf_key}" "'${value}'"
-                    ;;
-            esac
-            ;;
-        gsettings)
-            local gsettings_key="${key//_/-}"
-            case "${key}" in
-                work_environment)
-                    gsettings set com.chezmoi.machine "${gsettings_key}" "${value,,}"
-                    ;;
-                *)
-                    gsettings set com.chezmoi.machine "${gsettings_key}" "${value}"
-                    ;;
-            esac
-            ;;
-        xdg_config)
-            local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/machine-identity"
-            local config_dir="$(dirname "${config_file}")"
-            
-            mkdir -p "${config_dir}"
-            
-            if [[ -f "${config_file}" ]]; then
-                if grep -q "^${key}=" "${config_file}"; then
-                    sed -i.bak "s|^${key}=.*|${key}=\"${value}\"|" "${config_file}"
-                    rm -f "${config_file}.bak"
-                else
-                    echo "${key}=\"${value}\"" >> "${config_file}"
-                fi
-            else
-                cat > "${config_file}" << EOF
+  local key="$1"
+  local value="$2"
+  local storage_method="${3:-$(detect_storage_method)}"
+  
+  case "${storage_method}" in
+    macos_defaults)
+      case "${key}" in
+        work_environment)
+          defaults write com.chezmoi.machine "${key}" -bool "${value}"
+          ;;
+        *)
+          defaults write com.chezmoi.machine "${key}" -string "${value}"
+          ;;
+      esac
+      ;;
+    dconf)
+      local dconf_key="/com/chezmoi/machine/${key//_/-}"
+      case "${key}" in
+        work_environment)
+          dconf write "${dconf_key}" "${value,,}"
+          ;;
+        *)
+          dconf write "${dconf_key}" "'${value}'"
+          ;;
+      esac
+      ;;
+    gsettings)
+      local gsettings_key="${key//_/-}"
+      case "${key}" in
+        work_environment)
+          gsettings set com.chezmoi.machine "${gsettings_key}" "${value,,}"
+          ;;
+        *)
+          gsettings set com.chezmoi.machine "${gsettings_key}" "${value}"
+          ;;
+      esac
+      ;;
+    xdg_config)
+      local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/machine-identity"
+      local config_dir="$(dirname "${config_file}")"
+      
+      mkdir -p "${config_dir}"
+      
+      if [[ -f "${config_file}" ]]; then
+        if grep -q "^${key}=" "${config_file}"; then
+          sed -i.bak "s|^${key}=.*|${key}=\"${value}\"|" "${config_file}"
+          rm -f "${config_file}.bak"
+        else
+          echo "${key}=\"${value}\"" >> "${config_file}"
+        fi
+      else
+        cat > "${config_file}" << EOF
 # Machine identity configuration
 # Generated by chezmoi machine identity system
 ${key}="${value}"
 EOF
-            fi
-            ;;
-    esac
+      fi
+      ;;
+  esac
 }
 
 # Check if machine identity is configured
 is_machine_identity_configured() {
-    local storage_method="${1:-$(detect_storage_method)}"
-    local work_env="$(read_machine_identity "work_environment" "${storage_method}")"
-    
-    [[ -n "${work_env}" ]]
+  local storage_method="${1:-$(detect_storage_method)}"
+  local work_env="$(read_machine_identity "work_environment" "${storage_method}")"
+  
+  [[ -n "${work_env}" ]]
 }
 
 echo "🔧 Setting up machine configuration"
 
 # Set up machine identity if not already configured
 if ! is_machine_identity_configured; then
-    echo "📝 Configuring machine identity (first time setup)"
-    
-    # Detect storage method
-    STORAGE_METHOD="$(detect_storage_method)"
-    echo "📦 Using storage method: ${STORAGE_METHOD}"
-    
-    # Read values from defaults first, fallback to chezmoi data
-    WORK_ENV="$(read_machine_identity "work_environment" "${STORAGE_METHOD}")"
-    WORK_ORG="$(read_machine_identity "work_org" "${STORAGE_METHOD}")"
-    HOSTNAME_SETTING="$(read_machine_identity "hostname" "${STORAGE_METHOD}")"
-    SHELL_PREF="$(read_machine_identity "shell" "${STORAGE_METHOD}")"
-    CATPPUCCIN_PREF="$(read_machine_identity "catppuccin_flavor" "${STORAGE_METHOD}")"
-    
-    # If not in defaults, read from chezmoi data (from interactive prompts)
-    if [[ -z "${WORK_ENV}" ]]; then
-        WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
-        echo "📥 Reading work_environment from chezmoi data: ${WORK_ENV}"
-    fi
-    
-    if [[ -z "${WORK_ORG}" ]]; then
-        WORK_ORG="{{ .git.config.work_org | default "" }}"
-        echo "📥 Reading work_org from chezmoi data: ${WORK_ORG}"
-    fi
-    
-    if [[ -z "${HOSTNAME_SETTING}" ]]; then
-        HOSTNAME_SETTING="{{ .hostname | default "" }}"
-        echo "📥 Reading hostname from chezmoi data: ${HOSTNAME_SETTING}"
-    fi
-    
-    if [[ -z "${SHELL_PREF}" ]]; then
-        SHELL_PREF="{{ .SHELL | default "" }}"
-        echo "📥 Reading shell from chezmoi data: ${SHELL_PREF}"
-    fi
-    
-    if [[ -z "${CATPPUCCIN_PREF}" ]]; then
-        CATPPUCCIN_PREF="{{ .CATPPUCCIN_FLAVOR | default "" }}"
-        echo "📥 Reading catppuccin_flavor from chezmoi data: ${CATPPUCCIN_PREF}"
-    fi
-    
-    # Persist to platform storage (defaults/dconf/etc)
-    echo "💾 Saving machine identity to ${STORAGE_METHOD}..."
-    write_machine_identity "work_environment" "${WORK_ENV}" "${STORAGE_METHOD}"
-    write_machine_identity "work_org" "${WORK_ORG}" "${STORAGE_METHOD}"
-    write_machine_identity "hostname" "${HOSTNAME_SETTING}" "${STORAGE_METHOD}"
-    
-    # Store preferences if they were set interactively
-    if [[ -n "${SHELL_PREF}" ]]; then
-        write_machine_identity "shell" "${SHELL_PREF}" "${STORAGE_METHOD}"
-    fi
-    if [[ -n "${CATPPUCCIN_PREF}" ]]; then
-        write_machine_identity "catppuccin_flavor" "${CATPPUCCIN_PREF}" "${STORAGE_METHOD}"
-    fi
-    
-    echo "✅ Machine identity configured:"
-    echo "   Storage method: ${STORAGE_METHOD}"
-    echo "   Work Environment: ${WORK_ENV}"
-    echo "   Work Org: ${WORK_ORG}"
-    echo "   Hostname: ${HOSTNAME_SETTING}"
-    if [[ -n "${SHELL_PREF}" ]]; then
-        echo "   Shell: ${SHELL_PREF}"
-    fi
-    if [[ -n "${CATPPUCCIN_PREF}" ]]; then
-        echo "   Catppuccin: ${CATPPUCCIN_PREF}"
-    fi
-    
-    FIRST_TIME_SETUP=true
+  echo "📝 Configuring machine identity (first time setup)"
+  
+  # Detect storage method
+  STORAGE_METHOD="$(detect_storage_method)"
+  echo "📦 Using storage method: ${STORAGE_METHOD}"
+  
+  # Read values from defaults first, fallback to chezmoi data
+  WORK_ENV="$(read_machine_identity "work_environment" "${STORAGE_METHOD}")"
+  WORK_ORG="$(read_machine_identity "work_org" "${STORAGE_METHOD}")"
+  HOSTNAME_SETTING="$(read_machine_identity "hostname" "${STORAGE_METHOD}")"
+  SHELL_PREF="$(read_machine_identity "shell" "${STORAGE_METHOD}")"
+  CATPPUCCIN_PREF="$(read_machine_identity "catppuccin_flavor" "${STORAGE_METHOD}")"
+  
+  # If not in defaults, read from chezmoi data (from interactive prompts)
+  if [[ -z "${WORK_ENV}" ]]; then
+    WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
+    echo "📥 Reading work_environment from chezmoi data: ${WORK_ENV}"
+  fi
+  
+  if [[ -z "${WORK_ORG}" ]]; then
+    WORK_ORG="{{ .git.config.work_org | default "" }}"
+    echo "📥 Reading work_org from chezmoi data: ${WORK_ORG}"
+  fi
+  
+  if [[ -z "${HOSTNAME_SETTING}" ]]; then
+    HOSTNAME_SETTING="{{ .hostname | default "" }}"
+    echo "📥 Reading hostname from chezmoi data: ${HOSTNAME_SETTING}"
+  fi
+  
+  if [[ -z "${SHELL_PREF}" ]]; then
+    SHELL_PREF="{{ .SHELL | default "" }}"
+    echo "📥 Reading shell from chezmoi data: ${SHELL_PREF}"
+  fi
+  
+  if [[ -z "${CATPPUCCIN_PREF}" ]]; then
+    CATPPUCCIN_PREF="{{ .CATPPUCCIN_FLAVOR | default "" }}"
+    echo "📥 Reading catppuccin_flavor from chezmoi data: ${CATPPUCCIN_PREF}"
+  fi
+  
+  # Persist to platform storage (defaults/dconf/etc)
+  echo "💾 Saving machine identity to ${STORAGE_METHOD}..."
+  write_machine_identity "work_environment" "${WORK_ENV}" "${STORAGE_METHOD}"
+  write_machine_identity "work_org" "${WORK_ORG}" "${STORAGE_METHOD}"
+  write_machine_identity "hostname" "${HOSTNAME_SETTING}" "${STORAGE_METHOD}"
+  
+  # Store preferences if they were set interactively
+  if [[ -n "${SHELL_PREF}" ]]; then
+    write_machine_identity "shell" "${SHELL_PREF}" "${STORAGE_METHOD}"
+  fi
+  if [[ -n "${CATPPUCCIN_PREF}" ]]; then
+    write_machine_identity "catppuccin_flavor" "${CATPPUCCIN_PREF}" "${STORAGE_METHOD}"
+  fi
+  
+  echo "✅ Machine identity configured:"
+  echo "   Storage method: ${STORAGE_METHOD}"
+  echo "   Work Environment: ${WORK_ENV}"
+  echo "   Work Org: ${WORK_ORG}"
+  echo "   Hostname: ${HOSTNAME_SETTING}"
+  if [[ -n "${SHELL_PREF}" ]]; then
+    echo "   Shell: ${SHELL_PREF}"
+  fi
+  if [[ -n "${CATPPUCCIN_PREF}" ]]; then
+    echo "   Catppuccin: ${CATPPUCCIN_PREF}"
+  fi
+  
+  FIRST_TIME_SETUP=true
 else
-    FIRST_TIME_SETUP=false
-    # Read hostname from storage for hostname setting below
-    STORAGE_METHOD="$(detect_storage_method)"
-    HOSTNAME_SETTING="$(read_machine_identity "hostname" "${STORAGE_METHOD}")"
+  FIRST_TIME_SETUP=false
+  # Read hostname from storage for hostname setting below
+  STORAGE_METHOD="$(detect_storage_method)"
+  HOSTNAME_SETTING="$(read_machine_identity "hostname" "${STORAGE_METHOD}")"
 fi
 
 # Set hostname and configure sudo (combine all sudo operations)
@@ -230,68 +230,68 @@ SUDO_COMMANDS=""
 
 # Check TouchID setup
 if [ ! -f "/etc/pam.d/sudo_local" ]; then
-    SUDO_COMMANDS="${SUDO_COMMANDS}echo 'auth       sufficient     pam_tid.so' > /etc/pam.d/sudo_local"$'\n'
-    CHANGES_NEEDED=true
+  SUDO_COMMANDS="${SUDO_COMMANDS}echo 'auth       sufficient     pam_tid.so' > /etc/pam.d/sudo_local"$'\n'
+  CHANGES_NEEDED=true
 fi
 
 # Check hostname
 if $HOSTNAME_NEEDS_SETTING; then
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '$TARGET_HOSTNAME'"$'\n'
-    CHANGES_NEEDED=true
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '$TARGET_HOSTNAME'"$'\n'
+  CHANGES_NEEDED=true
 fi
 
 # Apply changes if needed
 if $CHANGES_NEEDED; then
-    if $FIRST_TIME_SETUP; then
-        echo "🔐 Configuring system settings (sudo required)..."
-    fi
+  if $FIRST_TIME_SETUP; then
+    echo "🔐 Configuring system settings (sudo required)..."
+  fi
+  
+  if [[ -n "$SUDO_COMMANDS" ]]; then
+    echo "$SUDO_COMMANDS" | sudo bash
     
-    if [[ -n "$SUDO_COMMANDS" ]]; then
-        echo "$SUDO_COMMANDS" | sudo bash
-        
-        # Verify results
-        if $HOSTNAME_NEEDS_SETTING; then
-            echo "✅ Hostname set to: $TARGET_HOSTNAME"
-        fi
-        if [ ! -f "/etc/pam.d/sudo_local" ]; then
-            echo "✅ TouchID sudo enabled"
-        fi
+    # Verify results
+    if $HOSTNAME_NEEDS_SETTING; then
+      echo "✅ Hostname set to: $TARGET_HOSTNAME"
     fi
+    if [ ! -f "/etc/pam.d/sudo_local" ]; then
+      echo "✅ TouchID sudo enabled"
+    fi
+  fi
 else
-    if $FIRST_TIME_SETUP; then
-        echo "✅ System already configured correctly"
-    fi
+  if $FIRST_TIME_SETUP; then
+    echo "✅ System already configured correctly"
+  fi
 fi
 
 # Hostname setting
 if [ "$HOSTNAME_NEEDS_SETTING" = "true" ] && [ -n "$TARGET_HOSTNAME" ]; then
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '${TARGET_HOSTNAME}'"$'\n'
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '${TARGET_HOSTNAME}'"$'\n'
-    SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '${TARGET_HOSTNAME}'"$'\n'
-    SUDO_COMMANDS="${SUDO_COMMANDS}dscacheutil -flushcache"$'\n'
-    echo "📋 Hostname change needed: $CURRENT_HOSTNAME → $TARGET_HOSTNAME"
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '${TARGET_HOSTNAME}'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '${TARGET_HOSTNAME}'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '${TARGET_HOSTNAME}'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}dscacheutil -flushcache"$'\n'
+  echo "📋 Hostname change needed: $CURRENT_HOSTNAME → $TARGET_HOSTNAME"
 else
-    echo "✅ Hostname already correct: {{ $current_hostname }}"
+  echo "✅ Hostname already correct: {{ $current_hostname }}"
 fi
 
 # Execute all sudo commands at once if any are needed
 if [ -n "$SUDO_COMMANDS" ]; then
-    echo "🔑 Executing system configuration changes..."
-    sudo bash -c "$SUDO_COMMANDS"
-    
-    if [ "$HOSTNAME_NEEDS_SETTING" = "true" ]; then
-        echo "✅ Hostname set to: $TARGET_HOSTNAME"
-        echo "ℹ️  You may need to restart Terminal for all changes to take effect"
-    fi
-    
-    # Check if TouchID was configured by looking for pam_tid in the commands
-    if echo "$SUDO_COMMANDS" | grep -q "pam_tid"; then
-        echo "✅ TouchID sudo enabled"
-    fi
+  echo "🔑 Executing system configuration changes..."
+  sudo bash -c "$SUDO_COMMANDS"
+  
+  if [ "$HOSTNAME_NEEDS_SETTING" = "true" ]; then
+    echo "✅ Hostname set to: $TARGET_HOSTNAME"
+    echo "ℹ️  You may need to restart Terminal for all changes to take effect"
+  fi
+  
+  # Check if TouchID was configured by looking for pam_tid in the commands
+  if echo "$SUDO_COMMANDS" | grep -q "pam_tid"; then
+    echo "✅ TouchID sudo enabled"
+  fi
 else
-    echo "✅ No system configuration changes needed"
+  echo "✅ No system configuration changes needed"
 fi
 
 {{- else }}
@@ -300,32 +300,32 @@ fi
 
 # Validation (only show details on first setup)
 if $FIRST_TIME_SETUP; then
-    echo ""
-    echo "🎉 Machine setup complete!"
-    
-    # Quick validation
-    VALIDATION_STORAGE_METHOD="$(detect_storage_method)"
-    STORED_WORK_ENV="$(read_machine_identity "work_environment" "${VALIDATION_STORAGE_METHOD}")"
-    CHEZMOI_WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
-    
-    # Normalize boolean values for comparison
-    normalize_boolean() {
-        local value="$1"
-        case "$value" in
-            "1"|"true"|"True"|"TRUE") echo "true" ;;
-            "0"|"false"|"False"|"FALSE"|"") echo "false" ;;
-            *) echo "$value" ;;
-        esac
-    }
-    
-    NORMALIZED_STORED_WORK_ENV="$(normalize_boolean "${STORED_WORK_ENV:-false}")"
-    NORMALIZED_CHEZMOI_WORK_ENV="$(normalize_boolean "${CHEZMOI_WORK_ENV}")"
-    
-    if [[ "${NORMALIZED_STORED_WORK_ENV}" == "${NORMALIZED_CHEZMOI_WORK_ENV}" ]]; then
-        echo "✅ Machine identity system configured and validated successfully!"
-    else
-        echo "⚠️  Machine identity validation warning: storage=${STORED_WORK_ENV}, chezmoi=${CHEZMOI_WORK_ENV}"
-    fi
+  echo ""
+  echo "🎉 Machine setup complete!"
+  
+  # Quick validation
+  VALIDATION_STORAGE_METHOD="$(detect_storage_method)"
+  STORED_WORK_ENV="$(read_machine_identity "work_environment" "${VALIDATION_STORAGE_METHOD}")"
+  CHEZMOI_WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
+  
+  # Normalize boolean values for comparison
+  normalize_boolean() {
+    local value="$1"
+    case "$value" in
+      "1"|"true"|"True"|"TRUE") echo "true" ;;
+      "0"|"false"|"False"|"FALSE"|"") echo "false" ;;
+      *) echo "$value" ;;
+    esac
+  }
+  
+  NORMALIZED_STORED_WORK_ENV="$(normalize_boolean "${STORED_WORK_ENV:-false}")"
+  NORMALIZED_CHEZMOI_WORK_ENV="$(normalize_boolean "${CHEZMOI_WORK_ENV}")"
+  
+  if [[ "${NORMALIZED_STORED_WORK_ENV}" == "${NORMALIZED_CHEZMOI_WORK_ENV}" ]]; then
+    echo "✅ Machine identity system configured and validated successfully!"
+  else
+    echo "⚠️  Machine identity validation warning: storage=${STORED_WORK_ENV}, chezmoi=${CHEZMOI_WORK_ENV}"
+  fi
 else
-    echo "✅ Machine identity system ready"
+  echo "✅ Machine identity system ready"
 fi
