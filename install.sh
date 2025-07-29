@@ -73,7 +73,7 @@ export PATH
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 
 # Set up chezmoi arguments
-chezmoi_args="init --source=${script_dir}"
+chezmoi_args="init --source=${script_dir}/MISSION_CONTROL"
 
 # Add apply flag if appropriate
 if [ "$CHEZMOI_INTERACTIVE" = "1" ]; then
@@ -91,4 +91,4 @@ fi
 
 echo "Running 'chezmoi ${chezmoi_args}'" >&2
 # SC2086: Double quote to prevent globbing and word splitting
-exec "${target_chezmoi}" ${chezmoi_args}
+exec "${target_chezmoi}" "${chezmoi_args}"

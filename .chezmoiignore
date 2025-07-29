@@ -1,2 +1,32 @@
 # chezmoi ignore patterns
-# Add files you don't want chezmoi to manage here 
+# Only manage files in MISSION_CONTROL directory
+# Ignore everything else at the root level
+
+# Documentation and project files
+.todo/
+_tests_/
+assetts/
+docs/
+scripts/
+.github/
+
+# Configuration files
+.chezmoiroot
+.gitignore
+.markdown-link-check.json
+.pre-commit-config.yaml
+.vale.ini
+.yamllint.yml
+lefthook.yml
+
+# Project documentation
+AGENTS.md
+CONTRIBUTING.md
+README.md
+install.sh
+global_git_ignore
+SOURCE_GIT_REPOS.toml.tmpl
+
+# VSCode and Vale
+.vscode/
+.vale/

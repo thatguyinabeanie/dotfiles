@@ -25,7 +25,9 @@ ide_configs:
     ide_name: "Cursor"
     app_name: "Cursor"
     desc: "Open in Cursor"
+    keymap: "<leader>oc"
   vscode_insiders:
     ide_name: "VS Code Insiders"
     app_name: "Visual Studio Code - Insiders"
     desc: "Open in VS Code Insiders"
+    keymap: "<leader>ov"

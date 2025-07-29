@@ -22,7 +22,7 @@ Usage:
 {{- $keymap := $ide_config.keymap }}
 {{- if .keymap }}{{- $keymap = .keymap }}{{- end }}
 {{- $desc := $ide_config.desc }}
-{{- if .desc }}{{- $desc = .desc }}{{- end }}
+{{- if hasKey . "desc" }}{{- $desc = .desc }}{{- end }}
 vim.keymap.set("n", "{{ $keymap }}", function()
   local current_file = vim.fn.expand("%:p")
   if current_file == "" then
