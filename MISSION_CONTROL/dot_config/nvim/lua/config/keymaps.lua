@@ -62,7 +62,7 @@ vim.keymap.set("n", "<leader>bV", function()
     return
   end
 
-  local vscode_path = "/Applications/Cursor.app/Contents/MacOS/Cursor"
+  local vscode_path = os.getenv("CURSOR_PATH") or "/Applications/Cursor.app/Contents/MacOS/Cursor"
 
   if vim.fn.executable(vscode_path) == 1 then
     -- Use os.execute instead of system for better shell compatibility
@@ -93,7 +93,7 @@ vim.keymap.set("n", "<leader>bI", function()
     return
   end
 
-  local vscode_insiders_path = "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron"
+  local vscode_insiders_path = os.getenv("VSCODE_INSIDERS_PATH") or "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron"
 
   if vim.fn.executable(vscode_insiders_path) == 1 then
     local success = os.execute(string.format('"%s" "%s" &', vscode_insiders_path, current_file))

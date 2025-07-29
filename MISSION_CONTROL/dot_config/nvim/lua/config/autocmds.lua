@@ -30,25 +30,76 @@ vim.api.nvim_create_autocmd("VimEnter", {
 --
 -- BUFREAD< BUFNEWFILE
 --
--- Template file syntax highlighting
+-- Chezmoi template file handling
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.nu.tmpl", "*.lua.tmpl", "*.sh.tmpl", "*.zsh.tmpl", "*.toml.tmpl", "*.json.tmpl", "*.yaml.tmpl", "*.yml.tmpl" },
+  pattern = { "*.tmpl" },
   callback = function()
+    local filepath = vim.fn.expand("%:p")
     local filename = vim.fn.expand("%:t")
-    local base_ft = filename:match("%.(%w+)%.tmpl$")
-    if base_ft then
-      -- Set filetype based on the base extension
-      local filetype_map = {
-        nu = "nu",
-        lua = "lua",
-        sh = "sh",
-        zsh = "zsh",
-        toml = "toml",
-        json = "json",
-        yaml = "yaml",
-        yml = "yaml",
-      }
-      vim.bo.filetype = filetype_map[base_ft] or base_ft
+    
+    -- Check if this is a chezmoi template (in chezmoi directory or has chezmoi patterns)
+    local is_chezmoi = filepath:find("chezmoi") or filepath:find("%.chezmoitemplates/") or 
+                      filename:find("^dot_") or filename:find("^private_") or 
+                      filename:find("^run_") or filename:find("^modify_")
+    
+    if is_chezmoi then
+      -- Extract base filetype from filename pattern like file.ext.tmpl
+      local base_ft = filename:match("%.([%w-]+)%.tmpl$")
+      
+      if base_ft then
+        -- Enhanced filetype mapping for chezmoi templates
+        local filetype_map = {
+          nu = "nu",
+          lua = "lua", 
+          sh = "bash",
+          bash = "bash",
+          zsh = "zsh",
+          fish = "fish",
+          toml = "toml",
+          json = "json",
+          yaml = "yaml",
+          yml = "yaml",
+          xml = "xml",
+          html = "html",
+          css = "css",
+          js = "javascript",
+          ts = "typescript",
+          py = "python",
+          rb = "ruby",
+          go = "go",
+          rs = "rust",
+          vim = "vim",
+          conf = "conf",
+          config = "conf",
+          gitignore = "gitignore",
+          gitconfig = "gitconfig",
+          dockerfile = "dockerfile",
+        }
+        
+        local target_ft = filetype_map[base_ft] or base_ft
+        vim.bo.filetype = target_ft
+        
+        -- Disable certain diagnostics for chezmoi templates
+        vim.diagnostic.config({
+          virtual_text = false,
+          signs = false,
+          underline = false,
+          update_in_insert = false,
+        }, vim.api.nvim_get_current_buf())
+        
+        -- Set up buffer-local settings for chezmoi templates
+        vim.b.chezmoi_template = true
+        
+        -- Add template syntax patterns to be ignored
+        vim.b.lsp_ignore_patterns = {
+          "{{.*}}",           -- Chezmoi template expressions
+          "{%-.*%-%}",        -- Chezmoi template blocks
+          "{{-.*-}}",         -- Chezmoi template with whitespace control
+        }
+        
+        -- Notify that this is a chezmoi template
+        vim.notify("Chezmoi template detected: " .. target_ft .. " syntax with template support", vim.log.levels.INFO)
+      end
     end
   end,
 })

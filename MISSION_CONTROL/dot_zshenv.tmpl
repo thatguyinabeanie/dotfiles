@@ -104,6 +104,61 @@ export CODECOMPANION_TOKEN_PATH=$XDG_CONFIG_HOME
 export VSCODE_USER_DATA_DIR="$XDG_CONFIG_HOME/code"
 export VSCODE_INSIDERS_USER_DATA_DIR="$XDG_CONFIG_HOME/code-insiders"
 
+# Detect and set IDE application paths
+{{- $cursorPaths := list }}
+{{- $vscodeInsidersPaths := list }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $cursorPaths = list "/Applications/Cursor.app/Contents/MacOS/Cursor" "/opt/homebrew/bin/cursor" "/usr/local/bin/cursor" }}
+{{- $vscodeInsidersPaths = list "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron" "/opt/homebrew/bin/code-insiders" "/usr/local/bin/code-insiders" }}
+{{- else }}
+{{- $cursorPaths = list "/usr/bin/cursor" "/usr/local/bin/cursor" "/opt/cursor/cursor" "/snap/bin/cursor" }}
+{{- $vscodeInsidersPaths = list "/usr/bin/code-insiders" "/usr/local/bin/code-insiders" "/opt/vscode-insiders/bin/code-insiders" "/snap/bin/code-insiders" }}
+{{- end }}
+
+# Try predefined paths first for Cursor
+{{- $cursorFound := false }}
+{{- range $cursorPaths }}
+{{- if stat . }}
+export CURSOR_PATH="{{ . }}"
+{{- $cursorFound = true }}
+{{- break }}
+{{- end }}
+{{- end }}
+
+# If not found, try to find it dynamically
+{{- if not $cursorFound }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $cursorSearch := output "sh" "-c" "which cursor 2>/dev/null || find /Applications -name 'Cursor' -type f 2>/dev/null | head -1" | trim }}
+{{- else }}
+{{- $cursorSearch := output "sh" "-c" "which cursor 2>/dev/null || find /usr/share/applications /opt /usr/local -name '*cursor*' -type f -executable 2>/dev/null | head -1" | trim }}
+{{- end }}
+{{- if $cursorSearch }}
+export CURSOR_PATH="{{ $cursorSearch }}"
+{{- end }}
+{{- end }}
+
+# Try predefined paths first for VS Code Insiders  
+{{- $vscodeFound := false }}
+{{- range $vscodeInsidersPaths }}
+{{- if stat . }}
+export VSCODE_INSIDERS_PATH="{{ . }}"
+{{- $vscodeFound = true }}
+{{- break }}
+{{- end }}
+{{- end }}
+
+# If not found, try to find it dynamically
+{{- if not $vscodeFound }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $vscodeSearch := output "sh" "-c" "which code-insiders 2>/dev/null || find /Applications -name '*Insiders*' -path '*/MacOS/Electron' -type f 2>/dev/null | head -1" | trim }}
+{{- else }}
+{{- $vscodeSearch := output "sh" "-c" "which code-insiders 2>/dev/null || find /usr/share/applications /opt /usr/local -name '*insiders*' -type f -executable 2>/dev/null | head -1" | trim }}
+{{- end }}
+{{- if $vscodeSearch }}
+export VSCODE_INSIDERS_PATH="{{ $vscodeSearch }}"
+{{- end }}
+{{- end }}
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 ##
 ## WORK ENVIRONMENT VARIABLES
