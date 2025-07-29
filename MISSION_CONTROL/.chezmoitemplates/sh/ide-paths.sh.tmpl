@@ -1,0 +1,58 @@
+# IDE Path Detection Template for Shell
+# Detects and sets environment variables for IDE applications like Cursor and VS Code Insiders
+# Supports both macOS and Linux platforms with predefined and dynamic detection
+
+# Get platform-specific paths from data
+{{- $platform := "linux" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $platform = "darwin" }}
+{{- end }}
+
+{{- $cursorPaths := index .ide_paths.cursor $platform }}
+{{- $vscodeInsidersPaths := index .ide_paths.vscode_insiders $platform }}
+
+# Try predefined paths first for Cursor
+{{- $cursorFound := false }}
+{{- range $cursorPaths }}
+{{- if stat . }}
+export CURSOR_PATH="{{ . }}"
+{{- $cursorFound = true }}
+{{- break }}
+{{- end }}
+{{- end }}
+
+# If not found, try to find it dynamically
+{{- if not $cursorFound }}
+{{- $cursorSearch := "" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $cursorSearch = output "sh" "-c" "which cursor 2>/dev/null || find /Applications -name 'Cursor' -type f 2>/dev/null | head -1" | trim }}
+{{- else }}
+{{- $cursorSearch = output "sh" "-c" "which cursor 2>/dev/null || find /usr/share/applications /opt /usr/local -name '*cursor*' -type f -executable 2>/dev/null | head -1" | trim }}
+{{- end }}
+{{- if $cursorSearch }}
+export CURSOR_PATH="{{ $cursorSearch }}"
+{{- end }}
+{{- end }}
+
+# Try predefined paths first for VS Code Insiders
+{{- $vscodeFound := false }}
+{{- range $vscodeInsidersPaths }}
+{{- if stat . }}
+export VSCODE_INSIDERS_PATH="{{ . }}"
+{{- $vscodeFound = true }}
+{{- break }}
+{{- end }}
+{{- end }}
+
+# If not found, try to find it dynamically
+{{- if not $vscodeFound }}
+{{- $vscodeSearch := "" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $vscodeSearch = output "sh" "-c" "which code-insiders 2>/dev/null || find /Applications -name '*Insiders*' -path '*/MacOS/Electron' -type f 2>/dev/null | head -1" | trim }}
+{{- else }}
+{{- $vscodeSearch = output "sh" "-c" "which code-insiders 2>/dev/null || find /usr/share/applications /opt /usr/local -name '*insiders*' -type f -executable 2>/dev/null | head -1" | trim }}
+{{- end }}
+{{- if $vscodeSearch }}
+export VSCODE_INSIDERS_PATH="{{ $vscodeSearch }}"
+{{- end }}
+{{- end }}

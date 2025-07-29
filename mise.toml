@@ -21,6 +21,10 @@ pnpm = "latest"                # Package manager
 
 [tasks.test]
 description = "Run all Go tests"
+run = "cd _tests_ && go test ./..."
+
+[tasks.test-verbose]
+description = "Run all Go tests with verbose output"
 run = "cd _tests_ && go test -v ./..."
 
 [tasks.test-changed]
