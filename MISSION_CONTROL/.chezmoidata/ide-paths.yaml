@@ -1,0 +1,21 @@
+ide_paths:
+  cursor:
+    darwin:
+      - "/Applications/Cursor.app/Contents/MacOS/Cursor"
+      - "/opt/homebrew/bin/cursor"
+      - "/usr/local/bin/cursor"
+    linux:
+      - "/usr/bin/cursor"
+      - "/usr/local/bin/cursor"
+      - "/opt/cursor/cursor"
+      - "/snap/bin/cursor"
+  vscode_insiders:
+    darwin:
+      - "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron"
+      - "/opt/homebrew/bin/code-insiders"
+      - "/usr/local/bin/code-insiders"
+    linux:
+      - "/usr/bin/code-insiders"
+      - "/usr/local/bin/code-insiders"
+      - "/opt/vscode-insiders/bin/code-insiders"
+      - "/snap/bin/code-insiders"
