@@ -15,15 +15,8 @@
 {{- /* Determine if we're in an interactive session where we can prompt the user */ -}}
 {{- $interactive := false -}}
 
-{{- /* Check explicit CHEZMOI_INTERACTIVE environment variable first */ -}}
-{{- if eq (env "CHEZMOI_INTERACTIVE") "1" -}}
-  {{- $interactive = true -}}
-{{- else if eq (env "CHEZMOI_INTERACTIVE") "0" -}}
-  {{- $interactive = false -}}
-{{- else -}}
-  {{- /* Fall back to assuming interactive for manual runs */ -}}
-  {{- $interactive = true -}}
-{{- end -}}
+{{- /* Always force non-interactive for init to avoid prompt function issues */ -}}
+{{- $interactive = false -}}
 
 {{- $current_hostname := output "hostname" | trim -}}
 
@@ -44,39 +37,6 @@
   {{- else -}}
     {{- $storage_method = "xdg_config" -}}
   {{- end -}}
-{{- end -}}
-
-<<<<<<< HEAD
-{{/* Read work environment */}}
-{{- if eq $storage_method "macos_defaults" -}}
-  {{- $cmd := "defaults read com.chezmoi.machine work_environment 2>/dev/null || echo ''" -}}
-  {{- with output "bash" "-c" $cmd | trim -}}
-    {{- if or (eq . "1") (eq . "true") -}}
-      {{- $system_work_env = true -}}
-    {{- end -}}
-  {{- end -}}
-{{- else if eq $storage_method "dconf" -}}
-  {{- $cmd := "dconf read /com/chezmoi/machine/work-environment 2>/dev/null || echo ''" -}}
-  {{- with output "bash" "-c" $cmd | trim -}}
-    {{- if or (eq . "true") (eq . "1") -}}
-      {{- $system_work_env = true -}}
-    {{- end -}}
-  {{- end -}}
-{{- else if eq $storage_method "gsettings" -}}
-  {{- $cmd := "gsettings get com.chezmoi.machine work-environment 2>/dev/null || echo ''" -}}
-  {{- with output "bash" "-c" $cmd | trim -}}
-    {{- if or (eq . "true") (eq . "1") -}}
-      {{- $system_work_env = true -}}
-    {{- end -}}
-  {{- end -}}
-{{- else if eq $storage_method "xdg_config" -}}
-  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
-  {{- if stat $config_file -}}
-    {{- $cmd := printf "grep '^work_environment=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
-    {{- with output "bash" "-c" $cmd | trim -}}
-      {{- if or (eq . "true") (eq . "1") -}}
-        {{- $system_work_env = true -}}
-      {{- end -}}
 {{- end -}}
 
 {{/* Read work environment */}}
@@ -231,32 +191,17 @@
 {{- end -}}
 
 {{/* Only prompt for missing values during first-time setup */}}
-{{- if $interactive -}}
-  {{- if not $system_work_env -}}
-    {{- $WORK_ENVIRONMENT = promptBoolOnce . "machine.work_environment" "🏢 Is this a work environment" -}}
-  {{- end -}}
-  
-  {{- if and $WORK_ENVIRONMENT (not $system_work_org) -}}
-    {{- $WORK_ORG = promptStringOnce . "machine.work_org" "🏢 What is your work organization" -}}
-  {{- end -}}
-  
-  {{/* Set hostname based on work environment and organization during first setup */}}
-  {{- if and (not $system_hostname) $WORK_ENVIRONMENT $WORK_ORG (ne $WORK_ORG "") -}}
-    {{- $HOSTNAME = $WORK_ORG -}}
-  {{- else if not $system_hostname -}}
-    {{- $HOSTNAME = promptStringOnce . "machine.hostname" "🖥️  What hostname would you like to set for this machine" $current_hostname -}}
-  {{- end -}}
-{{- end -}}
+{{- /* DISABLED interactive block 1 */ -}}
 
 {{- /* =================== DEFAULT VALUES =================== */ -}}
 {{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
-{{- $opacity := 0.8 }}              {{/* Terminal transparency level */ -}}
-{{- $blur := 20 }}                  {{/* Terminal background blur amount */ -}}
-{{- $font_size := 24 }}             {{/* Default font size for terminals */ -}}
-{{- $font_family := "Dank Mono" }}  {{/* Preferred monospace font */ -}}
-{{- $window_height := 65 }}         {{/* Terminal window height (rows) */ -}}
-{{- $window_width := 160 }}         {{/* Terminal window width (columns) */ -}}
-{{- $refreshPeriod := 168 }}        {{/* External repo refresh period (hours) */ -}}
+{{- $opacity := 0.8 -}}              {{/* Terminal transparency level */}}
+{{- $blur := 20 -}}                  {{/* Terminal background blur amount */}}
+{{- $font_size := 24 -}}             {{/* Default font size for terminals */}}
+{{- $font_family := "Dank Mono" -}}  {{/* Preferred monospace font */}}
+{{- $window_height := 65 -}}         {{/* Terminal window height (rows) */}}
+{{- $window_width := 160 -}}         {{/* Terminal window width (columns) */}}
+{{- $refreshPeriod := 168 -}}        {{/* External repo refresh period (hours) */}}
 
 {{- /* =================== ENVIRONMENT DETECTION =================== */ -}}
 {{- $is_codespace := false -}}
@@ -332,72 +277,47 @@
 {{- end -}}
 
 {{/* Interactive prompts for missing values */}}
-{{- if $interactive -}}
-  {{- if not $GIT_NAME -}}
-    {{- $GIT_NAME = promptStringOnce . "git.config.name" "👥 Git Config 👥 - Name" -}}
-  {{- end -}}
-  {{- if not $GITHUB_USERNAME -}}
-    {{- $GITHUB_USERNAME = promptStringOnce . "git.config.username" "👥 Git Config 👥 - Github Username" -}}
-  {{- end -}}
-  {{- if not $GIT_EMAIL -}}
-    {{- if $WORK_ENVIRONMENT -}}
-      {{- $GIT_EMAIL = promptStringOnce . "git.config.email" "👥 Git Config 👥 - Work Email" -}}
-    {{- else -}}
-      {{- $GIT_EMAIL = promptStringOnce . "git.config.email" "👥 Git Config 👥 - Email" -}}
-    {{- end -}}
-  {{- end -}}
-  
-  {{/* Prompt for preferences only if no preference is set anywhere (first time) */}}
-  {{- if and (not (env "SHELL_PREF")) (not $local_shell) (not $system_shell) -}}
-    {{- $SHELL_OPTIONS := list "nu" "zsh" -}}
-    {{- $SHELL = promptChoiceOnce . "SHELL" "💻 What is your preferred shell" $SHELL_OPTIONS "nu" -}}
-  {{- end -}}
-  
-  {{- if and (not (env "CATPPUCCIN_FLAVOR")) (not $local_catppuccin) (not $system_catppuccin) -}}
-    {{- $CATPPUCCIN_FLAVORS := list "mocha" "macchiatto" "frappe" "latte" -}}
-    {{- $CATPPUCCIN_FLAVOR = promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor" $CATPPUCCIN_FLAVORS "mocha" -}}
-  {{- end -}}
-{{- end -}}
+{{- /* DISABLED interactive block 2 */ -}}
 
-{{- /* =================== CONFIGURATION OUTPUT =================== */ -}}
-{{- /* Generate the final configuration file */ -}}
+{{/* =================== CONFIGURATION OUTPUT =================== */}}
+{{/* Generate the final configuration file */}}
 
 [data]
-{{- /* ===== CORE PREFERENCES ===== */ -}}
+{{/* ===== CORE PREFERENCES ===== */}}
 hostname                   = {{ $HOSTNAME | quote }}
 SHELL                      = {{ $SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
 CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
 
-{{- /* ===== THEME SYSTEM CONFIGURATION ===== */ -}}
-{{- /* These control the advanced theme switching system */ -}}
+{{/* ===== THEME SYSTEM CONFIGURATION ===== */}}
+{{/* These control the advanced theme switching system */}}
 THEME_MODE                 = {{ $THEME_MODE | quote }}
 THEME_LIGHT                = "catppuccin-latte"
 THEME_DARK                 = "catppuccin-mocha"
 
-{{- /* ===== APPLICATION SETTINGS ===== */ -}}
+{{/* ===== APPLICATION SETTINGS ===== */}}
 OBSIDIAN_VAULT_PERSONAL    = "obsidian-vault"
 OBSIDIAN_VAULT_WORK        = "obsidian-vault-work"
 YAZI_CATPPUCCIN_COLOR      = "blue"
 SUDO_TOUCHID               = "true"
 INTERACTIVE                = {{ $interactive }}
 
-{{- /* ===== K9S TERMINAL UI CONFIGURATION ===== */ -}}
+{{/* ===== K9S TERMINAL UI CONFIGURATION ===== */}}
 [data.k9s]
-transparent                = {{ lt $opacity 1.0 }}     {{/* Enable transparency if opacity < 1.0 */ -}}
+transparent                = {{ lt $opacity 1.0 -}}     {{/* Enable transparency if opacity < 1.0 */}}
 
-{{- /* ===== GHOSTTY TERMINAL CONFIGURATION ===== */ -}}
+{{/* ===== GHOSTTY TERMINAL CONFIGURATION ===== */}}
 [data.ghostty]
 window_height              = {{ $window_height | quote }}
 window_width               = {{ $window_width | quote }}
 opacity                    = {{ $opacity | quote }}
 blur                       = {{ $blur | quote }}
 font_size                  = {{ $font_size | quote }}
-font_thicken               = true                       {{/* Enable font thickening for readability */ -}}
+font_thicken               = true                       {{/* Enable font thickening for readability */}}
 font_family                = {{ $font_family | quote }}
-cursor_style               = "block_hollow"            {{/* Hollow block cursor style */ -}}
+cursor_style               = "block_hollow"            {{/* Hollow block cursor style */}}
 
-{{- /* ===== KITTY TERMINAL CONFIGURATION ===== */ -}}
+{{/* ===== KITTY TERMINAL CONFIGURATION ===== */}}
 [data.kitty]
 window_height              = {{ $window_height | quote }}
 window_width               = {{ $window_width | quote }}
@@ -410,23 +330,23 @@ font_family                = {{ $font_family | quote }}
 show_hostname              = false
 status_right_length        = 100
 
-{{- /* ===== GIT & GITHUB CONFIGURATION ===== */ -}}
+{{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
 name                       = {{ $GIT_NAME | quote }}
 username                   = {{ $GITHUB_USERNAME | quote }}
 email                      = {{ $GIT_EMAIL | quote }}
-defaultRefreshPeriod       = "{{ $refreshPeriod }}h"   {{/* How often to refresh external repos */ -}}
+defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
 work_org                   = {{ $WORK_ORG | quote }}
 work_environment           = {{ $WORK_ENVIRONMENT }}
 
-{{- /* ===== INSTALLATION FLAGS ===== */ -}}
+{{/* ===== INSTALLATION FLAGS ===== */}}
 [data.install]
-obsidian                   = true                       {{/* Enable Obsidian installation */ -}}
+obsidian                   = true                       {{/* Enable Obsidian installation */}}
 
-{{- /* ===== CHEZMOI INTERNAL SETTINGS ===== */ -}}
+{{/* ===== CHEZMOI INTERNAL SETTINGS ===== */}}
 [warnings]
-configFileTemplateHasChanged = false                   {{/* Suppress template change warnings */ -}}
+configFileTemplateHasChanged = false                   {{/* Suppress template change warnings */}}
 
-{{- /* ===== AI INTEGRATION CONFIGURATION ===== */ -}}
+{{/* ===== AI INTEGRATION CONFIGURATION ===== */}}
 [data.ai]
-gemini_api_key             = "replace_with_gemini_api_key"  {{/* Placeholder for Gemini API key */ -}}
+gemini_api_key             = "replace_with_gemini_api_key"  {{/* Placeholder for Gemini API key */}}
