@@ -7,10 +7,10 @@
 # CONFIGURATION & ENVIRONMENT CHECKS
 #=============================================================================
 
-{{ if env "CHEZMOI_INTERACTIVE" | ne "1" -}}
+{{ if env "CHEZMOI_INTERACTIVE" | ne "1" }}
 echo "🔵 Skipping mise dependencies installation in non-interactive mode."
 exit 0
-{{ end -}}
+{{ end }}
 
 # Check if mise config exists
 if [ ! -f "$HOME/.config/mise/config.toml" ]; then

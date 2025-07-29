@@ -141,7 +141,7 @@ This dotfiles configuration features an advanced theme management system that gi
 
 ### 🎛️ Theme configuration
 
-Control your theme experience through three simple variables in `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
+Control your theme experience through three simple variables in `$HOME/.config/chezmoi/chezmoi.toml`:
 
 ```toml
 [data]
@@ -152,11 +152,11 @@ THEME_DARK = "catppuccin-mocha"    # Your preferred dark theme
 
 ### 🌈 Theme modes
 
-| Mode | Behavior | Use Case |
-|------|----------|----------|
+| Mode       | Behavior                                                                          | Use Case                                            |
+| ---------- | --------------------------------------------------------------------------------- | --------------------------------------------------- |
 | **system** | Automatically switches between light/dark themes based on macOS system appearance | Perfect for following your system's day/night cycle |
-| **dark** | Always uses your chosen dark theme | For consistent dark mode experience |
-| **light** | Always uses your chosen light theme | For consistent light mode experience |
+| **dark**   | Always uses your chosen dark theme                                                | For consistent dark mode experience                 |
+| **light**  | Always uses your chosen light theme                                               | For consistent light mode experience                |
 
 ### 🚀 Supported applications
 
@@ -170,12 +170,12 @@ Both **Ghostty** and **Neovim** automatically respect your theme configuration:
 
 Experience the beauty of Catppuccin in four delicious flavors:
 
-| Theme            | Description                               | Best For |
-| ---------------- | ----------------------------------------- | -------- |
-| catppuccin-mocha | Rich dark background with vibrant accents | Night coding sessions |
-| catppuccin-macchiato | Balanced dark theme with medium contrast | Versatile dark theme |
-| catppuccin-frappe | Cozy dark theme with lower contrast | Easy on the eyes |
-| catppuccin-latte | Creamy light theme perfect for daytime | Daylight coding |
+| Theme                | Description                               | Best For              |
+| -------------------- | ----------------------------------------- | --------------------- |
+| catppuccin-mocha     | Rich dark background with vibrant accents | Night coding sessions |
+| catppuccin-macchiato | Balanced dark theme with medium contrast  | Versatile dark theme  |
+| catppuccin-frappe    | Cozy dark theme with lower contrast       | Easy on the eyes      |
+| catppuccin-latte     | Creamy light theme perfect for daytime    | Daylight coding       |
 
 ### ⚡ Quick theme changes
 
@@ -199,6 +199,7 @@ Complete scientific Python environment with interactive Jupyter notebook support
 - **LSP Integration**: Full autocompletion and error checking for code cells
 
 **Quick start**:
+
 ```python
 # %%
 import numpy as np
@@ -298,11 +299,11 @@ mcphub test-server filesystem
 
 ### Artificial intelligence integration for Neovim
 
-| Keybinding   | Provider        | Action              |
-| ------------ | --------------- | ------------------- |
-| `<leader>aa` | Avante Claude   | Open AI assistant   |
-| `<leader>cc` | CodeCompanion   | Open chat interface |
-| `<C-g>`      | GitHub Copilot  | Show suggestions    |
+| Keybinding   | Provider       | Action              |
+| ------------ | -------------- | ------------------- |
+| `<leader>aa` | Avante Claude  | Open AI assistant   |
+| `<leader>cc` | CodeCompanion  | Open chat interface |
+| `<C-g>`      | GitHub Copilot | Show suggestions    |
 
 ### Available providers
 
@@ -351,7 +352,7 @@ spotify_play / spotify_pause / spotify_next / spotify_prev
 ```bash
 # Complete Docker cleanup (removes ALL containers, volumes, images)
 docker_purge                    # Interactive with confirmation
-docker_purge --force            # Skip confirmation  
+docker_purge --force            # Skip confirmation
 docker_nuke                     # Alias for force purge
 ```
 
@@ -369,13 +370,13 @@ Advanced tmux configuration with vim-like navigation:
 
 ### Pane management
 
-| Keybinding  | Action                     |
-| ----------- | -------------------------- |
+| Keybinding  | Action                      |
+| ----------- | --------------------------- |
 | `h/j/k/l`   | Navigate panes in vim style |
-| `v` or `\|` | Vertical split             |
-| `-` or `s`  | Horizontal split           |
-| `z`         | Toggle pane zoom           |
-| `X`         | Kill pane                  |
+| `v` or `\|` | Vertical split              |
+| `-` or `s`  | Horizontal split            |
+| `z`         | Toggle pane zoom            |
+| `X`         | Kill pane                   |
 
 ### Window management
 

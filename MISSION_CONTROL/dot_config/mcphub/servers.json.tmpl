@@ -7,36 +7,37 @@
 	"mcpServers": {
 		"filesystem": {
 			"command": "mcp-server-filesystem",
-			"args": ["/Users/beanie/.local/share/chezmoi"],
+			"args": ["{{ .chezmoi.sourceDir | dir }}"],
 			"env": [],
-			"autostart": true,
+			"autostart": false,
 			"disabled": false
 		},
 		"fetch": {
 			"command": "mcp-server-fetch",
 			"args": [],
 			"env": [],
-			"autostart": true,
+			"autostart": false,
 			"disabled": false
 		},
 		"memory": {
 			"command": "mcp-server-memory",
 			"args": [],
 			"env": [],
-			"autostart": true
+			"autostart": false,
+			"disabled": false
 		},
 		"git": {
 			"command": "mcp-server-git",
-			"args": ["--repository", "/Users/beanie/.local/share/chezmoi"],
+			"args": ["--repository", "{{ .chezmoi.sourceDir | dir }}"],
 			"env": [],
-			"autostart": true,
+			"autostart": false,
 			"disabled": false
 		},
 		"neovim": {
 			"command": "mcp-neovim-server",
 			"args": [],
 			"env": ["ALLOW_SHELL_COMMANDS=true"],
-			"autostart": true,
+			"autostart": false,
 			"disabled": false,
 			"autoApprove": [
 				"execute_lua",

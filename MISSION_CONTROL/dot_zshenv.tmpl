@@ -104,6 +104,9 @@ export CODECOMPANION_TOKEN_PATH=$XDG_CONFIG_HOME
 export VSCODE_USER_DATA_DIR="$XDG_CONFIG_HOME/code"
 export VSCODE_INSIDERS_USER_DATA_DIR="$XDG_CONFIG_HOME/code-insiders"
 
+# Detect and set IDE application paths
+{{ template "sh/ide-paths.sh.tmpl" . }}
+
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 ##
 ## WORK ENVIRONMENT VARIABLES

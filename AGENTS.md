@@ -27,7 +27,7 @@ This repository implements a flexible theme management system that allows manual
 
 ### Theme variables
 
-Configure themes by editing `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
+Configure themes by editing `$HOME/.config/chezmoi/chezmoi.toml`:
 
 ```toml
 [data]
