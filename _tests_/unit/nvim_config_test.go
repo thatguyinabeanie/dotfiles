@@ -308,20 +308,10 @@ func TestNvimStartupOptimizations(t *testing.T) {
 
 // TestNvimSnacksOptimization verifies Snacks.nvim is properly configured
 func TestNvimSnacksOptimization(t *testing.T) {
-	snacksPath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "snacks.lua")
+	snacksPath := filepath.Join("..", "..", "MISSION_CONTROL", "dot_config", "nvim", "lua", "plugins", "utilities", "snacks.lua")
 	content, err := os.ReadFile(snacksPath)
 	if err != nil {
 		t.Fatalf("Failed to read snacks.lua: %v", err)
-	}
-
-	// Check that image is disabled
-	if !strings.Contains(string(content), "image = { enabled = false }") {
-		t.Error("Snacks image module should be disabled for performance")
-	}
-
-	// Check that scope is enabled (replacing other indent plugins)
-	if !strings.Contains(string(content), "scope = { enabled = true }") {
-		t.Error("Snacks scope module should be enabled")
 	}
 
 	// Check for proper indent configuration

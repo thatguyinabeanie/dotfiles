@@ -26,7 +26,6 @@ require("lazy").setup({
     { import = "plugins/lsp" },
     { import = "plugins/utilities" },
     { import = "plugins/theme" },
-    { import = "plugins" },
   },
   defaults = {
     lazy = false,
@@ -36,6 +35,10 @@ require("lazy").setup({
   checker = {
     enabled = true,
     notify = false,
+  },
+  rocks = {
+    enabled = not (os.getenv("CI") == "true"), -- Disable luarocks in CI
+    hererocks = not (os.getenv("CI") == "true"), -- Use hererocks locally, disable in CI
   },
   performance = {
     rtp = {

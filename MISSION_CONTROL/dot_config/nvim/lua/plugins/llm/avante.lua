@@ -1,7 +1,3 @@
-if true then
-  return {}
-end
-
 return {
   {
     "yetone/avante.nvim",
@@ -12,7 +8,7 @@ return {
       provider = "copilot",
       providers = {
         copilot = {
-          model = "claude-3.7-sonnet", -- Valid models: claude-3.5-sonnet, claude-3.7-sonnet, gpt-4o, gpt-4o-mini
+          model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
           timeout = 30000,
           extra_request_body = {
             temperature = 0,
@@ -33,7 +29,6 @@ return {
     -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
@@ -59,14 +54,6 @@ return {
             use_absolute_path = true,
           },
         },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
       },
     },
   },

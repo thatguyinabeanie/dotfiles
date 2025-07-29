@@ -1,6 +1,8 @@
 return {
   {
     "ravitemer/mcphub.nvim",
+    -- Only load mcphub outside of CI environments
+    enabled = not vim.env.CI,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },

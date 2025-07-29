@@ -23,6 +23,8 @@ nodejs:
       description: "Claude AI code integration"
     - name: "@google/gemini-cli"
       description: "Google Gemini CLI tool"
+    - name: "@mermaid-js/mermaid-cli"
+      description: "Mermaid diagram CLI tool"
     - name: "opencode-ai"
       description: "OpenCode AI CLI tool"
 
@@ -36,4 +38,5 @@ nodejs:
     - name: "mcp-neovim-server"
       description: "MCP server for Neovim integration"
     - name: vercel
+      version: "44.5.5"
       description: "Vercel CLI tool"
