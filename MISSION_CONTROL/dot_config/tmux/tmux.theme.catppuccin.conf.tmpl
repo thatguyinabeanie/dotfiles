@@ -34,6 +34,14 @@ set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
 set -ga status-right "#[fg=#{@thm_blue}]󰅐 %H:%M %p "
 
 ##
+## TMUX-FZF-URL THEMING AND TERMINAL BROWSER INTEGRATION
+##
+set -g @fzf-url-open "~/.local/bin/terminal-url-handler.sh"
+set -g @fzf-url-bind 'u'
+set -g @fzf-url-history-limit '3000'
+set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#{@thm_surface_0},bg:#{@thm_base},spinner:#{@thm_rosewater},hl:#{@thm_red},fg:#{@thm_text},header:#{@thm_teal},info:#{@thm_mauve},pointer:#{@thm_rosewater},marker:#{@thm_rosewater},fg+:#{@thm_text},prompt:#{@thm_mauve},hl+:#{@thm_red},border:#{@thm_overlay_1}'
+
+##
 ## POMODORO CONFIGS
 ## 
 #set -g @pomodoro_on "#[fg=#{@thm_blue}]⥁ "

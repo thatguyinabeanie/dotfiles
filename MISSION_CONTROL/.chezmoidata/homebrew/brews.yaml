@@ -68,9 +68,11 @@ brews:
     - jaq
     - jesseduffield/lazydocker/lazydocker
     - launchctl-completion
+    - lastpass-cli
     - lazygit
     - libffi
     - libpq
+    - bitwarden-cli
     - links
     - luajit
     - luajit-openresty
@@ -80,6 +82,7 @@ brews:
     - luau
     - luaver
     - lynx
+    - w3m
     - make
     - man2html
     - markdown-toc

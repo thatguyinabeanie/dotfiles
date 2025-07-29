@@ -1,0 +1,55 @@
+{{/* 
+Template for generating Neovim keymaps to open current buffer in external IDEs
+Usage: 
+  {{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "cursor") .) }}
+  {{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "cursor" "keymap" "<leader>bc") .) }}
+  {{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "cursor" "keymap" "<leader>bc" "desc" "Custom description") .) }}
+*/}}
+{{- $ide_key := .ide_key }}
+{{- $ide_config := index .ide_configs $ide_key }}
+{{- $platform := "linux" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $platform = "darwin" }}
+{{- end }}
+{{- $idePaths := index .ide_paths $ide_key $platform }}
+{{- $idePath := "" }}
+{{- range $idePaths }}
+{{- if stat . }}
+{{- $idePath = . }}
+{{- break }}
+{{- end }}
+{{- end }}
+{{- $keymap := $ide_config.keymap }}
+{{- if .keymap }}{{- $keymap = .keymap }}{{- end }}
+{{- $desc := $ide_config.desc }}
+{{- if hasKey . "desc" }}{{- $desc = .desc }}{{- end }}
+vim.keymap.set("n", "{{ $keymap }}", function()
+  local current_file = vim.fn.expand("%:p")
+  if current_file == "" then
+    vim.notify("No file in current buffer", vim.log.levels.ERROR)
+    return
+  end
+
+  local ide_path = "{{ $idePath }}"
+
+  if vim.fn.executable(ide_path) == 1 then
+    local success = os.execute(string.format('"%s" "%s" &', ide_path, current_file))
+    if not success then
+      vim.notify("Failed to open {{ $ide_config.ide_name }}.", vim.log.levels.ERROR)
+    else
+      vim.notify("Opening in {{ $ide_config.ide_name }}: " .. current_file, vim.log.levels.INFO)
+    end
+  else
+{{- if eq .chezmoi.os "darwin" }}
+    -- Fallback to macOS open command
+    local success = os.execute(string.format('open -a "{{ $ide_config.app_name }}" "%s"', current_file))
+    if not success then
+      vim.notify("Failed to open {{ $ide_config.ide_name }} using open command", vim.log.levels.ERROR)
+    else
+      vim.notify("Opening in {{ $ide_config.ide_name }}: " .. current_file, vim.log.levels.INFO)
+    end
+{{- else }}
+    vim.notify("{{ $ide_config.ide_name }} not found in any expected locations", vim.log.levels.ERROR)
+{{- end }}
+  end
+end, { desc = "{{ $desc }}" })

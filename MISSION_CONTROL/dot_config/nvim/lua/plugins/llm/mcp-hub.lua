@@ -12,9 +12,9 @@ return {
         --- `mcp-hub` binary related options-------------------
         config = vim.fn.expand("~/.config/mcphub/servers.json"), -- Absolute path to MCP Servers config file (will create if not exists)
         port = 37373, -- The port `mcp-hub` server listens to
-        shutdown_delay = 60 * 10 * 000, -- Delay in ms before shutting down the server when last instance closes (default: 10 minutes)
+        shutdown_delay = 60 * 1000, -- Delay in ms before shutting down the server when last instance closes (1 minute)
         use_bundled_binary = false, -- Use local `mcp-hub` binary (set this to true when using build = "bundled_build.lua")
-        mcp_request_timeout = 60000, --Max time allowed for a MCP tool or resource to execute in milliseconds, set longer for long running tasks
+        mcp_request_timeout = 10000, --Max time allowed for a MCP tool or resource to execute in milliseconds (10 seconds)
 
         ---Chat-plugin related options-----------------
         auto_approve = false, -- Auto approve mcp tool calls
@@ -53,7 +53,7 @@ return {
           -- Called on errors
         end,
         log = {
-          level = vim.log.levels.INFO, -- Changed from WARN to INFO for better debugging
+          level = vim.log.levels.WARN, -- Reduced logging to minimize file I/O
           to_file = true, -- Enable file logging
           file_path = vim.fn.expand("~/.config/mcphub/mcphub.log"),
           prefix = "MCPHub",
