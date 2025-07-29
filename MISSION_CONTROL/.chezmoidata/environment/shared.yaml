@@ -1,0 +1,106 @@
+# Environment Variables Configuration
+# Single source of truth for all environment variables
+
+# XDG Base Directory Specification & Application Directories
+# https://specifications.freedesktop.org/basedir-spec/latest
+
+shared:
+  # XDG Base Directories
+  XDG_HOME: "$HOME"
+  XDG_CONFIG_HOME: "$XDG_HOME/.config"
+  XDG_DATA_HOME: "$XDG_HOME/.local/share"
+  XDG_STATE_HOME: "$XDG_HOME/.local/state"
+  XDG_CACHE_HOME: "$XDG_HOME/.cache"
+  XDG_DATA_DIRS: ""
+  XDG_CONFIG_DIRS: ""
+
+  # Application Configuration Directories
+  NU_CONFIG_DIR: "$XDG_CONFIG_HOME/nushell"
+  TMUX_CONFIG_DIR: "$XDG_CONFIG_HOME/tmux"
+  TMUX_PLUGIN_MANAGER_PATH: "$XDG_CONFIG_HOME/tmux/plugins"
+  TMUX_CONF: "$XDG_CONFIG_HOME/tmux/tmux.conf"
+  K9S_CONFIG_DIR: "$XDG_CONFIG_HOME/k9s"
+  STARSHIP_CONFIG: "$XDG_CONFIG_HOME/starship/starship.toml"
+
+  # IDE Directories
+  VSCODE_USER_DATA_DIR: "$XDG_CONFIG_HOME/code"
+  VSCODE_INSIDERS_USER_DATA_DIR: "$XDG_CONFIG_HOME/code-insiders"
+
+  # Language-specific Directories
+  GOPATH: "$XDG_CONFIG_HOME/go"
+  GOBIN: "$XDG_CONFIG_HOME/go/bin"
+  GOMODCACHE: "$XDG_CONFIG_HOME/go/pkg/mod"
+
+  # Tool Directories
+  DOTFILES_DIR: "$XDG_DATA_HOME/chezmoi"
+
+  # Editor Configuration
+  EDITOR: "nvim"
+  VISUAL: "nvim"
+
+  # Theming & Display
+  BAT_THEME: "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+  MANPAGER: 'sh -c "sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman"'
+
+  # Completion Systems
+  CARAPACE_BRIDGES: "zsh,bash,inshellisense"
+
+  # Chezmoi Configuration
+  WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT }}"
+  CHEZMOI_INTERACTIVE: "{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
+
+  # Compilation Flags
+  SDKROOT: "$(xcrun --sdk macosx --show-sdk-path)"
+  CPATH: "$SDKROOT/usr/include"
+  LIBRARY_PATH: "$SDKROOT/usr/lib"
+  LDFLAGS: "-L/opt/homebrew/opt/openssl@3/lib"
+  CPPFLAGS: "-I/opt/homebrew/opt/openssl@3/include"
+
+  # Git Configuration
+  GIT_CLONE_DIRECTORY: "$XDG_HOME/source"
+  GIT_NAME: "{{ .git.config.name }}"
+  GITHUB_USERNAME: "{{ .git.config.username }}"
+  GIT_EMAIL: "{{ .git.config.email }}"
+
+  # Node.js Management (FNM)
+  FNM_VERSION_FILE_STRATEGY: "local"
+  FNM_DIR: "{{ .chezmoi.homeDir }}/.local/share/fnm"
+  FNM_LOGLEVEL: "info"
+  FNM_NODE_DIST_MIRROR: "https://nodejs.org/dist"
+  FNM_COREPACK_ENABLED: "false"
+  FNM_RESOLVE_ENGINES: "true"
+  FNM_ARCH: "arm64"
+
+work:
+  WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT | default false }}"
+  GOOGLE_CLOUD_PROJECT: "{{ .work.google_cloud_project }}"
+  AWS_PROFILE: "{{ .work.aws_profile }}"
+  DOCKER_DEFAULT_PLATFORM: "linux/amd64"
+  SLACK_WORKSPACE: "{{ .work.slack_workspace }}"
+  JIRA_URL: "{{ .work.jira_url }}"
+  CONFLUENCE_URL: "{{ .work.confluence_url }}"
+
+conditionals:
+  docker_credentials:
+    condition: "{{ if and (hasKey . \"docker.password\") (hasKey . \"docker.username\") }}"
+    variables:
+      DOCKERHUB_PASSWORD: "{{ .docker.password }}"
+      DOCKERHUB_USERNAME: "{{ .docker.username }}"
+      DOCKERHUB_EMAIL: "{{ .git.config.email }}"
+
+  ai_credentials:
+    condition: "{{ if hasKey . \"ai\" }}"
+    variables:
+      GEMINI_API_KEY: "{{ if ne .ai.gemini_api_key \"replace_with_gemini_api_key\" }}{{ .ai.gemini_api_key }}{{ end }}"
+
+path:
+  - "/usr/local/bin"
+  - "/Library/Developer/CommandLineTools/usr/bin"
+  - "/opt/homebrew/bin"
+  - "/opt/homebrew/sbin"
+  - "/opt/homebrew/opt/libpq/bin" 
+  - "/opt/homebrew/opt/unzip/bin"
+  - "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+  - "$XDG_HOME/.cargo/bin"
+  - "$XDG_HOME/.local/bin"
+  - "$XDG_HOME/.local/share/mise/shims"

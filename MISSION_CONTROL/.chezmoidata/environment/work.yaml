@@ -1,0 +1,11 @@
+
+work:
+  WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT | default false }}"
+  GOOGLE_CLOUD_PROJECT: "{{ .work.google_cloud_project }}"
+  AWS_PROFILE: "{{ .work.aws_profile }}"
+  DOCKER_DEFAULT_PLATFORM: "linux/amd64"
+  SLACK_WORKSPACE: "{{ .work.slack_workspace }}"
+  JIRA_URL: "{{ .work.jira_url }}"
+  CONFLUENCE_URL: "{{ .work.confluence_url }}"
+
+
