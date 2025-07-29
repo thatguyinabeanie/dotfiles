@@ -173,6 +173,7 @@
   {{- $HOSTNAME = $system_hostname -}}
 {{- end -}}
 
+{{/* Only prompt for missing values during first-time setup */}}
 {{- if $interactive -}}
   {{- if not $system_work_env -}}
     {{- $WORK_ENVIRONMENT = promptBoolOnce . "machine.work_environment" "🏢 Is this a work environment" -}}
@@ -182,11 +183,10 @@
     {{- $WORK_ORG = promptStringOnce . "machine.work_org" "🏢 What is your work organization" -}}
   {{- end -}}
   
-  {{- /* Set hostname based on work environment and organization */ -}}
-  {{- if and $WORK_ENVIRONMENT $WORK_ORG (ne $WORK_ORG "") -}}
+  {{/* Set hostname based on work environment and organization during first setup */}}
+  {{- if and (not $system_hostname) $WORK_ENVIRONMENT $WORK_ORG (ne $WORK_ORG "") -}}
     {{- $HOSTNAME = $WORK_ORG -}}
-    {{- /* Don't prompt for hostname if we're using work org */ -}}
-  {{- else -}}
+  {{- else if not $system_hostname -}}
     {{- $HOSTNAME = promptStringOnce . "machine.hostname" "🖥️  What hostname would you like to set for this machine" $current_hostname -}}
   {{- end -}}
 {{- end -}}
@@ -284,16 +284,15 @@
     {{- end -}}
   {{- end -}}
   
-  {{/* Prompt for shell if no preference is set anywhere */}}
+  {{/* Prompt for preferences only if no preference is set anywhere (first time) */}}
   {{- if and (not (env "SHELL_PREF")) (not $local_shell) (not $system_shell) -}}
     {{- $SHELL_OPTIONS := list "nu" "zsh" -}}
     {{- $SHELL = promptChoiceOnce . "SHELL" "💻 What is your preferred shell" $SHELL_OPTIONS "nu" -}}
   {{- end -}}
   
-  {{/* Prompt for catppuccin flavor if no preference is set anywhere */}}
   {{- if and (not (env "CATPPUCCIN_FLAVOR")) (not $local_catppuccin) (not $system_catppuccin) -}}
     {{- $CATPPUCCIN_FLAVORS := list "mocha" "macchiatto" "frappe" "latte" -}}
-    {{- $CATPPUCCIN_FLAVOR = promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor)" $CATPPUCCIN_FLAVORS "mocha" -}}
+    {{- $CATPPUCCIN_FLAVOR = promptChoiceOnce . "CATPPUCCIN_FLAVOR" "🌈 Select a Catppuccin flavor" $CATPPUCCIN_FLAVORS "mocha" -}}
   {{- end -}}
 {{- end -}}
 
