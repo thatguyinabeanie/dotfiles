@@ -141,7 +141,7 @@ This dotfiles configuration features an advanced theme management system that gi
 
 ### 🎛️ Theme configuration
 
-Control your theme experience through three simple variables in `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
+Control your theme experience through three simple variables in `$HOME/.config/chezmoi/chezmoi.toml`:
 
 ```toml
 [data]

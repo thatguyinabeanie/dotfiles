@@ -107,7 +107,7 @@ integrations = {
 
 ### Changing Theme
 
-The theme system is centrally managed through chezmoi configuration. Update `/Users/gmendoza/.config/chezmoi/chezmoi.toml`:
+The theme system is centrally managed through chezmoi configuration. Update `~/.config/chezmoi/chezmoi.toml`:
 
 ```toml
 [data]
