@@ -44,48 +44,72 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
     if is_chezmoi then
       local base_ft = nil
-      
-      -- Handle .gotmpl files
-      if filename:match("%.gotmpl$") then
-        -- For chezmoi gotmpl files, use bash syntax but with template support
-        base_ft = "bash"
+
+      -- Handle .gotmpl files and template files in .chezmoitemplates
+      if filename:match("%.gotmpl$") or filepath:find("%.chezmoitemplates/") then
+        -- For files in .chezmoitemplates directory, try to detect target language from path
+        if filepath:find("%.chezmoitemplates/") then
+          -- Extract target language from directory structure or filename
+          local template_path = filepath:match("%.chezmoitemplates/(.+)")
+          if template_path then
+            -- Check for language-specific subdirectories
+            if template_path:find("^neovim/") and template_path:find("%.lua") then
+              base_ft = "lua"
+            elseif template_path:find("^lua/") then
+              base_ft = "lua"
+            elseif template_path:find("^shell/") or template_path:find("^bash/") then
+              base_ft = "bash"
+            elseif template_path:find("^nushell/") or template_path:find("^nu/") then
+              base_ft = "nu"
+            elseif template_path:find("^python/") then
+              base_ft = "python"
+            else
+              -- Try to extract from filename extension in template path
+              base_ft = template_path:match("%.([%w-]+)%.tmpl$")
+            end
+          end
+        end
+        -- Fallback for other .gotmpl files
+        if not base_ft then
+          base_ft = "bash"
+        end
       else
         -- Extract base filetype from filename pattern like file.ext.tmpl
         base_ft = filename:match("%.([%w-]+)%.tmpl$")
-        
+
         -- If no extension found (no dot before .tmpl), check for shebang
         if not base_ft then
-        local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ""
-        if first_line:match("^#!") then
-          -- Extract interpreter from shebang
-          local full_path = first_line:match("^#!/(.+)$")
-          local interpreter = nil
+          local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1] or ""
+          if first_line:match("^#!") then
+            -- Extract interpreter from shebang
+            local full_path = first_line:match("^#!/(.+)$")
+            local interpreter = nil
 
-          if full_path then
-            -- Extract just the binary name from the path
-            interpreter = full_path:match("/?([%w%-_]+)%s*$") or full_path:match("([%w%-_]+)$")
-          end
+            if full_path then
+              -- Extract just the binary name from the path
+              interpreter = full_path:match("/?([%w%-_]+)%s*$") or full_path:match("([%w%-_]+)$")
+            end
 
-          if interpreter then
-            -- Map common interpreters to filetypes
-            local shebang_map = {
-              sh = "bash",
-              bash = "bash",
-              zsh = "zsh",
-              fish = "fish",
-              nu = "nu",
-              python = "python",
-              python3 = "python",
-              node = "javascript",
-              ruby = "ruby",
-              perl = "perl",
-              lua = "lua",
-              php = "php",
-            }
-            base_ft = shebang_map[interpreter] or interpreter
+            if interpreter then
+              -- Map common interpreters to filetypes
+              local shebang_map = {
+                sh = "bash",
+                bash = "bash",
+                zsh = "zsh",
+                fish = "fish",
+                nu = "nu",
+                python = "python",
+                python3 = "python",
+                node = "javascript",
+                ruby = "ruby",
+                perl = "perl",
+                lua = "lua",
+                php = "php",
+              }
+              base_ft = shebang_map[interpreter] or interpreter
+            end
           end
         end
-      end
       end
 
       if base_ft then -- Enhanced filetype mapping for chezmoi templates
@@ -131,6 +155,9 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
               or line_text:match("{{%-.-%-}}")
               or line_text:match("{{%-.-}}")
               or line_text:match("{{.-%-}}")
+              or line_text:match("{{/%*.*%*/}}")  -- Go template comments
+              or line_text:match("{{/%*")         -- Start of multiline Go template comment
+              or line_text:match("%*/}}")         -- End of multiline Go template comment
 
             if not is_template_error then
               table.insert(filtered, diagnostic)
@@ -166,7 +193,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
             vim.schedule(function()
               local diagnostics = vim.diagnostic.get(vim.api.nvim_get_current_buf())
               local filtered = filter_template_diagnostics(diagnostics)
-              
+
               -- Only update if we actually filtered something
               if #filtered ~= #diagnostics then
                 -- Get all namespaces and clear/set for each one
@@ -182,20 +209,15 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
                   end
                 end
               end
-              
+
               filtering_in_progress = false
-            end)          end,
+            end)
+          end,
         })
 
         -- Set up buffer-local settings for chezmoi templates
         vim.b.chezmoi_template = true
         vim.b.template_diagnostic_filter = true
-
-        -- Notify that this is a chezmoi template
-        vim.notify(
-          "Chezmoi template detected: " .. target_ft .. " syntax (template diagnostics filtered)",
-          vim.log.levels.INFO
-        )
       end
     end
   end,

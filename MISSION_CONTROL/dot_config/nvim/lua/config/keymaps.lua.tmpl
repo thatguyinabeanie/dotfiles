@@ -55,62 +55,12 @@ end, { desc = "copy file's relative path" })
 --
 -- OPEN CURRENT BUFFER IN Cursor
 --
-vim.keymap.set("n", "<leader>bV", function()
-  local current_file = vim.fn.expand("%:p")
-  if current_file == "" then
-    vim.notify("No file in current buffer", vim.log.levels.ERROR)
-    return
-  end
-
-  local vscode_path = os.getenv("CURSOR_PATH") or "/Applications/Cursor.app/Contents/MacOS/Cursor"
-
-  if vim.fn.executable(vscode_path) == 1 then
-    -- Use os.execute instead of system for better shell compatibility
-    local success = os.execute(string.format('"%s" "%s" &', vscode_path, current_file))
-    if not success then
-      vim.notify("Failed to open Cursor.", vim.log.levels.ERROR)
-    else
-      vim.notify("Openning in Cursor: " .. current_file, vim.log.levels.INFO)
-    end
-  else
-    -- For nushell compatibility, use open command
-    local success = os.execute(string.format('open -a "Cursor" "%s"', current_file))
-    if not success then
-      vim.notify("Failed to open Cursor using open command", vim.log.levels.ERROR)
-    else
-      vim.notify("Openning in Cursor: " .. current_file, vim.log.levels.INFO)
-    end
-  end
-end, { desc = "Open in Cursor " })
+{{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "cursor" "keymap" "<leader>bC") .) }}
 
 --
--- OPEN CURRENT BUFFER IN VS Code Insiders
+-- OPEN CURRENT BUFFER IN VS Code Insiders  
 --
-vim.keymap.set("n", "<leader>bI", function()
-  local current_file = vim.fn.expand("%:p")
-  if current_file == "" then
-    vim.notify("No file in current buffer", vim.log.levels.ERROR)
-    return
-  end
-
-  local vscode_insiders_path = os.getenv("VSCODE_INSIDERS_PATH") or "/Applications/Visual Studio Code - Insiders.app/Contents/MacOS/Electron"
-
-  if vim.fn.executable(vscode_insiders_path) == 1 then
-    local success = os.execute(string.format('"%s" "%s" &', vscode_insiders_path, current_file))
-    if not success then
-      vim.notify("Failed to open VS Code Insiders.", vim.log.levels.ERROR)
-    else
-      vim.notify("Opening in VS Code Insiders: " .. current_file, vim.log.levels.INFO)
-    end
-  else
-    local success = os.execute(string.format('open -a "Visual Studio Code - Insiders" "%s"', current_file))
-    if not success then
-      vim.notify("Failed to open VS Code Insiders using open command", vim.log.levels.ERROR)
-    else
-      vim.notify("Opening in VS Code Insiders: " .. current_file, vim.log.levels.INFO)
-    end
-  end
-end, { desc = "Open in VS Code Insiders" })
+{{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "vscode_insiders" "keymap" "<leader>bI" "desc" "Open in VS Code Insiders") .) }}
 
 vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open nvim's lsp.log file." })
 vim.keymap.set("n", "<leader>xd", function()
@@ -199,4 +149,3 @@ vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc 
 --   ph - Help Actions
 --   pa - Prompt Actions
 --
-

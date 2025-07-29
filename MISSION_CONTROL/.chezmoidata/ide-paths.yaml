@@ -19,3 +19,13 @@ ide_paths:
       - "/usr/local/bin/code-insiders"
       - "/opt/vscode-insiders/bin/code-insiders"
       - "/snap/bin/code-insiders"
+
+ide_configs:
+  cursor:
+    ide_name: "Cursor"
+    app_name: "Cursor"
+    desc: "Open in Cursor"
+  vscode_insiders:
+    ide_name: "VS Code Insiders"
+    app_name: "Visual Studio Code - Insiders"
+    desc: "Open in VS Code Insiders"
