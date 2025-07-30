@@ -1,11 +1,8 @@
 -- Shared TypeScript configuration with Node version detection
 -- Check Node version for dynamic TypeScript LSP selection
 local function get_node_version()
-  local handle = io.popen("node --version 2>/dev/null")
-  if not handle then return nil end
-  local result = handle:read("*a")
-  handle:close()
-  if result then
+  local result = vim.fn.system("node --version 2>/dev/null")
+  if result and result ~= "" then
     local major = result:match("v(%d+)")
     return tonumber(major)
   end
@@ -21,30 +18,40 @@ return {
     "mason-org/mason.nvim", -- Updated organization URL
     version = "v2",
     opts = {
-      ensure_installed = {
-        -- TypeScript/JavaScript (conditional based on Node version)
-        use_typescript_tools and "typescript-language-server" or nil,
-        "eslint_d",
-        "eslint-lsp",
-        "prettierd",
+      ensure_installed = (function()
+        local tools = {
+          -- TypeScript/JavaScript (conditional based on Node version)
+          use_typescript_tools and "typescript-language-server" or nil,
+          "eslint_d",
+          "eslint-lsp",
+          "prettierd",
 
-        -- Ruby
-        "ruby-lsp",
-        "standardrb",
-        "haml-lint",
+          -- Ruby
+          "ruby-lsp",
+          "standardrb",
+          "haml-lint",
 
-        -- Markdown
-        "marksman",
-        "vale",
+          -- Markdown
+          "marksman",
+          "vale",
 
-        -- General tools
-        "lua-language-server",
-        "stylua",
-        "tailwindcss-language-server",
-        "json-lsp",
-        "yaml-language-server",
-        "copilot-language-server",
-      },
+          -- General tools
+          "lua-language-server",
+          "stylua",
+          "tailwindcss-language-server",
+          "json-lsp",
+          "yaml-language-server",
+          "copilot-language-server",
+        }
+        -- Filter out nil values
+        local filtered_tools = {}
+        for _, tool in ipairs(tools) do
+          if tool ~= nil then
+            table.insert(filtered_tools, tool)
+          end
+        end
+        return filtered_tools
+      end)(),
     },
   },
 

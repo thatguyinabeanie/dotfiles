@@ -1,6 +1,6 @@
 return {
   "saghen/blink.cmp",
-  build = false, -- Use prebuilt binaries to avoid Rust compiler bug
+  build = false, -- Use prebuilt binaries for faster installation and better stability
   version = "v0.*", -- Use stable releases with prebuilt binaries
   dependencies = {
     "rafamadriz/friendly-snippets",
