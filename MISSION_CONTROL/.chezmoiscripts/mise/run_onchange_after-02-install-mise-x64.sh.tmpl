@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install x86_64 version of mise for Node.js 14 compatibility on Apple Silicon
-# Uses the official mise installer with architecture override
+# Embeds and leverages the official mise installer logic
 
 set -euo pipefail
 
@@ -10,64 +10,227 @@ if [[ "$(uname -m)" != "arm64" ]]; then
     exit 0
 fi
 
+#region logging setup (from official installer)
+if [ "${MISE_DEBUG-}" = "true" ] || [ "${MISE_DEBUG-}" = "1" ]; then
+  debug() {
+    echo "$@" >&2
+  }
+else
+  debug() {
+    :
+  }
+fi
+
+if [ "${MISE_QUIET-}" = "1" ] || [ "${MISE_QUIET-}" = "true" ]; then
+  info() {
+    :
+  }
+else
+  info() {
+    echo "$@" >&2
+  }
+fi
+
+error() {
+  echo "$@" >&2
+  exit 1
+}
+#endregion
+
+#region environment setup (from official installer)
+get_os() {
+  os="$(uname -s)"
+  if [ "$os" = Darwin ]; then
+    echo "macos"
+  elif [ "$os" = Linux ]; then
+    echo "linux"
+  else
+    error "unsupported OS: $os"
+  fi
+}
+
+get_arch() {
+  musl=""
+  if type ldd >/dev/null 2>/dev/null; then
+    libc=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
+    if [ -n "$libc" ]; then
+      musl="-musl"
+    fi
+  fi
+  arch="$(uname -m)"
+  if [ "$arch" = x86_64 ]; then
+    echo "x64$musl"
+  elif [ "$arch" = aarch64 ] || [ "$arch" = arm64 ]; then
+    echo "arm64$musl"
+  elif [ "$arch" = armv7l ]; then
+    echo "armv7$musl"
+  else
+    error "unsupported architecture: $arch"
+  fi
+}
+
+get_ext() {
+  if [ -n "${MISE_INSTALL_EXT:-}" ]; then
+    echo "$MISE_INSTALL_EXT"
+  elif tar_supports_zstd; then
+    echo "tar.zst"
+  elif command -v zstd >/dev/null 2>&1; then
+    echo "tar.zst"
+  else
+    echo "tar.gz"
+  fi
+}
+
+tar_supports_zstd() {
+  # tar is bsdtar or version is >= 1.31
+  if tar --version | grep -q 'bsdtar' && command -v zstd >/dev/null 2>&1; then
+    true
+  elif tar --version | grep -q '1\.(3[1-9]|[4-9][0-9]'; then
+    true
+  else
+    false
+  fi
+}
+
+shasum_bin() {
+  if command -v shasum >/dev/null 2>&1; then
+    echo "shasum"
+  elif command -v sha256sum >/dev/null 2>&1; then
+    echo "sha256sum"
+  else
+    error "mise install requires shasum or sha256sum but neither is installed. Aborting."
+  fi
+}
+#endregion
+
+#region download and checksum validation (from official installer)
+download_file() {
+  url="$1"
+  filename="$(basename "$url")"
+  cache_dir="$(mktemp -d)"
+  file="$cache_dir/$filename"
+
+  info "🔽 downloading $filename..."
+
+  if command -v curl >/dev/null 2>&1; then
+    debug ">" curl -#fLo "$file" "$url"
+    curl -#fLo "$file" "$url"
+  else
+    if command -v wget >/dev/null 2>&1; then
+      debug ">" wget -qO "$file" "$url"
+      stderr=$(mktemp)
+      wget -O "$file" "$url" >"$stderr" 2>&1 || error "wget failed: $(cat "$stderr")"
+    else
+      error "mise standalone install requires curl or wget but neither is installed. Aborting."
+    fi
+  fi
+
+  echo "$file"
+}
+
+get_checksum() {
+  version=$1
+  os=$2
+  arch=$3
+  ext=$4
+  url="https://github.com/jdx/mise/releases/download/v${version}/SHASUMS256.txt"
+
+  if command -v curl >/dev/null 2>&1; then
+    debug ">" curl -fsSL "$url"
+    checksums="$(curl --compressed -fsSL "$url")"
+  else
+    if command -v wget >/dev/null 2>&1; then
+      debug ">" wget -qO - "$url"
+      checksums="$(wget -qO - "$url")"
+    else
+      error "mise standalone install specific version requires curl or wget but neither is installed. Aborting."
+    fi
+  fi
+
+  checksum="$(echo "$checksums" | grep "$os-$arch.$ext")"
+  if ! echo "$checksum" | grep -Eq "^([0-9a-f]{32}|[0-9a-f]{64})"; then
+    info "⚠️  no checksum for mise $version and $os-$arch"
+  else
+    echo "$checksum"
+  fi
+}
+#endregion
+
+# Main installation logic
+install_mise_x64() {
+  # Get latest version from GitHub API
+  info "🔍 fetching latest mise version..."
+  if command -v curl >/dev/null 2>&1; then
+    latest_version=$(curl -fsSL https://api.github.com/repos/jdx/mise/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\([^"]*\)".*/\1/')
+  else
+    error "curl is required to fetch latest version"
+  fi
+
+  if [[ -z "$latest_version" ]]; then
+    error "❌ failed to fetch latest mise version"
+  fi
+
+  version="${latest_version#v}"
+  os="$(get_os)"
+  arch="x64"  # Force x64 architecture
+  ext="$(get_ext)"
+  install_path="$HOME/.local/bin/mise-x64"
+  install_dir="$(dirname "$install_path")"
+
+  info "📦 latest mise version: v$version"
+
+  # Check if already installed and up to date
+  if [[ -f "$install_path" ]]; then
+    current_version=$("$install_path" --version 2>/dev/null | awk '{print $1}' || echo "unknown")
+    if [[ "$current_version" == "$version" ]]; then
+      info "✅ mise-x64 v$version already installed and up to date"
+      return 0
+    else
+      info "🔄 updating mise-x64 from v$current_version to v$version"
+    fi
+  else
+    info "📦 installing mise-x64 v$version for Node.js 14 compatibility"
+  fi
+
+  # Build download URL
+  tarball_url="https://github.com/jdx/mise/releases/download/v${version}/mise-v${version}-${os}-${arch}.${ext}"
+
+  # Download tarball
+  cache_file=$(download_file "$tarball_url")
+  debug "mise-setup: tarball=$cache_file"
+
+  # Validate checksum
+  info "🔒 validating checksum..."
+  cd "$(dirname "$cache_file")" && get_checksum "$version" "$os" "$arch" "$ext" | "$(shasum_bin)" -c >/dev/null
+
+  # Extract tarball
+  mkdir -p "$install_dir"
+  rm -rf "$install_path"
+  cd "$(mktemp -d)"
+  
+  info "📂 extracting mise-x64..."
+  if [ "$ext" = "tar.zst" ] && ! tar_supports_zstd; then
+    zstd -d -c "$cache_file" | tar -xf -
+  else
+    tar -xf "$cache_file"
+  fi
+  
+  mv mise/bin/mise "$install_path"
+  info "✅ mise-x64 installed successfully to $install_path"
+
+  # Verify installation
+  if "$install_path" --version >/dev/null 2>&1; then
+    version_output=$("$install_path" --version)
+    info "🎉 verification successful: $version_output"
+  else
+    error "❌ mise-x64 installation failed - binary not working"
+  fi
+
+  info "📝 usage: Set 'MISE_ARCH = \"x86_64\"' in your project's .mise.toml"
+}
+
 # Create ~/.local/bin if it doesn't exist
 mkdir -p "$HOME/.local/bin"
 
-MISE_X64_PATH="$HOME/.local/bin/mise-x64"
-
-# Check if mise-x64 is already installed and get current version
-if [[ -f "$MISE_X64_PATH" ]]; then
-    CURRENT_VERSION=$("$MISE_X64_PATH" --version 2>/dev/null | awk '{print $1}' || echo "unknown")
-    echo "📦 Current mise-x64 version: v$CURRENT_VERSION"
-else
-    CURRENT_VERSION="none"
-    echo "📦 No mise-x64 installation found"
-fi
-
-# Fetch the latest version from GitHub API
-echo "🔍 Fetching latest mise version..."
-LATEST_VERSION=$(curl -fsSL https://api.github.com/repos/jdx/mise/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\([^"]*\)".*/\1/')
-
-if [[ -z "$LATEST_VERSION" ]]; then
-    echo "❌ Failed to fetch latest mise version"
-    exit 1
-fi
-
-echo "📦 Latest mise version: v$LATEST_VERSION"
-
-# Check if update is needed
-if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
-    echo "✅ mise-x64 v$LATEST_VERSION already installed and up to date"
-    exit 0
-else
-    echo "🔄 Installing/updating mise-x64 from v$CURRENT_VERSION to v$LATEST_VERSION"
-fi
-
-# Create temporary directory for installation
-TEMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TEMP_DIR"' EXIT
-
-# Download the official mise installer
-echo "⬇️  Downloading official mise installer..."
-curl -fsSL https://mise.jdx.dev/install.sh -o "$TEMP_DIR/install.sh"
-
-# Run the installer with x86_64 architecture override and custom install path
-echo "📦 Installing mise v$LATEST_VERSION for x86_64 to ~/.local/bin/mise-x64..."
-MISE_VERSION="v$LATEST_VERSION" \
-MISE_INSTALL_ARCH="x64" \
-MISE_INSTALL_PATH="$MISE_X64_PATH" \
-MISE_INSTALL_HELP=0 \
-bash "$TEMP_DIR/install.sh"
-
-# Verify installation
-echo "🔍 Verifying installation..."
-if "$MISE_X64_PATH" --version >/dev/null 2>&1; then
-    VERSION_OUTPUT=$("$MISE_X64_PATH" --version)
-    echo "✅ mise-x64 installed successfully: $VERSION_OUTPUT"
-else
-    echo "❌ mise-x64 installation failed - binary not working"
-    exit 1
-fi
-
-echo "🎉 mise-x64 is now available for Node.js 14 projects"
-echo "Usage: Set 'MISE_ARCH = \"x86_64\"' in your project's .mise.toml"
+# Run the installation
+install_mise_x64
