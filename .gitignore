@@ -1,6 +1,7 @@
 .DS_Store
 */.DS_Store
 bin
+!MISSION_CONTROL/dot_local/bin/
 tmux/plugins/
 
 zsh/work.zsh
