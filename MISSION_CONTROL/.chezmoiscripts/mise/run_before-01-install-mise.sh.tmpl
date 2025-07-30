@@ -69,6 +69,13 @@ fi
 
 echo "🎉 All mise installations complete"
 
+# Setup mise upgrade LaunchAgent (only for native mise, not mise-x64)
+if launchctl load -w "{{ .chezmoi.homeDir }}/Library/LaunchAgents/com.user.mise-upgrade.plist" 2>/dev/null; then
+	echo "⏰ mise upgrade scheduled (weekly on Mondays at 10:00 AM)"
+else
+	echo "⏰ mise upgrade already configured"
+fi
+
 # Update cache timestamp using pure chezmoi template
 mkdir -p "{{ joinPath .chezmoi.homeDir ".local/share" }}"
 echo "{{ $currentTime }}" > "{{ $cacheFile }}"

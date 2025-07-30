@@ -19,6 +19,7 @@ chezmoi = "latest"             # Dotfiles manager (core to this repo)
 node = "22"                    # Node.js runtime
 pnpm = "latest"                # Package manager
 rust = "nightly"
+lefthook = "latest"
 
 [tasks.test]
 description = "Run all Go tests"

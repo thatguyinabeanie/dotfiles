@@ -9,9 +9,15 @@
 set -euo pipefail
 
 # Only run on Apple Silicon when installing x64 variant
-if [[ "${MISE_INSTALL_ARCH:-}" == "x64" && "$(uname -m)" != "arm64" ]]; then
+if [[ "${MISE_INSTALL_ARCH}" == "x64" && "$(uname -m)" != "arm64" ]]; then
 	exit 0
 fi
 
 # Use official installer, suppress progress bars if quiet mode
 curl -fsSL https://mise.run | sh 2>/dev/null
+
+# Always upgrade after install if system architecture matches MISE_INSTALL_ARCH
+if [[ "$(uname -m)" == "${MISE_INSTALL_ARCH}" ]]; then
+	mise upgrade --yes
+fi
+
