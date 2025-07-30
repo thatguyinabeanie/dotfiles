@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.user.mise-update</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{{ .chezmoi.homeDir }}/.local/bin/mise-install-or-update.sh</string>
+    </array>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>MISE_INSTALL_ARCH</key>
+        <string>auto</string>
+        <key>MISE_INSTALL_PATH</key>
+        <string>{{ .chezmoi.homeDir }}/.local/bin/mise</string>
+        <key>MISE_QUIET</key>
+        <string>true</string>
+        <key>HOME</key>
+        <string>{{ .chezmoi.homeDir }}</string>
+    </dict>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>9</integer>
+        <key>Minute</key>
+        <integer>15</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>{{ .chezmoi.homeDir }}/.local/log/mise-update.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{ .chezmoi.homeDir }}/.local/log/mise-update.log</string>
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>

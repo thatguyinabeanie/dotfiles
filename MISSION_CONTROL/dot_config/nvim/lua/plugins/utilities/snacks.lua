@@ -90,7 +90,7 @@ return {
           enabled = true,
         },
         filter = function(buf)
-          if not buf or buf == 0 then
+          if not buf or buf == 0 or not vim.api.nvim_buf_is_valid(buf) then
             return false
           end
           local bt = vim.bo[buf].buftype
@@ -137,7 +137,7 @@ return {
       },
       quickfile = { enabled = true },
       rename = { enabled = true }, -- LSP file renaming with plugin integration
-      scope = { enabled = true }, -- Enable scope detection (replaces mini.indentscope)
+      scope = { enabled = true },
       scratch = { enabled = true }, -- Persistent scratch buffers
       scroll = { enabled = true }, -- Enable scroll animations
       statuscolumn = { enabled = true },

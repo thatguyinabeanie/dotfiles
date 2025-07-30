@@ -5,10 +5,11 @@ vim.filetype.add({
   pattern = {
     -- Chezmoi template files with shell extensions
     ["%.sh%.tmpl"] = "sh",
-    ["%.zsh%.tmpl"] = "zsh", 
+    ["%.zsh%.tmpl"] = "zsh",
     ["%.bash%.tmpl"] = "bash",
     ["%.fish%.tmpl"] = "fish",
-    
+    ["%.nu%.tmpl"] = "nu",
+
     -- Other common template patterns
     ["%.js%.tmpl"] = "javascript",
     ["%.ts%.tmpl"] = "typescript",
@@ -17,7 +18,7 @@ vim.filetype.add({
     ["%.go%.tmpl"] = "go",
     ["%.rs%.tmpl"] = "rust",
     ["%.lua%.tmpl"] = "lua",
-    
+
     -- Config file templates
     ["%.json%.tmpl"] = "json",
     ["%.yaml%.tmpl"] = "yaml",
@@ -26,20 +27,21 @@ vim.filetype.add({
     ["%.xml%.tmpl"] = "xml",
     ["%.ini%.tmpl"] = "dosini",
     ["%.conf%.tmpl"] = "conf",
-    
+
     -- Special chezmoi patterns in template directories
     [".*/%.chezmoitemplates/.*/.*%.tmpl"] = function(path, bufnr)
       -- Extract the base filename without .tmpl extension
       local basename = vim.fn.fnamemodify(path, ":t:r")
-      
+
       -- If the basename has an extension, use that for filetype
       local ext = vim.fn.fnamemodify(basename, ":e")
       if ext ~= "" then
         -- Map common extensions to filetypes
         local ext_map = {
           sh = "sh",
-          zsh = "zsh", 
+          zsh = "zsh",
           bash = "bash",
+          nu = "nu",
           js = "javascript",
           ts = "typescript",
           py = "python",
@@ -55,11 +57,11 @@ vim.filetype.add({
           html = "html",
           css = "css",
           scss = "scss",
-          md = "markdown"
+          md = "markdown",
         }
         return ext_map[ext] or ext
       end
-      
+
       -- Fallback to detecting by content or path patterns
       return nil
     end,

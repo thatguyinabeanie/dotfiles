@@ -75,3 +75,47 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.b.obsidian_file = true
   end,
 })
+
+-- Override chezmoi template filetype detection
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.tmpl" },
+  callback = function()
+    local filepath = vim.fn.expand("%:p")
+    
+    -- Only process files in chezmoi directories
+    if not string.find(filepath, "/chezmoi/") then
+      return
+    end
+    
+    -- Extract base filename without .tmpl extension
+    local basename = vim.fn.fnamemodify(filepath, ":t:r")
+    local ext = vim.fn.fnamemodify(basename, ":e")
+    
+    -- Map extensions to filetypes
+    local ext_map = {
+      lua = "lua",
+      sh = "sh",
+      zsh = "zsh", 
+      nu = "nu",
+      js = "javascript",
+      ts = "typescript",
+      py = "python",
+      json = "json",
+      yaml = "yaml",
+      yml = "yaml",
+      toml = "toml",
+      html = "html",
+      css = "css",
+      md = "markdown"
+    }
+    
+    if ext_map[ext] then
+      vim.opt_local.filetype = ext_map[ext]
+      
+      -- Disable diagnostics for template files to avoid Go template syntax errors
+      vim.defer_fn(function()
+        vim.diagnostic.enable(false, { bufnr = 0 })
+      end, 100)
+    end
+  end,
+})
