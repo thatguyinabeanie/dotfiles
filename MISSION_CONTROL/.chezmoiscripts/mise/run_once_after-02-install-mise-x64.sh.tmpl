@@ -18,20 +18,30 @@ fi
 # Create ~/.local/bin if it doesn't exist
 mkdir -p "$HOME/.local/bin"
 
+# Fetch the latest version from GitHub API
+echo "Fetching latest mise version..."
+LATEST_VERSION=$(curl -fsSL https://api.github.com/repos/jdx/mise/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\([^"]*\)".*/\1/')
+
+if [[ -z "$LATEST_VERSION" ]]; then
+    echo "❌ Failed to fetch latest mise version"
+    exit 1
+fi
+
+echo "📦 Latest mise version: v$LATEST_VERSION"
+
 # Check if mise-x64 is already installed and up to date
 MISE_X64_PATH="$HOME/.local/bin/mise-x64"
-TARGET_VERSION="2025.7.31"
 
 if [[ -f "$MISE_X64_PATH" ]]; then
-    CURRENT_VERSION=$("$MISE_X64_PATH" --version 2>/dev/null | grep -o 'v[0-9]\+\.[0-9]\+\.[0-9]\+' | head -1 | sed 's/v//' || echo "unknown")
-    if [[ "$CURRENT_VERSION" == "$TARGET_VERSION" ]]; then
-        echo "mise-x64 v$TARGET_VERSION already installed"
+    CURRENT_VERSION=$("$MISE_X64_PATH" --version 2>/dev/null | awk '{print $1}' || echo "unknown")
+    if [[ "$CURRENT_VERSION" == "$LATEST_VERSION" ]]; then
+        echo "✅ mise-x64 v$LATEST_VERSION already installed and up to date"
         exit 0
     else
-        echo "Updating mise-x64 from v$CURRENT_VERSION to v$TARGET_VERSION"
+        echo "🔄 Updating mise-x64 from v$CURRENT_VERSION to v$LATEST_VERSION"
     fi
 else
-    echo "Installing mise-x64 v$TARGET_VERSION for Node.js 14 compatibility"
+    echo "📦 Installing mise-x64 v$LATEST_VERSION for Node.js 14 compatibility"
 fi
 
 # Create temporary directory
@@ -41,22 +51,22 @@ trap 'rm -rf "$TEMP_DIR"' EXIT
 cd "$TEMP_DIR"
 
 # Download the x86_64 version of mise
-echo "Downloading mise v$TARGET_VERSION for x86_64..."
-curl -fsSL "https://github.com/jdx/mise/releases/download/v$TARGET_VERSION/mise-v$TARGET_VERSION-macos-x64.tar.gz" -o mise-x64.tar.gz
+echo "⬇️  Downloading mise v$LATEST_VERSION for x86_64..."
+curl -fsSL "https://github.com/jdx/mise/releases/download/v$LATEST_VERSION/mise-v$LATEST_VERSION-macos-x64.tar.gz" -o mise-x64.tar.gz
 
 # Extract it
-echo "Extracting mise-x64..."
+echo "📂 Extracting mise-x64..."
 tar -xzf mise-x64.tar.gz
 
 # Move the binary to ~/.local/bin
-echo "Installing mise-x64 to ~/.local/bin/mise-x64..."
+echo "📦 Installing mise-x64 to ~/.local/bin/mise-x64..."
 cp mise/bin/mise "$MISE_X64_PATH"
 
 # Make it executable
 chmod +x "$MISE_X64_PATH"
 
 # Verify installation
-echo "Verifying installation..."
+echo "🔍 Verifying installation..."
 if "$MISE_X64_PATH" --version >/dev/null 2>&1; then
     VERSION_OUTPUT=$("$MISE_X64_PATH" --version)
     echo "✅ mise-x64 installed successfully: $VERSION_OUTPUT"
