@@ -1,28 +1,10 @@
 casks:
-  personal:
-    - 1password
-    - 1password-cli
-    - affinity-designer
-    - affinity-photo
-    - affinity-publisher
-    - blender
-    - darktable
-    - discord
-    - docker-desktop
-    - obs
-    - google-chrome
-    - spotify
-    - ableton-live-suite
-    - roon
-  work:
-    - aws-vpn-client
-    - lastpass
-    - slack
   shared:
-    - codeql
     - cursor
+    - docker-desktop
     - espanso
     - ghostty
+    - google-chrome
     - kitty
     - postman
     - visual-studio-code@insiders
@@ -34,3 +16,19 @@ casks:
     - opera-gx
     - raycast
     - zed
+  work:
+    - aws-vpn-client
+    - lastpass
+    - slack
+  personal:
+    - 1password
+    - 1password-cli
+    - affinity-designer
+    - affinity-photo
+    - affinity-publisher
+    - blender
+    - darktable
+    - discord
+    - obs
+    - spotify
+    - ableton-live-suite

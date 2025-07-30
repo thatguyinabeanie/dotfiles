@@ -52,6 +52,11 @@ if command -v fzf >/dev/null 2>&1; then
 	source <(fzf --zsh)
 fi
 
+# Source FZF theme
+if [[ -f "$HOME/.config/fzf/fzf-theme.sh" ]]; then
+    source "$HOME/.config/fzf/fzf-theme.sh"
+fi
+
 # Source Cargo environment if available
 if [ -f "$HOME/.cargo/env" ]; then
 	source "$HOME/.cargo/env"

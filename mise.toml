@@ -2,7 +2,6 @@
 # Core development tools for this repository
 go = "1.24"                    # Go runtime (from go.mod requirement)
 golangci-lint = "latest"       # Go linter (used in lefthook)
-opencode = "latest"            # Already present - AI coding tool
 
 # Shell and text processing
 shellcheck = "latest"          # Shell script linter (used in lefthook)  
@@ -18,6 +17,8 @@ chezmoi = "latest"             # Dotfiles manager (core to this repo)
 # Node.js ecosystem (for scripts and tools)
 node = "22"                    # Node.js runtime
 pnpm = "latest"                # Package manager
+rust = "nightly"
+lefthook = "latest"
 
 [tasks.test]
 description = "Run all Go tests"
