@@ -1,3 +1,5 @@
+if true then return {} end
+
 -- Jupyter notebook workflow automations and file type configurations
 vim.api.nvim_create_augroup("JupyterWorkflow", { clear = true })
 
@@ -78,15 +80,46 @@ return {
     lazy = false,
   },
 
+  -- Image rendering support specifically for Jupyter plots
+  {
+    "3rd/image.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      {
+        "vhyrro/luarocks.nvim",
+        priority = 1001, -- this plugin needs to run before anything else
+        opts = {
+          rocks = { "magick" },
+        },
+      },
+    },
+    opts = {
+      backend = "kitty", -- Works with both Kitty and Ghostty
+      processor = "magick_rock", -- Use magick rock processor
+      integrations = {
+        -- Disable markdown/neorg integrations - use Snacks for general files
+        markdown = { enabled = false },
+        neorg = { enabled = false },
+        html = { enabled = false },
+        css = { enabled = false },
+      },
+      max_width = nil,
+      max_height = nil,
+      max_width_window_percentage = 50,
+      max_height_window_percentage = 50,
+      window_overlap_clear_enabled = true, -- Clear images when they overlap windows
+      window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+      editor_only_render_when_focused = false,
+      tmux_show_only_in_active_window = true, -- Important for tmux users
+    },
+  },
+
   -- Interactive execution with Jupyter kernels (core functionality)
   {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- Use stable version
     dependencies = {
-      {
-        "3rd/image.nvim",
-        optional = false, -- Make image.nvim required now that we fixed tmux
-      },
+      "3rd/image.nvim", -- Use the image.nvim plugin defined above
     },
     build = ":UpdateRemotePlugins",
     init = function()

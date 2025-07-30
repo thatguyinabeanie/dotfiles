@@ -3,6 +3,7 @@ treesitter:
     - bash
     - cmake
     - comment
+    - css          # Added from treesitter.lua
     - csv
     - diff
     - dockerfile
@@ -53,6 +54,7 @@ treesitter:
     - terraform
     - vim
     - vimdoc
+    - vue          # Added from treesitter.lua
     - xml
     - yaml
     - zig

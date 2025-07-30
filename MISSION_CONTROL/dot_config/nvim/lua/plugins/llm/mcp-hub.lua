@@ -23,9 +23,6 @@ return {
           avante = {
             make_slash_commands = true, -- make /slash commands from MCP server prompts
           },
-          copilotchat = {
-            make_slash_commands = true, -- make /slash commands from MCP server prompts
-          },
           codecompanion = {
             make_slash_commands = true, -- make /slash commands from MCP server prompts
           },
