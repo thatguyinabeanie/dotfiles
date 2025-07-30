@@ -39,7 +39,15 @@ set -ga status-right "#[fg=#{@thm_blue}]󰅐 %H:%M %p "
 set -g @fzf-url-open "~/.local/bin/terminal-url-handler.sh"
 set -g @fzf-url-bind 'u'
 set -g @fzf-url-history-limit '3000'
-set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#{@thm_surface_0},bg:#{@thm_base},spinner:#{@thm_rosewater},hl:#{@thm_red},fg:#{@thm_text},header:#{@thm_teal},info:#{@thm_mauve},pointer:#{@thm_rosewater},marker:#{@thm_rosewater},fg+:#{@thm_text},prompt:#{@thm_mauve},hl+:#{@thm_red},border:#{@thm_overlay_1}'
+{{- if eq .CATPPUCCIN_FLAVOR "mocha" }}
+set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#313244,bg:-1,spinner:#f5e0dc,hl:#f38ba8,fg:#cdd6f4,header:#94e2d5,info:#cba6f7,pointer:#f5e0dc,marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8,border:#7f849c'
+{{- else if eq .CATPPUCCIN_FLAVOR "macchiato" }}
+set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#363a4f,bg:-1,spinner:#f4dbd6,hl:#ed8796,fg:#cad3f5,header:#8bd5ca,info:#c6a0f6,pointer:#f4dbd6,marker:#f4dbd6,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796,border:#8087a2'
+{{- else if eq .CATPPUCCIN_FLAVOR "frappe" }}
+set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#414559,bg:-1,spinner:#f2d5cf,hl:#e78284,fg:#c6d0f5,header:#81c8be,info:#ca9ee6,pointer:#f2d5cf,marker:#f2d5cf,fg+:#c6d0f5,prompt:#ca9ee6,hl+:#e78284,border:#838ba7'
+{{- else }}
+set -g @fzf-url-fzf-options '--tmux center,80%,60% --multi --exit-0 --no-preview --border=rounded --color=bg+:#ccd0da,bg:-1,spinner:#dc8a78,hl:#d20f39,fg:#4c4f69,header:#179299,info:#8839ef,pointer:#dc8a78,marker:#dc8a78,fg+:#4c4f69,prompt:#8839ef,hl+:#d20f39,border:#8c8fa1'
+{{- end }}
 
 ##
 ## POMODORO CONFIGS
