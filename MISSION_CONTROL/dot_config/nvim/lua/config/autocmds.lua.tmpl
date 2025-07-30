@@ -83,7 +83,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     local filepath = vim.fn.expand("%:p")
     
     -- Only process files in chezmoi directories
-    if not string.match(filepath, "chezmoi") then
+    if not string.find(filepath, "/chezmoi/") then
       return
     end
     
