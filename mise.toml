@@ -2,7 +2,6 @@
 # Core development tools for this repository
 go = "1.24"                    # Go runtime (from go.mod requirement)
 golangci-lint = "latest"       # Go linter (used in lefthook)
-opencode = "latest"            # Already present - AI coding tool
 
 # Shell and text processing
 shellcheck = "latest"          # Shell script linter (used in lefthook)  
