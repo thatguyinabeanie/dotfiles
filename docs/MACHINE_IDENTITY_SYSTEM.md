@@ -24,17 +24,20 @@ Machine identity is stored using platform-appropriate methods that persist throu
 - System updates (but not OS reinstalls)
 
 **macOS**: Uses `defaults` database
+
 ```bash
 defaults write com.chezmoi.machine work_environment -bool true
 defaults write com.chezmoi.machine work_org -string "mycompany"
 ```
 
 **Linux**: Automatically detects and uses the best available method:
+
 - **dconf** (GNOME/GTK environments)
 - **gsettings** (GNOME with schema)
 - **XDG config** (fallback, most portable)
 
 **Example storage locations**:
+
 ```bash
 # dconf (Linux/GNOME)
 dconf write /com/chezmoi/machine/work-environment true
@@ -402,6 +405,7 @@ echo "✅ Hostname already correct: {{ $current_hostname }}"
 ### Initial Setup
 
 **macOS**:
+
 ```bash
 # Work laptop setup
 WORK_ENVIRONMENT=true WORK_ORG=mycompany HOSTNAME=gmendoza-work-mbp ./scripts/setup-machine-identity.sh
@@ -413,6 +417,7 @@ chezmoi init --apply thatguyinabeanie
 ```
 
 **Linux**:
+
 ```bash
 # Work laptop setup (auto-detects dconf/gsettings/XDG)
 WORK_ENVIRONMENT=true WORK_ORG=mycompany HOSTNAME=gmendoza-work-laptop ./scripts/setup-machine-identity.sh
@@ -424,6 +429,7 @@ chezmoi init --apply thatguyinabeanie
 ```
 
 **Cross-platform interactive setup**:
+
 ```bash
 # Interactive setup (will prompt for values and auto-detect storage method)
 ./scripts/setup-machine-identity.sh
@@ -473,6 +479,7 @@ defaults delete com.chezmoi.machine
 ### Query Machine Identity
 
 **Cross-platform**:
+
 ```bash
 # View all machine settings
 ./scripts/machine-identity-helpers.sh list
@@ -483,6 +490,7 @@ defaults delete com.chezmoi.machine
 ```
 
 **Platform-specific**:
+
 ```bash
 # macOS
 defaults read com.chezmoi.machine
@@ -497,6 +505,7 @@ cat ~/.config/chezmoi/machine-identity
 ### Update Machine Identity
 
 **Cross-platform**:
+
 ```bash
 # Change work org
 ./scripts/machine-identity-helpers.sh write work_org "newcompany"
@@ -509,6 +518,7 @@ chezmoi apply
 ```
 
 **Platform-specific**:
+
 ```bash
 # macOS
 defaults write com.chezmoi.machine work_org -string "newcompany"
@@ -522,6 +532,7 @@ dconf write /com/chezmoi/machine/work-org "'newcompany'"
 ### Reset Machine Identity
 
 **Cross-platform**:
+
 ```bash
 # Complete reset
 ./scripts/machine-identity-helpers.sh delete
@@ -531,6 +542,7 @@ dconf write /com/chezmoi/machine/work-org "'newcompany'"
 ```
 
 **Platform-specific**:
+
 ```bash
 # macOS
 defaults delete com.chezmoi.machine

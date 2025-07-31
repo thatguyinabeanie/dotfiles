@@ -13,7 +13,6 @@ local wk = require("which-key")
 -- vim.keymap.set("n", "n", "nzzzv")
 -- vim.keymap.set("n", "N", "Nzzzv")
 
-
 -- Treewalker movement (normal & visual mode)
 -- vim.keymap.set({ 'n', 'v' }, '<M-h>', '<cmd>Treewalker Left<cr>', { desc = "Treewalker Left", silent = true })
 -- vim.keymap.set({ 'n', 'v' }, '<M-j>', '<cmd>Treewalker Down<cr>', { desc = "Treewalker Down", silent = true })
@@ -36,7 +35,7 @@ local wk = require("which-key")
 -- vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 
 --
--- CONTROL BUFFERS  
+-- CONTROL BUFFERS
 --
 -- vim.keymap.set("n", "<leader>bs", ":w<CR>", { desc = "Save buffer" })
 -- vim.keymap.set("n", "<leader>bS", ":wa<CR>", { desc = "Save all buffers" })
@@ -114,3 +113,18 @@ end, { desc = "copy file's relative path" })
 --   ph - Help Actions
 --   pa - Prompt Actions
 --
+
+--
+-- SPELL CHECKING
+--
+wk.add({
+  {
+    "<leader>ts",
+    function()
+      vim.opt_local.spell = not vim.opt_local.spell:get()
+      local status = vim.opt_local.spell:get() and "enabled" or "disabled"
+      vim.notify("Spell checking " .. status, vim.log.levels.INFO)
+    end,
+    desc = "Toggle Spell Check",
+  },
+})
