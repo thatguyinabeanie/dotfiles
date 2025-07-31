@@ -34,11 +34,8 @@ return {
         },
       },
       keymap = {
-        preset = "none", -- Don't inherit any keymaps that might accept with Enter
-        ["<Tab>"] = { "show", "select_next", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "fallback" },
-        ["<CR>"] = { "fallback" }, -- Never accept completions with Enter
-        ["<C-y>"] = { "accept", "fallback" }, -- Accept only with Ctrl+Y
+        ["<CR>"] = { "fallback" }, -- Never accept with Enter
+        ["<C-y>"] = { "accept" }, -- Accept with Ctrl+Y
       },
     },
   },
