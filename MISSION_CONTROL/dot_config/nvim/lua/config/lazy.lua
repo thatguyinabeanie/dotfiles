@@ -24,6 +24,7 @@ require("lazy").setup({
     { import = "plugins/llm" },
     { import = "plugins/utilities" },
     { import = "plugins/theme" },
+    { import = "plugins/snacks" },
   },
   defaults = {
     lazy = false,

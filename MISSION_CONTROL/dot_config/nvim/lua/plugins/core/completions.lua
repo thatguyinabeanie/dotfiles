@@ -1,20 +1,43 @@
 return {
   "saghen/blink.cmp",
-  build = false, -- Use prebuilt binaries for faster installation and better stability
-  version = "v0.*", -- Use stable releases with prebuilt binaries
-  dependencies = {
-    "rafamadriz/friendly-snippets",
-  },
+  build = false, -- Don't build from source (use prebuilt binaries)
   opts = {
+    -- Performance optimizations (avoid compilation issues)
     fuzzy = {
-      implementation = "prefer_rust",
+      implementation = "prefer_rust", -- Prefer Rust but fallback to Lua if needed
       use_frecency = true,
       use_proximity = true,
       prebuilt_binaries = {
-        download = true,
+        download = true, -- Use prebuilt binaries to avoid Rust nightly bug
         force_version = nil,
+      },
+    },
+
+    -- Enable command-line completion (LazyVim default: enabled = false)
+    cmdline = {
+      enabled = true,
+      completion = {
+        menu = {
+          -- Smart auto-show: function to control when menu appears
+          auto_show = function(ctx)
+            local line = ctx.line or ""
+            -- Show completion after space (complex commands) or when explicitly triggered
+            -- Don't show for simple commands like :w, :q, :wq without arguments
+            return line:match("^%s*:%w+%s+") ~= nil
+          end,
+        },
+        ghost_text = {
+          enabled = true, -- Enable ghost text in cmdline (requires noice.nvim)
+          min_chars = 1, -- Show ghost text after 1 character
+        },
+      },
+      keymap = {
+        preset = "none", -- Don't inherit any keymaps that might accept with Enter
+        ['<Tab>'] = { 'show', 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<CR>'] = { 'fallback' }, -- Never accept completions with Enter
+        ['<C-y>'] = { 'accept', 'fallback' }, -- Accept only with Ctrl+Y
       },
     },
   },
 }
-

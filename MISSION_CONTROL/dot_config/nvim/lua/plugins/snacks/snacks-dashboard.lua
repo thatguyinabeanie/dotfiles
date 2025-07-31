@@ -3,81 +3,7 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    config = function(_, opts)
-      require("snacks").setup(opts)
-      -- Ensure UI overrides are properly set
-      if opts.input and opts.input.enabled then
-        require("snacks.input").enable()
-      end
-    end,
     opts = {
-      bigfile = { enabled = true },
-      dim = { enabled = true }, -- Focus mode by dimming inactive code
-      gitbrowse = { enabled = true },
-      image = { enabled = true }, -- Enable image support
-      input = { enabled = true },
-      lazygit = { enabled = true }, -- LazyGit integration
-      notifier = { enabled = true },
-      quickfile = { enabled = true },
-      rename = { enabled = true }, -- LSP file renaming with plugin integration
-      scope = { enabled = true },
-      scratch = { enabled = true }, -- Persistent scratch buffers
-      scroll = { enabled = true }, -- Enable scroll animations
-      statuscolumn = { enabled = true }, -- Custom status column
-      terminal = { enabled = true }, -- Floating/split terminals
-      words = { enabled = true }, -- Keep for word highlighting under cursor
-      zen = { enabled = true }, -- Distraction-free coding mode
-
-      -- Indent & Scope
-      indent = {
-        enabled = true,
-        only_scope = true, -- Only show chunks, not regular indent guides
-        scope = { enabled = false }, -- Disable scope to avoid conflict
-        chunk = {
-          enabled = true,
-          char = {
-            corner_top = "╭",
-            corner_bottom = "╰",
-            horizontal = "─",
-            vertical = "│",
-            arrow = ">",
-          },
-          hl = {
-            "ChunkLevel1",
-            "ChunkLevel2",
-            "ChunkLevel3",
-            "ChunkLevel4",
-            "ChunkLevel5",
-          },
-        },
-        filter = function(buf)
-          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
-        end,
-      },
-
-      -- Picker
-      picker = {
-        enabled = true,
-        ui_select = true, -- Enable vim.ui.select override
-        exclude = { -- add folder names here to exclude
-          ".git",
-          "node_modules",
-        },
-        layout = {
-          preset = "default", -- Force default layout (horizontal with floating preview)
-          cycle = true,
-        },
-        sources = {
-          explorer = {
-            auto_close = false,
-            hidden = true,
-            ignored = true,
-            follow = true,
-          },
-        },
-      },
-
-      -- Dashboard
       dashboard = {
         enabled = true,
         width = 60,
@@ -102,7 +28,7 @@ return {
             -- File Operations
             {
               icon = "󰈞 ",
-              key = "<space>",
+              key = "f",
               desc = "Find File",
               action = function()
                 Snacks.picker.files()
@@ -182,6 +108,11 @@ return {
           },
         },
       },
+
+
+
+
+
     },
   },
 }

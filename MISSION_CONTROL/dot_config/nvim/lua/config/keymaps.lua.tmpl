@@ -29,11 +29,11 @@ local wk = require("which-key")
 --
 -- LAZY PLUGINS KEYMAPS
 --
-vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
-vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "LazyDocker" })
-vim.keymap.set("n", "<leader>lD", "<cmd>LazyDev<cr>", { desc = "LazyDev" })
-vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
-vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
+-- vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
+-- vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "LazyDocker" })
+-- vim.keymap.set("n", "<leader>lD", "<cmd>LazyDev<cr>", { desc = "LazyDev" })
+-- vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
+-- vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
 
 --
 -- CONTROL BUFFERS  
@@ -63,32 +63,6 @@ end, { desc = "copy file's relative path" })
 --
 {{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "vscode_insiders" "keymap" "<leader>bI" "desc" "Open in VS Code Insiders") .) }}
 
-vim.keymap.set("n", "<leader>xo", ":e ~/.local/state/nvim/lsp.log<cr>", { desc = "Open nvim's lsp.log file." })
-vim.keymap.set("n", "<leader>xd", function()
-  local log_file = vim.fn.expand("~/.local/state/nvim/lsp.log")
-  local f = io.open(log_file, "w")
-  if f then
-    f:close()
-    vim.notify("Cleared ~/.local/state/nvim/lsp.log", vim.log.levels.INFO)
-  else
-    vim.notify("Failed to clear ~/.local/state/nvim/lsp.log", vim.log.levels.ERROR)
-  end
-end, { desc = "Clear ~/.local/state/nvim/lsp.log" })
-
---
--- POMODORO TIMER KEYMAPS
---
-wk.add({
-  { "<leader>P", group = "Pomodoro", icon = "⏳" },
-})
-vim.keymap.set("n", "<leader>Ps", "<cmd>TimerStart<cr>", { desc = "Start timer" })
-vim.keymap.set("n", "<leader>Pr", "<cmd>TimerRepeat<cr>", { desc = "Repeat last timer" })
-vim.keymap.set("n", "<leader>Pp", "<cmd>TimerSession pomodoro<cr>", { desc = "Start pomodoro session" })
-vim.keymap.set("n", "<leader>Pw", "<cmd>TimerStart 25m Work<cr>", { desc = "Start work timer (25m)" })
-vim.keymap.set("n", "<leader>Pb", "<cmd>TimerStart 5m Break<cr>", { desc = "Start short break (5m)" })
-vim.keymap.set("n", "<leader>PB", "<cmd>TimerStart 15m Long Break<cr>", { desc = "Start long break (15m)" })
-
-
 --
 -- OBSIDIAN
 --
@@ -96,22 +70,22 @@ wk.add({
   { "<leader>O", group = "Obsidian", icon = "📁" },
 })
 
--- Core Obsidian functionality
-vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
-vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
-vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
-vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Show Backlinks" })
-vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
-vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
-
--- Daily notes
-vim.keymap.set("n", "<leader>Ot", "<cmd>ObsidianToday<cr>", { desc = "Open Today's Note" })
-vim.keymap.set("n", "<leader>Oy", "<cmd>ObsidianYesterday<cr>", { desc = "Open Yesterday's Note" })
-
--- Workspace switching
-vim.keymap.set("n", "<leader>Owp", "<cmd>ObsidianWorkspace personal<cr>", { desc = "Switch to Personal Workspace" })
-vim.keymap.set("n", "<leader>Ows", "<cmd>ObsidianWorkspace smart-notes<cr>", { desc = "Switch to Smart Notes Workspace" })
-vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc = "Switch to Bramses Workspace" })
+-- -- Core Obsidian functionality
+-- vim.keymap.set("n", "<leader>On", "<cmd>ObsidianNew<cr>", { desc = "New Obsidian Note" })
+-- vim.keymap.set("n", "<leader>Oo", "<cmd>ObsidianOpen<cr>", { desc = "Open in Obsidian App" })
+-- vim.keymap.set("n", "<leader>Of", "<cmd>ObsidianFollowLink<cr>", { desc = "Follow Link Under Cursor" })
+-- vim.keymap.set("n", "<leader>Ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Show Backlinks" })
+-- vim.keymap.set("n", "<leader>Oq", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Quick Switch" })
+-- vim.keymap.set("n", "<leader>Os", "<cmd>ObsidianSearch<cr>", { desc = "Search in Vault" })
+--
+-- -- Daily notes
+-- vim.keymap.set("n", "<leader>Ot", "<cmd>ObsidianToday<cr>", { desc = "Open Today's Note" })
+-- vim.keymap.set("n", "<leader>Oy", "<cmd>ObsidianYesterday<cr>", { desc = "Open Yesterday's Note" })
+--
+-- -- Workspace switching
+-- vim.keymap.set("n", "<leader>Owp", "<cmd>ObsidianWorkspace personal<cr>", { desc = "Switch to Personal Workspace" })
+-- vim.keymap.set("n", "<leader>Ows", "<cmd>ObsidianWorkspace smart-notes<cr>", { desc = "Switch to Smart Notes Workspace" })
+-- vim.keymap.set("n", "<leader>Owb", "<cmd>ObsidianWorkspace bramses<cr>", { desc = "Switch to Bramses Workspace" })
 -- Work workspace is conditionally added in the obsidian.lua.tmpl file
 
 --
