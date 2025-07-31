@@ -1,10 +1,8 @@
 # 🌟 MISSION_CONTROL
 
-
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/801.png" width="150" alt="Magearna" />
 </div>
-
 
 This directory managed by chezmoi contains all configuration files and scripts for your cosmic development environment.
 
@@ -42,7 +40,7 @@ When adding new configuration for applications:
 
 1. Create directories under `dot_config/` matching the app's config location
 2. Use the `.tmpl` extension for files that need templating
-3. Use the appropriate prefix based on the destination (e.g., `dot_`, `private_`)
+3. Use the appropriate prefix based on the destination (for example, `dot_`, `private_`)
 4. Add `.keep` files to ensure empty directories are tracked
 
 ## 🔄 Updating Configuration
@@ -57,8 +55,6 @@ After making changes to your local configuration:
 
 Each major section has its own README with more specific documentation:
 
-- [Chezmoi Scripts](.chezmoiscripts/.README.md)
-- [Neovim Configuration](dot_config/nvim/README.md)
 - [Nushell Configuration](dot_config/nushell/README.md)
 - [Git Configuration](dot_config/git/README.md)
 - [Obsidian Configuration](dot_config/obsidian/README.md)

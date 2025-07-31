@@ -15,31 +15,30 @@ The goal is to configure the dotfiles repository so that running `chezmoi init` 
 
 ### Phase 2: Automated Installation & Prerequisites
 
-3. **Create chezmoi script to install 1Password CLI** - Create `run_once_before-XX-install-1password-cli.sh` in `.chezmoiscripts/`
-4. **Create script to configure 1Password SSH agent** - Script to enable SSH agent in 1Password app settings
-5. **Add 1Password authentication check script** - Verify user is logged into 1Password
+1. **Create chezmoi script to install 1Password CLI** - Create `run_once_before-XX-install-1password-cli.sh` in `.chezmoiscripts/`
+2. **Create script to configure 1Password SSH agent** - Script to enable SSH agent in 1Password app settings
 
 ### Phase 3: Automated Key Management
 
-6. **Create automated SSH signing key setup script** - Script to automatically create SSH key in 1Password if it doesn't exist
-7. **Key retrieval automation** - Script to get the public key from 1Password for git configuration
+1. **Add 1Password authentication check script** - Verify user is logged into 1Password
+2. **Create automated SSH signing key setup script** - Script to automatically create SSH key in 1Password if it doesn't exist
+3. **Key retrieval automation** - Script to get the public key from 1Password for git configuration
 
 ### Phase 4: Configuration Templates
 
-8. **Configure git to use 1Password SSH agent for signing** - Update git configuration to use SSH signing
-9. **Update git config templates for commit signing** - Modify `.gitconfig.tmpl` with conditional signing configuration
-10. **Create conditional templates for different systems** - Make templates work on macOS, Linux, etc.
+1. **Configure git to use 1Password SSH agent for signing** - Update git configuration to use SSH signing
+2. **Update git config templates for commit signing** - Modify `.gitconfig.tmpl` with conditional signing configuration
 
 ### Phase 5: Testing & Documentation
 
-11. **Test signed commit configuration** - Verify that commits are properly signed
-12. **Document the automated setup process** - Add comprehensive documentation
+1. **Test signed commit configuration** - Verify that commits are properly signed
+2. **Document the automated setup process** - Add comprehensive documentation
 
 ## Proposed File Structure
 
 ### Chezmoi Scripts
 
-```
+```bash
 MISSION_CONTROL/.chezmoiscripts/
 ├── run_once_before-XX-install-1password-cli.sh
 ├── run_onchange_after-XX-setup-git-signing.sh.tmpl
@@ -48,7 +47,7 @@ MISSION_CONTROL/.chezmoiscripts/
 
 ### Configuration Templates
 
-```
+```text
 MISSION_CONTROL/dot_config/
 ├── git/
 │   ├── config.tmpl (enhanced with signing configuration)

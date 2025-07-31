@@ -11,6 +11,13 @@ pre-commit:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
     go-lint:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-golangci-lint.sh {staged_files}
+    stylua:
+      glob: "**/*.lua"
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-stylua.sh {staged_files}
+      stage_fixed: true
+    luacheck:
+      glob: "**/*.lua"
+      run: MISSION_CONTROL/dot_config/lefthook/pre-commit-luacheck.sh {staged_files}
     yamllint:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-yamllint.sh {staged_files}
     gitleaks:

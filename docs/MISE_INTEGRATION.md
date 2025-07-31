@@ -13,7 +13,7 @@ Mise is a modern runtime manager that replaces tools like asdf, nvm, pyenv, rben
 
 ## 🏗️ Architecture Overview
 
-```
+```text
 Dotfiles Mise Integration:
 ├── Global Configuration
 │   ├── config.toml.tmpl           # Main mise configuration
@@ -117,7 +117,7 @@ if [[ -f "pyproject.toml" || -f "requirements.txt" || -f "setup.py" ]]; then
 fi
 ```
 
-### Features:
+### Features
 
 - **Automatic detection** of Python projects
 - **Dependency installation** from requirements files

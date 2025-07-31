@@ -223,10 +223,6 @@ plt.show()  # Renders inline!
 
 Submit issues and enhancement requests to help make this configuration shine brighter than a supernova.
 
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details
-
 ## 💡 Ideas
 
 - Managing aliases across different shells with chezmoi templates and a chezmoidata yaml
@@ -236,10 +232,6 @@ MIT License - See [LICENSE](LICENSE) for details
 Made with ❤️ and cosmic energy
 
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
-
-## 🚀 Todo
-
-See [.todo/TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
 
 ## 🛡️ Git hooks & code quality
 
