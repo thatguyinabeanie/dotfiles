@@ -4,10 +4,6 @@ Comprehensive guide to all documentation available in this dotfiles repository.
 
 ## 📚 Core Documentation
 
-### **[ARCHITECTURE.md](ARCHITECTURE.md)**
-
-High-level overview of the dotfiles architecture, design decisions, and component relationships.
-
 ### **[README.md](../README.md)**
 
 Main entry point with installation instructions, feature overview, and quick start guide.
@@ -107,7 +103,6 @@ Testing infrastructure and CI/CD workflows.
 
 ### **Component Documentation**
 
-- **[Chezmoi Scripts](../MISSION_CONTROL/.chezmoiscripts/.README.md)** - Installation automation
 - **[Homebrew Management](../scripts/)** - Package management scripts
 - **[Testing Helpers](../_tests_/.README.md)** - Test utilities and patterns
 
@@ -128,7 +123,6 @@ Testing infrastructure and CI/CD workflows.
 ### **Advanced Usage**
 
 1. **[TESTING.md](TESTING.md)** - Contributing and testing
-2. **[ARCHITECTURE.md](ARCHITECTURE.md)** - System design
 3. **[AGENTS.md](../AGENTS.md)** - AI agent integration
 
 ## 🔍 Documentation Standards
