@@ -82,14 +82,14 @@ work:
 
 conditionals:
   docker_credentials:
-    condition: "{{ if and (hasKey . \"docker.password\") (hasKey . \"docker.username\") }}"
+    condition: false
     variables:
       DOCKERHUB_PASSWORD: "{{ .docker.password }}"
       DOCKERHUB_USERNAME: "{{ .docker.username }}"
       DOCKERHUB_EMAIL: "{{ .git.config.email }}"
 
   ai_credentials:
-    condition: "{{ if hasKey . \"ai\" }}"
+    condition: false
     variables:
       GEMINI_API_KEY: "{{ if ne .ai.gemini_api_key \"replace_with_gemini_api_key\" }}{{ .ai.gemini_api_key }}{{ end }}"
 
@@ -98,7 +98,7 @@ path:
   - "/Library/Developer/CommandLineTools/usr/bin"
   - "/opt/homebrew/bin"
   - "/opt/homebrew/sbin"
-  - "/opt/homebrew/opt/libpq/bin" 
+  - "/opt/homebrew/opt/libpq/bin"
   - "/opt/homebrew/opt/unzip/bin"
   - "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
   - "$XDG_HOME/.cargo/bin"
