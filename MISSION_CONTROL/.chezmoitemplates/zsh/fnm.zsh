@@ -1,3 +1,4 @@
+#! /bin/zsh
 
 # Node.js version management setup
 # Check if FNM is available and set it up

@@ -1,0 +1,172 @@
+-- Unified language tooling configuration
+-- Combines Mason, LSP, TreeSitter, and auto-installation
+
+-- Load pre-compiled configuration (lightning fast!)
+local config = require("utils.language-config")
+
+-- Node.js version detection for TypeScript tools
+local function use_typescript_tools()
+  local result = vim.fn.system("node --version 2>/dev/null")
+  if result and result ~= "" then
+    local major = tonumber(result:match("v(%d+)"))
+    return not major or major < 16
+  end
+  return true -- fallback to typescript-tools if no Node
+end
+
+-- Add conditional TypeScript server
+local use_ts_tools = use_typescript_tools()
+if use_ts_tools then
+  table.insert(config.mason.core_tools, "typescript-language-server")
+end
+
+return {
+  -- Mason: Core tools
+  {
+    "mason-org/mason.nvim",
+    version = "v2",
+    opts = { ensure_installed = config.mason.core_tools },
+  },
+
+  -- LSP configuration
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        bashls = { filetypes = { "sh", "bash", "zsh", "sh.tmpl", "zsh.tmpl" } },
+        lua_ls = { filetypes = { "lua", "lua.tmpl" } },
+        nushell = { filetypes = { "nu", "nu.tmpl" } },
+        ruby_lsp = {},
+        taplo = { filetypes = { "toml", "toml.tmpl" } },
+        -- Disable built-in TypeScript servers when using typescript-tools
+        tsserver = { enabled = not use_ts_tools },
+        ts_ls = { enabled = not use_ts_tools },
+        vtsls = { enabled = not use_ts_tools },
+      },
+    },
+  },
+
+  -- TreeSitter configuration
+  {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = { "RRethy/nvim-treesitter-endwise" },
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+      -- Register template file associations
+      for parser, templates in pairs(config.filetypes.templates) do
+        local tmpl_list = type(templates) == "table" and templates or { templates }
+        for _, tmpl in ipairs(tmpl_list) do
+          vim.treesitter.language.register(parser, tmpl)
+        end
+      end
+    end,
+
+    opts = {
+      auto_install = true,
+      endwise = { enable = true },
+      ensure_installed = config.treesitter.parsers,
+      highlight = { enable = true },
+      indent = { enable = true },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = "<C-space>",
+          node_incremental = "<C-space>",
+          scope_incremental = false,
+          node_decremental = "<bs>",
+        },
+      },
+    },
+  },
+
+  -- Mason: Auto-installer for exploration tools
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    dependencies = { "mason-org/mason.nvim", "mason-org/mason-lspconfig.nvim" },
+
+    opts = {
+      ensure_installed = config.mason.exploration_tools,
+      auto_update = false,
+      run_on_start = true,
+      start_delay = 3000,
+      debounce_hours = 5,
+    },
+
+    config = function(_, opts)
+      require("mason-tool-installer").setup(opts)
+
+      -- Auto-install LSP servers on filetype detection
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(event)
+          local server = config.filetypes.lsp_servers[event.match]
+          if server then
+            local mason_registry = require("mason-registry")
+            if not mason_registry.is_installed(server) then
+              vim.notify("Installing " .. server .. " for " .. event.match .. "...", vim.log.levels.INFO)
+              vim.cmd("MasonInstall " .. server)
+            end
+          end
+        end,
+      })
+    end,
+  },
+
+  -- TypeScript Tools (for older Node.js or no Node.js)
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    enabled = use_ts_tools,
+    ft = config.filetypes.typescript_stack,
+
+    config = function()
+      require("typescript-tools").setup({
+        on_attach = function(client, _)
+          -- Disable formatting (handled by prettierd)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
+        filetypes = config.filetypes.typescript_stack,
+        settings = {
+          jsx_close_tag = {
+            enable = true,
+            filetypes = { "javascriptreact", "typescriptreact" },
+          },
+        },
+      })
+    end,
+  },
+
+  -- Tailwind Tools
+  {
+    "luckasRanarison/tailwind-tools.nvim",
+    name = "tailwind-tools",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "neovim/nvim-lspconfig" },
+    build = ":UpdateRemotePlugins",
+    lazy = true,
+
+    ft = config.filetypes.web_frameworks,
+
+    cmd = {
+      "TailwindConcealEnable",
+      "TailwindConcealDisable",
+      "TailwindConcealToggle",
+      "TailwindColorEnable",
+      "TailwindColorDisable",
+      "TailwindColorToggle",
+      "TailwindSort",
+      "TailwindSortOnSaveEnable",
+      "TailwindSortOnSaveDisable",
+      "TailwindSortOnSaveToggle",
+    },
+
+    opts = {
+      server = { override = true, settings = {}, on_attach = function() end },
+      document_color = { enabled = true, kind = "inline", inline_symbol = "󰝤 ", debounce = 200 },
+      conceal = { enabled = false, min_length = nil, symbol = "󱏿", highlight = { fg = "#38BDF8" } },
+      telescope = { utilities = { callback = function() end } },
+    },
+  },
+}

@@ -100,7 +100,6 @@ brews:
     - pngpaste
     - poppler
     - prettier
-    - lefthook
     - procs
     - proctools
     - pyright
@@ -124,6 +123,8 @@ brews:
     - tokei
     - trash
     - tree
+    - tree-sitter
+    - tree-sitter-cli
     - tectonic
     - unzip
     - viu

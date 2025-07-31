@@ -61,24 +61,25 @@ func testTmuxFzfURLColorVariables(t *testing.T) {
 
 	outputStr := strings.TrimSpace(string(output))
 
-	// Check for Catppuccin theme variables (should contain #{@thm_*} patterns)
-	catppuccinVariables := []string{
-		"#{@thm_base}",
-		"#{@thm_text}",
-		"#{@thm_surface_0}",
-		"#{@thm_red}",
-		"#{@thm_mauve}",
-		"#{@thm_teal}",
+	// Check for Catppuccin hex color values (should contain #hexcode patterns)
+	catppuccinColors := []string{
+		"#313244", // mocha surface_0
+		"#cdd6f4", // mocha text
+		"#f38ba8", // mocha red
+		"#cba6f7", // mocha mauve
+		"#94e2d5", // mocha teal
+		"#363a4f", // macchiato surface_0
+		"#cad3f5", // macchiato text
 	}
 
-	foundVariables := 0
-	for _, variable := range catppuccinVariables {
-		if strings.Contains(outputStr, variable) {
-			foundVariables++
+	foundColors := 0
+	for _, color := range catppuccinColors {
+		if strings.Contains(outputStr, color) {
+			foundColors++
 		}
 	}
 
-	assert.True(t, foundVariables > 0, "should contain Catppuccin theme variables")
+	assert.True(t, foundColors > 0, "should contain Catppuccin hex color values")
 }
 
 func testTmuxFzfURLOptions(t *testing.T) {
