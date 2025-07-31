@@ -174,10 +174,11 @@ The following Chezmoi template variables are used in the configuration:
 
 ## 🌠 Contributing
 
-Feel free to submit issues and enhancement requests! Together we can make this shell configuration shine brighter! ✨
+Feel free to submit issues and enhancement requests. Together we can make this shell configuration shine brighter. ✨
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/457.png" width="100" />
 
 Made with ❤️ and shell magic
+
 </div>

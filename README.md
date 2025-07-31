@@ -223,10 +223,6 @@ plt.show()  # Renders inline!
 
 Submit issues and enhancement requests to help make this configuration shine brighter than a supernova.
 
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details
-
 ## 💡 Ideas
 
 - Managing aliases across different shells with chezmoi templates and a chezmoidata yaml
