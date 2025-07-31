@@ -155,14 +155,11 @@ return {
       if is_ruby_project() then
         adapters[#adapters + 1] = require("neotest-rspec")({
           rspec_cmd = function()
-            return vim
-              .iter({
-                "bundle",
-                "exec",
-                "rspec",
-              })
-              :flatten()
-              :totable()
+            return vim.tbl_flatten({
+              "bundle",
+              "exec",
+              "rspec",
+            })
           end,
           root_files = { "Gemfile", ".rspec", ".gitignore" },
           filter_dirs = { ".git", "node_modules" },
@@ -272,7 +269,7 @@ return {
       {
         "<leader>td",
         function()
-          require("neotest").run.run({ strategy = "dap", suite = false })
+          require("neotest").run.run({ strategy = "dap" })
         end,
         desc = "Debug Nearest Test",
       },
@@ -351,9 +348,9 @@ return {
             or vim.fn.filereadable(root .. "/vite.config.js") == 1
             or vim.fn.filereadable(root .. "/vite.config.ts") == 1
           then
-            neotest.run.run({ vitestCommand = package_manager .. " test -- --watch", suite = false })
+            neotest.run.run({ vitestCommand = package_manager .. " test -- --watch" })
           else
-            neotest.run.run({ jestCommand = package_manager .. " test -- --watch", suite = false })
+            neotest.run.run({ jestCommand = package_manager .. " test -- --watch" })
           end
         end,
         desc = "Run Tests in Watch Mode",
