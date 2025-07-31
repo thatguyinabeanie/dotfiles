@@ -51,7 +51,6 @@ A cosmic journey through the development environment
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-![Tests](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/test.yml?label=Tests&style=flat-square)
 ![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
 ![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
 
@@ -223,10 +222,6 @@ plt.show()  # Renders inline!
 ## 🌠 Contributing
 
 Submit issues and enhancement requests to help make this configuration shine brighter than a supernova.
-
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details
 
 ## 💡 Ideas
 

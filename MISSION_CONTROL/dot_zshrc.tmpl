@@ -2,15 +2,13 @@
 
 autoload -U add-zsh-hook
 
-# Ensure Homebrew binaries are in PATH
-export PATH="/opt/homebrew/bin:$PATH"
+
 
 # Initialize completion system early
 autoload -Uz compinit
 compinit
 
-# Source environment variables first
-source $HOME/.zshenv
+# Environment variables are automatically sourced from .zshenv before .zshrc
 
 # Source additional configuration files
 ZSH_SYNTAX_HIGHLIGHTING_PATH="/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
@@ -22,8 +20,7 @@ source ~/.config/zsh/work.zsh
 source ~/.config/zsh/secrets.zsh
 source ~/.config/zsh/aliases.zsh
 
-# Add additional paths
-export PATH="$HOME/.local/bin:$PATH"
+
 
 # PNPM configuration
 export PNPM_HOME="$HOME/.pnpm-global"
@@ -52,6 +49,11 @@ if command -v fzf >/dev/null 2>&1; then
 	source <(fzf --zsh)
 fi
 
+# Source FZF theme
+if [[ -f "$HOME/.config/fzf/fzf-theme.sh" ]]; then
+    source "$HOME/.config/fzf/fzf-theme.sh"
+fi
+
 # Source Cargo environment if available
 if [ -f "$HOME/.cargo/env" ]; then
 	source "$HOME/.cargo/env"
@@ -72,4 +74,4 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 #   pokeget random --hide-name | fastfetch --file-raw -
 # fi
 
-{{ template "zsh/fnm.zsh.tmpl" . }}
+{{ template "zsh/fnm.zsh" . }}

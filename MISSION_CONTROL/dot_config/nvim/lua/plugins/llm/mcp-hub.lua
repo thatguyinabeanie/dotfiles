@@ -8,9 +8,16 @@ return {
     },
     build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
     config = function()
+      -- Ensure mise tools are in PATH for Neovim
+      local mise_node_bin = vim.env.HOME .. "/.local/share/mise/installs/node/22.17.1/bin"
+      local current_path = vim.env.PATH or ""
+      if not string.find(current_path, mise_node_bin, 1, true) then
+        vim.env.PATH = mise_node_bin .. ":" .. current_path
+      end
+
       require("mcphub").setup({
         --- `mcp-hub` binary related options-------------------
-        config = vim.fn.expand("~/.config/mcphub/servers.json"), -- Absolute path to MCP Servers config file (will create if not exists)
+        config = vim.env.HOME .. "/.config/mcphub/servers.json",
         port = 37373, -- The port `mcp-hub` server listens to
         shutdown_delay = 60 * 1000, -- Delay in ms before shutting down the server when last instance closes (1 minute)
         use_bundled_binary = false, -- Use local `mcp-hub` binary (set this to true when using build = "bundled_build.lua")
@@ -23,7 +30,7 @@ return {
           avante = {
             make_slash_commands = true, -- make /slash commands from MCP server prompts
           },
-          copilotchat = {
+          copilot = {
             make_slash_commands = true, -- make /slash commands from MCP server prompts
           },
           codecompanion = {
@@ -46,16 +53,10 @@ return {
             winhl = "Normal:MCPHubNormal,FloatBorder:MCPHubBorder",
           },
         },
-        on_ready = function(hub)
-          -- Called when hub is ready
-        end,
-        on_error = function(err)
-          -- Called on errors
-        end,
         log = {
           level = vim.log.levels.WARN, -- Reduced logging to minimize file I/O
           to_file = true, -- Enable file logging
-          file_path = vim.fn.expand("~/.config/mcphub/mcphub.log"),
+          file_path = vim.env.HOME .. "/.config/mcphub/mcphub.log",
           prefix = "MCPHub",
         },
       })
