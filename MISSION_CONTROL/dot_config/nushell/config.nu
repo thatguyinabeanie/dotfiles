@@ -19,14 +19,11 @@ match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
 # Source FZF theme
 source ~/.config/fzf/fzf-theme.nu
 
-$env.config.show_banner = false
-
-mise activate nu            | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
-zoxide init nushell         | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
-starship init nu            | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+mise activate nu | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
+zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
+starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 
 if ($env.HOME | path join ".cargo/env.nu" | path exists) {
   cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
 }
 
-# pokeget random --hide-name | fastfetch --file-raw -
