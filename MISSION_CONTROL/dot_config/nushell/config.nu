@@ -3,7 +3,7 @@ source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
 # source ~/.cache/carapace/init.nu
 
-if ($env.WORK_ENVIRONMENT? == "true") {
+if ($env.WORK_ENVIRONMENT? == "true" || $env.WORK_ENVIRONMENT? == true) {
     source ~/.config/nushell/work.nu
 }
 
