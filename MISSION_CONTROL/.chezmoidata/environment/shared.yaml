@@ -71,36 +71,4 @@ shared:
   FNM_RESOLVE_ENGINES: "true"
   FNM_ARCH: "arm64"
 
-work:
-  WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT | default false }}"
-  GOOGLE_CLOUD_PROJECT: "{{ .work.google_cloud_project }}"
-  AWS_PROFILE: "{{ .work.aws_profile }}"
-  DOCKER_DEFAULT_PLATFORM: "linux/amd64"
-  SLACK_WORKSPACE: "{{ .work.slack_workspace }}"
-  JIRA_URL: "{{ .work.jira_url }}"
-  CONFLUENCE_URL: "{{ .work.confluence_url }}"
-
 conditionals:
-  docker_credentials:
-    condition: false
-    variables:
-      DOCKERHUB_PASSWORD: "{{ .docker.password }}"
-      DOCKERHUB_USERNAME: "{{ .docker.username }}"
-      DOCKERHUB_EMAIL: "{{ .git.config.email }}"
-
-  ai_credentials:
-    condition: false
-    variables:
-      GEMINI_API_KEY: "{{ if ne .ai.gemini_api_key \"replace_with_gemini_api_key\" }}{{ .ai.gemini_api_key }}{{ end }}"
-
-path:
-  - "/usr/local/bin"
-  - "/Library/Developer/CommandLineTools/usr/bin"
-  - "/opt/homebrew/bin"
-  - "/opt/homebrew/sbin"
-  - "/opt/homebrew/opt/libpq/bin"
-  - "/opt/homebrew/opt/unzip/bin"
-  - "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
-  - "$XDG_HOME/.cargo/bin"
-  - "$XDG_HOME/.local/bin"
-  - "$XDG_HOME/.local/share/mise/shims"
