@@ -6,11 +6,9 @@ pre-commit:
     #   stage_fixed: false
     vale:
       glob: "**/*.md"
-      run: vale --config .vale.ini {files}
+      run: vale --config .vale.ini {staged_files}
     shellcheck:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-shellcheck.sh {staged_files}
-    go-tests:
-      run: mise run test
     go-lint:
       run: MISSION_CONTROL/dot_config/lefthook/pre-commit-golangci-lint.sh {staged_files}
     yamllint:

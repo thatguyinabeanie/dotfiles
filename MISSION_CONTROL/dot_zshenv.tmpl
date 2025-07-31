@@ -32,7 +32,7 @@ export GIT_EMAIL="{{ .git.config.email }}"
 ## PATH
 ##
 ##
-export PATH="usr/local/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
 export PATH="/Library/Developer/CommandLineTools/usr/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
@@ -104,15 +104,10 @@ export CODECOMPANION_TOKEN_PATH=$XDG_CONFIG_HOME
 export VSCODE_USER_DATA_DIR="$XDG_CONFIG_HOME/code"
 export VSCODE_INSIDERS_USER_DATA_DIR="$XDG_CONFIG_HOME/code-insiders"
 
-# Detect and set IDE application paths
-{{ template "sh/ide-paths.sh.tmpl" . }}
 
-{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 ##
 ## WORK ENVIRONMENT VARIABLES
 ##
-{{ if and (hasKey . "work") (hasKey .work "google_cloud_project") -}}
-export GOOGLE_CLOUD_PROJECT="{{ .work.google_cloud_project }}"
-{{ end -}}
-export DOCKER_DEFAULT_PLATFORM="linux/amd64"
-{{ end }}
+if [[ "$WORK_ENVIRONMENT" == "true" ]]; then
+  export DOCKER_DEFAULT_PLATFORM="linux/amd64"
+fi

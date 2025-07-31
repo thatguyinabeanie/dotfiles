@@ -1,10 +1,10 @@
 #!/bin/bash
 # Unified mise installation - handles both regular mise and mise-x64
-# Uses pure chezmoi template logic for 4-hour caching
+# Uses pure chezmoi template logic for 18-hour caching
 
 {{- $cacheFile := joinPath .chezmoi.homeDir ".local/share/mise-last-install" -}}
 {{- $currentTime := output "date" "+%s" | trim | int -}}
-{{- $fourHours := 14400 -}}
+{{- $eighteenHours := 64800 -}}
 {{- $lastInstall := 0 }}
 
 {{- if stat $cacheFile }}
@@ -15,8 +15,8 @@ mkdir -p "{{ joinPath .chezmoi.homeDir ".local/share" }}"
 echo "0" > "{{ $cacheFile }}"
 {{- end }}
 
-{{- if lt (sub $currentTime $lastInstall) $fourHours }}
-# Cache hit - mise installed within 4 hours, skipping
+{{- if lt (sub $currentTime $lastInstall) $eighteenHours }}
+# Cache hit - mise installed within 18 hours, skipping
 exit 0
 {{- end }}
 

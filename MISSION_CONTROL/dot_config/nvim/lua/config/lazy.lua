@@ -20,11 +20,11 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "lazyvim.plugins.extras.util.chezmoi" },
     { import = "plugins/core" },
     { import = "plugins/llm" },
     { import = "plugins/utilities" },
     { import = "plugins/theme" },
+    { import = "plugins/snacks" },
   },
   defaults = {
     lazy = false,
@@ -34,6 +34,15 @@ require("lazy").setup({
   checker = {
     enabled = true,
     notify = false,
+    frequency = 3600, -- Check every hour (3600 seconds)
+    check_pinned = false, -- Don't check pinned plugins
+  },
+  change_detection = {
+    enabled = true,
+    notify = false, -- Don't notify about config changes
+  },
+  ui = {
+    border = "rounded",
   },
   rocks = {
     enabled = not (os.getenv("CI") == "true"), -- Disable luarocks in CI

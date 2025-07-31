@@ -1,5 +1,8 @@
 if true then return {} end
 
+-- Check work environment from environment variable
+local is_work = os.getenv("WORK_ENVIRONMENT") == "true"
+
 return {
   "epwalsh/obsidian.nvim",
   event = {
@@ -11,17 +14,10 @@ return {
   },
   opts = {
     workspaces = {
-{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
       {
         name = "vault",
-        path = "~/source/obsidian/obsidian-vault-work"
+        path = is_work and "~/source/obsidian/obsidian-vault-work" or "~/source/obsidian/obsidian-vault",
       },
-{{ else }}
-      {
-        name = "vault",
-        path = "~/source/obsidian/obsidian-vault"
-      },
-{{ end }}
     },
     daily_notes = {
       folder = "daily",
@@ -42,9 +38,7 @@ return {
       enable = false, -- Disable UI to avoid conflicts with render-markdown
     },
   },
-  keys = {
-{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
+  keys = is_work and {
     { "n", "<leader>Oww", "<cmd>ObsidianWorkspace work<cr>", { desc = "Switch to Work Workspace" } },
-{{ end }}
-  },
+  } or {},
 }
