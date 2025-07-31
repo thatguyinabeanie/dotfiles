@@ -33,6 +33,12 @@ require("lazy").setup({
   checker = {
     enabled = true,
     notify = false,
+    frequency = 3600, -- Check every hour (3600 seconds)
+    check_pinned = false, -- Don't check pinned plugins
+  },
+  change_detection = {
+    enabled = true,
+    notify = false, -- Don't notify about config changes
   },
   ui = {
     border = "rounded",
