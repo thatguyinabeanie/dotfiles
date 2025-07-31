@@ -3,15 +3,18 @@ source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
 # source ~/.cache/carapace/init.nu
 
-{{ if and (hasKey . "WORK_ENVIRONMENT") ( eq .WORK_ENVIRONMENT true ) }}
-source ~/.config/nushell/work.nu
-{{ end }}
+if ($env.WORK_ENVIRONMENT? == "true") {
+    source ~/.config/nushell/work.nu
+}
 
-{{ if hasKey . "CATPPUCCIN_FLAVOR"  }}
-source ~/.config/nushell/.catppuccin/themes/catppuccin_{{.CATPPUCCIN_FLAVOR}}.nu
-{{ else }}
-source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu
-{{ end }}
+# Load Catppuccin theme based on CATPPUCCIN_FLAVOR env var
+match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
+    "latte" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_latte.nu },
+    "frappe" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_frappe.nu },
+    "macchiato" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_macchiato.nu },
+    "mocha" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu },
+    _ => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu }
+}
 
 # Source FZF theme
 source ~/.config/fzf/fzf-theme.nu

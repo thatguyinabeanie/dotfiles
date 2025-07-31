@@ -19,6 +19,7 @@ node = "22"                    # Node.js runtime
 pnpm = "latest"                # Package manager
 rust = "nightly"
 lefthook = "latest"
+stylua = "latest"
 
 [tasks.test]
 description = "Run all Go tests"
