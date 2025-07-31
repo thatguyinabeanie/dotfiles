@@ -50,27 +50,27 @@ tmux kill-server && tmux
 
 ## Troubleshooting
 
-### If kernels don't start:
+### If kernels don't start
 
 1. Check Python environment: `:MoltenInfo`
 2. Verify pynvim installation: `python -c "import pynvim"`
 3. Update remote plugins: `:UpdateRemotePlugins`
 4. Restart Neovim after plugin installation
 
-### If images don't display:
+### If images don't display
 
 1. Check if tmux passthrough is enabled: `tmux show-options -g allow-passthrough`
 2. Restart tmux session: `tmux kill-server && tmux`
 3. Verify terminal compatibility: Should work with Ghostty/Kitty
 4. Check image.nvim status: `:checkhealth image`
 
-### If you see luarocks errors:
+### If you see luarocks errors
 
 1. Install lua 5.1: `mise install lua@5.1.5`
 2. Restart Neovim to rebuild luarocks dependencies
 3. The configuration will gracefully fallback if image support fails
 
-### Performance issues:
+### Performance issues
 
 1. Reduce output limits in configuration
 2. Use floating windows instead of virtual text if needed

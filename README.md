@@ -233,10 +233,6 @@ Made with ❤️ and cosmic energy
 
 ![Explore the Cosmos](https://img.shields.io/badge/Explore_the_Cosmos-000000?style=for-the-badge&logo=github&logoColor=white)
 
-## 🚀 Todo
-
-See [.todo/TODO.md](./.todo/TODO.md) for the full roadmap and planned enhancements for this cosmic development environment.
-
 ## 🛡️ Git hooks & code quality
 
 This repository uses [Lefthook](https://github.com/evilmartians/lefthook) to manage all Git hooks for code quality, linting, and security. Lefthook now manages all previous pre-commit hooks.

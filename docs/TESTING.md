@@ -4,7 +4,7 @@ Comprehensive guide to the testing system and continuous integration setup for t
 
 ## 🏗️ Testing architecture
 
-```
+```text
 Testing Infrastructure:
 ├── Unit Tests (_tests_/unit/)
 │   ├── config_test.go           # Configuration validation
