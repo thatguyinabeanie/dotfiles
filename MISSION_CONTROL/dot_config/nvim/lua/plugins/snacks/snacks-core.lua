@@ -7,9 +7,14 @@ return {
       bigfile = { enabled = true },
       dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = { enabled = true },
-      image = { enabled = true }, -- Enable image support 
+      image = { enabled = true }, -- Enable image support
       input = { enabled = true },
-      lazygit = { enabled = true }, -- LazyGit integration
+      lazygit = {
+        enabled = true,
+        win = {
+          border = "rounded",
+        },
+      },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       rename = { enabled = true }, -- LSP file renaming with plugin integration
@@ -20,7 +25,6 @@ return {
       terminal = { enabled = true }, -- Floating/split terminals
       words = { enabled = true }, -- Keep for word highlighting under cursor
       zen = { enabled = true }, -- Distraction-free coding mode
-
     },
   },
 }
