@@ -4,12 +4,13 @@ return {
     lazy = false,
     name = "catppuccin",
     opts = {
-      transparent_background = true,
       flavour = "mocha",
       background = {
         light = "latte",
         dark = "mocha",
       },
+      transparent_background = true,
+      default_integrations = true,
       show_end_of_buffer = true,
       term_colors = true,
       dim_inactive = { enabled = false },
@@ -20,7 +21,6 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
-      default_integrations = true,
       custom_highlights = function(colors)
         return {
           -- Indent guide highlights (referenced by indent-blankline.lua)
