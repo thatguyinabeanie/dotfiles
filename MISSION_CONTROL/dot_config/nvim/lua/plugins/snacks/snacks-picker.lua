@@ -7,10 +7,10 @@ return {
       picker = {
         enabled = true,
         ui_select = true, -- Enable vim.ui.select override
-        exclude = { -- add folder names here to exclude
-          ".git",
-          "node_modules",
-        },
+        -- exclude = { -- add folder names here to exclude
+        --   ".git",
+        --   "node_modules",
+        -- },
         layout = {
           preset = "default", -- Force default layout (horizontal with floating preview)
           cycle = true,

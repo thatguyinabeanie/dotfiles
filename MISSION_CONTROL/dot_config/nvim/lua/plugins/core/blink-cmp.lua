@@ -8,13 +8,9 @@ return {
   opts = {
     -- Performance optimizations (avoid compilation issues)
     fuzzy = {
-      implementation = "prefer_rust_with_warning", -- Prefer Rust but fallback to Lua if needed
+      implementation = "lua", -- Use Lua implementation to avoid Rust binary issues
       use_frecency = true,
       use_proximity = true,
-      prebuilt_binaries = {
-        download = true, -- Use prebuilt binaries to avoid Rust nightly bug
-        force_version = nil,
-      },
     },
     sources = {
       providers = {

@@ -1,10 +1,8 @@
 # 🌟 MISSION_CONTROL
 
-
 <div align="center">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/801.png" width="150" alt="Magearna" />
 </div>
-
 
 This directory managed by chezmoi contains all configuration files and scripts for your cosmic development environment.
 
