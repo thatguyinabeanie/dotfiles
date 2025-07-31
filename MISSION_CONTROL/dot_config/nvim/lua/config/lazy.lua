@@ -20,7 +20,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "lazyvim.plugins.extras.util.chezmoi" },
     { import = "plugins/core" },
     { import = "plugins/llm" },
     { import = "plugins/utilities" },
@@ -34,6 +33,9 @@ require("lazy").setup({
   checker = {
     enabled = true,
     notify = false,
+  },
+  ui = {
+    border = "rounded",
   },
   rocks = {
     enabled = not (os.getenv("CI") == "true"), -- Disable luarocks in CI
