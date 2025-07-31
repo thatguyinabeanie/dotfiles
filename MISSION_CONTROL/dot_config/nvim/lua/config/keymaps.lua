@@ -54,16 +54,6 @@ vim.keymap.set("n", "<leader>fy", function()
 end, { desc = "copy file's relative path" })
 
 --
--- OPEN CURRENT BUFFER IN Cursor
---
-{{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "cursor" "keymap" "<leader>bC") .) }}
-
---
--- OPEN CURRENT BUFFER IN VS Code Insiders  
---
-{{ template "neovim/open_buffer_in.lua.tmpl" (merge (dict "ide_key" "vscode_insiders" "keymap" "<leader>bI" "desc" "Open in VS Code Insiders") .) }}
-
---
 -- OBSIDIAN
 --
 -- wk.add({
