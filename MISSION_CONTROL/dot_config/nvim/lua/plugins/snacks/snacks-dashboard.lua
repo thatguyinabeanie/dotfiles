@@ -42,12 +42,6 @@ return {
                 Snacks.picker.recent()
               end,
             },
-            {
-              icon = "󰝒 ",
-              key = "n",
-              desc = "New File",
-              action = ":ene | startinsert",
-            },
             -- Search Operations
             {
               icon = "󰊄 ",
@@ -57,7 +51,7 @@ return {
                 Snacks.picker.grep()
               end,
             },
-            -- Project Management  
+            -- Project Management
             {
               icon = "󰉋 ",
               key = "p",
@@ -75,30 +69,37 @@ return {
                 Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
               end,
             },
+            -- Package Management
             {
               icon = "󰒲 ",
               key = "l",
               desc = "Lazy",
               action = ":Lazy",
             },
-            -- Git Operations
+            {
+              icon = "󰏗 ",
+              key = "x",
+              desc = "Lazy Extras",
+              action = ":LazyExtras",
+            },
+            -- Git & Docker Tools
             {
               icon = "󰊢 ",
-              key = "G",
-              desc = "Git Status",
+              key = "g",
+              desc = "Lazy Git",
               action = function()
                 Snacks.lazygit()
               end,
             },
-            -- Terminal & Exit
             {
-              icon = "󰆍 ",
-              key = "t",
-              desc = "Terminal",
+              icon = "󰡨 ",
+              key = "d",
+              desc = "Lazy Docker",
               action = function()
-                Snacks.terminal()
+                Snacks.terminal("lazydocker", { cwd = vim.fn.getcwd() })
               end,
             },
+            -- Exit
             {
               icon = "󰅚 ",
               key = "q",
@@ -108,11 +109,6 @@ return {
           },
         },
       },
-
-
-
-
-
     },
   },
 }

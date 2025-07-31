@@ -1,10 +1,13 @@
+-- Override LazyVim blink extra configuration
+-- https://www.lazyvim.org/extras/coding/blink
+-- https://cmp.saghen.dev
 return {
   "saghen/blink.cmp",
   build = false, -- Don't build from source (use prebuilt binaries)
   opts = {
     -- Performance optimizations (avoid compilation issues)
     fuzzy = {
-      implementation = "prefer_rust", -- Prefer Rust but fallback to Lua if needed
+      implementation = "prefer_rust_with_warning", -- Prefer Rust but fallback to Lua if needed
       use_frecency = true,
       use_proximity = true,
       prebuilt_binaries = {
@@ -28,15 +31,14 @@ return {
         },
         ghost_text = {
           enabled = true, -- Enable ghost text in cmdline (requires noice.nvim)
-          min_chars = 1, -- Show ghost text after 1 character
         },
       },
       keymap = {
         preset = "none", -- Don't inherit any keymaps that might accept with Enter
-        ['<Tab>'] = { 'show', 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        ['<CR>'] = { 'fallback' }, -- Never accept completions with Enter
-        ['<C-y>'] = { 'accept', 'fallback' }, -- Accept only with Ctrl+Y
+        ["<Tab>"] = { "show", "select_next", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "fallback" },
+        ["<CR>"] = { "fallback" }, -- Never accept completions with Enter
+        ["<C-y>"] = { "accept", "fallback" }, -- Accept only with Ctrl+Y
       },
     },
   },

@@ -12,7 +12,7 @@ func TestNvimConfigStructure(t *testing.T) {
 	t.Run("Core plugins exist", func(t *testing.T) {
 		corePlugins := []string{
 			"completions.lua",
-			"language-tooling.lua.tmpl",
+			"language-tooling.lua",
 			"neotest.lua",
 			"nvim-dap.lua",
 			"blame.lua",

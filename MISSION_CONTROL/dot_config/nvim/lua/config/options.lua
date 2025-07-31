@@ -23,8 +23,14 @@ vim.g.snacks_animate = true
 -- vim.g.lazyvim_picker = "snacks"
 
 -- LazyVim completion engine to use.
+-- Can be one of: nvim-cmp, blink.cmp
+-- Leave it to "auto" to automatically use the completion engine
+-- enabled with `:LazyExtras`
+vim.g.lazyvim_cmp = "auto"
+
+-- LazyVim completion engine to use.
 -- Using blink.cmp as the completion engine
-vim.g.lazyvim_blink_main = false
+vim.g.lazyvim_blink_main = true
 
 -- if the completion engine supports the AI source,
 -- use that instead of inline suggestions
@@ -50,20 +56,45 @@ vim.opt.smartcase = true
 vim.opt.grepprg = "rg --vimgrep"
 vim.opt.expandtab = true
 vim.opt.autowrite = true
+vim.opt.confirm = true
 
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.opt.signcolumn = "yes"
-vim.opt.numberwidth = 2  -- Adjust gutter width for better compatibility
+vim.opt.numberwidth = 2 -- Adjust gutter width for better compatibility
 
 vim.env.PATH = vim.env.HOME .. "/.local/share/mise/shims:" .. vim.env.PATH
-
--- Provider configurations
--- Set Python3 provider to use mise shim (stable path that dynamically resolves versions)
-vim.g.python3_host_prog = vim.env.HOME .. "/.local/share/mise/shims/python3"
-
 -- Disable Perl provider (optional, reduces health check warnings)
 vim.g.loaded_perl_provider = 0
+
+
+-- Provider configurations
+-- Smart Python detection: respects virtual environments and mise
+local function get_python_path()
+  -- 1. Check for virtual environment first (respects .venv, venv, etc.)
+  if vim.env.VIRTUAL_ENV then
+    local venv_python = vim.env.VIRTUAL_ENV .. "/bin/python"
+    if vim.fn.executable(venv_python) == 1 then
+      return venv_python
+    end
+  end
+
+  -- 2. Check for .venv in current working directory
+  local cwd_venv = vim.fn.getcwd() .. "/.venv/bin/python"
+  if vim.fn.executable(cwd_venv) == 1 then
+    return cwd_venv
+  end
+
+  -- 3. Fall back to mise shim (globally managed versions)
+  local mise_python = vim.env.HOME .. "/.local/share/mise/shims/python3"
+  if vim.fn.executable(mise_python) == 1 then
+    return mise_python
+  end
+
+  -- 4. System Python as last resort
+  return "python3"
+end
+
+vim.g.python3_host_prog = get_python_path()
+
 
