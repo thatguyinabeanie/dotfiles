@@ -1,39 +1,10 @@
-<div align="center">
-  <pre style="line-height:1.2;background-color:transparent;border:none;color:white">
-    <span style="color:#F5A97F">                                    &#42;     .--.                                  </span>
-    <span style="color:#F5A97F">                                         / /  `                                  </span>
-    <span style="color:#F4DBD6">                        +               </span><span style="color:#F5A97F">| |                                      </span>
-    <span style="color:#F4DBD6">                               '         </span><span style="color:#F5A97F">\ \__,                                  </span>
-    <span style="color:#F4DBD6">                           &#42;          +   </span><span style="color:#F5A97F">'--'  </span><span style="color:#F4DBD6">&#42;                                </span>
-    <span style="color:#F4DBD6">                               +   /\                                            </span>
-    <span style="color:#F4DBD6">                  +              .'  '.   &#42;                                      </span>
-    <span style="color:#F4DBD6">                         &#42;      </span><span style="color:#EE99A0">/======\</span><span style="color:#F4DBD6">      +                                  </span>
-    <span style="color:#F4DBD6">                               </span><span style="color:#EE99A0">;:.  _   ;</span><span style="color:#F4DBD6">                                        </span>
-    <span style="color:#F4DBD6">                               </span><span style="color:#EE99A0">|:. (</span><span style="color:#F8BD96">_</span><span style="color:#EE99A0">)  |</span><span style="color:#F4DBD6">                                        </span>
-    <span style="color:#F4DBD6">                               </span><span style="color:#EE99A0">|:.  _   |</span><span style="color:#F4DBD6">                                        </span>
-    <span style="color:#F4DBD6">                     +         </span><span style="color:#EE99A0">|:. (</span><span style="color:#F8BD96">_</span><span style="color:#EE99A0">)  |</span><span style="color:#F4DBD6">          &#42;                             </span>
-    <span style="color:#F4DBD6">                               </span><span style="color:#EE99A0">;:.      ;</span><span style="color:#F4DBD6">                                        </span>
-    <span style="color:#F4DBD6">                             </span><span style="color:#EE99A0">.' \:.    / `.</span><span style="color:#F4DBD6">                                      </span>
-    <span style="color:#F4DBD6">                            </span><span style="color:#EE99A0">/ .-'':._.'`-. \</span><span style="color:#F4DBD6">                                     </span>
-    <span style="color:#F4DBD6">                            </span><span style="color:#EE99A0">|/    /||\    \|</span><span style="color:#F4DBD6">                                     </span>
-    <span style="color:#F4DBD6">                          </span><span style="color:#F8BD96">_..--</span><span style="color:#F5A97F"""````"""</span><span style="color:#F8BD96">--.._</span><span style="color:#F4DBD6">                                   </span>
-    <span style="color:#F4DBD6">                    </span><span style="color:#F8BD96">_.-'``</span><span style="color:#F5A97F">                    </span><span style="color:#F8BD96">``'-._</span><span style="color:#F4DBD6">                             </span>
-    <span style="color:#F4DBD6">                  </span><span style="color:#F8BD96">-'</span><span style="color:#F5A97F">                                </span><span style="color:#F8BD96">'-</span><span style="color:#F4DBD6">                           </span>
-    <span style="color:#C6A0F6">██████╗   █████╗ ████████╗ ███████╗ ████████╗ ██╗      ███████╗ ███████╗</span>
-    <span style="color:#C6A0F6">██╔══██╗ ██╔══██║╚══██╔══╝ ██╔════╝ ╚══██╔══╝ ██║      ██╔════╝ ██╔════╝</span>
-    <span style="color:#C6A0F6">██║  ██║ ██║  ██║   ██║    ████╗       ██║    ██║      █████╗   ███████╗</span>
-    <span style="color:#C6A0F6">██║  ██║ ██║  ██║   ██║    ██╔═╝       ██║    ██║      ██╔══╝   ╚════██║</span>
-    <span style="color:#C6A0F6">██████╔╝ ╚█████╔╝   ██║    ██║      ████████╗ ███████╗ ███████╗ ███████║</span>
-    <span style="color:#C6A0F6">╚═════╝   ╚════╝    ╚═╝    ╚═╝      ╚═══════╝ ╚══════╝ ╚══════╝ ╚══════╝</span>
-    <div align="center"><span style="color:#F8BD96">✨</span> <span style="color:#F5BDE6">COSMIC DEVELOPMENT ENVIRONMENT</span> <span style="color:#F8BD96">✨</span></div>
-  </pre>
-</div>
-
 # ⭐️ Dotfiles 🌌
+
+## Intro
 
 Personal dotfiles managed with [Chezmoi](https://www.chezmoi.io/), featuring a modern and efficient development environment setup out of this world 🚀
 
-![Cosmic Cat](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/789.png)
+![Cosmoem](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/789.png)
 
 ## 🎬 Demo
 

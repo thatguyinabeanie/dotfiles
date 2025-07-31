@@ -22,59 +22,64 @@ template_variables:
 
 # Path construction variables (shell handles the joining syntax)
 path_variables:
-  XDG_HOME:
-    base: "$HOME"
+  # XDG Base directories (official XDG spec - no XDG_HOME)
   XDG_CONFIG_HOME:
-    base: "$XDG_HOME"
+    base: "$HOME"
     path: ".config"
   XDG_DATA_HOME:
-    base: "$XDG_HOME"
+    base: "$HOME"
     path: ".local/share"
   XDG_STATE_HOME:
-    base: "$XDG_HOME"
+    base: "$HOME"
     path: ".local/state"
   XDG_CACHE_HOME:
-    base: "$XDG_HOME"
+    base: "$HOME"
     path: ".cache"
-  NU_CONFIG_DIR:
+
+# Grouped path patterns for DRY configuration
+path_groups:
+  # XDG Config-based applications
+  xdg_config_apps:
     base: "$XDG_CONFIG_HOME"
-    path: "nushell"
-  TMUX_CONFIG_DIR:
+    paths:
+      NU_CONFIG_DIR: "nushell"
+      K9S_CONFIG_DIR: "k9s"
+      VSCODE_USER_DATA_DIR: "code"
+      VSCODE_INSIDERS_USER_DATA_DIR: "code-insiders"
+
+  # TMUX-related paths
+  tmux_paths:
     base: "$XDG_CONFIG_HOME"
-    path: "tmux"
-  TMUX_PLUGIN_MANAGER_PATH:
+    paths:
+      TMUX_CONFIG_DIR: "tmux"
+      TMUX_PLUGIN_MANAGER_PATH: "tmux/plugins"
+      TMUX_CONF: "tmux/tmux.conf"
+
+  # Go-related paths
+  go_paths:
     base: "$XDG_CONFIG_HOME"
-    path: "tmux/plugins"
-  TMUX_CONF:
+    paths:
+      GOPATH: "go"
+      GOBIN: "go/bin"
+      GOMODCACHE: "go/pkg/mod"
+
+  # Single-path variables
+  single_paths:
     base: "$XDG_CONFIG_HOME"
-    path: "tmux/tmux.conf"
-  K9S_CONFIG_DIR:
-    base: "$XDG_CONFIG_HOME"
-    path: "k9s"
-  STARSHIP_CONFIG:
-    base: "$XDG_CONFIG_HOME"
-    path: "starship/starship.toml"
-  VSCODE_USER_DATA_DIR:
-    base: "$XDG_CONFIG_HOME"
-    path: "code"
-  VSCODE_INSIDERS_USER_DATA_DIR:
-    base: "$XDG_CONFIG_HOME"
-    path: "code-insiders"
-  GOPATH:
-    base: "$XDG_CONFIG_HOME"
-    path: "go"
-  GOBIN:
-    base: "$XDG_CONFIG_HOME"
-    path: "go/bin"
-  GOMODCACHE:
-    base: "$XDG_CONFIG_HOME"
-    path: "go/pkg/mod"
-  DOTFILES_DIR:
+    paths:
+      STARSHIP_CONFIG: "starship/starship.toml"
+
+  # XDG Data-based paths
+  xdg_data_paths:
     base: "$XDG_DATA_HOME"
-    path: "chezmoi"
-  GIT_CLONE_DIRECTORY:
-    base: "$XDG_HOME"
-    path: "source"
+    paths:
+      DOTFILES_DIR: "chezmoi"
+
+  # XDG Home-based paths
+  xdg_home_paths:
+    base: "$HOME"
+    paths:
+      GIT_CLONE_DIRECTORY: "source"
 
 # Command execution variables (shell handles the execution syntax)
 command_variables:

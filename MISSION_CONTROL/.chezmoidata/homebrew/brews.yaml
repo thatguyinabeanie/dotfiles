@@ -43,7 +43,7 @@ brews:
     - findutils
     - fish
     - fish-lsp
-    - fnm
+    # - fnm
     - fzf
     - gcc@11
     - gcc@12
