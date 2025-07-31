@@ -237,7 +237,7 @@ opt.autowrite = true
 opt.confirm = true
 opt.signcolumn = "yes"
 opt.numberwidth = 2 -- Adjust gutter width for better compatibility
-
+vim.g.lazyvim_prettier_needs_config = true
 -- Disable Perl provider (optional, reduces health check warnings)
 vim.g.loaded_perl_provider = 0
 

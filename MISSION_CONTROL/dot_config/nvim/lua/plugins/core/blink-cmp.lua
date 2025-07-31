@@ -4,6 +4,7 @@
 return {
   "saghen/blink.cmp",
   build = false, -- Don't build from source (use prebuilt binaries)
+  event = "VeryLazy",
   opts = {
     -- Performance optimizations (avoid compilation issues)
     fuzzy = {
@@ -13,6 +14,29 @@ return {
       prebuilt_binaries = {
         download = true, -- Use prebuilt binaries to avoid Rust nightly bug
         force_version = nil,
+      },
+    },
+    sources = {
+      providers = {
+        path = {
+          opts = {
+            get_cwd = function(_)
+              return vim.fn.getcwd()
+            end,
+          },
+        },
+      },
+    },
+    -- Improved completion menu with treesitter highlighting
+    completion = {
+      menu = {
+        draw = {
+          treesitter = { "lsp" }, -- Enable syntax highlighting for LSP completions
+          columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+        },
+      },
+      ghost_text = {
+        enabled = true, -- Show preview of completion inline
       },
     },
 
