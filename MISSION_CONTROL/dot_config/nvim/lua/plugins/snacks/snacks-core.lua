@@ -14,7 +14,8 @@ return {
         win = {
           border = "rounded",
         },
-      }, -- LazyGit integration      notifier = { enabled = true },
+      },
+      notifier = { enabled = true },
       quickfile = { enabled = true },
       rename = { enabled = true }, -- LSP file renaming with plugin integration
       scope = { enabled = true },
