@@ -36,8 +36,6 @@ path_variables:
   XDG_CACHE_HOME:
     base: "$HOME"
     path: ".cache"
-  CODECOMPANION_TOKEN_PATH:
-    base: "$XDG_CONFIG_HOME"
 
 # Grouped path patterns for DRY configuration
 path_groups:

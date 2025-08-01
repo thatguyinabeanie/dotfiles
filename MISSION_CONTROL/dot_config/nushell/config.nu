@@ -24,7 +24,7 @@ source ~/.config/fzf/fzf-theme.nu
 
 mkdir $nu.data-dir
 
-mise activate nu | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
+# mise activate nu | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
 zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
 starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
 

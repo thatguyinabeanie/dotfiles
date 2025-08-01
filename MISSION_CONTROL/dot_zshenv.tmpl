@@ -16,9 +16,12 @@ export {{ $key }}="{{ $value }}"
 ##
 ## TEMPLATE VARIABLES
 ##
-{{ range $key, $value := $shared.template_variables -}}
-export {{ $key }}="{{ $value }}"
-{{ end }}
+export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+export WORK_ENVIRONMENT="{{ .WORK_ENVIRONMENT }}"
+export CHEZMOI_INTERACTIVE="{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
+export GIT_NAME="{{ .git.config.name }}"
+export GITHUB_USERNAME="{{ .git.config.username }}"
+export GIT_EMAIL="{{ .git.config.email }}"
 
 ##
 ## PATH-BASED VARIABLES
@@ -55,7 +58,11 @@ export {{ $key }}="$({{ $config.command }})"
 ## DERIVED PATH VARIABLES
 ##
 {{ range $key, $config := $shared.derived_path_variables -}}
+{{- if hasKey $config "path" }}
 export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
+{{- else }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}"
+{{- end }}
 {{ end }}
 
 ##
