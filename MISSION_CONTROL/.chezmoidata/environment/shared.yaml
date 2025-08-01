@@ -10,7 +10,7 @@ variables:
   CARAPACE_BRIDGES: "zsh,bash,inshellisense"
   XDG_DATA_DIRS: ""
   XDG_CONFIG_DIRS: ""
-  MANPAGER: "sh -c 'sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+  # MANPAGER: Complex escaping - defined separately in shell configs
 
 # Template variables (evaluated at chezmoi time)
 template_variables:
