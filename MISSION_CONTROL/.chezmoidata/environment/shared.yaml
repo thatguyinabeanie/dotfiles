@@ -10,6 +10,7 @@ variables:
   CARAPACE_BRIDGES: "zsh,bash,inshellisense"
   XDG_DATA_DIRS: ""
   XDG_CONFIG_DIRS: ""
+  # MANPAGER: Complex escaping - defined separately in shell configs
 
 # Template variables (evaluated at chezmoi time)
 template_variables:
@@ -68,6 +69,7 @@ path_groups:
     base: "$XDG_CONFIG_HOME"
     paths:
       STARSHIP_CONFIG: "starship/starship.toml"
+      STARSHIP_CONFIG_DIR: "starship"
 
   # XDG Data-based paths
   xdg_data_paths:
