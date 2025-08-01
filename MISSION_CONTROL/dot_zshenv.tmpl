@@ -1,113 +1,105 @@
 #!/bin/zsh
+# Generated from consolidated environment configuration
+# Edit MISSION_CONTROL/.chezmoidata/environment/ files to modify
+
+{{ $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) -}}
+{{ $path := (include ".chezmoidata/environment/path.yaml" | fromYaml) -}}
+{{ $work := (include ".chezmoidata/environment/work.yaml" | fromYaml) -}}
 
 ##
-## XDG Base Directory Specification
+## SIMPLE VARIABLES
 ##
-## https://specifications.freedesktop.org/basedir-spec/latest
-##
-export XDG_HOME=$HOME
-export XDG_CONFIG_HOME="$XDG_HOME/.config"
-export XDG_DATA_HOME="$XDG_HOME/.local/share"
-export XDG_STATE_HOME="$XDG_HOME/.local/state"
-export XDG_CACHE_HOME="$XDG_HOME/.cache"
-export XDG_DATA_DIRS=""
-export XDG_CONFIG_DIRS=""
+{{ range $key, $value := $shared.variables -}}
+export {{ $key }}="{{ $value }}"
+{{ end }}
 
 ##
-## CHEZMOI ENVIRONMENT VARIABLES
+## TEMPLATE VARIABLES
 ##
-export DOTFILES_DIR="$XDG_DATA_HOME/chezmoi"
+export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
 export WORK_ENVIRONMENT="{{ .WORK_ENVIRONMENT }}"
 export CHEZMOI_INTERACTIVE="{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
-
-##
-## GIT ENVIRONMENT VARIABLES
-##
-export GIT_CLONE_DIRECTORY="$HOME/source"
 export GIT_NAME="{{ .git.config.name }}"
 export GITHUB_USERNAME="{{ .git.config.username }}"
 export GIT_EMAIL="{{ .git.config.email }}"
 
 ##
+## PATH-BASED VARIABLES
+##
+{{ range $key, $config := $shared.path_variables -}}
+{{- if hasKey $config "path" }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
+{{- else }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}"
+{{- end }}
+{{ end }}
+
+##
+## GROUPED PATH VARIABLES
+##
+{{ range $group_name, $group_config := $shared.path_groups -}}
+{{ range $var_name, $var_path := $group_config.paths -}}
+export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}"
+{{ end -}}
+{{ end }}
+
+##
+## COMMAND-BASED VARIABLES
+##
+{{ range $key, $config := $shared.command_variables -}}
+{{- if typeIs "string" $config }}
+export {{ $key }}="$({{ $config }})"
+{{- else }}
+export {{ $key }}="$({{ $config.command }})"
+{{- end }}
+{{ end }}
+
+##
+## DERIVED PATH VARIABLES
+##
+{{ range $key, $config := $shared.derived_path_variables -}}
+{{- if hasKey $config "path" }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
+{{- else }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}"
+{{- end }}
+{{ end }}
+
+##
+## THEME VARIABLES
+##
+export CATPPUCCIN_FLAVOR="{{ .CATPPUCCIN_FLAVOR }}"
+
+##
 ## PATH
 ##
-##
-export PATH="/usr/local/bin:$PATH"
-export PATH="/Library/Developer/CommandLineTools/usr/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/opt/homebrew/sbin:$PATH"
-export PATH="/opt/homebrew/opt/unzip/bin:$PATH"
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/mise/shims:$PATH"
+{{ range $entry := $path.path -}}
+{{- if contains "$HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else if contains "$XDG_CONFIG_HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else if contains "$XDG_DATA_HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else }}
+export PATH="{{ $entry }}:$PATH"
+{{- end }}
+{{ end }}
 
-##
-## COMPILATION FLAGS
-##
-export SDKROOT=(xcrun --sdk macosx --show-sdk-path)
-export CPATH="$SDKROOT/usr/include"
-export LIBRARY_PATH="$SDKROOT/usr/lib"
-export LDFLAGS="-L/opt/homebrew/opt/openssl@3/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include"
-
-##
-## EDITOR RELATED ENVIRONMENT VARIABLES
-##
-export EDITOR='nvim'
-export VISUAL='nvim'
+# Shell-specific configuration
 export SHELL="/opt/homebrew/bin/zsh"
-#
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
 
 ##
-## GO ENVIRONMENT VARIABLES
+## WORK ENVIRONMENT
 ##
-export GOPATH="$XDG_CONFIG_HOME/go"
-export GOBIN="$GOPATH/bin"
-export GOMODCACHE="$GOPATH/pkg/mod"
-
-
-
-##
-## NUSHELL
-##
-export NUSHELL_CONFIG_DIR="$XDG_CONFIG_HOME/nushell"
-
-##
-## TMUX
-##
-export TMUX_CONFIG_DIR="$XDG_CONFIG_HOME/tmux"
-export TMUX_PLUGIN_MANAGER_PATH="$TMUX_CONFIG_DIR/plugins"
-export TMUX_CONF="$XDG_CONFIG_HOME/tmux.conf"
-
-##
-## K9S
-##
-export K9S_CONFIG_DIR="$XDG_CONFIG_HOME/k9s"
-
-##
-## STARSHIP
-##
-export STARSHIP_CONFIG_DIR="$XDG_CONFIG_HOME/starship"
-
-##
-## BAT
-export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
-export MANPAGER="sh -c 'sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
-# export MANPATH="/usr/local/man:$MANPATH"
-
-##
-## IDE ENVIRONMENT VARIABLES
-##
-export CODECOMPANION_TOKEN_PATH=$XDG_CONFIG_HOME
-export VSCODE_USER_DATA_DIR="$XDG_CONFIG_HOME/code"
-export VSCODE_INSIDERS_USER_DATA_DIR="$XDG_CONFIG_HOME/code-insiders"
-
-
-##
-## WORK ENVIRONMENT VARIABLES
-##
-if [[ "$WORK_ENVIRONMENT" == "true" ]]; then
-  export DOCKER_DEFAULT_PLATFORM="linux/amd64"
-fi
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
+{{ if hasKey $work "work" -}}
+{{ range $key, $value := $work.work -}}
+{{- if eq $key "WORK_ENVIRONMENT" }}
+export {{ $key }}="{{ $.WORK_ENVIRONMENT | default false }}"
+{{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
+export {{ $key }}="{{ $value }}"
+{{- end -}}
+{{ end -}}
+{{ end -}}
+{{ end }}

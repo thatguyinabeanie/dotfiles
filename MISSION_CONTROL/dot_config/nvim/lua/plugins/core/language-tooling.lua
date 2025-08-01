@@ -28,6 +28,13 @@ return {
     opts = { ensure_installed = config.mason.core_tools },
   },
 
+  -- Mason LSP configuration bridge
+  {
+    "mason-org/mason-lspconfig.nvim",
+    dependencies = { "mason-org/mason.nvim" },
+    opts = {},
+  },
+
   -- LSP configuration
   {
     "neovim/nvim-lspconfig",
@@ -86,6 +93,7 @@ return {
   {
     "WhoIsSethDaniel/mason-tool-installer.nvim",
     dependencies = { "mason-org/mason.nvim", "mason-org/mason-lspconfig.nvim" },
+    event = "VeryLazy",
 
     opts = {
       ensure_installed = config.mason.exploration_tools,
