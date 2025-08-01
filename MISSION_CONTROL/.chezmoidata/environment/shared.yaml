@@ -10,6 +10,7 @@ variables:
   CARAPACE_BRIDGES: "zsh,bash,inshellisense"
   XDG_DATA_DIRS: ""
   XDG_CONFIG_DIRS: ""
+  MANPAGER: "sh -c 'sed -u -e \"s/\\x1B[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
 
 # Template variables (evaluated at chezmoi time)
 template_variables:
@@ -35,6 +36,8 @@ path_variables:
   XDG_CACHE_HOME:
     base: "$HOME"
     path: ".cache"
+  CODECOMPANION_TOKEN_PATH:
+    base: "$XDG_CONFIG_HOME"
 
 # Grouped path patterns for DRY configuration
 path_groups:
@@ -68,6 +71,7 @@ path_groups:
     base: "$XDG_CONFIG_HOME"
     paths:
       STARSHIP_CONFIG: "starship/starship.toml"
+      STARSHIP_CONFIG_DIR: "starship"
 
   # XDG Data-based paths
   xdg_data_paths:
