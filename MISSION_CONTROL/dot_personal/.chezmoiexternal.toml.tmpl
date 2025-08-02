@@ -1,6 +1,0 @@
-{{ if not (eq (env "CHEZMOI_INTERACTIVE") "1") }}
-{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
-# TODO: put personal repos here.
-{{ end }}
-
-{{ end }}
