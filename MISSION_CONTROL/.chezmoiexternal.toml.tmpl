@@ -1,39 +1,6 @@
 {{ if not (and (hasKey .chezmoi "interactive") (eq .chezmoi.interactive true)) }}
 
-##
-## PERSONAL STUFF REPOSITORIES
-##
-["personal/thatguyinabeanie"]
-type = "git-repo"
-refreshPeriod = "168h"
-url = "https://github.com/thatguyinabeanie/thatguyinabeanie.git"
-
-# ["personal/dotfiles-docs"]
-# type = "git-repo"
-# refreshPeriod = "168h"
-# url = "https://github.com/thatguyinabeanie/dotfiles-docs.git"
-
-["personal/startpage"]
-type = "git-repo"
-refreshPeriod = "168h"
-url = "https://github.com/thatguyinabeanie/startpage.git"
-
-["personal/files"]
-type = "git-repo"
-refreshPeriod = "168h"
-url = "https://github.com/thatguyinabeanie/files.git"
-
-# ["personal/dotfiles-website"]
-# type = "git-repo"
-# refreshPeriod = "168h"
-# url = "https://github.com/thatguyinabeanie/next-dotfiles"
-
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT false) }}
-
-["source/DOOM-fire-zig"]
-type = "git-repo"
-refreshPeriod = "168h"
-url = "https://github.com/const-void/DOOM-fire-zig.git"
 
 ##
 ## BATTLE STADIUM
@@ -43,51 +10,7 @@ type = "git-repo"
 refreshPeriod = "168h"
 url = "https://github.com/thatguyinabeanie/battle-stadium.git"
 
-##
-## POKEMON
-##
-["source/rk9-standings-scraper"]
-url = "https://github.com/thatguyinabeanie/rk9-standings-scraper.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/entralinked"]
-url = "https://github.com/thatguyinabeanie/entralinked.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/berichan-sysbot"]
-url = "https://github.com/thatguyinabeanie/Berichan.SysBot.PokemonScarletViolet.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/bdawg-sysbot"]
-url = "https://github.com/thatguyinabeanie/bdawg.SysBot.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/pkhex-plugins"]
-url = "https://github.com/thatguyinabeanie/PKHeX-Plugins.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
 {{ end }}
-
-
-["source/claude-code.nvim"]
-url = "https://github.com/thatguyinabeanie/claude-code.nvim.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/todo-mcp.nvim"]
-url = "https://github.com/thatguyinabeanie/todo-mcp.nvim.git"
-type = "git-repo"
-refreshPeriod = "168h"
-
-["source/mcp-neovim-server"]
-url = "https://github.com/thatguyinabeanie/mcp-neovim-server.git"
-type = "git-repo"
-refreshPeriod = "168h"
 
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
 
