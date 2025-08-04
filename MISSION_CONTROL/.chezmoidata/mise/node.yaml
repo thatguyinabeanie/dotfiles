@@ -28,6 +28,7 @@ nodejs:
     - name: "opencode-ai"
       description: "OpenCode AI CLI tool"
 
+
     # MCP Servers (NPM packages)
     - name: "@modelcontextprotocol/server-filesystem"
       description: "MCP filesystem operations server"
