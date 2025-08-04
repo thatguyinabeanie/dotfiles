@@ -89,13 +89,13 @@ The configuration uses Catppuccin theme with:
 
 Custom keybindings are organized in `tmux.keybindings.conf`:
 
-- **SessionX Manager**: `Prefix + o` launches advanced session manager
+- **SessionX Manager**: `Prefix + O` launches advanced session manager
 - **Window Management**: Efficient control over windows
 - **Pane Splitting & Navigation**: Easy pane manipulation
 - **Session Control**: Simplified session management
 - **Copy Mode**: Enhancements for text selection and copying
 
-#### SessionX Commands (after `Prefix + o`):
+#### SessionX Commands (after `Prefix + O`):
 - `Enter`: Switch to session or create new
 - `alt+backspace`: Delete selected session  
 - `Ctrl-u` / `Ctrl-d`: Scroll preview up/down
