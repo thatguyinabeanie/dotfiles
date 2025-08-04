@@ -41,6 +41,7 @@ install_mise_arch() {
 
 	# Load and start LaunchAgent for daily updates (macOS only)
 	{{- if eq .chezmoi.os "darwin" }}
+  mkdir -p "{{ .chezoi.homeDir }}/Library/LaunchAgents"
 	if launchctl load -w "{{ .chezmoi.homeDir }}/Library/LaunchAgents/$launchagent_name.plist" 2>/dev/null; then
 		echo "⏰ $binary_name auto-update scheduled"
 	else
