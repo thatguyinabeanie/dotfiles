@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# brews.yaml-hash: {{ include ".chezmoidata/homebrew/brews.yaml" | sha256sum }}
+# brews.yaml-hash: {{ include ".chezmoidata/packages/macos/brews.yaml" | sha256sum }}
 
 {{ template "homebrew-helpers.sh" . }}
 
