@@ -68,7 +68,6 @@ brews:
     - jaq
     - jesseduffield/lazydocker/lazydocker
     - launchctl-completion
-    - lastpass-cli
     - lazygit
     - libffi
     - libpq
