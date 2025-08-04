@@ -25,6 +25,10 @@ brews:
     - bundler-completion
     - carapace
     - chafa
+    - eza
+    - bat
+    - fd
+    - ripgrep
     - chezmoi
     - composer
     - cspell
@@ -68,7 +72,6 @@ brews:
     - jaq
     - jesseduffield/lazydocker/lazydocker
     - launchctl-completion
-    - lastpass-cli
     - lazygit
     - libffi
     - libpq

@@ -1,0 +1,22 @@
+architectures:
+  # Native mise for primary system architecture
+  native:
+    binary: "mise"
+    launchagent: "com.user.mise-update"
+
+  # x64 variant - always installed on ARM64 for Node.js 14 compatibility
+  x64_variant:
+    install_on_arm64: true
+    arch: "x64"
+    binary: "mise-x64"
+    description: "for Node.js 14 compatibility"
+    launchagent: "com.user.mise-x64-update"
+
+# Scheduling configuration for LaunchAgents
+schedule:
+  native:
+    hour: 9
+    minute: 15
+  x64_variant:
+    hour: 9
+    minute: 0

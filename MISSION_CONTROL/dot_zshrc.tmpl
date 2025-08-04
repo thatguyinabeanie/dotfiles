@@ -2,8 +2,6 @@
 
 autoload -U add-zsh-hook
 
-
-
 # Initialize completion system early
 autoload -Uz compinit
 compinit
@@ -16,11 +14,7 @@ if [ -f "$ZSH_SYNTAX_HIGHLIGHTING_PATH" ]; then
   source "$ZSH_SYNTAX_HIGHLIGHTING_PATH"
 fi
 
-source ~/.config/zsh/work.zsh
-source ~/.config/zsh/secrets.zsh
 source ~/.config/zsh/aliases.zsh
-
-
 
 # PNPM configuration
 export PNPM_HOME="$HOME/.pnpm-global"
@@ -73,5 +67,8 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 # if command -v pokeget >/dev/null 2>&1 && command -v fastfetch >/dev/null 2>&1; then
 #   pokeget random --hide-name | fastfetch --file-raw -
 # fi
+
+# source ~/.config/zsh/work.zsh
+# source ~/.config/zsh/secrets.zsh
 
 {{ template "zsh/fnm.zsh" . }}
