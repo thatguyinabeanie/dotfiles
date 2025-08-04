@@ -10,7 +10,7 @@ return {
 {{- end }}
     },
   },
-  
+
   mason = {
     core_tools = {
 {{- range .mason.core_tools }}
@@ -23,7 +23,7 @@ return {
 {{- end }}
     },
   },
-  
+
   filetypes = {
     templates = {
 {{- range $lang, $templates := .filetypes.templates }}
@@ -34,19 +34,19 @@ return {
   {{- end }}
 {{- end }}
     },
-    
+
     lsp_servers = {
 {{- range $filetype, $server := .filetypes.lsp_servers }}
       {{ $filetype }} = "{{ $server }}",
 {{- end }}
     },
-    
+
     web_frameworks = {
 {{- range .filetypes.web_frameworks }}
       "{{ . }}",
 {{- end }}
     },
-    
+
     typescript_stack = {
 {{- range .filetypes.typescript_stack }}
       "{{ . }}",
