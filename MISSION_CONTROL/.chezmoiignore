@@ -38,3 +38,7 @@ SECURITY.md
 gitleaks-report.json
 
 **/README.md
+
+{{- if ne .chezmoi.os "darwin" }}
+Library/
+{{- end }}

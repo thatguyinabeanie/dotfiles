@@ -15,8 +15,15 @@
 {{- /* Determine if we're in an interactive session where we can prompt the user */ -}}
 {{- $interactive := false -}}
 
-{{- /* Always force non-interactive for init to avoid prompt function issues */ -}}
-{{- $interactive = false -}}
+{{- /* Check if we're in an interactive terminal and not in CI */ -}}
+{{- if and (not (env "CI")) (not (env "CODESPACES")) -}}
+  {{- if lookPath "tty" -}}
+    {{- $tty_check := output "bash" "-c" "tty 2>/dev/null || echo 'not a tty'" | trim -}}
+    {{- if not (or (contains "not a tty" $tty_check) (contains "inappropriate ioctl" $tty_check)) -}}
+      {{- $interactive = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
 {{- $current_hostname := output "hostname" | trim -}}
 
@@ -184,6 +191,18 @@
 {{- $WORK_ENVIRONMENT := $system_work_env -}}
 {{- $WORK_ORG := $system_work_org -}}
 
+{{/* Override with environment variables if provided */}}
+{{- if env "WORK_ENVIRONMENT" -}}
+  {{- if or (eq (env "WORK_ENVIRONMENT") "true") (eq (env "WORK_ENVIRONMENT") "1") -}}
+    {{- $WORK_ENVIRONMENT = true -}}
+  {{- else -}}
+    {{- $WORK_ENVIRONMENT = false -}}
+  {{- end -}}
+{{- end -}}
+{{- if env "WORK_ORG" -}}
+  {{- $WORK_ORG = env "WORK_ORG" -}}
+{{- end -}}
+
 {{/* Use stored hostname if available, otherwise current hostname */}}
 {{- $HOSTNAME := $current_hostname -}}
 {{- if $system_hostname -}}
@@ -191,7 +210,17 @@
 {{- end -}}
 
 {{/* Only prompt for missing values during first-time setup */}}
-{{- /* DISABLED interactive block 1 */ -}}
+{{- if $interactive -}}
+  {{- /* Prompt for work environment if not already set and no env var */ -}}
+  {{- if and (not $system_work_env) (not (env "WORK_ENVIRONMENT")) -}}
+    {{- $WORK_ENVIRONMENT = promptBoolOnce . "work_environment" "Is this a work environment" false -}}
+  {{- end -}}
+  
+  {{- /* Prompt for work org if work environment and not already set and no env var */ -}}
+  {{- if and $WORK_ENVIRONMENT (not $system_work_org) (not (env "WORK_ORG")) -}}
+    {{- $WORK_ORG = promptStringOnce . "work_org" "Work organization name" "" -}}
+  {{- end -}}
+{{- end -}}
 
 {{- /* =================== DEFAULT VALUES =================== */ -}}
 {{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
@@ -277,7 +306,20 @@
 {{- end -}}
 
 {{/* Interactive prompts for missing values */}}
-{{- /* DISABLED interactive block 2 */ -}}
+{{- if $interactive -}}
+  {{- /* Only prompt for missing Git values if not in Codespaces */ -}}
+  {{- if not $is_codespace -}}
+    {{- if not $GIT_NAME -}}
+      {{- $GIT_NAME = promptStringOnce . "git_name" "Git author name" "Gabe Mendoza" -}}
+    {{- end -}}
+    {{- if not $GITHUB_USERNAME -}}
+      {{- $GITHUB_USERNAME = promptStringOnce . "github_username" "GitHub username" "thatguyinabeanie" -}}
+    {{- end -}}
+    {{- if not $GIT_EMAIL -}}
+      {{- $GIT_EMAIL = promptStringOnce . "git_email" "Git author email" "thatguyin@beanie.gg" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 
 {{/* =================== CONFIGURATION OUTPUT =================== */}}
 {{/* Generate the final configuration file */}}
