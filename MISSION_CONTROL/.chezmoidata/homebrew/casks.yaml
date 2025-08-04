@@ -1,5 +1,6 @@
 casks:
   shared:
+    - nikitabobko/tap/aerospace
     - cursor
     - docker-desktop
     - espanso
