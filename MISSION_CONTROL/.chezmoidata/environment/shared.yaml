@@ -17,9 +17,6 @@ template_variables:
   BAT_THEME: "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
   WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT }}"
   CHEZMOI_INTERACTIVE: "{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
-  GIT_NAME: "{{ .git.config.name }}"
-  GITHUB_USERNAME: "{{ .git.config.username }}"
-  GIT_EMAIL: "{{ .git.config.email }}"
 
 # Path construction variables (shell handles the joining syntax)
 path_variables:

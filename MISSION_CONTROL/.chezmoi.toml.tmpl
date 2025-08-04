@@ -270,10 +270,10 @@
   {{- /* Use GitHub's noreply email for Codespaces */ -}}
   {{- $GIT_EMAIL = printf "%s@users.noreply.github.com" $GITHUB_USERNAME -}}
 {{- else -}}
-  {{- /* Local/CI environment: Use environment variables or defaults */ -}}
-  {{- $GIT_NAME = env "GIT_NAME" | default "GitHub Actions" -}}
-  {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "github-actions" -}}
-  {{- $GIT_EMAIL = env "GIT_EMAIL" | default "github-actions@github.com" -}}
+  {{- /* Local/CI environment: Use environment variables or actual values */ -}}
+  {{- $GIT_NAME = env "GIT_NAME" | default "Gabe Mendoza" -}}
+  {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "thatguyinabeanie" -}}
+  {{- $GIT_EMAIL = env "GIT_EMAIL" | default "thatguyin@beanie.gg" -}}
 {{- end -}}
 
 {{/* Interactive prompts for missing values */}}
@@ -332,9 +332,9 @@ status_right_length        = 100
 
 {{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
-name                       = {{ $GIT_NAME | quote }}
-username                   = {{ $GITHUB_USERNAME | quote }}
-email                      = {{ $GIT_EMAIL | quote }}
+name                       = "Gabe Mendoza"
+username                   = "thatguyinabeanie"
+email                      = "thatguyin@beanie.gg"
 defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
 work_org                   = {{ $WORK_ORG | quote }}
 work_environment           = {{ $WORK_ENVIRONMENT }}
