@@ -37,10 +37,12 @@ A modern and functional Tmux configuration with Catppuccin theme integration, cu
 
 ### ⚡ Productivity
 
+- **SessionX**: Advanced session manager with fuzzy finding and preview
 - **Pomodoro Timer**: Integrated for focus management
 - **Custom Keybindings**: Personalized shortcuts for efficiency
 - **Enhanced Status Bar**: More informative status bar
 - **Session Management**: Robust session handling features
+- **Zoxide Integration**: Smart directory jumping for session creation
 
 ## 📂 Configuration Structure
 
@@ -87,10 +89,20 @@ The configuration uses Catppuccin theme with:
 
 Custom keybindings are organized in `tmux.keybindings.conf`:
 
+- **SessionX Manager**: `Prefix + o` launches advanced session manager
 - **Window Management**: Efficient control over windows
 - **Pane Splitting & Navigation**: Easy pane manipulation
 - **Session Control**: Simplified session management
 - **Copy Mode**: Enhancements for text selection and copying
+
+#### SessionX Commands (after `Prefix + o`):
+- `Enter`: Switch to session or create new
+- `alt+backspace`: Delete selected session  
+- `Ctrl-r`: Rename session
+- `Ctrl-w`: Window mode (show all windows)
+- `Ctrl-x`: Search dotfiles directory
+- `Ctrl-e`: Expand current directory
+- `?`: Toggle preview pane
 
 ### ⏱️ Pomodoro Timer
 
@@ -104,6 +116,9 @@ The Pomodoro timer configuration includes:
 
 - **Tmux**: Version 3.0+ required
 - **Chezmoi**: For dotfiles management ([Chezmoi](https://www.chezmoi.io/))
+- **fzf**: Fuzzy finder for SessionX
+- **bat**: Syntax highlighting in previews
+- **zoxide**: Smart directory jumping (optional but recommended)
 
 ## 🙏 Contributing
 
