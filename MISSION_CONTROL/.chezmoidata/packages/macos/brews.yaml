@@ -25,6 +25,10 @@ brews:
     - bundler-completion
     - carapace
     - chafa
+    - eza
+    - bat
+    - fd 
+    - ripgrep
     - chezmoi
     - composer
     - cspell
