@@ -5,3 +5,4 @@ taps:
   - hashicorp/tap
   - jesseduffield/lazydocker
   - nikitabobko/tap
+  - kubewall/tap
