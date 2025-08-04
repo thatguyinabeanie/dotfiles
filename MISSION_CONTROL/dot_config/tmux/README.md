@@ -98,10 +98,14 @@ Custom keybindings are organized in `tmux.keybindings.conf`:
 #### SessionX Commands (after `Prefix + o`):
 - `Enter`: Switch to session or create new
 - `alt+backspace`: Delete selected session  
+- `Ctrl-u` / `Ctrl-d`: Scroll preview up/down
+- `Ctrl-n` / `Ctrl-p`: Select next/previous item
 - `Ctrl-r`: Rename session
 - `Ctrl-w`: Window mode (show all windows)
 - `Ctrl-x`: Search dotfiles directory
-- `Ctrl-e`: Expand current directory
+- `Ctrl-e`: Expand current directory for local sessions
+- `Ctrl-b`: Back to main session list
+- `Ctrl-t`: Tree mode (hierarchical view)
 - `?`: Toggle preview pane
 
 ### ⏱️ Pomodoro Timer
