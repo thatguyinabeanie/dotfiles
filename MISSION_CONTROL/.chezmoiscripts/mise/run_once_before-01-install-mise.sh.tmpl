@@ -1,24 +1,5 @@
 #!/bin/bash
 # Unified mise installation - handles both regular mise and mise-x64
-# Uses pure chezmoi template logic for 18-hour caching
-
-{{- $cacheFile := joinPath .chezmoi.homeDir ".local/share/mise-last-install" -}}
-{{- $currentTime := output "date" "+%s" | trim | int -}}
-{{- $eighteenHours := 64800 -}}
-{{- $lastInstall := 0 }}
-
-{{- if stat $cacheFile }}
-  {{- $lastInstall = include $cacheFile | trim | int }}
-{{- else }}
-# Create cache file with epoch timestamp to ensure it always exists
-mkdir -p "{{ joinPath .chezmoi.homeDir ".local/share" }}"
-echo "0" > "{{ $cacheFile }}"
-{{- end }}
-
-{{- if lt (sub $currentTime $lastInstall) $eighteenHours }}
-# Cache hit - mise installed within 18 hours, skipping
-exit 0
-{{- end }}
 
 set -euo pipefail
 
@@ -52,23 +33,15 @@ install_mise_arch() {
 	echo "✅ $binary_name setup complete"
 }
 
-# Detect system architecture
-SYSTEM_ARCH=$(command uname -m)
+echo "🚀 Installing mise..."
 
-# Install regular mise (native architecture)
-if [[ "$SYSTEM_ARCH" == "arm64" ]]; then
-	install_mise_arch "arm64" "mise" "arm64" "com.user.mise-update"
-elif [[ "$SYSTEM_ARCH" == "x86_64" ]]; then
-	install_mise_arch "x64" "mise" "x64" "com.user.mise-update"
-else
-	echo "❌ Unsupported architecture: $SYSTEM_ARCH"
-	exit 1
-fi
+# Install native mise for system architecture
+install_mise_arch "{{ if eq .chezmoi.arch "amd64" }}x64{{ else }}arm64{{ end }}" "{{ .architectures.native.binary }}" "{{ .chezmoi.arch }}" "{{ .architectures.native.launchagent }}"
 
 # Install mise-x64 (for Node.js 14 compatibility) only on Apple Silicon
-if [[ "$SYSTEM_ARCH" == "arm64" ]]; then
-	install_mise_arch "x64" "mise-x64" "for Node.js 14 compatibility" "com.user.mise-x64-update"
-fi
+{{- if and (eq .chezmoi.arch "arm64") (.architectures.x64_variant.install_on_arm64) }}
+install_mise_arch "{{ .architectures.x64_variant.arch }}" "{{ .architectures.x64_variant.binary }}" "{{ .architectures.x64_variant.description }}" "{{ .architectures.x64_variant.launchagent }}"
+{{- end }}
 
 echo "🎉 All mise installations complete"
 
@@ -81,6 +54,3 @@ else
 fi
 {{- end }}
 
-# Update cache timestamp using pure chezmoi template
-mkdir -p "{{ joinPath .chezmoi.homeDir ".local/share" }}"
-echo "{{ $currentTime }}" > "{{ $cacheFile }}"

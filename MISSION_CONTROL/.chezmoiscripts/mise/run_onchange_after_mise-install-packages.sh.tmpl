@@ -1,0 +1,67 @@
+#!/bin/bash
+
+# This script runs when mise config changes and applies package installations
+# run_onchange: {{ .languages | toJson | sha256sum }}
+# run_onchange: {{ .nodejs | toJson | sha256sum }}
+# run_onchange: {{ .python | toJson | sha256sum }}
+# run_onchange: {{ .tools | toJson | sha256sum }}
+
+set -euo pipefail
+
+#=============================================================================
+# CONFIGURATION & ENVIRONMENT CHECKS
+#=============================================================================
+
+{{ if env "CHEZMOI_INTERACTIVE" | ne "1" }}
+echo "🔵 Skipping mise dependencies installation in non-interactive mode."
+exit 0
+{{ end }}
+
+# Ensure mise is available in PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Check if mise is available
+if ! command -v mise >/dev/null 2>&1; then
+	echo "❌ mise not found in PATH. Please ensure mise is installed first."
+	exit 1
+fi
+
+# Check if mise config exists
+if [ ! -f "$HOME/.config/mise/config.toml" ]; then
+	echo "⚠️ ~/.config/mise/config.toml not found. No tools installed."
+	exit 0
+fi
+
+#=============================================================================
+# MISE TOOL INSTALLATION & UPGRADE
+#=============================================================================
+
+echo "🔧 Installing and upgrading mise dependencies..."
+
+# Install new tools and update existing ones
+mise install
+
+# Upgrade existing tools to latest versions (if configured)
+mise upgrade
+
+echo "✅ Mise dependencies installed and upgraded"
+
+#=============================================================================
+# POST-INSTALLATION SETUP
+#=============================================================================
+
+# Rebuild bat themes if bat is available
+if command -v bat >/dev/null 2>&1; then
+	echo "🔧 Rebuilding bat themes..."
+	bat cache --build >/dev/null 2>&1
+	echo "✅ Bat themes rebuilt"
+fi
+
+# Run Python package installation task if available
+if mise task ls 2>/dev/null | grep -q "install-python-tools"; then
+	echo "🔧 Installing Python global packages..."
+	mise task run install-python-tools
+	echo "✅ Python packages installed"
+fi
+
+echo "🎉 All mise configuration applied successfully"
