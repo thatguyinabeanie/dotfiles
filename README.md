@@ -36,7 +36,7 @@ sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply thatguyinab
 
 ### Work environment setup
 ```bash
-WORK_ENVIRONMENT=true sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply thatguyinabeanie
+curl -fsLS get.chezmoi.io | WORK_ENVIRONMENT=true sh -s -- -b ~/.local/bin init --apply thatguyinabeanie
 ```
 
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)

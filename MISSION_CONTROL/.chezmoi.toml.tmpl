@@ -18,10 +18,9 @@
 {{- /* Check if we're in an interactive terminal and not in CI */ -}}
 {{- if and (not (env "CI")) (not (env "CODESPACES")) -}}
   {{- if lookPath "tty" -}}
-    {{- with output "tty" -}}
-      {{- if not (or (contains "not a tty" .) (contains "inappropriate ioctl" .)) -}}
-        {{- $interactive = true -}}
-      {{- end -}}
+    {{- $tty_check := output "bash" "-c" "tty 2>/dev/null || echo 'not a tty'" | trim -}}
+    {{- if not (or (contains "not a tty" $tty_check) (contains "inappropriate ioctl" $tty_check)) -}}
+      {{- $interactive = true -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
