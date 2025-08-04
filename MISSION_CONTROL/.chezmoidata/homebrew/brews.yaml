@@ -45,6 +45,7 @@ brews:
     - fish-lsp
     # - fnm
     - fzf
+    - gawk
     - gcc@11
     - gcc@12
     - gem-completion
