@@ -27,7 +27,7 @@ brews:
     - chafa
     - eza
     - bat
-    - fd 
+    - fd
     - ripgrep
     - chezmoi
     - composer
