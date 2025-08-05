@@ -194,19 +194,11 @@ vim.g.root_spec = {
 
     -- Build tools
     "Makefile",
-    "CMakeLists.txt",
-    "meson.build",
     "build.gradle",
     "pom.xml",
-    "build.sbt",
-    "stack.yaml",
-    "cabal.project",
-    "flake.nix",
-    "shell.nix",
 
     -- Config files
     ".neoconf.json",
-    "lua",
     "mise.toml",
     ".mise.toml",
 
@@ -214,9 +206,6 @@ vim.g.root_spec = {
     "node_modules",
     ".venv",
     "venv",
-    "src",
-    "lib",
-    "app",
   },
   "cwd",
 }
