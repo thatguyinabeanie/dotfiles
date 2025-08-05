@@ -4,6 +4,5 @@ taps:
   - domt4/autoupdate
   - hashicorp/tap
   - jesseduffield/lazydocker
-  - nikitabobko/tap
   - kubewall/tap
   - nikitabobko/tap
