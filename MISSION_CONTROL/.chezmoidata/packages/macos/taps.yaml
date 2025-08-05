@@ -6,3 +6,5 @@ taps:
   - jesseduffield/lazydocker
   - nikitabobko/tap
   - kubewall/tap
+  - nikitabobko/tap
+
