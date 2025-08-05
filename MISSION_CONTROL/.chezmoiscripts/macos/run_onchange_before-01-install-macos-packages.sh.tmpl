@@ -9,7 +9,7 @@
 # mas.yaml-hash: {{ include ".chezmoidata/packages/macos/mas.yaml" | sha256sum }}
 
 # Source shared homebrew helper functions
-{{ template "homebrew-helpers.sh" . }}
+{{ template "homebrew-helpers.sh.tmpl" . }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 
