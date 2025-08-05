@@ -171,11 +171,7 @@ vim.g.root_spec = {
 
     -- Project config files
     "package.json",
-    "yarn.lock",
-    "pnpm-lock.yaml",
-    "bun.lockb",
     "Cargo.toml",
-    "Cargo.lock",
     "go.mod",
     "go.sum",
     "pyproject.toml",
@@ -185,10 +181,6 @@ vim.g.root_spec = {
     "poetry.lock",
     "Gemfile",
     "Gemfile.lock",
-    "composer.json",
-    "composer.lock",
-    "mix.exs",
-    "rebar.config",
     "deno.json",
     "deno.jsonc",
 
