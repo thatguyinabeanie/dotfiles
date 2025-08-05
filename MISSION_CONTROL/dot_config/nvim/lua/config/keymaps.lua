@@ -2,16 +2,8 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
-local wk = require("which-key")
+-- local wk = require("which-key")
 
--- SCROLLING
---
--- When scrolling, center the cursor vertically within the buffer window
--- vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- vim.keymap.set("n", "<C-u>", "<C-u>zz")
--- When searching, center the cursor vertically within the buffer window
--- vim.keymap.set("n", "n", "nzzzv")
--- vim.keymap.set("n", "N", "Nzzzv")
 
 -- Treewalker movement (normal & visual mode)
 -- vim.keymap.set({ 'n', 'v' }, '<M-h>', '<cmd>Treewalker Left<cr>', { desc = "Treewalker Left", silent = true })
@@ -50,7 +42,7 @@ local wk = require("which-key")
 vim.keymap.set("n", "<leader>fy", function()
   local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
   vim.fn.setreg("+", relative_path)
-end, { desc = "copy file's relative path" })
+end, { desc = "Copy Relative Path" })
 
 --
 -- OBSIDIAN
@@ -114,17 +106,3 @@ end, { desc = "copy file's relative path" })
 --   pa - Prompt Actions
 --
 
---
--- SPELL CHECKING
---
-wk.add({
-  {
-    "<leader>ts",
-    function()
-      vim.opt_local.spell = not vim.opt_local.spell:get()
-      local status = vim.opt_local.spell:get() and "enabled" or "disabled"
-      vim.notify("Spell checking " .. status, vim.log.levels.INFO)
-    end,
-    desc = "Toggle Spell Check",
-  },
-})
