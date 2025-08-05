@@ -171,11 +171,7 @@ vim.g.root_spec = {
 
     -- Project config files
     "package.json",
-    "yarn.lock",
-    "pnpm-lock.yaml",
-    "bun.lockb",
     "Cargo.toml",
-    "Cargo.lock",
     "go.mod",
     "go.sum",
     "pyproject.toml",
@@ -185,28 +181,16 @@ vim.g.root_spec = {
     "poetry.lock",
     "Gemfile",
     "Gemfile.lock",
-    "composer.json",
-    "composer.lock",
-    "mix.exs",
-    "rebar.config",
     "deno.json",
     "deno.jsonc",
 
     -- Build tools
     "Makefile",
-    "CMakeLists.txt",
-    "meson.build",
     "build.gradle",
     "pom.xml",
-    "build.sbt",
-    "stack.yaml",
-    "cabal.project",
-    "flake.nix",
-    "shell.nix",
 
     -- Config files
     ".neoconf.json",
-    "lua",
     "mise.toml",
     ".mise.toml",
 
@@ -214,9 +198,6 @@ vim.g.root_spec = {
     "node_modules",
     ".venv",
     "venv",
-    "src",
-    "lib",
-    "app",
   },
   "cwd",
 }
@@ -269,3 +250,4 @@ local function get_python_path()
 end
 
 vim.g.python3_host_prog = get_python_path()
+
