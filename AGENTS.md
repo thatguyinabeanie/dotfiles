@@ -5,6 +5,10 @@ Essential guidance for coding agents working with this Chezmoi dot files reposit
 ## Build/Test Commands
 
 ```bash
+# Setup hooks after cloning repo (one-time)
+# Note: hooks auto-install via mise postinstall hook, but you can manually run:
+mise run setup-hooks
+
 # Run all quality checks (linting, formatting, security)
 lefthook run pre-commit
 
@@ -46,21 +50,24 @@ When adding cross-platform support, these files/directories are macOS-only and s
 
 ## Cross-Platform Migration Plan
 
-**Phase 1: Package Management Restructure**
+### Phase 1: Package Management Restructure
+
 1. ✅ Moved Homebrew data: `homebrew/` → `packages/macos/`
 2. ✅ Updated all Homebrew script paths to use new structure
 3. Analyze `packages/macos/brews.yaml` - identify cross-platform packages
-4. Create `packages/shared.yaml` - brew→yay package name mappings  
+4. Create `packages/shared.yaml` - brew→yay package name mappings
 5. Create `packages/linux.yaml` - Linux-only AUR packages
 6. Update package data to separate platform-specific vs shared packages
 
-**Phase 2: Script Organization**
+### Phase 2: Script Organization
+
 1. Move `.chezmoiscripts/homebrew/` → `.chezmoiscripts/macos/`
 2. Create `.chezmoiscripts/linux/` with yay-based installation scripts
 3. Add OS conditionals to mise scripts (LaunchAgent parts)
 4. Keep cross-platform scripts (mise, rust, machine-setup) with internal conditionals
 
-**Phase 3: Configuration Conditionals**
+### Phase 3: Configuration Conditionals
+
 1. Add to `.chezmoiignore`: `dot_config/aerospace/`, `dot_config/karabiner/`
 2. Wrap Homebrew paths in shell configs with `{{- if eq .chezmoi.os "darwin" }}`
 3. Conditionalize AppleScript commands in aliases

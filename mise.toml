@@ -15,6 +15,21 @@ gitleaks = "latest"            # Secrets scanner (used in lefthook)
 lefthook = "latest"
 stylua = "latest"
 
+[hooks]
+# Automatically setup lefthook after installing tools
+postinstall = "lefthook install || echo 'lefthook install failed - run: mise run setup-hooks'"
+
+[settings]
+jobs = 4                           # Parallel installation jobs
+experimental = true               # Enable experimental features
+verbose = false                   # Reduce noise in output
+yes = true                        # Auto-confirm prompts
+auto_install = true
+
+[tasks.setup-hooks]
+description = "Install lefthook Git hooks (run after cloning repo)"
+run = "lefthook install"
+
 [tasks.test]
 description = "Run all Go tests"
 run = "cd _tests_ && go test ./..."
@@ -47,10 +62,3 @@ run = "chezmoi diff"
 description = "Apply dotfiles and show diff"
 run = ["chezmoi apply", "chezmoi diff"]
 
-[settings]
-jobs = 4                           # Parallel installation jobs
-always_keep_download = false       # Clean up downloads after install
-http_timeout = "30s"              # HTTP request timeout
-experimental = true               # Enable experimental features
-verbose = false                   # Reduce noise in output
-yes = true                        # Auto-confirm prompts
