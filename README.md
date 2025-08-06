@@ -94,20 +94,15 @@ During installation, the system prompts for configuration values that shape your
 
 ```shell
 dotfiles/
-├── 🌟 MISSION_CONTROL/
-│   ├── 🚀 dot_config/
-│   │   ├── nvim/
-│   │   ├── obsidian/                # Obsidian configuration
-│   │   │   ├── config.json.tmpl     # Templated Obsidian config
-│   │   │   └── run_once_after_*.sh  # Work vault setup script
-│   │   ├── tmux/
-│   │   └── ...
-│   ├── 🔭 obsidian/                 # Obsidian vault management
-│   │   └── .chezmoiexternal.toml.tmpl  # External vault repos
-│   ├── 📁 empty_dot_config/         # Empty directory structure
-│   │   └── empty_obsidian/
-│   │       └── empty_obsidian-vault/  # Personal vault directory
+├── 🚀 dot_config/
+│   ├── nvim/
+│   ├── obsidian/                # Obsidian configuration
+│   │   ├── config.json.tmpl     # Templated Obsidian config
+│   │   └── run_once_after_*.sh  # Work vault setup script
+│   ├── tmux/
 │   └── ...
+├── 🔭 .chezmoidata/             # YAML data files
+├── 📁 Pictures/Wallpapers/      # Wallpaper collection
 └── 🌠 .chezmoi.toml.tmpl
 ```
 

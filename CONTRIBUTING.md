@@ -26,19 +26,18 @@ Thank you for your interest in contributing. This document outlines the process 
 
 ## Repository structure
 
-The repository uses a ROOT-based structure:
+The repository uses a flat directory structure:
 
-- `.chezmoiroot` points to `MISSION_CONTROL/` directory.
-- All dotfiles are stored under `MISSION_CONTROL/`.
-- Configuration files are in `MISSION_CONTROL/dot_config/`.
-- Tests are in `_tests_/`.
+- All dotfiles are stored at the repository root.
+- Configuration files are in `dot_config/`.
+- Tests are in `.tests/`.
 
 ## Testing
 
 - Run tests with:
 
   ```bash
-  cd _tests_ && go test -v ./...
+  cd .tests && go test -v ./...
   ```
 
 - Test installation on a fresh system
@@ -86,7 +85,7 @@ All previous pre-commit hooks are now managed by Lefthook.
 ### Configuration
 
 - The configuration is in `lefthook.yml` at the repository root.
-- Custom scripts are in `MISSION_CONTROL/.chezmoiscripts/precommit/`.
+- Custom scripts are in `dot_config/lefthook/`.
 
 ### Adding/modifying hooks
 

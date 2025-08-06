@@ -31,11 +31,10 @@ Benefits of this integration:
 
 ## 🔄 Vault Management
 
-Obsidian vaults are managed through a hybrid approach:
+Obsidian vaults are managed through chezmoi configuration:
 
-1. **Empty Directories**: Created in `MISSION_CONTROL/empty_dot_config/empty_obsidian/empty_obsidian-vault/`
+1. **Empty Directories**: Personal vault directory created at `~/.config/obsidian/obsidian-vault`
 2. **External Repositories**: For existing vaults, managed via chezmoi external config.
-   - Path: `MISSION_CONTROL/obsidian/.chezmoiexternal.toml.tmpl`
 
 ### 💡 Initializing a New Vault
 
@@ -49,7 +48,7 @@ To initialize a new vault:
 
 To use an existing vault:
 
-1. Add your vault repository URL to `MISSION_CONTROL/obsidian/.chezmoiexternal.toml.tmpl`
+1. Add your vault repository URL to `dot_config/obsidian/.chezmoiexternal.toml.tmpl`
 2. Run `chezmoi apply` to clone the repository to the correct location
 
 ## 🚀 Customization
