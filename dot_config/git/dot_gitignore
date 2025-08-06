@@ -7,3 +7,4 @@ CLAUDE.*
 GEMINI.*
 AGENTS.md
 *mise.toml
+*.http
