@@ -47,7 +47,6 @@ brews:
     - findutils
     - fish
     - fish-lsp
-    # - fnm
     - fzf
     - gawk
     - gcc@11
@@ -119,6 +118,7 @@ brews:
     - sevenzip
     - sd
     - sk
+    - starship
     - tflint
     - thefuck
     - tig
@@ -139,6 +139,7 @@ brews:
     - yazi
     - yq
     - zls
+    - zoxide
     - zsh
     - zsh-completions
     - zsh-autosuggestions
