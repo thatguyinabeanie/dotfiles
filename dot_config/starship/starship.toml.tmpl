@@ -171,16 +171,16 @@ style = "italic dimmed yellow"
 
 [directory]
 home_symbol = "⌂"
-truncation_length = 0
+truncation_length = 1
 truncation_symbol = ""
 read_only = " ◈"
 use_os_path_sep = true
-style = "subtext0"
-# Hide directory path when not in git repo (show empty)
-format = '[$read_only]($read_only_style)'
+style = "bold teal"
+# Show nothing when in home, directory name when in subdirs, repo root when in git
+format = '[$path]($style)[$read_only]($read_only_style) '
 # When in git repo, show only repo name
 repo_root_style = 'bold teal'
-repo_root_format = '[$repo_root]($repo_root_style)[$read_only]($read_only_style)'
+repo_root_format = '[$repo_root]($repo_root_style)[$read_only]($read_only_style) '
 
 [git_metrics]
 format = '([▴$added]($added_style))([▿$deleted]($deleted_style))'
