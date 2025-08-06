@@ -1,6 +1,5 @@
 # Version control
 .git/
-.github/
 
 # Build directories
 **/dist/
@@ -11,19 +10,6 @@
 **/node_modules/
 **/vendor/
 
-# Test files
-**/*_test.go
-**/*.test.ts
-**/*.spec.js
-
-# Documentation
-**/docs/
-**/*.md
-
-# Example files
-**/*.example
-**/*.sample
-
 # Binary and media files
 **/*.jpg
 **/*.png
@@ -32,12 +18,3 @@
 **/*.zip
 **/*.tar.gz
 
-# Specific to your dotfiles
-wallpapers/
-backups/
-coverage.txt
-gitleaks-report.json
-
-# Template files that might contain fake credentials
-**/*.example.tmpl
-**/example.*.tmpl

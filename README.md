@@ -30,11 +30,13 @@ A cosmic journey through the development environment
 One command to cross the event horizon and pull in all configurations:
 
 ### Personal setup
+
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply thatguyinabeanie
 ```
 
 ### Work environment setup
+
 ```bash
 curl -fsLS get.chezmoi.io | WORK_ENVIRONMENT=true sh -s -- -b ~/.local/bin init --apply thatguyinabeanie
 ```
@@ -181,7 +183,7 @@ plt.plot(x, np.sin(x))
 plt.show()  # Renders inline!
 ```
 
-[![View Jupyter Guide](https://img.shields.io/badge/View_Jupyter_Guide-22863a?style=for-the-badge)](docs/JUPYTER.md)
+[![View Jupyter Guide](https://img.shields.io/badge/View_Jupyter_Guide-22863a?style=for-the-badge)](.docs/JUPYTER.md)
 
 ## 🌍 Dependencies
 
