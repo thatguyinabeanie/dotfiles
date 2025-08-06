@@ -24,13 +24,13 @@ set -g window-status-current-format "#{?window_zoomed_flag,#{#[fg=#{@thm_flaming
 set -g status-right-length 100
 set -g status-right ""
 
-set -ga status-right "#[fg=#{@thm_blue}]#{battery_icon} #{battery_percentage}"
-set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
-set -ga status-right "#[fg=#{@thm_blue}]#{weather} "
-set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
 set -ga status-right "#[fg=#{@thm_blue}]󰍛 #{cpu_percentage}"
 set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
-set -ga status-right "#[fg=#{@thm_blue}]󰅐 %a %b %d %H:%M"
+set -ga status-right "#[fg=#{@thm_blue}]#{battery_icon} #{battery_percentage}"
+set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
+set -ga status-right "#[fg=#{@thm_blue}]󰖙 #(~/.local/bin/tmux-weather-dual.sh)"
+set -ga status-right "#[fg=#{@thm_overlay_0}, none] │ "
+set -ga status-right "#[fg=#{@thm_blue}]󰅐 %a %b %d %H:%M "
 
 ##
 ## TMUX-FZF-URL THEMING AND TERMINAL BROWSER INTEGRATION
