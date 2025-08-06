@@ -1,0 +1,394 @@
+{{- /*
+  CHEZMOI CONFIGURATION TEMPLATE
+  
+  This template generates the main chezmoi configuration file based on:
+  - Environment detection (interactive vs automated)
+  - Platform detection (GitHub Codespaces, local machine, CI/CD)
+  - User preferences (collected via prompts in interactive mode)
+  - Machine identity system with cross-platform storage
+  
+  The template supports both manual setup (with prompts) and automated deployment
+  (using environment variables or defaults).
+*/ -}}
+
+{{- /* =================== INTERACTIVE MODE DETECTION =================== */ -}}
+{{- /* Determine if we're in an interactive session where we can prompt the user */ -}}
+{{- $interactive := false -}}
+
+{{- /* Check if we're in an interactive terminal and not in CI */ -}}
+{{- if and (not (env "CI")) (not (env "CODESPACES")) -}}
+  {{- if lookPath "tty" -}}
+    {{- $tty_check := output "bash" "-c" "tty 2>/dev/null || echo 'not a tty'" | trim -}}
+    {{- if not (or (contains "not a tty" $tty_check) (contains "inappropriate ioctl" $tty_check)) -}}
+      {{- $interactive = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $current_hostname := output "hostname" | trim -}}
+
+{{/* Cross-platform machine identity detection */}}
+{{- $system_work_env := false -}}
+{{- $system_work_org := "" -}}
+
+{{/* Detect storage method and read values directly */}}
+{{- $os := output "/usr/bin/uname" "-s" | trim -}}
+{{- $storage_method := "xdg_config" -}}
+{{- if eq $os "Darwin" -}}
+  {{- $storage_method = "macos_defaults" -}}
+{{- else if eq $os "Linux" -}}
+  {{- if lookPath "dconf" -}}
+    {{- $storage_method = "dconf" -}}
+  {{- else if lookPath "gsettings" -}}
+    {{- $storage_method = "gsettings" -}}
+  {{- else -}}
+    {{- $storage_method = "xdg_config" -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read work environment */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine work_environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "1") (eq . "true") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/work-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine work-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_work_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^work_environment=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- if or (eq . "true") (eq . "1") -}}
+        {{- $system_work_env = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read work organization */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine work_org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/work-org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine work-org 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_work_org = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^work_org=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_work_org = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read shell preference from platform storage */}}
+{{- $system_shell := "" -}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine shell 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_shell = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/shell 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_shell = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine shell 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_shell = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^shell=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_shell = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read catppuccin flavor from platform storage */}}
+{{- $system_catppuccin := "" -}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine catppuccin_flavor 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_catppuccin = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/catppuccin-flavor 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_catppuccin = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine catppuccin-flavor 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_catppuccin = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^catppuccin_flavor=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_catppuccin = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Read hostname from platform storage */}}
+{{- $system_hostname := "" -}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine hostname 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_hostname = . -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/hostname 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_hostname = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine hostname 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- $system_hostname = . | trimPrefix "'" | trimSuffix "'" -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^hostname=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- $system_hostname = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Interactive prompts for machine identity if not already set */}}
+{{- $WORK_ENVIRONMENT := $system_work_env -}}
+{{- $WORK_ORG := $system_work_org -}}
+
+{{/* Override with environment variables if provided */}}
+{{- if env "WORK_ENVIRONMENT" -}}
+  {{- if or (eq (env "WORK_ENVIRONMENT") "true") (eq (env "WORK_ENVIRONMENT") "1") -}}
+    {{- $WORK_ENVIRONMENT = true -}}
+  {{- else -}}
+    {{- $WORK_ENVIRONMENT = false -}}
+  {{- end -}}
+{{- end -}}
+{{- if env "WORK_ORG" -}}
+  {{- $WORK_ORG = env "WORK_ORG" -}}
+{{- end -}}
+
+{{/* Use stored hostname if available, otherwise current hostname */}}
+{{- $HOSTNAME := $current_hostname -}}
+{{- if $system_hostname -}}
+  {{- $HOSTNAME = $system_hostname -}}
+{{- end -}}
+
+{{/* Only prompt for missing values during first-time setup */}}
+{{- if $interactive -}}
+  {{- /* Prompt for work environment if not already set and no env var */ -}}
+  {{- if and (not $system_work_env) (not (env "WORK_ENVIRONMENT")) -}}
+    {{- $WORK_ENVIRONMENT = promptBoolOnce . "work_environment" "Is this a work environment" false -}}
+  {{- end -}}
+  
+  {{- /* Prompt for work org if work environment and not already set and no env var */ -}}
+  {{- if and $WORK_ENVIRONMENT (not $system_work_org) (not (env "WORK_ORG")) -}}
+    {{- $WORK_ORG = promptStringOnce . "work_org" "Work organization name" "" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- /* =================== DEFAULT VALUES =================== */ -}}
+{{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
+{{- $opacity := 0.8 -}}              {{/* Terminal transparency level */}}
+{{- $blur := 20 -}}                  {{/* Terminal background blur amount */}}
+{{- $font_size := 20 -}}             {{/* Default font size for terminals */}}
+{{- $font_family := "Dank Mono" -}}  {{/* Preferred monospace font */}}
+{{- $window_height := 65 -}}         {{/* Terminal window height (rows) */}}
+{{- $window_width := 160 -}}         {{/* Terminal window width (columns) */}}
+{{- $refreshPeriod := 168 -}}        {{/* External repo refresh period (hours) */}}
+
+{{- /* =================== ENVIRONMENT DETECTION =================== */ -}}
+{{- $is_codespace := false -}}
+{{- /* Check if we're running in a GitHub Codespace environment */ -}}
+{{- if env "CODESPACES" | not | not -}}
+  {{- $is_codespace = true -}}
+{{- end -}}
+
+{{/* Resolve configuration with precedence: env vars → local chezmoi.toml → platform storage → defaults */}}
+
+{{/* Read existing local config if it exists */}}
+{{- $local_config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "chezmoi.toml" -}}
+{{- $local_shell := "" -}}
+{{- $local_catppuccin := "" -}}
+
+{{- if stat $local_config_file -}}
+  {{/* Read SHELL from local config */}}
+  {{- $shell_cmd := printf "grep '^SHELL ' %s 2>/dev/null | sed 's/SHELL[[:space:]]*=[[:space:]]*\"\\(.*\\)\"/\\1/' || echo ''" ($local_config_file | quote) -}}
+  {{- with output "bash" "-c" $shell_cmd | trim -}}
+    {{- $local_shell = . -}}
+  {{- end -}}
+  
+  {{/* Read CATPPUCCIN_FLAVOR from local config */}}
+  {{- $catppuccin_cmd := printf "grep '^CATPPUCCIN_FLAVOR ' %s 2>/dev/null | sed 's/CATPPUCCIN_FLAVOR[[:space:]]*=[[:space:]]*\"\\(.*\\)\"/\\1/' || echo ''" ($local_config_file | quote) -}}
+  {{- with output "bash" "-c" $catppuccin_cmd | trim -}}
+    {{- $local_catppuccin = . -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Apply precedence hierarchy */}}
+{{- $SHELL := env "SHELL_PREF" -}}
+{{- if not $SHELL -}}
+  {{- if $local_shell -}}
+    {{- $SHELL = $local_shell -}}
+  {{- else if $system_shell -}}
+    {{- $SHELL = $system_shell -}}
+  {{- else -}}
+    {{- $SHELL = "nu" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $CATPPUCCIN_FLAVOR := env "CATPPUCCIN_FLAVOR" -}}
+{{- if not $CATPPUCCIN_FLAVOR -}}
+  {{- if $local_catppuccin -}}
+    {{- $CATPPUCCIN_FLAVOR = $local_catppuccin -}}
+  {{- else if $system_catppuccin -}}
+    {{- $CATPPUCCIN_FLAVOR = $system_catppuccin -}}
+  {{- else -}}
+    {{- $CATPPUCCIN_FLAVOR = "mocha" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $THEME_MODE := env "THEME_MODE" | default "dark" -}}
+
+{{- /* =================== GIT CONFIGURATION SETUP =================== */ -}}
+{{- /* Initialize Git configuration variables */ -}}
+{{- $GIT_NAME := "" -}}
+{{- $GITHUB_USERNAME := "" -}}
+{{- $GIT_EMAIL := "" -}}
+
+{{- /* Set Git configuration based on environment */ -}}
+{{- if $is_codespace -}}
+  {{- /* GitHub Codespaces: Use GitHub user information */ -}}
+  {{- $GIT_NAME = env "GITHUB_USER" | default "GitHub Codespaces User" -}}
+  {{- $GITHUB_USERNAME = env "GITHUB_USER" | default "github-user" -}}
+  {{- /* Use GitHub's noreply email for Codespaces */ -}}
+  {{- $GIT_EMAIL = printf "%s@users.noreply.github.com" $GITHUB_USERNAME -}}
+{{- else -}}
+  {{- /* Local/CI environment: Use environment variables or actual values */ -}}
+  {{- $GIT_NAME = env "GIT_NAME" | default "Gabe Mendoza" -}}
+  {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "thatguyinabeanie" -}}
+  {{- $GIT_EMAIL = env "GIT_EMAIL" | default "thatguyin@beanie.gg" -}}
+{{- end -}}
+
+{{/* Interactive prompts for missing values */}}
+{{- if $interactive -}}
+  {{- /* Only prompt for missing Git values if not in Codespaces */ -}}
+  {{- if not $is_codespace -}}
+    {{- if not $GIT_NAME -}}
+      {{- $GIT_NAME = promptStringOnce . "git_name" "Git author name" "Gabe Mendoza" -}}
+    {{- end -}}
+    {{- if not $GITHUB_USERNAME -}}
+      {{- $GITHUB_USERNAME = promptStringOnce . "github_username" "GitHub username" "thatguyinabeanie" -}}
+    {{- end -}}
+    {{- if not $GIT_EMAIL -}}
+      {{- $GIT_EMAIL = promptStringOnce . "git_email" "Git author email" "thatguyin@beanie.gg" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* =================== CONFIGURATION OUTPUT =================== */}}
+{{/* Generate the final configuration file */}}
+
+[data]
+{{/* ===== CORE PREFERENCES ===== */}}
+hostname                   = {{ $HOSTNAME | quote }}
+SHELL                      = {{ $SHELL | quote }}
+WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
+CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
+
+{{/* ===== THEME SYSTEM CONFIGURATION ===== */}}
+{{/* These control the advanced theme switching system */}}
+THEME_MODE                 = {{ $THEME_MODE | quote }}
+THEME_LIGHT                = "catppuccin-latte"
+THEME_DARK                 = "catppuccin-mocha"
+
+{{/* ===== APPLICATION SETTINGS ===== */}}
+OBSIDIAN_VAULT_PERSONAL    = "obsidian-vault"
+OBSIDIAN_VAULT_WORK        = "obsidian-vault-work"
+YAZI_CATPPUCCIN_COLOR      = "blue"
+SUDO_TOUCHID               = "true"
+INTERACTIVE                = {{ $interactive }}
+
+{{/* ===== K9S TERMINAL UI CONFIGURATION ===== */}}
+[data.k9s]
+transparent                = {{ lt $opacity 1.0 -}}     {{/* Enable transparency if opacity < 1.0 */}}
+
+{{/* ===== GHOSTTY TERMINAL CONFIGURATION ===== */}}
+[data.ghostty]
+window_height              = {{ $window_height | quote }}
+window_width               = {{ $window_width | quote }}
+opacity                    = {{ $opacity | quote }}
+blur                       = {{ $blur | quote }}
+font_size                  = {{ $font_size | quote }}
+font_thicken               = true                       {{/* Enable font thickening for readability */}}
+font_family                = {{ $font_family | quote }}
+cursor_style               = "block_hollow"            {{/* Hollow block cursor style */}}
+
+{{/* ===== KITTY TERMINAL CONFIGURATION ===== */}}
+[data.kitty]
+window_height              = {{ $window_height | quote }}
+window_width               = {{ $window_width | quote }}
+opacity                    = {{ $opacity | quote }}
+blur                       = {{ $blur | quote }}
+font_size                  = {{ $font_size | quote }}
+font_family                = {{ $font_family | quote }}
+
+[data.tmux]
+show_hostname              = false
+status_right_length        = 100
+
+{{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
+[data.git.config]
+name                       = "Gabe Mendoza"
+username                   = "thatguyinabeanie"
+email                      = "thatguyin@beanie.gg"
+defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
+work_org                   = {{ $WORK_ORG | quote }}
+work_environment           = {{ $WORK_ENVIRONMENT }}
+
+{{/* ===== INSTALLATION FLAGS ===== */}}
+[data.install]
+obsidian                   = true                       {{/* Enable Obsidian installation */}}
+
+{{/* ===== CHEZMOI INTERNAL SETTINGS ===== */}}
+[warnings]
+configFileTemplateHasChanged = false                   {{/* Suppress template change warnings */}}
+
+{{/* ===== AI INTEGRATION CONFIGURATION ===== */}}
+[data.ai]
+gemini_api_key             = "replace_with_gemini_api_key"  {{/* Placeholder for Gemini API key */}}

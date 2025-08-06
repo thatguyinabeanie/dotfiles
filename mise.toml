@@ -1,25 +1,34 @@
 [tools]
 # Core development tools for this repository
-go = "1.24"                    # Go runtime (from go.mod requirement)
+go = "1"                    # Go runtime (from go.mod requirement)
 golangci-lint = "latest"       # Go linter (used in lefthook)
 
 # Shell and text processing
 shellcheck = "latest"          # Shell script linter (used in lefthook)  
 vale = "latest"                # Prose linter (used in lefthook)
-yamllint = "latest"            # YAML linter (used in lefthook)
+yaml-language-server = "latest" # YAML validation (matches Neovim LSP)
 
 # Security and secrets scanning
 gitleaks = "latest"            # Secrets scanner (used in lefthook)
 
-# Chezmoi dotfiles management
-chezmoi = "latest"             # Dotfiles manager (core to this repo)
-
 # Node.js ecosystem (for scripts and tools)
-node = "22"                    # Node.js runtime
-pnpm = "latest"                # Package manager
-rust = "nightly"
 lefthook = "latest"
 stylua = "latest"
+
+[hooks]
+# Automatically setup lefthook after installing tools
+postinstall = "lefthook install || echo 'lefthook install failed - run: mise run setup-hooks'"
+
+[settings]
+jobs = 4                           # Parallel installation jobs
+experimental = true               # Enable experimental features
+verbose = false                   # Reduce noise in output
+yes = true                        # Auto-confirm prompts
+auto_install = true
+
+[tasks.setup-hooks]
+description = "Install lefthook Git hooks (run after cloning repo)"
+run = "lefthook install"
 
 [tasks.test]
 description = "Run all Go tests"
@@ -53,10 +62,3 @@ run = "chezmoi diff"
 description = "Apply dotfiles and show diff"
 run = ["chezmoi apply", "chezmoi diff"]
 
-[settings]
-jobs = 4                           # Parallel installation jobs
-always_keep_download = false       # Clean up downloads after install
-http_timeout = "30s"              # HTTP request timeout
-experimental = true               # Enable experimental features
-verbose = false                   # Reduce noise in output
-yes = true                        # Auto-confirm prompts

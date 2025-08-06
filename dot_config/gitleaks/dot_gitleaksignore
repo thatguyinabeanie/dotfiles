@@ -1,0 +1,20 @@
+# Version control
+.git/
+
+# Build directories
+**/dist/
+**/build/
+**/target/
+
+# Dependencies
+**/node_modules/
+**/vendor/
+
+# Binary and media files
+**/*.jpg
+**/*.png
+**/*.gif
+**/*.pdf
+**/*.zip
+**/*.tar.gz
+

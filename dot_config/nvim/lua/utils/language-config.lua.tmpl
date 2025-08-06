@@ -1,0 +1,56 @@
+-- Auto-generated language tooling configuration
+-- Source: .chezmoidata/language-tooling.yaml
+-- Generated: {{ now }}
+
+return {
+  treesitter = {
+    parsers = {
+{{- range .treesitter.parsers }}
+      "{{ . }}",
+{{- end }}
+    },
+  },
+
+  mason = {
+    core_tools = {
+{{- range .mason.core_tools }}
+      "{{ . }}",
+{{- end }}
+    },
+    exploration_tools = {
+{{- range .mason.exploration_tools }}
+      "{{ . }}",
+{{- end }}
+    },
+  },
+
+  filetypes = {
+    templates = {
+{{- range $lang, $templates := .filetypes.templates }}
+  {{- if kindIs "slice" $templates }}
+      {{ $lang }} = { {{- range $templates }}"{{ . }}", {{- end }} },
+  {{- else }}
+      {{ $lang }} = "{{ $templates }}",
+  {{- end }}
+{{- end }}
+    },
+
+    lsp_servers = {
+{{- range $filetype, $server := .filetypes.lsp_servers }}
+      {{ $filetype }} = "{{ $server }}",
+{{- end }}
+    },
+
+    web_frameworks = {
+{{- range .filetypes.web_frameworks }}
+      "{{ . }}",
+{{- end }}
+    },
+
+    typescript_stack = {
+{{- range .filetypes.typescript_stack }}
+      "{{ . }}",
+{{- end }}
+    },
+  },
+}
