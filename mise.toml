@@ -1,23 +1,17 @@
 [tools]
 # Core development tools for this repository
-go = "1.24"                    # Go runtime (from go.mod requirement)
+go = "1"                    # Go runtime (from go.mod requirement)
 golangci-lint = "latest"       # Go linter (used in lefthook)
 
 # Shell and text processing
 shellcheck = "latest"          # Shell script linter (used in lefthook)  
 vale = "latest"                # Prose linter (used in lefthook)
-yamllint = "latest"            # YAML linter (used in lefthook)
+yaml-language-server = "latest" # YAML validation (matches Neovim LSP)
 
 # Security and secrets scanning
 gitleaks = "latest"            # Secrets scanner (used in lefthook)
 
-# Chezmoi dotfiles management
-chezmoi = "latest"             # Dotfiles manager (core to this repo)
-
 # Node.js ecosystem (for scripts and tools)
-node = "22"                    # Node.js runtime
-pnpm = "latest"                # Package manager
-rust = "nightly"
 lefthook = "latest"
 stylua = "latest"
 
