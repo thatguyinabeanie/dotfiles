@@ -1,7 +1,7 @@
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
-# source ~/.cache/carapace/init.nu
+source ~/.cache/carapace/init.nu
 
 # Disable nushell banner
 $env.config = ($env.config | upsert show_banner false)
@@ -22,13 +22,4 @@ match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
 # # Source FZF theme
 source ~/.config/fzf/fzf-theme.nu
 
-mkdir $nu.data-dir
-
-mise activate nu | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
-zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-
-if ($env.HOME | path join ".cargo/env.nu" | path exists) {
-  cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
-}
 
