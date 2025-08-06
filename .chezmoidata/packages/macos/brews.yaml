@@ -137,9 +137,9 @@ brews:
     - yamllint
     - yaml-language-server
     - yazi
-    - zoxide
     - yq
     - zls
+    - zoxide
     - zsh
     - zsh-completions
     - zsh-autosuggestions
