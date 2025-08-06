@@ -46,3 +46,28 @@ type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/tmux-plugins/tpm.git"
 
+["plugins/tmux-sessionx"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/omerxx/tmux-sessionx.git"
+
+["plugins/vim-tmux-navigator"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/christoomey/vim-tmux-navigator.git"
+
+["plugins/tmux-which-key"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/alexwforsythe/tmux-which-key.git"
+
+["plugins/tmux-fzf-url"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/wfxr/tmux-fzf-url.git"
+
+["plugins/tmux-open"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-open.git"
+
