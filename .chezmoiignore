@@ -23,3 +23,12 @@ CONTRIBUTING.md
 README.md
 lefthook.yml
 mise.toml
+
+.DS_Store
+
+**/README.md
+
+{{- if ne .chezmoi.os "darwin" }}
+Library/
+{{- end }}
+
