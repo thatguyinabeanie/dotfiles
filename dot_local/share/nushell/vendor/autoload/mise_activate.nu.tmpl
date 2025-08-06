@@ -1,4 +1,4 @@
-$env.PATH = r#'/usr/local/bin:/Library/Developer/CommandLineTools/usr/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/opt/unzip/bin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:/Users/beanie/.cargo/bin:/Users/beanie/.local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/Applications/Ghostty.app/Contents/MacOS'#
+$env.PATH = r#'/usr/local/bin:/Library/Developer/CommandLineTools/usr/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/opt/libpq/bin:/opt/homebrew/opt/unzip/bin:/opt/homebrew/opt/gnu-sed/libexec/gnubin:{{ .chezmoi.homeDir }}/.cargo/bin:{{ .chezmoi.homeDir }}/.local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/Applications/Ghostty.app/Contents/MacOS'#
 export-env {
   $env.MISE_SHELL = "nu"
   let mise_hook = {
@@ -24,15 +24,14 @@ export def --env --wrapped main [command?: string, --help, ...rest: string] {
   let commands = ["deactivate", "shell", "sh"]
 
   if ($command == null) {
-    ^"/Users/beanie/.local/bin/mise"
-  } else if ($command == "activate") {
+    ^"{{ .chezmoi.homeDir }}/.local/bin/mise"  } else if ($command == "activate") {
     $env.MISE_SHELL = "nu"
   } else if ($command in $commands) {
-    ^"/Users/beanie/.local/bin/mise" $command ...$rest
+    ^"{{ .chezmoi.homeDir }}/.local/bin/mise" $command ...$rest
     | parse vars
     | update-env
   } else {
-    ^"/Users/beanie/.local/bin/mise" $command ...$rest
+    ^"{{ .chezmoi.homeDir }}/.local/bin/mise" $command ...$rest
   }
 }
 
@@ -51,7 +50,7 @@ def --env "update-env" [] {
 }
 
 def --env mise_hook [] {
-  ^"/Users/beanie/.local/bin/mise" hook-env -s nu
+  ^"{{ .chezmoi.homeDir }}/.local/bin/mise" hook-env -s nu
     | parse vars
     | update-env
 }

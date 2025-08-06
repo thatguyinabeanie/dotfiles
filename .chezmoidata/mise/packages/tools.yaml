@@ -39,17 +39,6 @@ tools:
       description: "Command-line benchmarking tool"
 
   # =============================================================================
-  # TERMINAL & SHELL TOOLS - Terminal multiplexers, prompts, navigation, editors
-  # =============================================================================
-  terminal_tools:
-    - name: starship
-      version: latest
-      description: "Cross-shell prompt"
-    - name: zoxide
-      version: latest
-      description: "Smart cd command"
-
-  # =============================================================================
   # DOCUMENTATION & PRESENTATION - Documentation generation and presentation
   # =============================================================================
   docs_tools:
