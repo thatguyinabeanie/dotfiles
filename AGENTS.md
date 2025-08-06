@@ -12,16 +12,16 @@ lefthook run pre-commit
 chezmoi apply && chezmoi diff
 
 # Run all tests
-cd _tests_ && go test ./...
+cd .tests && go test ./...
 
 # Run single test file
-cd _tests_ && go test ./unit/config_test.go -v
+cd .tests && go test ./unit/config_test.go -v
 
 # Run tests with coverage
-cd _tests_ && go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out
+cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out
 
 # Run relevant tests for changed files
-_tests_/scripts/run_relevant_tests.sh
+.tests/scripts/run_relevant_tests.sh
 ```
 
 ## Code Style Guidelines

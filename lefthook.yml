@@ -2,24 +2,24 @@ pre-commit:
   parallel: true
   commands:
     # pokemon-art:
-    #   run: .scripts/lefthook/pre-commit-pokemon.sh
+    #   run: .scripts/hooks/pre-commit-pokemon.sh
     #   stage_fixed: false
     vale:
       glob: "**/*.md"
       run: vale --config .vale.ini {staged_files}
     shellcheck:
-      run: .scripts/lefthook/pre-commit-shellcheck.sh {staged_files}
+      run: .scripts/hooks/pre-commit-shellcheck.sh {staged_files}
     go-lint:
-      run: .scripts/lefthook/pre-commit-golangci-lint.sh {staged_files}
+      run: .scripts/hooks/pre-commit-golangci-lint.sh {staged_files}
     stylua:
       glob: "**/*.lua"
-      run: .scripts/lefthook/pre-commit-stylua.sh {staged_files}
+      run: .scripts/hooks/pre-commit-stylua.sh {staged_files}
       stage_fixed: true
     luacheck:
       glob: "**/*.lua"
-      run: .scripts/lefthook/pre-commit-luacheck.sh {staged_files}
+      run: .scripts/hooks/pre-commit-luacheck.sh {staged_files}
     yaml-validation:
       glob: "**/*.{yml,yaml}"
-      run: .scripts/lefthook/pre-commit-yamllint.sh {staged_files}
+      run: .scripts/hooks/pre-commit-yamllint.sh {staged_files}
     gitleaks:
       run: gitleaks protect --staged --no-banner
