@@ -186,3 +186,9 @@ luacheck
 POSIX
 markdownlint
 EOF
+Dockerfile
+pytest
+Flake8
+mypy
+LLMs
+cli
