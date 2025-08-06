@@ -5,6 +5,7 @@ casks:
     - disk-inventory-x
     - docker-desktop
     - espanso
+    - firefox
     - ghostty
     - google-chrome
     - karabiner-elements
@@ -12,6 +13,8 @@ casks:
     - kitty
     - nightfall
     - obsidian
+    - opera
+    - opera-air
     - opera-gx
     - postman
     - raycast
