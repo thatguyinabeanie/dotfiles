@@ -30,11 +30,13 @@ A cosmic journey through the development environment
 One command to cross the event horizon and pull in all configurations:
 
 ### Personal setup
+
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply thatguyinabeanie
 ```
 
 ### Work environment setup
+
 ```bash
 curl -fsLS get.chezmoi.io | WORK_ENVIRONMENT=true sh -s -- -b ~/.local/bin init --apply thatguyinabeanie
 ```
@@ -94,20 +96,15 @@ During installation, the system prompts for configuration values that shape your
 
 ```shell
 dotfiles/
-├── 🌟 MISSION_CONTROL/
-│   ├── 🚀 dot_config/
-│   │   ├── nvim/
-│   │   ├── obsidian/                # Obsidian configuration
-│   │   │   ├── config.json.tmpl     # Templated Obsidian config
-│   │   │   └── run_once_after_*.sh  # Work vault setup script
-│   │   ├── tmux/
-│   │   └── ...
-│   ├── 🔭 obsidian/                 # Obsidian vault management
-│   │   └── .chezmoiexternal.toml.tmpl  # External vault repos
-│   ├── 📁 empty_dot_config/         # Empty directory structure
-│   │   └── empty_obsidian/
-│   │       └── empty_obsidian-vault/  # Personal vault directory
+├── 🚀 dot_config/
+│   ├── nvim/
+│   ├── obsidian/                # Obsidian configuration
+│   │   ├── config.json.tmpl     # Templated Obsidian config
+│   │   └── run_once_after_*.sh  # Work vault setup script
+│   ├── tmux/
 │   └── ...
+├── 🔭 .chezmoidata/             # YAML data files
+├── 📁 Pictures/Wallpapers/      # Wallpaper collection
 └── 🌠 .chezmoi.toml.tmpl
 ```
 
@@ -186,7 +183,7 @@ plt.plot(x, np.sin(x))
 plt.show()  # Renders inline!
 ```
 
-[![View Jupyter Guide](https://img.shields.io/badge/View_Jupyter_Guide-22863a?style=for-the-badge)](docs/JUPYTER.md)
+[![View Jupyter Guide](https://img.shields.io/badge/View_Jupyter_Guide-22863a?style=for-the-badge)](.docs/JUPYTER.md)
 
 ## 🌍 Dependencies
 

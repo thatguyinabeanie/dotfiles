@@ -1,0 +1,105 @@
+#!/bin/zsh
+# Generated from consolidated environment configuration
+# Edit .chezmoidata/environment/ files to modify
+
+{{ $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) -}}
+{{ $path := (include ".chezmoidata/environment/path.yaml" | fromYaml) -}}
+{{ $work := (include ".chezmoidata/environment/work.yaml" | fromYaml) -}}
+
+##
+## SIMPLE VARIABLES
+##
+{{ range $key, $value := $shared.variables -}}
+export {{ $key }}="{{ $value }}"
+{{ end }}
+
+##
+## TEMPLATE VARIABLES
+##
+export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+export WORK_ENVIRONMENT="{{ .WORK_ENVIRONMENT }}"
+export CHEZMOI_INTERACTIVE="{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
+export GIT_NAME="{{ .git.config.name }}"
+export GITHUB_USERNAME="{{ .git.config.username }}"
+export GIT_EMAIL="{{ .git.config.email }}"
+
+##
+## PATH-BASED VARIABLES
+##
+{{ range $key, $config := $shared.path_variables -}}
+{{- if hasKey $config "path" }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
+{{- else }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}"
+{{- end }}
+{{ end }}
+
+##
+## GROUPED PATH VARIABLES
+##
+{{ range $group_name, $group_config := $shared.path_groups -}}
+{{ range $var_name, $var_path := $group_config.paths -}}
+export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}"
+{{ end -}}
+{{ end }}
+
+##
+## COMMAND-BASED VARIABLES
+##
+{{ range $key, $config := $shared.command_variables -}}
+{{- if typeIs "string" $config }}
+export {{ $key }}="$({{ $config }})"
+{{- else }}
+export {{ $key }}="$({{ $config.command }})"
+{{- end }}
+{{ end }}
+
+##
+## DERIVED PATH VARIABLES
+##
+{{ range $key, $config := $shared.derived_path_variables -}}
+{{- if hasKey $config "path" }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
+{{- else }}
+export {{ $key }}="${{ trimPrefix "$" $config.base }}"
+{{- end }}
+{{ end }}
+
+##
+## THEME VARIABLES
+##
+export CATPPUCCIN_FLAVOR="{{ .CATPPUCCIN_FLAVOR }}"
+
+##
+## PATH
+##
+{{ range $entry := $path.path -}}
+{{- if contains "$HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else if contains "$XDG_CONFIG_HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else if contains "$XDG_DATA_HOME" $entry }}
+export PATH="{{ $entry }}:$PATH"
+{{- else }}
+export PATH="{{ $entry }}:$PATH"
+{{- end }}
+{{ end }}
+
+# Shell-specific configuration
+export SHELL="/opt/homebrew/bin/zsh"
+export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
+
+##
+## WORK ENVIRONMENT
+##
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
+{{ if hasKey $work "work" -}}
+{{ range $key, $value := $work.work -}}
+{{- if eq $key "WORK_ENVIRONMENT" }}
+export {{ $key }}="{{ $.WORK_ENVIRONMENT | default false }}"
+{{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
+export {{ $key }}="{{ $value }}"
+{{- end -}}
+{{ end -}}
+{{ end -}}
+{{ end }}
