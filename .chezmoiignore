@@ -2,31 +2,24 @@
 # Only manage files in MISSION_CONTROL directory
 # Ignore everything else at the root level
 
-# Documentation and project files
-.todo/
+.git
+.github
 _tests_/
 assetts/
 docs/
 scripts/
-.github/
+wallpapers
 
-# Configuration files
 .chezmoiroot
 .gitignore
-.markdown-link-check.json
-.pre-commit-config.yaml
+.luacheckrc
+.makrdown-link-check.json
+.markdownlint.json
 .vale.ini
 .yamllint.yml
-lefthook.yml
 
-# Project documentation
 AGENTS.md
 CONTRIBUTING.md
 README.md
-install.sh
-global_git_ignore
-SOURCE_GIT_REPOS.toml.tmpl
-
-# VSCode and Vale
-.vscode/
-.vale/
+lefthook.yml
+mise.toml
