@@ -22,24 +22,24 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins/core" },
     { import = "plugins/llm" },
-    { import = "plugins/utilities" },
-    { import = "plugins/theme" },
+    { import = "plugins/ui" },
     { import = "plugins/snacks" },
+    { import = "plugins/utilities" },
   },
   defaults = {
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "catppuccin", "tokyonight", "habamax"} },
   checker = {
     enabled = true,
-    notify = false,
+    notify = true,
     frequency = 3600, -- Check every hour (3600 seconds)
     check_pinned = false, -- Don't check pinned plugins
   },
   change_detection = {
     enabled = true,
-    notify = false, -- Don't notify about config changes
+    notify = true, -- Don't notify about config changes
   },
   ui = {
     border = "rounded",

@@ -1,4 +1,48 @@
-if true then return {} end
+if true then
+  return {}
+end
+
+-- Function to check if there are git changes
+local function has_git_changes()
+  local handle = io.popen("git status --porcelain 2>/dev/null")
+  if not handle then
+    return false
+  end
+  local result = handle:read("*a")
+  handle:close()
+  return result and result ~= ""
+end
+
+-- Function to check if diffview is currently open
+local function is_diffview_open()
+  local lib = require("diffview.lib")
+  return lib.get_current_view() ~= nil
+end
+
+-- Smart diffview toggle function
+local function smart_diffview_toggle()
+  if is_diffview_open() then
+    vim.cmd("DiffviewClose")
+  elseif has_git_changes() then
+    vim.cmd("DiffviewOpen")
+  else
+    vim.notify("No git changes detected", vim.log.levels.INFO)
+  end
+end
+
+-- Set up dynamic keybinding
+local function setup_dynamic_keybind()
+  if has_git_changes() or is_diffview_open() then
+    vim.keymap.set("n", "<leader>gd", smart_diffview_toggle, {
+      desc = is_diffview_open() and "Git - Close Diffview" or "Git - Open Diffview",
+      silent = true,
+    })
+  else
+    -- Remove the keybinding if no changes
+    pcall(vim.keymap.del, "n", "<leader>gd")
+  end
+end
+
 return {
   {
     "sindrets/diffview.nvim",
@@ -9,50 +53,7 @@ return {
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Git - File History" },
     },
     config = function()
-      local diffview = require("diffview")
-      local lib = require("diffview.lib")
-
-      -- Function to check if there are git changes
-      local function has_git_changes()
-        local handle = io.popen("git status --porcelain 2>/dev/null")
-        if not handle then
-          return false
-        end
-        local result = handle:read("*a")
-        handle:close()
-        return result and result ~= ""
-      end
-
-      -- Function to check if diffview is currently open
-      local function is_diffview_open()
-        return lib.get_current_view() ~= nil
-      end
-
-      -- Smart diffview toggle function
-      local function smart_diffview_toggle()
-        if is_diffview_open() then
-          vim.cmd("DiffviewClose")
-        elseif has_git_changes() then
-          vim.cmd("DiffviewOpen")
-        else
-          vim.notify("No git changes detected", vim.log.levels.INFO)
-        end
-      end
-
-      -- Set up dynamic keybinding
-      local function setup_dynamic_keybind()
-        if has_git_changes() or is_diffview_open() then
-          vim.keymap.set("n", "<leader>gd", smart_diffview_toggle, {
-            desc = is_diffview_open() and "Git - Close Diffview" or "Git - Open Diffview",
-            silent = true,
-          })
-        else
-          -- Remove the keybinding if no changes
-          pcall(vim.keymap.del, "n", "<leader>gd")
-        end
-      end
-
-      diffview.setup({
+      require("diffview").setup({
         enhanced_diff_hl = true,
         view = {
           default = {

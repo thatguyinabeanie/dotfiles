@@ -1,0 +1,144 @@
+#!/bin/sh
+
+# Comprehensive macOS Homebrew and Package Installation Script
+# Hash files to trigger on changes:
+# taps.yaml-hash: {{ include ".chezmoidata/packages/macos/taps.yaml" | sha256sum }}
+# brews.yaml-hash: {{ include ".chezmoidata/packages/macos/brews.yaml" | sha256sum }}
+# casks.yaml-hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
+# fonts.yaml-hash: {{ include ".chezmoidata/packages/macos/fonts.yaml" | sha256sum }}
+# mas.yaml-hash: {{ include ".chezmoidata/packages/macos/mas.yaml" | sha256sum }}
+
+# Source shared homebrew helper functions
+{{ template "homebrew-helpers.sh.tmpl" . }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+# Check if Homebrew is installed, install if not
+{{ if not (lookPath "brew") -}}
+echo "🟠 Installing Homebrew Package Manager for macOS."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo "🔵 Homebrew Package Manager installed."
+{{ else -}}
+echo "🔵 Homebrew is already installed."
+{{ end -}}
+
+# Ensure PATH is configured
+setup_homebrew_path
+
+# Install taps first
+echo "🔧 Installing Homebrew taps..."
+TAPS=""
+{{ range .taps -}}
+TAPS="${TAPS}tap \"{{ . }}\"
+"
+{{ end }}
+install_packages "taps" "$TAPS"
+
+# Install brews
+echo "🍺 Installing Homebrew packages..."
+BREWS=""
+
+# Always add shared brews
+{{ range .brews.shared -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+
+# Add environment-specific brews
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
+# Add work brews
+{{ range .brews.work -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+{{ else -}}
+# Add personal brews
+{{ range .brews.personal -}}
+BREWS="${BREWS}brew \"{{ . }}\"
+"
+{{ end }}
+{{ end -}}
+
+install_packages "brews" "$BREWS"
+
+# Install casks
+echo "📦 Installing Homebrew casks..."
+CASKS=""
+
+# Always add shared casks
+{{ range .casks.shared -}}
+CASKS="${CASKS}cask \"{{ . }}\"
+"
+{{ end }}
+
+# Add environment-specific casks
+{{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
+# Add work casks
+{{ range .casks.work -}}
+CASKS="${CASKS}cask \"{{ . }}\"
+"
+{{ end }}
+{{ else -}}
+# Add personal casks
+{{ range .casks.personal -}}
+CASKS="${CASKS}cask \"{{ . }}\"
+"
+{{ end }}
+{{ end -}}
+
+install_packages "casks" "$CASKS"
+
+# Install fonts
+echo "🔤 Installing fonts..."
+FONTS=""
+{{ range .fonts -}}
+FONTS="${FONTS}cask \"{{ . }}\"\n"
+{{ end }}
+install_packages "fonts" "$FONTS"
+
+# Install MAS apps (personal only)
+{{ if or (eq (hasKey . "WORK_ENVIRONMENT") false) (eq .WORK_ENVIRONMENT false) -}}
+echo "🏪 Installing Mac App Store apps..."
+MAS_APPS=""
+{{ range .mas -}}
+MAS_APPS="${MAS_APPS}mas {{ . }}\n"
+{{ end }}
+install_packages "mas" "$MAS_APPS"
+{{ else -}}
+echo "⏭️  Skipping MAS apps (in work environment)"
+{{ end -}}
+
+# Setup automatic updates
+echo "🕒 Setting up Homebrew automatic upgrades..."
+if brew autoupdate status 2>&1 | grep -q "not configured"; then
+  brew autoupdate start --upgrade --cleanup --immediate{{- if not .WORK_ENVIRONMENT }} --sudo{{- end }}
+fi
+echo "🔵 Homebrew automatic upgrades enabled with cleanup{{ if not .WORK_ENVIRONMENT }}, sudo support,{{ end }} and immediate start"
+
+echo "✅ macOS Homebrew and package installation complete!"
+
+{{ else if eq .chezmoi.os "linux" -}}
+# Linux Homebrew installation (optional)
+{{ if not (lookPath "brew") -}}
+if [ -t 0 ]; then
+  echo "Homebrew is not installed. Do you want to install it? (y/N)"
+  read -r response
+  if [ "$response" = "y" ] || [ "$response" = "Y" ]; then
+    echo "🟠 Installing Homebrew Package Manager for Linux."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    setup_homebrew_path
+    echo "🔵 Homebrew Package Manager installed."
+  else
+    echo "Skipping Homebrew installation."
+  fi
+else
+  echo "Non-interactive session, skipping Homebrew installation on Linux."
+fi
+{{ else -}}
+echo "🔵 Homebrew is already installed."
+setup_homebrew_path
+{{ end -}}
+
+{{ else -}}
+echo "⏭️  Skipping Homebrew installation (not on macOS or Linux)"
+{{ end -}}

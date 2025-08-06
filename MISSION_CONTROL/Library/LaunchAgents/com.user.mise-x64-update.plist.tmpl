@@ -11,9 +11,9 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>MISE_INSTALL_ARCH</key>
-        <string>x64</string>
+        <string>{{ .architectures.x64_variant.arch }}</string>
         <key>MISE_INSTALL_PATH</key>
-        <string>{{ .chezmoi.homeDir }}/.local/bin/mise-x64</string>
+        <string>{{ .chezmoi.homeDir }}/.local/bin/{{ .architectures.x64_variant.binary }}</string>
         <key>MISE_QUIET</key>
         <string>true</string>
         <key>HOME</key>
@@ -22,9 +22,9 @@
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>9</integer>
+        <integer>{{ .schedule.x64_variant.hour }}</integer>
         <key>Minute</key>
-        <integer>0</integer>
+        <integer>{{ .schedule.x64_variant.minute }}</integer>
     </dict>
     <key>StandardOutPath</key>
     <string>{{ .chezmoi.homeDir }}/.local/log/mise-x64-update.log</string>

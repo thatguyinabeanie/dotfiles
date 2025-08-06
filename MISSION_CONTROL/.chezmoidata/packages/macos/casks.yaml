@@ -1,26 +1,26 @@
 casks:
   shared:
-    - nikitabobko/tap/aerospace
+    - aerospace
     - cursor
+    - disk-inventory-x
     - docker-desktop
     - espanso
     - ghostty
     - google-chrome
-    - kitty
-    - postman
-    - visual-studio-code@insiders
-    - disk-inventory-x
     - karabiner-elements
     - keka
+    - kitty
     - nightfall
     - obsidian
     - opera-gx
+    - postman
     - raycast
+    - slack
+    - visual-studio-code@insiders
     - zed
   work:
     - aws-vpn-client
     - lastpass
-    - slack
   personal:
     - 1password
     - 1password-cli

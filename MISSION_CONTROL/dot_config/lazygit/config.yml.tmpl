@@ -1,5 +1,10 @@
 {{- $themePath := printf "%s/.config/lazygit/themes/catppuccin/themes/%s/blue.yml" .chezmoi.homeDir .CATPPUCCIN_FLAVOR -}}
-{{- $themeContent := include $themePath | fromYaml -}}
+{{- $themeContent := dict -}}
+{{- if stat $themePath -}}
+  {{- $themeContent = include $themePath | fromYaml -}}
+{{- else -}}
+  {{- $themeContent = dict "theme" (dict "activeBorderColor" (list "#89b4fa" "bold") "inactiveBorderColor" (list "#45475a") "optionsTextColor" (list "#89b4fa")) -}}
+{{- end -}}
 gui:
 {{- toYaml $themeContent | nindent 2 }}
   showIcons: true

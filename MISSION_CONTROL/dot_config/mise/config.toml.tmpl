@@ -59,10 +59,11 @@ jobs                                = {{ sub (output "nproc" | trim | atoi) 2 }}
 always_keep_download                = false         # deleted after install by default
 http_timeout                        = "30s"         # set the timeout for http requests as duration string
 python.uv_venv_auto                 = true          # automatically create virtual environments with uv
-idiomatic_version_file_enable_tools = ["ruby"]      # enable version files for specific tools
 trusted_config_paths                = ['~/.config']  # trusted paths for config files
 env_file                            = '.env'        # environment file to load
 experimental                        = true          # enable experimental features
 verbose                             = false         # set to true to see full installation output
 raw                                 = false         # set to true to directly pipe plugins to stdin/stdout/stderr
 yes                                 = true          # automatically answer yes to all prompts
+idiomatic_version_file_enable_tools = ["ruby", "node"]
+
