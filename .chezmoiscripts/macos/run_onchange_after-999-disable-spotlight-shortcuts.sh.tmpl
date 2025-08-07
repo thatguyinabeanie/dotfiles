@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# Disable Spotlight keyboard shortcuts to free up cmd+space for other applications
+# This script runs after homebrew package installation to configure system shortcuts
+# Hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+# Check if Raycast is installed before configuring shortcuts
+if [ -d "/Applications/Raycast.app" ]; then
+  echo "🔧 Raycast detected - configuring Raycast and Spotlight settings..."
+
+  # Configure Raycast preferences
+  echo "  Setting up Raycast preferences..."
+  defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
+  defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
+  defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
+  defaults write com.raycast.macos raycastPreferredWindowMode "default"
+
+  # Disable cmd+space for Spotlight (key 64)
+  echo "  Disabling cmd+space for Spotlight..."
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1048576 \
+      type -string standard
+
+  # Disable cmd+option+space for Spotlight (key 65) - alternate shortcut
+  echo "  Disabling cmd+option+space for Spotlight..."
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1572864 \
+      type -string standard
+
+  # Restart SystemUIServer to apply changes
+  echo "  Restarting SystemUIServer to apply changes..."
+  killall SystemUIServer 2>/dev/null || true
+
+  echo "✅ Raycast and Spotlight shortcuts configured successfully!"
+  echo "   cmd+space is now assigned to Raycast with vim navigation"
+else
+  echo "⏭️  Raycast not found - keeping Spotlight shortcuts enabled"
+  echo "   Install Raycast first if you want to disable Spotlight shortcuts"
+fi
+
+{{ end -}}
