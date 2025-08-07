@@ -22,7 +22,7 @@ export def platform_storage_setenv [key: string, value: string] {
     match (_platform_env_backend) {
         "defaults" => {
             ^defaults write com.chezmoi.env $key -string $value
-            print $"✓ Set ($key) in platform storage (defaults)"
+            print $"✓ Set ($key) in platform storage"
         }
         "1password" => {
             print "1Password integration not yet implemented"
@@ -48,8 +48,12 @@ export def platform_storage_getenv [key: string] {
 export def platform_storage_listenv [] {
     match (_platform_env_backend) {
         "defaults" => {
-            print $"✓ Set ($key) in platform storage"
-        }
+            let result = (^defaults export com.chezmoi.env - | ^plutil -convert json -o - - o+e>| complete)
+            if $result.exit_code == 0 {
+                $result.stdout | from json | transpose key value | select key value
+            } else {
+                print "No environment variables stored in platform storage"
+            }
         }
         "1password" => {
             print "1Password integration not yet implemented"

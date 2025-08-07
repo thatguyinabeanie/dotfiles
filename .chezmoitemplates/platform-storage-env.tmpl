@@ -1,0 +1,24 @@
+{{- /* Platform storage environment variables template
+     Parameters:
+     - syntax: "export" for zsh/bash, "nushell" for nushell
+     Usage:
+     {{- template "platform-storage-env.tmpl" (dict "syntax" "export" "context" .) }}
+     {{- template "platform-storage-env.tmpl" (dict "syntax" "nushell" "context" .) }}
+*/ -}}
+
+##
+## PLATFORM STORAGE ENVIRONMENT VARIABLES
+##
+{{ if eq .context.WORK_ENVIRONMENT true -}}
+{{- $platformJson := (output "sh" "-c" "defaults export com.chezmoi.env - 2>/dev/null | plutil -convert json -o - - 2>/dev/null || echo '{}'") }}
+{{- $platformVars := (fromJson $platformJson) }}
+{{- range $key, $value := $platformVars }}
+{{- if eq $.syntax "export" }}
+export {{ $key }}="{{ $value }}"
+{{- else if eq $.syntax "nushell" }}
+$env.{{ $key }} = "{{ $value }}"
+{{- end }}
+{{- end }}
+{{- else }}
+# 1Password integration for personal machines (future)
+{{- end }}

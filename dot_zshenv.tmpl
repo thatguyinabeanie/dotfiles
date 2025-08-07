@@ -43,19 +43,7 @@ export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}
 {{ end -}}
 {{ end }}
 
-##
-## PLATFORM STORAGE ENVIRONMENT VARIABLES
-##
-{{ if eq .WORK_ENVIRONMENT true -}}
-{{- $platformJson := (output "sh" "-c" "defaults export com.chezmoi.env - 2>/dev/null | plutil -convert json -o - - 2>/dev/null || echo '{}'") }}
-{{- $platformVars := (fromJson $platformJson) }}
-{{- range $key, $value := $platformVars }}
-export {{ $key }}="{{ $value }}"
-{{- end }}
-{{- else }}
-# 1Password integration for personal machines (future)
-{{- end }}
-
+{{- template "platform-storage-env.tmpl" (dict "syntax" "export" "context" .) }}
 
 ##
 ## DERIVED PATH VARIABLES
@@ -106,3 +94,4 @@ export {{ $key }}="{{ $value }}"
 {{ end -}}
 {{ end -}}
 {{ end }}
+
