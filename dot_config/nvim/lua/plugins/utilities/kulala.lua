@@ -13,6 +13,7 @@ GET https://httpbin.org/get
 
 if work_env then
   default_contents = [[# Civis Analytics API Requests
+
 ## Notes
 
 - Use the appropriate environment section
@@ -22,11 +23,23 @@ if work_env then
 ## Production
 
 ```http
-# PROD
 @baseUrl=https://api.civisanalytics.com
 @civisApiToken = {{CIVIS_API_TOKEN_PROD}}
 @path=code_clouds
-@id=43
+@id=48
+
+### POST
+POST {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+{ }
+
+### LIST
+GET {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
 
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
@@ -39,10 +52,8 @@ PATCH {{baseUrl}}/{{path}}/{{id}}
 Authorization: Bearer {{civisApiToken}}
 Content-Type: application/json
 Accept: application/json
+{ }
 
-{
-
-}
 ```
 
 ## Staging
@@ -53,11 +64,31 @@ Accept: application/json
 @path=code_clouds
 @id=43
 
+### POST
+POST {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+{ }
+
+### LIST
+GET {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
 Authorization: Bearer {{civisApiToken}}
 Content-Type: application/json
 Accept: application/json
+
+### PATCH
+PATCH {{baseUrl}}/{{path}}/{{id}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+{ }
 ```
 
 ## Local Development
@@ -68,12 +99,30 @@ Accept: application/json
 @path=code_clouds
 @id=43
 
+### POST
+POST {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+{ }
+
+### LIST
+GET {{baseUrl}}/{{path}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
 Authorization: Bearer {{civisApiToken}}
 Content-Type: application/json
 Accept: application/json
 
+### PATCH
+PATCH {{baseUrl}}/{{path}}/{{id}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
 ]]
 end
 
@@ -148,7 +197,6 @@ return {
               vim.api.nvim_set_option_value("foldmethod", "expr", { win = win })
               vim.api.nvim_set_option_value("foldexpr", "nvim_treesitter#foldexpr()", { win = win })
               vim.api.nvim_set_option_value("foldenable", true, { win = win })
-              vim.api.nvim_set_option_value("foldlevel", 1, { win = win })
             end
           end)
         end
