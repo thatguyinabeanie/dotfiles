@@ -9,205 +9,74 @@
 echo "🔧 Configuring macOS system defaults..."
 
 # Menu Bar Configuration
-echo "  Setting up menu bar preferences..."
-
-# Show battery percentage in menu bar
-echo "    Enabling battery percentage display..."
 defaults write com.apple.menuextra.battery ShowPercent -bool true
-
-# Enable weather in menu bar (if available)
-echo "    Enabling weather in menu bar..."
 defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
-
-# Hide Spotlight from menu bar
-echo "    Hiding Spotlight from menu bar..."
 defaults write com.apple.Spotlight MenuItemHidden -bool true
 
 # Disable Siri
-echo "    Disabling Siri..."
 defaults write com.apple.assistant.support "Assistant Enabled" -bool false
 defaults write com.apple.Siri StatusMenuVisible -bool false
 defaults write com.apple.Siri UserHasDeclinedEnable -bool true
 defaults write com.apple.assistant.backedup "Use device speaker for TTS" -int 3
 
 # Disable Apple Intelligence (if available)
-echo "    Disabling Apple Intelligence..."
 defaults write com.apple.intelligenceplatform.support IntelligencePlatformEnabled -bool false
 defaults write com.apple.ai.foundation AIFoundationEnabled -bool false
 
 # Dock Configuration
-echo "  Configuring Dock preferences..."
-
-# Dock size (small)
-echo "    Setting Dock size to small..."
 defaults write com.apple.dock tilesize -int 36
-
-# Dock magnification (large)
-echo "    Enabling Dock magnification..."
 defaults write com.apple.dock magnification -bool true
 defaults write com.apple.dock largesize -int 128
-
-# Dock position (right)
-echo "    Setting Dock position to right..."
 defaults write com.apple.dock orientation -string "right"
-
-# Minimize windows using Scale Effect
-echo "    Setting minimize effect to Scale Effect..."
 defaults write com.apple.dock mineffect -string "scale"
-
-# Double-click window title bar to Zoom
-echo "    Setting double-click title bar to Zoom..."
 defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Maximize"
-
-# Minimize windows into application icon
-echo "    Enabling minimize into application icon..."
 defaults write com.apple.dock minimize-to-application -bool true
-
-# Automatically hide and show the Dock
-echo "    Enabling auto-hide Dock..."
 defaults write com.apple.dock autohide -bool true
-
-# Disable animate opening applications
-echo "    Disabling animate opening applications..."
 defaults write com.apple.dock launchanim -bool false
-
-# Show indicators for open applications
-echo "    Enabling indicators for open applications..."
 defaults write com.apple.dock show-process-indicators -bool true
-
-# Disable show suggested and recent apps in Dock
-echo "    Disabling suggested and recent apps in Dock..."
 defaults write com.apple.dock show-recents -bool false
 
 # Desktop & Stage Manager Configuration
-echo "  Configuring Desktop & Stage Manager..."
-
-# Show items in Stage Manager (not On Desktop)
-echo "    Configuring desktop items for Stage Manager..."
 defaults write com.apple.WindowManager StandardHideDesktopIcons -bool true
-
-# Click wallpaper to reveal desktop: Only in Stage Manager
-echo "    Setting wallpaper click behavior..."
 defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
-
-# Disable recent apps in Stage Manager
-echo "    Disabling recent apps in Stage Manager..."
 defaults write com.apple.WindowManager StandardHideWidgets -bool true
-
-# Show windows from an application: All at Once
-echo "    Setting window grouping to All at Once..."
 defaults write com.apple.WindowManager AppWindowGroupingBehavior -int 1
 
-# Hide Karabiner Elements from menu bar (if installed)
-if [ -d "/Applications/Karabiner-Elements.app" ]; then
-  echo "    Hiding Karabiner Elements from menu bar..."
-  # Try multiple possible setting locations for Karabiner Elements
-  defaults write org.pqrs.Karabiner-Elements.Settings hideMenuBarIcon -bool true
-  defaults write org.pqrs.karabiner.karabiner_console_user_server hideMenuBarIcon -bool true
-  defaults write org.pqrs.Karabiner-Elements hideMenuBarIcon -bool true
-  
-  # Restart Karabiner Elements to apply the menu bar setting
-  echo "    Restarting Karabiner Elements to apply menu bar changes..."
-  killall "Karabiner-Elements" 2>/dev/null || true
-  killall "karabiner_console_user_server" 2>/dev/null || true
-  sleep 2
-  open "/Applications/Karabiner-Elements.app" 2>/dev/null || true
-else
-  echo "    Karabiner Elements not found, skipping menu bar hide setting"
-fi
-
 # Window Management
-echo "  Configuring window management..."
-# Enable window dragging from anywhere with cmd+ctrl drag
-echo "    Enabling window drag on cmd+ctrl+drag gesture for better window management..."
-# NOTE: This is a global macOS setting that affects all applications, not just Raycast.
-# It enables window dragging from anywhere with cmd+ctrl+drag, but may cause compatibility issues with some apps.
-# To reverse this change, run: defaults write -g NSWindowShouldDragOnGesture -bool false
 defaults write -g NSWindowShouldDragOnGesture -bool true
 
 # Display Configuration
-echo "  Configuring display settings..."
-# Set built-in display resolution to 2704x1756 if supported
-echo "    Attempting to set built-in display resolution to 2704x1756..."
-# Get the built-in display ID (usually 0 for the main display)
 BUILTIN_DISPLAY_ID=$(system_profiler SPDisplaysDataType | grep -A 10 "Built-In" | grep "Display ID" | awk '{print $3}' | head -1)
-if [ -n "$BUILTIN_DISPLAY_ID" ]; then
-  # Try to set the resolution using displayplacer or fall back to system_profiler approach
-  if command -v displayplacer >/dev/null 2>&1; then
-    echo "    Using displayplacer to set resolution..."
-    displayplacer "id:$BUILTIN_DISPLAY_ID res:2704x1756" 2>/dev/null || echo "    Resolution 2704x1756 not supported on this display"
-  else
-    echo "    displayplacer not found - consider installing with: brew install displayplacer"
-    echo "    Setting resolution via system preferences (requires manual intervention)..."
-    # Note: This approach may require manual confirmation or restart
-    osascript -e "tell application \"System Preferences\"
-      activate
-      set current pane to pane \"com.apple.preference.displays\"
-    end tell" 2>/dev/null || true
-    echo "    Please manually set resolution to 2704x1756 in System Preferences > Displays if available"
-  fi
-else
-  echo "    Could not detect built-in display ID, skipping resolution change"
+if [ -n "$BUILTIN_DISPLAY_ID" ] && command -v displayplacer >/dev/null 2>&1; then
+  displayplacer "id:$BUILTIN_DISPLAY_ID res:2704x1756" 2>/dev/null || true
 fi
 
 # Raycast Configuration (if installed)
 if [ -d "/Applications/Raycast.app" ]; then
-  echo "  Raycast detected - configuring Raycast preferences..."
-
-  # Configure Raycast preferences
-  echo "    Setting up Raycast preferences..."
-  # '49' is the keycode for the space key (so 'Command-49' means cmd+space)
   defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
   defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
   defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
   defaults write com.raycast.macos raycastPreferredWindowMode "default"
 
-  # Disable cmd+space for Spotlight (key 64)
-  echo "    Disabling cmd+space for Spotlight..."
-  # Parameters: [32 = space character, 49 = space keycode, 1048576 = cmd modifier flag]
-  # Reference: https://github.com/pqrs-org/KE-complex-modifications/issues/153
+  # Disable Spotlight shortcuts (suppress error output)
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
     enabled -bool false \
     value -dict \
       parameters -array -int 32 -int 49 -int 1048576 \
-      type -string standard
+      type -string standard 2>/dev/null || true
 
-  # Disable cmd+option+space for Spotlight (key 65) - alternate shortcut
-  echo "    Disabling cmd+option+space for Spotlight..."
-  # 1572864 = cmd+option modifier (⌘+⌥), see https://github.com/pqrs-org/KE-complex-modifications/issues/153
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
     enabled -bool false \
     value -dict \
       parameters -array -int 32 -int 49 -int 1572864 \
-      type -string standard
-
-  echo "    ✅ Raycast configuration completed"
-  echo "       • cmd+space is now assigned to Raycast with vim navigation"
-else
-  echo "  ⏭️  Raycast not found - keeping Spotlight shortcuts enabled"
+      type -string standard 2>/dev/null || true
 fi
 
-# Apply changes by restarting affected services
-echo "  Applying changes..."
-echo "    Restarting SystemUIServer to apply menu bar changes..."
+# Apply changes
 killall SystemUIServer 2>/dev/null || true
-
-echo "    Restarting Control Center to apply weather settings..."
 killall ControlCenter 2>/dev/null || true
-
-echo "    Restarting Dock to apply Dock settings..."
 killall Dock 2>/dev/null || true
 
-echo "✅ macOS system defaults configured successfully!"
-echo "   • Battery percentage enabled in menu bar"
-echo "   • Weather widget enabled in menu bar"
-echo "   • Spotlight hidden from menu bar"
-echo "   • Siri disabled"
-echo "   • Apple Intelligence disabled"
-echo "   • Dock configured: small size, large magnification, right position"
-echo "   • Dock features: auto-hide, minimize to app icon, scale effect"
-echo "   • Stage Manager configured for optimal window management"
-echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"
-echo "   • Display resolution set to 2704x1756 (if supported)"
+echo "✅ macOS defaults configured successfully"
 
 {{ end -}}
