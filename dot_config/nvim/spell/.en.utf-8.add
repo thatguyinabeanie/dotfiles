@@ -192,3 +192,4 @@ Flake8
 mypy
 LLMs
 cli
+civisApiToken
