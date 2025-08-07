@@ -71,6 +71,34 @@ defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -d
 # Clock interval: On the hour
 defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -dict-add TimeAnnouncementsIntervalIdentifier -string "EveryHourInterval"
 
+# Trackpad Configuration
+# Swipe between pages: Scroll Left or Right with Two Fingers
+defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
+
+# Swipe between full-screen applications: Off
+defaults write com.apple.dock workspaces-edge-delay -float 2.0
+defaults write com.apple.dock workspaces-edge-ratio -float 1.0
+
+# Notification Center: Enabled (swipe left from right edge with two fingers)
+defaults write com.apple.dock wvous-tr-corner -int 12
+defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# Mission Control: Swipe Up with Three Fingers (disabled by setting to 0)
+defaults write com.apple.dock mcx-expose-disabled -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+
+# App Exposé: Off
+defaults write com.apple.dock showAppExposeGestureEnabled -bool false
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+
+# Launchpad: Disabled (pinch with thumb and three fingers)
+defaults write com.apple.dock showLaunchpadGestureEnabled -bool false
+
+# Show Desktop: Disabled (spread with thumb and three fingers)
+defaults write com.apple.dock showDesktopGestureEnabled -bool false
+
 # Disable Siri
 defaults write com.apple.assistant.support "Assistant Enabled" -bool false
 defaults write com.apple.Siri StatusMenuVisible -bool false
