@@ -37,8 +37,11 @@ if [ -d "/Applications/Raycast.app" ]; then
       parameters -array -int 32 -int 49 -int 1572864 \
       type -string standard
 
-  # Enable window dragging from anywhere with cmd+ctrl click
-  echo "  Enabling window drag on gesture for better window management..."
+  # Enable window dragging from anywhere with cmd+ctrl drag
+  echo "  Enabling window drag on cmd+ctrl+drag gesture for better window management..."
+  # NOTE: This is a global macOS setting that affects all applications, not just Raycast.
+  # It enables window dragging from anywhere with cmd+ctrl+drag, but may cause compatibility issues with some apps.
+  # To reverse this change, run: defaults write -g NSWindowShouldDragOnGesture -bool false
   defaults write -g NSWindowShouldDragOnGesture -bool true
 
   # Restart SystemUIServer to apply changes
@@ -47,8 +50,7 @@ if [ -d "/Applications/Raycast.app" ]; then
 
   echo "✅ Raycast and system settings configured successfully!"
   echo "   • cmd+space is now assigned to Raycast with vim navigation"
-  echo "   • Window dragging enabled with cmd+ctrl+click from anywhere"
-else
+   echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"else
   echo "⏭️  Raycast not found - keeping Spotlight shortcuts enabled"
   echo "   Install Raycast first if you want to disable Spotlight shortcuts"
 fi
