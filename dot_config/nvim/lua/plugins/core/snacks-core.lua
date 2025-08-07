@@ -25,7 +25,7 @@ return {
         -- },
         layout = {
           preset = "default", -- Force default layout (horizontal with floating preview)
-          cycle = true,
+          cycle = false,
         },
         sources = {
           explorer = {
