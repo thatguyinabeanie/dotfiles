@@ -1,12 +1,13 @@
 # Platform environment variable management for nushell
 #
 # Usage examples:
-#   platform_storage_setenv API_KEY "sk-1234567890"    # or: pssetenv API_KEY "sk-1234567890"
-#   platform_storage_getenv API_KEY                    # or: psgetenv API_KEY
-#   platform_storage_listenv                           # or: pslistenv
-#   platform_storage_delenv API_KEY                    # or: psdelenv API_KEY
+#   platform_storage_setenv API_KEY "sk-1234567890"         # or: pssetenv API_KEY "sk-1234567890"
+#   platform_storage_setenv --apply API_KEY "sk-1234567890" # or: pssetenv --apply API_KEY "sk-1234567890"
+#   platform_storage_getenv API_KEY                         # or: psgetenv API_KEY
+#   platform_storage_listenv                                # or: pslistenv
+#   platform_storage_delenv API_KEY                         # or: psdelenv API_KEY
 #
-# After setting variables, run 'chezmoi apply' to load them into your environment
+# The --apply flag automatically runs 'chezmoi apply' to load the variable into your current environment
 
 def _platform_env_backend [] {
     if ($env.WORK_ENVIRONMENT? | default false) == "true" {
@@ -18,11 +19,24 @@ def _platform_env_backend [] {
 
 # Set environment variable in platform storage
 # Example: platform_storage_setenv API_KEY "sk-1234567890"
-export def platform_storage_setenv [key: string, value: string] {
+# Example: platform_storage_setenv --apply API_KEY "sk-1234567890"
+export def platform_storage_setenv [
+    key: string,
+    value: string,
+    --apply # Apply changes with chezmoi apply after setting
+] {
     match (_platform_env_backend) {
         "defaults" => {
             ^defaults write com.chezmoi.env $key -string $value
             print $"✓ Set ($key) in platform storage"
+
+            if $apply {
+                print "Writing to environment file..."
+                ^chezmoi apply
+                print "Sourcing environment file..."
+                source ~/.config/nushell/env.nu
+                print $"✓ ($key) has been applied and environment reloaded"
+            }
         }
         "1password" => {
             print "1Password integration not yet implemented"

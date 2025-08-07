@@ -3,12 +3,13 @@
 # Work machines: macOS defaults, Personal machines: 1Password (future)
 #
 # Usage examples:
-#   platform_storage_setenv API_KEY "sk-1234567890"    # or: pssetenv API_KEY "sk-1234567890"
-#   platform_storage_getenv API_KEY                    # or: psgetenv API_KEY
-#   platform_storage_listenv                           # or: pslistenv
-#   platform_storage_delenv API_KEY                    # or: psdelenv API_KEY
+#   platform_storage_setenv API_KEY "sk-1234567890"         # or: pssetenv API_KEY "sk-1234567890"
+#   platform_storage_setenv --apply API_KEY "sk-1234567890" # or: pssetenv --apply API_KEY "sk-1234567890"
+#   platform_storage_getenv API_KEY                         # or: psgetenv API_KEY
+#   platform_storage_listenv                                # or: pslistenv
+#   platform_storage_delenv API_KEY                         # or: psdelenv API_KEY
 #
-# After setting variables, run 'chezmoi apply' to load them into your environment
+# The --apply flag automatically runs 'chezmoi apply' to load the variable into your current environment
 
 # Detect environment type
 _platform_env_backend() {
@@ -21,10 +22,34 @@ _platform_env_backend() {
 
 # Set environment variable in platform storage
 # Example: platform_storage_setenv API_KEY "sk-1234567890"
+# Example: platform_storage_setenv --apply API_KEY "sk-1234567890"
 platform_storage_setenv() {
-  local key="$1" value="$2"
+  local apply_flag=false
+  local key value
+  
+  # Parse arguments
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --apply)
+        apply_flag=true
+        shift
+        ;;
+      *)
+        if [[ -z "$key" ]]; then
+          key="$1"
+        elif [[ -z "$value" ]]; then
+          value="$1"
+        else
+          echo "Usage: platform_storage_setenv [--apply] KEY VALUE"
+          return 1
+        fi
+        shift
+        ;;
+    esac
+  done
+  
   if [[ -z "$key" || -z "$value" ]]; then
-    echo "Usage: platform_storage_setenv KEY VALUE"
+    echo "Usage: platform_storage_setenv [--apply] KEY VALUE"
     return 1
   fi
 
@@ -32,6 +57,14 @@ platform_storage_setenv() {
   "defaults")
     defaults write com.chezmoi.env "$key" -string "$value"
     echo "✓ Set $key in platform storage"
+    
+    if [[ "$apply_flag" == true ]]; then
+      echo "Running chezmoi apply..."
+      chezmoi apply
+      echo "Reloading environment..."
+      source ~/.zshenv
+      echo "✓ $key has been applied and environment reloaded"
+    fi
     ;;
   "1password")
     echo "1Password integration not yet implemented"
