@@ -1,17 +1,18 @@
 #!/bin/sh
 
-# Disable Spotlight keyboard shortcuts to free up cmd+space for other applications
-# This script runs after homebrew package installation to configure system shortcuts
+# Configure Raycast as Spotlight replacement with optimized macOS settings
+# This script runs after homebrew package installation to configure system shortcuts and window behavior
 # Hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 
 # Check if Raycast is installed before configuring shortcuts
 if [ -d "/Applications/Raycast.app" ]; then
-  echo "🔧 Raycast detected - configuring Raycast and Spotlight settings..."
+  echo "🔧 Raycast detected - configuring Raycast and system settings..."
 
   # Configure Raycast preferences
   echo "  Setting up Raycast preferences..."
+  # '49' is the keycode for the space key (so 'Command-49' means cmd+space)
   defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
   defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
   defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
@@ -19,6 +20,8 @@ if [ -d "/Applications/Raycast.app" ]; then
 
   # Disable cmd+space for Spotlight (key 64)
   echo "  Disabling cmd+space for Spotlight..."
+  # Parameters: [32 = space character, 49 = space keycode, 1048576 = cmd modifier flag]
+  # Reference: https://github.com/pqrs-org/KE-complex-modifications/issues/153
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
     enabled -bool false \
     value -dict \
@@ -27,18 +30,24 @@ if [ -d "/Applications/Raycast.app" ]; then
 
   # Disable cmd+option+space for Spotlight (key 65) - alternate shortcut
   echo "  Disabling cmd+option+space for Spotlight..."
+  # 1572864 = cmd+option modifier (⌘+⌥), see https://github.com/pqrs-org/KE-complex-modifications/issues/153
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
     enabled -bool false \
     value -dict \
       parameters -array -int 32 -int 49 -int 1572864 \
       type -string standard
 
+  # Enable window dragging from anywhere with cmd+ctrl click
+  echo "  Enabling window drag on gesture for better window management..."
+  defaults write -g NSWindowShouldDragOnGesture -bool true
+
   # Restart SystemUIServer to apply changes
   echo "  Restarting SystemUIServer to apply changes..."
   killall SystemUIServer 2>/dev/null || true
 
-  echo "✅ Raycast and Spotlight shortcuts configured successfully!"
-  echo "   cmd+space is now assigned to Raycast with vim navigation"
+  echo "✅ Raycast and system settings configured successfully!"
+  echo "   • cmd+space is now assigned to Raycast with vim navigation"
+  echo "   • Window dragging enabled with cmd+ctrl+click from anywhere"
 else
   echo "⏭️  Raycast not found - keeping Spotlight shortcuts enabled"
   echo "   Install Raycast first if you want to disable Spotlight shortcuts"
