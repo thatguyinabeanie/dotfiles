@@ -4,6 +4,7 @@ std = "lua54"
 -- Neovim globals
 globals = {
 	"vim",
+	"Snacks",
 }
 
 -- Ignore specific warnings

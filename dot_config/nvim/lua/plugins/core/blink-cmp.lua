@@ -23,6 +23,7 @@ return {
         },
       },
     },
+
     -- Improved completion menu with treesitter highlighting
     completion = {
       menu = {
