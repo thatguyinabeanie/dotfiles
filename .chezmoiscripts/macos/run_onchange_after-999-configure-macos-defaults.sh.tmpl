@@ -1,0 +1,81 @@
+#!/bin/sh
+
+# Configure macOS system defaults and preferences
+# This script runs after homebrew package installation to configure system settings
+# Hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+echo "🔧 Configuring macOS system defaults..."
+
+# Menu Bar Configuration
+echo "  Setting up menu bar preferences..."
+
+# Show battery percentage in menu bar
+echo "    Enabling battery percentage display..."
+defaults write com.apple.menuextra.battery ShowPercent -bool true
+
+# Enable weather in menu bar (if available)
+echo "    Enabling weather in menu bar..."
+defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
+
+# Window Management
+echo "  Configuring window management..."
+# Enable window dragging from anywhere with cmd+ctrl drag
+echo "    Enabling window drag on cmd+ctrl+drag gesture for better window management..."
+# NOTE: This is a global macOS setting that affects all applications, not just Raycast.
+# It enables window dragging from anywhere with cmd+ctrl+drag, but may cause compatibility issues with some apps.
+# To reverse this change, run: defaults write -g NSWindowShouldDragOnGesture -bool false
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
+# Raycast Configuration (if installed)
+if [ -d "/Applications/Raycast.app" ]; then
+  echo "  Raycast detected - configuring Raycast preferences..."
+
+  # Configure Raycast preferences
+  echo "    Setting up Raycast preferences..."
+  # '49' is the keycode for the space key (so 'Command-49' means cmd+space)
+  defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
+  defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
+  defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
+  defaults write com.raycast.macos raycastPreferredWindowMode "default"
+
+  # Disable cmd+space for Spotlight (key 64)
+  echo "    Disabling cmd+space for Spotlight..."
+  # Parameters: [32 = space character, 49 = space keycode, 1048576 = cmd modifier flag]
+  # Reference: https://github.com/pqrs-org/KE-complex-modifications/issues/153
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1048576 \
+      type -string standard
+
+  # Disable cmd+option+space for Spotlight (key 65) - alternate shortcut
+  echo "    Disabling cmd+option+space for Spotlight..."
+  # 1572864 = cmd+option modifier (⌘+⌥), see https://github.com/pqrs-org/KE-complex-modifications/issues/153
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1572864 \
+      type -string standard
+
+  echo "    ✅ Raycast configuration completed"
+  echo "       • cmd+space is now assigned to Raycast with vim navigation"
+else
+  echo "  ⏭️  Raycast not found - keeping Spotlight shortcuts enabled"
+fi
+
+# Apply changes by restarting affected services
+echo "  Applying changes..."
+echo "    Restarting SystemUIServer to apply menu bar changes..."
+killall SystemUIServer 2>/dev/null || true
+
+echo "    Restarting Control Center to apply weather settings..."
+killall ControlCenter 2>/dev/null || true
+
+echo "✅ macOS system defaults configured successfully!"
+echo "   • Battery percentage enabled in menu bar"
+echo "   • Weather widget enabled in menu bar"
+echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"
+
+{{ end -}}
