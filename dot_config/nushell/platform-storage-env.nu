@@ -9,7 +9,7 @@ def _platform_env_backend [] {
 }
 
 # Set environment variable
-export def setenv [key: string, value: string] {
+export def platform_storage_setenv [key: string, value: string] {
     match (_platform_env_backend) {
         "defaults" => {
             ^defaults write com.chezmoi.env $key -string $value
@@ -22,7 +22,7 @@ export def setenv [key: string, value: string] {
 }
 
 # Get environment variable  
-export def getenv [key: string] {
+export def platform_storage_getenv [key: string] {
     match (_platform_env_backend) {
         "defaults" => {
             ^defaults read com.chezmoi.env $key o+e>| complete | get stdout | str trim
@@ -34,7 +34,7 @@ export def getenv [key: string] {
 }
 
 # List environment variables
-export def listenv [] {
+export def platform_storage_listenv [] {
     match (_platform_env_backend) {
         "defaults" => {
             print "Platform environment variables (defaults):"
@@ -54,7 +54,7 @@ export def listenv [] {
 }
 
 # Delete environment variable
-export def delenv [key: string] {
+export def platform_storage_delenv [key: string] {
     match (_platform_env_backend) {
         "defaults" => {
             let check = (^defaults read com.chezmoi.env $key o+e>| complete)
@@ -70,3 +70,9 @@ export def delenv [key: string] {
         }
     }
 }
+
+# Shorter aliases for convenience
+export alias pssetenv = platform_storage_setenv
+export alias psgetenv = platform_storage_getenv  
+export alias pslistenv = platform_storage_listenv
+export alias psdelenv = platform_storage_delenv

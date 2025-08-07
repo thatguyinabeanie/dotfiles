@@ -12,10 +12,10 @@ _platform_env_backend() {
 }
 
 # Set environment variable
-setenv() {
+platform_storage_setenv() {
     local key="$1" value="$2"
     if [[ -z "$key" || -z "$value" ]]; then
-        echo "Usage: setenv KEY VALUE"
+        echo "Usage: platform_storage_setenv KEY VALUE"
         return 1
     fi
     
@@ -32,10 +32,10 @@ setenv() {
 }
 
 # Get environment variable
-getenv() {
+platform_storage_getenv() {
     local key="$1"
     if [[ -z "$key" ]]; then
-        echo "Usage: getenv KEY"
+        echo "Usage: platform_storage_getenv KEY"
         return 1
     fi
     
@@ -51,7 +51,7 @@ getenv() {
 }
 
 # List all environment variables
-listenv() {
+platform_storage_listenv() {
     case "$(_platform_env_backend)" in
         "defaults")
             echo "Platform environment variables (defaults):"
@@ -71,10 +71,10 @@ listenv() {
 }
 
 # Delete environment variable
-delenv() {
+platform_storage_delenv() {
     local key="$1"
     if [[ -z "$key" ]]; then
-        echo "Usage: delenv KEY"
+        echo "Usage: platform_storage_delenv KEY"
         return 1
     fi
     
@@ -94,3 +94,9 @@ delenv() {
             ;;
     esac
 }
+
+# Shorter aliases for convenience
+alias pssetenv=platform_storage_setenv
+alias psgetenv=platform_storage_getenv
+alias pslistenv=platform_storage_listenv
+alias psdelenv=platform_storage_delenv
