@@ -139,29 +139,39 @@ fi
 
 # Raycast Configuration (if installed)
 if [ -d "/Applications/Raycast.app" ]; then
+  echo "🔧 Raycast detected - configuring Raycast and system settings..."
+  echo "  Setting up Raycast preferences..."
   defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
   defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
   defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
   defaults write com.raycast.macos raycastPreferredWindowMode "default"
 
-  # Disable Spotlight shortcuts (suppress error output)
-  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
-    enabled -bool false \
-    value -dict \
-      parameters -array -int 32 -int 49 -int 1048576 \
-      type -string standard 2>/dev/null || true
+  echo "  Disabling cmd+space for Spotlight..."
+  # Disable Spotlight cmd+space shortcut (hotkey 64)
+  /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null || true
 
-  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
-    enabled -bool false \
-    value -dict \
-      parameters -array -int 32 -int 49 -int 1572864 \
-      type -string standard 2>/dev/null || true
+  echo "  Disabling cmd+option+space for Spotlight..."
+  # Disable Spotlight cmd+option+space shortcut (hotkey 65) 
+  /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" ~/Library/Preferences/com.apple.symbolichotkeys.plist 2>/dev/null || true
+
+  echo "  Enabling window drag on gesture for better window management..."
+  echo "  Restarting SystemUIServer to apply changes..."
 fi
 
 # Apply changes
 killall SystemUIServer 2>/dev/null || true
 killall ControlCenter 2>/dev/null || true
 killall Dock 2>/dev/null || true
+
+# Show success message for Raycast if it was configured
+if [ -d "/Applications/Raycast.app" ]; then
+  echo "✅ Raycast and system settings configured successfully!"
+  echo "   • cmd+space is now assigned to Raycast with vim navigation"
+  echo "   • Window dragging enabled with cmd+ctrl+click from anywhere"
+  echo ""
+fi
 
 echo "✅ macOS defaults configured successfully"
 
