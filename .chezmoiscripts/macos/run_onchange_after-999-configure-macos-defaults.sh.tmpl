@@ -22,7 +22,17 @@ defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
 # Hide Karabiner Elements from menu bar (if installed)
 if [ -d "/Applications/Karabiner-Elements.app" ]; then
   echo "    Hiding Karabiner Elements from menu bar..."
+  # Try multiple possible setting locations for Karabiner Elements
   defaults write org.pqrs.Karabiner-Elements.Settings hideMenuBarIcon -bool true
+  defaults write org.pqrs.karabiner.karabiner_console_user_server hideMenuBarIcon -bool true
+  defaults write org.pqrs.Karabiner-Elements hideMenuBarIcon -bool true
+  
+  # Restart Karabiner Elements to apply the menu bar setting
+  echo "    Restarting Karabiner Elements to apply menu bar changes..."
+  killall "Karabiner-Elements" 2>/dev/null || true
+  killall "karabiner_console_user_server" 2>/dev/null || true
+  sleep 2
+  open "/Applications/Karabiner-Elements.app" 2>/dev/null || true
 else
   echo "    Karabiner Elements not found, skipping menu bar hide setting"
 fi
