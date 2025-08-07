@@ -9,7 +9,7 @@
 ##
 ## PLATFORM STORAGE ENVIRONMENT VARIABLES
 ##
-{{ if eq .context.WORK_ENVIRONMENT true -}}
+{{ if and (eq .context.chezmoi.os "darwin") (or (not (hasKey .context "WORK_ENVIRONMENT")) (eq .context.WORK_ENVIRONMENT true) (eq .context.WORK_ENVIRONMENT "true")) -}}
 {{- $platformJson := (output "sh" "-c" "defaults export com.chezmoi.env - 2>/dev/null | plutil -convert json -o - - 2>/dev/null || echo '{}'") }}
 {{- $platformVars := (fromJson $platformJson) }}
 {{- range $key, $value := $platformVars }}
