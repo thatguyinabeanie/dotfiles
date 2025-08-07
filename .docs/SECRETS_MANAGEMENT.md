@@ -19,7 +19,7 @@ Use consistent prefixes to organize secrets:
 
 ```bash
 work-github-token      # Work GitHub personal access token
-work-openai-key        # Work OpenAI API key  
+work-openai-key        # Work OpenAI API key
 work-slack-token       # Work Slack bot token
 personal-github-token  # Personal GitHub token
 personal-openai-key    # Personal OpenAI key
@@ -172,10 +172,13 @@ fi
 
 1. Identify required secrets for your work environment
 2. Store each secret using consistent naming:
+
    ```bash
    security add-generic-password -a "$USER" -s "work-github-token" -w "your_token_here"
    ```
+
 3. Test retrieval:
+
    ```bash
    security find-generic-password -a "$USER" -s "work-github-token" -w
    ```
@@ -185,6 +188,7 @@ fi
 1. Apply Chezmoi configuration
 2. Store required secrets in Keychain
 3. Verify environment variables are loaded:
+
    ```bash
    echo $GITHUB_TOKEN
    mise env | grep -E "(GITHUB|OPENAI|SLACK)"
@@ -195,14 +199,17 @@ fi
 ### Common Issues
 
 **Keychain Access Denied**
+
 - Run `security unlock-keychain` to unlock the default keychain
 - Check System Preferences > Security & Privacy > Privacy > Full Disk Access
 
 **Secret Not Found**
+
 - Verify secret name matches exactly (case-sensitive)
 - List all secrets: `security dump-keychain | grep "work-"`
 
 **Environment Variables Not Set**
+
 - Check mise configuration: `mise config`
 - Verify helper script permissions: `chmod +x ~/.local/bin/keychain-env`
 - Test script directly: `keychain-env work-github-token`

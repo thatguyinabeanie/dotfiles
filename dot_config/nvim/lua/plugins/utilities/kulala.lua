@@ -24,32 +24,32 @@ if work_env then
 
 ```http
 @baseUrl=https://api.civisanalytics.com
-@civisApiToken = {{CIVIS_API_TOKEN_PROD}}
+@civisApiKey = {{CIVIS_API_KEY_PRODUCTION}}
 @path=code_clouds
 @id=48
 
 ### POST
 POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 { }
 
 ### LIST
 GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### PATCH
 PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 { }
@@ -60,32 +60,32 @@ Accept: application/json
 
 ```http
 @baseUrl=https://api-staging.civisanalytics.com
-@civisApiToken={{CIVIS_API_TOKEN_STAGING}}
+@civisApiKey={{CIVIS_API_KEY_STAGING}}
 @path=code_clouds
 @id=43
 
 ### POST
 POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 { }
 
 ### LIST
 GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### PATCH
 PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 { }
@@ -95,32 +95,32 @@ Accept: application/json
 
 ```http
 @baseUrl=https://platform.civis.test:3000
-@civisApiToken={{CIVIS_API_TOKEN_LOCAL_DEV}}
+@civisApiKey={{CIVIS_API_KEY_LOCAL_CONSOLE}}
 @path=code_clouds
 @id=43
 
 ### POST
 POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 { }
 
 ### LIST
 GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### GET
 GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 
 ### PATCH
 PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiToken}}
+Authorization: Bearer {{civisApiKey}}
 Content-Type: application/json
 Accept: application/json
 ]]
