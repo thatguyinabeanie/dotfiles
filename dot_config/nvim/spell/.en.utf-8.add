@@ -68,6 +68,7 @@ Dotfile
 dotfiles
 dtypes
 ECR
+EFS
 english
 entrypoint
 env
@@ -78,6 +79,7 @@ eza
 Fastfetch
 fd
 filelock
+fips
 Flake8
 fnm
 frontend
@@ -109,6 +111,7 @@ iframed
 ImportError
 importlib
 iniconfig
+init
 instatiate
 ipykernel
 ipynb
