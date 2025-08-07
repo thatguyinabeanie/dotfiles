@@ -57,8 +57,8 @@ listenv() {
             echo "Platform environment variables (defaults):"
             if defaults read com.chezmoi.env >/dev/null 2>&1; then
                 defaults read com.chezmoi.env 2>/dev/null | \
-                    grep -E '^\s*[A-Za-z_][A-Za-z0-9_]*\s*=' | \
-                    sed 's/^\s*//' | cut -d'=' -f1 | sort
+                    grep -E '^\s*"[A-Za-z_][A-Za-z0-9_]*"\s*=' | \
+                    sed 's/^\s*//' | sed 's/"//g' | cut -d'=' -f1 | sed 's/[[:space:]]*$//' | sort
             else
                 echo "  (none set)"
             fi
