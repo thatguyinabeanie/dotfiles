@@ -19,6 +19,10 @@ defaults write com.apple.menuextra.battery ShowPercent -bool true
 echo "    Enabling weather in menu bar..."
 defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
 
+# Hide Spotlight from menu bar
+echo "    Hiding Spotlight from menu bar..."
+defaults write com.apple.Spotlight MenuItemHidden -bool true
+
 # Hide Karabiner Elements from menu bar (if installed)
 if [ -d "/Applications/Karabiner-Elements.app" ]; then
   echo "    Hiding Karabiner Elements from menu bar..."
@@ -119,6 +123,7 @@ killall ControlCenter 2>/dev/null || true
 echo "✅ macOS system defaults configured successfully!"
 echo "   • Battery percentage enabled in menu bar"
 echo "   • Weather widget enabled in menu bar"
+echo "   • Spotlight hidden from menu bar"
 echo "   • Karabiner Elements hidden from menu bar (if installed)"
 echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"
 echo "   • Display resolution set to 2704x1756 (if supported)"
