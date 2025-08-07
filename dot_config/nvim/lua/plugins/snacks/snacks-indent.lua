@@ -3,7 +3,7 @@ return {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
-    opts = { 
+    opts = {
       indent = {
         enabled = true,
         only_scope = true, -- Only show chunks, not regular indent guides

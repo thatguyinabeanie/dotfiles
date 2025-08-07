@@ -13,7 +13,8 @@
 
 # Detect environment type
 _platform_env_backend() {
-  if [[ "${WORK_ENVIRONMENT:-false}" == "true" ]]; then
+  # Only use defaults on macOS systems
+  if [[ "$OSTYPE" == "darwin"* ]] && [[ "${WORK_ENVIRONMENT:-true}" != "false" ]]; then
     echo "defaults"
   else
     echo "1password" # Future implementation
