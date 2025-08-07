@@ -44,15 +44,19 @@ export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}
 {{ end }}
 
 ##
-## COMMAND-BASED VARIABLES
+## PLATFORM STORAGE ENVIRONMENT VARIABLES
 ##
-{{ range $key, $config := $shared.command_variables -}}
-{{- if typeIs "string" $config }}
-export {{ $key }}="$({{ $config }})"
-{{- else }}
-export {{ $key }}="$({{ $config.command }})"
+{{ if eq .WORK_ENVIRONMENT true -}}
+{{- if (output "defaults" "read" "com.chezmoi.env" | trim) }}
+{{- $platformVars := (output "defaults" "export" "com.chezmoi.env" "-" | fromPlist) }}
+{{- range $key, $value := $platformVars }}
+export {{ $key }}="{{ $value }}"
 {{- end }}
-{{ end }}
+{{- end }}
+{{- else }}
+# 1Password integration for personal machines (future)
+{{- end }}
+
 
 ##
 ## DERIVED PATH VARIABLES
