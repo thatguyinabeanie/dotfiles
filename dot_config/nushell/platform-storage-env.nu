@@ -41,7 +41,7 @@ export def listenv [] {
             let result = (^defaults read com.chezmoi.env o+e>| complete)
             if $result.exit_code == 0 {
                 $result.stdout | lines | where {|line| $line =~ '^\s*"[A-Za-z_]'} | each {|line| 
-                    $line | str trim | str replace-all '"' '' | split column '=' | get column1
+                    $line | str trim | str replace '"' '' --all | split column '=' | get column1
                 } | sort
             } else {
                 print "  (none set)"
