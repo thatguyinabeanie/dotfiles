@@ -43,16 +43,7 @@ export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}
 {{ end -}}
 {{ end }}
 
-##
-## COMMAND-BASED VARIABLES
-##
-{{ range $key, $config := $shared.command_variables -}}
-{{- if typeIs "string" $config }}
-export {{ $key }}="$({{ $config }})"
-{{- else }}
-export {{ $key }}="$({{ $config.command }})"
-{{- end }}
-{{ end }}
+{{- template "platform-storage-env.tmpl" (dict "syntax" "export" "context" .) }}
 
 ##
 ## DERIVED PATH VARIABLES
@@ -103,3 +94,4 @@ export {{ $key }}="{{ $value }}"
 {{ end -}}
 {{ end -}}
 {{ end }}
+
