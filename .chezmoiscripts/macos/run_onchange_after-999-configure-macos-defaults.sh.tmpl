@@ -23,6 +23,18 @@ defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
 echo "    Hiding Spotlight from menu bar..."
 defaults write com.apple.Spotlight MenuItemHidden -bool true
 
+# Disable Siri
+echo "    Disabling Siri..."
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+defaults write com.apple.Siri StatusMenuVisible -bool false
+defaults write com.apple.Siri UserHasDeclinedEnable -bool true
+defaults write com.apple.assistant.backedup "Use device speaker for TTS" -int 3
+
+# Disable Apple Intelligence (if available)
+echo "    Disabling Apple Intelligence..."
+defaults write com.apple.intelligenceplatform.support IntelligencePlatformEnabled -bool false
+defaults write com.apple.ai.foundation AIFoundationEnabled -bool false
+
 # Hide Karabiner Elements from menu bar (if installed)
 if [ -d "/Applications/Karabiner-Elements.app" ]; then
   echo "    Hiding Karabiner Elements from menu bar..."
@@ -124,6 +136,8 @@ echo "✅ macOS system defaults configured successfully!"
 echo "   • Battery percentage enabled in menu bar"
 echo "   • Weather widget enabled in menu bar"
 echo "   • Spotlight hidden from menu bar"
+echo "   • Siri disabled"
+echo "   • Apple Intelligence disabled"
 echo "   • Karabiner Elements hidden from menu bar (if installed)"
 echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"
 echo "   • Display resolution set to 2704x1756 (if supported)"
