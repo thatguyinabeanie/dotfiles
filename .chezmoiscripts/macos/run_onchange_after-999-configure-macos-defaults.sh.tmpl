@@ -1,0 +1,168 @@
+#!/bin/sh
+
+# Configure macOS system defaults and preferences
+# This script runs after homebrew package installation to configure system settings
+# Hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+echo "🔧 Configuring macOS system defaults..."
+
+# Menu Bar Configuration
+defaults write com.apple.menuextra.battery ShowPercent -bool true
+defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
+defaults write com.apple.Spotlight MenuItemHidden -bool true
+
+# Control Center Module Configuration
+# Wi-Fi: Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool true
+
+# Bluetooth: Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
+
+# AirDrop: Don't Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible AirDrop" -bool false
+
+# Focus: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible DoNotDisturb" -int 1
+
+# Stage Manager: Don't Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible StageManager" -bool false
+
+# Screen Mirroring: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -int 1
+
+# Display: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible Display" -int 1
+
+# Sound: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -int 1
+
+# Now Playing: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -int 1
+
+# Battery: Show in Menu Bar with Percentage and Energy Mode
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool true
+defaults write com.apple.menuextra.battery ShowPercent -bool true
+defaults write com.apple.menuextra.battery ShowEnergyMode -string "Always"
+
+# Clock Configuration
+# Show date: Always
+defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d"
+
+# Show the day of the week: Enabled
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+
+# Time style: Digital
+defaults write com.apple.menuextra.clock IsAnalog -bool false
+
+# Show AM/PM: Enabled
+defaults write com.apple.menuextra.clock Show24Hour -bool false
+
+# Flash time separators: Disabled
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
+
+# Display time with seconds: Disabled
+defaults write com.apple.menuextra.clock ShowSeconds -bool false
+
+# Announce the time: Disabled
+defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -dict-add TimeAnnouncementsEnabled -bool false
+
+# Clock interval: On the hour
+defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -dict-add TimeAnnouncementsIntervalIdentifier -string "EveryHourInterval"
+
+# Trackpad Configuration
+# Swipe between pages: Scroll Left or Right with Two Fingers
+defaults write NSGlobalDomain AppleEnableSwipeNavigateWithScrolls -bool true
+
+# Swipe between full-screen applications: Off
+defaults write com.apple.dock workspaces-edge-delay -float 2.0
+defaults write com.apple.dock workspaces-edge-ratio -float 1.0
+
+# Notification Center: Enabled (swipe left from right edge with two fingers)
+defaults write com.apple.dock wvous-tr-corner -int 12
+defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# Mission Control: Swipe Up with Three Fingers (disabled by setting to 0)
+defaults write com.apple.dock mcx-expose-disabled -bool true
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerVertSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerVertSwipeGesture -int 0
+
+# App Exposé: Off
+defaults write com.apple.dock showAppExposeGestureEnabled -bool false
+defaults write com.apple.AppleMultitouchTrackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadThreeFingerHorizSwipeGesture -int 0
+
+# Launchpad: Disabled (pinch with thumb and three fingers)
+defaults write com.apple.dock showLaunchpadGestureEnabled -bool false
+
+# Show Desktop: Disabled (spread with thumb and three fingers)
+defaults write com.apple.dock showDesktopGestureEnabled -bool false
+
+# Disable Siri
+defaults write com.apple.assistant.support "Assistant Enabled" -bool false
+defaults write com.apple.Siri StatusMenuVisible -bool false
+defaults write com.apple.Siri UserHasDeclinedEnable -bool true
+defaults write com.apple.assistant.backedup "Use device speaker for TTS" -int 3
+
+# Disable Apple Intelligence (if available)
+defaults write com.apple.intelligenceplatform.support IntelligencePlatformEnabled -bool false
+defaults write com.apple.ai.foundation AIFoundationEnabled -bool false
+
+# Dock Configuration
+defaults write com.apple.dock tilesize -int 36
+defaults write com.apple.dock magnification -bool true
+defaults write com.apple.dock largesize -int 128
+defaults write com.apple.dock orientation -string "right"
+defaults write com.apple.dock mineffect -string "scale"
+defaults write NSGlobalDomain AppleActionOnDoubleClick -string "Maximize"
+defaults write com.apple.dock minimize-to-application -bool true
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock launchanim -bool false
+defaults write com.apple.dock show-process-indicators -bool true
+defaults write com.apple.dock show-recents -bool false
+
+# Desktop & Stage Manager Configuration
+defaults write com.apple.WindowManager StandardHideDesktopIcons -bool true
+defaults write com.apple.WindowManager EnableStandardClickToShowDesktop -bool false
+defaults write com.apple.WindowManager StandardHideWidgets -bool true
+defaults write com.apple.WindowManager AppWindowGroupingBehavior -int 1
+
+# Window Management
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
+# Display Configuration
+BUILTIN_DISPLAY_ID=$(system_profiler SPDisplaysDataType | grep -A 10 "Built-In" | grep "Display ID" | awk '{print $3}' | head -1)
+if [ -n "$BUILTIN_DISPLAY_ID" ] && command -v displayplacer >/dev/null 2>&1; then
+  displayplacer "id:$BUILTIN_DISPLAY_ID res:2704x1756" 2>/dev/null || true
+fi
+
+# Raycast Configuration (if installed)
+if [ -d "/Applications/Raycast.app" ]; then
+  defaults write com.raycast.macos raycastGlobalHotkey "Command-49"
+  defaults write com.raycast.macos navigationCommandStyleIdentifierKey "vim"
+  defaults write com.raycast.macos raycastShouldFollowSystemAppearance -bool true
+  defaults write com.raycast.macos raycastPreferredWindowMode "default"
+
+  # Disable Spotlight shortcuts (suppress error output)
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1048576 \
+      type -string standard 2>/dev/null || true
+
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 -dict \
+    enabled -bool false \
+    value -dict \
+      parameters -array -int 32 -int 49 -int 1572864 \
+      type -string standard 2>/dev/null || true
+fi
+
+# Apply changes
+killall SystemUIServer 2>/dev/null || true
+killall ControlCenter 2>/dev/null || true
+killall Dock 2>/dev/null || true
+
+echo "✅ macOS defaults configured successfully"
+
+{{ end -}}
