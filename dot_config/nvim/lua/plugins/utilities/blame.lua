@@ -7,7 +7,7 @@ USAGE:
 WHEN BLAME IS ACTIVE:
   i          - Show detailed commit info for current line
   <TAB>      - Navigate to commit (stack push)
-  <BS>       - Go back in commit history (stack pop)  
+  <BS>       - Go back in commit history (stack pop)
   <CR>       - Show full commit details
   <ESC> / q  - Close blame view
 
