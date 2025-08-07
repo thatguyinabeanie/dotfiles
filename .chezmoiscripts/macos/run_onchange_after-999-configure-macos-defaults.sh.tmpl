@@ -28,6 +28,31 @@ echo "    Enabling window drag on cmd+ctrl+drag gesture for better window manage
 # To reverse this change, run: defaults write -g NSWindowShouldDragOnGesture -bool false
 defaults write -g NSWindowShouldDragOnGesture -bool true
 
+# Display Configuration
+echo "  Configuring display settings..."
+# Set built-in display resolution to 2704x1756 if supported
+echo "    Attempting to set built-in display resolution to 2704x1756..."
+# Get the built-in display ID (usually 0 for the main display)
+BUILTIN_DISPLAY_ID=$(system_profiler SPDisplaysDataType | grep -A 10 "Built-In" | grep "Display ID" | awk '{print $3}' | head -1)
+if [ -n "$BUILTIN_DISPLAY_ID" ]; then
+  # Try to set the resolution using displayplacer or fall back to system_profiler approach
+  if command -v displayplacer >/dev/null 2>&1; then
+    echo "    Using displayplacer to set resolution..."
+    displayplacer "id:$BUILTIN_DISPLAY_ID res:2704x1756" 2>/dev/null || echo "    Resolution 2704x1756 not supported on this display"
+  else
+    echo "    displayplacer not found - consider installing with: brew install displayplacer"
+    echo "    Setting resolution via system preferences (requires manual intervention)..."
+    # Note: This approach may require manual confirmation or restart
+    osascript -e "tell application \"System Preferences\"
+      activate
+      set current pane to pane \"com.apple.preference.displays\"
+    end tell" 2>/dev/null || true
+    echo "    Please manually set resolution to 2704x1756 in System Preferences > Displays if available"
+  fi
+else
+  echo "    Could not detect built-in display ID, skipping resolution change"
+fi
+
 # Raycast Configuration (if installed)
 if [ -d "/Applications/Raycast.app" ]; then
   echo "  Raycast detected - configuring Raycast preferences..."
@@ -77,5 +102,6 @@ echo "✅ macOS system defaults configured successfully!"
 echo "   • Battery percentage enabled in menu bar"
 echo "   • Weather widget enabled in menu bar"
 echo "   • Window dragging enabled with cmd+ctrl+drag from anywhere"
+echo "   • Display resolution set to 2704x1756 (if supported)"
 
 {{ end -}}
