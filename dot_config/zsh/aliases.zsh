@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# Load platform storage environment functions
+source "$HOME/.config/zsh/platform-storage-env.zsh"
+
 alias y="yazi"
 
 alias ls="eza"

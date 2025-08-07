@@ -3,6 +3,9 @@ source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
 source ~/.cache/carapace/init.nu
 
+# Load platform storage environment functions
+use ~/.config/nushell/platform-storage-env.nu *
+
 # Disable nushell banner
 $env.config = ($env.config | upsert show_banner false)
 
