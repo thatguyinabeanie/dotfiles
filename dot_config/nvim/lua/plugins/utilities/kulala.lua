@@ -2,27 +2,33 @@
 local work_env = os.getenv("WORK_ENVIRONMENT")
 
 -- Set default scratchpad contents based on environment
-local default_contents = [[### Quick Test
+local default_contents = [[# API Requests
+
+## Quick Test
+
+```http
 GET https://httpbin.org/get
+```
 ]]
 
 if work_env then
-  default_contents = [[# PROD
-## @baseUrl=https://api.civisanalytics.com
-## @civisApiToken = {{CIVIS_API_TOKEN_PROD}}
+  default_contents = [[# Civis Analytics API Requests
+## Notes
 
-# STAGING
-@baseUrl=https://api-staging.civisanalytics.com
-@civisApiToken={{CIVIS_API_TOKEN_STAGING}}
+- Use the appropriate environment section
+- Update @path and @id variables as needed
+- Copy the HTTP block content to a .http file if kulala doesn't execute directly from markdown
 
-# LOCAL DEV
-## @baseUrl=https://platform.civis.test:3000
-## @civisApiToken={{CIVIS_API_TOKEN_LOCAL_DEV}}
+## Production
 
+```http
+# PROD
+@baseUrl=https://api.civisanalytics.com
+@civisApiToken = {{CIVIS_API_TOKEN_PROD}}
 @path=code_clouds
 @id=43
 
-###
+### GET
 GET {{baseUrl}}/{{path}}/{{id}}
 Authorization: Bearer {{civisApiToken}}
 Content-Type: application/json
@@ -37,6 +43,37 @@ Accept: application/json
 {
 
 }
+```
+
+## Staging
+
+```http
+@baseUrl=https://api-staging.civisanalytics.com
+@civisApiToken={{CIVIS_API_TOKEN_STAGING}}
+@path=code_clouds
+@id=43
+
+### GET
+GET {{baseUrl}}/{{path}}/{{id}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+```
+
+## Local Development
+
+```http
+@baseUrl=https://platform.civis.test:3000
+@civisApiToken={{CIVIS_API_TOKEN_LOCAL_DEV}}
+@path=code_clouds
+@id=43
+
+### GET
+GET {{baseUrl}}/{{path}}/{{id}}
+Authorization: Bearer {{civisApiToken}}
+Content-Type: application/json
+Accept: application/json
+
 ]]
 end
 
@@ -69,6 +106,7 @@ return {
     global_keymaps = true,
     global_keymaps_prefix = "<leader>R", -- Add this line
   },
+
   config = function(_, opts)
     -- Ensure kulala data directory exists
     local data_path = vim.fn.stdpath("data") .. "/kulala"
@@ -79,12 +117,40 @@ return {
     -- Add autocmd to prevent buffer write issues with scratchpad
     vim.api.nvim_create_autocmd("FileType", {
       pattern = { "http", "rest" },
+
       callback = function(args)
         local bufname = vim.api.nvim_buf_get_name(args.buf)
         -- If this is a kulala scratchpad buffer (no file path), set it as not modifiable for saving
         if bufname == "" or bufname:match("kulala://scratchpad") then
           vim.bo[args.buf].buftype = "nofile"
           vim.bo[args.buf].bufhidden = "wipe"
+
+          -- Set filetype to markdown for better experience
+          vim.bo[args.buf].filetype = "markdown"
+
+          -- Use vim.schedule to set window options after buffer is properly displayed
+          vim.schedule(function()
+            -- Find the window displaying this buffer
+            local wins = vim.fn.win_findbuf(args.buf)
+            if #wins > 0 then
+              local win = wins[1]
+              -- Enable word wrap for markdown
+              vim.api.nvim_set_option_value("wrap", true, { win = win })
+              vim.api.nvim_set_option_value("linebreak", true, { win = win })
+
+              -- Enable spell checking for markdown content
+              vim.api.nvim_set_option_value("spell", true, { win = win })
+
+              -- Set conceallevel for markdown (hides markup)
+              vim.api.nvim_set_option_value("conceallevel", 2, { win = win })
+
+              -- Enable folding for markdown sections
+              vim.api.nvim_set_option_value("foldmethod", "expr", { win = win })
+              vim.api.nvim_set_option_value("foldexpr", "nvim_treesitter#foldexpr()", { win = win })
+              vim.api.nvim_set_option_value("foldenable", true, { win = win })
+              vim.api.nvim_set_option_value("foldlevel", 1, { win = win })
+            end
+          end)
         end
       end,
     })
