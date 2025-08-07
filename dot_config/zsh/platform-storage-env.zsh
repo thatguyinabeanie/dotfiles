@@ -98,6 +98,12 @@ platform_storage_getenv() {
 platform_storage_listenv() {
   case "$(_platform_env_backend)" in
   "defaults")
+    if ! command -v jq >/dev/null 2>&1; then
+      echo "Error: 'jq' is required to list environment variables but is not installed."
+      echo "Please install jq (e.g., 'brew install jq') and try again."
+      return 1
+    fi
+    
     local output
     output=$(defaults export com.chezmoi.env - | plutil -convert json -o - - 2>/dev/null | jq -r 'to_entries[] | "\(.key)=\(.value)"' 2>/dev/null)
     if [[ -n "$output" ]]; then

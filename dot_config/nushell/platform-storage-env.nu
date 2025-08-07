@@ -49,7 +49,12 @@ export def platform_storage_setenv [
 export def platform_storage_getenv [key: string] {
     match (_platform_env_backend) {
         "defaults" => {
-            ^defaults read com.chezmoi.env $key o+e>| complete | get stdout | str trim
+            let result = (^defaults read com.chezmoi.env $key o+e>| complete)
+            if $result.exit_code == 0 {
+                $result.stdout | str trim
+            } else {
+                ""
+            }
         }
         "1password" => {
             print "1Password integration not yet implemented"
@@ -96,6 +101,6 @@ export def platform_storage_delenv [key: string] {
 
 # Shorter aliases for convenience
 export alias pssetenv = platform_storage_setenv
-export alias psgetenv = platform_storage_getenv  
+export alias psgetenv = platform_storage_getenv
 export alias pslistenv = platform_storage_listenv
 export alias psdelenv = platform_storage_delenv
