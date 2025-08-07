@@ -48,15 +48,8 @@ export def platform_storage_getenv [key: string] {
 export def platform_storage_listenv [] {
     match (_platform_env_backend) {
         "defaults" => {
-            print "Platform environment variables (defaults):"
-            let result = (^defaults read com.chezmoi.env o+e>| complete)
-            if $result.exit_code == 0 {
-                $result.stdout | lines | where {|line| $line =~ '^\s*"[A-Za-z_]'} | each {|line| 
-                    $line | str trim | str replace '"' '' --all | split column '=' | get column1
-                } | sort
-            } else {
-                print "  (none set)"
-            }
+            print $"✓ Set ($key) in platform storage"
+        }
         }
         "1password" => {
             print "1Password integration not yet implemented"
