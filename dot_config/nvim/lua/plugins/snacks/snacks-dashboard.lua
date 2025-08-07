@@ -8,6 +8,7 @@ return {
         enabled = true,
         width = 60,
         height = 20,
+
         sections = {
           {
             section = "header",
@@ -23,6 +24,7 @@ return {
             padding = 1,
           },
         },
+
         preset = {
           keys = {
             -- File Operations
