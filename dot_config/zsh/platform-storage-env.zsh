@@ -1,6 +1,14 @@
 #!/bin/zsh
 # Platform environment variable management
 # Work machines: macOS defaults, Personal machines: 1Password (future)
+#
+# Usage examples:
+#   platform_storage_setenv API_KEY "sk-1234567890"    # or: pssetenv API_KEY "sk-1234567890"
+#   platform_storage_getenv API_KEY                    # or: psgetenv API_KEY
+#   platform_storage_listenv                           # or: pslistenv
+#   platform_storage_delenv API_KEY                    # or: psdelenv API_KEY
+#
+# After setting variables, run 'chezmoi apply' to load them into your environment
 
 # Detect environment type
 _platform_env_backend() {
@@ -11,7 +19,8 @@ _platform_env_backend() {
     fi
 }
 
-# Set environment variable
+# Set environment variable in platform storage
+# Example: platform_storage_setenv API_KEY "sk-1234567890"
 platform_storage_setenv() {
     local key="$1" value="$2"
     if [[ -z "$key" || -z "$value" ]]; then
@@ -31,7 +40,8 @@ platform_storage_setenv() {
     esac
 }
 
-# Get environment variable
+# Get environment variable from platform storage
+# Example: platform_storage_getenv API_KEY
 platform_storage_getenv() {
     local key="$1"
     if [[ -z "$key" ]]; then
@@ -50,7 +60,8 @@ platform_storage_getenv() {
     esac
 }
 
-# List all environment variables
+# List all environment variables stored in platform storage
+# Example: platform_storage_listenv
 platform_storage_listenv() {
     case "$(_platform_env_backend)" in
         "defaults")
@@ -70,7 +81,8 @@ platform_storage_listenv() {
     esac
 }
 
-# Delete environment variable
+# Delete environment variable from platform storage
+# Example: platform_storage_delenv API_KEY
 platform_storage_delenv() {
     local key="$1"
     if [[ -z "$key" ]]; then

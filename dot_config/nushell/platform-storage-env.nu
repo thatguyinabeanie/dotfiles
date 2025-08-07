@@ -1,4 +1,12 @@
 # Platform environment variable management for nushell
+#
+# Usage examples:
+#   platform_storage_setenv API_KEY "sk-1234567890"    # or: pssetenv API_KEY "sk-1234567890"
+#   platform_storage_getenv API_KEY                    # or: psgetenv API_KEY
+#   platform_storage_listenv                           # or: pslistenv
+#   platform_storage_delenv API_KEY                    # or: psdelenv API_KEY
+#
+# After setting variables, run 'chezmoi apply' to load them into your environment
 
 def _platform_env_backend [] {
     if ($env.WORK_ENVIRONMENT? | default false) == "true" {
@@ -8,7 +16,8 @@ def _platform_env_backend [] {
     }
 }
 
-# Set environment variable
+# Set environment variable in platform storage
+# Example: platform_storage_setenv API_KEY "sk-1234567890"
 export def platform_storage_setenv [key: string, value: string] {
     match (_platform_env_backend) {
         "defaults" => {
@@ -21,7 +30,8 @@ export def platform_storage_setenv [key: string, value: string] {
     }
 }
 
-# Get environment variable  
+# Get environment variable from platform storage
+# Example: platform_storage_getenv API_KEY
 export def platform_storage_getenv [key: string] {
     match (_platform_env_backend) {
         "defaults" => {
@@ -33,7 +43,8 @@ export def platform_storage_getenv [key: string] {
     }
 }
 
-# List environment variables
+# List all environment variables stored in platform storage
+# Example: platform_storage_listenv
 export def platform_storage_listenv [] {
     match (_platform_env_backend) {
         "defaults" => {
@@ -53,7 +64,8 @@ export def platform_storage_listenv [] {
     }
 }
 
-# Delete environment variable
+# Delete environment variable from platform storage
+# Example: platform_storage_delenv API_KEY
 export def platform_storage_delenv [key: string] {
     match (_platform_env_backend) {
         "defaults" => {
