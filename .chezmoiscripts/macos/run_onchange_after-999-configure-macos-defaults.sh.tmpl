@@ -13,6 +13,64 @@ defaults write com.apple.menuextra.battery ShowPercent -bool true
 defaults write com.apple.controlcenter "NSStatusItem Visible Weather" -bool true
 defaults write com.apple.Spotlight MenuItemHidden -bool true
 
+# Control Center Module Configuration
+# Wi-Fi: Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible WiFi" -bool true
+
+# Bluetooth: Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible Bluetooth" -bool true
+
+# AirDrop: Don't Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible AirDrop" -bool false
+
+# Focus: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible DoNotDisturb" -int 1
+
+# Stage Manager: Don't Show in Menu Bar
+defaults write com.apple.controlcenter "NSStatusItem Visible StageManager" -bool false
+
+# Screen Mirroring: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible ScreenMirroring" -int 1
+
+# Display: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible Display" -int 1
+
+# Sound: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible Sound" -int 1
+
+# Now Playing: Show When Active
+defaults write com.apple.controlcenter "NSStatusItem Visible NowPlaying" -int 1
+
+# Battery: Show in Menu Bar with Percentage and Energy Mode
+defaults write com.apple.controlcenter "NSStatusItem Visible Battery" -bool true
+defaults write com.apple.menuextra.battery ShowPercent -bool true
+defaults write com.apple.menuextra.battery ShowEnergyMode -string "Always"
+
+# Clock Configuration
+# Show date: Always
+defaults write com.apple.menuextra.clock DateFormat -string "EEE MMM d"
+
+# Show the day of the week: Enabled
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool true
+
+# Time style: Digital
+defaults write com.apple.menuextra.clock IsAnalog -bool false
+
+# Show AM/PM: Enabled
+defaults write com.apple.menuextra.clock Show24Hour -bool false
+
+# Flash time separators: Disabled
+defaults write com.apple.menuextra.clock FlashDateSeparators -bool false
+
+# Display time with seconds: Disabled
+defaults write com.apple.menuextra.clock ShowSeconds -bool false
+
+# Announce the time: Disabled
+defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -dict-add TimeAnnouncementsEnabled -bool false
+
+# Clock interval: On the hour
+defaults write com.apple.speech.synthesis.general.prefs TimeAnnouncementPrefs -dict-add TimeAnnouncementsIntervalIdentifier -string "EveryHourInterval"
+
 # Disable Siri
 defaults write com.apple.assistant.support "Assistant Enabled" -bool false
 defaults write com.apple.Siri StatusMenuVisible -bool false
