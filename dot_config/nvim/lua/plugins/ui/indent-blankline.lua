@@ -6,7 +6,7 @@ return {
       char = "│",
       highlight = {
         "IndentLevel1",
-        "IndentLevel2", 
+        "IndentLevel2",
         "IndentLevel3",
         "IndentLevel4",
         "IndentLevel5",
