@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# SketchyBar setup script - start the service
+
+set -euo pipefail
+
+echo "Setting up SketchyBar service..."
+
+# Check if SketchyBar is installed
+if ! command -v sketchybar &> /dev/null; then
+    echo "SketchyBar not found. Please install it first with: brew install sketchybar"
+    exit 1
+fi
+
+# Start SketchyBar service using brew services (handles LaunchAgent automatically)
+echo "Starting SketchyBar service..."
+brew services start sketchybar
+
+echo "SketchyBar service started!"
+echo "SketchyBar is now running and will start automatically on login."
+echo "Configuration files are managed by chezmoi in ~/.config/sketchybar/"
+
+{{- end }}
