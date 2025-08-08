@@ -35,9 +35,8 @@ install_packages() {
 	esac
 
 	if [ -n "$brewfile_content" ]; then
-		echo "$emoji Installing $category..."
 		echo "$brewfile_content" | brew bundle --file=- --quiet
-		echo "🔵 $category installation complete"
+		printf " ✅\n"
 	fi
 }
 
