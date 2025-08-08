@@ -16,12 +16,5 @@ fi
 
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
 
-# Start SketchyBar service using brew services (handles LaunchAgent automatically)
-echo "Starting SketchyBar service..."
-brew services start sketchybar
-
-echo "SketchyBar service started!"
-echo "SketchyBar is now running and will start automatically on login."
-echo "Configuration files are managed by chezmoi in ~/.config/sketchybar/"
 
 {{- end }}

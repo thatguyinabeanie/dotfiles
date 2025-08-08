@@ -1,0 +1,52 @@
+# Brew Services Configuration
+# Services that should always be running
+# These will be started if stopped, restarted if running
+
+services:
+  # macOS Enhancements (currently installed)
+  - name: "sketchybar"
+    description: "Custom macOS menu bar"
+    action: "restart"
+
+  - name: "borders"
+    description: "Window borders for macOS"
+    action: "start"
+
+  - name: "redis"
+    disabled: true
+    description: "Redis in-memory data store"
+    action: "start"
+
+# Development Tools (uncomment if installed)
+# - name: "postgresql@14"
+#   description: "PostgreSQL database server"
+#   action: "restart"
+
+# - name: "mysql"
+#   description: "MySQL database server"
+#   action: "start"
+
+# Window Management (uncomment if installed)
+# - name: "yabai"
+#   description: "Window management for macOS"
+#   action: "restart"
+
+# - name: "skhd"
+#   description: "Hotkey daemon for macOS"
+#   action: "restart"
+
+# Networking & Sync (uncomment if installed)
+# - name: "syncthing"
+#   description: "File synchronization"
+#   action: "start"
+
+# - name: "tailscale"
+#   description: "VPN service"
+#   action: "start"
+
+# Services to exclude from automatic management
+# (they exist but should be managed manually)
+excluded_services:
+  - "docker"  # Often managed via Docker Desktop
+  - "apache"  # Conflicts with nginx
+  - "httpd"   # Apache alternative name

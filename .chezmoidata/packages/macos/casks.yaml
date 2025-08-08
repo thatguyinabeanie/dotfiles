@@ -2,6 +2,7 @@ casks:
   shared:
     - aerospace
     - cursor
+    - cyberduck
     - disk-inventory-x
     - docker-desktop
     - espanso
