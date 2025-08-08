@@ -14,6 +14,8 @@ if ! command -v sketchybar &> /dev/null; then
     exit 1
 fi
 
+(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+
 # Start SketchyBar service using brew services (handles LaunchAgent automatically)
 echo "Starting SketchyBar service..."
 brew services start sketchybar

@@ -19,6 +19,7 @@ casks:
     - postman
     - raycast
     - slack
+    - sf-symbols
     - visual-studio-code@insiders
     - zed
   work:

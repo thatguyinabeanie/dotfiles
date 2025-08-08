@@ -10,5 +10,13 @@ return {
       end,
       desc = "Find Config File (Chezmoi)",
     },
+    {
+      "<leader>fj",
+      function()
+        local chezmoi_path = vim.fn.expand("~/.config/chezmoi")
+        Snacks.picker.files({ cwd = chezmoi_path })
+      end,
+      desc = "Find Config File (Chezmoi)",
+    },
   },
 }
