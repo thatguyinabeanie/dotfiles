@@ -8,7 +8,7 @@ sbar.exec(
 	"killall network_load >/dev/null; $CONFIG_DIR/helpers/event_providers/network_load/bin/network_load en0 network_update 2.0"
 )
 
-local popup_width = 250
+local popup_width = 320
 
 local wifi_up = sbar.add("item", "widgets.wifi1", {
 	position = "right",
@@ -103,12 +103,14 @@ local hostname = sbar.add("item", {
 		align = "left",
 		string = "Hostname:",
 		width = popup_width / 2,
+		padding_right = 15,
 	},
 	label = {
 		max_chars = 20,
 		string = "????????????",
 		width = popup_width / 2,
 		align = "right",
+		padding_left = 15,
 	},
 })
 
@@ -118,11 +120,13 @@ local ip = sbar.add("item", {
 		align = "left",
 		string = "IP:",
 		width = popup_width / 2,
+		padding_right = 15,
 	},
 	label = {
 		string = "???.???.???.???",
 		width = popup_width / 2,
 		align = "right",
+		padding_left = 15,
 	},
 })
 
@@ -132,11 +136,13 @@ local mask = sbar.add("item", {
 		align = "left",
 		string = "Subnet mask:",
 		width = popup_width / 2,
+		padding_right = 15,
 	},
 	label = {
 		string = "???.???.???.???",
 		width = popup_width / 2,
 		align = "right",
+		padding_left = 15,
 	},
 })
 
@@ -146,11 +152,13 @@ local router = sbar.add("item", {
 		align = "left",
 		string = "Router:",
 		width = popup_width / 2,
+		padding_right = 15,
 	},
 	label = {
 		string = "???.???.???.???",
 		width = popup_width / 2,
 		align = "right",
+		padding_left = 15,
 	},
 })
 

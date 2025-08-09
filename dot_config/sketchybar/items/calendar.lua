@@ -18,7 +18,7 @@ local cal = sbar.add("item", {
 		color = colors.white,
 		padding_left = 12,
 		padding_right = 8,
-		width = 49,
+		width = 65,
 		align = "right",
 		font = { family = settings.font.numbers },
 	},
@@ -38,7 +38,6 @@ local cal = sbar.add("item", {
 sbar.add("bracket", { cal.name }, {
 	background = {
 		color = colors.transparent,
-		height = 36,
 		border_color = colors.grey,
 	},
 })
