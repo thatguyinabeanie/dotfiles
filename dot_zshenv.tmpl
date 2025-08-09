@@ -5,6 +5,7 @@
 {{ $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) -}}
 {{ $path := (include ".chezmoidata/environment/path.yaml" | fromYaml) -}}
 {{ $work := (include ".chezmoidata/environment/work.yaml" | fromYaml) -}}
+{{ $personal := (include ".chezmoidata/environment/personal.yaml" | fromYaml) -}}
 
 ##
 ## SIMPLE VARIABLES
@@ -88,6 +89,21 @@ export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p
 {{ range $key, $value := $work.work -}}
 {{- if eq $key "WORK_ENVIRONMENT" }}
 export {{ $key }}="{{ $.WORK_ENVIRONMENT | default false }}"
+{{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
+export {{ $key }}="{{ $value }}"
+{{- end -}}
+{{ end -}}
+{{ end -}}
+{{ end }}
+
+##
+## PERSONAL ENVIRONMENT
+##
+{{ if and (hasKey . "PERSONAL_ENVIRONMENT") (eq .PERSONAL_ENVIRONMENT true) -}}
+{{ if hasKey $personal "personal" -}}
+{{ range $key, $value := $personal.personal -}}
+{{- if eq $key "PERSONAL_ENVIRONMENT" }}
+export {{ $key }}="{{ $.PERSONAL_ENVIRONMENT | default true }}"
 {{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
 export {{ $key }}="{{ $value }}"
 {{- end -}}

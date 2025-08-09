@@ -12,3 +12,8 @@ mise.toml
 Library/
 {{- end }}
 
+{{- $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) }}
+{{- if ne $shared.variables.INSTALL_SKETCHY_BAR "true" }}
+dot_config/sketchybar/
+{{- end }}
+

@@ -40,4 +40,8 @@ return {
       })
     end,
   },
+  {
+    "xvzc/chezmoi.nvim",
+    enabled = false,
+  },
 }

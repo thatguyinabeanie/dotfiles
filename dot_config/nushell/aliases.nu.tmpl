@@ -309,6 +309,16 @@ def docker_nuke [] {
     docker_purge --force true
 }
 
+{{- if eq .chezmoi.os "darwin" }}
+
+##
+## BREW SERVICES MANAGEMENT
+##
+
+{{ template "brew-services-functions.nu" . }}
+
+{{- end }}
+
 ##
 ## ANIMATED TERMINAL TRANSITIONS
 ##
