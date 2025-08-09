@@ -134,4 +134,12 @@ function docker_purge() {
 # Equivalent to: docker_purge --force
 alias docker_nuke="docker_purge -f"
 
+{{- if eq .chezmoi.os "darwin" }}
 
+##
+## BREW SERVICES MANAGEMENT
+##
+
+{{ template "brew-services-functions.sh" . }}
+
+{{- end }}

@@ -1,0 +1,77 @@
+#!/bin/bash
+{{ if eq .chezmoi.os "darwin" -}}
+
+# Spicetify setup script for macOS
+echo "🎵 Setting up Spicetify..."
+
+# Check if Spotify is installed
+if [ ! -d "/Applications/Spotify.app" ]; then
+    echo "❌ Spotify not found at /Applications/Spotify.app"
+    echo "Please install Spotify from the Mac App Store or https://spotify.com first"
+    exit 1
+fi
+
+# Check if spicetify is installed
+if ! command -v spicetify &> /dev/null; then
+    echo "❌ spicetify command not found"
+    echo "Please install spicetify-cli via Homebrew first: brew install spicetify-cli"
+    exit 1
+fi
+
+# Set Spotify path for macOS
+echo "🔧 Configuring Spicetify for macOS..."
+spicetify config spotify_path "/Applications/Spotify.app/Contents/Resources"
+
+# Backup and apply Spicetify
+echo "💾 Creating backup and applying Spicetify..."
+spicetify backup apply
+
+# Install Marketplace
+echo "🛒 Installing Spicetify Marketplace..."
+if [ ! -d "${HOME}/.config/spicetify/CustomApps/marketplace" ]; then
+    curl -fsSL https://raw.githubusercontent.com/spicetify/marketplace/main/resources/install.sh | sh
+else
+    echo "✅ Marketplace already installed"
+fi
+
+# Install Catppuccin theme
+echo "🐱 Installing Catppuccin theme..."
+THEMES_DIR="${HOME}/.config/spicetify/Themes"
+CATPPUCCIN_DIR="${THEMES_DIR}/catppuccin"
+
+if [ ! -d "$CATPPUCCIN_DIR" ]; then
+    echo "📥 Downloading Catppuccin theme..."
+    # Create a temporary directory
+    TEMP_DIR=$(mktemp -d)
+    
+    # Download and extract the theme
+    curl -fsSL https://github.com/catppuccin/spicetify/archive/main.zip -o "${TEMP_DIR}/catppuccin.zip"
+    unzip -q "${TEMP_DIR}/catppuccin.zip" -d "${TEMP_DIR}"
+    
+    # Copy the catppuccin folder to Themes directory
+    cp -r "${TEMP_DIR}/spicetify-main/catppuccin" "$CATPPUCCIN_DIR"
+    
+    # Clean up temporary files
+    rm -rf "$TEMP_DIR"
+    
+    echo "✅ Catppuccin theme installed"
+else
+    echo "✅ Catppuccin theme already installed"
+fi
+
+# Configure Catppuccin theme
+echo "🎨 Configuring Catppuccin theme..."
+spicetify config current_theme catppuccin
+spicetify config color_scheme mocha
+spicetify config inject_css 1 inject_theme_js 1 replace_colors 1 overwrite_assets 1
+
+# Apply the theme
+echo "🎯 Applying Catppuccin theme..."
+spicetify apply
+
+echo "✅ Spicetify setup complete with Catppuccin theme!"
+echo "💡 Restart Spotify to see the Catppuccin theme"
+echo "💡 You can change color schemes with: spicetify config color_scheme [latte|frappe|macchiato|mocha]"
+echo "💡 Use 'spicetify apply' after Spotify updates"
+
+{{ end -}}

@@ -10,7 +10,6 @@
   The template supports both manual setup (with prompts) and automated deployment
   (using environment variables or defaults).
 */ -}}
-
 {{- /* =================== INTERACTIVE MODE DETECTION =================== */ -}}
 {{- /* Determine if we're in an interactive session where we can prompt the user */ -}}
 {{- $interactive := false -}}
@@ -24,13 +23,10 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{- $current_hostname := output "hostname" | trim -}}
-
 {{/* Cross-platform machine identity detection */}}
 {{- $system_work_env := false -}}
 {{- $system_work_org := "" -}}
-
 {{/* Detect storage method and read values directly */}}
 {{- $os := output "/usr/bin/uname" "-s" | trim -}}
 {{- $storage_method := "xdg_config" -}}
@@ -45,7 +41,6 @@
     {{- $storage_method = "xdg_config" -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Read work environment */}}
 {{- if eq $storage_method "macos_defaults" -}}
   {{- $cmd := "defaults read com.chezmoi.machine work_environment 2>/dev/null || echo ''" -}}
@@ -79,7 +74,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Read work organization */}}
 {{- if eq $storage_method "macos_defaults" -}}
   {{- $cmd := "defaults read com.chezmoi.machine work_org 2>/dev/null || echo ''" -}}
@@ -105,7 +99,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Read shell preference from platform storage */}}
 {{- $system_shell := "" -}}
 {{- if eq $storage_method "macos_defaults" -}}
@@ -132,7 +125,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Read catppuccin flavor from platform storage */}}
 {{- $system_catppuccin := "" -}}
 {{- if eq $storage_method "macos_defaults" -}}
@@ -159,7 +151,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Read hostname from platform storage */}}
 {{- $system_hostname := "" -}}
 {{- if eq $storage_method "macos_defaults" -}}
@@ -186,7 +177,6 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Interactive prompts for machine identity if not already set */}}
 {{- $WORK_ENVIRONMENT := $system_work_env -}}
 {{- $WORK_ORG := $system_work_org -}}
@@ -202,7 +192,6 @@
 {{- if env "WORK_ORG" -}}
   {{- $WORK_ORG = env "WORK_ORG" -}}
 {{- end -}}
-
 {{/* Use stored hostname if available, otherwise current hostname */}}
 {{- $HOSTNAME := $current_hostname -}}
 {{- if $system_hostname -}}
@@ -221,7 +210,6 @@
     {{- $WORK_ORG = promptStringOnce . "work_org" "Work organization name" "" -}}
   {{- end -}}
 {{- end -}}
-
 {{- /* =================== DEFAULT VALUES =================== */ -}}
 {{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
 {{- $opacity := 0.8 -}}              {{/* Terminal transparency level */}}
@@ -231,21 +219,17 @@
 {{- $window_height := 65 -}}         {{/* Terminal window height (rows) */}}
 {{- $window_width := 160 -}}         {{/* Terminal window width (columns) */}}
 {{- $refreshPeriod := 168 -}}        {{/* External repo refresh period (hours) */}}
-
 {{- /* =================== ENVIRONMENT DETECTION =================== */ -}}
 {{- $is_codespace := false -}}
 {{- /* Check if we're running in a GitHub Codespace environment */ -}}
 {{- if env "CODESPACES" | not | not -}}
   {{- $is_codespace = true -}}
 {{- end -}}
-
 {{/* Resolve configuration with precedence: env vars → local chezmoi.toml → platform storage → defaults */}}
-
 {{/* Read existing local config if it exists */}}
 {{- $local_config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "chezmoi.toml" -}}
 {{- $local_shell := "" -}}
 {{- $local_catppuccin := "" -}}
-
 {{- if stat $local_config_file -}}
   {{/* Read SHELL from local config */}}
   {{- $shell_cmd := printf "grep '^SHELL ' %s 2>/dev/null | sed 's/SHELL[[:space:]]*=[[:space:]]*\"\\(.*\\)\"/\\1/' || echo ''" ($local_config_file | quote) -}}
@@ -259,7 +243,6 @@
     {{- $local_catppuccin = . -}}
   {{- end -}}
 {{- end -}}
-
 {{/* Apply precedence hierarchy */}}
 {{- $SHELL := env "SHELL_PREF" -}}
 {{- if not $SHELL -}}
@@ -271,7 +254,6 @@
     {{- $SHELL = "nu" -}}
   {{- end -}}
 {{- end -}}
-
 {{- $CATPPUCCIN_FLAVOR := env "CATPPUCCIN_FLAVOR" -}}
 {{- if not $CATPPUCCIN_FLAVOR -}}
   {{- if $local_catppuccin -}}
@@ -282,15 +264,12 @@
     {{- $CATPPUCCIN_FLAVOR = "mocha" -}}
   {{- end -}}
 {{- end -}}
-
 {{- $THEME_MODE := env "THEME_MODE" | default "dark" -}}
-
 {{- /* =================== GIT CONFIGURATION SETUP =================== */ -}}
 {{- /* Initialize Git configuration variables */ -}}
 {{- $GIT_NAME := "" -}}
 {{- $GITHUB_USERNAME := "" -}}
 {{- $GIT_EMAIL := "" -}}
-
 {{- /* Set Git configuration based on environment */ -}}
 {{- if $is_codespace -}}
   {{- /* GitHub Codespaces: Use GitHub user information */ -}}
@@ -304,7 +283,6 @@
   {{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "thatguyinabeanie" -}}
   {{- $GIT_EMAIL = env "GIT_EMAIL" | default "thatguyin@beanie.gg" -}}
 {{- end -}}
-
 {{/* Interactive prompts for missing values */}}
 {{- if $interactive -}}
   {{- /* Only prompt for missing Git values if not in Codespaces */ -}}
@@ -320,15 +298,16 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-
 {{/* =================== CONFIGURATION OUTPUT =================== */}}
 {{/* Generate the final configuration file */}}
-
 [data]
 {{/* ===== CORE PREFERENCES ===== */}}
 hostname                   = {{ $HOSTNAME | quote }}
 SHELL                      = {{ $SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
+PERSONAL_ENVIRONMENT       = {{ not $WORK_ENVIRONMENT }}
+INSTALL_SKETCHY_BAR        = {{ env "INSTALL_SKETCHY_BAR" | default "true" | quote }}
+MANAGE_BREW_SERVICES       = {{ env "MANAGE_BREW_SERVICES" | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
 
 {{/* ===== THEME SYSTEM CONFIGURATION ===== */}}

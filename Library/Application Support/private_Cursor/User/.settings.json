@@ -24,7 +24,7 @@
   "terminal.integrated.stickyScroll.enabled": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
   "editor.fontSize": 16,
-  "mise.binPath": "/opt/homebrew/bin/mise",
+  "mise.binPath": "/Users/beanie/.local/bin/mise",
   "github.copilot.enable": {
     "*": false
   },

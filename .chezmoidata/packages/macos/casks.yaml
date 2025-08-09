@@ -2,6 +2,7 @@ casks:
   shared:
     - aerospace
     - cursor
+    - cyberduck
     - disk-inventory-x
     - docker-desktop
     - espanso
@@ -19,6 +20,7 @@ casks:
     - postman
     - raycast
     - slack
+    - sf-symbols
     - visual-studio-code@insiders
     - zed
   work:

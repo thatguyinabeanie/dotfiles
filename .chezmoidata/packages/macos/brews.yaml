@@ -21,6 +21,7 @@ brews:
     - bash-completion
     - bash-language-server
     - bison
+    - borders
     - btop
     - bundler-completion
     - carapace
@@ -94,6 +95,7 @@ brews:
     - mas
     - neovim
     - ncdu
+    - nowplaying-cli
     - nushell
     - open-completion
     - ossp-uuid
@@ -118,7 +120,11 @@ brews:
     - sevenzip
     - sd
     - sk
+    - sketchybar
+    - spotify_player
+    - spicetify-cli
     - starship
+    - switchaudio-osx
     - tflint
     - thefuck
     - tig
