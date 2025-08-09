@@ -11,7 +11,7 @@ return {
 	transparent = 0x00000000,
 
 	bar = {
-		bg = 0x802c2e34,
+		bg = 0x00000000,
 		border = 0xff2c2e34,
 	},
 	popup = {
@@ -25,6 +25,9 @@ return {
 		if alpha > 1.0 or alpha < 0.0 then
 			return color
 		end
-		return (color & 0x00ffffff) | (math.floor(alpha * 255.0) << 24)
+		-- Simple math-based approach for LuaJIT compatibility
+		local rgb = color % 0x1000000 -- Extract RGB (bottom 24 bits)
+		local new_alpha = math.floor(alpha * 255.0)
+		return rgb + (new_alpha * 0x1000000) -- Add alpha to top 8 bits
 	end,
 }
