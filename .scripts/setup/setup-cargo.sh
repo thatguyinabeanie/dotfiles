@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CARGO_YAML="$HOME/.chezmoidata/cargo.yaml"
+# Cargo packages are now managed by mise
+# This script is deprecated - cargo packages are now in:
+# .chezmoidata/packages/mise/packages/tools.yaml
 
-# Install Rust if not already installed
-if ! command -v cargo &> /dev/null; then
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  export PATH="$HOME/.cargo/bin:$PATH"
-fi
+echo "⚠️  Cargo packages are now managed by mise"
+echo "📁 Config location: .chezmoidata/packages/mise/packages/tools.yaml" 
+echo "🚀 Install with: mise install"
+echo ""
+echo "This script is deprecated and will be removed in the future."
 
-# Install yq if not present
-if ! command -v yq &> /dev/null; then
-  pip install yq
-fi
-
-# Read and install each cargo package
-for pkg in $(yq '.cargo[]' "$CARGO_YAML" | xargs); do
-  cargo install "$pkg"
-done 
+exit 0 

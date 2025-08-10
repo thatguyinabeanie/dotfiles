@@ -2,8 +2,8 @@
 # Find Homebrew packages that are installed but not tracked in chezmoi configuration
 # 
 # This script analyzes your installed Homebrew packages and compares them against:
-# - Homebrew packages tracked in .chezmoidata/homebrew/*.yaml
-# - Packages managed by mise in .chezmoidata/mise/*.yaml
+# - Homebrew packages tracked in .chezmoidata/packages/macos/*.yaml
+# - Packages managed by mise in .chezmoidata/packages/mise/*.yaml
 # 
 # Usage:
 #   ./scripts/find-untracked-homebrew-packages.sh
@@ -98,7 +98,7 @@ main() {
 
     # Get tracked packages from homebrew config files
     log "Reading chezmoi homebrew configuration..."
-    cd "$CHEZMOI_ROOT/.chezmoidata/homebrew"
+    cd "$CHEZMOI_ROOT/.chezmoidata/packages/macos"
 
     # Extract tracked brews (keep full tap names for proper comparison)
     tracked_brews=$(grep -E '^\s*-\s+' brews.yaml | sed 's/^\s*-\s*//' | sort -u)
@@ -117,18 +117,18 @@ main() {
 
     # Get mise-managed packages
     log "Reading mise configuration..."
-    cd "$CHEZMOI_ROOT/.chezmoidata/mise"
+    cd "$CHEZMOI_ROOT/.chezmoidata/packages/mise"
     mise_tools=""
-    if [[ -f "tools.yaml" ]]; then
-        mise_tools_temp=$(grep -E '^\s*-\s+name:\s+' tools.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
+    if [[ -f "packages/tools.yaml" ]]; then
+        mise_tools_temp=$(grep -E '^\s*-\s+name:\s+' packages/tools.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
         mise_tools="$mise_tools_temp"
     fi
-    if [[ -f "languages.yaml" ]]; then
-        mise_lang_temp=$(grep -E '^\s*-\s+name:\s+' languages.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
+    if [[ -f "packages/languages.yaml" ]]; then
+        mise_lang_temp=$(grep -E '^\s*-\s+name:\s+' packages/languages.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
         mise_tools="$mise_tools"$'\n'"$mise_lang_temp"
     fi
-    if [[ -f "node.yaml" ]]; then
-        mise_node_temp=$(grep -E '^\s*-\s+name:\s+' node.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
+    if [[ -f "packages/node.yaml" ]]; then
+        mise_node_temp=$(grep -E '^\s*-\s+name:\s+' packages/node.yaml | sed 's/.*name:\s*//' | tr -d '"' || true)
         mise_tools="$mise_tools"$'\n'"$mise_node_temp"
     fi
     mise_tools=$(echo "$mise_tools" | grep -v '^$' | sort -u)
@@ -199,7 +199,7 @@ main() {
         echo "========================"
         
         if [[ ${#untracked_brews[@]} -gt 0 ]]; then
-            echo "Add to MISSION_CONTROL/.chezmoidata/homebrew/brews.yaml:"
+            echo "Add to .chezmoidata/packages/macos/brews.yaml:"
             sorted_brews=()
             while IFS= read -r line; do
                 sorted_brews+=("$line")
@@ -216,7 +216,7 @@ main() {
         fi
         
         if [[ ${#untracked_casks[@]} -gt 0 ]]; then
-            echo "Add to MISSION_CONTROL/.chezmoidata/homebrew/casks.yaml:"
+            echo "Add to .chezmoidata/packages/macos/casks.yaml:"
             sorted_casks=()
             while IFS= read -r line; do
                 sorted_casks+=("$line")

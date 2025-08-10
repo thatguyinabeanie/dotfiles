@@ -79,12 +79,8 @@ chezmoi-backup-config
 # Restore configuration from persistent storage
 chezmoi-restore-config
 
-# View all stored configuration values
-config-persistence-helpers.sh list
-
-# Manage individual values
-config-persistence-helpers.sh write shell_pref zsh
-config-persistence-helpers.sh read shell_pref
+# View stored configuration (macOS example)
+defaults read ai.opencode.chezmoi
 ```
 
 ### ✨ Key benefits
@@ -135,7 +131,6 @@ dotfiles/
 │   └── ...
 ├── 🔭 .chezmoidata/             # YAML data files
 ├── 💾 .scripts/utilities/       # Persistent configuration system
-│   ├── config-persistence-helpers.sh
 │   ├── chezmoi-backup-config
 │   └── chezmoi-restore-config
 ├── 📚 .docs/                    # Documentation
