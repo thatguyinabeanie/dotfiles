@@ -1,0 +1,21 @@
+# JankyBorders Configuration
+# Window border styling for macOS
+
+jankyborders:
+  # Basic border settings
+  style: "round" # none, round, square
+  width: 6.0 # Border width in pixels
+  hidpi: true # Enable high DPI support
+  # Color configuration (hex format without 0x prefix)
+  colors:
+    active: "ff94e2d5" # Active window border color (catppuccin teal)
+    inactive: "ff45475a" # Inactive window border color (catppuccin surface1)
+  # Accessibility features
+  ax_focus: true # Enable accessibility focus integration
+  # Advanced options (uncomment to enable)
+  blacklist: # Apps to exclude from borders
+    - "System Preferences"
+    # - "Activity Monitor"
+  animations:
+    enabled: true # Enable border animations
+    duration: 0.2 # Animation duration in seconds

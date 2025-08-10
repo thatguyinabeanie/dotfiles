@@ -3,26 +3,77 @@
 
 {{- if eq .chezmoi.os "darwin" }}
 
-# Core brew services management function
-export def _manage_brew_services [mode: string = "all"] {
+# Main brew services command function
+export def bs [command: string = "status"] {
     # Check if brew is available
     if not (which brew | is-not-empty) {
         print "❌ Homebrew not found"
         return
     }
     
-    # Get currently running services
-    let running_services = (brew services list --json | from json | where status == "started" | get name)
-    
-    match $mode {
-        "status" => {
-            print "📊 Brew services status:"
-            brew services list | grep -E "(started|stopped|error)" | head -10
-            return
+    match $command {
+        "start" => {
+            _bs_start_services
         },
-        "all" => {
-            print "🔧 Managing brew services..."
+        "stop" => {
+            _bs_stop_services
+        },
+        "restart" | "refresh" => {
+            _bs_restart_services
+        },
+        "status" => {
+            _bs_show_status
+        },
+        "list" => {
+            _bs_list_all
+        },
+        _ => {
+            print "Usage: bs [start|stop|restart|refresh|status|list]"
+            print "  start    - Start configured services"
+            print "  stop     - Stop all running services"
+            print "  restart  - Restart configured services (alias: refresh)"
+            print "  status   - Show service status (default)"
+            print "  list     - List all available services"
         }
+    }
+}
+
+# Helper functions
+def _bs_show_status [] {
+    print "📊 Brew services status:"
+    brew services list | grep -E "(started|stopped|error)"
+}
+
+def _bs_list_all [] {
+    print "📋 All brew services:"
+    brew services list
+}
+
+def _bs_start_services [] {
+    print -n "▶️  Starting configured services..."
+    _manage_brew_services "start" out> /dev/null err> /dev/null
+    print " ✅"
+}
+
+def _bs_stop_services [] {
+    print -n "⏹️  Stopping all services..."
+    _manage_brew_services "stop" out> /dev/null err> /dev/null
+    print " ✅"
+}
+
+def _bs_restart_services [] {
+    print -n "🔄 Restarting configured services..."
+    _manage_brew_services "restart" out> /dev/null err> /dev/null
+    print " ✅"
+}
+
+# Core brew services management function
+def _manage_brew_services [mode: string = "status"] {
+    # Get currently running services
+    let running_services = try {
+        brew services list --json | from json | where status == "started" | get name
+    } catch {
+        brew services list | lines | where ($it | str contains "started") | each { |line| $line | split row " " | get 0 }
     }
     
 {{- range .services }}
@@ -37,164 +88,68 @@ export def _manage_brew_services [mode: string = "all"] {
     let {{ .name }}_running = ("{{ .name }}" in $running_services)
     
     match $mode {
-        "all" | "manage" => {
-{{- $condition := "always" }}
-{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
+        "start" => {
+{{- if hasKey . "active" }}
 {{- if .active }}
-{{- if eq $condition "always" }}
-            # Service active - always manage
-{{- if eq .action "restart" }}
-            try {
-                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
-            } catch {
-                # Silent failure
-            }
-{{- else if eq .action "start" }}
+            # Start {{ .name }} if not running
             if not ${{ .name }}_running {
                 try {
                     brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
                 } catch {
                     # Silent failure
                 }
-            }
-{{- end }}
-{{- else if eq $condition "ifInstalled" }}
-            # Service active - only manage if installed
-            if (which {{ .name }} | is-not-empty) {
-{{- if eq .action "restart" }}
-                try {
-                    brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                    print "🔄 Restarted {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-{{- else if eq .action "start" }}
-                if not ${{ .name }}_running {
-                    try {
-                        brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                        print "▶️  Started {{ .name }}"
-                    } catch {
-                        # Silent failure
-                    }
-                }
-{{- end }}
             }
 {{- end }}
 {{- else }}
-            # Service inactive - stop if running
-            if ${{ .name }}_running {
-                try {
-                    brew services stop "{{ .name }}" out> /dev/null err> /dev/null
-                    print "⏹️  Stopped {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
-{{- end }}
-        },
-        "start" => {
-{{- $condition := "always" }}
-{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
-{{- if .active }}
-{{- if eq $condition "always" }}
-            # Service active - always start if not running
+            # Default to start if active not specified
             if not ${{ .name }}_running {
                 try {
                     brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
                 } catch {
                     # Silent failure
                 }
             }
-{{- else if eq $condition "ifInstalled" }}
-            # Service active - only start if installed and not running
-            if (which {{ .name }} | is-not-empty) and (not ${{ .name }}_running) {
-                try {
-                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
-{{- end }}
 {{- end }}
         },
         "stop" => {
+            # Stop {{ .name }} if running
             if ${{ .name }}_running {
                 try {
                     brew services stop "{{ .name }}" out> /dev/null err> /dev/null
-                    print "⏹️  Stopped {{ .name }}"
                 } catch {
                     # Silent failure
                 }
             }
         },
         "restart" => {
-{{- $condition := "always" }}
-{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
+{{- if hasKey . "active" }}
 {{- if .active }}
-{{- if eq $condition "always" }}
-            # Service active - always restart
+            # Restart {{ .name }}
             try {
                 brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
             } catch {
                 # Silent failure
             }
-{{- else if eq $condition "ifInstalled" }}
-            # Service active - only restart if installed
-            if (which {{ .name }} | is-not-empty) {
-                try {
-                    brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                    print "🔄 Restarted {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
 {{- end }}
+{{- else }}
+            # Default to restart if active not specified
+            try {
+                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
+            } catch {
+                # Silent failure
+            }
 {{- end }}
         }
     }
 {{- end }}
 {{- end }}
-    
-    if $mode in ["all", "manage"] {
-        print ""
-        print "📊 Final brew services status:"
-        brew services list | grep -E "(started|stopped|error)" | head -10
-    }
 }
 
-# Main brew services commands
-export def bsvc [mode: string = "all"] { _manage_brew_services $mode }
-export def "bsvc status" [] { _manage_brew_services "status" }
-export def "bsvc start" [] { _manage_brew_services "start" }
-export def "bsvc stop" [] { _manage_brew_services "stop" }
-export def "bsvc restart" [] { _manage_brew_services "restart" }
-
-# Individual service control commands
-{{- range .services }}
-{{- $service := . }}
-{{- $excluded := false }}
-{{- range $.excluded_services }}
-{{- if eq . $service.name }}{{ $excluded = true }}{{ end }}
-{{- end }}
-{{- if not $excluded }}
-export def "{{ .name }} start" [] { brew services start {{ .name }} }
-export def "{{ .name }} stop" [] { brew services stop {{ .name }} }
-export def "{{ .name }} restart" [] { brew services restart {{ .name }} }
-{{- end }}
-{{- end }}
-
-# Quick service status check commands
-export def "bsvc running" [] {
-    brew services list --json | from json | where status == "started" | get name | sort
-}
-
-export def "bsvc stopped" [] {
-    brew services list --json | from json | where status == "stopped" | get name | sort
-}
+# Legacy function aliases for backward compatibility
+export def bsvc [mode: string = "restart"] { bs $mode }
+export def "bsvc status" [] { bs status }
+export def "bsvc start" [] { bs start }
+export def "bsvc stop" [] { bs stop }
+export def "bsvc restart" [] { bs restart }
 
 {{- end }}

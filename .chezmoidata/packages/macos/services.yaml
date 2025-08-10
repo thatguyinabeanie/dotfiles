@@ -22,7 +22,7 @@ services:
     condition: "ifInstalled"
 
   - name: "borders"
-    active: true
+    active: false
     description: "Window borders for macOS"
     action: "start"
 
