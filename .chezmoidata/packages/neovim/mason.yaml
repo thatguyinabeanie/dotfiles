@@ -1,0 +1,27 @@
+# Mason tool configuration
+mason:
+  core_tools:
+    - lua-language-server
+    - stylua
+    - marksman
+    - vale
+    - json-lsp
+    - yaml-language-server
+    - tailwindcss-language-server
+    - copilot-language-server
+    - bash-language-server
+    - shellcheck
+    - eslint_d
+    - eslint-lsp
+    - prettierd
+    - ruby-lsp
+    - standardrb
+    - haml-lint
+
+  exploration_tools:
+    - css-lsp
+    - dockerfile-language-server
+    - html-lsp
+    - rust-analyzer
+    - gopls
+    - prettier

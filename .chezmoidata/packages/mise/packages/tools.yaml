@@ -102,3 +102,11 @@ tools:
     - name: claude
       version: latest
       description: "Anthropic Claude CLI"
+
+  # =============================================================================
+  # FUN TOOLS - Entertainment and novelty utilities
+  # =============================================================================
+  fun_tools:
+    - name: "cargo:pokeget"
+      version: latest
+      description: "Pokemon sprite fetcher"

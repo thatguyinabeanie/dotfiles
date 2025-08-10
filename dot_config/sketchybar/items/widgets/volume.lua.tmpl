@@ -2,7 +2,7 @@ local colors = require("colors")
 local icons = require("icons")
 local settings = require("settings")
 
-local popup_width = 250
+local popup_width = {{ .sketchybar.widgets.volume.popup_width }}
 
 local volume_percent = sbar.add("item", "widgets.volume1", {
 	position = "right",
@@ -41,13 +41,16 @@ local volume_bracket = sbar.add("bracket", "widgets.volume.bracket", {
 	volume_icon.name,
 	volume_percent.name,
 }, {
-	background = { color = colors.bg1 },
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
 	popup = { align = "center" },
 })
 
 sbar.add("item", "widgets.volume.padding", {
 	position = "right",
-	width = settings.group_paddings,
+	width = {{ .sketchybar.defaults.group_paddings }},
 })
 
 local volume_slider = sbar.add("slider", popup_width, {
@@ -55,16 +58,22 @@ local volume_slider = sbar.add("slider", popup_width, {
 	slider = {
 		highlight_color = colors.blue,
 		background = {
-			height = 6,
-			corner_radius = 3,
-			color = colors.bg2,
+			height = {{ .sketchybar.widgets.volume.slider_height }},
+			corner_radius = {{ .sketchybar.widgets.volume.slider_corner_radius }},
+			color = colors.with_alpha(colors.bg2, {{ .sketchybar.appearance.background_alpha }}),
+			blur_radius = {{ .sketchybar.appearance.blur_radius }},
 		},
 		knob = {
 			string = "􀀁",
 			drawing = true,
 		},
 	},
-	background = { color = colors.bg1, height = 2, y_offset = -20 },
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}), 
+		height = 2, 
+		y_offset = -20,
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
 	click_script = 'osascript -e "set volume output volume $PERCENTAGE"',
 })
 

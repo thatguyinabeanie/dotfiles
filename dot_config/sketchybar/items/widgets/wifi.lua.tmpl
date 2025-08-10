@@ -68,8 +68,11 @@ local wifi_bracket = sbar.add("bracket", "widgets.wifi.bracket", {
 	wifi_up.name,
 	wifi_down.name,
 }, {
-	background = { color = colors.bg1 },
-	popup = { align = "center", height = 30 },
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
+	popup = { align = "center", height = {{ .sketchybar.widgets.wifi.popup_height }} },
 })
 
 local ssid = sbar.add("item", {

@@ -3,7 +3,7 @@
 {{- range $section_name, $tools := .tools }}
 {{- range $tool := $tools }}
 {{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{ index $tool "name" | quote }} = {{ index $tool "version" | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -12,7 +12,7 @@
 {{- range $ecosystem_name, $tools := .languages }}
 {{- range $tool := $tools }}
 {{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{ index $tool "name" | quote }} = {{ index $tool "version" | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -20,14 +20,14 @@
 # Node.js package managers from node.yaml
 {{- range $tool := (index .nodejs "package-managers") }}
 {{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{ index $tool "name" | quote }} = {{ index $tool "version" | quote }}
 {{- end }}
 {{- end }}
 
 # Python tools from python.yaml (only items with versions)
 {{- range $tool := .python }}
 {{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{ index $tool "name" | quote }} = {{ index $tool "version" | quote }}
 {{- end }}
 {{- end }}
 

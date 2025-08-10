@@ -1,0 +1,61 @@
+sketchybar:
+  # Bar configuration
+  bar:
+    height: 50.0
+    top_padding: 10.0
+    side_margin: 10.0
+    scale_factor: 1.0
+
+  # Global widget defaults
+  defaults:
+    background_height: 44.0
+    icon_font_size: 18.0
+    label_font_size: 15.0
+    padding: 8.0
+    group_paddings: 5.0
+    
+  # Appearance settings
+  appearance:
+    background_alpha: 0.3
+    blur_radius: 200.0
+    border_width: 0
+    corner_radius: 10.0
+    
+  # Widget-specific settings
+  widgets:
+    apple:
+      icon_size: 16.0
+      padding_left: 8.0
+      padding_right: 8.0
+      bracket_height: 30.0
+      
+    calendar:
+      label_width: 75.0
+      date_padding_left: 15.0
+      date_padding_right: 8.0
+      time_padding_left: 8.0
+      time_padding_right: 15.0
+      date_font_size: 14.0
+      update_freq: 30
+      
+    cpu:
+      graph_width: 50
+      background_height: 36.0
+      icon_string: "󰘚"
+      update_event: "cpu_update"
+      update_interval: 2.0
+      
+    battery:
+      icon_size: 19.0
+      update_freq: 180
+      popup_width: 220
+      
+    volume:
+      popup_width: 250
+      icon_size: 16.0
+      slider_height: 6
+      slider_corner_radius: 3
+      
+    wifi:
+      popup_width: 250
+      popup_height: 30

@@ -10,9 +10,9 @@ This document outlines the comprehensive strategy for implementing a clean disab
 - **Configuration**: `dot_config/sketchybar/` (50+ files - Lua configs, scripts, helpers, plugins)
 - **Package**: `sketchybar` in `.chezmoidata/packages/macos/brews.yaml:123`
 - **Font**: `Library/fonts/sketchybar-app-font.ttf`
-- **Settings**: `.chezmoidata/sketchybar.yaml` (scale, height, fonts, padding)
+- **Settings**: `.chezmoidata/apps/sketchybar.yaml` (scale, height, fonts, padding)
 - **Setup Script**: `.chezmoiscripts/macos/run_once_after_900-setup-sketchybar.sh.tmpl`
-- **Service**: Managed via `brew services` in `.chezmoidata/brew-services.yaml:16-19`
+- **Service**: Managed via `brew services` in `.chezmoidata/packages/macos/services.yaml:16-19`
 
 ### SbarLua Plugin
 - **Installation**: Cloned from GitHub and built in setup script
@@ -58,7 +58,7 @@ ENABLE_SKETCHYBAR: true  # Default to enabled
 
 ### 3. Service Management Updates
 
-**Modify `.chezmoidata/brew-services.yaml`:**
+**Modify `.chezmoidata/packages/macos/services.yaml`:**
 ```yaml
 - name: "sketchybar"
   description: "Custom macOS menu bar"

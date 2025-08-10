@@ -1,7 +1,0 @@
-sketchybar:
-  scale_factor: 1.0
-  base_bar_height: 50.0
-  base_default_background_height: 44.0
-  base_default_icon_font_size: 18.0
-  base_default_label_font_size: 15.0
-  base_default_padding: 8.0
