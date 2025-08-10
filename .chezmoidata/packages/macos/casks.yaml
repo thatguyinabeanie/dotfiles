@@ -1,7 +1,7 @@
 casks:
   shared:
     - aerospace
-    - betterdiscord-installer 
+    - betterdiscord-installer
     - cursor
     - cyberduck
     - disk-inventory-x

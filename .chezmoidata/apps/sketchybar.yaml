@@ -17,7 +17,7 @@ sketchybar:
   # Appearance settings
   appearance:
     background_alpha: 0.3
-    blur_radius: 200.0
+    blur_radius: 30.0
     border_width: 0
     corner_radius: 10.0
     
