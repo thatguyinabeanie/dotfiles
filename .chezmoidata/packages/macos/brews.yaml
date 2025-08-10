@@ -144,6 +144,7 @@ brews:
     - yaml-language-server
     - yazi
     - yq
+    - zellij
     - zls
     - zoxide
     - zsh
