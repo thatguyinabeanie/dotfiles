@@ -36,19 +36,7 @@ return {
         end
         return {}
       end,
-      -- Disable Avante's built-in tools to avoid conflicts with MCP Neovim server
-      disabled_tools = {
-        "list_files", -- Handled by MCP Neovim server (file listing)
-        "search_files", -- Handled by MCP Neovim server (file search)
-        "read_file", -- Handled by MCP Neovim server (file reading)
-        "create_file", -- Handled by MCP Neovim server (file creation)
-        "rename_file", -- Handled by MCP Neovim server (file renaming)
-        "delete_file", -- Handled by MCP Neovim server (file deletion)
-        "create_dir", -- Handled by MCP Neovim server (directory creation)
-        "rename_dir", -- Handled by MCP Neovim server (directory renaming)
-        "delete_dir", -- Handled by MCP Neovim server (directory deletion)
-        "bash", -- Terminal access handled by MCP Neovim server
-      },
+
       -- Avante keymaps:
       -- <leader>aa - ask (chat with AI about selection/buffer)
       -- <leader>ae - edit (AI edit suggestions)
