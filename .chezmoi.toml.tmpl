@@ -48,3 +48,32 @@ email                      = {{ (env "GIT_EMAIL") | default (output "bash" "-c" 
 defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default (output "bash" "-c" (printf "%s read git_refresh_period" ($config_helper | quote)) | trim) | default "168h" | quote }}
 work_org                   = {{ (env "WORK_ORG") | default (output "bash" "-c" (printf "%s read work_org" ($config_helper | quote)) | trim) | default "" | quote }}
 work_environment           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false" }}
+
+{{/* ===== APPLICATION DATA FILES ===== */}}
+{{- $jankyborders_file := joinPath .chezmoi.sourceDir ".chezmoidata" "apps" "jankyborders.yaml" }}
+{{- if stat $jankyborders_file }}
+{{- $jankyborders_data := (include $jankyborders_file | fromYaml) }}
+{{- $jankyborders := $jankyborders_data.jankyborders }}
+[data.jankyborders]
+style = {{ $jankyborders.style | quote }}
+width = {{ $jankyborders.width }}
+hidpi = {{ $jankyborders.hidpi }}
+ax_focus = {{ $jankyborders.ax_focus }}
+
+[data.jankyborders.colors]
+active = {{ $jankyborders.colors.active | quote }}
+inactive = {{ $jankyborders.colors.inactive | quote }}
+
+{{- if $jankyborders.blacklist }}
+[data.jankyborders.blacklist]
+{{- range $i, $app := $jankyborders.blacklist }}
+item{{ $i }} = {{ $app | quote }}
+{{- end }}
+{{- end }}
+
+{{- if $jankyborders.animations }}
+[data.jankyborders.animations]
+enabled = {{ $jankyborders.animations.enabled }}
+duration = {{ $jankyborders.animations.duration }}
+{{- end }}
+{{- end }}
