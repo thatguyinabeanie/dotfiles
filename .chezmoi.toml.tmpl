@@ -1,45 +1,49 @@
 {{- $current_hostname := output "hostname" | trim -}}
+{{- $config_helper := joinPath .chezmoi.sourceDir ".scripts" "utilities" "config-persistence-helpers.sh" -}}
+{{- $backup_script := joinPath .chezmoi.sourceDir ".scripts" "utilities" "chezmoi-backup-config" -}}
+
+# Hooks - automatically backup configuration after apply
+[hooks.apply.post]
+command = "{{ $backup_script }}"
+args = ["--silent"]
+
 [data]
 {{/* ===== CORE PREFERENCES ===== */}}
-hostname                   = {{ env "HOSTNAME" | default $current_hostname | quote }}
-SHELL                      = {{ env "SHELL_PREF" | default "nu" | quote }}
-WORK_ENVIRONMENT           = {{ env "WORK_ENVIRONMENT" | default "false" }}
-PERSONAL_ENVIRONMENT       = {{ env "PERSONAL_ENVIRONMENT" | default "false" }}
-INSTALL_SKETCHY_BAR        = {{ env "INSTALL_SKETCHY_BAR" | default "true" | quote }}
-MANAGE_BREW_SERVICES       = {{ env "MANAGE_BREW_SERVICES" | default "true" | quote }}
-CATPPUCCIN_FLAVOR          = {{ env "CATPPUCCIN_FLAVOR" | default "mocha" | quote }}
+hostname                   = {{ $current_hostname | quote }}
+SHELL                      = {{ (env "SHELL_PREF") | default (output "bash" "-c" (printf "%s read shell_pref" ($config_helper | quote)) | trim) | default "nu" | quote }}
+WORK_ENVIRONMENT           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read work_environment" ($config_helper | quote)) | trim) | default "false" }}
+PERSONAL_ENVIRONMENT       = {{ (env "PERSONAL_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read personal_environment" ($config_helper | quote)) | trim) | default "false" }}
+INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "bash" "-c" (printf "%s read install_sketchy_bar" ($config_helper | quote)) | trim) | default "true" | quote }}
+MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
+CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
 
 {{/* ===== THEME SYSTEM CONFIGURATION ===== */}}
 {{/* These control the advanced theme switching system */}}
-THEME_MODE                 = {{ env "THEME_MODE" | default "dark" | quote }}
-THEME_LIGHT                = {{ env "THEME_LIGHT" | default "catppuccin-latte" | quote }}
-THEME_DARK                 = {{ env "THEME_DARK" | default "catppuccin-mocha" | quote }}
+THEME_MODE                 = {{ (env "THEME_MODE") | default (output "bash" "-c" (printf "%s read theme_mode" ($config_helper | quote)) | trim) | default "dark" | quote }}
+THEME_LIGHT                = {{ (env "THEME_LIGHT") | default (output "bash" "-c" (printf "%s read theme_light" ($config_helper | quote)) | trim) | default "catppuccin-latte" | quote }}
+THEME_DARK                 = {{ (env "THEME_DARK") | default (output "bash" "-c" (printf "%s read theme_dark" ($config_helper | quote)) | trim) | default "catppuccin-mocha" | quote }}
 
 {{/* ===== APPLICATION SETTINGS ===== */}}
-OBSIDIAN_VAULT_PERSONAL    = "obsidian-vault"
-OBSIDIAN_VAULT_WORK        = "obsidian-vault-work"
-YAZI_CATPPUCCIN_COLOR      = "blue"
-SUDO_TOUCHID               = "true"
+YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
+SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
 INTERACTIVE                = false
-
 
 {{/* ===== CONSOLIDATED UI CONFIGURATION ===== */}}
 [data.ui]
-opacity                    = {{ env "UI_OPACITY" | default "0.5" | quote }}
-blur                       = {{ env "UI_BLUR" | default "255" | quote }}
-font_size                  = {{ env "UI_FONT_SIZE" | default "20" | quote }}
-font_family                = {{ env "UI_FONT_FAMILY" | default "Dank Mono" | quote }}
-window_height              = {{ env "UI_WINDOW_HEIGHT" | default "65" | quote }}
-window_width               = {{ env "UI_WINDOW_WIDTH" | default "160" | quote }}
-font_thicken               = {{ env "UI_FONT_THICKEN" | default "true" }}
-cursor_style               = {{ env "UI_CURSOR_STYLE" | default "block_hollow" | quote }}
+opacity                    = {{ (env "UI_OPACITY") | default (output "bash" "-c" (printf "%s read ui_opacity" ($config_helper | quote)) | trim) | default "0.5" | quote }}
+blur                       = {{ (env "UI_BLUR") | default (output "bash" "-c" (printf "%s read ui_blur" ($config_helper | quote)) | trim) | default "255" | quote }}
+font_size                  = {{ (env "UI_FONT_SIZE") | default (output "bash" "-c" (printf "%s read ui_font_size" ($config_helper | quote)) | trim) | default "20" | quote }}
+font_family                = {{ (env "UI_FONT_FAMILY") | default (output "bash" "-c" (printf "%s read ui_font_family" ($config_helper | quote)) | trim) | default "Dank Mono" | quote }}
+window_height              = {{ (env "UI_WINDOW_HEIGHT") | default (output "bash" "-c" (printf "%s read ui_window_height" ($config_helper | quote)) | trim) | default "65" | quote }}
+window_width               = {{ (env "UI_WINDOW_WIDTH") | default (output "bash" "-c" (printf "%s read ui_window_width" ($config_helper | quote)) | trim) | default "160" | quote }}
+font_thicken               = {{ (env "UI_FONT_THICKEN") | default (output "bash" "-c" (printf "%s read ui_font_thicken" ($config_helper | quote)) | trim) | default "true" }}
+cursor_style               = {{ (env "UI_CURSOR_STYLE") | default (output "bash" "-c" (printf "%s read ui_cursor_style" ($config_helper | quote)) | trim) | default "block_hollow" | quote }}
 
 {{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
-name                       = {{ env "GIT_NAME" | default "Gabe Mendoza" | quote }}
-username                   = {{ env "GITHUB_USERNAME" | default "thatguyinabeanie" | quote }}
-email                      = {{ env "GIT_EMAIL" | default "thatguyin@beanie.gg" | quote }}
-defaultRefreshPeriod       = {{ env "GIT_REFRESH_PERIOD" | default "168h" | quote }}
-work_org                   = {{ env "WORK_ORG" | default "" | quote }}
-work_environment           = {{ env "WORK_ENVIRONMENT" | default "false" }}
-
+name                       = {{ (env "GIT_NAME") | default (output "bash" "-c" (printf "%s read git_name" ($config_helper | quote)) | trim) | default "Gabe Mendoza" | quote }}
+username                   = {{ (env "GITHUB_USERNAME") | default (output "bash" "-c" (printf "%s read github_username" ($config_helper | quote)) | trim) | default "thatguyinabeanie" | quote }}
+email                      = {{ (env "GIT_EMAIL") | default (output "bash" "-c" (printf "%s read git_email" ($config_helper | quote)) | trim) | default "thatguyin@beanie.gg" | quote }}
+defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default (output "bash" "-c" (printf "%s read git_refresh_period" ($config_helper | quote)) | trim) | default "168h" | quote }}
+work_org                   = {{ (env "WORK_ORG") | default (output "bash" "-c" (printf "%s read work_org" ($config_helper | quote)) | trim) | default "" | quote }}
+work_environment           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false" }}

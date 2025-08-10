@@ -56,7 +56,6 @@ nushell/
 ### 🛠️ Development Tools
 
 - **Neovim**: Integrated for text editing
-- **Obsidian**: Vault management capabilities
 - **Chezmoi**: Dotfiles management support
 
 ### 📊 System Information
@@ -100,7 +99,6 @@ nushell/
 
 - **`poke_system_info`**: Display system information with random Pokemon
 - **`reset_nvim`**: Reset Neovim configuration
-- **`obsidian_nvim`**: Open Obsidian vault in Neovim
 
 ### 🐳 Docker management
 

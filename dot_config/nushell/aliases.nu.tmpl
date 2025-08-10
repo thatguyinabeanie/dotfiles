@@ -76,36 +76,6 @@ def is_interactive [] {
 ## NEOVIM INTEGRATIONS
 ##
 
-# Obsidian vault management in Neovim
-# Provides quick access to different knowledge vaults with Obsidian.nvim integration
-# Usage: obsidian_nvim [vault_name]
-# Available vaults: personal (default), work, smart-notes, bramses, or custom path
-# Example: obsidian_nvim work
-def obsidian_nvim [
-  vault: string = "personal"  # Default to personal vault
-] {
-  let base_path = "~/source/obsidian"
-
-  # Vault path resolution with work environment detection
-  let vault_path = if $vault == "personal" {
-    $"($base_path)/obsidian-vault"
-  } else if $vault == "work" and {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}true{{ else }}false{{ end }} {
-    # Work vault only available in work environments
-    $"($base_path)/obsidian-vault-work"
-  } else if $vault == "smart-notes" {
-    $"($base_path)/smart-notes"
-  } else if $vault == "bramses" {
-    $"($base_path)/bramses-highly-opinionated-vault-2023"
-  } else {
-    # Custom vault path
-    $"($base_path)/($vault)"
-  }
-
-  # Navigate to vault and open in Neovim with Obsidian integration
-  cd $vault_path
-  nvim
-}
-
 ##
 ## GITHUB REPOSITORY MANAGEMENT
 ##
