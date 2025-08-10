@@ -15,7 +15,7 @@ dot_config/borders/
 dot_config/private_karabiner/
 {{- end }}
 
-{{- $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) }}
+{{- $shared := (include ".chezmoidata/env_vars/shared.yaml" | fromYaml) }}
 {{- if ne $shared.variables.INSTALL_SKETCHY_BAR "true" }}
 dot_config/sketchybar/
 {{- end }}

@@ -254,6 +254,7 @@ SameSite
 Scikit
 scramp
 Seaborn
+SessionX
 setuptools
 shellcheck
 SIGPIPE
@@ -277,6 +278,7 @@ tmux
 toml
 tomlkit
 toolchain
+TPM
 tqdm
 traitlets
 Treewalker
