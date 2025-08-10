@@ -42,7 +42,8 @@ local volume_bracket = sbar.add("bracket", "widgets.volume.bracket", {
 	volume_percent.name,
 }, {
 	background = { 
-		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
 	},
 	popup = { align = "center" },
 })
