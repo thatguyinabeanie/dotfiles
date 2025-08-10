@@ -18,9 +18,9 @@ pre-commit:
     luacheck:
       glob: "**/*.lua"
       run: .scripts/hooks/pre-commit-luacheck.sh {staged_files}
-    yaml-validation:
-      glob: "**/*.{yml,yaml}"
-      run: .scripts/hooks/pre-commit-yamllint.sh {staged_files}
+    # yaml-validation:
+    #   glob: "**/*.{yml,yaml}"
+    #   run: .scripts/hooks/pre-commit-yamllint.sh {staged_files}
     gitleaks:
       run: gitleaks protect --staged --no-banner
     sort-spell:

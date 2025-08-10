@@ -10,8 +10,8 @@
 # The --apply flag automatically runs 'chezmoi apply' to load the variable into your current environment
 
 def _platform_env_backend [] {
-    # Only use defaults on macOS systems
-    if ($nu.os-info.name == "macos") and (($env.WORK_ENVIRONMENT? | default "true") != "false") {
+    # Use defaults on macOS systems (both work and personal)
+    if ($nu.os-info.name == "macos") {
         "defaults"
     } else {
         "1password"

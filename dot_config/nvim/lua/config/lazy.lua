@@ -16,21 +16,19 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins/core" },
     { import = "plugins/llm" },
     { import = "plugins/ui" },
-    { import = "plugins/snacks" },
     { import = "plugins/utilities" },
   },
   defaults = {
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "catppuccin", "tokyonight", "habamax"} },
+  install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
   checker = {
     enabled = true,
     notify = true,
@@ -45,8 +43,8 @@ require("lazy").setup({
     border = "rounded",
   },
   rocks = {
-    enabled = not (os.getenv("CI") == "true"), -- Disable luarocks in CI
-    hererocks = not (os.getenv("CI") == "true"), -- Use hererocks locally, disable in CI
+    enabled = os.getenv("CI") ~= "true", -- Disable luarocks in CI
+    hererocks = os.getenv("CI") ~= "true", -- Use hererocks locally, disable in CI
   },
   performance = {
     rtp = {

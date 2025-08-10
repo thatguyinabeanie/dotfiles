@@ -11,23 +11,6 @@ tools:
       description: "System information tool"
 
   # =============================================================================
-  # FILE & SEARCH TOOLS - File browsing, searching, and content viewing
-  # =============================================================================
-  file_tools:
-    - name: bat
-      version: latest
-      description: "Cat clone with syntax highlighting"
-    - name: eza
-      version: latest
-      description: "Modern ls replacement"
-    - name: fd
-      version: latest
-      description: "Fast find alternative"
-    - name: ripgrep
-      version: latest
-      description: "Fast grep alternative"
-
-  # =============================================================================
   # DATA PROCESSING - JSON, benchmarking, and data manipulation tools
   # =============================================================================
   data_tools:

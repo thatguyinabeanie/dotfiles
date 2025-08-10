@@ -10,6 +10,9 @@ mise.toml
 
 {{- if ne .chezmoi.os "darwin" }}
 Library/
+dot_config/aerospace/
+dot_config/borders/
+dot_config/private_karabiner/
 {{- end }}
 
 {{- $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) }}

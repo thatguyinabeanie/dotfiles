@@ -27,6 +27,15 @@ return {
 
         preset = {
           keys = {
+            -- Project Management
+            {
+              icon = "󰉋 ",
+              key = "p",
+              desc = "Projects",
+              action = function()
+                Snacks.picker.projects()
+              end,
+            },
             -- File Operations
             {
               icon = "󰈞 ",
@@ -51,15 +60,6 @@ return {
               desc = "Find Text",
               action = function()
                 Snacks.picker.grep()
-              end,
-            },
-            -- Project Management
-            {
-              icon = "󰉋 ",
-              key = "p",
-              desc = "Projects",
-              action = function()
-                Snacks.picker.projects()
               end,
             },
             -- Configuration

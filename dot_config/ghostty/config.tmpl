@@ -1,13 +1,13 @@
 ##
 ## WINDOW SETTINGS
 ##
-window-height = {{ .ghostty.window_height }}
-window-width = {{ .ghostty.window_width  }}
-background-opacity = {{ .ghostty.opacity }}
-background-blur = {{ .ghostty.blur }}
+window-height = {{ .ui.window_height }}
+window-width = {{ .ui.window_width }}
+background-opacity = {{ .ui.opacity }}
+background-blur = {{ .ui.blur }}
 quit-after-last-window-closed=true
-window-padding-y = 16
-#window-padding-x = 16
+window-padding-y = 4
+#window-padding-x = 4
 
 ##
 ## GENERAL SETTINGS
@@ -22,13 +22,12 @@ auto-update = download
 
 # Runs only on the first time Ghostty is opened,
 # Attaches to TMUX session 'ghostty' if it exists, otherwise creates a new session, then attaches
+# COMMENTED OUT: tmux logic moved to shell configs for per-window attachment
 
 {{ if and (hasKey . "SHELL") (eq .SHELL "nu") -}}
 initial-command = ~/.config/ghostty/ghostty-init.nu
-command = /opt/homebrew/bin/nu
 {{ else -}}
 initial-command = ~/.config/ghostty/ghostty-init.zsh
-command = zsh
 {{ end -}}
 
 
@@ -55,10 +54,10 @@ theme = {{ .THEME_LIGHT }}
 ##
 ## FONT + CURSOR
 ##
-font-family = {{ .ghostty.font_family }}
-font-thicken = {{ .ghostty.font_thicken }}
-font-size = {{ .ghostty.font_size }}
-cursor-style = {{ .ghostty.cursor_style }}
+font-family = {{ .ui.font_family }}
+font-thicken = {{ .ui.font_thicken }}
+font-size = {{ .ui.font_size }}
+cursor-style = {{ .ui.cursor_style }}
 cursor-style-blink = true
 
 ##
@@ -66,8 +65,11 @@ cursor-style-blink = true
 ##
 
 #new tab opens tmux window in existing tmux session
-keybind = super+t=text:\x01c 
+keybind = super+t=text:\x01c
 
 #closes tmux window in existing tmux session
-keybind = super+w=text:\x01X 
+keybind = super+w=text:\x01X
+
+#closes ghostty window when not in tmux
+keybind = super+ctrl+w=close_window
 

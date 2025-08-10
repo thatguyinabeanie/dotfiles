@@ -99,7 +99,7 @@ export {{ $key }}="{{ $value }}"
 ##
 ## PERSONAL ENVIRONMENT
 ##
-{{ if and (hasKey . "PERSONAL_ENVIRONMENT") (eq .PERSONAL_ENVIRONMENT true) -}}
+{{ if eq (.PERSONAL_ENVIRONMENT | default false) true -}}
 {{ if hasKey $personal "personal" -}}
 {{ range $key, $value := $personal.personal -}}
 {{- if eq $key "PERSONAL_ENVIRONMENT" }}

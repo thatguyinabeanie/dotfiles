@@ -6,9 +6,11 @@
 # - name: Service name (required)
 # - description: Human-readable description (optional)
 # - action: "start" (only start if stopped) or "restart" (always restart) (required)
-# - enable: Controls whether the service should be managed (optional, defaults to true)
-#   - true: Always manage the service (default if not specified)
-#   - false: Stop the service if running, don't start it
+# - active: Controls whether the service should be running (required, boolean)
+#   - true: Service should be running and managed
+#   - false: Service should be stopped and not managed
+# - condition: When to manage the service (optional, defaults to "always")
+#   - "always": Always manage the service (default if not specified)
 #   - "ifInstalled": Only manage if the service binary is installed on the system
 
 services:
@@ -16,14 +18,16 @@ services:
   - name: "sketchybar"
     description: "Custom macOS menu bar"
     action: "restart"
-    enable: "ifInstalled"
+    active: true
+    condition: "ifInstalled"
 
   - name: "borders"
+    active: false
     description: "Window borders for macOS"
     action: "start"
 
   - name: "redis"
-    enable: "false"
+    active: false
     description: "Redis in-memory data store"
     action: "start"
 
