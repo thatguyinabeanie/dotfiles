@@ -1,11 +1,11 @@
 #!/bin/zsh
 # Generated from consolidated environment configuration
-# Edit .chezmoidata/environment/ files to modify
+# Edit .chezmoidata/env_vars/ files to modify
 
-{{ $shared := (include ".chezmoidata/environment/shared.yaml" | fromYaml) -}}
-{{ $path := (include ".chezmoidata/environment/path.yaml" | fromYaml) -}}
-{{ $work := (include ".chezmoidata/environment/work.yaml" | fromYaml) -}}
-{{ $personal := (include ".chezmoidata/environment/personal.yaml" | fromYaml) -}}
+{{ $shared := (include ".chezmoidata/env_vars/shared.yaml" | fromYaml) -}}
+{{ $path := (include ".chezmoidata/env_vars/path.yaml" | fromYaml) -}}
+{{ $work := (include ".chezmoidata/env_vars/work.yaml" | fromYaml) -}}
+{{ $personal := (include ".chezmoidata/env_vars/personal.yaml" | fromYaml) -}}
 
 ##
 ## SIMPLE VARIABLES

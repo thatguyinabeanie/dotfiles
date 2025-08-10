@@ -1,5 +1,5 @@
 {{- $current_hostname := output "hostname" | trim -}}
-{{- $config_helper := joinPath .chezmoi.sourceDir ".scripts" "utilities" "config-persistence-helpers.sh" -}}
+{{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "config-persistence-helpers.sh" -}}
 {{- $backup_script := joinPath .chezmoi.sourceDir ".scripts" "utilities" "chezmoi-backup-config" -}}
 
 # Hooks - automatically backup configuration after apply
@@ -38,6 +38,7 @@ window_height              = {{ (env "UI_WINDOW_HEIGHT") | default (output "bash
 window_width               = {{ (env "UI_WINDOW_WIDTH") | default (output "bash" "-c" (printf "%s read ui_window_width" ($config_helper | quote)) | trim) | default "160" | quote }}
 font_thicken               = {{ (env "UI_FONT_THICKEN") | default (output "bash" "-c" (printf "%s read ui_font_thicken" ($config_helper | quote)) | trim) | default "true" }}
 cursor_style               = {{ (env "UI_CURSOR_STYLE") | default (output "bash" "-c" (printf "%s read ui_cursor_style" ($config_helper | quote)) | trim) | default "block_hollow" | quote }}
+cursor_blink               = {{ (env "UI_CURSOR_BLINK") | default (output "bash" "-c" (printf "%s read ui_cursor_blink" ($config_helper | quote)) | trim) | default "true" }}
 
 {{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
