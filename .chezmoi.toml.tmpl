@@ -284,26 +284,6 @@
   {{- end -}}
 {{- end -}}
 {{- $THEME_MODE := env "THEME_MODE" | default "dark" -}}
-{{- /* =================== GIT CONFIGURATION SETUP =================== */ -}}
-{{- /* Initialize Git configuration variables */ -}}
-{{- $GIT_NAME := "" -}}
-{{- $GITHUB_USERNAME := "" -}}
-{{- $GIT_EMAIL := "" -}}
-{{- /* Set Git configuration based on environment */ -}}
-{{- /* Use environment variables or default values */ -}}
-{{- $GIT_NAME = env "GIT_NAME" | default "Gabe Mendoza" -}}
-{{- $GITHUB_USERNAME = env "GITHUB_USERNAME" | default "thatguyinabeanie" -}}
-{{- $GIT_EMAIL = env "GIT_EMAIL" | default "thatguyin@beanie.gg" -}}
-{{/* Prompt for missing Git values */}}
-{{- if not $GIT_NAME -}}
-  {{- $GIT_NAME = promptStringOnce . "git_name" "Git author name" "Gabe Mendoza" -}}
-{{- end -}}
-{{- if not $GITHUB_USERNAME -}}
-  {{- $GITHUB_USERNAME = promptStringOnce . "github_username" "GitHub username" "thatguyinabeanie" -}}
-{{- end -}}
-{{- if not $GIT_EMAIL -}}
-  {{- $GIT_EMAIL = promptStringOnce . "git_email" "Git author email" "thatguyin@beanie.gg" -}}
-{{- end -}}
 {{/* =================== CONFIGURATION OUTPUT =================== */}}
 {{/* Generate the final configuration file */}}
 [data]
@@ -341,10 +321,6 @@ window_width               = "160"
 font_thicken               = true                       {{/* Enable font thickening for readability */}}
 cursor_style               = "block_hollow"            {{/* Hollow block cursor style */}}
 
-[data.tmux]
-show_hostname              = false
-status_right_length        = 100
-
 {{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
 name                       = "Gabe Mendoza"
@@ -354,14 +330,3 @@ defaultRefreshPeriod       = "{{ $refreshPeriod }}h"
 work_org                   = {{ $WORK_ORG | quote }}
 work_environment           = {{ $WORK_ENVIRONMENT }}
 
-{{/* ===== INSTALLATION FLAGS ===== */}}
-[data.install]
-obsidian                   = true                       {{/* Enable Obsidian installation */}}
-
-{{/* ===== CHEZMOI INTERNAL SETTINGS ===== */}}
-[warnings]
-configFileTemplateHasChanged = false                   {{/* Suppress template change warnings */}}
-
-{{/* ===== AI INTEGRATION CONFIGURATION ===== */}}
-[data.ai]
-gemini_api_key             = "replace_with_gemini_api_key"  {{/* Placeholder for Gemini API key */}}
