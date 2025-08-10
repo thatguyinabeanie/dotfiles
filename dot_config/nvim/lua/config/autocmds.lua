@@ -24,47 +24,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end,
 })
 
--- -- Obsidian and Markdown files
--- vim.api.nvim_create_autocmd({ "FileType" }, {
---   pattern = { "markdown" },
---   callback = function()
---     -- Enable spell checking
---     vim.opt_local.spell = true
---     vim.opt_local.spelllang = "en_us"
---
---     -- Enable soft wrapping for markdown files
---     vim.opt_local.wrap = true
---     vim.opt_local.linebreak = true
---     vim.opt_local.breakindent = true
---
---     -- Set tab settings for markdown
---     vim.opt_local.tabstop = 2
---     vim.opt_local.softtabstop = 2
---     vim.opt_local.shiftwidth = 2
---     vim.opt_local.expandtab = true
---
---     -- Set conceallevel for markdown
---     vim.opt_local.conceallevel = 2
---
---     -- Disable auto-pairs for markdown files to avoid issues with brackets in links
---     -- vim.g.AutoPairsMapSpace = 0
---   end,
--- })
---
--- Detect Obsidian vault files
--- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
---   pattern = {
---     "*/obsidian-vault/**/*.md",
---     "*/obsidian-vault-work/**/*.md",
---     "*/smart-notes/**/*.md",
---     "*/bramses-highly-opinionated-vault-2023/**/*.md",
---   },
---   callback = function()
---     -- Set filetype to markdown
---     vim.opt_local.filetype = "markdown.obsidian"
---
---     -- Enable Obsidian-specific settings
---     vim.b.obsidian_file = true
 --   end,
 -- })
 

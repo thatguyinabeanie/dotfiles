@@ -192,7 +192,6 @@ return {
 	["Nova"] = ":nova:",
 	["Numbers"] = ":numbers:",
 	["Numbers 表格"] = ":numbers:",
-	["Obsidian"] = ":obsidian:",
 	["OBS"] = ":obsstudio:",
 	["OmniFocus"] = ":omni_focus:",
 	["1Password"] = ":one_password:",

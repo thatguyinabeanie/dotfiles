@@ -56,6 +56,47 @@ During installation, the system prompts for configuration values that shape your
 | `GIT_EMAIL`         | Git commit author email                      | -       |
 | `GITHUB_USERNAME`   | GitHub username                              | -       |
 
+## 💾 Persistent configuration
+
+![Porygon](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png)
+
+This dotfiles system includes a **persistent configuration system** that ensures your preferences survive across system reinstalls and config deletions.
+
+### 🔄 Three-tier precedence
+
+Your configuration values follow a smart precedence system:
+
+1. **Environment Variables** (highest) - `export SHELL_PREF=zsh`
+2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings  
+3. **Template Defaults** (fallback) - hardcoded sensible defaults
+
+### 🛠️ Management commands
+
+```bash
+# Backup current configuration to persistent storage
+chezmoi-backup-config
+
+# Restore configuration from persistent storage
+chezmoi-restore-config
+
+# View all stored configuration values
+config-persistence-helpers.sh list
+
+# Manage individual values
+config-persistence-helpers.sh write shell_pref zsh
+config-persistence-helpers.sh read shell_pref
+```
+
+### ✨ Key benefits
+
+- **Durable storage** - Config survives `~/.config/chezmoi/chezmoi.toml` deletion
+- **Cross-machine sync** - Restore preferences on new machines
+- **Safe recovery** - Always backs up existing config before restoration
+- **Platform native** - Uses macOS defaults, Linux dconf/gsettings
+- **Backward compatible** - Existing workflows continue unchanged
+
+See [PERSISTENT_CONFIGURATION.md](.docs/PERSISTENT_CONFIGURATION.md) for complete documentation.
+
 ## ⚡ Features
 
 ### 🚀 Modern development environment
@@ -69,15 +110,6 @@ During installation, the system prompts for configuration values that shape your
 - **Version Control**: Git, integrated with many tools and quality checks.
 - **Tool Versioning**: Consistent development tool versions managed by Mise.
 - **Prompt**: Highly customizable and informative prompt with Starship.
-
-### 📝 Knowledge management
-
-![Cosmog](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/790.png)
-
-- **Obsidian**: For extensive note-taking and personal knowledge base.
-  - Support for many vaults (for example, personal and work).
-  - Templated configuration based on environment.
-  - Neovim integration via Obsidian.nvim.
 
 ### 🛠️ Key utilities & productivity boosters
 
@@ -98,14 +130,19 @@ During installation, the system prompts for configuration values that shape your
 dotfiles/
 ├── 🚀 dot_config/
 │   ├── nvim/
-│   ├── obsidian/                # Obsidian configuration
-│   │   ├── config.json.tmpl     # Templated Obsidian config
 │   │   └── run_once_after_*.sh  # Work vault setup script
 │   ├── tmux/
 │   └── ...
 ├── 🔭 .chezmoidata/             # YAML data files
+├── 💾 .scripts/utilities/       # Persistent configuration system
+│   ├── config-persistence-helpers.sh
+│   ├── chezmoi-backup-config
+│   └── chezmoi-restore-config
+├── 📚 .docs/                    # Documentation
+│   ├── PERSISTENT_CONFIGURATION.md
+│   └── ...
 ├── 📁 Pictures/Wallpapers/      # Wallpaper collection
-└── 🌠 .chezmoi.toml.tmpl
+└── 🌠 .chezmoi.toml.tmpl        # Enhanced with persistent storage
 ```
 
 ## 🎨 Theme control system
@@ -190,7 +227,6 @@ plt.show()  # Renders inline!
 - [Chezmoi](https://www.chezmoi.io/) - Dotfile manager
 - [Nushell](https://www.nushell.sh/) - Modern shell
 - [Neovim](https://neovim.io/) - Text editor
-- [Obsidian](https://obsidian.md/) - Knowledge management
 - [Homebrew](https://brew.sh/) - Package manager
 
 ## 🌠 Contributing
@@ -306,7 +342,6 @@ git_emoji_commit "your commit message"
 poke_system_info
 
 # Obsidian vault management
-obsidian_nvim [personal|work|smart-notes|bramses]
 
 # macOS Spotify controls
 spotify_play / spotify_pause / spotify_next / spotify_prev

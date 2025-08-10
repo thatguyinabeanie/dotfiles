@@ -62,7 +62,7 @@ write_machine_identity() {
   case "${storage_method}" in
     macos_defaults)
       case "${key}" in
-        work_environment)
+        work_environment|personal_environment)
           defaults write com.chezmoi.machine "${key}" -bool "${value}"
           ;;
         *)
@@ -73,7 +73,7 @@ write_machine_identity() {
     dconf)
       local dconf_key="/com/chezmoi/machine/${key//_/-}"
       case "${key}" in
-        work_environment)
+        work_environment|personal_environment)
           dconf write "${dconf_key}" "${value,,}"
           ;;
         *)
@@ -84,7 +84,7 @@ write_machine_identity() {
     gsettings)
       local gsettings_key="${key//_/-}"
       case "${key}" in
-        work_environment)
+        work_environment|personal_environment)
           gsettings set com.chezmoi.machine "${gsettings_key}" "${value,,}"
           ;;
         *)
@@ -116,26 +116,66 @@ EOF
   esac
 }
 
-# Check if machine identity is configured
+# Check if machine identity is configured or needs updating
 is_machine_identity_configured() {
   local storage_method="${1:-$(detect_storage_method)}"
   local work_env="$(read_machine_identity "work_environment" "${storage_method}")"
+  local personal_env="$(read_machine_identity "personal_environment" "${storage_method}")"
   
-  [[ -n "${work_env}" ]]
+  # Check if basic identity exists
+  if [[ -z "${work_env}" ]]; then
+    return 1  # Not configured
+  fi
+  
+  # Check if current chezmoi data matches stored data (for updates)
+  local chezmoi_work="{{ .WORK_ENVIRONMENT | default "false" }}"
+  {{- if hasKey . "PERSONAL_ENVIRONMENT" }}
+  local chezmoi_personal="{{ .PERSONAL_ENVIRONMENT | default "false" }}"
+  {{- else }}
+  local chezmoi_personal="{{ not .WORK_ENVIRONMENT }}"
+  {{- end }}
+  
+  # Normalize values for comparison
+  normalize_boolean() {
+    local value="$1"
+    case "$value" in
+      "1"|"true"|"True"|"TRUE") echo "true" ;;
+      "0"|"false"|"False"|"FALSE"|"") echo "false" ;;
+      *) echo "$value" ;;
+    esac
+  }
+  
+  local norm_stored_work="$(normalize_boolean "${work_env}")"
+  local norm_stored_personal="$(normalize_boolean "${personal_env}")"
+  local norm_chezmoi_work="$(normalize_boolean "${chezmoi_work}")"
+  local norm_chezmoi_personal="$(normalize_boolean "${chezmoi_personal}")"
+  
+  # Return success (0) if values match, failure (1) if update needed
+  [[ "${norm_stored_work}" == "${norm_chezmoi_work}" ]] && [[ "${norm_stored_personal}" == "${norm_chezmoi_personal}" ]]
 }
 
 echo "🔧 Setting up machine configuration"
 
-# Set up machine identity if not already configured
+# Set up machine identity if not already configured or needs updating
 if ! is_machine_identity_configured; then
-  echo "📝 Configuring machine identity (first time setup)"
+  # Determine if this is first time setup or an update
+  STORAGE_METHOD="$(detect_storage_method)"
+  STORED_WORK_ENV="$(read_machine_identity "work_environment" "${STORAGE_METHOD}")"
+  
+  if [[ -z "${STORED_WORK_ENV}" ]]; then
+    echo "📝 Configuring machine identity (first time setup)"
+    FIRST_TIME_SETUP=true
+  else
+    echo "🔄 Updating machine identity (environment changed)"
+    FIRST_TIME_SETUP=false
+  fi
   
   # Detect storage method
-  STORAGE_METHOD="$(detect_storage_method)"
   echo "📦 Using storage method: ${STORAGE_METHOD}"
   
   # Read values from defaults first, fallback to chezmoi data
   WORK_ENV="$(read_machine_identity "work_environment" "${STORAGE_METHOD}")"
+  PERSONAL_ENV="$(read_machine_identity "personal_environment" "${STORAGE_METHOD}")"
   WORK_ORG="$(read_machine_identity "work_org" "${STORAGE_METHOD}")"
   HOSTNAME_SETTING="$(read_machine_identity "hostname" "${STORAGE_METHOD}")"
   SHELL_PREF="$(read_machine_identity "shell" "${STORAGE_METHOD}")"
@@ -145,6 +185,20 @@ if ! is_machine_identity_configured; then
   if [[ -z "${WORK_ENV}" ]]; then
     WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
     echo "📥 Reading work_environment from chezmoi data: ${WORK_ENV}"
+  fi
+  
+  if [[ -z "${PERSONAL_ENV}" ]]; then
+    {{- if hasKey . "PERSONAL_ENVIRONMENT" }}
+    PERSONAL_ENV="{{ .PERSONAL_ENVIRONMENT | default "false" }}"
+    {{- else }}
+    # Default to opposite of work environment if not explicitly set
+    if [[ "${WORK_ENV}" == "true" ]]; then
+      PERSONAL_ENV="false"
+    else
+      PERSONAL_ENV="true"
+    fi
+    {{- end }}
+    echo "📥 Reading personal_environment from chezmoi data: ${PERSONAL_ENV}"
   fi
   
   if [[ -z "${WORK_ORG}" ]]; then
@@ -170,8 +224,21 @@ if ! is_machine_identity_configured; then
   # Persist to platform storage (defaults/dconf/etc)
   echo "💾 Saving machine identity to ${STORAGE_METHOD}..."
   write_machine_identity "work_environment" "${WORK_ENV}" "${STORAGE_METHOD}"
-  write_machine_identity "work_org" "${WORK_ORG}" "${STORAGE_METHOD}"
+  write_machine_identity "personal_environment" "${PERSONAL_ENV}" "${STORAGE_METHOD}"
+  if [[ -n "${WORK_ORG}" ]]; then
+    write_machine_identity "work_org" "${WORK_ORG}" "${STORAGE_METHOD}"
+  fi
   write_machine_identity "hostname" "${HOSTNAME_SETTING}" "${STORAGE_METHOD}"
+  write_machine_identity "last_updated" "$(date -Iseconds)" "${STORAGE_METHOD}"
+  
+  # Store TouchID configuration status
+  {{- if eq .chezmoi.os "darwin" }}
+  if [ -f "/etc/pam.d/sudo_local" ] && grep -q "pam_tid.so" "/etc/pam.d/sudo_local" 2>/dev/null; then
+    write_machine_identity "touchid_configured" "true" "${STORAGE_METHOD}"
+  else
+    write_machine_identity "touchid_configured" "false" "${STORAGE_METHOD}"
+  fi
+  {{- end }}
   
   # Store preferences if they were set interactively
   if [[ -n "${SHELL_PREF}" ]]; then
@@ -184,6 +251,7 @@ if ! is_machine_identity_configured; then
   echo "✅ Machine identity configured:"
   echo "   Storage method: ${STORAGE_METHOD}"
   echo "   Work Environment: ${WORK_ENV}"
+  echo "   Personal Environment: ${PERSONAL_ENV}"
   echo "   Work Org: ${WORK_ORG}"
   echo "   Hostname: ${HOSTNAME_SETTING}"
   if [[ -n "${SHELL_PREF}" ]]; then
@@ -228,10 +296,25 @@ TARGET_HOSTNAME="{{ $target_hostname }}"
 CHANGES_NEEDED=false
 SUDO_COMMANDS=""
 
-# Check TouchID setup
-if [ ! -f "/etc/pam.d/sudo_local" ]; then
-  SUDO_COMMANDS="${SUDO_COMMANDS}echo 'auth       sufficient     pam_tid.so' > /etc/pam.d/sudo_local"$'\n'
-  CHANGES_NEEDED=true
+# Check TouchID setup - only if not already tracked as configured
+TOUCHID_CONFIGURED="$(read_machine_identity "touchid_configured" "${STORAGE_METHOD:-$(detect_storage_method)}")"
+
+if [[ "${TOUCHID_CONFIGURED}" != "true" ]]; then
+  # Check actual TouchID status
+  if [ ! -f "/etc/pam.d/sudo_local" ] || ! grep -q "pam_tid.so" "/etc/pam.d/sudo_local" 2>/dev/null; then
+    SUDO_COMMANDS="${SUDO_COMMANDS}echo 'auth       sufficient     pam_tid.so' > /etc/pam.d/sudo_local"$'\n'
+    CHANGES_NEEDED=true
+    echo "🔐 TouchID for sudo needs configuration"
+  else
+    # TouchID is already configured but not tracked in defaults
+    echo "✅ TouchID for sudo already configured (updating defaults)"
+    if ! $FIRST_TIME_SETUP; then
+      STORAGE_METHOD_FOR_UPDATE="$(detect_storage_method)"
+      write_machine_identity "touchid_configured" "true" "${STORAGE_METHOD_FOR_UPDATE}"
+    fi
+  fi
+else
+  echo "✅ TouchID for sudo already configured and tracked"
 fi
 
 # Check hostname
@@ -246,52 +329,29 @@ fi
 if $CHANGES_NEEDED; then
   if $FIRST_TIME_SETUP; then
     echo "🔐 Configuring system settings (sudo required)..."
+  else
+    echo "🔐 Applying system configuration changes (sudo required)..."
   fi
   
   if [[ -n "$SUDO_COMMANDS" ]]; then
     echo "$SUDO_COMMANDS" | sudo bash
     
-    # Verify results
+    # Update TouchID status after successful configuration
+    if echo "$SUDO_COMMANDS" | grep -q "pam_tid"; then
+      STORAGE_METHOD_FOR_UPDATE="$(detect_storage_method)"
+      write_machine_identity "touchid_configured" "true" "${STORAGE_METHOD_FOR_UPDATE}"
+      echo "✅ TouchID sudo enabled and tracked"
+    fi
+    
+    # Verify hostname results
     if $HOSTNAME_NEEDS_SETTING; then
       echo "✅ Hostname set to: $TARGET_HOSTNAME"
-    fi
-    if [ ! -f "/etc/pam.d/sudo_local" ]; then
-      echo "✅ TouchID sudo enabled"
     fi
   fi
 else
   if $FIRST_TIME_SETUP; then
     echo "✅ System already configured correctly"
   fi
-fi
-
-# Hostname setting
-if [ "$HOSTNAME_NEEDS_SETTING" = "true" ] && [ -n "$TARGET_HOSTNAME" ]; then
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '${TARGET_HOSTNAME}'"$'\n'
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '${TARGET_HOSTNAME}'"$'\n'
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '${TARGET_HOSTNAME}'"$'\n'
-  SUDO_COMMANDS="${SUDO_COMMANDS}dscacheutil -flushcache"$'\n'
-  echo "📋 Hostname change needed: $CURRENT_HOSTNAME → $TARGET_HOSTNAME"
-else
-  echo "✅ Hostname already correct: {{ $current_hostname }}"
-fi
-
-# Execute all sudo commands at once if any are needed
-if [ -n "$SUDO_COMMANDS" ]; then
-  echo "🔑 Executing system configuration changes..."
-  sudo bash -c "$SUDO_COMMANDS"
-  
-  if [ "$HOSTNAME_NEEDS_SETTING" = "true" ]; then
-    echo "✅ Hostname set to: $TARGET_HOSTNAME"
-    echo "ℹ️  You may need to restart Terminal for all changes to take effect"
-  fi
-  
-  # Check if TouchID was configured by looking for pam_tid in the commands
-  if echo "$SUDO_COMMANDS" | grep -q "pam_tid"; then
-    echo "✅ TouchID sudo enabled"
-  fi
-else
-  echo "✅ No system configuration changes needed"
 fi
 
 {{- else }}
@@ -306,7 +366,13 @@ if $FIRST_TIME_SETUP; then
   # Quick validation
   VALIDATION_STORAGE_METHOD="$(detect_storage_method)"
   STORED_WORK_ENV="$(read_machine_identity "work_environment" "${VALIDATION_STORAGE_METHOD}")"
+  STORED_PERSONAL_ENV="$(read_machine_identity "personal_environment" "${VALIDATION_STORAGE_METHOD}")"
   CHEZMOI_WORK_ENV="{{ .WORK_ENVIRONMENT | default "false" }}"
+  {{- if hasKey . "PERSONAL_ENVIRONMENT" }}
+  CHEZMOI_PERSONAL_ENV="{{ .PERSONAL_ENVIRONMENT | default "false" }}"
+  {{- else }}
+  CHEZMOI_PERSONAL_ENV="{{ not .WORK_ENVIRONMENT }}"
+  {{- end }}
   
   # Normalize boolean values for comparison
   normalize_boolean() {
@@ -319,12 +385,16 @@ if $FIRST_TIME_SETUP; then
   }
   
   NORMALIZED_STORED_WORK_ENV="$(normalize_boolean "${STORED_WORK_ENV:-false}")"
+  NORMALIZED_STORED_PERSONAL_ENV="$(normalize_boolean "${STORED_PERSONAL_ENV:-false}")"
   NORMALIZED_CHEZMOI_WORK_ENV="$(normalize_boolean "${CHEZMOI_WORK_ENV}")"
+  NORMALIZED_CHEZMOI_PERSONAL_ENV="$(normalize_boolean "${CHEZMOI_PERSONAL_ENV}")"
   
-  if [[ "${NORMALIZED_STORED_WORK_ENV}" == "${NORMALIZED_CHEZMOI_WORK_ENV}" ]]; then
+  if [[ "${NORMALIZED_STORED_WORK_ENV}" == "${NORMALIZED_CHEZMOI_WORK_ENV}" ]] && [[ "${NORMALIZED_STORED_PERSONAL_ENV}" == "${NORMALIZED_CHEZMOI_PERSONAL_ENV}" ]]; then
     echo "✅ Machine identity system configured and validated successfully!"
   else
-    echo "⚠️  Machine identity validation warning: storage=${STORED_WORK_ENV}, chezmoi=${CHEZMOI_WORK_ENV}"
+    echo "⚠️  Machine identity validation warning:"
+    echo "     Work: storage=${STORED_WORK_ENV}, chezmoi=${CHEZMOI_WORK_ENV}"
+    echo "     Personal: storage=${STORED_PERSONAL_ENV}, chezmoi=${CHEZMOI_PERSONAL_ENV}"
   fi
 else
   echo "✅ Machine identity system ready"
