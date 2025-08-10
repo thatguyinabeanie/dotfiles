@@ -29,7 +29,7 @@ sbar.default({
 		height = {{ .sketchybar.defaults.background_height }},
 		corner_radius = {{ .sketchybar.appearance.corner_radius }},
 		border_width = {{ .sketchybar.appearance.border_width }},
-		color = colors.with_alpha(colors.bg2, {{ .sketchybar.appearance.background_alpha }}),
+		color = colors.with_alpha(colors.bg2, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
 		blur_radius = {{ .sketchybar.appearance.blur_radius }},
 		image = {
 			corner_radius = {{ .sketchybar.appearance.corner_radius }},
@@ -40,7 +40,7 @@ sbar.default({
 		background = {
 			border_width = {{ .sketchybar.appearance.border_width }},
 			corner_radius = {{ .sketchybar.appearance.corner_radius }},
-			color = colors.with_alpha(colors.popup.bg, {{ .sketchybar.appearance.background_alpha }}),
+			color = colors.with_alpha(colors.popup.bg, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
 			blur_radius = {{ .sketchybar.appearance.blur_radius }},
 			shadow = { drawing = true },
 		},

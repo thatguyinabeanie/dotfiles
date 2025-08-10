@@ -14,7 +14,7 @@ local apple = sbar.add("item", {
 	},
 	label = { drawing = false },
 	background = {
-		color = colors.with_alpha(colors.bg2, {{ .sketchybar.appearance.background_alpha }}),
+		color = colors.with_alpha(colors.bg2, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
 		border_width = {{ .sketchybar.appearance.border_width }},
 		blur_radius = {{ .sketchybar.appearance.blur_radius }},
 		corner_radius = {{ .sketchybar.appearance.corner_radius }},

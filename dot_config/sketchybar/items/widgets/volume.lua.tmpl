@@ -42,8 +42,7 @@ local volume_bracket = sbar.add("bracket", "widgets.volume.bracket", {
 	volume_percent.name,
 }, {
 	background = { 
-		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}),
-		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),		blur_radius = {{ .sketchybar.appearance.blur_radius }},
 	},
 	popup = { align = "center" },
 })
@@ -60,7 +59,7 @@ local volume_slider = sbar.add("slider", popup_width, {
 		background = {
 			height = {{ .sketchybar.widgets.volume.slider_height }},
 			corner_radius = {{ .sketchybar.widgets.volume.slider_corner_radius }},
-			color = colors.with_alpha(colors.bg2, {{ .sketchybar.appearance.background_alpha }}),
+			color = colors.with_alpha(colors.bg2, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
 			blur_radius = {{ .sketchybar.appearance.blur_radius }},
 		},
 		knob = {
@@ -69,7 +68,7 @@ local volume_slider = sbar.add("slider", popup_width, {
 		},
 	},
 	background = { 
-		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}), 
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}), 
 		height = 2, 
 		y_offset = -20,
 		blur_radius = {{ .sketchybar.appearance.blur_radius }},

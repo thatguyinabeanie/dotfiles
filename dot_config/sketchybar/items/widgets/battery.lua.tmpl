@@ -93,7 +93,7 @@ end)
 
 sbar.add("bracket", "widgets.battery.bracket", { battery.name }, {
 	background = { 
-		color = colors.with_alpha(colors.bg1, {{ .sketchybar.appearance.background_alpha }}),
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
 		blur_radius = {{ .sketchybar.appearance.blur_radius }},
 	},
 })
