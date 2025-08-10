@@ -1,0 +1,39 @@
+# Filetype configurations
+filetypes:
+  # Template mappings
+  templates:
+    lua: lua.tmpl
+    toml: toml.tmpl
+    bash: [sh.tmpl, zsh.tmpl]
+    nu: nu.tmpl
+
+  # LSP server mappings
+  lsp_servers:
+    javascript: typescript-language-server
+    typescript: typescript-language-server
+    javascriptreact: typescript-language-server
+    typescriptreact: typescript-language-server
+    rust: rust-analyzer
+    go: gopls
+    css: css-lsp
+    html: html-lsp
+    dockerfile: dockerfile-language-server
+
+  # Framework-specific filetypes
+  web_frameworks:
+    - html
+    - css
+    - scss
+    - javascript
+    - javascriptreact
+    - typescript
+    - typescriptreact
+    - vue
+    - svelte
+
+  typescript_stack:
+    - javascript
+    - javascriptreact
+    - typescript
+    - typescriptreact
+    - vue

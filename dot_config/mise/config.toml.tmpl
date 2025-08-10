@@ -2,8 +2,8 @@
 # Tools from tools.yaml sections
 {{- range $section_name, $tools := .tools }}
 {{- range $tool := $tools }}
-{{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -11,36 +11,36 @@
 # Languages from languages.yaml sections  
 {{- range $ecosystem_name, $tools := .languages }}
 {{- range $tool := $tools }}
-{{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
 
 # Node.js package managers from node.yaml
 {{- range $tool := (index .nodejs "package-managers") }}
-{{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 
 # Python tools from python.yaml (only items with versions)
 {{- range $tool := .python }}
-{{- if and (index $tool "name") (index $tool "version") }}
-{{ index $tool "name" }} = {{ index $tool "version" | quote }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 
 # Global npm packages from node.yaml
 {{- range $package := .nodejs.global }}
-"npm:{{ index $package "name" }}" = "latest"
+"npm:{{ $package.name }}" = "latest"
 {{- end }}
 
 [tasks.install-python-tools]
 description = "Install Python global packages via pipx"
 run = [
 {{- range $package := .python_packages }}
-  "pipx install {{ index $package "name" }} || echo 'Failed to install {{ index $package "name" }}'",
+  "pipx install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
 {{- end }}
 ]
 

@@ -4,18 +4,20 @@ local settings = require("settings")
 
 -- Execute the event provider binary which provides the event "cpu_update" for
 -- the cpu load data, which is fired every 2.0 seconds.
-sbar.exec("killall cpu_load >/dev/null; $CONFIG_DIR/helpers/event_providers/cpu_load/bin/cpu_load cpu_update 2.0")
+sbar.exec("killall cpu_load >/dev/null; $CONFIG_DIR/helpers/event_providers/cpu_load/bin/cpu_load '{{ .sketchybar.widgets.cpu.update_event | replaceAllRegex "[^A-Za-z0-9_]+" "" }}' '{{ printf "%.1f" .sketchybar.widgets.cpu.update_interval }}'")
 
-local cpu = sbar.add("graph", "widgets.cpu", 50, {
+local cpu = sbar.add("graph", "widgets.cpu", {{ .sketchybar.widgets.cpu.graph_width }}, {
 	position = "right",
 	graph = { color = colors.blue },
 	background = {
-		height = 36,
-		color = { alpha = 0 },
-		border_color = { alpha = 0 },
+		height = {{ .sketchybar.widgets.cpu.background_height }},
+		color = colors.with_alpha(colors.bg2, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		border_width = {{ .sketchybar.appearance.border_width }},
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+		corner_radius = {{ .sketchybar.appearance.corner_radius }},
 		drawing = true,
 	},
-	icon = { string = icons.cpu },
+	icon = { string = "{{ .sketchybar.widgets.cpu.icon_string | replaceAllRegex "[\"'\\\\]" "\\$0" }}" },
 	label = {
 		string = "cpu ??%",
 		font = {
@@ -59,11 +61,14 @@ end)
 
 -- Background around the cpu item
 sbar.add("bracket", "widgets.cpu.bracket", { cpu.name }, {
-	background = { color = colors.bg1 },
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
 })
 
 -- Background around the cpu item
 sbar.add("item", "widgets.cpu.padding", {
 	position = "right",
-	width = settings.group_paddings,
+	width = {{ .sketchybar.defaults.group_paddings }},
 })

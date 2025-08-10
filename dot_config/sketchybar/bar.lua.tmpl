@@ -1,0 +1,11 @@
+local colors = require("colors")
+
+-- Equivalent to the --bar domain
+sbar.bar({
+	height = {{ .sketchybar.bar.height }},
+	color = colors.bar.bg,
+	y_offset = {{ .sketchybar.bar.top_padding }},
+	margin = {{ .sketchybar.bar.side_margin }},
+	padding_right = {{ .sketchybar.defaults.padding }},
+	padding_left = {{ .sketchybar.defaults.padding }},
+})

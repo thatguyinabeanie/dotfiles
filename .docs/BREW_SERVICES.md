@@ -8,7 +8,7 @@ Services are configured during the initial dotfiles setup via a `run_once` scrip
 
 ## Configuration
 
-Services are configured in `.chezmoidata/brew-services.yaml`:
+Services are configured in `.chezmoidata/packages/macos/services.yaml`:
 
 ```yaml
 services:
@@ -88,7 +88,7 @@ excluded_services:
 ## Adding New Services
 
 1. Install the service via Homebrew
-2. Add it to `.chezmoidata/brew-services.yaml`
+2. Add it to `.chezmoidata/packages/macos/services.yaml`
 3. Use `bsvc` command to manage the new service
 
 ## Manual Service Management

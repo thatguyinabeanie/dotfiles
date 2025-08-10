@@ -7,11 +7,11 @@ local battery = sbar.add("item", "widgets.battery", {
 	icon = {
 		font = {
 			style = settings.font.style_map["Regular"],
-			size = 19.0,
+			size = {{ .sketchybar.widgets.battery.icon_size }},
 		},
 	},
 	label = { font = { family = settings.font.numbers } },
-	update_freq = 180,
+	update_freq = {{ .sketchybar.widgets.battery.update_freq }},
 	popup = { align = "center" },
 })
 
@@ -92,7 +92,10 @@ battery:subscribe("mouse.clicked", function(env)
 end)
 
 sbar.add("bracket", "widgets.battery.bracket", { battery.name }, {
-	background = { color = colors.bg1 },
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
 })
 
 sbar.add("item", "widgets.battery.padding", {
