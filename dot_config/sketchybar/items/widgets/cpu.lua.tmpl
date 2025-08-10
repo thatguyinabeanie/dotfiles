@@ -17,7 +17,7 @@ local cpu = sbar.add("graph", "widgets.cpu", {{ .sketchybar.widgets.cpu.graph_wi
 		corner_radius = {{ .sketchybar.appearance.corner_radius }},
 		drawing = true,
 	},
-	icon = { string = "{{ .sketchybar.widgets.cpu.icon_string }}" },
+	icon = { string = "{{ .sketchybar.widgets.cpu.icon_string | replaceAllRegex "[\"'\\\\]" "\\$0" }}" },
 	label = {
 		string = "cpu ??%",
 		font = {
