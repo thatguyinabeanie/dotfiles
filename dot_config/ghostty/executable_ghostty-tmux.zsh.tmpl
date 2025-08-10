@@ -20,7 +20,6 @@ SHELL_PATHS=(
 shell_path=""
 for path in "${SHELL_PATHS[@]}"; do
 	if [ -x "$path" ]; then
-    echo "Found shell at $path"
 		shell_path="$path"
 		break
 	fi
