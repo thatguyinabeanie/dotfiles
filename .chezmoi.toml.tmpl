@@ -368,29 +368,17 @@ YAZI_CATPPUCCIN_COLOR      = "blue"
 SUDO_TOUCHID               = "true"
 INTERACTIVE                = {{ $interactive }}
 
-{{/* ===== K9S TERMINAL UI CONFIGURATION ===== */}}
-[data.k9s]
-transparent                = {{ lt $opacity 1.0 -}}     {{/* Enable transparency if opacity < 1.0 */}}
 
-{{/* ===== GHOSTTY TERMINAL CONFIGURATION ===== */}}
-[data.ghostty]
-window_height              = {{ $window_height | quote }}
-window_width               = {{ $window_width | quote }}
-opacity                    = {{ $opacity | quote }}
-blur                       = {{ $blur | quote }}
-font_size                  = {{ $font_size | quote }}
+{{/* ===== CONSOLIDATED UI CONFIGURATION ===== */}}
+[data.ui]
+opacity                    = "0.5"
+blur                       = "255"
+font_size                  = "20"
+font_family                = "Dank Mono"
+window_height              = "65"
+window_width               = "160"
 font_thicken               = true                       {{/* Enable font thickening for readability */}}
-font_family                = {{ $font_family | quote }}
 cursor_style               = "block_hollow"            {{/* Hollow block cursor style */}}
-
-{{/* ===== KITTY TERMINAL CONFIGURATION ===== */}}
-[data.kitty]
-window_height              = {{ $window_height | quote }}
-window_width               = {{ $window_width | quote }}
-opacity                    = {{ $opacity | quote }}
-blur                       = {{ $blur | quote }}
-font_size                  = {{ $font_size | quote }}
-font_family                = {{ $font_family | quote }}
 
 [data.tmux]
 show_hostname              = false
