@@ -8,10 +8,49 @@ return {
     },
     build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
     config = function()
+      -- Dynamically detect the latest installed Node.js version managed by mise
+      local function get_latest_node_bin()
+        local node_installs_dir = vim.env.HOME .. "/.local/share/mise/installs/node/"
+        local uv = vim.loop
+        local handle = uv.fs_scandir(node_installs_dir)
+        if not handle then
+          return nil
+        end
+        local versions = {}
+        while true do
+          local name, typ = uv.fs_scandir_next(handle)
+          if not name then
+            break
+          end
+          if typ == "directory" and name:match("^%d+%.%d+%.%d+$") then
+            table.insert(versions, name)
+          end
+        end
+        table.sort(versions, function(a, b)
+          local function split(v)
+            local major, minor, patch = v:match("^(%d+)%.(%d+)%.(%d+)$")
+            return tonumber(major), tonumber(minor), tonumber(patch)
+          end
+          local a1, a2, a3 = split(a)
+          local b1, b2, b3 = split(b)
+          if a1 ~= b1 then
+            return a1 > b1
+          end
+          if a2 ~= b2 then
+            return a2 > b2
+          end
+          return a3 > b3
+        end)
+        if #versions == 0 then
+          return nil
+        end
+        return node_installs_dir .. versions[1] .. "/bin"
+      end
+
       -- Ensure mise tools are in PATH for Neovim
-      local mise_node_bin = vim.env.HOME .. "/.local/share/mise/installs/node/22.17.1/bin"
+      local mise_node_bin = get_latest_node_bin()
       local current_path = vim.env.PATH or ""
-      if not string.find(current_path, mise_node_bin, 1, true) then
+      if mise_node_bin and not string.find(current_path, mise_node_bin, 1, true) then
         vim.env.PATH = mise_node_bin .. ":" .. current_path
       end
 

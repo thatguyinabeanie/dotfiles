@@ -20,7 +20,10 @@ mcp_start() {
     if [[ -f "mcp.json" ]]; then
         if [[ -f "package.json" ]] && grep -q '"mcp:start"' package.json; then
             echo "🚀 Starting MCP server..."
-            pnpm mcp:start &
+            pnpm mcp:start & 
+            MCP_PID=$!
+            echo $MCP_PID > .mcp_server.pid
+            echo "📝 MCP server PID: $MCP_PID"
         else
             echo "⚠️  No mcp:start script found in package.json"
             return 1
@@ -34,7 +37,23 @@ mcp_start() {
 # Stop MCP servers
 mcp_stop() {
     echo "🛑 Stopping MCP servers..."
-    pkill -f "node.*mcp-server.js" && echo "✅ MCP servers stopped" || echo "⚠️  No MCP server processes found"
+    local pattern="${MCP_SERVER_PATTERN:-node.*mcp-server.js}"
+    
+    # First try to stop via PID file if it exists
+    if [[ -f ".mcp_server.pid" ]]; then
+        local pid=$(cat .mcp_server.pid)
+        if kill "$pid" 2>/dev/null; then
+            echo "✅ MCP server stopped (PID: $pid)"
+            rm -f .mcp_server.pid
+            return 0
+        else
+            echo "⚠️  PID $pid not found, trying pattern matching..."
+            rm -f .mcp_server.pid
+        fi
+    fi
+    
+    # Fallback to pattern matching
+    pkill -f "$pattern" && echo "✅ MCP servers stopped" || echo "⚠️  No MCP server processes found"
 }
 
 # Restart MCP server
@@ -47,7 +66,22 @@ mcp_restart() {
 # Show MCP status
 mcp_status() {
     mcp_check
-    if pgrep -f "node.*mcp-server.js" > /dev/null; then
+    local pattern="${MCP_SERVER_PATTERN:-node.*mcp-server.js}"
+    
+    # Check via PID file first
+    if [[ -f ".mcp_server.pid" ]]; then
+        local pid=$(cat .mcp_server.pid)
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "🟢 MCP server is running (PID: $pid)"
+            return 0
+        else
+            echo "⚠️  Stale PID file found, removing..."
+            rm -f .mcp_server.pid
+        fi
+    fi
+    
+    # Fallback to pattern matching
+    if pgrep -f "$pattern" > /dev/null; then
         echo "🟢 MCP server is running"
     else
         echo "🔴 MCP server is not running"

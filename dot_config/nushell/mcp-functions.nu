@@ -32,8 +32,12 @@ def mcp_start [] {
 # Stop MCP servers
 def mcp_stop [] {
     print "🛑 Stopping MCP servers..."
+    
+    # Get configurable pattern from environment or default
+    let pattern = ($env.MCP_SERVER_PATTERN? | default "node.*mcp-server.js")
+    
     try {
-        pkill -f "node.*mcp-server.js"
+        pkill -f $pattern
         print "✅ MCP servers stopped"
     } catch {
         print "⚠️  No MCP server processes found"
@@ -50,9 +54,17 @@ def mcp_restart [] {
 # Show MCP status
 def mcp_status [] {
     mcp_check
+    
+    # Get configurable pattern from environment or default
+    let pattern = ($env.MCP_SERVER_PATTERN? | default "node.*mcp-server.js")
+    
     try {
-        pgrep -f "node.*mcp-server.js" | length
-        print "🟢 MCP server is running"
+        let count = (pgrep -f $pattern | length)
+        if $count > 0 {
+            print $"🟢 MCP server is running \(($count) processes\)"
+        } else {
+            print "🔴 MCP server is not running"
+        }
     } catch {
         print "🔴 MCP server is not running"
     }
