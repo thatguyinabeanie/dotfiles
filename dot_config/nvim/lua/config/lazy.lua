@@ -20,7 +20,7 @@ require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     { import = "plugins/core" },
-    { import = "plugins/llm" },
+    { import = "plugins/ai" },
     { import = "plugins/ui" },
     { import = "plugins/utilities" },
   },
