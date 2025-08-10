@@ -1,0 +1,30 @@
+#!/bin/bash
+
+options=(
+	style={{ .jankyborders.style }}
+	width={{ .jankyborders.width }}
+{{- if .jankyborders.hidpi }}
+	hidpi=on
+{{- else }}
+	hidpi=off
+{{- end }}
+	active_color=0x{{ .jankyborders.colors.active }}
+	inactive_color=0x{{ .jankyborders.colors.inactive }}
+{{- if .jankyborders.ax_focus }}
+	ax_focus=on
+{{- else }}
+	ax_focus=off
+{{- end }}
+{{- if .jankyborders.blacklist }}
+{{- range $key, $app := .jankyborders.blacklist }}
+{{- if $app }}
+	blacklist="{{ $app }}"
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if and .jankyborders.animations .jankyborders.animations.enabled }}
+	animation_duration={{ .jankyborders.animations.duration }}
+{{- end }}
+)
+
+borders "${options[@]}"

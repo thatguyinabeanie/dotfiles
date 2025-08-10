@@ -170,6 +170,7 @@ mashumaro
 Matplotlib
 mccabe
 MCP
+MCPHub
 md
 Minior
 mise
@@ -238,6 +239,7 @@ pytz
 pyyaml
 pyzmq
 Raycast
+RBAC
 rbenv
 Redis
 redshift
@@ -286,6 +288,7 @@ txt
 TypeScript
 tzdata
 unidecode
+URIs
 urllib3
 useCurrentUser
 v1
