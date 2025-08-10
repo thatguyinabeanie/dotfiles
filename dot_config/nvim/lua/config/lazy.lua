@@ -43,8 +43,8 @@ require("lazy").setup({
     border = "rounded",
   },
   rocks = {
-    enabled = not (os.getenv("CI") == "true"), -- Disable luarocks in CI
-    hererocks = not (os.getenv("CI") == "true"), -- Use hererocks locally, disable in CI
+    enabled = os.getenv("CI") ~= "true", -- Disable luarocks in CI
+    hererocks = os.getenv("CI") ~= "true", -- Use hererocks locally, disable in CI
   },
   performance = {
     rtp = {
