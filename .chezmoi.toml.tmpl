@@ -258,8 +258,9 @@
 {{- end -}}
 {{- /* =================== DEFAULT VALUES =================== */ -}}
 {{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
-{{- $opacity := 0.5 -}}              {{/* Terminal transparency level */}}
-{{- $blur := 255 -}}                  {{/* Terminal background blur amount */}} {{- $font_size := 20 -}}             {{/* Default font size for terminals */}}
+{{- $opacity := 0.8 -}}              {{/* Terminal transparency level */}}
+{{- $blur := 255 -}}                  {{/* Terminal background blur amount */}}
+{{- $font_size := 20 -}}             {{/* Default font size for terminals */}}
 {{- $font_family := "Dank Mono" -}}  {{/* Preferred monospace font */}}
 {{- $window_height := 65 -}}         {{/* Terminal window height (rows) */}}
 {{- $window_width := 160 -}}         {{/* Terminal window width (columns) */}}

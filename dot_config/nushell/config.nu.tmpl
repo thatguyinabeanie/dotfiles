@@ -29,7 +29,7 @@ source ~/.config/fzf/fzf-theme.nu
 
 # Auto-attach to tmux session for interactive shells (opt-in)
 if ($env | get --optional TMUX | is-empty) and ($env | get --optional GHOSTTY_AUTO_TMUX) == "true" {
-  exec "/opt/homebrew/bin/tmux" new-session -A -s "ghostty"
+  exec "{{ output "which" "tmux" | trim }}" new-session -A -s "ghostty"
 }
 
 
