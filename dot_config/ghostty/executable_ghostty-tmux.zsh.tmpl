@@ -45,9 +45,13 @@ if [ -z "$TMUX" ] && [ -z "$GHOSTTY_NO_TMUX" ]; then
 	for tmux_path in "${TMUX_PATHS[@]}"; do
 		if [ -x "$tmux_path" ]; then
       echo "Found tmux at $tmux_path. Starting tmux session."
-			"$tmux_path" new-session -A -s 'ghostty' "$SHELL -l"
+			exec "$tmux_path" new-session -A -s 'ghostty' "$SHELL -l"
 		fi
 	done
+	
+	# If tmux not found, fall back to direct shell
+	echo "tmux not found. Starting shell directly..."
+	exec "$shell_path"
 else
   echo "No tmux session found. Starting shell directly..."
 	exec "$shell_path"

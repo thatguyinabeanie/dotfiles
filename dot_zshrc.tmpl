@@ -16,6 +16,11 @@ fi
 
 source ~/.config/zsh/aliases.zsh
 
+# Source brew services functions on macOS
+{{- if eq .chezmoi.os "darwin" }}
+{{- template "brew-services-functions.sh" . }}
+{{- end }}
+
 # PNPM configuration
 export PNPM_HOME="$HOME/.pnpm-global"
 case ":$PATH:" in
@@ -38,6 +43,7 @@ fi
 if command -v mise >/dev/null 2>&1; then
   eval "$(mise activate zsh)"
 fi
+
 # Initialize fzf if available
 if command -v fzf >/dev/null 2>&1; then
 	source <(fzf --zsh)
@@ -71,4 +77,10 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 # source ~/.config/zsh/work.zsh
 # source ~/.config/zsh/secrets.zsh
 
-{{ template "zsh/fnm.zsh" . }}
+# Auto-attach to tmux session for interactive shells (opt-in)
+if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$GHOSTTY_AUTO_TMUX" = "true" ]; then
+    if command -v tmux >/dev/null 2>&1; then
+        exec tmux new-session -A -s 'ghostty'
+    fi
+fi
+

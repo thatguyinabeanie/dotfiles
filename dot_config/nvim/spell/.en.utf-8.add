@@ -239,6 +239,7 @@ pyyaml
 pyzmq
 Raycast
 rbenv
+Redis
 redshift
 remapper
 repl
@@ -256,6 +257,7 @@ Seaborn
 setuptools
 shellcheck
 SIGPIPE
+sketchybar
 slugify
 sortedcontainers
 soupsieve

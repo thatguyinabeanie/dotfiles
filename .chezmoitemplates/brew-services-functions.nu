@@ -4,7 +4,7 @@
 {{- if eq .chezmoi.os "darwin" }}
 
 # Core brew services management function
-def _manage_brew_services [mode: string = "all"] {
+export def _manage_brew_services [mode: string = "all"] {
     # Check if brew is available
     if not (which brew | is-not-empty) {
         print "❌ Homebrew not found"
@@ -38,19 +38,30 @@ def _manage_brew_services [mode: string = "all"] {
     
     match $mode {
         "all" | "manage" => {
-{{- if hasKey . "enable" }}
-{{- if eq .enable "false" }}
-            # Stop disabled service if running
-            if ${{ .name }}_running {
+{{- $condition := "always" }}
+{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
+{{- if .active }}
+{{- if eq $condition "always" }}
+            # Service active - always manage
+{{- if eq .action "restart" }}
+            try {
+                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
+                print "🔄 Restarted {{ .name }}"
+            } catch {
+                # Silent failure
+            }
+{{- else if eq .action "start" }}
+            if not ${{ .name }}_running {
                 try {
-                    brew services stop "{{ .name }}" out> /dev/null err> /dev/null
-                    print "⏹️  Stopped {{ .name }}"
+                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
+                    print "▶️  Started {{ .name }}"
                 } catch {
                     # Silent failure
                 }
             }
-{{- else if eq .enable "ifInstalled" }}
-            # Only manage if installed
+{{- end }}
+{{- else if eq $condition "ifInstalled" }}
+            # Service active - only manage if installed
             if (which {{ .name }} | is-not-empty) {
 {{- if eq .action "restart" }}
                 try {
@@ -70,52 +81,35 @@ def _manage_brew_services [mode: string = "all"] {
                 }
 {{- end }}
             }
+{{- end }}
 {{- else }}
-            # Service enabled (true or other truthy value)
-{{- if eq .action "restart" }}
-            try {
-                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
-            } catch {
-                # Silent failure
-            }
-{{- else if eq .action "start" }}
-            if not ${{ .name }}_running {
+            # Service inactive - stop if running
+            if ${{ .name }}_running {
                 try {
-                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
+                    brew services stop "{{ .name }}" out> /dev/null err> /dev/null
+                    print "⏹️  Stopped {{ .name }}"
                 } catch {
                     # Silent failure
                 }
             }
-{{- end }}
-{{- end }}
-{{- else }}
-            # Default behavior when enable is not specified (assumed true)
-{{- if eq .action "restart" }}
-            try {
-                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
-            } catch {
-                # Silent failure
-            }
-{{- else if eq .action "start" }}
-            if not ${{ .name }}_running {
-                try {
-                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
-{{- end }}
 {{- end }}
         },
         "start" => {
-{{- if hasKey . "enable" }}
-{{- if ne .enable "false" }}
-{{- if eq .enable "ifInstalled" }}
-            # Only start if installed
+{{- $condition := "always" }}
+{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
+{{- if .active }}
+{{- if eq $condition "always" }}
+            # Service active - always start if not running
+            if not ${{ .name }}_running {
+                try {
+                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
+                    print "▶️  Started {{ .name }}"
+                } catch {
+                    # Silent failure
+                }
+            }
+{{- else if eq $condition "ifInstalled" }}
+            # Service active - only start if installed and not running
             if (which {{ .name }} | is-not-empty) and (not ${{ .name }}_running) {
                 try {
                     brew services start "{{ .name }}" out> /dev/null err> /dev/null
@@ -124,28 +118,7 @@ def _manage_brew_services [mode: string = "all"] {
                     # Silent failure
                 }
             }
-{{- else }}
-            # Service enabled, start if not running
-            if not ${{ .name }}_running {
-                try {
-                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
 {{- end }}
-{{- end }}
-{{- else }}
-            # Default behavior when enable is not specified (assumed true)
-            if not ${{ .name }}_running {
-                try {
-                    brew services start "{{ .name }}" out> /dev/null err> /dev/null
-                    print "▶️  Started {{ .name }}"
-                } catch {
-                    # Silent failure
-                }
-            }
 {{- end }}
         },
         "stop" => {
@@ -159,10 +132,19 @@ def _manage_brew_services [mode: string = "all"] {
             }
         },
         "restart" => {
-{{- if hasKey . "enable" }}
-{{- if ne .enable "false" }}
-{{- if eq .enable "ifInstalled" }}
-            # Only restart if installed
+{{- $condition := "always" }}
+{{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
+{{- if .active }}
+{{- if eq $condition "always" }}
+            # Service active - always restart
+            try {
+                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
+                print "🔄 Restarted {{ .name }}"
+            } catch {
+                # Silent failure
+            }
+{{- else if eq $condition "ifInstalled" }}
+            # Service active - only restart if installed
             if (which {{ .name }} | is-not-empty) {
                 try {
                     brew services restart "{{ .name }}" out> /dev/null err> /dev/null
@@ -171,24 +153,7 @@ def _manage_brew_services [mode: string = "all"] {
                     # Silent failure
                 }
             }
-{{- else }}
-            # Service enabled, restart
-            try {
-                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
-            } catch {
-                # Silent failure
-            }
 {{- end }}
-{{- end }}
-{{- else }}
-            # Default behavior when enable is not specified (assumed true)
-            try {
-                brew services restart "{{ .name }}" out> /dev/null err> /dev/null
-                print "🔄 Restarted {{ .name }}"
-            } catch {
-                # Silent failure
-            }
 {{- end }}
         }
     }

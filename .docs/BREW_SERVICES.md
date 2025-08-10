@@ -1,6 +1,10 @@
 # Brew Services Management
 
-This system automatically manages Homebrew services every time you run `chezmoi apply`.
+This system provides convenient functions for managing Homebrew services, with initial setup handled automatically.
+
+## Initial Setup
+
+Services are configured during the initial dotfiles setup via a `run_once` script. After that, you can manage services using shell functions.
 
 ## Configuration
 
@@ -10,7 +14,61 @@ Services are configured in `.chezmoidata/brew-services.yaml`:
 services:
   - name: "service-name"
     description: "Human readable description"
-    action: "start"    # or "restart"
+    action: "start" # or "restart"
+```
+
+## Shell Functions
+
+### Zsh Functions
+
+```bash
+# Manage all services
+bsvc
+
+# Check service status
+bsvc_status
+
+# Start all enabled services
+bsvc_start
+
+# Stop all services
+bsvc_stop
+
+# Restart all enabled services
+bsvc_restart
+
+# Individual service controls (auto-generated for each service)
+sketchybar_start
+sketchybar_stop
+sketchybar_restart
+
+# Quick status checks
+bsvc_running    # List running services
+bsvc_stopped    # List stopped services
+```
+
+### Nushell Commands
+
+```nu
+# Manage all services
+bsvc
+
+# Check service status
+bsvc status
+
+# Start/stop/restart all services
+bsvc start
+bsvc stop
+bsvc restart
+
+# Individual service controls
+sketchybar start
+sketchybar stop
+sketchybar restart
+
+# Quick status checks
+bsvc running    # List running services
+bsvc stopped    # List stopped services
 ```
 
 ## Actions
@@ -24,14 +82,14 @@ Add services to the `excluded_services` list to prevent automatic management:
 
 ```yaml
 excluded_services:
-  - "docker"  # Managed manually
+  - "docker" # Managed manually
 ```
 
 ## Adding New Services
 
 1. Install the service via Homebrew
 2. Add it to `.chezmoidata/brew-services.yaml`
-3. Run `chezmoi apply`
+3. Use `bsvc` command to manage the new service
 
 ## Manual Service Management
 
@@ -42,7 +100,7 @@ brew services list
 # Start a service
 brew services start <service-name>
 
-# Stop a service  
+# Stop a service
 brew services stop <service-name>
 
 # Restart a service
@@ -52,6 +110,7 @@ brew services restart <service-name>
 ## Current Configuration
 
 The system currently manages:
+
 - **sketchybar**: Custom macOS menu bar (restart)
 - **borders**: Window borders for macOS (start)
 - **redis**: Redis in-memory data store (start)

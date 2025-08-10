@@ -20,6 +20,7 @@ brews:
     - bandwhich
     - bash-completion
     - bash-language-server
+    - bat
     - bison
     - borders
     - btop
@@ -27,9 +28,7 @@ brews:
     - carapace
     - chafa
     - eza
-    - bat
     - fd
-    - ripgrep
     - chezmoi
     - composer
     - cspell
@@ -114,6 +113,7 @@ brews:
     - reattach-to-user-namespace
     - redis
     - rename
+    - ripgrep
     - rust-analyzer
     - ruby-completion
     - sesh

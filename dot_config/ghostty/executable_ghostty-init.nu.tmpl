@@ -1,0 +1,10 @@
+#!{{ output "which" "nu" | trim }}
+
+source ~/.config/nushell/env.nu
+
+if ($env | get --optional TMUX | is-empty ) {
+  exec "{{ output "which" "tmux" | trim }}" new-session -A -s "ghostty"
+} else {
+  # Already in tmux, just start nu
+  exec "{{ output "which" "nu" | trim }}"
+}

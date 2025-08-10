@@ -1,3 +1,5 @@
+#!/opt/homebrew/bin/nu
+
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
 source ~/.config/nushell/secrets.nu
@@ -24,5 +26,10 @@ match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
 #
 # # Source FZF theme
 source ~/.config/fzf/fzf-theme.nu
+
+# Auto-attach to tmux session for interactive shells (opt-in)
+if ($env | get --optional TMUX | is-empty) and ($env | get --optional GHOSTTY_AUTO_TMUX) == "true" {
+  exec "/opt/homebrew/bin/tmux" new-session -A -s "ghostty"
+}
 
 

@@ -13,7 +13,6 @@
 {{- /* =================== INTERACTIVE MODE DETECTION =================== */ -}}
 {{- /* Determine if we're in an interactive session where we can prompt the user */ -}}
 {{- $interactive := false -}}
-
 {{- /* Check if we're in an interactive terminal and not in CI */ -}}
 {{- if and (not (env "CI")) (not (env "CODESPACES")) -}}
   {{- if lookPath "tty" -}}
@@ -26,6 +25,7 @@
 {{- $current_hostname := output "hostname" | trim -}}
 {{/* Cross-platform machine identity detection */}}
 {{- $system_work_env := false -}}
+{{- $system_personal_env := false -}}
 {{- $system_work_org := "" -}}
 {{/* Detect storage method and read values directly */}}
 {{- $os := output "/usr/bin/uname" "-s" | trim -}}
@@ -70,6 +70,39 @@
     {{- with output "bash" "-c" $cmd | trim -}}
       {{- if or (eq . "true") (eq . "1") -}}
         {{- $system_work_env = true -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{/* Read personal environment */}}
+{{- if eq $storage_method "macos_defaults" -}}
+  {{- $cmd := "defaults read com.chezmoi.machine personal_environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "1") (eq . "true") -}}
+      {{- $system_personal_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "dconf" -}}
+  {{- $cmd := "dconf read /com/chezmoi/machine/personal-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_personal_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "gsettings" -}}
+  {{- $cmd := "gsettings get com.chezmoi.machine personal-environment 2>/dev/null || echo ''" -}}
+  {{- with output "bash" "-c" $cmd | trim -}}
+    {{- if or (eq . "true") (eq . "1") -}}
+      {{- $system_personal_env = true -}}
+    {{- end -}}
+  {{- end -}}
+{{- else if eq $storage_method "xdg_config" -}}
+  {{- $config_file := joinPath (env "XDG_CONFIG_HOME" | default (joinPath (env "HOME") ".config")) "chezmoi" "machine-identity" -}}
+  {{- if stat $config_file -}}
+    {{- $cmd := printf "grep '^personal_environment=' %s 2>/dev/null | cut -d= -f2- | sed 's/^\"\\(.*\\)\"$/\\1/'" ($config_file | quote) -}}
+    {{- with output "bash" "-c" $cmd | trim -}}
+      {{- if or (eq . "true") (eq . "1") -}}
+        {{- $system_personal_env = true -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -179,14 +212,21 @@
 {{- end -}}
 {{/* Interactive prompts for machine identity if not already set */}}
 {{- $WORK_ENVIRONMENT := $system_work_env -}}
+{{- $PERSONAL_ENVIRONMENT := $system_personal_env -}}
 {{- $WORK_ORG := $system_work_org -}}
-
 {{/* Override with environment variables if provided */}}
 {{- if env "WORK_ENVIRONMENT" -}}
   {{- if or (eq (env "WORK_ENVIRONMENT") "true") (eq (env "WORK_ENVIRONMENT") "1") -}}
     {{- $WORK_ENVIRONMENT = true -}}
   {{- else -}}
     {{- $WORK_ENVIRONMENT = false -}}
+  {{- end -}}
+{{- end -}}
+{{- if env "PERSONAL_ENVIRONMENT" -}}
+  {{- if or (eq (env "PERSONAL_ENVIRONMENT") "true") (eq (env "PERSONAL_ENVIRONMENT") "1") -}}
+    {{- $PERSONAL_ENVIRONMENT = true -}}
+  {{- else -}}
+    {{- $PERSONAL_ENVIRONMENT = false -}}
   {{- end -}}
 {{- end -}}
 {{- if env "WORK_ORG" -}}
@@ -197,14 +237,20 @@
 {{- if $system_hostname -}}
   {{- $HOSTNAME = $system_hostname -}}
 {{- end -}}
-
 {{/* Only prompt for missing values during first-time setup */}}
 {{- if $interactive -}}
-  {{- /* Prompt for work environment if not already set and no env var */ -}}
-  {{- if and (not $system_work_env) (not (env "WORK_ENVIRONMENT")) -}}
+  {{- /* First ask about personal environment if not already set and no env var */ -}}
+  {{- if and (not $system_personal_env) (not (env "PERSONAL_ENVIRONMENT")) -}}
+    {{- $PERSONAL_ENVIRONMENT = promptBoolOnce . "personal_environment" "Is this a personal environment" false -}}
+  {{- end -}}
+  {{- /* Then ask about work environment if personal is false and not already set and no env var */ -}}
+  {{- if and (not $PERSONAL_ENVIRONMENT) (not $system_work_env) (not (env "WORK_ENVIRONMENT")) -}}
     {{- $WORK_ENVIRONMENT = promptBoolOnce . "work_environment" "Is this a work environment" false -}}
   {{- end -}}
-  
+  {{- /* Validate that both environments aren't true */ -}}
+  {{- if and $PERSONAL_ENVIRONMENT $WORK_ENVIRONMENT -}}
+    {{- fail "Both PERSONAL_ENVIRONMENT and WORK_ENVIRONMENT cannot be true" -}}
+  {{- end -}}
   {{- /* Prompt for work org if work environment and not already set and no env var */ -}}
   {{- if and $WORK_ENVIRONMENT (not $system_work_org) (not (env "WORK_ORG")) -}}
     {{- $WORK_ORG = promptStringOnce . "work_org" "Work organization name" "" -}}
@@ -212,9 +258,8 @@
 {{- end -}}
 {{- /* =================== DEFAULT VALUES =================== */ -}}
 {{- /* Set sensible defaults for non-interactive environments (CI/CD, scripts) */ -}}
-{{- $opacity := 0.8 -}}              {{/* Terminal transparency level */}}
-{{- $blur := 20 -}}                  {{/* Terminal background blur amount */}}
-{{- $font_size := 20 -}}             {{/* Default font size for terminals */}}
+{{- $opacity := 0.5 -}}              {{/* Terminal transparency level */}}
+{{- $blur := 255 -}}                  {{/* Terminal background blur amount */}} {{- $font_size := 20 -}}             {{/* Default font size for terminals */}}
 {{- $font_family := "Dank Mono" -}}  {{/* Preferred monospace font */}}
 {{- $window_height := 65 -}}         {{/* Terminal window height (rows) */}}
 {{- $window_width := 160 -}}         {{/* Terminal window width (columns) */}}
@@ -236,7 +281,6 @@
   {{- with output "bash" "-c" $shell_cmd | trim -}}
     {{- $local_shell = . -}}
   {{- end -}}
-  
   {{/* Read CATPPUCCIN_FLAVOR from local config */}}
   {{- $catppuccin_cmd := printf "grep '^CATPPUCCIN_FLAVOR ' %s 2>/dev/null | sed 's/CATPPUCCIN_FLAVOR[[:space:]]*=[[:space:]]*\"\\(.*\\)\"/\\1/' || echo ''" ($local_config_file | quote) -}}
   {{- with output "bash" "-c" $catppuccin_cmd | trim -}}
@@ -305,7 +349,7 @@
 hostname                   = {{ $HOSTNAME | quote }}
 SHELL                      = {{ $SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $WORK_ENVIRONMENT }}
-PERSONAL_ENVIRONMENT       = {{ not $WORK_ENVIRONMENT }}
+PERSONAL_ENVIRONMENT       = {{ $PERSONAL_ENVIRONMENT }}
 INSTALL_SKETCHY_BAR        = {{ env "INSTALL_SKETCHY_BAR" | default "true" | quote }}
 MANAGE_BREW_SERVICES       = {{ env "MANAGE_BREW_SERVICES" | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ $CATPPUCCIN_FLAVOR | quote }}
