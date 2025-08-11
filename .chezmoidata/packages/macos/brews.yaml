@@ -1,6 +1,7 @@
 brews:
   personal:
     - docker-completion
+    - sketchybar
   work:
     - argo
     - awscli
@@ -120,7 +121,6 @@ brews:
     - sevenzip
     - sd
     - sk
-    - sketchybar
     - spotify_player
     - spicetify-cli
     - starship
