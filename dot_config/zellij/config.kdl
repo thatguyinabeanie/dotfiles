@@ -296,7 +296,7 @@ keybinds clear-defaults=true {
 // ===============================
 // CORE SETTINGS
 // ===============================
-simplified_ui false  // Enable status bar like tmux
+simplified_ui true   // Remove fancy fonts for cleaner appearance
 default_shell "zsh"
 default_cwd "~"
 mouse_mode true
@@ -308,15 +308,15 @@ auto_layout true
 mirror_session true
 
 // ===============================
-// UI CONFIGURATION (no borders)
+// UI CONFIGURATION (minimal appearance)
 // ===============================
 pane_frames false
-theme "catppuccin-mocha-dark"
+theme "catppuccin-blue-minimal"
 
 ui {
     pane_frames {
         rounded_corners false
-        hide_session_name false
+        hide_session_name true
     }
 }
 
