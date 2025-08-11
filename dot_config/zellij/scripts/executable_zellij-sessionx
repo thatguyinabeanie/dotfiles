@@ -155,7 +155,7 @@ select_session() {
         --info inline \
         --prompt "🧩 Select/Create Session: " \
         --header $'┌─ Zellij Session Manager ─┐\n│ Enter: Select/Create │ Esc: Cancel │ Ctrl-C: Exit │\n└─────────────────────────────┘\n' \
-        --preview 'echo {} | /Users/beanie/.config/zellij/scripts/zellij-sessionx-preview' \
+        --preview 'echo {} | $HOME/.config/zellij/scripts/zellij-sessionx-preview' \
         --preview-window 'right:50%' \
         --bind 'ctrl-d:preview-page-down,ctrl-u:preview-page-up' \
         --color 'bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8,fg:#cdd6f4,header:#94e2d5,info:#cba6f7,pointer:#f5e0dc,marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8' \
@@ -207,7 +207,7 @@ handle_selection() {
 
 # Create preview script for fzf
 create_preview_script() {
-    cat > /Users/beanie/.config/zellij/scripts/zellij-sessionx-preview << 'EOF'
+    cat > "$HOME/.config/zellij/scripts/zellij-sessionx-preview" << 'EOF'
 #!/usr/bin/env bash
 # Preview script for zellij-sessionx
 
@@ -252,7 +252,7 @@ elif [[ "$selection" =~ \(([^)]+)\)$ ]]; then
     fi
 fi
 EOF
-    chmod +x /Users/beanie/.config/zellij/scripts/zellij-sessionx-preview
+    chmod +x "$HOME/.config/zellij/scripts/zellij-sessionx-preview"
 }
 
 # Main function

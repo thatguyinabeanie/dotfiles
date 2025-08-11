@@ -5,5 +5,5 @@ layout {
         }
         children
     }
-    tab name="chezmoi" cwd="/Users/beanie/.local/share/chezmoi"
+    tab name="chezmoi" cwd="~/.local/share/chezmoi"
 }

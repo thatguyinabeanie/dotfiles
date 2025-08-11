@@ -5,7 +5,7 @@ layout {
         }
         children
     }
-    tab name="chezmoi-nvim" cwd="/Users/beanie/.local/share/chezmoi" {
+    tab name="chezmoi-nvim" cwd="~/.local/share/chezmoi" {
         pane command="nvim"
     }
 }
