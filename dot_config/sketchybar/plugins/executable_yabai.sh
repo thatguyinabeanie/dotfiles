@@ -10,10 +10,10 @@ window_state() {
   args=()
   if [ -n "$WINDOW_INFO" ]; then
     # Window exists - show basic tiling icon
-    args+=(--set $NAME icon=$YABAI_GRID icon.color=$ORANGE label.drawing=off)
+    args+=(--set "$NAME" icon="$YABAI_GRID" icon.color="$ORANGE" label.drawing=off)
   else
     # No focused window
-    args+=(--set $NAME icon=$YABAI_GRID icon.color=$GREY label.drawing=off)
+    args+=(--set "$NAME" icon="$YABAI_GRID" icon.color="$GREY" label.drawing=off)
   fi
 
   sketchybar -m "${args[@]}"
@@ -32,11 +32,11 @@ windows_on_spaces () {
       if [ -n "$apps" ]; then
         while IFS= read -r app; do
           if [ -n "$app" ]; then
-            icon_strip+=" $($HOME/.config/sketchybar/plugins/icon_map.sh "$app")"
+            icon_strip+=" $($HOME/.config/sketchybar/plugins/executable_icon_map.sh "$app")"
           fi
         done <<< "$apps"
       fi
-      args+=(--set space.$space label="$icon_strip" label.drawing=on)
+      args+=(--set "space.$space" label="$icon_strip" label.drawing=on)
     fi
   done <<< "$CURRENT_SPACES"
 
@@ -45,7 +45,7 @@ windows_on_spaces () {
 
 mouse_clicked() {
   # Toggle between floating and tiling layout
-  aerospace layout floating tiling
+  aerospace layout toggle floating
   window_state
 }
 
