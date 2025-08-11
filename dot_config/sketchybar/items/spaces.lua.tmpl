@@ -77,9 +77,13 @@ for i = 1, 10, 1 do
 		if env.BUTTON == "other" then
 			space_popup:set({ background = { image = "space." .. env.SID } })
 			space:set({ popup = { drawing = "toggle" } })
+		elseif env.BUTTON == "right" then
+			-- AeroSpace doesn't support destroying workspaces, they're created/destroyed automatically
+			-- Just switch to workspace 1 instead
+			sbar.exec("aerospace workspace 1")
 		else
-			local op = (env.BUTTON == "right") and "--destroy" or "--focus"
-			sbar.exec("yabai -m space " .. op .. " " .. env.SID)
+			-- Left click: focus the workspace
+			sbar.exec("aerospace workspace " .. env.SID)
 		end
 	end)
 
