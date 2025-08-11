@@ -11,10 +11,13 @@ update() {
 
 mouse_clicked() {
   if [ "$BUTTON" = "right" ]; then
-    yabai -m space --destroy $SID
+    # AeroSpace doesn't support destroying workspaces - they're created/destroyed automatically
+    # Just switch to workspace 1 instead
+    aerospace workspace 1
     sketchybar --trigger space_change --trigger windows_on_spaces
   else
-    yabai -m space --focus $SID 2>/dev/null
+    # Left click: focus the workspace
+    aerospace workspace $SID
   fi
 }
 

@@ -45,30 +45,30 @@ return {
                 Snacks.picker.files()
               end,
             },
-            {
-              icon = "󰄉 ",
-              key = "r",
-              desc = "Recent Files",
-              action = function()
-                Snacks.picker.recent()
-              end,
-            },
             -- Search Operations
             {
               icon = "󰊄 ",
               key = "/",
-              desc = "Find Text",
+              desc = "Grep",
               action = function()
                 Snacks.picker.grep()
               end,
             },
+            -- {
+            --   icon = "󰄉 ",
+            --   key = "r",
+            --   desc = "Recent Files",
+            --   action = function()
+            --     Snacks.picker.recent()
+            --   end,
+            -- },
             -- Configuration
             {
               icon = "󰒓 ",
               key = "c",
-              desc = "Config",
+              desc = "chezmoi.toml",
               action = function()
-                Snacks.picker.files({ cwd = vim.fn.stdpath("config") })
+                require("utils.chezmoi").open_config_toml()
               end,
             },
             -- Package Management
@@ -83,23 +83,6 @@ return {
               key = "x",
               desc = "Lazy Extras",
               action = ":LazyExtras",
-            },
-            -- Git & Docker Tools
-            {
-              icon = "󰊢 ",
-              key = "g",
-              desc = "Lazy Git",
-              action = function()
-                Snacks.lazygit()
-              end,
-            },
-            {
-              icon = "󰡨 ",
-              key = "d",
-              desc = "Lazy Docker",
-              action = function()
-                Snacks.terminal("lazydocker", { cwd = vim.fn.getcwd() })
-              end,
             },
             -- Exit
             {

@@ -8,7 +8,6 @@ command = "{{ $backup_script }}"
 args = ["--silent"]
 
 [data]
-{{/* ===== CORE PREFERENCES ===== */}}
 hostname                   = {{ $current_hostname | quote }}
 SHELL                      = {{ (env "SHELL_PREF") | default (output "bash" "-c" (printf "%s read shell_pref" ($config_helper | quote)) | trim) | default "nu" | quote }}
 WORK_ENVIRONMENT           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read work_environment" ($config_helper | quote)) | trim) | default "false" }}
@@ -17,18 +16,14 @@ INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "b
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
 
-{{/* ===== THEME SYSTEM CONFIGURATION ===== */}}
-{{/* These control the advanced theme switching system */}}
 THEME_MODE                 = {{ (env "THEME_MODE") | default (output "bash" "-c" (printf "%s read theme_mode" ($config_helper | quote)) | trim) | default "dark" | quote }}
 THEME_LIGHT                = {{ (env "THEME_LIGHT") | default (output "bash" "-c" (printf "%s read theme_light" ($config_helper | quote)) | trim) | default "catppuccin-latte" | quote }}
 THEME_DARK                 = {{ (env "THEME_DARK") | default (output "bash" "-c" (printf "%s read theme_dark" ($config_helper | quote)) | trim) | default "catppuccin-mocha" | quote }}
 
-{{/* ===== APPLICATION SETTINGS ===== */}}
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
 INTERACTIVE                = false
 
-{{/* ===== CONSOLIDATED UI CONFIGURATION ===== */}}
 [data.ui]
 opacity                    = {{ (env "UI_OPACITY") | default (output "bash" "-c" (printf "%s read ui_opacity" ($config_helper | quote)) | trim) | default "0.5" | quote }}
 blur                       = {{ (env "UI_BLUR") | default (output "bash" "-c" (printf "%s read ui_blur" ($config_helper | quote)) | trim) | default "255" | quote }}
@@ -40,7 +35,6 @@ font_thicken               = {{ (env "UI_FONT_THICKEN") | default (output "bash"
 cursor_style               = {{ (env "UI_CURSOR_STYLE") | default (output "bash" "-c" (printf "%s read ui_cursor_style" ($config_helper | quote)) | trim) | default "block_hollow" | quote }}
 cursor_blink               = {{ (env "UI_CURSOR_BLINK") | default (output "bash" "-c" (printf "%s read ui_cursor_blink" ($config_helper | quote)) | trim) | default "true" }}
 
-{{/* ===== GIT & GITHUB CONFIGURATION ===== */}}
 [data.git.config]
 name                       = {{ (env "GIT_NAME") | default (output "bash" "-c" (printf "%s read git_name" ($config_helper | quote)) | trim) | default "Gabe Mendoza" | quote }}
 username                   = {{ (env "GITHUB_USERNAME") | default (output "bash" "-c" (printf "%s read github_username" ($config_helper | quote)) | trim) | default "thatguyinabeanie" | quote }}
@@ -49,7 +43,6 @@ defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default (output "ba
 work_org                   = {{ (env "WORK_ORG") | default (output "bash" "-c" (printf "%s read work_org" ($config_helper | quote)) | trim) | default "" | quote }}
 work_environment           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false" }}
 
-{{/* ===== APPLICATION DATA FILES ===== */}}
 {{- $jankyborders_file := joinPath .chezmoi.sourceDir ".chezmoidata" "apps" "jankyborders.yaml" }}
 {{- if stat $jankyborders_file }}
 {{- $jankyborders_data := (include $jankyborders_file | fromYaml) }}

@@ -31,6 +31,7 @@ casks:
   personal:
     - 1password
     - 1password-cli
+    - ableton-live-suite
     - affinity-designer
     - affinity-photo
     - affinity-publisher
@@ -39,4 +40,3 @@ casks:
     - discord
     - obs
     - spotify
-    - ableton-live-suite

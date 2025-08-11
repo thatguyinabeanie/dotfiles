@@ -47,7 +47,7 @@ separator=(
 	padding_right=15
 	label.drawing=off
 	associated_display=active
-	click_script='yabai -m space --create && sketchybar --trigger space_change'
+	click_script='aerospace workspace 10 && sketchybar --trigger space_change'
 	icon.color=$WHITE
 )
 
