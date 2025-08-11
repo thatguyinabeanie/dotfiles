@@ -1,10 +1,7 @@
--- Disabled in favor of zellij-navigator.lua
--- Uncomment this and disable zellij-navigator.lua to use tmux instead
-
---[[
+-- Basic navigation that works with both tmux and zellij
+-- For zellij, the vim-zellij-navigator.wasm plugin handles the integration
 return {
   "christoomey/vim-tmux-navigator",
-  enabled = false, -- Disabled in favor of zellij-navigator
   lazy = false,
   cmd = {
     "TmuxNavigateLeft",
@@ -21,7 +18,3 @@ return {
     { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
   },
 }
---]]
-
--- Use zellij-navigator.lua instead
-return {}

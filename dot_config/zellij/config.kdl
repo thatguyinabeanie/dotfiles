@@ -4,7 +4,7 @@
 keybinds clear-defaults=true {
     normal {
         // ===============================
-        // VIM NAVIGATION (replaces vim-tmux-navigator)
+        // VIM NAVIGATION (using vim-zellij-navigator plugin)
         // ===============================
         bind "Ctrl h" {
             MessagePlugin "https://github.com/hiasr/vim-zellij-navigator/releases/download/0.3.0/vim-zellij-navigator.wasm" {
@@ -75,12 +75,12 @@ keybinds clear-defaults=true {
         // Chezmoi shortcuts (match tmux Ctrl+d, Ctrl+e)
         bind "Ctrl d" { 
             NewTab {
-                cwd "/Users/beanie/.local/share/chezmoi";
+                cwd "~/.local/share/chezmoi";
             };
         }
         bind "Ctrl e" { 
             NewTab {
-                cwd "/Users/beanie/.local/share/chezmoi";
+                cwd "~/.local/share/chezmoi";
             };
             WriteChars "nvim\n";
         }
