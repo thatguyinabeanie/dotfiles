@@ -41,7 +41,22 @@ return {
     end,
   },
   {
-    "xvzc/chezmoi.nvim",
-    enabled = true,
+    "folke/snacks.nvim",
+    keys = {
+      {
+        "<leader>fc",
+        function()
+          require("utils.chezmoi").find_files()
+        end,
+        desc = "Find Config File (Chezmoi)",
+      },
+      {
+        "<leader>fC",
+        function()
+          require("utils.chezmoi").open_config_toml()
+        end,
+        desc = "Open chezmoi.toml",
+      },
+    },
   },
 }

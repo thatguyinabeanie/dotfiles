@@ -36,11 +36,33 @@
 -- vim.keymap.set("n", "<leader>bD", ":qa!<CR>", { desc = "Force quit all" })
 
 --
--- COPY RELATIVE PATH OF CURRENT BUFFER
+-- COPY BUFFER PATHS
 --
 vim.keymap.set("n", "<leader>fy", function()
   local relative_path = vim.fn.fnamemodify(vim.fn.expand("%"), ":.")
   vim.fn.setreg("+", relative_path)
-end, { desc = "Copy Relative Path" })
+end, { desc = "Copy Buffer Relative Path" })
+
+vim.keymap.set("n", "<leader>fY", function()
+  local full_path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", full_path)
+end, { desc = "Copy Buffer Absolute Path" })
+
+vim.keymap.set("n", "<leader>fd", function()
+  local parent_dir = vim.fn.fnamemodify(vim.fn.expand("%"), ":.:h")
+  vim.fn.setreg("+", parent_dir)
+end, { desc = "Copy Parent Dir Relative Path" })
+
+vim.keymap.set("n", "<leader>fD", function()
+  local parent_dir_full = vim.fn.expand("%:p:h")
+  vim.fn.setreg("+", parent_dir_full)
+end, { desc = "Copy Parent Dir Absolute Path" })
+
+--
+-- BUFFER OPERATIONS
+--
+vim.keymap.set("n", "<leader>bx", function()
+  vim.cmd("bufdo bd")
+end, { desc = "Close All Buffers" })
 
 --

@@ -226,6 +226,7 @@ post0
 post1
 postgres
 PostgreSQL
+postinstall
 proto
 protobuf
 protos
