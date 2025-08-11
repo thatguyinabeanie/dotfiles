@@ -1,0 +1,4 @@
+["themes/catppuccin.kdl"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/catppuccin/zellij/main/catppuccin.kdl"
+    refreshPeriod = "168h"

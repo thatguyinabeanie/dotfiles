@@ -1,0 +1,78 @@
+themes {
+  catppuccin-blue-minimal {
+    // Status bar ribbons (tabs) - more muted blue design
+    ribbon_unselected {
+      base 69 71 90       // Catppuccin surface1 (slightly darker)
+      background 90 120 180 // More muted blue
+      emphasis_0 69 71 90
+      emphasis_1 49 50 68
+      emphasis_2 90 120 180
+      emphasis_3 205 214 244
+    }
+    ribbon_selected {
+      base 69 71 90       // Catppuccin surface1 for active tab
+      background 245 194 231 // Catppuccin pink background
+      emphasis_0 69 71 90
+      emphasis_1 49 50 68
+      emphasis_2 137 180 250
+      emphasis_3 166 227 161
+    }
+    
+    // Text components - status bar text
+    text_unselected {
+      base 69 71 90       // Catppuccin surface1 on more muted blue
+      background 90 120 180
+      emphasis_0 69 71 90
+      emphasis_1 49 50 68
+      emphasis_2 205 214 244
+      emphasis_3 255 255 255
+    }
+    text_selected {
+      base 69 71 90       // Catppuccin surface1 when selected
+      background 245 194 231 // Catppuccin pink background
+      emphasis_0 69 71 90
+      emphasis_1 49 50 68
+      emphasis_2 137 180 250
+      emphasis_3 166 227 161
+    }
+    
+    // Frame components (for panes) - keep minimal
+    frame_unselected {
+      base 69 71 90       // Subtle border
+      background 30 30 46
+      emphasis_0 69 71 90
+      emphasis_1 137 180 250
+      emphasis_2 205 214 244
+      emphasis_3 245 194 231
+    }
+    frame_selected {
+      base 137 180 250    // Blue border when focused
+      background 30 30 46
+      emphasis_0 137 180 250
+      emphasis_1 205 214 244
+      emphasis_2 166 227 161
+      emphasis_3 245 194 231
+    }
+    frame_highlight {
+      base 245 194 231    // Pink when in special mode
+      background 30 30 46
+      emphasis_0 245 194 231
+      emphasis_1 205 214 244
+      emphasis_2 137 180 250
+      emphasis_3 166 227 161
+    }
+    
+    // Basic colors - optimized for readability
+    fg 69 71 90          // Catppuccin surface1 for contrast
+    bg 90 120 180        // More muted blue
+    black 30 30 46       // Catppuccin surface0
+    red 243 139 168      // Catppuccin red
+    green 166 227 161    // Catppuccin green
+    yellow 249 226 175   // Catppuccin yellow
+    blue 90 120 180      // More muted blue
+    magenta 245 194 231  // Catppuccin pink
+    cyan 137 220 235     // Catppuccin sky
+    white 255 255 255    // Pure white for contrast
+    orange 250 179 135   // Catppuccin peach
+  }
+}
