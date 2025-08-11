@@ -1,5 +1,10 @@
+-- Disabled in favor of zellij-navigator.lua
+-- Uncomment this and disable zellij-navigator.lua to use tmux instead
+
+--[[
 return {
   "christoomey/vim-tmux-navigator",
+  enabled = false, -- Disabled in favor of zellij-navigator
   lazy = false,
   cmd = {
     "TmuxNavigateLeft",
@@ -16,3 +21,7 @@ return {
     { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
   },
 }
+--]]
+
+-- Use zellij-navigator.lua instead
+return {}
