@@ -1,3 +1,5 @@
+-- Basic navigation that works with both tmux and zellij
+-- For zellij, the vim-zellij-navigator.wasm plugin handles the integration
 return {
   "christoomey/vim-tmux-navigator",
   lazy = false,

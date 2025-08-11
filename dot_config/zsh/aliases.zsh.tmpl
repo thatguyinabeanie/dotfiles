@@ -3,11 +3,34 @@
 # Load platform storage environment functions
 source "$HOME/.config/zsh/platform-storage-env.zsh"
 
+# Load zellij functions (tmux replacement)
+source "$HOME/.config/zellij/zellij-functions.zsh"
+
 alias y="yazi"
 
 alias ls="eza"
 alias l="eza -l"
 alias la="eza -la"
+
+# Zellij aliases (tmux replacement)
+alias z="$HOME/.config/zellij/scripts/zellij-sessionx"  # SessionX replacement
+alias zellij="zellij --layout tmux-like"                # Default tmux-like layout
+alias zs="$HOME/.config/zellij/scripts/zellij-sessionx" # Session manager
+alias za="zellij attach"                                 # Quick attach
+alias zl="zellij list-sessions"                         # List sessions
+alias zk="zellij kill-session"                          # Kill session
+alias zd="zellij detach"                                 # Detach session
+
+# Zellij workflow shortcuts
+alias zc="zellij --session chezmoi --layout chezmoi --default-cwd ~/.local/share/chezmoi"
+alias ze="zellij --session chezmoi-edit --layout chezmoi-nvim --default-cwd ~/.local/share/chezmoi"
+
+# Tmux compatibility aliases (for muscle memory)
+alias tmux="echo 'Use zellij instead! Try: z (session manager) or zellij'"
+alias ta="z"                                            # tmux attach -> zellij sessionx
+alias tl="zl"                                           # tmux list -> zellij list
+alias tk="zk"                                           # tmux kill -> zellij kill
+
 
 # --- Git Commit Emoji Selector (requires fzf) ---
 # Interactive emoji selector for semantic commit messages
