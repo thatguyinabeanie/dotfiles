@@ -31,7 +31,10 @@ return {
             auto_close = false,
             hidden = true,
             ignored = true,
-            follow = true,
+            follow = false,
+          },
+          files = {
+            hidden = true, -- Start with hidden files off, toggle with Alt+h
           },
         },
       },

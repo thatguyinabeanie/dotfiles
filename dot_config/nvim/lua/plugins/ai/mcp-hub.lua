@@ -5,9 +5,10 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
-    build = "npm install -g mcp-hub@latest",
+    build = "~/.local/share/mise/installs/node/22/bin/npm install -g mcp-hub@latest",
     config = function()
       require("mcphub").setup({
+        node_path = vim.fn.expand("~/.local/share/mise/installs/node/22.18.0/bin/node"),
         extensions = {
           avante = {
             make_slash_commands = true,

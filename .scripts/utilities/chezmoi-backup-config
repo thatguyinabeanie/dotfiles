@@ -11,7 +11,7 @@ CHEZMOI_SOURCE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 # Generate and source the helper functions
 cd "$CHEZMOI_SOURCE_DIR"
-eval "$(chezmoi execute-template < .chezmoitemplates/config-persistence-helpers.sh)"
+eval "$(chezmoi execute-template <.chezmoitemplates/config-persistence-helpers.sh)"
 
 # Colors for output
 RED='\033[0;31m'
@@ -21,39 +21,39 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 print_status() {
-    echo -e "${BLUE}[INFO]${NC} $1"
+	echo -e "${BLUE}[INFO]${NC} $1"
 }
 
 print_success() {
-    echo -e "${GREEN}[SUCCESS]${NC} $1"
+	echo -e "${GREEN}[SUCCESS]${NC} $1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}[WARNING]${NC} $1"
+	echo -e "${YELLOW}[WARNING]${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}[ERROR]${NC} $1"
+	echo -e "${RED}[ERROR]${NC} $1"
 }
 
 # Extract value from TOML file using a simple parser
 # This handles both quoted and unquoted values
 extract_toml_value() {
-    local file="$1"
-    local key="$2"
-    local section="${3:-data}"
-    
-    if [[ ! -f "$file" ]]; then
-        echo ""
-        return
-    fi
-    
-    # Handle nested keys like data.git.config.name
-    if [[ "$key" == *.* ]]; then
-        local nested_key="${key##*.}"
-        local parent_section="${key%.*}"
-        # Use awk to extract from nested sections
-        awk -v section="$parent_section" -v key="$nested_key" '
+	local file="$1"
+	local key="$2"
+	local section="${3:-data}"
+
+	if [[ ! -f "$file" ]]; then
+		echo ""
+		return
+	fi
+
+	# Handle nested keys like data.git.config.name
+	if [[ "$key" == *.* ]]; then
+		local nested_key="${key##*.}"
+		local parent_section="${key%.*}"
+		# Use awk to extract from nested sections
+		awk -v section="$parent_section" -v key="$nested_key" '
             /^\[/ { current_section = $0; gsub(/^\[|\]$/, "", current_section) }
             current_section == section && $0 ~ "^" key " *= *" {
                 sub("^" key " *= *", "")
@@ -62,9 +62,9 @@ extract_toml_value() {
                 exit
             }
         ' "$file"
-    else
-        # Use awk to extract from main data section
-        awk -v section="$section" -v key="$key" '
+	else
+		# Use awk to extract from main data section
+		awk -v section="$section" -v key="$key" '
             /^\[/ { current_section = $0; gsub(/^\[|\]$/, "", current_section) }
             current_section == section && $0 ~ "^" key " *= *" {
                 sub("^" key " *= *", "")
@@ -73,109 +73,109 @@ extract_toml_value() {
                 exit
             }
         ' "$file"
-    fi
+	fi
 }
 
 backup_config() {
-    local chezmoi_config="${HOME}/.config/chezmoi/chezmoi.toml"
-    local silent="${1:-false}"
-    
-    if [[ ! -f "$chezmoi_config" ]]; then
-        print_error "chezmoi configuration file not found at: $chezmoi_config"
-        print_error "Please run 'chezmoi init' or 'chezmoi apply' first to generate the configuration."
-        exit 1
-    fi
-    
-    # Only show status messages if not in silent mode
-    if [[ "$silent" != "true" ]]; then
-        print_status "Backing up chezmoi configuration to persistent storage..."
-        print_status "Storage method: $(detect_storage_method)"
-    fi
-    
-    # Define all configuration keys to back up
-    local -a config_keys=(
-        # Core preferences
-        "hostname"
-        "SHELL:shell_pref"
-        "WORK_ENVIRONMENT:work_environment"
-        "PERSONAL_ENVIRONMENT:personal_environment"
-        "INSTALL_SKETCHY_BAR:install_sketchy_bar"
-        "MANAGE_BREW_SERVICES:manage_brew_services"
-        "CATPPUCCIN_FLAVOR:catppuccin_flavor"
-        
-        # Theme system
-        "THEME_MODE:theme_mode"
-        "THEME_LIGHT:theme_light"
-        "THEME_DARK:theme_dark"
-        
-        # Application settings
-        "YAZI_CATPPUCCIN_COLOR:yazi_catppuccin_color"
-        "SUDO_TOUCHID:sudo_touchid"
-        
-        # UI configuration (from data.ui section)
-        "data.ui.opacity:ui_opacity"
-        "data.ui.blur:ui_blur"
-        "data.ui.font_size:ui_font_size"
-        "data.ui.font_family:ui_font_family"
-        "data.ui.window_height:ui_window_height"
-        "data.ui.window_width:ui_window_width"
-        "data.ui.font_thicken:ui_font_thicken"
-        "data.ui.cursor_style:ui_cursor_style"
-        
-        # Git configuration (from data.git.config section)
-        "data.git.config.name:git_name"
-        "data.git.config.username:github_username"
-        "data.git.config.email:git_email"
-        "data.git.config.defaultRefreshPeriod:git_refresh_period"
-        "data.git.config.work_org:work_org"
-        "data.git.config.work_environment:git_work_environment"
-    )
-    
-    local backed_up_count=0
-    local skipped_count=0
-    
-    for config_mapping in "${config_keys[@]}"; do
-        local toml_key="${config_mapping%%:*}"
-        local persistent_key="${config_mapping##*:}"
-        
-        # Extract value from TOML file
-        local value
-        if [[ "$toml_key" == data.* ]]; then
-            value=$(extract_toml_value "$chezmoi_config" "$toml_key")
-        else
-            value=$(extract_toml_value "$chezmoi_config" "$toml_key" "data")
-        fi
-        
-        if [[ -n "$value" ]]; then
-            write_persistent_config "$persistent_key" "$value"
-            if [[ "$silent" != "true" ]]; then
-                print_status "Backed up $persistent_key = $value"
-            fi
-            ((backed_up_count++))
-        else
-            # Missing values are normal, not warnings - just silently skip
-            ((skipped_count++))
-        fi
-    done
-    
-    # Add backup metadata
-    write_persistent_config "backup_date" "$(date -Iseconds)"
-    write_persistent_config "backup_source" "$chezmoi_config"
-    
-    # Only show success messages if not in silent mode
-    if [[ "$silent" != "true" ]]; then
-        print_success "Configuration backup completed!"
-        print_success "Backed up: $backed_up_count values"
-        # Only mention skipped values if we're in verbose mode and there were any
-        
-        print_status ""
-        print_status "To restore this configuration later, run: chezmoi-restore-config"
-        print_status "To view backed up values, run: config-persistence-helpers.sh list"
-    fi
+	local chezmoi_config="${HOME}/.config/chezmoi/chezmoi.toml"
+	local silent="${1:-false}"
+
+	if [[ ! -f "$chezmoi_config" ]]; then
+		print_error "chezmoi configuration file not found at: $chezmoi_config"
+		print_error "Please run 'chezmoi init' or 'chezmoi apply' first to generate the configuration."
+		exit 1
+	fi
+
+	# Only show status messages if not in silent mode
+	if [[ "$silent" != "true" ]]; then
+		print_status "Backing up chezmoi configuration to persistent storage..."
+		print_status "Storage method: $(detect_storage_method)"
+	fi
+
+	# Define all configuration keys to back up
+	local -a config_keys=(
+		# Core preferences
+		"hostname"
+		"SHELL:shell_pref"
+		"WORK_ENVIRONMENT:work_environment"
+		"PERSONAL_ENVIRONMENT:personal_environment"
+		"INSTALL_SKETCHY_BAR:install_sketchy_bar"
+		"MANAGE_BREW_SERVICES:manage_brew_services"
+		"CATPPUCCIN_FLAVOR:catppuccin_flavor"
+
+		# Theme system
+		"THEME_MODE:theme_mode"
+		"THEME_LIGHT:theme_light"
+		"THEME_DARK:theme_dark"
+
+		# Application settings
+		"YAZI_CATPPUCCIN_COLOR:yazi_catppuccin_color"
+		"SUDO_TOUCHID:sudo_touchid"
+
+		# UI configuration (from data.ui section)
+		"data.ui.opacity:ui_opacity"
+		"data.ui.blur:ui_blur"
+		"data.ui.font_size:ui_font_size"
+		"data.ui.font_family:ui_font_family"
+		"data.ui.window_height:ui_window_height"
+		"data.ui.window_width:ui_window_width"
+		"data.ui.font_thicken:ui_font_thicken"
+		"data.ui.cursor_style:ui_cursor_style"
+
+		# Git configuration (from data.git.config section)
+		"data.git.config.name:git_name"
+		"data.git.config.username:github_username"
+		"data.git.config.email:git_email"
+		"data.git.config.defaultRefreshPeriod:git_refresh_period"
+		"data.git.config.work_org:work_org"
+		"data.git.config.work_environment:git_work_environment"
+	)
+
+	local backed_up_count=0
+	local skipped_count=0
+
+	for config_mapping in "${config_keys[@]}"; do
+		local toml_key="${config_mapping%%:*}"
+		local persistent_key="${config_mapping##*:}"
+
+		# Extract value from TOML file
+		local value
+		if [[ "$toml_key" == data.* ]]; then
+			value=$(extract_toml_value "$chezmoi_config" "$toml_key")
+		else
+			value=$(extract_toml_value "$chezmoi_config" "$toml_key" "data")
+		fi
+
+		if [[ -n "$value" ]]; then
+			write_persistent_config "$persistent_key" "$value"
+			if [[ "$silent" != "true" ]]; then
+				print_status "Backed up $persistent_key = $value"
+			fi
+			((backed_up_count++))
+		else
+			# Missing values are normal, not warnings - just silently skip
+			((skipped_count++))
+		fi
+	done
+
+	# Add backup metadata
+	write_persistent_config "backup_date" "$(date -Iseconds)"
+	write_persistent_config "backup_source" "$chezmoi_config"
+
+	# Only show success messages if not in silent mode
+	if [[ "$silent" != "true" ]]; then
+		print_success "Configuration backup completed!"
+		print_success "Backed up: $backed_up_count values"
+		# Only mention skipped values if we're in verbose mode and there were any
+
+		print_status ""
+		print_status "To restore this configuration later, run: chezmoi-restore-config"
+		print_status "To view backed up values, run: config-persistence-helpers.sh list"
+	fi
 }
 
 show_help() {
-    cat << EOF
+	cat <<EOF
 chezmoi-backup-config - Backup chezmoi configuration to persistent storage
 
 USAGE:
@@ -220,23 +220,23 @@ EOF
 }
 
 main() {
-    case "${1:-}" in
-        -h|--help)
-            show_help
-            exit 0
-            ;;
-        --silent)
-            backup_config "true"
-            ;;
-        "")
-            backup_config "false"
-            ;;
-        *)
-            print_error "Unknown option: $1"
-            print_error "Use -h or --help for usage information"
-            exit 1
-            ;;
-    esac
+	case "${1:-}" in
+	-h | --help)
+		show_help
+		exit 0
+		;;
+	--silent)
+		backup_config "true"
+		;;
+	"")
+		backup_config "false"
+		;;
+	*)
+		print_error "Unknown option: $1"
+		print_error "Use -h or --help for usage information"
+		exit 1
+		;;
+	esac
 }
 
 main "$@"
