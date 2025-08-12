@@ -3,6 +3,7 @@ api
 AppleScript
 appnope
 ARM64
+arproxy
 asdf
 asn1crypto
 asttokens
@@ -52,11 +53,14 @@ Conditionalize
 conf
 config
 configs
+cookie
 CopilotChat
+CORS
 Cosmoem
 Cosmog
 cr
 crc32c
+CVEs
 daff
 dataproc
 dateutil
@@ -69,6 +73,7 @@ desc
 DevTools
 dirs
 Dockerfile
+dockerhub
 Dotfile
 dotfiles
 dtypes
@@ -98,8 +103,10 @@ Ghostty
 Github
 GitLab
 Gitleaks
+Golang
 golangci
 googleapis
+GOPATH
 gosec
 govet
 GPG
@@ -115,6 +122,7 @@ iam
 idna
 iframe
 iframed
+iframes
 ImportError
 importlib
 iniconfig
@@ -132,6 +140,8 @@ jinja2
 JIRA
 jmespath
 joblib
+JobTrait
+JobType
 js
 json
 jsonc
@@ -158,6 +168,7 @@ LazyVim
 lcov
 lD
 Lefthook
+linter
 linters
 linuxserver
 LLM
@@ -188,6 +199,8 @@ MoltenInfo
 momentjs
 msgpack
 mypy
+mysql
+nancy
 Neovim
 Neovim's
 networkx
@@ -255,6 +268,8 @@ pyzmq
 Raycast
 RBAC
 rbenv
+reauthenticate
+reauthentication
 Redis
 redshift
 remapper
@@ -284,6 +299,7 @@ sqlfluff
 sqlparse
 src
 staticcheck
+struct
 stylua
 SwapDown
 SwapLeft
@@ -293,6 +309,7 @@ swissPairing
 tblib
 teamValidator
 Timeframe
+timestamp
 tmpl
 tmux
 toml
@@ -316,6 +333,7 @@ useCurrentUser
 utils
 v1
 Vercel
+verfiy
 VeryLazy
 via
 virtualenv

@@ -9,7 +9,7 @@
     "dlv": "${workspaceFolder}/.vscode/mise-tools/dlv",
     "gopls": "${workspaceFolder}/.vscode/mise-tools/gopls"
   },
-  "window.commandCenter": 1,
+  "window.commandCenter": true,
   "workbench.colorTheme": "Catppuccin Mocha",
   "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
   "augment.nextEdit.showDiffInHover": true,

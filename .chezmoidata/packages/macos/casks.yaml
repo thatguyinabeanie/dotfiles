@@ -1,7 +1,6 @@
 casks:
   shared:
     - aerospace
-    - betterdiscord-installer
     - cursor
     - cyberduck
     - disk-inventory-x
@@ -36,6 +35,7 @@ casks:
     - affinity-photo
     - affinity-publisher
     - blender
+    - betterdiscord-installer
     - darktable
     - discord
     - obs
