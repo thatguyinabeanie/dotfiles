@@ -21,9 +21,9 @@ vim.keymap.set("n", "<leader>ls", "<cmd>Lazy sync<cr>", { desc = "Lazy Sync" })
 vim.keymap.set("n", "<leader>ls", "<cmd>Lazy sync<cr>", { desc = "Lazy Sync" })
 
 -- Projects picker
--- vim.keymap.set("n", "<leader>fp", function()
---   require("snacks").picker.projects()
--- end, { desc = "Find Project" })
+vim.keymap.set("n", "<leader>fp", function()
+  require("snacks").picker.projects()
+end, { desc = "Find Project" })
 
 -- -- Show hidden files in picker (matching snacks explorer)
 -- vim.keymap.set("n", "<S-h>", function()
