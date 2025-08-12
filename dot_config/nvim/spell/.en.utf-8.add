@@ -80,6 +80,7 @@ dtypes
 E2E
 ECR
 EFS
+ElasticSearch
 english
 entrypoint
 env
@@ -88,6 +89,7 @@ errcheck
 ESLint
 eval
 eza
+FakePlatform
 Fastfetch
 fd
 filelock
@@ -150,6 +152,7 @@ jsonschema
 Jupyter
 jupytext
 JWT
+K8s
 K9s
 Karabiner
 Keychain
@@ -173,6 +176,7 @@ linters
 linuxserver
 LLM
 LLMs
+localhost
 localized
 LogRocket
 LSP
@@ -205,6 +209,7 @@ Neovim
 Neovim's
 networkx
 NextJS
+nginx
 NPM
 NumPy
 nushell
@@ -332,6 +337,7 @@ urllib3
 useCurrentUser
 utils
 v1
+v7
 Vercel
 verfiy
 VeryLazy
