@@ -11,13 +11,12 @@ fi
 
 set -euo pipefail
 
-echo "Setting up SketchyBar service..."
-
 # Check if SketchyBar is installed
 if ! command -v sketchybar &> /dev/null; then
-    echo "SketchyBar not found. Please install it first with: brew install sketchybar"
-    exit 1
+    exit 0
 fi
+
+echo "Setting up SketchyBar service..."
 
 # Install SbarLua plugin
 echo "📦 Installing SbarLua plugin..."
