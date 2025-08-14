@@ -1,6 +1,7 @@
 # Mason tool configuration
 mason:
   core_tools:
+    - prettierd
     - lua-language-server
     - stylua
     - marksman

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Model configuration for Battle Stadium development using GitHub Copilot
+  // "model": "gitub-coplit/gpt-5",
+  // "model": "gitub-coplit/gpt-4.1",
+  // "model": "github-copilot/claude-opus-4.1",
+  // "model": "github-copilot/claude-opus-4",
+  // "model": "github-copilot/claude-sonnet-4",
+  // "model": "github-copilot/claude-3.7-sonnet",
+  // "model": "github-copilot/claude-3.7-sonnet-thought",
+  "model": "github-copilot/gemini-2.5-pro",
+
+  "small_model": "github-copilot/gemini-2.0-flash-001",
+  // "small_model": "github-copilot/o4-mini",
+  // "small_model": "github-copilot/gpt-5-mini",
+
+  // Auto-sharing for collaboration
+  "share": "manual",
+  "autoupdate": true,
+  "provider": {
+    "gitub-coplit": {
+      "models": {
+        "claude-sonnet-4": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto"
+          },
+          "limit": {
+            "context": 500000,
+            "output": 2000000
+          }
+        },
+        "gemini=2.5-pro": {
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low",
+            "reasoningSummary": "auto"
+          },
+          "limit": {
+            "context": 500000,
+            "output": 2000000
+          }
+        }
+      }
+    }
+  }
+}

@@ -23,6 +23,7 @@ require("lazy").setup({
     { import = "plugins/ai" },
     { import = "plugins/ui" },
     { import = "plugins/utilities" },
+    { import = "plugins" },
   },
   defaults = {
     lazy = false,

@@ -9,6 +9,8 @@ docs/
 scripts/
 tests/
 **/README.md
+.vscode
+.cursor
 
 {{- if ne .chezmoi.os "darwin" }}
 Library/

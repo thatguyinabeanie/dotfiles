@@ -30,10 +30,7 @@
   },
   "cursor.composer.shouldChimeAfterChatFinishes": true,
   "git.autofetch": false,
-  "cursor.cpp.disabledLanguages": [
-    "plaintext",
-    "scminput"
-  ],
+  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
   "cursor.cpp.enablePartialAccepts": true,
   "cursor.general.gitGraphIndexing": "enabled",
   "files.associations": {
