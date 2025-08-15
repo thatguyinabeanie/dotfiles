@@ -121,7 +121,6 @@ brews:
     - sd
     - sk
     - spotify_player
-    - spicetify-cli
     - starship
     - switchaudio-osx
     - tflint
