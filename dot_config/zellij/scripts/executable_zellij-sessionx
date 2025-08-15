@@ -118,7 +118,7 @@ create_preview() {
         zellij list-sessions 2>/dev/null | grep "^$session" || echo "Session details unavailable"
         echo ""
         echo -e "${CYAN}Press Enter to attach to this session${RESET}"
-    elif [[ "$selection" =~ \(([^)]+\)$ ]]; then
+    elif [[ "$selection" =~ \(([^)]+)\)$ ]]; then
         # Directory path
         local dir="${BASH_REMATCH[1]}"
         if [[ -d "$dir" ]]; then

@@ -21,6 +21,7 @@ files["dot_config/yazi/plugins/**"] = {
 
 -- SketchyBar globals (for files in sketchybar/)
 files["**/sketchybar/**"] = {
+	exclude_files = { "**/*.tmpl" },
 	globals = {
 		"sbar",
 		"id",
@@ -47,4 +48,5 @@ ignore = {
 exclude_files = {
 	"**/node_modules/**",
 	"**/.git/**",
+	"**/*.tmpl",
 }

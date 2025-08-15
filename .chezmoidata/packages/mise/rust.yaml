@@ -1,0 +1,5 @@
+rust:
+  - name: kdl-fmt
+    version: "0.2.0"
+  - name: kdl-lsp
+    version: "6"

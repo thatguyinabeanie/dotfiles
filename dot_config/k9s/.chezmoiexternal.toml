@@ -1,4 +1,4 @@
 ["skins/catppuccin"]
-  type = "git-repo"
-  refreshPeriod = "168h"
-  url = "https://github.com/catppuccin/k9s.git"
+type = "git-repo"
+refreshPeriod = "168h"
+url = "https://github.com/catppuccin/k9s.git"

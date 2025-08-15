@@ -25,4 +25,36 @@ mason:
     - html-lsp
     - rust-analyzer
     - gopls
+    - kdl-lsp
     - prettier
+
+  cli_tools:
+    - ast-grep
+    - bash-debug-adapter
+    - blackd-client
+    - circleci-yaml-language-server
+    - cmake-language-server
+    - diagnostic-languageserver
+    - docker-language-server
+    - dotenv-linter
+    - gh-actions-language-server
+    - golangci-lint
+    - golangci-lint-langserver
+    - go-debug-adapter
+    - jinja-lsp
+    - jq-lsp
+    - kube-linter
+    - kulala-fmt
+    - luacheck
+    - luaformatter
+    - markdown-oxide
+    - nginx-language-server
+    - postgrestools
+    - rust-analyzer
+    - systemd-language-server
+    - tree-sitter-cli
+    - typos
+    - typos-lsp
+    - uv
+    - vale-ls
+    - vim-language-server
