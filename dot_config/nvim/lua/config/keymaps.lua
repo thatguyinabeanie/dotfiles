@@ -16,24 +16,19 @@
 -- vim.keymap.set('n', '<M-K>', '<cmd>Treewalker SwapUp<cr>', { desc = "Treewalker Swap Up", silent = true })
 -- vim.keymap.set('n', '<M-L>', '<cmd>Treewalker SwapRight<cr>', { desc = "Treewalker Swap Right", silent = true })
 
---
--- LAZY PLUGINS KEYMAPS
---
--- vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
--- vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "LazyDocker" })
--- vim.keymap.set("n", "<leader>lD", "<cmd>LazyDev<cr>", { desc = "LazyDev" })
--- vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "LazyExtras" })
--- vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
+vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "Lazy Extras" })
+vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "Lazy Git" })
+vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "Lazy Docker" })
 
---
--- CONTROL BUFFERS
---
--- vim.keymap.set("n", "<leader>bs", ":w<CR>", { desc = "Save buffer" })
--- vim.keymap.set("n", "<leader>bS", ":wa<CR>", { desc = "Save all buffers" })
--- vim.keymap.set("n", "<leader>bq", ":wq<CR>", { desc = "Save & quit buffer" })
--- vim.keymap.set("n", "<leader>bQ", ":wqa<CR>", { desc = "Save & quit all" })
--- vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "Delete buffer" })
--- vim.keymap.set("n", "<leader>bD", ":qa!<CR>", { desc = "Force quit all" })
+-- Projects picker
+vim.keymap.set("n", "<leader>fp", function()
+  require("snacks").picker.projects()
+end, { desc = "Find Project" })
+
+-- -- Show hidden files in picker (matching snacks explorer)
+-- vim.keymap.set("n", "<S-h>", function()
+--   require("snacks").picker.files({ hidden = true })
+-- end, { desc = "Find Files (including hidden)" })
 
 --
 -- COPY BUFFER PATHS
@@ -64,5 +59,3 @@ end, { desc = "Copy Parent Dir Absolute Path" })
 vim.keymap.set("n", "<leader>bx", function()
   vim.cmd("bufdo bd")
 end, { desc = "Close All Buffers" })
-
---

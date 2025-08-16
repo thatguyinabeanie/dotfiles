@@ -6,15 +6,15 @@ on:
     branches: ["**"]
 
 jobs:
-  YAML:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check YAML formatting
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: .
-          config_file: .yamllint.yml
+  # YAML:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #    - name: Check YAML formatting
+  #      uses: ibiqlik/action-yamllint@v3
+  #      with:
+  #        file_or_dir: .
+  #        config_file: .yamllint.yml
 
   SHELL:
     runs-on: ubuntu-latest

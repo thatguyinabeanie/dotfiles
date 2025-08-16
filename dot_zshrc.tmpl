@@ -61,7 +61,7 @@ fi
 
 # Source Carapace
 if command -v carapace >/dev/null 2>&1; then
-  export CARAPACE_BRIDGES='zsh,bash,inshellisense' # optional
+  export CARAPACE_BRIDGES='zsh,bash' # optional
   zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
   source <(carapace _carapace)
 fi
@@ -75,7 +75,6 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 # fi
 
 # Source MCP functions for project auto-detection
-source ~/.config/zsh/mcp-functions.zsh
 
 # source ~/.config/zsh/work.zsh
 # source ~/.config/zsh/secrets.zsh

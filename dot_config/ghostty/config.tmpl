@@ -64,12 +64,9 @@ cursor-style-blink = {{ .ui.cursor_blink }}
 ## CUSTOM KEYBINDS
 ##
 
-#new tab opens tmux window in existing tmux session
-keybind = super+t=text:\x01c
+# new tab opens tmux window ("tab") in existing tmux session (sends Ctrl+a c)
+#keybind = super+t=text:\x01c
 
-#closes tmux window in existing tmux session
-keybind = super+w=text:\x01X
-
-#closes ghostty window when not in tmux
-keybind = super+ctrl+w=close_window
+# closes tmux window in existing tmux session (sends Ctrl+a X)
+keybind = super+ctrl+w=text:\x01X
 

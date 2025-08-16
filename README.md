@@ -67,7 +67,7 @@ This dotfiles system includes a **persistent configuration system** that ensures
 Your configuration values follow a smart precedence system:
 
 1. **Environment Variables** (highest) - `export SHELL_PREF=zsh`
-2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings  
+2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings
 3. **Template Defaults** (fallback) - hardcoded sensible defaults
 
 ### 🛠️ Management commands

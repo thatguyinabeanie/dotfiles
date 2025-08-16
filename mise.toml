@@ -1,14 +1,14 @@
 [tools]
 # Core development tools for this repository
-go = "1"                    # Go runtime (from go.mod requirement)
-golangci-lint = "latest"       # Go linter (used in lefthook)
+go = "1"                 # Go runtime (from go.mod requirement)
+golangci-lint = "latest" # Go linter (used in lefthook)
 
 # Shell and text processing
-shellcheck = "latest"          # Shell script linter (used in lefthook)  
-vale = "latest"                # Prose linter (used in lefthook)
+shellcheck = "latest" # Shell script linter (used in lefthook)  
+vale = "latest"       # Prose linter (used in lefthook)
 
 # Security and secrets scanning
-gitleaks = "latest"            # Secrets scanner (used in lefthook)
+gitleaks = "latest" # Secrets scanner (used in lefthook)
 
 # Node.js ecosystem (for scripts and tools)
 lefthook = "latest"
@@ -19,10 +19,10 @@ stylua = "latest"
 postinstall = "lefthook install || echo 'lefthook install failed - run: mise run setup-hooks'"
 
 [settings]
-jobs = 4                           # Parallel installation jobs
-experimental = true               # Enable experimental features
-verbose = false                   # Reduce noise in output
-yes = true                        # Auto-confirm prompts
+jobs = 4            # Parallel installation jobs
+experimental = true # Enable experimental features
+verbose = false     # Reduce noise in output
+yes = true          # Auto-confirm prompts
 auto_install = true
 
 [tasks.setup-hooks]
@@ -60,4 +60,3 @@ run = "chezmoi diff"
 [tasks.sync]
 description = "Apply dotfiles and show diff"
 run = ["chezmoi apply", "chezmoi diff"]
-

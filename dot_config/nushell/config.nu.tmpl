@@ -16,13 +16,13 @@ if ($env.WORK_ENVIRONMENT? == "true" or $env.WORK_ENVIRONMENT? == true) {
 }
 #
 # Load Catppuccin theme based on CATPPUCCIN_FLAVOR env var
-match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
-    "latte" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_latte.nu },
-    "frappe" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_frappe.nu },
-    "macchiato" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_macchiato.nu },
-    "mocha" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu },
-    _ => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu }
-}
+# match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
+#     "latte" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_latte.nu },
+#     "frappe" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_frappe.nu },
+#     "macchiato" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_macchiato.nu },
+#     "mocha" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu },
+#     _ => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu }
+# }
 #
 # # Source FZF theme
 source ~/.config/fzf/fzf-theme.nu

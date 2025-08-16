@@ -27,6 +27,10 @@ nodejs:
       description: "Mermaid diagram CLI tool"
     - name: "opencode-ai"
       description: "OpenCode AI CLI tool"
+    - name: "@augmentcode/auggie"
+      description: "Augment Code Cli"
+    - name: "@openai/codex"
+      description: "OpenAi Codex Cli"
 
     # MCP Servers (NPM packages)
     - name: "@modelcontextprotocol/server-filesystem"
