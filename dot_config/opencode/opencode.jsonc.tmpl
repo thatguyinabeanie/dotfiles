@@ -1,0 +1,45 @@
+{{- $ai := (include ".chezmoidata/apps/ai.yaml" | fromYaml).ai }}
+{
+  "$schema": "https://opencode.ai/config.json",
+
+  "model": "{{ $ai.model }}",
+  "small_model": "{{ $ai.small_model }}",
+
+  // Auto-sharing for collaboration
+  "share": "{{ $ai.share }}",
+  "autoupdate": {{ $ai.autoupdate }},
+  "provider": {
+{{- if index $ai.provider "openrouter" }}
+{{- $openrouter := index $ai.provider "openrouter" }}
+    "openrouter": {
+{{- if and $openrouter (hasKey $openrouter "options") }}
+      "options": {
+{{- if hasKey $openrouter.options "apiKey" }}
+        "apiKey": "{{ $openrouter.options.apiKey }}"
+{{- end }}
+      }
+{{- end }}
+    }{{ if index $ai.provider "github-copilot" }},{{ end }}
+{{- end }}
+{{- if index $ai.provider "github-copilot" }}
+{{- $copilot := index $ai.provider "github-copilot" }}
+    "github-copilot": {
+{{- if and $copilot (hasKey $copilot "models") }}
+      "models": {
+{{- $modelCount := 0 }}
+{{- range $modelName, $modelConfig := $copilot.models }}
+{{- if gt $modelCount 0 }},{{ end }}
+        "{{ $modelName }}": {
+          "limit": {
+            "context": {{ $modelConfig.limit.context }},
+            "output": {{ $modelConfig.limit.output }}
+          }
+        }
+{{- $modelCount = add $modelCount 1 }}
+{{- end }}
+      }
+{{- end }}
+    }
+{{- end }}
+  }
+}

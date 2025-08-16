@@ -250,4 +250,3 @@ local function get_python_path()
 end
 
 vim.g.python3_host_prog = get_python_path()
-

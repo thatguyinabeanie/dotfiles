@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 -- Custom magick plugin that handles multi-frame HEIC files
 -- Based on yazi's built-in magick plugin with HEIC fix
 

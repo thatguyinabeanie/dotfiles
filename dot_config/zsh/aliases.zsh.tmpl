@@ -6,6 +6,9 @@ source "$HOME/.config/zsh/platform-storage-env.zsh"
 # Load zellij functions (tmux replacement)
 source "$HOME/.config/zellij/zellij-functions.zsh"
 
+# Load OpenCode configuration functions
+{{ template "opencode/config.sh" . }}
+
 alias y="yazi"
 
 alias ls="eza"

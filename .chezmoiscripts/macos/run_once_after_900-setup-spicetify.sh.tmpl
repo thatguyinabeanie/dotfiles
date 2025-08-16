@@ -1,22 +1,18 @@
 #!/bin/bash
 {{ if eq .chezmoi.os "darwin" -}}
 
-# Spicetify setup script for macOS
-echo "🎵 Setting up Spicetify..."
-
 # Check if Spotify is installed
 if [ ! -d "/Applications/Spotify.app" ]; then
-    echo "❌ Spotify not found at /Applications/Spotify.app"
-    echo "Please install Spotify from the Mac App Store or https://spotify.com first"
-    exit 1
+    exit 0
 fi
 
 # Check if spicetify is installed
 if ! command -v spicetify &> /dev/null; then
-    echo "❌ spicetify command not found"
-    echo "Please install spicetify-cli via Homebrew first: brew install spicetify-cli"
-    exit 1
+    exit 0
 fi
+
+# Spicetify setup script for macOS
+echo "🎵 Setting up Spicetify..."
 
 # Set Spotify path for macOS
 echo "🔧 Configuring Spicetify for macOS..."

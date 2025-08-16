@@ -23,12 +23,16 @@ require("lazy").setup({
     { import = "plugins/ai" },
     { import = "plugins/ui" },
     { import = "plugins/utilities" },
+    { import = "plugins" },
   },
   defaults = {
     lazy = false,
     version = false,
   },
-  install = { colorscheme = { "catppuccin" } },
+  install = {
+    missing = true,
+    colorscheme = { "catppuccin" },
+  },
   checker = {
     enabled = true,
     notify = true,

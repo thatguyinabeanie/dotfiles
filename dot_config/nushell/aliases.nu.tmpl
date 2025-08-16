@@ -4,6 +4,18 @@
 ## Advanced shell functions for productivity and development workflow
 ##
 
+{{- if eq .chezmoi.os "darwin" }}
+##
+## BREW SERVICES MANAGEMENT
+##
+{{- template "brew-services-functions.nu" . }}
+{{- end }}
+
+##
+## OPENCODE AI CONFIGURATION
+##
+{{- template "opencode/generate.nu" . }}
+
 ##
 ## MISCELLANEOUS UTILITIES
 ##
@@ -30,122 +42,6 @@ alias tks = tmux kill-server       # Quick tmux server termination
 alias l  = ls                      # List files in current directory
 alias ll = ls -a                   # List all files (including hidden)
 alias la = ls -la                  # List all files with detailed information
-
-##
-## CHEZMOI DOTFILES MANAGEMENT
-##
-
-# Navigate to the chezmoi source directory and open with Neovim
-# Opens the parent directory of the source to see the full repository structure
-# Usage: dotfiles
-def dotfiles [] {
-  nvim "{{ .chezmoi.sourceDir }}/.."
-}
-
-# Change directory to the chezmoi source directory
-# Useful for quick navigation to dotfiles for manual editing
-# Usage: dotfiles_cd
-def dotfiles_cd [] {
-  cd "{{ .chezmoi.sourceDir }}/.."
-}
-
-# Edit the main chezmoi configuration file
-# Opens the user's personal chezmoi.toml configuration
-# Usage: chezmoi-data
-def chezmoi-data [] {
-  nvim "~/.config/chezmoi/chezmoi.toml"
-}
-
-# Quick access to ~/.config directory
-# Function version opens with Neovim, alias version navigates
-def config [] {
-  nvim "~/.config"
-}
-
-alias config            = cd ~/.config        # Navigate to config directory
-alias config_edit       = nvim ~/.config     # Edit config directory with Neovim
-
-# Utility function to check if we're in interactive Chezmoi mode
-# Returns true if CHEZMOI_INTERACTIVE environment variable is set to "1"
-# Used by templates to determine whether to prompt for user input
-def is_interactive [] {
-  $env.CHEZMOI_INTERACTIVE == "1"
-}
-
-##
-## NEOVIM INTEGRATIONS
-##
-
-##
-## GITHUB REPOSITORY MANAGEMENT
-##
-
-# Create a new GitHub repository with optional privacy and description
-# Automatically navigates to ~/source/ directory for consistent project organization
-# Usage: gh-create-repo <name> [--private] [--description "description"]
-# Example: gh-create-repo my-project --private --description "My awesome project"
-def gh-create-repo [
-    name: string,                    # Repository name (required)
-    --private (-p) = false,          # Make repository private (default: public)
-    --description (-d): string = ""  # Repository description (optional)
-] {
-    let visibility = if $private { "private" } else { "public" }
-    cd ~/source/
-    gh repo create $name --$visibility --description $description
-}
-
-# Clone a GitHub repository to ~/source/ directory
-# Maintains consistent project organization by defaulting to source directory
-# Usage: gh-clone-repo <repo> [--destination <path>]
-# Example: gh-clone-repo username/repository-name
-def gh-clone-repo [
-    repo: string,                    # Repository in format "username/repo" or full URL
-    --destination (-d): string = "." # Destination directory (default: current)
-] {
-    cd ~/source
-    gh repo clone $repo $destination
-}
-
-# List repositories for the authenticated GitHub user
-# Provides paginated view of your repositories with customizable limit
-# Usage: gh-list-repos [--limit <number>]
-# Example: gh-list-repos --limit 50
-def gh-list-repos [
-    --limit (-l): int = 30  # Number of repositories to display (default: 30)
-] {
-    gh repo list --limit $limit
-}
-
-# Delete a GitHub repository with confirmation
-# ⚠️ WARNING: This is a destructive operation that permanently removes the repository
-# Usage: gh-delete-repo <repo>
-# Example: gh-delete-repo username/old-repository
-def gh-delete-repo [
-    repo: string  # Repository name in format "username/repo"
-] {
-    gh repo delete $repo --confirm
-}
-
-# Add a remote to an existing local git repository
-# Fetches the SSH URL from GitHub and adds it as a remote
-# Usage: gh-add-remote <remote_name> <repo>
-# Example: gh-add-remote upstream original-author/repository-name
-def gh-add-remote [
-    remote_name: string,  # Name for the remote (e.g., "upstream", "origin")
-    repo: string          # Repository in format "username/repo"
-] {
-    gh repo view $repo --json sshUrl | get sshUrl | each { git remote add $remote_name }
-}
-
-# Open a GitHub repository in the default web browser
-# Quickly access repository pages, issues, PRs, etc.
-# Usage: gh-open-repo <repo>
-# Example: gh-open-repo username/repository-name
-def gh-open-repo [
-    repo: string  # Repository in format "username/repo"
-] {
-    gh repo view $repo --web
-}
 
 ##
 ## GIT COMMIT EMOJI SELECTOR
@@ -279,15 +175,6 @@ def docker_nuke [] {
     docker_purge --force true
 }
 
-{{- if eq .chezmoi.os "darwin" }}
-
-##
-## BREW SERVICES MANAGEMENT
-##
-
-{{- template "brew-services-functions.nu" . }}
-
-{{- end }}
 
 ##
 ## ANIMATED TERMINAL TRANSITIONS

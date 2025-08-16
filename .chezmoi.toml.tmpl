@@ -24,6 +24,10 @@ YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output 
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
 INTERACTIVE                = false
 
+[data.opencode]
+model                      = {{ (env "OPENCODE_MODEL") | default (output "bash" "-c" (printf "%s read opencode_model" ($config_helper | quote)) | trim) | default "openrouter/anthropic/claude-3.5-sonnet" | quote }}
+small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default (output "bash" "-c" (printf "%s read opencode_small_model" ($config_helper | quote)) | trim) | default "openrouter/anthropic/claude-3-haiku" | quote }}
+
 [data.ui]
 opacity                    = {{ (env "UI_OPACITY") | default (output "bash" "-c" (printf "%s read ui_opacity" ($config_helper | quote)) | trim) | default "0.5" | quote }}
 blur                       = {{ (env "UI_BLUR") | default (output "bash" "-c" (printf "%s read ui_blur" ($config_helper | quote)) | trim) | default "255" | quote }}

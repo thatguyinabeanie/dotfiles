@@ -22,6 +22,11 @@ return {
       "{{ . }}",
 {{- end }}
     },
+    cli_tools = {
+{{- range .mason.cli_tools }}
+      "{{ . }}",
+{{- end }}
+    },
   },
 
   filetypes = {

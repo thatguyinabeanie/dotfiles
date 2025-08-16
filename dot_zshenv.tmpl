@@ -19,7 +19,6 @@ export {{ $key }}="{{ $value }}"
 ##
 export BAT_THEME="Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
 export WORK_ENVIRONMENT="{{ .WORK_ENVIRONMENT }}"
-export CHEZMOI_INTERACTIVE="{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
 export GIT_NAME="{{ .git.config.name }}"
 export GITHUB_USERNAME="{{ .git.config.username }}"
 export GIT_EMAIL="{{ .git.config.email }}"
