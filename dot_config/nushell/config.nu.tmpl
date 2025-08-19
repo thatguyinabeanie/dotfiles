@@ -2,18 +2,11 @@
 
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
-source ~/.config/nushell/secrets.nu
 source ~/.cache/carapace/init.nu
 
 # Load platform storage environment functions
 use ~/.config/nushell/platform-storage-env.nu *
 
-# Disable nushell banner
-$env.config = ($env.config | upsert show_banner false)
-
-if ($env.WORK_ENVIRONMENT? == "true" or $env.WORK_ENVIRONMENT? == true) {
-    source ~/.config/nushell/work.nu
-}
 #
 # Load Catppuccin theme based on CATPPUCCIN_FLAVOR env var
 # match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
