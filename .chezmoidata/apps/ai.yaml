@@ -1,8 +1,4 @@
 ai:
-  model: claude-sonnet-4
-  small_model: github-copilot/claude-3.5-sonnet
-  autoupdate: true
-  share: manual
   provider:
     github-copilot:
       models:
