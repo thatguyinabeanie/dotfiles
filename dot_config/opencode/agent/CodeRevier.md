@@ -14,7 +14,7 @@ description: >-
   the code-quality-reviewer agent to ensure it follows best practices.'
   <commentary>The user wants code review, so use the code-quality-reviewer agent
   to analyze the implementation.</commentary></example>
-mode: all
+mode: subagent
 tools:
   write: false
   edit: false

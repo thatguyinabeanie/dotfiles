@@ -14,6 +14,8 @@ vim.filetype.add({
       end
       return "tmpl"
     end,
+    ["yml.erb"] = "yaml.erb",
+    ["yaml.erb"] = "yaml.erb",
   },
   filename = {
     [".chezmoiignore"] = "gitignore",
@@ -31,4 +33,13 @@ vim.filetype.add({
     [".*%.nu%.tmpl"] = "nu.tmpl",
     [".*%.conf%.tmpl"] = "conf.tmpl",
   },
+})
+
+-- Configure syntax highlighting for ERB YAML files
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.yml.erb", "*.yaml.erb" },
+  callback = function()
+    vim.bo.filetype = "yaml.erb"
+    vim.bo.syntax = "yaml.erb"
+  end,
 })

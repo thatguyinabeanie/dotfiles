@@ -195,15 +195,3 @@ def docker_nuke [] {
 #   run-external clear
 # }
 
-##
-## WORK ENVIRONMENT FUNCTIONS
-##
-
-{{- if eq .chezmoi.os "darwin" }}
-# Load work-specific kubectl functions if available
-if ($env.WORK_ENVIRONMENT? == "true" or $env.WORK_ENVIRONMENT? == true) {
-   if ("~/source/civis-kubectl-configs/functions.nu" | path expand | path exists) {
-       use ~/source/civis-kubectl-configs/functions.nu *
-   }
-}
-{{- end }}

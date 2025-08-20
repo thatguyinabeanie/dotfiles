@@ -1,33 +1,32 @@
+{{- $opencode := (include ".chezmoidata/apps/opencode.yaml" | fromYaml).ai }}
 {{- $ai := (include ".chezmoidata/apps/ai.yaml" | fromYaml).ai }}
 {
   "$schema": "https://opencode.ai/config.json",
 
-  "model": "{{ $ai.model }}",
-  "small_model": "{{ $ai.small_model }}",
+  "model": "{{ $opencode.provider }}/{{ $opencode.model }}",
+  "small_model": "{{ $opencode.provider }}/{{ $opencode.small_model }}",
 
   // Auto-sharing for collaboration
-  "share": "{{ $ai.share }}",
-  "autoupdate": {{ $ai.autoupdate }},
+  "share": "{{ $opencode.share }}",
+  "autoupdate": {{ $opencode.autoupdate }},
   "provider": {
-{{- if index $ai.provider "openrouter" }}
-{{- $openrouter := index $ai.provider "openrouter" }}
-    "openrouter": {
-{{- if and $openrouter (hasKey $openrouter "options") }}
+{{- $providerCount := 0 }}
+{{- range $providerName := $opencode.providers }}
+{{- if index $ai.provider $providerName }}
+{{- $provider := index $ai.provider $providerName }}
+{{- if gt $providerCount 0 }},{{ end }}
+    "{{ $providerName }}": {
+{{- if hasKey $provider "options" }}
       "options": {
-{{- if hasKey $openrouter.options "apiKey" }}
-        "apiKey": "{{ $openrouter.options.apiKey }}"
+{{- range $key, $value := $provider.options }}
+        "{{ $key }}": "{{ $value }}"{{ if ne $key (last (keys $provider.options)) }},{{ end }}
 {{- end }}
-      }
+      }{{ if or (hasKey $provider "models") (hasKey $provider (title $providerName)) }},{{ end }}
 {{- end }}
-    }{{ if index $ai.provider "github-copilot" }},{{ end }}
-{{- end }}
-{{- if index $ai.provider "github-copilot" }}
-{{- $copilot := index $ai.provider "github-copilot" }}
-    "github-copilot": {
-{{- if and $copilot (hasKey $copilot "models") }}
+{{- if hasKey $provider "models" }}
       "models": {
 {{- $modelCount := 0 }}
-{{- range $modelName, $modelConfig := $copilot.models }}
+{{- range $modelName, $modelConfig := $provider.models }}
 {{- if gt $modelCount 0 }},{{ end }}
         "{{ $modelName }}": {
           "limit": {
@@ -38,8 +37,24 @@
 {{- $modelCount = add $modelCount 1 }}
 {{- end }}
       }
+{{- else if hasKey $provider (title $providerName) }}
+      "models": {
+{{- $modelCount := 0 }}
+{{- range index $provider (title $providerName) }}
+{{- if gt $modelCount 0 }},{{ end }}
+        "{{ .name }}": {
+          "limit": {
+            "context": {{ .limit.context }},
+            "output": {{ .limit.output }}
+          }
+        }
+{{- $modelCount = add $modelCount 1 }}
+{{- end }}
+      }
 {{- end }}
     }
+{{- $providerCount = add $providerCount 1 }}
+{{- end }}
 {{- end }}
   }
 }

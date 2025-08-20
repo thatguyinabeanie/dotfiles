@@ -3,11 +3,16 @@
 source ~/.config/nushell/env.nu
 source ~/.config/nushell/aliases.nu
 source ~/.cache/carapace/init.nu
+source ~/.config/fzf/fzf-theme.nu
 
 # Load platform storage environment functions
 use ~/.config/nushell/platform-storage-env.nu *
 
-#
+# Disable nushell banner
+$env.config = ($env.config | upsert show_banner false)
+
+
+
 # Load Catppuccin theme based on CATPPUCCIN_FLAVOR env var
 # match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
 #     "latte" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_latte.nu },
@@ -17,8 +22,6 @@ use ~/.config/nushell/platform-storage-env.nu *
 #     _ => { source ~/.config/nushell/.catppuccin/themes/catppuccin_mocha.nu }
 # }
 #
-# # Source FZF theme
-source ~/.config/fzf/fzf-theme.nu
 
 # Auto-attach to tmux session for interactive shells (opt-in)
 if ($env | get --optional TMUX | is-empty) and ($env | get --optional GHOSTTY_AUTO_TMUX) == "true" {

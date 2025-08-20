@@ -61,6 +61,7 @@ Cosmoem
 Cosmog
 cr
 crc32c
+CVE
 CVEs
 daff
 dataproc
@@ -89,6 +90,7 @@ EOF
 errcheck
 ESLint
 eval
+exploitability
 eza
 FakePlatform
 Fastfetch
@@ -150,6 +152,7 @@ json
 jsonc
 jsonref
 jsonschema
+JUnit
 Jupyter
 jupytext
 JWT
@@ -173,6 +176,7 @@ LazyGit
 LazyVim
 lcov
 lD
+LDAP
 Lefthook
 linter
 linters
@@ -214,6 +218,7 @@ Neovim's
 networkx
 NextJS
 nginx
+NIST
 NPM
 NumPy
 nushell
@@ -232,6 +237,8 @@ ObsidianWorkspace
 ObsidianYesterday
 Okta
 OpenAI
+OWASP
+params
 parsedatetime
 parso
 PascalCase
@@ -240,6 +247,7 @@ pathspec
 pexpect
 Pikachu
 platformdirs
+PlatformOps
 Plotly
 pluggy
 pokemon
@@ -360,6 +368,7 @@ WezTerm
 whoami
 withFeatureFlags
 XDG
+XSS
 YAML
 Yazi
 zipp
