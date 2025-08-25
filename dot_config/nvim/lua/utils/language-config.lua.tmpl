@@ -1,9 +1,8 @@
 -- Auto-generated language tooling configuration
 -- Sources: .chezmoidata/development/{neovim-treesitter,neovim-lsp-servers}.yaml
 -- Generated: {{ now }}
-
-{{- $treesitter := (include ".chezmoidata/development/neovim-treesitter.yaml" | fromYaml) -}}
-{{- $lsp := (include ".chezmoidata/development/neovim-lsp-servers.yaml" | fromYaml) -}}
+{{- $treesitter := (include ".chezmoidata/development/neovim-treesitter.yaml" | fromYaml) }}
+{{- $lsp := (include ".chezmoidata/development/neovim-lsp-servers.yaml" | fromYaml) }}
 
 return {
   treesitter = {

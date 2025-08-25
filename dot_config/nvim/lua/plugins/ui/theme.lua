@@ -1,7 +1,6 @@
 return {
   {
     "catppuccin/nvim",
-    version = "1.10",
     priority = 1000,
     lazy = false,
     name = "catppuccin",
@@ -107,15 +106,17 @@ return {
       end,
     },
   },
-
   {
-    "akinsho/bufferline.nvim",
+    "catppuccin/nvim",
+    priority = 1000,
     lazy = false,
-    optional = true,
+    name = "catppuccin",
     opts = function(_, opts)
-      if (vim.g.colors_name or ""):find("catppuccin") then
-        opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
+      local module = require("catppuccin.groups.integrations.bufferline")
+      if module then
+        module.get = module.get_theme
       end
+      return opts
     end,
   },
 }

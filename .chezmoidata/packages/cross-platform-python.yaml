@@ -47,21 +47,7 @@ cross_platform_python:
     - name: watchdog
       description: "File system event monitoring"
 
-    # Scientific Computing & Jupyter
-    - name: jupyterlab
-      description: "JupyterLab development environment"
-    - name: jupyter
-      description: "Jupyter Notebook"
-    - name: jupytext
-      description: "Text representation of Jupyter notebooks"
-    - name: ipykernel
-      description: "IPython kernel for Jupyter"
-    - name: pynvim
-      description: "Neovim Python client"
-    - name: jupyter_client
-      description: "Jupyter protocol client APIs"
-    - name: cairosvg
-      description: "SVG converter for notebook images"
+    # Scientific Computing
     - name: plotly
       description: "Interactive plotting library"
     - name: kaleido
