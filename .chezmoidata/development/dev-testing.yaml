@@ -1,0 +1,9 @@
+dev_testing:
+  # Testing frameworks and tools
+  testing_tools:
+    - pytest  # Python testing (handled in python packages)
+    
+  debug_tools:
+    - bash-debug-adapter
+    - go-debug-adapter
+    - debugpy  # Python debugging (handled in python packages)

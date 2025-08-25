@@ -161,11 +161,12 @@ function docker_purge() {
 alias docker_nuke="docker_purge -f"
 
 {{- if eq .chezmoi.os "darwin" }}
+{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
 
 ##
 ## BREW SERVICES MANAGEMENT
 ##
 
-{{ template "brew-services-functions.sh" . }}
+{{ template "brew-services-functions.sh" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
 
 {{- end }}

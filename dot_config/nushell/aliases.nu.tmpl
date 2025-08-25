@@ -5,10 +5,11 @@
 ##
 
 {{- if eq .chezmoi.os "darwin" }}
+{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
 ##
 ## BREW SERVICES MANAGEMENT
 ##
-{{- template "brew-services-functions.nu" . }}
+{{- template "brew-services-functions.nu" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
 {{- end }}
 
 ##

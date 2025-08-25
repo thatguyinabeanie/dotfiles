@@ -1,0 +1,14 @@
+cross_platform_go:
+  # Go programming language and tools
+  runtime:
+    - name: go
+      version: 1
+      description: "Go programming language"
+  
+  tools:
+    - name: golangci-lint
+      version: latest
+      description: "Go linter aggregator"
+    - name: golangci-lint-langserver
+      version: latest
+      description: "Go linter language server"

@@ -1,45 +1,83 @@
+{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml).cross_platform_tools }}
+{{- $go := (include ".chezmoidata/packages/cross-platform-go.yaml" | fromYaml).cross_platform_go }}
+{{- $rust := (include ".chezmoidata/packages/cross-platform-rust.yaml" | fromYaml).cross_platform_rust }}
+{{- $lua := (include ".chezmoidata/packages/cross-platform-lua.yaml" | fromYaml).cross_platform_lua }}
+{{- $node := (include ".chezmoidata/packages/cross-platform-node.yaml" | fromYaml).cross_platform_node }}
+{{- $python := (include ".chezmoidata/packages/cross-platform-python.yaml" | fromYaml).cross_platform_python }}
+
 [tools]
-# Tools from tools.yaml sections
-{{- range $section_name, $tools := .tools }}
-{{- range $tool := $tools }}
+# Cross-platform tools from cross-platform-tools.yaml sections
+{{- range $section_name, $section_tools := $tools }}
+{{- if ne $section_name "architecture" }}
+{{- if ne $section_name "schedule" }}
+{{- range $tool := $section_tools }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
+{{- end }}
+{{- end }}
 
-# Languages from languages.yaml sections  
-{{- range $ecosystem_name, $tools := .languages }}
-{{- range $tool := $tools }}
+# Go tools from cross-platform-go.yaml
+{{- range $tool := $go.runtime }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
-{{- end }}
-
-# Node.js package managers from node.yaml
-{{- range $tool := (index .nodejs "package-managers") }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Python tools from python.yaml (only items with versions)
-{{- range $tool := .python }}
+{{- range $tool := $go.tools }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 
-# Global npm packages from node.yaml
-{{- range $package := .nodejs.global }}
+# Rust tools from cross-platform-rust.yaml
+{{- range $tool := $rust.runtime }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+{{- range $tool := $rust.tools }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+
+# Lua tools from cross-platform-lua.yaml
+{{- range $tool := $lua.runtime }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+{{- range $tool := $lua.tools }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+
+# Node.js package managers from cross-platform-node.yaml
+{{- range $tool := $node.package_managers }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+
+# Python tools from cross-platform-python.yaml (only items with versions)
+{{- range $tool := $python.runtime }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+
+# Global npm packages from cross-platform-node.yaml
+{{- range $package := $node.global_packages }}
 "npm:{{ $package.name }}" = "latest"
 {{- end }}
 
 [tasks.install-python-tools]
 description = "Install Python global packages via pipx"
 run = [
-{{- range $package := .python_packages }}
+{{- range $package := $python.packages }}
   "pipx install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
 {{- end }}
 ]

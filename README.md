@@ -129,7 +129,12 @@ dotfiles/
 │   │   └── run_once_after_*.sh  # Work vault setup script
 │   ├── tmux/
 │   └── ...
-├── 🔭 .chezmoidata/             # YAML data files
+├── 🔭 .chezmoidata/             # Reorganized YAML data files
+│   ├── packages/              # Package management (macOS, cross-platform)
+│   ├── environment/           # Environment variables and paths
+│   ├── system/                # System configurations and app settings
+│   ├── development/           # Development tools and Neovim configs
+│   └── ai/                    # AI model configurations
 ├── 💾 .scripts/utilities/       # Persistent configuration system
 │   ├── chezmoi-backup-config
 │   └── chezmoi-restore-config

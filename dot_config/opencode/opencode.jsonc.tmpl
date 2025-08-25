@@ -1,5 +1,8 @@
-{{- $opencode := (include ".chezmoidata/apps/opencode.yaml" | fromYaml).ai }}
-{{- $ai := (include ".chezmoidata/apps/ai.yaml" | fromYaml).ai }}
+{{- $opencode := (include ".chezmoidata/ai/ai-opencode.yaml" | fromYaml).ai_opencode }}
+{{- $github_copilot := (include ".chezmoidata/ai/ai-github-copilot.yaml" | fromYaml).ai_github_copilot }}
+{{- $anthropic := (include ".chezmoidata/ai/ai-anthropic.yaml" | fromYaml).ai_anthropic }}
+{{- $google := (include ".chezmoidata/ai/ai-google.yaml" | fromYaml).ai_google }}
+{{- $openrouter := (include ".chezmoidata/ai/ai-openrouter.yaml" | fromYaml).ai_openrouter }}
 {
   "$schema": "https://opencode.ai/config.json",
 
@@ -10,23 +13,10 @@
   "share": "{{ $opencode.share }}",
   "autoupdate": {{ $opencode.autoupdate }},
   "provider": {
-{{- $providerCount := 0 }}
-{{- range $providerName := $opencode.providers }}
-{{- if index $ai.provider $providerName }}
-{{- $provider := index $ai.provider $providerName }}
-{{- if gt $providerCount 0 }},{{ end }}
-    "{{ $providerName }}": {
-{{- if hasKey $provider "options" }}
-      "options": {
-{{- range $key, $value := $provider.options }}
-        "{{ $key }}": "{{ $value }}"{{ if ne $key (last (keys $provider.options)) }},{{ end }}
-{{- end }}
-      }{{ if or (hasKey $provider "models") (hasKey $provider (title $providerName)) }},{{ end }}
-{{- end }}
-{{- if hasKey $provider "models" }}
+    "github-copilot": {
       "models": {
 {{- $modelCount := 0 }}
-{{- range $modelName, $modelConfig := $provider.models }}
+{{- range $modelName, $modelConfig := $github_copilot.models }}
 {{- if gt $modelCount 0 }},{{ end }}
         "{{ $modelName }}": {
           "limit": {
@@ -37,10 +27,11 @@
 {{- $modelCount = add $modelCount 1 }}
 {{- end }}
       }
-{{- else if hasKey $provider (title $providerName) }}
+    },
+    "anthropic": {
       "models": {
 {{- $modelCount := 0 }}
-{{- range index $provider (title $providerName) }}
+{{- range $anthropic.Anthropic }}
 {{- if gt $modelCount 0 }},{{ end }}
         "{{ .name }}": {
           "limit": {
@@ -51,10 +42,36 @@
 {{- $modelCount = add $modelCount 1 }}
 {{- end }}
       }
+    },
+    "google": {
+      "models": {
+{{- $modelCount := 0 }}
+{{- range $google.Google }}
+{{- if gt $modelCount 0 }},{{ end }}
+        "{{ .name }}": {
+          "limit": {
+            "context": {{ .limit.context }},
+            "output": {{ .limit.output }}
+          }
+        }
+{{- $modelCount = add $modelCount 1 }}
 {{- end }}
+      }
+    },
+    "openrouter": {
+      "models": {
+{{- $modelCount := 0 }}
+{{- range $openrouter.OpenRouter }}
+{{- if gt $modelCount 0 }},{{ end }}
+        "{{ .name }}": {
+          "limit": {
+            "context": {{ .limit.context }},
+            "output": {{ .limit.output }}
+          }
+        }
+{{- $modelCount = add $modelCount 1 }}
+{{- end }}
+      }
     }
-{{- $providerCount = add $providerCount 1 }}
-{{- end }}
-{{- end }}
   }
 }

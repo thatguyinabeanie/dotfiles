@@ -1,11 +1,14 @@
 -- Auto-generated language tooling configuration
--- Sources: .chezmoidata/packages/neovim/{treesitter,mason,filetypes}.yaml
+-- Sources: .chezmoidata/development/{neovim-treesitter,neovim-lsp-servers}.yaml
 -- Generated: {{ now }}
+
+{{- $treesitter := (include ".chezmoidata/development/neovim-treesitter.yaml" | fromYaml) -}}
+{{- $lsp := (include ".chezmoidata/development/neovim-lsp-servers.yaml" | fromYaml) -}}
 
 return {
   treesitter = {
     parsers = {
-{{- range .treesitter.parsers }}
+{{- range $treesitter.neovim_treesitter.parsers }}
       "{{ . }}",
 {{- end }}
     },
@@ -13,17 +16,17 @@ return {
 
   mason = {
     core_tools = {
-{{- range .mason.core_tools }}
+{{- range $lsp.neovim_lsp_servers.core_tools }}
       "{{ . }}",
 {{- end }}
     },
     exploration_tools = {
-{{- range .mason.exploration_tools }}
+{{- range $lsp.neovim_lsp_servers.exploration_tools }}
       "{{ . }}",
 {{- end }}
     },
     cli_tools = {
-{{- range .mason.cli_tools }}
+{{- range $lsp.neovim_lsp_servers.cli_tools }}
       "{{ . }}",
 {{- end }}
     },
@@ -31,7 +34,7 @@ return {
 
   filetypes = {
     templates = {
-{{- range $lang, $templates := .filetypes.templates }}
+{{- range $lang, $templates := $treesitter.neovim_treesitter.filetypes.templates }}
   {{- if kindIs "slice" $templates }}
       {{ $lang }} = { {{- range $templates }}"{{ . }}", {{- end }} },
   {{- else }}
@@ -41,19 +44,19 @@ return {
     },
 
     lsp_servers = {
-{{- range $filetype, $server := .filetypes.lsp_servers }}
+{{- range $filetype, $server := $treesitter.neovim_treesitter.filetypes.lsp_servers }}
       {{ $filetype }} = "{{ $server }}",
 {{- end }}
     },
 
     web_frameworks = {
-{{- range .filetypes.web_frameworks }}
+{{- range $treesitter.neovim_treesitter.filetypes.web_frameworks }}
       "{{ . }}",
 {{- end }}
     },
 
     typescript_stack = {
-{{- range .filetypes.typescript_stack }}
+{{- range $treesitter.neovim_treesitter.filetypes.typescript_stack }}
       "{{ . }}",
 {{- end }}
     },

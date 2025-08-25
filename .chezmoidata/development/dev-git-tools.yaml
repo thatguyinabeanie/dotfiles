@@ -1,0 +1,8 @@
+dev_git_tools:
+  # Git-related tools and utilities
+  git_tools:
+    - delta
+    - github-cli
+    - gitleaks
+    - gitsign
+    - gitui

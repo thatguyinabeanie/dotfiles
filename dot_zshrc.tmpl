@@ -18,7 +18,8 @@ source ~/.config/zsh/aliases.zsh
 
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
-{{- template "brew-services-functions.sh" . }}
+{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
+{{- template "brew-services-functions.sh" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
 {{- end }}
 
 # PNPM configuration
