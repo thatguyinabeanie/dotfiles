@@ -31,6 +31,8 @@ nodejs:
       description: "Augment Code Cli"
     - name: "@openai/codex"
       description: "OpenAi Codex Cli"
+    - name: "@slidev/cli"
+      description: "Slides dev cli"
 
     # MCP Servers (NPM packages)
     - name: "@modelcontextprotocol/server-filesystem"
