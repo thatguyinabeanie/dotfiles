@@ -24,13 +24,14 @@ return {
   -- Mason: Core tools
   {
     "mason-org/mason.nvim",
-    version = "v2",
+    version = "2*",
     opts = { ensure_installed = config.mason.core_tools },
   },
 
   -- Mason LSP configuration bridge
   {
     "mason-org/mason-lspconfig.nvim",
+    version = "2*",
     dependencies = { "mason-org/mason.nvim" },
     opts = {},
   },
@@ -205,4 +206,37 @@ return {
       },
     },
   },
+
+  --  -- Configure nvim-lint for ERB files
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   opts = {
+  --     linters_by_ft = {
+  --       ["yaml.erb"] = { "erb_lint" },
+  --       ["html.erb"] = { "erb_lint" },
+  --     },
+  --   },
+  -- },
+  -- -- Configure conform.nvim for ERB formatting
+  -- {
+  --   "stevearc/conform.nvim",
+  --   opts = {
+  --     formatters_by_ft = {
+  --       ["yaml.erb"] = { "erb_format" },
+  --       ["html.erb"] = { "erb_format" },
+  --     },
+  --   },
+  -- },
+  -- -- Disable ruby_lsp for ERB files to avoid mysql2 compilation issues 1Code has comments. Press enter to view.
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   opts = {
+  --     servers = {
+  --       ruby_lsp = {
+  --         filetypes = { "ruby" }, -- Remove erb from filetypes
+  --       },
+  --     },
+  --   },
+  -- },
+  --
 }

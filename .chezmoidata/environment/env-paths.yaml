@@ -1,0 +1,13 @@
+env_paths:
+  # PATH configurations and system paths
+  path:
+    - "/usr/local/bin"
+    - "/Library/Developer/CommandLineTools/usr/bin"
+    - "/opt/homebrew/bin"
+    - "/opt/homebrew/sbin"
+    - "/opt/homebrew/opt/libpq/bin"
+    - "/opt/homebrew/opt/unzip/bin"
+    - "/opt/homebrew/opt/gnu-sed/libexec/gnubin"
+    - "$HOME/.cargo/bin"
+    - "$HOME/.local/bin"
+    - "$HOME/.local/share/mise/shims"

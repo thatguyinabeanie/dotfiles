@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 {{- if eq .chezmoi.os "darwin" }}
+{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
 
 # Exit silently if MANAGE_BREW_SERVICES is falsey
 if [[ "${MANAGE_BREW_SERVICES}" =~ ^(0|false|False|FALSE|f|F|no|No|NO|n|N|off|Off|OFF)$ ]]; then
@@ -21,10 +22,10 @@ echo "🔧 Initial brew services setup..."
 # Get currently running services once
 RUNNING_SERVICES=$(brew services list --json | jq -r '.[] | select(.status == "started") | .name')
 
-{{- range .services }}
+{{- range $brewServices.system_brew_services.services }}
 {{- $service := . }}
 {{- $excluded := false }}
-{{- range $.excluded_services }}
+{{- range $brewServices.system_brew_services.excluded_services }}
 {{- if eq . $service.name }}{{ $excluded = true }}{{ end }}
 {{- end }}
 {{- if not $excluded }}

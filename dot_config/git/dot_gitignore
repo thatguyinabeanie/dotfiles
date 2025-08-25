@@ -8,3 +8,4 @@ GEMINI.*
 AGENTS.md
 *mise.toml
 *.http
+.vite

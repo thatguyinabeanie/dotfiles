@@ -37,7 +37,7 @@ require("lazy").setup({
     enabled = true,
     notify = true,
     frequency = 3600, -- Check every hour (3600 seconds)
-    check_pinned = true, -- Don't check pinned plugins
+    check_pinned = false, -- Don't check pinned plugins
   },
   change_detection = {
     enabled = true,

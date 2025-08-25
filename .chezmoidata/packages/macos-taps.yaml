@@ -1,0 +1,11 @@
+macos_taps:
+  # Homebrew taps
+  taps:
+    - adoptopenjdk/openjdk
+    - charmbracelet/tap
+    - domt4/autoupdate
+    - FelixKratz/formulae
+    - hashicorp/tap
+    - jesseduffield/lazydocker
+    - kubewall/tap
+    - nikitabobko/tap

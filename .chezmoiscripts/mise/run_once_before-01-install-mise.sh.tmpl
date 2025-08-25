@@ -1,6 +1,8 @@
 #!/bin/bash
 # Unified mise installation - handles both regular mise and mise-x64
 
+{{- $mise := (include ".chezmoidata/development/dev-mise-architectures.yaml" | fromYaml) }}
+
 set -euo pipefail
 
 # Function to install mise with specified architecture
@@ -36,11 +38,11 @@ install_mise_arch() {
 echo "🚀 Installing mise..."
 
 # Install native mise for system architecture
-install_mise_arch "{{ if eq .chezmoi.arch "amd64" }}x64{{ else }}arm64{{ end }}" "{{ .architectures.native.binary }}" "{{ .chezmoi.arch }}" "{{ .architectures.native.launchagent }}"
+install_mise_arch "{{ if eq .chezmoi.arch "amd64" }}x64{{ else }}arm64{{ end }}" "{{ $mise.dev_mise_architectures.architectures.native.binary }}" "{{ .chezmoi.arch }}" "{{ $mise.dev_mise_architectures.architectures.native.launchagent }}"
 
 # Install mise-x64 (for Node.js 14 compatibility) only on Apple Silicon
-{{- if and (eq .chezmoi.arch "arm64") (.architectures.x64_variant.install_on_arm64) }}
-install_mise_arch "{{ .architectures.x64_variant.arch }}" "{{ .architectures.x64_variant.binary }}" "{{ .architectures.x64_variant.description }}" "{{ .architectures.x64_variant.launchagent }}"
+{{- if and (eq .chezmoi.arch "arm64") ($mise.dev_mise_architectures.architectures.x64_variant.install_on_arm64) }}
+install_mise_arch "{{ $mise.dev_mise_architectures.architectures.x64_variant.arch }}" "{{ $mise.dev_mise_architectures.architectures.x64_variant.binary }}" "{{ $mise.dev_mise_architectures.architectures.x64_variant.description }}" "{{ $mise.dev_mise_architectures.architectures.x64_variant.launchagent }}"
 {{- end }}
 
 echo "🎉 All mise installations complete"

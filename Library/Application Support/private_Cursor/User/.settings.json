@@ -57,7 +57,7 @@
   "editor.fontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",
   "cursor.composer.cmdPFilePicker2": true,
   "cursor.composer.collapsePaneInputBoxPills": true,
-  "workbench.preferredLightColorTheme": "Bearded Theme Coffee Cream",
+  "workbench.preferredLightColorTheme": "Catppuccin Mocha",
   "markdown-preview-github-styles.colorTheme": "system",
   "window.autoDetectColorScheme": true,
   "cursor.preferNotificationsSameAsChat": true,
@@ -87,7 +87,7 @@
     "ms-python.python",
     "esbenp.prettier-vscode"
   ],
-  "workbench.iconTheme": "bearded-icons",
+  "workbench.iconTheme": "catppuccin-mocha",
   "workbench.tree.indent": 20,
   "editor.codeActionsOnSave": {},
   "makefile.configureOnOpen": true,
