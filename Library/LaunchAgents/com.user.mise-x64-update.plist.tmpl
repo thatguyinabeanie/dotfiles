@@ -1,3 +1,4 @@
+{{- $mise := (include ".chezmoidata/development/dev-mise-architectures.yaml" | fromYaml) }}
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -11,9 +12,9 @@
     <key>EnvironmentVariables</key>
     <dict>
         <key>MISE_INSTALL_ARCH</key>
-        <string>{{ .architectures.x64_variant.arch }}</string>
+        <string>{{ $mise.dev_mise_architectures.architectures.x64_variant.arch }}</string>
         <key>MISE_INSTALL_PATH</key>
-        <string>{{ .chezmoi.homeDir }}/.local/bin/{{ .architectures.x64_variant.binary }}</string>
+        <string>{{ .chezmoi.homeDir }}/.local/bin/{{ $mise.dev_mise_architectures.architectures.x64_variant.binary }}</string>
         <key>MISE_QUIET</key>
         <string>true</string>
         <key>HOME</key>
@@ -22,9 +23,9 @@
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
-        <integer>{{ .schedule.x64_variant.hour }}</integer>
+        <integer>{{ $mise.dev_mise_architectures.schedule.x64_variant.hour }}</integer>
         <key>Minute</key>
-        <integer>{{ .schedule.x64_variant.minute }}</integer>
+        <integer>{{ $mise.dev_mise_architectures.schedule.x64_variant.minute }}</integer>
     </dict>
     <key>StandardOutPath</key>
     <string>{{ .chezmoi.homeDir }}/.local/log/mise-x64-update.log</string>

@@ -1,8 +1,6 @@
 return {
   {
     "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
     opts = {
       flavour = "mocha",
       background = {
@@ -25,14 +23,6 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
-    },
-  },
-
-  {
-    "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
-    opts = {
       default_integrations = true,
       integrations = {
         -- Essential integrations
@@ -94,14 +84,6 @@ return {
           enabled = false, -- Using Snacks indent/scope
         },
       },
-    },
-  },
-
-  {
-    "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
-    opts = {
       custom_highlights = function(colors)
         return {
           -- Indent guide highlights (referenced by indent-blankline.lua)
@@ -120,5 +102,13 @@ return {
         }
       end,
     },
+  },
+  {
+    "catppuccin",
+    optional = true,
+    opts = function()
+      local bufferline = require("catppuccin.groups.integrations.bufferline")
+      bufferline.get = bufferline.get or bufferline.get_theme
+    end,
   },
 }

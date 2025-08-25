@@ -5,7 +5,7 @@
 ## Generate ai.yaml from models.dev API data based on opencode.yaml configuration
 ##
 
-{{- $opencode := (include ".chezmoidata/apps/opencode.yaml" | fromYaml).ai }}
+{{- $opencode := (include ".chezmoidata/ai/ai-opencode.yaml" | fromYaml).ai_opencode }}
 
 # Injected configuration from chezmoi templates
 const ENABLED_PROVIDERS = {{ $opencode.providers | toJson }}

@@ -1,0 +1,59 @@
+neovim_lsp_servers:
+  # Neovim LSP server configurations (Mason tools)
+  core_tools:
+    - prettierd
+    - lua-language-server
+    - stylua
+    - marksman
+    - vale
+    - json-lsp
+    - yaml-language-server
+    - tailwindcss-language-server
+    - copilot-language-server
+    - bash-language-server
+    - shellcheck
+    - eslint_d
+    - eslint-lsp
+    - ruby-lsp
+    - standardrb
+    - haml-lint
+
+  exploration_tools:
+    - css-lsp
+    - dockerfile-language-server
+    - html-lsp
+    - rust-analyzer
+    - gopls
+    - kdl-lsp
+    - prettier
+
+  cli_tools:
+    - ast-grep
+    - bash-debug-adapter
+    - blackd-client
+    - circleci-yaml-language-server
+    - cmake-language-server
+    - diagnostic-languageserver
+    - docker-language-server
+    - dotenv-linter
+    - gh-actions-language-server
+    - golangci-lint
+    - golangci-lint-langserver
+    - go-debug-adapter
+    - jinja-lsp
+    - jq-lsp
+    - kube-linter
+    - kulala-fmt
+    - luacheck
+    - luaformatter
+    - markdown-oxide
+    - nginx-language-server
+    - postgrestools
+    - rust-analyzer
+    - systemd-language-server
+    - tree-sitter-cli
+    - typos
+    - typos-lsp
+    - uv
+    - vale-ls
+    - vim-language-server

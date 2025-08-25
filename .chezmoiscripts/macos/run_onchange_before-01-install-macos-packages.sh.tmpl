@@ -1,14 +1,27 @@
 #!/bin/sh
 
-{{- $shared := (include ".chezmoidata/env_vars/shared.yaml" | fromYaml) }}
+{{- $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml) }}
+{{- $taps := (include ".chezmoidata/packages/macos-taps.yaml" | fromYaml) }}
+{{- $brewsShared := (include ".chezmoidata/packages/macos-brew-shared.yaml" | fromYaml) }}
+{{- $brewsPersonal := (include ".chezmoidata/packages/macos-brew-personal.yaml" | fromYaml) }}
+{{- $brewsWork := (include ".chezmoidata/packages/macos-brew-work.yaml" | fromYaml) }}
+{{- $casksShared := (include ".chezmoidata/packages/macos-casks-shared.yaml" | fromYaml) }}
+{{- $casksPersonal := (include ".chezmoidata/packages/macos-casks-personal.yaml" | fromYaml) }}
+{{- $casksWork := (include ".chezmoidata/packages/macos-casks-work.yaml" | fromYaml) }}
+{{- $fonts := (include ".chezmoidata/packages/macos-fonts.yaml" | fromYaml) }}
+{{- $mas := (include ".chezmoidata/packages/macos-appstore.yaml" | fromYaml) }}
 
 # Comprehensive macOS Homebrew and Package Installation Script
 # Hash files to trigger on changes:
-# taps.yaml-hash: {{ include ".chezmoidata/packages/macos/taps.yaml" | sha256sum }}
-# brews.yaml-hash: {{ include ".chezmoidata/packages/macos/brews.yaml" | sha256sum }}
-# casks.yaml-hash: {{ include ".chezmoidata/packages/macos/casks.yaml" | sha256sum }}
-# fonts.yaml-hash: {{ include ".chezmoidata/packages/macos/fonts.yaml" | sha256sum }}
-# mas.yaml-hash: {{ include ".chezmoidata/packages/macos/mas.yaml" | sha256sum }}
+# taps.yaml-hash: {{ include ".chezmoidata/packages/macos-taps.yaml" | sha256sum }}
+# brews-shared.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-shared.yaml" | sha256sum }}
+# brews-personal.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-personal.yaml" | sha256sum }}
+# brews-work.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-work.yaml" | sha256sum }}
+# casks-shared.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-shared.yaml" | sha256sum }}
+# casks-personal.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-personal.yaml" | sha256sum }}
+# casks-work.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-work.yaml" | sha256sum }}
+# fonts.yaml-hash: {{ include ".chezmoidata/packages/macos-fonts.yaml" | sha256sum }}
+# mas.yaml-hash: {{ include ".chezmoidata/packages/macos-appstore.yaml" | sha256sum }}
 
 # Source shared homebrew helper functions
 {{ template "homebrew-helpers.sh.tmpl" . }}
@@ -30,7 +43,7 @@ setup_homebrew_path
 # Install taps first
 printf "🔧 Installing Homebrew taps..."
 TAPS=""
-{{ range .taps -}}
+{{ range $taps.macos_taps.taps -}}
 TAPS="${TAPS}tap \"{{ . }}\"
 "
 {{ end }}
@@ -41,7 +54,7 @@ printf "🍺 Installing Homebrew packages..."
 BREWS=""
 
 # Always add shared brews
-{{ range .brews.shared -}}
+{{ range $brewsShared.macos_brew_shared.tools -}}
 {{- if eq . "sketchybar" }}
 {{- if eq $shared.variables.INSTALL_SKETCHY_BAR "true" }}
 BREWS="${BREWS}brew \"{{ . }}\"
@@ -56,13 +69,13 @@ BREWS="${BREWS}brew \"{{ . }}\"
 # Add environment-specific brews
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
 # Add work brews
-{{ range .brews.work -}}
+{{ range $brewsWork.macos_brew_work.tools -}}
 BREWS="${BREWS}brew \"{{ . }}\"
 "
 {{ end }}
 {{ else -}}
 # Add personal brews
-{{ range .brews.personal -}}
+{{ range $brewsPersonal.macos_brew_personal.tools -}}
 BREWS="${BREWS}brew \"{{ . }}\"
 "
 {{ end }}
@@ -75,7 +88,7 @@ printf "📦 Installing Homebrew casks..."
 CASKS=""
 
 # Always add shared casks
-{{ range .casks.shared -}}
+{{ range $casksShared.macos_casks_shared.applications -}}
 CASKS="${CASKS}cask \"{{ . }}\"
 "
 {{ end }}
@@ -83,13 +96,13 @@ CASKS="${CASKS}cask \"{{ . }}\"
 # Add environment-specific casks
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
 # Add work casks
-{{ range .casks.work -}}
+{{ range $casksWork.macos_casks_work.applications -}}
 CASKS="${CASKS}cask \"{{ . }}\"
 "
 {{ end }}
 {{ else -}}
 # Add personal casks
-{{ range .casks.personal -}}
+{{ range $casksPersonal.macos_casks_personal.applications -}}
 CASKS="${CASKS}cask \"{{ . }}\"
 "
 {{ end }}
@@ -100,7 +113,7 @@ install_packages "casks" "$CASKS"
 # Install fonts
 printf "🔤 Installing fonts..."
 FONTS=""
-{{ range .fonts -}}
+{{ range $fonts.macos_fonts.fonts -}}
 FONTS="${FONTS}cask \"{{ . }}\"\n"
 {{ end }}
 install_packages "fonts" "$FONTS"
@@ -109,7 +122,7 @@ install_packages "fonts" "$FONTS"
 {{ if or (eq (hasKey . "WORK_ENVIRONMENT") false) (eq .WORK_ENVIRONMENT false) -}}
 printf "🏪 Installing Mac App Store apps..."
 MAS_APPS=""
-{{ range .mas -}}
+{{ range $mas.macos_appstore.mas -}}
 MAS_APPS="${MAS_APPS}mas {{ . }}\n"
 {{ end }}
 install_packages "mas" "$MAS_APPS"

@@ -1,0 +1,15 @@
+macos_casks_personal:
+  # Personal GUI applications
+  applications:
+    - 1password
+    - 1password-cli
+    - ableton-live-suite
+    - affinity-designer
+    - affinity-photo
+    - affinity-publisher
+    - blender
+    - betterdiscord-installer
+    - darktable
+    - discord
+    - obs
+    - spotify

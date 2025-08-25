@@ -1,29 +1,65 @@
 # Centralized Environment Variable System for Shell Configurations
 
-This system provides a unified approach to managing environment variables across multiple shell environments (Zsh, Nushell, etc.).
+This system provides a unified approach to managing environment variables across multiple shell environments (Zsh, Nushell, etc.) using the reorganized `.chezmoidata` structure.
 
 ## System Components
 
-### 1. Data Structure (`environment-variables.yaml`)
+### 1. Environment Data Structure
 
-- **Location**: `.chezmoidata/environment-variables.yaml`
-- **Purpose**: Single source of truth for all environment variable definitions
-- **Features**:
-  - Shell-agnostic variable definitions
-  - Conditional variable support
-  - Path management with deduplication
-  - Template integration
+Environment variables are now organized into 4 focused files in `.chezmoidata/environment/`:
 
-### 2. Shell-Specific Templates
+- **`env-shared.yaml`**: Common environment variables used across all contexts
+- **`env-personal.yaml`**: Personal-specific environment settings  
+- **`env-work.yaml`**: Work environment-specific configurations
+- **`env-paths.yaml`**: XDG base directories and path management
 
-- **Zsh**: `.chezmoitemplates/environment/zsh-env.tmpl`
-- **Nushell**: `.chezmoitemplates/environment/nushell-env.tmpl`
-- **Purpose**: Generate shell-specific syntax from unified data
+### 2. Data Structure Format
 
-### 3. Generated Configuration Files
+Each environment file follows a consistent structure:
 
-- **Zsh**: `dot_zshenv_centralized.tmpl`
-- **Nushell**: `dot_config/nushell/env_centralized.nu.tmpl`
+```yaml
+env_[context]:
+  # Simple string variables (direct assignment)
+  variables:
+    EDITOR: "nvim"
+    VISUAL: "nvim"
+    
+  # Template variables (evaluated at chezmoi time)
+  template_variables:
+    BAT_THEME: "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+    
+  # Path construction variables 
+  path_variables:
+    XDG_CONFIG_HOME:
+      base: "$HOME"
+      path: ".config"
+      
+  # Grouped path patterns for DRY configuration
+  path_groups:
+    xdg_config_apps:
+      base: "$XDG_CONFIG_HOME"
+      paths:
+        NU_CONFIG_DIR: "nushell"
+        K9S_CONFIG_DIR: "k9s"
+```
+
+### 3. Shell-Specific Templates
+
+Templates load and process the environment data:
+
+**Zsh** (`dot_zshenv.tmpl`):
+```go
+{{ $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml) -}}
+{{ $paths := (include ".chezmoidata/environment/env-paths.yaml" | fromYaml) -}}
+{{ $work := (include ".chezmoidata/environment/env-work.yaml" | fromYaml) -}}
+{{ $personal := (include ".chezmoidata/environment/env-personal.yaml" | fromYaml) -}}
+```
+
+**Nushell** (`dot_config/nushell/env.nu.tmpl`):
+```go
+{{ $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml) -}}
+# Similar data loading pattern for Nushell-specific syntax
+```
 
 ## Benefits
 

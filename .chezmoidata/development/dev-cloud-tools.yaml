@@ -1,0 +1,17 @@
+dev_cloud_tools:
+  # Cloud and infrastructure development tools
+  kubernetes:
+    - helm
+    - k9s
+    - kubectl
+
+  infrastructure:
+    - terraform
+    - act  # Local GitHub Actions runner
+
+  build_tools:
+    - cmake
+
+  ci_cd:
+    - circleci-yaml-language-server
+    - gh-actions-language-server

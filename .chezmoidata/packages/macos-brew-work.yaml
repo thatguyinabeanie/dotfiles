@@ -1,0 +1,14 @@
+macos_brew_work:
+  # Work-specific Homebrew packages
+  tools:
+    - argo
+    - awscli
+    - circleci
+    - kind
+    - libsass
+    - mysql
+    - mysql-client
+    - kubewall/tap/kubewall
+    - okta-aws-cli
+    - python-gdbm@3.11
+    - v8

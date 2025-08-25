@@ -1,0 +1,133 @@
+cross_platform_tools:
+  # General development tools and utilities
+  system_tools:
+    - name: bottom
+      version: latest
+      description: "System monitor (htop alternative)"
+    - name: fastfetch
+      version: latest
+      description: "System information tool"
+
+  data_tools:
+    - name: jq
+      version: latest
+      description: "JSON processor"
+    - name: hyperfine
+      version: latest
+      description: "Command-line benchmarking tool"
+
+  documentation_tools:
+    - name: marp-cli
+      version: latest
+      description: "Markdown presentation tool"
+    - name: mdbook
+      version: latest
+      description: "Book generator from Markdown"
+
+  infrastructure_tools:
+    - name: helm
+      version: latest
+      description: "Kubernetes package manager"
+    - name: k9s
+      version: latest
+      description: "Kubernetes CLI"
+    - name: kubectl
+      version: latest
+      description: "Kubernetes CLI"
+    - name: terraform
+      version: latest
+      description: "Infrastructure as code"
+
+  build_tools:
+    - name: act
+      version: latest
+      description: "Local GitHub Actions runner"
+    - name: cmake
+      version: latest
+      description: "Build system generator"
+
+  quality_tools:
+    - name: hadolint
+      version: latest
+      description: "Dockerfile linter"
+    - name: shellcheck
+      version: latest
+      description: "Shell script linter"
+    - name: vale
+      version: latest
+      description: "Prose linter"
+
+  git_tools:
+    - name: delta
+      version: latest
+      description: "Git diff viewer"
+    - name: github-cli
+      version: latest
+      description: "GitHub CLI tool"
+    - name: gitleaks
+      version: latest
+      description: "Secret scanner for git repos"
+    - name: gitsign
+      version: latest
+      description: "Keyless Git signing"
+    - name: gitui
+      version: latest
+      description: "Git TUI interface"
+
+  ai_tools:
+    - name: claude
+      version: latest
+      description: "Anthropic Claude CLI"
+
+  fun_tools:
+    - name: "cargo:pokeget"
+      version: latest
+      description: "Pokemon sprite fetcher"
+
+  other_languages:
+    - name: elixir
+      version: latest
+      description: "Elixir programming language"
+    - name: erlang
+      version: latest
+      description: "Erlang runtime (Elixir dependency)"
+    - name: julia
+      version: 1.11.6
+      description: "Julia programming language for scientific computing"
+    - name: ruby
+      version: 3.2.7
+      description: "Ruby programming language"
+    - name: zig
+      version: latest
+      description: "Zig systems programming language"
+
+  java_tools:
+    - name: gradle
+      version: latest
+      description: "Build automation tool"
+    - name: java
+      version: zulu-8
+      description: "Java runtime (Zulu JDK 8)"
+
+  architecture:
+    # Native mise for primary system architecture
+    native:
+      binary: "mise"
+      launchagent: "com.user.mise-update"
+
+    # x64 variant - always installed on ARM64 for Node.js 14 compatibility
+    x64_variant:
+      install_on_arm64: true
+      arch: "x64"
+      binary: "mise-x64"
+      description: "for Node.js 14 compatibility"
+      launchagent: "com.user.mise-x64-update"
+
+  # Scheduling configuration for LaunchAgents
+  schedule:
+    native:
+      hour: 9
+      minute: 15
+    x64_variant:
+      hour: 9
+      minute: 0

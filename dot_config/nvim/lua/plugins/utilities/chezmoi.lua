@@ -29,6 +29,8 @@ return {
             vim.bo.filetype = "lua.chezmoitmpl"
           elseif filepath:match("%.json%.tmpl$") then
             vim.bo.filetype = "json.chezmoitmpl"
+          elseif filepath:match("%.jsonc%.tmpl$") then
+            vim.bo.filetype = "jsonc.chezmoitmpl"
           elseif filepath:match("%.yaml%.tmpl$") or filepath:match("%.yml%.tmpl$") then
             vim.bo.filetype = "yaml.chezmoitmpl"
           elseif filepath:match("%.toml%.tmpl$") then

@@ -1,0 +1,15 @@
+cross_platform_rust:
+  # Rust programming language and tools
+  runtime:
+    - name: cargo-binstall
+      version: latest
+      description: "Binary installer for Rust crates"
+    - name: rust
+      version: nightly
+      description: "Rust systems programming language"
+  
+  tools:
+    - name: kdl-fmt
+      version: "0.2.0"
+    - name: kdl-lsp
+      version: "6"

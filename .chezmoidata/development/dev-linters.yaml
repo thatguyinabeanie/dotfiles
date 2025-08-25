@@ -1,0 +1,27 @@
+dev_linters:
+  # Code linters and static analysis tools
+  shell_linters:
+    - shellcheck
+    - luacheck
+
+  web_linters:
+    - eslint_d
+    - eslint-lsp
+
+  markup_linters:
+    - vale
+    - marksman
+
+  docker_linters:
+    - hadolint
+
+  yaml_linters:
+    - yamllint
+
+  other_linters:
+    - golangci-lint
+    - golangci-lint-langserver
+    - dotenv-linter
+    - kube-linter
+    - typos
+    - typos-lsp

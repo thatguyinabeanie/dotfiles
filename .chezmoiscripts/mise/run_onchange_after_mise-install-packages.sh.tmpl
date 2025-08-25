@@ -1,10 +1,19 @@
 #!/bin/bash
 
+{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml) }}
+{{- $go := (include ".chezmoidata/packages/cross-platform-go.yaml" | fromYaml) }}
+{{- $rust := (include ".chezmoidata/packages/cross-platform-rust.yaml" | fromYaml) }}
+{{- $lua := (include ".chezmoidata/packages/cross-platform-lua.yaml" | fromYaml) }}
+{{- $node := (include ".chezmoidata/packages/cross-platform-node.yaml" | fromYaml) }}
+{{- $python := (include ".chezmoidata/packages/cross-platform-python.yaml" | fromYaml) }}
+
 # This script runs when mise config changes and applies package installations
-# run_onchange: {{ .languages | toJson | sha256sum }}
-# run_onchange: {{ .nodejs | toJson | sha256sum }}
-# run_onchange: {{ .python | toJson | sha256sum }}
-# run_onchange: {{ .tools | toJson | sha256sum }}
+# run_onchange: {{ $tools | toJson | sha256sum }}
+# run_onchange: {{ $go | toJson | sha256sum }}
+# run_onchange: {{ $rust | toJson | sha256sum }}
+# run_onchange: {{ $lua | toJson | sha256sum }}
+# run_onchange: {{ $node | toJson | sha256sum }}
+# run_onchange: {{ $python | toJson | sha256sum }}
 
 set -euo pipefail
 
