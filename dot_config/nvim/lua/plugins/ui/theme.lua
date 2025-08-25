@@ -1,9 +1,6 @@
 return {
   {
     "catppuccin/nvim",
-    priority = 1000,
-    lazy = false,
-    name = "catppuccin",
     opts = {
       flavour = "mocha",
       background = {
@@ -107,16 +104,11 @@ return {
     },
   },
   {
-    "catppuccin/nvim",
-    priority = 1000,
-    lazy = false,
-    name = "catppuccin",
-    opts = function(_, opts)
-      local module = require("catppuccin.groups.integrations.bufferline")
-      if module then
-        module.get = module.get_theme
-      end
-      return opts
+    "catppuccin",
+    optional = true,
+    opts = function()
+      local bufferline = require("catppuccin.groups.integrations.bufferline")
+      bufferline.get = bufferline.get or bufferline.get_theme
     end,
   },
 }
