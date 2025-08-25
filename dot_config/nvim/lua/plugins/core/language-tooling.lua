@@ -24,14 +24,14 @@ return {
   -- Mason: Core tools
   {
     "mason-org/mason.nvim",
-    version = "v2.0.1",
+    version = "2*",
     opts = { ensure_installed = config.mason.core_tools },
   },
 
   -- Mason LSP configuration bridge
   {
     "mason-org/mason-lspconfig.nvim",
-    version = "v2.1.0",
+    version = "2*",
     dependencies = { "mason-org/mason.nvim" },
     opts = {},
   },
