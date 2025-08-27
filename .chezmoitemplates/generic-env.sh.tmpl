@@ -147,10 +147,10 @@ export PATH="{{ $entry }}:$PATH"
 
 # Shell-specific configuration
 {{- if eq $shell "nushell" }}
-$env.SHELL = "/opt/homebrew/bin/nu"
+$env.SHELL = "{{ $shared.env_shared.shell_paths.nushell }}"
 $env."config.buffer_editor" = "nvim"
 {{- else }}
-export SHELL="/opt/homebrew/bin/zsh"
+export SHELL="{{ $shared.env_shared.shell_paths.zsh }}"
 export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
 {{- end }}
 
