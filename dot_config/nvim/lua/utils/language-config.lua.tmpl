@@ -1,8 +1,8 @@
 -- Auto-generated language tooling configuration
--- Sources: .chezmoidata/development/{neovim-treesitter,neovim-lsp-servers}.yaml
+-- Sources: .chezmoidata/packages/cross-platform-tools.yaml and .chezmoidata/development/neovim-treesitter.yaml
 -- Generated: {{ now }}
+{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml) }}
 {{- $treesitter := (include ".chezmoidata/development/neovim-treesitter.yaml" | fromYaml) }}
-{{- $lsp := (include ".chezmoidata/development/neovim-lsp-servers.yaml" | fromYaml) }}
 
 return {
   treesitter = {
@@ -15,18 +15,18 @@ return {
 
   mason = {
     core_tools = {
-{{- range $lsp.neovim_lsp_servers.core_tools }}
-      "{{ . }}",
+{{- range $tools.cross_platform_tools.language_servers.core_tools }}
+      "{{ .name }}",
 {{- end }}
     },
     exploration_tools = {
-{{- range $lsp.neovim_lsp_servers.exploration_tools }}
-      "{{ . }}",
+{{- range $tools.cross_platform_tools.language_servers.exploration_tools }}
+      "{{ .name }}",
 {{- end }}
     },
     cli_tools = {
-{{- range $lsp.neovim_lsp_servers.cli_tools }}
-      "{{ . }}",
+{{- range $tools.cross_platform_tools.language_servers.cli_tools }}
+      "{{ .name }}",
 {{- end }}
     },
   },

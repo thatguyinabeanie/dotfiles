@@ -6,9 +6,6 @@ cross_platform_lua:
       description: "Lua scripting language"
   
   tools:
-    - name: lua-language-server
-      version: latest
-      description: "Lua language server"
     - name: luau
       version: latest
       description: "Luau programming language"
