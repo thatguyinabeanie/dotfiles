@@ -6,7 +6,7 @@
 {{- $python := (include ".chezmoidata/packages/cross-platform-python.yaml" | fromYaml).cross_platform_python }}
 
 [tools]
-# Cross-platform tools from cross-platform-tools.yaml sections
+# Cross-platform tools from cross-platform-tools.yaml sections (excluding language_servers)
 {{- range $section_name, $section_tools := $tools }}
 {{- if ne $section_name "architecture" }}
 {{- if ne $section_name "schedule" }}
@@ -14,15 +14,6 @@
 {{- range $tool := $section_tools }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- else }}
-# Language servers from language_servers section
-{{- range $subsection_name, $subsection_tools := $section_tools }}
-{{- range $tool := $subsection_tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
