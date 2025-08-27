@@ -109,6 +109,137 @@ cross_platform_tools:
       version: zulu-8
       description: "Java runtime (Zulu JDK 8)"
 
+  # Language servers and formatters for Neovim
+  language_servers:
+    # Core language servers installed by default
+    core_tools:
+      - name: prettierd
+        version: latest
+        description: "Fast Prettier daemon"
+      - name: lua-language-server
+        version: latest
+        description: "Lua LSP"
+      - name: marksman
+        version: latest
+        description: "Markdown LSP"
+      - name: json-lsp
+        version: latest
+        description: "JSON LSP"
+      - name: ruby-lsp
+        version: latest
+        description: "Ruby LSP"
+      - name: standardrb
+        version: latest
+        description: "Ruby formatter"
+      - name: haml-lint
+        version: latest
+        description: "HAML linter"
+
+    # Additional tools for exploration and development
+    exploration_tools:
+      - name: css-lsp
+        version: latest
+        description: "CSS LSP"
+      - name: dockerfile-language-server
+        version: latest
+        description: "Dockerfile LSP"
+      - name: html-lsp
+        version: latest
+        description: "HTML LSP"
+      - name: rust-analyzer
+        version: latest
+        description: "Rust LSP"
+      - name: gopls
+        version: latest
+        description: "Go LSP"
+      - name: prettier
+        version: latest
+        description: "Code formatter"
+
+    # CLI and specialized tools
+    cli_tools:
+      - name: ast-grep
+        version: latest
+        description: "AST-based search tool"
+      - name: bash-debug-adapter
+        version: latest
+        description: "Bash debugger"
+      - name: blackd-client
+        version: latest
+        description: "Black formatter client"
+      - name: circleci-yaml-language-server
+        version: latest
+        description: "CircleCI YAML LSP"
+      - name: cmake-language-server
+        version: latest
+        description: "CMake LSP"
+      - name: diagnostic-languageserver
+        version: latest
+        description: "Generic diagnostic LSP"
+      - name: docker-language-server
+        version: latest
+        description: "Docker LSP"
+      - name: dotenv-linter
+        version: latest
+        description: ".env file linter"
+      - name: gh-actions-language-server
+        version: latest
+        description: "GitHub Actions LSP"
+      - name: golangci-lint
+        version: latest
+        description: "Go linter"
+      - name: golangci-lint-langserver
+        version: latest
+        description: "Go linter LSP"
+      - name: go-debug-adapter
+        version: latest
+        description: "Go debugger"
+      - name: jinja-lsp
+        version: latest
+        description: "Jinja template LSP"
+      - name: jq-lsp
+        version: latest
+        description: "jq LSP"
+      - name: kube-linter
+        version: latest
+        description: "Kubernetes linter"
+      - name: kulala-fmt
+        version: latest
+        description: "HTTP formatter"
+      - name: luacheck
+        version: latest
+        description: "Lua linter"
+      - name: luaformatter
+        version: latest
+        description: "Lua formatter"
+      - name: markdown-oxide
+        version: latest
+        description: "Markdown LSP"
+      - name: nginx-language-server
+        version: latest
+        description: "Nginx LSP"
+      - name: postgrestools
+        version: latest
+        description: "PostgreSQL tools"
+      - name: systemd-language-server
+        version: latest
+        description: "Systemd LSP"
+      - name: tree-sitter-cli
+        version: latest
+        description: "Tree-sitter CLI"
+      - name: typos
+        version: latest
+        description: "Typo checker"
+      - name: typos-lsp
+        version: latest
+        description: "Typo checker LSP"
+      - name: vale-ls
+        version: latest
+        description: "Vale LSP"
+      - name: vim-language-server
+        version: latest
+        description: "Vim LSP"
+
   architecture:
     # Native mise for primary system architecture
     native:

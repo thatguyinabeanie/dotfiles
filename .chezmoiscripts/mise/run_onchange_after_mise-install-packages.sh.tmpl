@@ -21,11 +21,6 @@ set -euo pipefail
 # CONFIGURATION & ENVIRONMENT CHECKS
 #=============================================================================
 
-{{ if env "CHEZMOI_INTERACTIVE" | ne "1" }}
-echo "🔵 Skipping mise dependencies installation in non-interactive mode."
-exit 0
-{{ end }}
-
 # Ensure mise is available in PATH
 export PATH="$HOME/.local/bin:$PATH"
 

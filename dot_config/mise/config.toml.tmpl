@@ -10,9 +10,20 @@
 {{- range $section_name, $section_tools := $tools }}
 {{- if ne $section_name "architecture" }}
 {{- if ne $section_name "schedule" }}
+{{- if ne $section_name "language_servers" }}
 {{- range $tool := $section_tools }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
+{{- else }}
+# Language servers from language_servers section
+{{- range $subsection_name, $subsection_tools := $section_tools }}
+{{- range $tool := $subsection_tools }}
+{{- if and $tool.name $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -75,10 +86,13 @@
 {{- end }}
 
 [tasks.install-python-tools]
-description = "Install Python global packages via pipx"
+description = "Install Python global packages via pipx and uv"
 run = [
-{{- range $package := $python.packages }}
+{{- range $package := $python.pipx_apps }}
   "pipx install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
+{{- end }}
+{{- range $package := $python.uv_global_packages }}
+  "uv pip install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
 {{- end }}
 ]
 
