@@ -14,7 +14,8 @@ cross_platform_python:
       version: latest
       description: "Fast Python package installer"
 
-  packages:
+  # Applications installed via pipx (isolated environments)
+  pipx_apps:
     # Code Quality & Formatting
     - name: black
       description: "Python code formatter"
@@ -47,26 +48,26 @@ cross_platform_python:
     - name: watchdog
       description: "File system event monitoring"
 
-    # Scientific Computing
+    # Scientific Computing (CLI tools)
     - name: plotly
       description: "Interactive plotting library"
     - name: kaleido
       description: "Static image export for Plotly"
-    - name: matplotlib
-      description: "Plotting library for Python"
     - name: numpy
       description: "Numerical computing library"
-    - name: scipy
-      description: "Scientific computing library"
-    - name: pandas
-      description: "Data manipulation and analysis"
     - name: sympy
       description: "Symbolic mathematics"
-    - name: seaborn
-      description: "Statistical data visualization"
 
     # MCP Servers (Python packages)
     - name: mcp-server-fetch
       description: "MCP server for web fetching"
     - name: mcp-server-git
       description: "MCP server for git operations"
+
+  # Global packages installed via uv (libraries needed globally)
+  uv_global_packages:
+    # Currently empty - most packages should be project-specific
+    # Add packages here only if they need to be available globally
+    # Example:
+    # - name: some-global-library
+    #   description: "A library that needs global access"

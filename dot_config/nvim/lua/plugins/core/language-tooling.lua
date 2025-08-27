@@ -39,18 +39,6 @@ return {
   -- LSP configuration
   {
     "neovim/nvim-lspconfig",
-    config = function()
-      local configs = require("lspconfig.configs")
-      if not configs.kdl_lsp then
-        configs.kdl_lsp = {
-          default_config = {
-            cmd = { "kdl-lsp" },
-            filetypes = { "kdl", "kdl.tmpl" },
-            root_dir = require("lspconfig.util").find_git_ancestor,
-          },
-        }
-      end
-    end,
     opts = {
       servers = {
         bashls = { filetypes = { "sh", "bash", "zsh", "sh.tmpl", "zsh.tmpl" } },
@@ -58,7 +46,7 @@ return {
         nushell = { filetypes = { "nu", "nu.tmpl" } },
         ruby_lsp = {},
         taplo = { filetypes = { "toml", "toml.tmpl" } },
-        kdl_lsp = { filetypes = { "kdl", "kdl.tmpl" } },
+
         -- Disable built-in TypeScript servers when using typescript-tools
         tsserver = { enabled = not use_ts_tools },
         ts_ls = { enabled = not use_ts_tools },
@@ -132,31 +120,6 @@ return {
             end
           end
         end,
-      })
-    end,
-  },
-
-  -- TypeScript Tools (for older Node.js or no Node.js)
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    enabled = use_ts_tools,
-    ft = config.filetypes.typescript_stack,
-
-    config = function()
-      require("typescript-tools").setup({
-        on_attach = function(client, _)
-          -- Disable formatting (handled by prettierd)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-        filetypes = config.filetypes.typescript_stack,
-        settings = {
-          jsx_close_tag = {
-            enable = true,
-            filetypes = { "javascriptreact", "typescriptreact" },
-          },
-        },
       })
     end,
   },
