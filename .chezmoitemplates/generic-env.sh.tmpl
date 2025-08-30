@@ -198,10 +198,11 @@ export {{ $key }}="{{ $value }}"
 {{- end }}
 {{- end }}
 {{- end }}
-{{- end }}
+{{ end }}
 
 {{- if eq $shell "nushell" }}
 {{- template "platform-storage-env.tmpl" (dict "syntax" "nushell" "context" $dot) }}
+
 $env.CARAPACE_BRIDGES = 'zsh,bash,inshellisense'
 carapace _carapace nushell | save -f ~/.cache/carapace/init.nu
 mkdir $nu.data-dir
