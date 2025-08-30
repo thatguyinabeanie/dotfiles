@@ -76,6 +76,16 @@
 "npm:{{ $package.name }}" = "latest"
 {{- end }}
 
+# AI agent packages from cross-platform-node.yaml
+{{- range $package := $node.ai_agents }}
+"npm:{{ $package.name }}" = "latest"
+{{- end }}
+
+# MCP server packages from cross-platform-node.yaml
+{{- range $package := $node.mcp_servers }}
+"npm:{{ $package.name }}" = "latest"
+{{- end }}
+
 [tasks.install-python-tools]
 description = "Install Python global packages via pipx and uv"
 run = [
