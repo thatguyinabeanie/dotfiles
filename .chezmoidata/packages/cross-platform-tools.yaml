@@ -161,9 +161,6 @@ cross_platform_tools:
       - name: eslint-lsp
         version: latest
         description: "ESLint LSP for JavaScript/TypeScript"
-      - name: typescript-language-server
-        version: latest
-        description: "TypeScript LSP"
 
     # CLI and specialized tools
     cli_tools:

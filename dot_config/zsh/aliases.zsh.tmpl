@@ -1,149 +1,19 @@
-#!/bin/zsh
 
-# Load platform storage environment functions
-source "$HOME/.config/zsh/platform-storage-env.zsh"
+# Function to sign in to 1Password and update the tmux environment
+op-signin() {
+  # 1. Perform the standard sign-in and get the session token
+  eval $(op signin)
 
-# Load OpenCode configuration functions
-{{ template "opencode/config.sh" . }}
+  # 2. Check if we are inside a tmux session
+  if [ -n "$TMUX" ]; then
+    # 3. Extract the session variable name and value
+    #    (e.g., OP_SESSION_my_account and its token)
+    op_session_var=$(env | grep OP_SESSION)
 
-alias y="yazi"
-
-alias ls="eza"
-alias l="eza -l"
-alias la="eza -la"
-
-# --- Git Commit Emoji Selector (requires fzf) ---
-# Interactive emoji selector for semantic commit messages
-# Usage: git_emoji_commit "your commit message"
-# Example: git_emoji_commit "add user authentication" -> "✨ feat: add user authentication"
-function git_emoji_commit() {
-  # Define emoji mapping for common commit types
-  local emojis=(
-    "✨ feat: A new feature"
-    "🐛 fix: A bug fix"
-    "📝 docs: Documentation only changes"
-    "🎨 style: Code style changes"
-    "🔥 remove: Remove code or files"
-    "🚀 perf: Performance improvements"
-    "✅ test: Adding tests"
-    "🔧 chore: Maintenance"
-    "🔀 merge: Merge branches"
-    "⬆️ upgrade: Dependency upgrades"
-  )
-  
-  # Use fzf for interactive selection
-  local choice=$(printf '%s\n' "${emojis[@]}" | fzf --prompt="Select commit type: ")
-  
-  # Exit if no selection made (user pressed ESC)
-  if [[ -z "$choice" ]]; then
-    echo "No commit type selected. Aborting."
-    return 1
+    if [ -n "$op_session_var" ]; then
+      # 4. Tell tmux to set this variable for all future panes/windows
+      tmux set-environment -g "$op_session_var"
+      echo "1Password session token exported to tmux environment."
+    fi
   fi
-  
-  # Extract emoji from selection (first token)
-  local emoji=$(echo $choice | awk '{print $1}')
-  
-  # Create commit with emoji prefix and user message
-  git commit -m "$emoji $*"
 }
-
-# --- Spotify Controller (macOS) ---
-# AppleScript-based Spotify controls for macOS
-# Requires Spotify app to be installed and running
-alias spotify_play='osascript -e "tell application \"Spotify\" to play"'    # Resume/start playback
-alias spotify_pause='osascript -e "tell application \"Spotify\" to pause"'  # Pause current track
-alias spotify_next='osascript -e "tell application \"Spotify\" to next track"'     # Skip to next track
-alias spotify_prev='osascript -e "tell application \"Spotify\" to previous track"' # Go to previous track
-# alias claude="~/.claude/local/claude"
-
-##
-## CHEZMOI
-##
-
-# Navigate to the chezmoi source directory
-alias dotfiles_cd="cd ~/.local/share/chezmoi"
-
-# Open nvim at the chezmoi source directory
-function dotfiles() {
-  nvim ~/.local/share/chezmoi
-}
-
-##
-## DOCKER MANAGEMENT
-##
-
-# Purge all Docker containers, volumes, and images
-# ⚠️ WARNING: This is a destructive operation that removes ALL Docker data
-# Usage: docker_purge [--force|-f]
-# --force: Skip confirmation prompts (use with caution!)
-function docker_purge() {
-    local force=false
-    
-    # Parse command line arguments
-    if [[ "$1" == "-f" || "$1" == "--force" ]]; then
-        force=true
-    fi
-    
-    # Safety confirmation unless force flag is used
-    if [[ "$force" != true ]]; then
-        echo "⚠️  WARNING: This will remove ALL Docker data including:"
-        echo "   • All containers (running and stopped)"
-        echo "   • All volumes (data will be lost!)"
-        echo "   • All images (will need to re-download)"
-        echo "   • All networks and build cache"
-        echo
-        echo -n "Are you sure you want to continue? (y/N): "
-        read confirm
-        
-        # Accept various positive responses
-        if [[ "$confirm" != "y" && "$confirm" != "Y" && "$confirm" != "yes" ]]; then
-            echo "Operation cancelled."
-            return 1
-        fi
-    fi
-    
-    echo "🧹 Starting Docker system purge..."
-    
-    # Remove all containers (running will be stopped first)
-    echo "🧹 Purging Docker containers..."
-    docker container prune -f 2>/dev/null || echo "ℹ️  No containers to remove"
-    
-    # Remove all volumes (THIS DESTROYS DATA!)
-    echo "🧹 Purging Docker volumes..."
-    docker volume prune -a -f 2>/dev/null || echo "ℹ️  No volumes to remove"
-    
-    # Remove all images (forces re-download)
-    echo "🧹 Purging Docker images..."
-    docker image prune -a -f 2>/dev/null || echo "ℹ️  No images to remove"
-    
-    # Remove unused networks
-    echo "🧹 Purging Docker networks..."
-    docker network prune -f 2>/dev/null || echo "ℹ️  No networks to remove"
-    
-    # Remove build cache (saves disk space)
-    echo "🧹 Purging Docker build cache..."
-    docker builder prune -a -f 2>/dev/null || echo "ℹ️  No build cache to remove"
-    
-    echo "✅ Docker purge complete!"
-    echo
-    
-    # Show remaining disk usage for verification
-    echo "📊 Remaining Docker disk usage:"
-    docker system df 2>/dev/null || echo "Could not display disk usage"
-}
-
-# Quick alias for docker purge with force flag
-# Bypasses all confirmation prompts - use with extreme caution!
-# Equivalent to: docker_purge --force
-alias docker_nuke="docker_purge -f"
-
-{{- if eq .chezmoi.os "darwin" }}
-{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
-
-##
-## BREW SERVICES MANAGEMENT
-##
-
-{{ template "brew-services-functions.sh" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
-
-{{- end }}

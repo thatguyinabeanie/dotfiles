@@ -29,41 +29,7 @@ return {
         ruby_lsp = {},
         taplo = { filetypes = { "toml", "toml.tmpl" } },
 
-        -- Enhanced TypeScript/JavaScript support for Bun projects
-        ts_ls = {
-          settings = {
-            typescript = {
-              preferences = {
-                includePackageJsonAutoImports = "on",
-              },
-              inlayHints = {
-                includeInlayParameterNameHints = "none",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = false,
-                includeInlayVariableTypeHints = false,
-                includeInlayPropertyDeclarationTypeHints = false,
-                includeInlayFunctionLikeReturnTypeHints = false,
-                includeInlayEnumMemberValueHints = false,
-              },
-            },
-            javascript = {
-              preferences = {
-                includePackageJsonAutoImports = "on",
-              },
-              inlayHints = {
-                includeInlayParameterNameHints = "none",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = false,
-                includeInlayVariableTypeHints = false,
-                includeInlayPropertyDeclarationTypeHints = false,
-                includeInlayFunctionLikeReturnTypeHints = false,
-                includeInlayEnumMemberValueHints = false,
-              },
-            },
-          },
-        },
-
-        -- ESLint for better linting in Bun projects
+        -- Disable problematic TypeScript servers
         eslint = {
           settings = {
             workingDirectories = { mode = "auto" },
@@ -72,10 +38,8 @@ return {
             },
           },
         },
-
-        -- Disable problematic TypeScript servers
-        tsserver = { enabled = false },
-        vtsls = { enabled = false }, -- Disable vtsls due to inlay hint issues
+        tsserver = { enabled = true },
+        vtsls = { enabled = true }, -- Disable vtsls due to inlay hint issues
       },
     },
   },

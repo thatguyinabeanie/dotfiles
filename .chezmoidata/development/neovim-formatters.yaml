@@ -2,38 +2,3 @@ neovim_formatters:
   # Neovim formatter configurations
   # Most formatters are configured via LSP servers
   # This file contains formatter-specific settings
-
-  # JavaScript/TypeScript formatters for Bun projects
-  javascript_typescript:
-    primary: "prettierd"
-    fallback: "prettier"
-    filetypes:
-      - javascript
-      - javascriptreact
-      - typescript
-      - typescriptreact
-      - vue
-      - svelte
-      - json
-      - jsonc
-      - css
-      - scss
-      - html
-      - markdown
-
-  # Bun-specific configurations
-  bun_support:
-    package_managers:
-      - bun
-      - npm
-      - yarn
-      - pnpm
-    config_files:
-      - "package.json"
-      - "bun.lockb"
-      - "bunfig.toml"
-      - ".eslintrc.js"
-      - ".eslintrc.json"
-      - "eslint.config.js"
-      - "prettier.config.js"
-      - ".prettierrc"

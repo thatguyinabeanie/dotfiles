@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+  },
+  "permissions": {
+    "allow": [
+      "Bash(pnpm dev:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(mkdir:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm config set:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker pull:*)",
+      "Bash(docker inspect:*)",
+      "Bash(docker search:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(rg:*)",
+      "Bash(cat:*)",
+      "Bash(npm view:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(pnpm run:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+    ]
+  }
+}
