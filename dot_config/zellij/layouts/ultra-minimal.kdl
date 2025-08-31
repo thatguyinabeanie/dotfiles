@@ -1,9 +1,0 @@
-layout {
-    default_tab_template {
-        pane size=1 borderless=true hide_frame=true {
-            plugin location="zellij:tab-bar"
-        }
-        children
-    }
-    tab name="main"
-}

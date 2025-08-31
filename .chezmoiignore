@@ -1,17 +1,15 @@
 # files and directories whose name start with a dot are automatically ignored by chezmoi
 # for example, .vscode is ignored by default
 
-./**
 
 # MACOS specific files
 {{- if ne .chezmoi.os "darwin" }}
-Library/
-dot_config/aerospace/
-dot_config/borders/
-dot_config/private_karabiner/
+Library
+Pictures
+dot_config/aerospace
+dot_config/borders
+dot_config/private_karabiner
 {{- end }}
 
-!dot_profile.tmpl
-!dot_zshenv.tmpl
-!dot_zshrc.tmpl
-!symlink_dot_tmux.conf.tmpl
+./*.md
+./*.sh

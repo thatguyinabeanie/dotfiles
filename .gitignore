@@ -1,42 +1,12 @@
-# Ignore everything by default
-*
+# Ignore everything by default.DS_Store
+.DS_Store
 
-# Allowlist specific files and directories e
-!.assetts
-!.chezmoidata
-!.chezmoiscripts
-!.chezmoitemplates
-!.docs
-!.github
-!.scripts
-!.tests
-
-!Library
-!Pictures
-!dot_cache
-!dot_config
-!dot_gemini
-!dot_local
-!dot_rustup
-!private_dot_ssh
-
-!.chezmoi.toml.tmpl
-!.chezmoiignore
-!.gitignore
-!.lefthook.yml
-!.luacheckrc
-!.markdown-link-check.json
-!.markdownlint.json
-!.prettierrc
-!.vale.ini
-!.yamllint.yml
-
-# Explicitly allowlist files that were previously ignored but are now needed
-!AGENTS.md
+*.md
 !README.md
+!AGENTS.md
+!.docs/*.md
+./*.sh
 
-!dot_profile.tmpl
-!dot_zshenv.tmpl
-!dot_zshrc.tmpl
-!mise.toml
-!symlink_dot_tmux.conf.tmpl
+.vale
+*.sh
+!*/*.sh

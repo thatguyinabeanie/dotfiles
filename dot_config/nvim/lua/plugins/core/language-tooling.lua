@@ -45,10 +45,54 @@ return {
         ruby_lsp = {},
         taplo = { filetypes = { "toml", "toml.tmpl" } },
 
-        -- Disable built-in TypeScript servers when using typescript-tools
-        tsserver = { enabled = not use_ts_tools },
-        ts_ls = { enabled = not use_ts_tools },
-        vtsls = { enabled = not use_ts_tools },
+        -- Enhanced TypeScript/JavaScript support for Bun projects
+        ts_ls = {
+          enabled = not use_ts_tools,
+          settings = {
+            typescript = {
+              preferences = {
+                includePackageJsonAutoImports = "on",
+              },
+              inlayHints = {
+                includeInlayParameterNameHints = "none",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = false,
+                includeInlayVariableTypeHints = false,
+                includeInlayPropertyDeclarationTypeHints = false,
+                includeInlayFunctionLikeReturnTypeHints = false,
+                includeInlayEnumMemberValueHints = false,
+              },
+            },
+            javascript = {
+              preferences = {
+                includePackageJsonAutoImports = "on",
+              },
+              inlayHints = {
+                includeInlayParameterNameHints = "none",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = false,
+                includeInlayVariableTypeHints = false,
+                includeInlayPropertyDeclarationTypeHints = false,
+                includeInlayFunctionLikeReturnTypeHints = false,
+                includeInlayEnumMemberValueHints = false,
+              },
+            },
+          },
+        },
+
+        -- ESLint for better linting in Bun projects
+        eslint = {
+          settings = {
+            workingDirectories = { mode = "auto" },
+            experimental = {
+              useFlatConfig = true,
+            },
+          },
+        },
+
+        -- Disable problematic TypeScript servers
+        tsserver = { enabled = false },
+        vtsls = { enabled = false }, -- Disable vtsls due to inlay hint issues
       },
     },
   },

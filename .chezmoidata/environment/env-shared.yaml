@@ -3,7 +3,7 @@ env_shared:
   
   # Simple string variables (direct assignment)
   variables:
-    GHOSTTY_AUTO_TMUX: false
+    GHOSTTY_AUTO_TMUX: true
     MANAGE_BREW_SERVICES: "true"
     EDITOR: "nvim"
     VISUAL: "nvim"
