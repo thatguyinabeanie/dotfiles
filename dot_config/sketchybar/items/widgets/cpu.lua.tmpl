@@ -1,0 +1,74 @@
+local icons = require("icons")
+local colors = require("colors")
+local settings = require("settings")
+
+-- Execute the event provider binary which provides the event "cpu_update" for
+-- the cpu load data, which is fired every 2.0 seconds.
+sbar.exec("killall cpu_load >/dev/null; $CONFIG_DIR/helpers/event_providers/cpu_load/bin/cpu_load '{{ .sketchybar.widgets.cpu.update_event | replaceAllRegex "[^A-Za-z0-9_]+" "" }}' '{{ printf "%.1f" .sketchybar.widgets.cpu.update_interval }}'")
+
+local cpu = sbar.add("graph", "widgets.cpu", {{ .sketchybar.widgets.cpu.graph_width }}, {
+	position = "right",
+	graph = { color = colors.blue },
+	background = {
+		height = {{ .sketchybar.widgets.cpu.background_height }},
+		color = colors.with_alpha(colors.bg2, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		border_width = {{ .sketchybar.appearance.border_width }},
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+		corner_radius = {{ .sketchybar.appearance.corner_radius }},
+		drawing = true,
+	},
+	icon = { string = "{{ .sketchybar.widgets.cpu.icon_string | replaceAllRegex "[\"'\\\\]" "\\$0" }}" },
+	label = {
+		string = "cpu ??%",
+		font = {
+			family = settings.font.numbers,
+			style = settings.font.style_map["Bold"],
+			size = 12.0,
+		},
+		align = "right",
+		padding_right = 0,
+		width = 0,
+		y_offset = 4,
+	},
+	padding_right = settings.paddings + 6,
+})
+
+cpu:subscribe("cpu_update", function(env)
+	-- Also available: env.user_load, env.sys_load
+	local load = tonumber(env.total_load)
+	cpu:push({ load / 100. })
+
+	local color = colors.blue
+	if load > 30 then
+		if load < 60 then
+			color = colors.yellow
+		elseif load < 80 then
+			color = colors.orange
+		else
+			color = colors.red
+		end
+	end
+
+	cpu:set({
+		graph = { color = color },
+		label = "cpu " .. env.total_load .. "%",
+	})
+end)
+
+cpu:subscribe("mouse.clicked", function(env)
+	sbar.exec("open -a 'Activity Monitor'")
+end)
+
+-- Background around the cpu item
+sbar.add("bracket", "widgets.cpu.bracket", { cpu.name }, {
+	background = { 
+		color = colors.with_alpha(colors.bg1, {{ maxf 0.0 (minf 1.0 .sketchybar.appearance.background_alpha) }}),
+		blur_radius = {{ .sketchybar.appearance.blur_radius }},
+	},
+})
+
+-- Background around the cpu item
+sbar.add("item", "widgets.cpu.padding", {
+	position = "right",
+	width = {{ .sketchybar.defaults.group_paddings }},
+})

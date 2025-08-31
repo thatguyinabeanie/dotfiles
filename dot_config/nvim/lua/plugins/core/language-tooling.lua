@@ -4,22 +4,6 @@
 -- Load pre-compiled configuration (lightning fast!)
 local config = require("utils.language-config")
 
--- Node.js version detection for TypeScript tools
-local function use_typescript_tools()
-  local result = vim.fn.system("node --version 2>/dev/null")
-  if result and result ~= "" then
-    local major = tonumber(result:match("v(%d+)"))
-    return not major or major < 16
-  end
-  return true -- fallback to typescript-tools if no Node
-end
-
--- Add conditional TypeScript server
-local use_ts_tools = use_typescript_tools()
-if use_ts_tools then
-  table.insert(config.mason.core_tools, "typescript-language-server")
-end
-
 return {
   -- Mason: Core tools
   {
@@ -47,7 +31,6 @@ return {
 
         -- Enhanced TypeScript/JavaScript support for Bun projects
         ts_ls = {
-          enabled = not use_ts_tools,
           settings = {
             typescript = {
               preferences = {
