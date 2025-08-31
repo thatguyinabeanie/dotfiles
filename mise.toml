@@ -13,10 +13,11 @@ gitleaks = "latest" # Secrets scanner (used in lefthook)
 # Node.js ecosystem (for scripts and tools)
 lefthook = "latest"
 stylua = "latest"
+make = "latest"
 
 [hooks]
 # Automatically setup lefthook after installing tools
-postinstall = "lefthook install || echo 'lefthook install failed - run: mise run setup-hooks'"
+postinstall = "mise run setup-hooks || echo 'lefthook install failed - run: mise run setup-hooks'"
 
 [settings]
 jobs = 4            # Parallel installation jobs

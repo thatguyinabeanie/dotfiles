@@ -45,6 +45,9 @@ cross_platform_tools:
     - name: cmake
       version: latest
       description: "Build system generator"
+    - name: make
+      version: latest
+      description: "Build automation tool"
 
   quality_tools:
     - name: hadolint

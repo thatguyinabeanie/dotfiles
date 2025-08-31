@@ -30,4 +30,8 @@
 #  https://developer.1password.com/docs/ssh/agent/config
 [[ssh-keys]]
 vault = "Tech - Dev"
-item = "id_ed25520"
+item = "SSH Key"
+
+[[ssh-keys]]
+vault = "Tech - Dev"
+item = "Signing Key"
