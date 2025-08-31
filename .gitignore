@@ -1,39 +1,42 @@
 # Ignore everything by default
 *
 
-# But don't ignore directories
-!*/
+# Allowlist specific files and directories e
+!.assetts
+!.chezmoidata
+!.chezmoiscripts
+!.chezmoitemplates
+!.docs
+!.github
+!.scripts
+!.tests
 
-# Allowlist specific files and directories that Chezmoi manages or are part of the repo structure
-!.DS_Store
-!bin/
-!tmux/plugins/
-!zsh/
-!chezmoi/
-!secrets/
-!k9s/
-!_tests_/.cache/
-!_tests_/.coverage/
-!_tests_/.history/
-!.vale/styles/Google/
-!.vale/styles/write-good/
+!Library
+!Pictures
+!dot_cache
+!dot_config
+!dot_gemini
+!dot_local
+!dot_rustup
+!private_dot_ssh
+
+!.chezmoi.toml.tmpl
+!.chezmoiignore
+!.gitignore
+!.lefthook.yml
+!.luacheckrc
+!.markdown-link-check.json
+!.markdownlint.json
+!.prettierrc
+!.vale.ini
+!.yamllint.yml
 
 # Explicitly allowlist files that were previously ignored but are now needed
 !AGENTS.md
+!README.md
 
-# Specific file ignores (these will still apply to allowed directories)
-.DS_Store
-*/.DS_Store
-tmux/plugins/
-zsh/work.zsh
-chezmoi/*
-!chezmoi/.keep
-secrets/*
-k9s/*
-!k9s/config.yaml
-!k9s/skins/*
-coverage.txt
-gitleaks-report.json
-*.coverage
-*.deps
-*.result
+!dot_profile.tmpl
+!dot_zshenv.tmpl
+!dot_zshrc.tmpl
+!mise.toml
+!symlink_dot_tmux.conf.tmpl

@@ -1,17 +1,9 @@
-# chezmoi ignore patterns
+# files and directories whose name start with a dot are automatically ignored by chezmoi
+# for example, .vscode is ignored by default
 
-AGENTS.md
-CONTRIBUTING.md
-README.md
-lefthook.yml
-mise.toml
-docs/
-scripts/
-tests/
-**/README.md
-.vscode
-.cursor
+./**
 
+# MACOS specific files
 {{- if ne .chezmoi.os "darwin" }}
 Library/
 dot_config/aerospace/
@@ -19,8 +11,7 @@ dot_config/borders/
 dot_config/private_karabiner/
 {{- end }}
 
-{{- $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml) }}
-{{- if ne $shared.env_shared.variables.INSTALL_SKETCHY_BAR "true" }}
-dot_config/sketchybar/
-{{- end }}
-
+!dot_profile.tmpl
+!dot_zshenv.tmpl
+!dot_zshrc.tmpl
+!symlink_dot_tmux.conf.tmpl

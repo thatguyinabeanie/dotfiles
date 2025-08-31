@@ -2,4 +2,4 @@ macos_brew_personal:
   # Personal-specific Homebrew packages
   tools:
     - docker-completion
-    - sketchybar
+    

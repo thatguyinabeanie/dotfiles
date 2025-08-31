@@ -1,3 +1,4 @@
+
 allowlist
 Angulartics
 api
@@ -317,7 +318,6 @@ setuptools
 shadcn
 shellcheck
 SIGPIPE
-sketchybar
 slugify
 sortedcontainers
 soupsieve
