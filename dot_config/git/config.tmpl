@@ -5,7 +5,7 @@
     name = {{ .git.config.name }}
     email = {{ .git.config.email }}
 {{- if and (eq .chezmoi.os "darwin") (eq .PERSONAL_ENVIRONMENT true) }}
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxfnYZGk9sVpabkMlNgvX487e3M7iOnFDB98iIPocbI
+    signingkey = {{ onepasswordRead "op://Tech - Dev/Github Signing Key/public key" }}
 
 [commit]
     gpgsign = true

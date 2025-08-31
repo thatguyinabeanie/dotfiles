@@ -30,8 +30,8 @@
 #  https://developer.1password.com/docs/ssh/agent/config
 [[ssh-keys]]
 vault = "Tech - Dev"
-item = "SSH Key"
+item = "Github Auth SSH Key"
 
 [[ssh-keys]]
 vault = "Tech - Dev"
-item = "Signing Key"
+item = "Github Signing Key"
