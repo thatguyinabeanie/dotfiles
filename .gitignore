@@ -1,34 +1,39 @@
+# Ignore everything by default
+*
+
+# But don't ignore directories
+!*/
+
+# Allowlist specific files and directories that Chezmoi manages or are part of the repo structure
+!.DS_Store
+!bin/
+!tmux/plugins/
+!zsh/
+!chezmoi/
+!secrets/
+!k9s/
+!_tests_/.cache/
+!_tests_/.coverage/
+!_tests_/.history/
+!.vale/styles/Google/
+!.vale/styles/write-good/
+
+# Explicitly allowlist files that were previously ignored but are now needed
+!AGENTS.md
+
+# Specific file ignores (these will still apply to allowed directories)
 .DS_Store
 */.DS_Store
-bin
-!MISSION_CONTROL/dot_local/bin/
 tmux/plugins/
-
 zsh/work.zsh
-
 chezmoi/*
 !chezmoi/.keep
-
 secrets/*
-
 k9s/*
 !k9s/config.yaml
 !k9s/skins/*
 coverage.txt
 gitleaks-report.json
-
-# Test-related directories
-_tests_/.cache/
-_tests_/.coverage/
-_tests_/.history/
 *.coverage
 *.deps
 *.result
-!.claude/settings.json
-!CLAUDE.md
-!GEMINI.md
-!AGENTS.md
-
-# Vale downloaded styles (external packages)
-.vale/styles/Google/
-.vale/styles/write-good/
