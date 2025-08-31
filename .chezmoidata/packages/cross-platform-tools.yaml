@@ -45,6 +45,9 @@ cross_platform_tools:
     - name: cmake
       version: latest
       description: "Build system generator"
+    - name: make
+      version: latest
+      description: "Build automation tool"
 
   quality_tools:
     - name: hadolint
@@ -155,6 +158,9 @@ cross_platform_tools:
       - name: prettier
         version: latest
         description: "Code formatter"
+      - name: eslint-lsp
+        version: latest
+        description: "ESLint LSP for JavaScript/TypeScript"
 
     # CLI and specialized tools
     cli_tools:

@@ -3,8 +3,8 @@ node_modules
 .vscode/mise-tools/
 .vscode/settings.json
 .claude/
-CLAUDE.*
-GEMINI.*
+CLAUDE.md
+GEMINI.md
 AGENTS.md
 *mise.toml
 *.http

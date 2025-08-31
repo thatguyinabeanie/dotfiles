@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# Import GPG key for make verification
+echo "🔑 Importing GPG key for make verification..."
+gpg --keyserver keyserver.ubuntu.com --recv-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A || echo "GPG key import failed, but continuing..."
+
 # Detect the best storage method for the current platform
 detect_storage_method() {
   local os_type="$(/usr/bin/uname -s)"

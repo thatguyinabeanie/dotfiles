@@ -79,6 +79,8 @@ neovim_treesitter:
       css: css-lsp
       html: html-lsp
       dockerfile: dockerfile-language-server
+      json: json-lsp
+      jsonc: json-lsp
 
     # Framework-specific filetypes
     web_frameworks:

@@ -44,8 +44,7 @@ setup_homebrew_path
 printf "🔧 Installing Homebrew taps..."
 TAPS=""
 {{ range $taps.macos_taps.taps -}}
-TAPS="${TAPS}tap \"{{ . }}\"
-"
+TAPS="${TAPS}tap \"{{ . }}\"\n"
 {{ end }}
 install_packages "taps" "$TAPS"
 
@@ -55,29 +54,19 @@ BREWS=""
 
 # Always add shared brews
 {{ range $brewsShared.macos_brew_shared.tools -}}
-{{- if eq . "sketchybar" }}
-{{- if eq $shared.variables.INSTALL_SKETCHY_BAR "true" }}
-BREWS="${BREWS}brew \"{{ . }}\"
-"
-{{- end }}
-{{- else }}
-BREWS="${BREWS}brew \"{{ . }}\"
-"
-{{- end }}
+BREWS="${BREWS}brew \"{{ . }}\"\n"
 {{ end }}
 
 # Add environment-specific brews
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
 # Add work brews
 {{ range $brewsWork.macos_brew_work.tools -}}
-BREWS="${BREWS}brew \"{{ . }}\"
-"
+BREWS="${BREWS}brew \"{{ . }}\"\n"
 {{ end }}
 {{ else -}}
 # Add personal brews
 {{ range $brewsPersonal.macos_brew_personal.tools -}}
-BREWS="${BREWS}brew \"{{ . }}\"
-"
+BREWS="${BREWS}brew \"{{ . }}\"\n"
 {{ end }}
 {{ end -}}
 
@@ -89,22 +78,19 @@ CASKS=""
 
 # Always add shared casks
 {{ range $casksShared.macos_casks_shared.applications -}}
-CASKS="${CASKS}cask \"{{ . }}\"
-"
+CASKS="${CASKS}cask \"{{ . }}\"\n"
 {{ end }}
 
 # Add environment-specific casks
 {{ if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) -}}
 # Add work casks
 {{ range $casksWork.macos_casks_work.applications -}}
-CASKS="${CASKS}cask \"{{ . }}\"
-"
+CASKS="${CASKS}cask \"{{ . }}\"\n"
 {{ end }}
 {{ else -}}
 # Add personal casks
 {{ range $casksPersonal.macos_casks_personal.applications -}}
-CASKS="${CASKS}cask \"{{ . }}\"
-"
+CASKS="${CASKS}cask \"{{ . }}\"\n"
 {{ end }}
 {{ end -}}
 

@@ -1,0 +1,7 @@
+extensions:
+  - dlvhdr/gh-dash
+  # - github/gh-copilot
+  - seachicken/gh-poi
+  # - Link-/gh-token
+  - meiji163/gh-notify
+  - mislav/gh-branch

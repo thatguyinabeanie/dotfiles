@@ -1,3 +1,4 @@
+
 allowlist
 Angulartics
 api
@@ -79,6 +80,7 @@ devuser
 dirs
 Dockerfile
 dockerhub
+dotenv
 Dotfile
 dotfiles
 dtypes
@@ -93,6 +95,7 @@ EOF
 errcheck
 ESLint
 eval
+execa
 exploitability
 eza
 FakePlatform
@@ -224,6 +227,7 @@ networkx
 NextJS
 nginx
 NIST
+Notify
 NPM
 NumPy
 nushell
@@ -242,6 +246,7 @@ ObsidianWorkspace
 ObsidianYesterday
 Okta
 OpenAI
+opencode
 OWASP
 params
 parsedatetime
@@ -255,6 +260,7 @@ platformdirs
 PlatformOps
 Plotly
 pluggy
+pnpm
 pokemon
 popsicle
 POSIX
@@ -293,6 +299,7 @@ pyzmq
 Raycast
 RBAC
 rbenv
+readFile
 reauthenticate
 reauthentication
 Redis
@@ -317,12 +324,12 @@ setuptools
 shadcn
 shellcheck
 SIGPIPE
-sketchybar
 slugify
 sortedcontainers
 soupsieve
 Spotify
 sqlfluff
+SQLite
 sqlparse
 src
 staticcheck
@@ -349,6 +356,7 @@ TPM
 tqdm
 traitlets
 Treewalker
+tsc
 tsconfig
 tsx
 txt
@@ -368,6 +376,7 @@ verify
 VeryLazy
 via
 virtualenv
+vite
 Vitest
 vscode
 vsda
@@ -375,9 +384,11 @@ WASM
 wcwidth
 webpack
 WebSocket
+WebSockets
 WezTerm
 whoami
 withFeatureFlags
+writeFile
 XDG
 XSS
 YAML

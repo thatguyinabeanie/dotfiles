@@ -38,9 +38,7 @@ bsvc_stop
 bsvc_restart
 
 # Individual service controls (auto-generated for each service)
-sketchybar_start
-sketchybar_stop
-sketchybar_restart
+
 
 # Quick status checks
 bsvc_running    # List running services
@@ -62,9 +60,7 @@ bsvc stop
 bsvc restart
 
 # Individual service controls
-sketchybar start
-sketchybar stop
-sketchybar restart
+
 
 # Quick status checks
 bsvc running    # List running services
@@ -111,7 +107,7 @@ brew services restart <service-name>
 
 The system currently manages:
 
-- **sketchybar**: Custom macOS menu bar (restart)
+
 - **borders**: Window borders for macOS (start)
 - **redis**: Redis in-memory data store (start)
 

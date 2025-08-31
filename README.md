@@ -298,7 +298,7 @@ env-paths.yaml           # XDG base directories and paths
 app-*.yaml               # Application-specific configs
 ├── app-aerospace.yaml           # Window manager settings
 ├── app-jankyborders.yaml        # Border management
-└── app-sketchybar.yaml          # Menu bar replacement
+
 
 system-*.yaml            # System service management
 ├── font-management.yaml         # Font handling

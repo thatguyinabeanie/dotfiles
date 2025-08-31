@@ -19,24 +19,7 @@ files["dot_config/yazi/plugins/**"] = {
 	},
 }
 
--- SketchyBar globals (for files in sketchybar/)
-files["**/sketchybar/**"] = {
-	exclude_files = { "**/*.tmpl" },
-	globals = {
-		"sbar",
-		"id",
-		"current",
-	},
-	ignore = {
-		"211", -- unused variable
-		"212", -- unused argument
-		"213", -- unused loop variable
-		"311", -- value assigned to variable is unused
-		"421", -- shadowing definition of variable
-		"431", -- shadowing upvalue
-		"581", -- can use ~= instead of not ==
-	},
-}
+
 
 -- Ignore specific warnings
 ignore = {
