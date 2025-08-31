@@ -16,6 +16,10 @@ fi
 
 source ~/.config/zsh/aliases.zsh
 
+# Allow tmux usage even if aliased or defined as a function
+unalias tmux &>/dev/null
+unset -f tmux &>/dev/null
+
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
 {{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
@@ -83,7 +87,7 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 # Auto-attach to tmux session for interactive shells (opt-in)
 if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$GHOSTTY_AUTO_TMUX" = "true" ]; then
     if command -v tmux >/dev/null 2>&1; then
-        exec tmux new-session -A -s 'ghostty'
+         exec tmux new-session -A -s 'ghostty'
     fi
 fi
 

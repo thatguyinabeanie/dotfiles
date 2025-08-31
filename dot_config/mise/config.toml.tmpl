@@ -90,10 +90,10 @@
 description = "Install Python global packages via pipx and uv"
 run = [
 {{- range $package := $python.pipx_apps }}
-  "pipx install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
+      "pipx --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
 {{- end }}
 {{- range $package := $python.uv_global_packages }}
-  "uv pip install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
+    "uv pip --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",,
 {{- end }}
 ]
 

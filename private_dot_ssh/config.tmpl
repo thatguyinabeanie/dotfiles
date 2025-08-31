@@ -1,11 +1,11 @@
-{{ if eq .WORK_ENVIRONMENT true -}}
+{{ if eq .PERSONAL_ENVIRONMENT true -}}
+Host *
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+{{ else if eq .WORK_ENVIRONMENT true -}}
 Host github.com
   IgnoreUnknown UseKeychain,AddKeysToAgent
   UseKeychain yes
   AddKeysToAgent yes
   IdentityFile ~/.ssh/id_ed25519
-{{ else -}}
-Host *
-  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 {{ end -}}
 

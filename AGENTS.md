@@ -1,6 +1,12 @@
 # Agents.md
 
-Essential guidance for coding agents working with this Chezmoi dot files repository.
+## Project Overview
+
+This repository contains a comprehensive and highly-automated dotfiles configuration managed by [Chezmoi](https://www.chezmoi.io/). It aims to create a consistent, modern, and efficient development environment across multiple machines, with a strong emphasis on macOS and a clear path for Linux expansion.
+
+The setup is meticulously organized, leveraging a modular data structure within the `.chezmoidata` directory to manage packages, environment variables, system configurations, and development tools. It uses `mise` for tool version management, ensuring reproducible environments.
+
+Key technologies include **Go** for testing, **Shell (Bash/Zsh/Nushell)** for scripting, **Lua** for Neovim configuration, and extensive **YAML** for data configuration.
 
 ## Build/Test Commands
 
@@ -13,7 +19,10 @@ mise run setup-hooks
 lefthook run pre-commit
 
 # Apply dotfiles changes
-chezmoi apply && chezmoi diff
+chezmoi apply
+
+# See what changes would be made without applying them
+chezmoi diff
 
 # Run all tests
 cd .tests && go test ./...
@@ -30,14 +39,22 @@ cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=cov
 
 ## Code Style Guidelines
 
-- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive). Use `github.com/alecthomas/assert/v2` for tests
+- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive). Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
 - **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
 - **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
-- **YAML**: Max 120 chars, no document-start markers, newline at EOF required
-- **Markdown**: Use Vale for prose linting, follow markdownlint rules
-- **Naming**: `dot_` prefix for hidden files, `private_` for encrypted content, `.tmpl` for Chezmoi templates
-- **Imports**: Group standard library, third-party, then local imports in Go
-- **Error Handling**: Always handle errors explicitly in Go, use proper exit codes in shell scripts
+- **YAML**: Max 120 chars, no document-start markers (`---`), newline at EOF required.
+- **Markdown**: Use Vale for prose linting, follow markdownlint rules.
+
+### Naming Conventions
+
+- `dot_`: Prefix for hidden files managed by Chezmoi.
+- `private_`: Prefix for files encrypted by Chezmoi.
+- `.tmpl`: Suffix for Chezmoi templates.
+
+## Configuration Management
+
+- Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform (macOS, cross-platform) and context (shared, personal, work).
+- A persistent configuration system is in place to store and restore settings across system reinstalls. Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
 
 ## macOS-Specific Files
 

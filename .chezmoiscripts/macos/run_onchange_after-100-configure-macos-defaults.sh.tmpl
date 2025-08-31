@@ -109,15 +109,7 @@ defaults write com.apple.assistant.backedup "Use device speaker for TTS" -int 3
 defaults write com.apple.intelligenceplatform.support IntelligencePlatformEnabled -bool false
 defaults write com.apple.ai.foundation AIFoundationEnabled -bool false
 
-# SketchyBar Configuration - Hide default macOS menu bar
-if command -v sketchybar >/dev/null 2>&1; then
-  echo "🔧 SketchyBar detected - hiding default macOS menu bar..."
-  # Hide the default macOS menu bar (Always)
-  # This is equivalent to: System Settings -> Control Center -> Automatically hide and show the menu bar -> Always
-  defaults write NSGlobalDomain _HIHideMenuBar -bool true
-else
-  echo "⚠️  SketchyBar not found - keeping default macOS menu bar visible"
-fi
+
 
 # Dock Configuration
 defaults write com.apple.dock tilesize -int 36
@@ -175,11 +167,7 @@ killall SystemUIServer 2>/dev/null || true
 killall ControlCenter 2>/dev/null || true
 killall Dock 2>/dev/null || true
 
-# Restart SketchyBar if it's running to ensure proper display after menu bar changes
-if command -v sketchybar >/dev/null 2>&1 && pgrep -f sketchybar >/dev/null 2>&1; then
-  echo "🔄 Restarting SketchyBar to apply menu bar changes..."
-  brew services restart sketchybar 2>/dev/null || true
-fi
+
 
 # Show success message for Raycast if it was configured
 if [ -d "/Applications/Raycast.app" ]; then

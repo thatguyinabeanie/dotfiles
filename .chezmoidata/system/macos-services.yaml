@@ -16,11 +16,7 @@
 macos_services:
   # macOS Enhancements (conditionally installed)
   services:
-    - name: "sketchybar"
-      description: "Custom macOS menu bar"
-      action: "restart"
-      active: true
-      condition: "ifInstalled"
+    
 
     - name: "borders"
       active: false

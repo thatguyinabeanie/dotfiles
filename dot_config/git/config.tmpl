@@ -4,44 +4,49 @@
 [user]
     name = {{ .git.config.name }}
     email = {{ .git.config.email }}
+{{- if and (eq .chezmoi.os "darwin") (eq .PERSONAL_ENVIRONMENT true) }}
+    signingkey = {{ onepasswordRead "op://Tech - Dev/Github Signing Key/public key" }}
 
-[push]
-    autoSetupRemote = true
+[commit]
+    gpgsign = true
 
-[core]
-  editor = nvim
-  pager = delta
-  excludesFile = ~/.config/git/.gitignore
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{- else }}
 
 [commit]
     gpgsign = false
+{{- end }}
+
+[push]
+autoSetupRemote = true
+
+[core]
+editor = nvim
+pager = delta
+excludesFile = ~/.config/git/.gitignore
 
 [init]
     defaultBranch = main
 
 [interactive]
-  diffFilter = delta --color-only
+    diffFilter = delta --color-only
 
 [merge]
-  conflictstyle = zdiff3
-  ff = false
+    conflictstyle = zdiff3
+    ff = false
 
 [pull]
-  ff = true
+    ff = true
 
 [diff]
-  colorMoved = default
+    colorMoved = default
 
 [delta]
-  navigation = true
-  features = catppuccin-{{ .CATPPUCCIN_FLAVOR }}
-  navigate = true  # use n and N to move between diff sections
+    navigation = true
+    features = catppuccin-{{ .CATPPUCCIN_FLAVOR }}
+    navigate = true  # use n and N to move between diff sections
 
-[alias]
-  co = checkout
-  ec = config --global --edit
-  up = !git pull --rebase --prune $@
-  cob = checkout -b
-  gone = !"git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs git branch -D"
-  went = !"git up && git gone"
-  push-it-real-good = !"git push --force-if-includes"

@@ -1,34 +1,12 @@
+# Ignore everything by default.DS_Store
 .DS_Store
-*/.DS_Store
-bin
-!MISSION_CONTROL/dot_local/bin/
-tmux/plugins/
 
-zsh/work.zsh
-
-chezmoi/*
-!chezmoi/.keep
-
-secrets/*
-
-k9s/*
-!k9s/config.yaml
-!k9s/skins/*
-coverage.txt
-gitleaks-report.json
-
-# Test-related directories
-_tests_/.cache/
-_tests_/.coverage/
-_tests_/.history/
-*.coverage
-*.deps
-*.result
-!.claude/settings.json
-!CLAUDE.md
-!GEMINI.md
+*.md
+!README.md
 !AGENTS.md
+!.docs/*.md
+./*.sh
 
-# Vale downloaded styles (external packages)
-.vale/styles/Google/
-.vale/styles/write-good/
+.vale
+*.sh
+!*/*.sh
