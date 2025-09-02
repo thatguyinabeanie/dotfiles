@@ -6,7 +6,7 @@
 ##
 
 # Injected configuration from chezmoi templates (using direct access)
-const ENABLED_PROVIDERS = {{ .ai_opencode.providers | toJson }}
+const ENABLED_PROVIDERS = {{ keys .ai_opencode.provider | toJson }}
 const DEFAULT_MODEL = "{{ .ai_opencode.model }}"
 const SMALL_MODEL = "{{ .ai_opencode.small_model }}"
 const AUTOUPDATE = {{ .ai_opencode.autoupdate }}

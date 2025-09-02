@@ -3,7 +3,7 @@ JSON Provider Configuration Template
 Generates provider configurations with proper comma handling
 
 Usage:
-{{- template "utilities/json-providers.tmpl" .provider_configs }}
+{{- template "utilities/json-providers.tmpl" .provider }}
 */}}
 
 {{- $providers := . -}}
@@ -11,20 +11,15 @@ Usage:
 {{- range $i, $name := $providerNames -}}
 {{- $config := index $providers $name }}
     "{{ $name }}": {
-      "enabled": {{ $config.enabled }},
-      "model": "{{ $config.model }}",
-      "temperature": {{ $config.temperature }},
-      "max_tokens": {{ $config.max_tokens }}
-{{- if hasKey $config "api_version" }},
-      "api_version": "{{ $config.api_version }}"
+{{- if hasKey $config "models" }}
+      "models": {
+{{- template "utilities/json-object.tmpl" $config.models }}
+      }{{ if hasKey $config "options" }},{{ end }}
 {{- end }}
-{{- if hasKey $config "safety_settings" }},
-      "safety_settings": {
-{{- template "utilities/json-object.tmpl" $config.safety_settings }}
+{{- if hasKey $config "options" }}
+      "options": {
+{{- template "utilities/json-object.tmpl" $config.options }}
       }
-{{- end }}
-{{- if hasKey $config "site_url" }},
-      "site_url": "{{ $config.site_url }}"
 {{- end }}
     }{{ if lt $i (sub (len $providerNames) 1) }},{{ end }}
 {{- end }}

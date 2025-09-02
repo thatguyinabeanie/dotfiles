@@ -1,50 +1,32 @@
 ai_opencode:
-  # OpenCode AI configuration
-  provider: github-copilot
-  model: gemini-2.5-pro
-  small_model: gemini-2.0-flash-001
+  # OpenCode AI configuration - follows opencode.ai schema
+  model: "github-copilot/gemini-2.5-pro"
+  small_model: "github-copilot/gemini-2.0-flash-001"
   autoupdate: true
-  share: manual
+  share: "manual"
+  theme: "opencode"
 
-  # Available providers
-  providers:
-    - github-copilot
-    - anthropic
-    - google
-    - openrouter
-
-  # Provider-specific configurations
-  provider_configs:
+  # Provider configurations (flat structure as per opencode schema)
+  provider:
     github-copilot:
-      enabled: true
-      model: "gpt-4"
-      temperature: 0.1
-      max_tokens: 4096
+      models: {}
+      options: {}
 
     anthropic:
-      enabled: true
-      model: "claude-3-5-sonnet-20241022"
-      temperature: 0.1
-      max_tokens: 4096
-      api_version: "2023-06-01"
+      models: {}
+      options:
+        apiKey: "{env:ANTHROPIC_API_KEY}"
 
     google:
-      enabled: true
-      model: "gemini-2.5-pro"
-      temperature: 0.1
-      max_tokens: 4096
-      safety_settings:
-        harassment: "BLOCK_NONE"
-        hate_speech: "BLOCK_NONE"
-        sexually_explicit: "BLOCK_NONE"
-        dangerous_content: "BLOCK_NONE"
+      models: {}
+      options:
+        apiKey: "{env:GOOGLE_API_KEY}"
 
     openrouter:
-      enabled: true
-      model: "anthropic/claude-3.5-sonnet"
-      temperature: 0.1
-      max_tokens: 4096
-      site_url: "https://openrouter.ai"
+      models: {}
+      options:
+        apiKey: "{env:OPENROUTER_API_KEY}"
+        site_url: "https://openrouter.ai"
 
   # Feature settings
   features:

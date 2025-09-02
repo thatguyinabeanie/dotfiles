@@ -20,10 +20,13 @@ Parameters:
 
 {{- /* Top-level simple fields */ -}}
 {{- if hasKey $data "model" }}
-  "model": "{{ $data.provider }}/{{ $data.model }}",
+  "model": "{{ $data.model }}",
 {{- end }}
 {{- if hasKey $data "small_model" }}
-  "small_model": "{{ $data.provider }}/{{ $data.small_model }}",
+  "small_model": "{{ $data.small_model }}",
+{{- end }}
+{{- if hasKey $data "theme" }}
+  "theme": "{{ $data.theme }}",
 {{- end }}
 {{- if hasKey $data "share" }}
   "share": "{{ $data.share }}",
@@ -33,9 +36,9 @@ Parameters:
 {{- end }}
 
 {{- /* Provider configurations */ -}}
-{{- if hasKey $data "provider_configs" }}
+{{- if hasKey $data "provider" }}
   "provider": {
-{{- template "utilities/json-providers.tmpl" $data.provider_configs }}
+{{- template "utilities/json-providers.tmpl" $data.provider }}
   }
 {{- end }}
 }
