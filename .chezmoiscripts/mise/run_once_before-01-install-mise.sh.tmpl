@@ -38,8 +38,16 @@ install_mise_arch() {
 	export MISE_INSTALL_PATH="$HOME/.local/bin/$binary_name"
 	export MISE_QUIET="true"
 
-	# Run unified installer
-	"{{ .chezmoi.sourceDir }}/.chezmoitemplates/mise/install-or-update.sh"
+	# Install mise using the official installer
+	if ! command -v mise >/dev/null 2>&1; then
+		echo "Installing mise..."
+		curl https://mise.run | sh
+
+		# Add mise to PATH for this session
+		export PATH="$HOME/.local/bin:$PATH"
+	else
+		echo "mise already installed"
+	fi
 
 	# Load and start LaunchAgent for daily updates (macOS only)
 	{{- if eq .chezmoi.os "darwin" }}
