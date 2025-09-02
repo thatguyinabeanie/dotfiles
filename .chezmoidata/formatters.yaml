@@ -8,7 +8,7 @@ formatters:
     description: "Code formatter for web languages"
     conflicts_with_lsp_formatting: true
 
-  - name: prettierd
+  - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     install_via: npm
     runtime: node
@@ -34,12 +34,7 @@ formatters:
     version: latest
     description: "Python code formatter"
 
-  - name: blackd-client
-    languages: [python]
-    install_via: pip
-    runtime: python
-    version: latest
-    description: "Black formatter daemon client"
+  # blackd-client removed - blackd daemon included with black package
 
   # Ruby
   - name: standardrb
@@ -50,12 +45,7 @@ formatters:
     description: "Ruby formatter and linter"
 
   # Lua
-  - name: luaformatter
-    languages: [lua]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Lua code formatter"
+  # luaformatter removed - doesn't exist on npm, stylua available via other methods
 
   # Shell
   - name: shfmt
@@ -80,15 +70,7 @@ formatters:
     version: latest
     description: "YAML formatter"
 
-  # Go (built into language server)
-  - name: gofmt
-    languages: [go]
-    install_via: go
-    runtime: go
-    version: latest
-    description: "Go code formatter"
-    builtin_to_toolchain: true
-    install_command: "golang.org/x/tools/cmd/gofmt@latest"
+  # Go (gofmt is built into Go toolchain - no separate installation needed)
 
   - name: goimports
     languages: [go]
@@ -99,12 +81,7 @@ formatters:
     install_command: "golang.org/x/tools/cmd/goimports@latest"
 
   # HTTP/REST
-  - name: kulala-fmt
-    languages: [http]
-    install_via: cargo
-    runtime: rust
-    version: latest
-    description: "HTTP request formatter"
+  # kulala-fmt removed - available via Mason, not cargo
 
   # SQL
   - name: sql-formatter
@@ -115,7 +92,7 @@ formatters:
     description: "SQL formatter"
 
   # XML/HTML
-  - name: xmlformat
+  - name: xmlformatter
     languages: [xml]
     install_via: pip
     runtime: python
@@ -147,9 +124,4 @@ formatters:
     description: "TOML formatter"
 
   # Dockerfile
-  - name: dockerfile-formatter
-    languages: [dockerfile]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Dockerfile formatter"
+  # dockerfile-formatter removed - doesn't exist on npm

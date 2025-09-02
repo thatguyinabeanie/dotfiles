@@ -409,6 +409,21 @@ dev_tools:
     description: "Modern modal editor"
     category: editor
 
+  # Language servers and development tools
+  - name: markdown-oxide
+    install_via: brew
+    runtime: rust
+    version: latest
+    description: "Markdown language server"
+    category: lsp
+
+  - name: typos-lsp
+    install_via: brew
+    runtime: rust
+    version: latest
+    description: "Typo checker language server"
+    category: lsp
+
   # Curl-based installations
   - name: mise
     install_via: curl

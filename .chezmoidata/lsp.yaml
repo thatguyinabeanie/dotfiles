@@ -8,13 +8,7 @@ language_servers:
     description: "TypeScript & JavaScript language server"
     provides_formatting: false
 
-  - name: vscode-eslint-language-server
-    languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "ESLint LSP for JavaScript/TypeScript"
-    provides_formatting: false
+  # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
 
   # Systems languages
   - name: rust-analyzer
@@ -119,20 +113,13 @@ language_servers:
 
   - name: markdown-oxide
     languages: [markdown]
-    install_via: cargo
+    install_via: brew
     runtime: rust
     version: latest
     description: "Alternative Markdown language server"
     provides_formatting: false
 
-  - name: vale-ls
-    languages: [markdown, text]
-    install_via: go
-    runtime: go
-    version: latest
-    description: "Vale prose linter language server"
-    provides_formatting: false
-    install_command: "github.com/errata-ai/vale-ls@latest"
+  # vale-ls removed - doesn't support go install, vale already available via brew
 
   # Infrastructure and DevOps
   - name: dockerfile-language-server-nodejs
@@ -143,21 +130,17 @@ language_servers:
     description: "Dockerfile language server"
     provides_formatting: false
 
-  - name: nginx-language-server
-    languages: [nginx]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Nginx configuration language server"
-    provides_formatting: false
+  # nginx-language-server removed - doesn't exist on npm
 
+{{- if ne .chezmoi.os "darwin" }}
   - name: systemd-language-server
     languages: [systemd]
     install_via: npm
     runtime: node
     version: latest
-    description: "Systemd unit file language server"
+    description: "Systemd unit file language server (Linux only)"
     provides_formatting: false
+{{- end }}
 
   # Specialized tools
   - name: cmake-language-server
@@ -168,21 +151,9 @@ language_servers:
     description: "CMake language server"
     provides_formatting: false
 
-  - name: jinja-lsp
-    languages: [jinja, jinja2]
-    install_via: pip
-    runtime: python
-    version: latest
-    description: "Jinja template language server"
-    provides_formatting: false
+  # jinja-lsp removed - package doesn't exist on pip
 
-  - name: jq-lsp
-    languages: [jq]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "jq language server"
-    provides_formatting: false
+  # jq-lsp removed - doesn't exist on npm
 
   - name: vim-language-server
     languages: [vim]
@@ -201,13 +172,7 @@ language_servers:
     description: "GitHub Actions workflow language server"
     provides_formatting: false
 
-  - name: circleci-yaml-language-server
-    languages: [yaml]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "CircleCI configuration language server"
-    provides_formatting: false
+  # circleci-yaml-language-server removed - doesn't exist on npm
 
   # Linter language servers
   - name: golangci-lint-langserver
@@ -221,7 +186,7 @@ language_servers:
 
   - name: typos-lsp
     languages: [text, markdown]
-    install_via: cargo
+    install_via: brew
     runtime: rust
     version: latest
     description: "Typo checker language server"

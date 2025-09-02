@@ -22,12 +22,7 @@ linters:
     version: latest
     description: "Fast ESLint daemon"
 
-  - name: vscode-eslint-language-server
-    languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "ESLint language server"
+  # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
 
   - name: stylelint
     languages: [css, scss, sass]
@@ -249,9 +244,4 @@ linters:
     description: "Protocol buffer linter"
 
   # Nginx configuration linter
-  - name: nginx-linter
-    languages: [nginx]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Nginx configuration linter"
+  # nginx-linter removed - doesn't exist on npm

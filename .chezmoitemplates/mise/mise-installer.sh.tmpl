@@ -380,7 +380,7 @@ log_step "Setting global tool versions"
 {{- range $tools.dev_tools }}
   {{- if and (eq .install_via "mise") .version }}
 if mise list {{ .name }} | grep -q "{{ .version }}"; then
-    mise global {{ .name }}@{{ .version }}
+    mise use --global {{ .name }}@{{ .version }}
     log_debug "Set global {{ .name }} version to {{ .version }}"
 fi
   {{- end }}
