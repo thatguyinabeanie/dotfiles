@@ -15,7 +15,8 @@ fi
 
 # Brew Services Manager - Initial Setup
 
-set -euo pipefail
+# Use relaxed error handling for service management (some services may not exist)
+set +e
 
 echo "🔧 Initial brew services setup..."
 
