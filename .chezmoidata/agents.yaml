@@ -1,0 +1,169 @@
+ai_agents:
+  # Node.js-based AI agents
+  - name: "@anthropic-ai/claude-code"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Claude AI code integration"
+    category: code_assistant
+
+  - name: "@google/gemini-cli"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Google Gemini CLI tool"
+    category: code_assistant
+
+  - name: "opencode-ai"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "OpenCode AI"
+    category: code_assistant
+
+  - name: "@augmentcode/auggie"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Augment Code CLI"
+    category: code_assistant
+
+  - name: "@openai/codex"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "OpenAI Codex CLI"
+    category: code_assistant
+
+  # Native/Rust-based AI tools
+  - name: claude
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Anthropic Claude CLI"
+    category: chat_assistant
+
+  # GUI AI Applications (macOS casks)
+  - name: cursor
+    install_via: brew_cask
+    runtime: native
+    description: "AI-powered code editor"
+    category: ide
+    macos_only: true
+
+  # - name: claude-desktop
+  #   install_via: brew_cask
+  #   runtime: native
+  #   description: "Claude desktop application (not available via brew)"
+  #   category: chat_assistant
+  #   macos_only: true
+
+  - name: chatgpt
+    install_via: brew_cask
+    runtime: native
+    description: "ChatGPT desktop application"
+    category: chat_assistant
+    macos_only: true
+
+  - name: copilot
+    install_via: brew_cask
+    runtime: native
+    description: "GitHub Copilot desktop application"
+    category: code_assistant
+    macos_only: true
+
+  # AI-enhanced development tools
+  - name: aider
+    install_via: mise
+    runtime: python
+    version: latest
+    description: "AI pair programming in the terminal"
+    category: code_assistant
+
+  # - name: codeium
+  #   install_via: brew_cask
+  #   runtime: native
+  #   description: "Free AI code completion (not available via brew)"
+  #   category: code_assistant
+  #   macos_only: true
+
+  # AI productivity tools
+  - name: raycast
+    install_via: brew_cask
+    runtime: native
+    description: "AI-powered launcher and productivity tool"
+    category: productivity
+    macos_only: true
+
+  - name: notion
+    install_via: brew_cask
+    runtime: native
+    description: "AI-enhanced note-taking and productivity"
+    category: productivity
+    macos_only: true
+
+  # AI writing and content tools
+  - name: grammarly-desktop
+    install_via: brew_cask
+    runtime: native
+    description: "AI writing assistant"
+    category: writing
+    macos_only: true
+
+  # AI image and media tools (requires sudo, skip for automated install)
+  # - name: topaz-photo-ai
+  #   install_via: brew_cask
+  #   runtime: native
+  #   description: "AI photo enhancement (requires sudo)"
+  #   category: media
+  #   macos_only: true
+
+  - name: cleanmymac
+    install_via: brew_cask
+    runtime: native
+    description: "AI-powered Mac optimization"
+    category: system
+    macos_only: true
+
+  # Terminal-based AI tools
+  - name: charmbracelet/tap/mods
+    install_via: brew
+    runtime: native
+    description: "AI on the command line"
+    category: terminal
+
+  - name: fabric
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "AI-powered automation framework"
+    category: automation
+
+  # AI development frameworks
+  - name: langchain-cli
+    install_via: mise
+    runtime: python
+    version: latest
+    description: "LangChain CLI for AI app development"
+    category: framework
+
+  - name: ollama
+    install_via: brew
+    runtime: native
+    description: "Run large language models locally"
+    category: llm_runtime
+
+  # AI code analysis tools
+  - name: semgrep
+    install_via: mise
+    runtime: python
+    version: latest
+    description: "AI-powered static analysis"
+    category: analysis
+
+  - name: gitleaks
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "AI-enhanced secret detection"
+    category: security

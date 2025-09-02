@@ -1,0 +1,257 @@
+linters:
+  # Shell linters
+  - name: shellcheck
+    languages: [bash, sh, zsh]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Shell script linter"
+
+  - name: luacheck
+    languages: [lua]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Lua linter"
+
+  # Web development linters
+  - name: eslint_d
+    languages: [typescript, javascript, javascriptreact, typescriptreact]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Fast ESLint daemon"
+
+  - name: vscode-eslint-language-server
+    languages: [typescript, javascript, javascriptreact, typescriptreact]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "ESLint language server"
+
+  - name: stylelint
+    languages: [css, scss, sass]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "CSS/SCSS linter"
+
+  # Markup and documentation linters
+  - name: vale
+    languages: [markdown, text]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Prose linter"
+
+  - name: marksman
+    languages: [markdown]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Markdown linter and language server"
+
+  - name: markdown-oxide
+    languages: [markdown]
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Alternative Markdown linter"
+
+  # Container and infrastructure linters
+  - name: hadolint
+    languages: [dockerfile]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Dockerfile linter"
+
+  - name: kube-linter
+    languages: [yaml]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Kubernetes YAML linter"
+
+  - name: tflint
+    languages: [terraform]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Terraform linter"
+
+  # YAML linters
+  - name: yamllint
+    languages: [yaml]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "YAML linter"
+
+  # Go linters
+  - name: golangci-lint
+    languages: [go]
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "Go meta-linter"
+
+  - name: golangci-lint-langserver
+    languages: [go]
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "Go linter language server"
+
+  # Python linters
+  - name: ruff
+    languages: [python]
+    install_via: mise
+    runtime: python
+    version: latest
+    description: "Fast Python linter"
+
+  - name: flake8
+    languages: [python]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Python linter"
+
+  - name: pylint
+    languages: [python]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Python static analysis"
+
+  - name: mypy
+    languages: [python]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Python type checker"
+
+  # Ruby linters
+  - name: rubocop
+    languages: [ruby]
+    install_via: gem
+    runtime: ruby
+    version: latest
+    description: "Ruby linter and formatter"
+
+  - name: standardrb
+    languages: [ruby]
+    install_via: gem
+    runtime: ruby
+    version: latest
+    description: "Ruby standard style linter"
+
+  - name: haml-lint
+    languages: [haml]
+    install_via: gem
+    runtime: ruby
+    version: latest
+    description: "HAML linter"
+
+  # Environment and configuration linters
+  - name: dotenv-linter
+    languages: [env]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: ".env file linter"
+
+  # Security linters
+  - name: gitleaks
+    languages: [git]
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "Git secrets scanner"
+
+  - name: semgrep
+    languages: [python, javascript, typescript, go, java, ruby]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Static analysis for security"
+
+  - name: bandit
+    languages: [python]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Python security linter"
+
+  # Spelling and typo linters
+  - name: typos
+    languages: [text, markdown]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Typo checker"
+
+  - name: typos-lsp
+    languages: [text, markdown]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Typo checker language server"
+
+  - name: cspell
+    languages: [text, markdown, code]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Code spell checker"
+
+  # JSON linters
+  - name: jsonlint
+    languages: [json]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "JSON linter"
+
+  # SQL linters
+  - name: sqlfluff
+    languages: [sql]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "SQL linter and formatter"
+
+  # Rust linters (built into toolchain)
+  - name: clippy
+    languages: [rust]
+    install_via: rustup
+    runtime: rust
+    version: latest
+    description: "Rust linter"
+    builtin_to_toolchain: true
+    install_command: "rustup component add clippy"
+
+  # XML linters (xmllint is part of libxml2, installed by default on macOS)
+  # - name: xmllint
+  #   languages: [xml]
+  #   install_via: system
+  #   runtime: native
+  #   version: latest
+  #   description: "XML linter (system provided)"
+
+  # Protocol buffer linters
+  - name: buf
+    languages: [proto]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Protocol buffer linter"
+
+  # Nginx configuration linter
+  - name: nginx-linter
+    languages: [nginx]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Nginx configuration linter"

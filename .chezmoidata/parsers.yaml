@@ -1,0 +1,346 @@
+treesitter_parsers:
+  # Shell and scripting
+  - name: bash
+    language: bash
+    category: shell
+    description: "Bash shell parser"
+
+  - name: fish
+    language: fish
+    category: shell
+    description: "Fish shell parser"
+
+  - name: nu
+    language: nu
+    category: shell
+    description: "Nushell parser"
+
+  # Programming languages - Systems
+  - name: rust
+    language: rust
+    category: systems
+    description: "Rust parser"
+
+  - name: go
+    language: go
+    category: systems
+    description: "Go parser"
+
+  - name: zig
+    language: zig
+    category: systems
+    description: "Zig parser"
+
+  - name: c
+    language: c
+    category: systems
+    description: "C parser"
+
+  - name: cpp
+    language: cpp
+    category: systems
+    description: "C++ parser"
+
+  # Programming languages - Web
+  - name: javascript
+    language: javascript
+    category: web
+    description: "JavaScript parser"
+
+  - name: typescript
+    language: typescript
+    category: web
+    description: "TypeScript parser"
+
+  - name: tsx
+    language: tsx
+    category: web
+    description: "TypeScript JSX parser"
+
+  - name: html
+    language: html
+    category: web
+    description: "HTML parser"
+
+  - name: css
+    language: css
+    category: web
+    description: "CSS parser"
+
+  - name: scss
+    language: scss
+    category: web
+    description: "SCSS parser"
+
+  - name: vue
+    language: vue
+    category: web
+    description: "Vue.js parser"
+
+  - name: svelte
+    language: svelte
+    category: web
+    description: "Svelte parser"
+
+  # Programming languages - Scripting
+  - name: lua
+    language: lua
+    category: scripting
+    description: "Lua parser"
+
+  - name: python
+    language: python
+    category: scripting
+    description: "Python parser"
+
+  - name: ruby
+    language: ruby
+    category: scripting
+    description: "Ruby parser"
+
+  - name: php
+    language: php
+    category: scripting
+    description: "PHP parser"
+
+  - name: perl
+    language: perl
+    category: scripting
+    description: "Perl parser"
+
+  # Programming languages - Functional
+  - name: elixir
+    language: elixir
+    category: functional
+    description: "Elixir parser"
+
+  - name: gleam
+    language: gleam
+    category: functional
+    description: "Gleam parser"
+
+  - name: haskell
+    language: haskell
+    category: functional
+    description: "Haskell parser"
+
+  # Programming languages - JVM
+  - name: java
+    language: java
+    category: jvm
+    description: "Java parser"
+
+  - name: kotlin
+    language: kotlin
+    category: jvm
+    description: "Kotlin parser"
+
+  - name: scala
+    language: scala
+    category: jvm
+    description: "Scala parser"
+
+  # Programming languages - Other
+  - name: swift
+    language: swift
+    category: mobile
+    description: "Swift parser"
+
+  - name: r
+    language: r
+    category: data_science
+    description: "R parser"
+
+  # Data formats
+  - name: json
+    language: json
+    category: data
+    description: "JSON parser"
+
+  - name: yaml
+    language: yaml
+    category: data
+    description: "YAML parser"
+
+  - name: toml
+    language: toml
+    category: data
+    description: "TOML parser"
+
+  - name: xml
+    language: xml
+    category: data
+    description: "XML parser"
+
+  - name: csv
+    language: csv
+    category: data
+    description: "CSV parser"
+
+  # Documentation and markup
+  - name: markdown
+    language: markdown
+    category: documentation
+    description: "Markdown parser"
+
+  - name: markdown_inline
+    language: markdown_inline
+    category: documentation
+    description: "Inline Markdown parser"
+
+  - name: latex
+    language: latex
+    category: documentation
+    description: "LaTeX parser"
+
+  - name: typst
+    language: typst
+    category: documentation
+    description: "Typst parser"
+
+  - name: vimdoc
+    language: vimdoc
+    category: documentation
+    description: "Vim documentation parser"
+
+  - name: norg
+    language: norg
+    category: documentation
+    description: "Neorg parser"
+
+  # Infrastructure and DevOps
+  - name: dockerfile
+    language: dockerfile
+    category: infrastructure
+    description: "Dockerfile parser"
+
+  - name: terraform
+    language: terraform
+    category: infrastructure
+    description: "Terraform parser"
+
+  - name: nginx
+    language: nginx
+    category: infrastructure
+    description: "Nginx configuration parser"
+
+  - name: ssh_config
+    language: ssh_config
+    category: infrastructure
+    description: "SSH configuration parser"
+
+  # Version control
+  - name: git_config
+    language: git_config
+    category: vcs
+    description: "Git configuration parser"
+
+  - name: gitignore
+    language: gitignore
+    category: vcs
+    description: "Gitignore parser"
+
+  - name: diff
+    language: diff
+    category: vcs
+    description: "Diff parser"
+
+  # Build systems
+  - name: cmake
+    language: cmake
+    category: build
+    description: "CMake parser"
+
+  - name: make
+    language: make
+    category: build
+    description: "Makefile parser"
+
+  # Query languages
+  - name: sql
+    language: sql
+    category: database
+    description: "SQL parser"
+
+  - name: graphql
+    language: graphql
+    category: api
+    description: "GraphQL parser"
+
+  - name: jq
+    language: jq
+    category: data
+    description: "jq parser"
+
+  # Specialized formats
+  - name: regex
+    language: regex
+    category: pattern
+    description: "Regular expression parser"
+
+  - name: query
+    language: query
+    category: pattern
+    description: "Tree-sitter query parser"
+
+  - name: comment
+    language: comment
+    category: utility
+    description: "Comment parser"
+
+  - name: embedded_template
+    language: embedded_template
+    category: template
+    description: "Embedded template parser"
+
+  # System and configuration
+  - name: tmux
+    language: tmux
+    category: terminal
+    description: "Tmux configuration parser"
+
+  - name: vim
+    language: vim
+    category: editor
+    description: "Vim script parser"
+
+  - name: readline
+    language: readline
+    category: terminal
+    description: "Readline parser"
+
+  # Specialized languages
+  - name: dot
+    language: dot
+    category: visualization
+    description: "Graphviz DOT parser"
+
+  - name: gpg
+    language: gpg
+    category: security
+    description: "GPG parser"
+
+  - name: llvm
+    language: llvm
+    category: compiler
+    description: "LLVM IR parser"
+
+  - name: luadoc
+    language: luadoc
+    category: documentation
+    description: "Lua documentation parser"
+
+  - name: nix
+    language: nix
+    category: package_manager
+    description: "Nix parser"
+
+  - name: proto
+    language: proto
+    category: api
+    description: "Protocol buffer parser"
+
+  - name: superhtml
+    language: superhtml
+    category: web
+    description: "SuperHTML parser"

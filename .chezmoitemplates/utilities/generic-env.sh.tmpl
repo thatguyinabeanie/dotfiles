@@ -209,7 +209,7 @@ export {{ $key }}="{{ $value }}"
 {{ end }}
 
 {{- if eq $shell "nushell" }}
-{{- template "platform-storage-env.tmpl" (dict "syntax" "nushell" "context" $dot) }}
+{{- template "utilities/platform-storage.tmpl" (dict "syntax" "nushell" "context" $dot) }}
 
 $env.CARAPACE_BRIDGES = 'zsh,bash,inshellisense'
 carapace _carapace nushell | save -f ~/.cache/carapace/init.nu
@@ -227,5 +227,5 @@ if ($env.HOME | path join ".cargo/env.nu" | path exists) {
     cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
 }
 {{- else }}
-{{- template "platform-storage-env.tmpl" (dict "syntax" "export" "context" $dot) }}
+{{- template "utilities/platform-storage.tmpl" (dict "syntax" "export" "context" $dot) }}
 {{- end }}

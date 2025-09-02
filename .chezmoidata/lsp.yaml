@@ -1,0 +1,246 @@
+language_servers:
+  # JavaScript/TypeScript ecosystem
+  - name: typescript-language-server
+    languages: [typescript, javascript, javascriptreact, typescriptreact]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "TypeScript & JavaScript language server"
+    provides_formatting: false
+
+  - name: vscode-eslint-language-server
+    languages: [typescript, javascript, javascriptreact, typescriptreact]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "ESLint LSP for JavaScript/TypeScript"
+    provides_formatting: false
+
+  # Systems languages
+  - name: rust-analyzer
+    languages: [rust]
+    install_via: mise
+    runtime: rust
+    version: latest
+    description: "Rust language server"
+    provides_formatting: true
+
+  - name: gopls
+    languages: [go]
+    install_via: go
+    runtime: go
+    version: latest
+    description: "Go language server"
+    provides_formatting: true
+    install_command: "golang.org/x/tools/gopls@latest"
+
+  - name: zls
+    languages: [zig]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Zig language server"
+    provides_formatting: true
+
+  # Scripting languages
+  - name: bash-language-server
+    languages: [bash, sh, zsh]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Bash language server"
+    provides_formatting: false
+
+  - name: lua-language-server
+    languages: [lua]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Lua language server"
+    provides_formatting: true
+
+  - name: ruby-lsp
+    languages: [ruby]
+    install_via: gem
+    runtime: ruby
+    version: latest
+    description: "Ruby language server"
+    provides_formatting: false
+
+  - name: pyright
+    languages: [python]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Python language server"
+    provides_formatting: false
+
+  # Web technologies
+  - name: vscode-css-languageserver-bin
+    languages: [css, scss, sass]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "CSS language server"
+    provides_formatting: false
+
+  - name: vscode-html-languageserver-bin
+    languages: [html]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "HTML language server"
+    provides_formatting: false
+
+  - name: vscode-json-languageserver
+    languages: [json, jsonc]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "JSON language server"
+    provides_formatting: false
+
+  - name: yaml-language-server
+    languages: [yaml]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "YAML language server"
+    provides_formatting: false
+
+  # Documentation and markup
+  - name: marksman
+    languages: [markdown]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Markdown language server"
+    provides_formatting: false
+
+  - name: markdown-oxide
+    languages: [markdown]
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Alternative Markdown language server"
+    provides_formatting: false
+
+  - name: vale-ls
+    languages: [markdown, text]
+    install_via: go
+    runtime: go
+    version: latest
+    description: "Vale prose linter language server"
+    provides_formatting: false
+    install_command: "github.com/errata-ai/vale-ls@latest"
+
+  # Infrastructure and DevOps
+  - name: dockerfile-language-server-nodejs
+    languages: [dockerfile]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Dockerfile language server"
+    provides_formatting: false
+
+  - name: nginx-language-server
+    languages: [nginx]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Nginx configuration language server"
+    provides_formatting: false
+
+  - name: systemd-language-server
+    languages: [systemd]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Systemd unit file language server"
+    provides_formatting: false
+
+  # Specialized tools
+  - name: cmake-language-server
+    languages: [cmake]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "CMake language server"
+    provides_formatting: false
+
+  - name: jinja-lsp
+    languages: [jinja, jinja2]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "Jinja template language server"
+    provides_formatting: false
+
+  - name: jq-lsp
+    languages: [jq]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "jq language server"
+    provides_formatting: false
+
+  - name: vim-language-server
+    languages: [vim]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Vim script language server"
+    provides_formatting: false
+
+  # CI/CD and GitHub
+  - name: gh-actions-language-server
+    languages: [yaml]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "GitHub Actions workflow language server"
+    provides_formatting: false
+
+  - name: circleci-yaml-language-server
+    languages: [yaml]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "CircleCI configuration language server"
+    provides_formatting: false
+
+  # Linter language servers
+  - name: golangci-lint-langserver
+    languages: [go]
+    install_via: go
+    runtime: go
+    version: latest
+    description: "Go linter language server"
+    provides_formatting: false
+    install_command: "github.com/nametake/golangci-lint-langserver@latest"
+
+  - name: typos-lsp
+    languages: [text, markdown]
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Typo checker language server"
+    provides_formatting: false
+
+  # Shell and fish
+  - name: fish-lsp
+    languages: [fish]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fish shell language server"
+    provides_formatting: false
+
+  # Generic diagnostic server
+  - name: diagnostic-languageserver
+    languages: [text]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Generic diagnostic language server"
+    provides_formatting: false

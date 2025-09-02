@@ -1,0 +1,132 @@
+env_shared:
+  # Simple string variables (direct assignment)
+  variables:
+    GHOSTTY_AUTO_TMUX: true
+    MANAGE_BREW_SERVICES: "true"
+    EDITOR: "nvim"
+    VISUAL: "nvim"
+    LDFLAGS: "-L/opt/homebrew/opt/openssl@3/lib"
+    CPPFLAGS: "-I/opt/homebrew/opt/openssl@3/include"
+    CARAPACE_BRIDGES: "zsh,bash,inshellisense"
+    XDG_DATA_DIRS: ""
+    XDG_CONFIG_DIRS: ""
+
+  # Template variables (evaluated at chezmoi time)
+  template_variables:
+    BAT_THEME: "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+    WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT }}"
+    CHEZMOI_INTERACTIVE: "{{ if .INTERACTIVE }}1{{ else }}0{{ end }}"
+
+  # Shell paths (platform-specific)
+  shell_paths:
+    zsh: "{{ if eq .chezmoi.os \"darwin\" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }}"
+    nushell: "{{ if eq .chezmoi.os \"darwin\" }}/opt/homebrew/bin/nu{{ else }}/usr/bin/nu{{ end }}"
+
+  # Path construction variables
+  path_variables:
+    # XDG Base directories
+    XDG_CONFIG_HOME:
+      base: "$HOME"
+      path: ".config"
+    XDG_DATA_HOME:
+      base: "$HOME"
+      path: ".local/share"
+    XDG_STATE_HOME:
+      base: "$HOME"
+      path: ".local/state"
+    XDG_CACHE_HOME:
+      base: "$HOME"
+      path: ".cache"
+
+  # Grouped path patterns
+  path_groups:
+    # XDG Config-based applications
+    xdg_config_apps:
+      base: "$XDG_CONFIG_HOME"
+      paths:
+        NU_CONFIG_DIR: "nushell"
+        K9S_CONFIG_DIR: "k9s"
+        STARSHIP_CONFIG: "starship/starship.toml"
+        TMUX_CONFIG_DIR: "tmux"
+        YAZI_CONFIG_DIR: "yazi"
+        ZELLIJ_CONFIG_DIR: "zellij"
+
+    # XDG Data-based applications
+    xdg_data_apps:
+      base: "$XDG_DATA_HOME"
+      paths:
+        MISE_DATA_DIR: "mise"
+        CARGO_HOME: "cargo"
+        RUSTUP_HOME: "rustup"
+        GOPATH: "go"
+        PNPM_HOME: "pnpm"
+
+    # XDG Cache-based applications
+    xdg_cache_apps:
+      base: "$XDG_CACHE_HOME"
+      paths:
+        MISE_CACHE_DIR: "mise"
+        NODE_REPL_HISTORY: "node_repl_history"
+        PYTHON_HISTORY: "python_history"
+
+  # Development environment paths
+  development_paths:
+    # Language-specific paths
+    languages:
+      go:
+        GOPATH: "$XDG_DATA_HOME/go"
+        GOBIN: "$XDG_DATA_HOME/go/bin"
+      rust:
+        CARGO_HOME: "$XDG_DATA_HOME/cargo"
+        RUSTUP_HOME: "$XDG_DATA_HOME/rustup"
+      node:
+        NPM_CONFIG_USERCONFIG: "$XDG_CONFIG_HOME/npm/npmrc"
+        NODE_REPL_HISTORY: "$XDG_CACHE_HOME/node_repl_history"
+      python:
+        PYTHONSTARTUP: "$XDG_CONFIG_HOME/python/pythonrc"
+        PYTHON_HISTORY: "$XDG_CACHE_HOME/python_history"
+
+    # Tool-specific paths
+    tools:
+      mise:
+        MISE_CONFIG_DIR: "$XDG_CONFIG_HOME/mise"
+        MISE_DATA_DIR: "$XDG_DATA_HOME/mise"
+        MISE_CACHE_DIR: "$XDG_CACHE_HOME/mise"
+      docker:
+        DOCKER_CONFIG: "$XDG_CONFIG_HOME/docker"
+      kubernetes:
+        KUBECONFIG: "$XDG_CONFIG_HOME/kube/config"
+        KUBECACHEDIR: "$XDG_CACHE_HOME/kube"
+
+  # Shell configuration
+  shell_config:
+    # History settings
+    history:
+      HISTFILE: "$XDG_STATE_HOME/bash/history"
+      HISTSIZE: 10000
+      HISTFILESIZE: 20000
+      HISTCONTROL: "ignoreboth:erasedups"
+
+    # Completion settings
+    completion:
+      BASH_COMPLETION_USER_FILE: "$XDG_CONFIG_HOME/bash-completion/bash_completion"
+      ZSH_COMPDUMP: "$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+
+  # Application-specific settings
+  app_settings:
+    # Terminal applications
+    terminal:
+      BAT_CONFIG_PATH: "$XDG_CONFIG_HOME/bat/config"
+      FZF_DEFAULT_OPTS: "--height 40% --layout=reverse --border"
+      RIPGREP_CONFIG_PATH: "$XDG_CONFIG_HOME/ripgrep/config"
+
+    # Development tools
+    development:
+      GIT_CONFIG_GLOBAL: "$XDG_CONFIG_HOME/git/config"
+      LESSHISTFILE: "$XDG_CACHE_HOME/less/history"
+      SQLITE_HISTORY: "$XDG_CACHE_HOME/sqlite_history"
+
+    # Security and privacy
+    security:
+      GNUPGHOME: "$XDG_DATA_HOME/gnupg"
+      PASSWORD_STORE_DIR: "$XDG_DATA_HOME/pass"

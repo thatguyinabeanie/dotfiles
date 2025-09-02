@@ -1,0 +1,87 @@
+ai_opencode:
+  # OpenCode AI configuration
+  provider: github-copilot
+  model: gemini-2.5-pro
+  small_model: gemini-2.0-flash-001
+  autoupdate: true
+  share: manual
+
+  # Available providers
+  providers:
+    - github-copilot
+    - anthropic
+    - google
+    - openrouter
+
+  # Provider-specific configurations
+  provider_configs:
+    github-copilot:
+      enabled: true
+      model: "gpt-4"
+      temperature: 0.1
+      max_tokens: 4096
+
+    anthropic:
+      enabled: true
+      model: "claude-3-5-sonnet-20241022"
+      temperature: 0.1
+      max_tokens: 4096
+      api_version: "2023-06-01"
+
+    google:
+      enabled: true
+      model: "gemini-2.5-pro"
+      temperature: 0.1
+      max_tokens: 4096
+      safety_settings:
+        harassment: "BLOCK_NONE"
+        hate_speech: "BLOCK_NONE"
+        sexually_explicit: "BLOCK_NONE"
+        dangerous_content: "BLOCK_NONE"
+
+    openrouter:
+      enabled: true
+      model: "anthropic/claude-3.5-sonnet"
+      temperature: 0.1
+      max_tokens: 4096
+      site_url: "https://openrouter.ai"
+
+  # Feature settings
+  features:
+    autocomplete: true
+    chat: true
+    inline_suggestions: true
+    code_actions: true
+    diagnostics: true
+    hover: true
+    signature_help: true
+
+  # UI settings
+  ui:
+    theme: "dark"
+    font_size: 14
+    show_line_numbers: true
+    word_wrap: true
+    minimap: false
+
+  # Keybindings
+  keybindings:
+    accept_suggestion: "Tab"
+    dismiss_suggestion: "Escape"
+    next_suggestion: "Alt+]"
+    previous_suggestion: "Alt+["
+    trigger_suggestion: "Ctrl+Space"
+
+  # Privacy and data settings
+  privacy:
+    telemetry: false
+    crash_reporting: false
+    usage_analytics: false
+    share_code_snippets: false
+
+  # Performance settings
+  performance:
+    debounce_delay: 300
+    max_suggestions: 10
+    cache_size: 100
+    timeout: 5000

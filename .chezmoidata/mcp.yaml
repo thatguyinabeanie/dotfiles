@@ -1,0 +1,162 @@
+mcp_servers:
+  # Core MCP servers (Node.js implementations)
+  - name: "@modelcontextprotocol/server-filesystem"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP filesystem operations server"
+    purpose: "File system operations and management"
+    dependencies: []
+
+  - name: "@modelcontextprotocol/server-memory"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP memory management server"
+    purpose: "Persistent memory and context management"
+    dependencies: []
+
+  - name: "mcp-hub"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server registry and manager"
+    purpose: "MCP server discovery and management"
+    dependencies: []
+
+  - name: "mcp-neovim-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for Neovim integration"
+    purpose: "Neovim editor integration and automation"
+    dependencies: ["neovim"]
+
+  # Development and deployment MCP servers
+  - name: "vercel"
+    install_via: mise
+    runtime: node
+    version: "44.5.5"
+    description: "Vercel CLI tool with MCP capabilities"
+    purpose: "Vercel deployment and management"
+    dependencies: []
+
+  # Git and version control MCP servers
+  - name: "mcp-git-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for Git operations"
+    purpose: "Git repository management and operations"
+    dependencies: ["git"]
+
+  # Database MCP servers
+  - name: "mcp-postgres-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for PostgreSQL operations"
+    purpose: "PostgreSQL database management"
+    dependencies: ["postgresql"]
+
+  - name: "mcp-sqlite-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for SQLite operations"
+    purpose: "SQLite database management"
+    dependencies: ["sqlite"]
+
+  # Cloud services MCP servers
+  - name: "mcp-aws-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for AWS operations"
+    purpose: "AWS cloud service management"
+    dependencies: ["aws-cli"]
+
+  - name: "mcp-docker-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for Docker operations"
+    purpose: "Docker container management"
+    dependencies: ["docker"]
+
+  # API and web services MCP servers
+  - name: "mcp-http-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for HTTP operations"
+    purpose: "HTTP API testing and management"
+    dependencies: []
+
+  - name: "mcp-graphql-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for GraphQL operations"
+    purpose: "GraphQL API management and testing"
+    dependencies: []
+
+  # Documentation and knowledge MCP servers
+  - name: "mcp-docs-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for documentation management"
+    purpose: "Documentation generation and management"
+    dependencies: []
+
+  - name: "mcp-confluence-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for Confluence integration"
+    purpose: "Confluence wiki management"
+    dependencies: []
+
+  # Testing and quality assurance MCP servers
+  - name: "mcp-test-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for test automation"
+    purpose: "Test execution and management"
+    dependencies: []
+
+  - name: "mcp-lint-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for code linting"
+    purpose: "Code quality and linting automation"
+    dependencies: []
+
+  # Security MCP servers
+  - name: "mcp-security-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for security scanning"
+    purpose: "Security analysis and vulnerability scanning"
+    dependencies: []
+
+  # Monitoring and observability MCP servers
+  - name: "mcp-metrics-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for metrics collection"
+    purpose: "Application metrics and monitoring"
+    dependencies: []
+
+  - name: "mcp-logs-server"
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "MCP server for log management"
+    purpose: "Log aggregation and analysis"
+    dependencies: []
