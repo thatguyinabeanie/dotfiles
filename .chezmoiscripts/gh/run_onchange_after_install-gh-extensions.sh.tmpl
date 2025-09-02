@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{- $gh_extensions := (include ".chezmoidata/packages/gh-extensions.yaml" | fromYaml) }}
+{{- $gh_extensions := (include ".chezmoidata/github-extensions.yaml" | fromYaml) }}
 
 # This script runs when gh extensions change and applies package installations
 # run_onchange: {{ $gh_extensions | toJson | sha256sum }}

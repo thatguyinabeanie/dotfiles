@@ -5,7 +5,7 @@
 ##
 
 {{- if eq .chezmoi.os "darwin" }}
-{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
+{{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
 ##
 ## BREW SERVICES MANAGEMENT
 ##

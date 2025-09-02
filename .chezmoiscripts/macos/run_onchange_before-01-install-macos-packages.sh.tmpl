@@ -8,14 +8,7 @@
 # tools.yaml-hash: {{ include ".chezmoidata/tools.yaml" | sha256sum }}
 # agents.yaml-hash: {{ include ".chezmoidata/agents.yaml" | sha256sum }}
 # mcp.yaml-hash: {{ include ".chezmoidata/mcp.yaml" | sha256sum }}
-# taps.yaml-hash: {{ include ".chezmoidata/packages/macos-taps.yaml" | sha256sum }}
-# brews-shared.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-shared.yaml" | sha256sum }}
-# brews-personal.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-personal.yaml" | sha256sum }}
-# brews-work.yaml-hash: {{ include ".chezmoidata/packages/macos-brew-work.yaml" | sha256sum }}
-# casks-shared.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-shared.yaml" | sha256sum }}
-# casks-personal.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-personal.yaml" | sha256sum }}
-# casks-work.yaml-hash: {{ include ".chezmoidata/packages/macos-casks-work.yaml" | sha256sum }}
-# fonts.yaml-hash: {{ include ".chezmoidata/packages/macos-fonts.yaml" | sha256sum }}
-# mas.yaml-hash: {{ include ".chezmoidata/packages/macos-appstore.yaml" | sha256sum }}
+# tools.yaml-hash: {{ include ".chezmoidata/tools.yaml" | sha256sum }}
+# agents.yaml-hash: {{ include ".chezmoidata/agents.yaml" | sha256sum }}
 
 {{ template "brew/brew-installer.sh.tmpl" . }}

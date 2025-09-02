@@ -1,105 +1,16 @@
-{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml).cross_platform_tools }}
-{{- $go := (include ".chezmoidata/packages/cross-platform-go.yaml" | fromYaml).cross_platform_go }}
-{{- $rust := (include ".chezmoidata/packages/cross-platform-rust.yaml" | fromYaml).cross_platform_rust }}
-{{- $lua := (include ".chezmoidata/packages/cross-platform-lua.yaml" | fromYaml).cross_platform_lua }}
-{{- $node := (include ".chezmoidata/packages/cross-platform-node.yaml" | fromYaml).cross_platform_node }}
-{{- $python := (include ".chezmoidata/packages/cross-platform-python.yaml" | fromYaml).cross_platform_python }}
+{{- $tools := (include ".chezmoidata/tools.yaml" | fromYaml) }}
 
 [tools]
-# Cross-platform tools from cross-platform-tools.yaml sections (excluding language_servers)
-{{- range $section_name, $section_tools := $tools }}
-{{- if ne $section_name "architecture" }}
-{{- if ne $section_name "schedule" }}
-{{- if ne $section_name "language_servers" }}
-{{- range $tool := $section_tools }}
+# Development tools that install via mise
+{{- range $tool := $tools.dev_tools }}
+{{- if eq $tool.install_via "mise" }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 {{- end }}
-{{- end }}
-{{- end }}
-{{- end }}
 
-# Go tools from cross-platform-go.yaml
-{{- range $tool := $go.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $go.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Rust tools from cross-platform-rust.yaml
-{{- range $tool := $rust.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $rust.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Lua tools from cross-platform-lua.yaml
-{{- range $tool := $lua.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $lua.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Node.js package managers from cross-platform-node.yaml
-{{- range $tool := $node.package_managers }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Python tools from cross-platform-python.yaml (only items with versions)
-{{- range $tool := $python.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-
-# Global npm packages from cross-platform-node.yaml
-{{- range $package := $node.global_packages }}
-"npm:{{ $package.name }}" = "latest"
-{{- end }}
-
-# AI agent packages from cross-platform-node.yaml
-{{- range $package := $node.ai_agents }}
-"npm:{{ $package.name }}" = "latest"
-{{- end }}
-
-# MCP server packages from cross-platform-node.yaml
-{{- range $package := $node.mcp_servers }}
-"npm:{{ $package.name }}" = "latest"
-{{- end }}
-
-[tasks.install-python-tools]
-description = "Install Python global packages via pipx and uv"
-run = [
-{{- range $package := $python.pipx_apps }}
-      "pipx --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
-{{- end }}
-{{- range $package := $python.uv_global_packages }}
-    "uv pip --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",,
-{{- end }}
-]
-
-[hooks]
-# Auto-setup Python tools when entering directories with Python projects
-"cd" = "~/.config/mise/scripts/python-project-hook.sh"
+# Note: npm packages, AI agents, and MCP servers are now managed via separate installers
 
 [settings]
 {{ if env "CODESPACES" | not | not -}}

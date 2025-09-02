@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 {{- if eq .chezmoi.os "darwin" }}
-{{- $brewServices := (include ".chezmoidata/system/system-brew-services.yaml" | fromYaml) }}
+{{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
 
 # Exit silently if MANAGE_BREW_SERVICES is falsey
 if [[ "${MANAGE_BREW_SERVICES}" =~ ^(0|false|False|FALSE|f|F|no|No|NO|n|N|off|Off|OFF)$ ]]; then

@@ -10,7 +10,7 @@
 {{- $agents := (include ".chezmoidata/agents.yaml" | fromYaml) }}
 {{- $mcp := (include ".chezmoidata/mcp.yaml" | fromYaml) }}
 {{- $github := (include ".chezmoidata/github-extensions.yaml" | fromYaml) }}
-{{- $crossPlatformTools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml) }}
+{{- /* crossPlatformTools data now consolidated in tools.yaml */ -}}
 
 {{ template "utilities/error-handling.sh" }}
 

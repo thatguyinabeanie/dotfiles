@@ -8,11 +8,5 @@
 # run_onchange: {{ include ".chezmoidata/agents.yaml" | sha256sum }}
 # run_onchange: {{ include ".chezmoidata/mcp.yaml" | sha256sum }}
 # run_onchange: {{ include ".chezmoidata/github-extensions.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-tools.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-go.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-rust.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-lua.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-node.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/packages/cross-platform-python.yaml" | sha256sum }}
 
 {{ template "mise/mise-installer.sh.tmpl" . }}

@@ -1,8 +1,4 @@
-{{- $opencode := (include ".chezmoidata/ai/ai-opencode.yaml" | fromYaml).ai_opencode }}
-{{- $github_copilot := (include ".chezmoidata/ai/ai-github-copilot.yaml" | fromYaml).ai_github_copilot }}
-{{- $anthropic := (include ".chezmoidata/ai/ai-anthropic.yaml" | fromYaml).ai_anthropic }}
-{{- $google := (include ".chezmoidata/ai/ai-google.yaml" | fromYaml).ai_google }}
-{{- $openrouter := (include ".chezmoidata/ai/ai-openrouter.yaml" | fromYaml).ai_openrouter }}
+{{- $opencode := (include ".chezmoidata/opencode.yaml" | fromYaml).ai_opencode }}
 {
   "$schema": "https://opencode.ai/config.json",
 
@@ -12,66 +8,28 @@
   // Auto-sharing for collaboration
   "share": "{{ $opencode.share }}",
   "autoupdate": {{ $opencode.autoupdate }},
+
+  // Simplified provider configuration using consolidated data
   "provider": {
-    "github-copilot": {
-      "models": {
-{{- $modelCount := 0 }}
-{{- range $modelName, $modelConfig := $github_copilot.models }}
-{{- if gt $modelCount 0 }},{{ end }}
-        "{{ $modelName }}": {
-          "limit": {
-            "context": {{ $modelConfig.limit.context }},
-            "output": {{ $modelConfig.limit.output }}
-          }
-        }
-{{- $modelCount = add $modelCount 1 }}
+{{- range $providerName, $providerConfig := $opencode.provider_configs }}
+    "{{ $providerName }}": {
+      "enabled": {{ $providerConfig.enabled }},
+      "model": "{{ $providerConfig.model }}",
+      "temperature": {{ $providerConfig.temperature }},
+      "max_tokens": {{ $providerConfig.max_tokens }}
+{{- if hasKey $providerConfig "api_version" }},
+      "api_version": "{{ $providerConfig.api_version }}"
+{{- end }}
+{{- if hasKey $providerConfig "safety_settings" }},
+      "safety_settings": {
+{{- range $key, $value := $providerConfig.safety_settings }}
+        "{{ $key }}": "{{ $value }}"{{ if ne $key (keys $providerConfig.safety_settings | last) }},{{ end }}
 {{- end }}
       }
-    },
-    "anthropic": {
-      "models": {
-{{- $modelCount := 0 }}
-{{- range $anthropic.Anthropic }}
-{{- if gt $modelCount 0 }},{{ end }}
-        "{{ .name }}": {
-          "limit": {
-            "context": {{ .limit.context }},
-            "output": {{ .limit.output }}
-          }
-        }
-{{- $modelCount = add $modelCount 1 }}
 {{- end }}
-      }
-    },
-    "google": {
-      "models": {
-{{- $modelCount := 0 }}
-{{- range $google.Google }}
-{{- if gt $modelCount 0 }},{{ end }}
-        "{{ .name }}": {
-          "limit": {
-            "context": {{ .limit.context }},
-            "output": {{ .limit.output }}
-          }
-        }
-{{- $modelCount = add $modelCount 1 }}
+{{- if hasKey $providerConfig "site_url" }},
+      "site_url": "{{ $providerConfig.site_url }}"
 {{- end }}
-      }
-    },
-    "openrouter": {
-      "models": {
-{{- $modelCount := 0 }}
-{{- range $openrouter.OpenRouter }}
-{{- if gt $modelCount 0 }},{{ end }}
-        "{{ .name }}": {
-          "limit": {
-            "context": {{ .limit.context }},
-            "output": {{ .limit.output }}
-          }
-        }
-{{- $modelCount = add $modelCount 1 }}
+    }{{ if ne $providerName (keys $opencode.provider_configs | last) }},{{ end }}
 {{- end }}
-      }
-    }
-  }
 }

@@ -1,13 +1,12 @@
 {{- $shell := .shell -}}
 {{- $dot := .data -}}
 
-{{- $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml) -}}
-{{- $path := (include ".chezmoidata/environment/env-paths.yaml" | fromYaml) -}}
-{{- $work := (include ".chezmoidata/environment/env-work.yaml" | fromYaml) -}}
-{{- $personal := (include ".chezmoidata/environment/env-personal.yaml" | fromYaml) -}}
+{{- $shared := (include ".chezmoidata/shared.yaml" | fromYaml) -}}
+{{- $work := (include ".chezmoidata/work.yaml" | fromYaml) -}}
+{{- $personal := (include ".chezmoidata/personal.yaml" | fromYaml) -}}
 
 # Generated from consolidated environment configuration
-# Edit .chezmoidata/environment/ files to modify
+# Edit .chezmoidata/shared.yaml, work.yaml, personal.yaml files to modify
 
 ##
 ## SIMPLE VARIABLES
