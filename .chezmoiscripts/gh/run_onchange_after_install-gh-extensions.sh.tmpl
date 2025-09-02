@@ -14,13 +14,13 @@ set -euo pipefail
 if command -v gh >/dev/null 2>&1; then
   gh config set git_protocol https
   echo "🔧 Installing and upgrading gh extensions..."
-  {{- range $gh_extensions.extensions }}
-  if ! gh extension list | grep -q "{{ . }}"; then
-    echo "Installing gh extension: {{ . }}..."
-    gh extension install "https://github.com/{{ . }}"
+  {{- range $gh_extensions.github_extensions }}
+  if ! gh extension list | grep -q "{{ .name }}"; then
+    echo "Installing gh extension: {{ .name }}..."
+    gh extension install "https://github.com/{{ .name }}"
   else
-    echo "Upgrading gh extension: {{ . }}..."
-    gh extension upgrade "{{ . }}"
+    echo "Upgrading gh extension: {{ .name }}..."
+    gh extension upgrade "{{ .name }}"
   fi
   {{- end }}
   echo "✅ gh extensions installed and upgraded"

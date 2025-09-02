@@ -22,10 +22,10 @@ echo "🔧 Initial brew services setup..."
 # Get currently running services once
 RUNNING_SERVICES=$(brew services list --json | jq -r '.[] | select(.status == "started") | .name')
 
-{{- range $brewServices.system_brew_services.services }}
+{{- range $brewServices.macos_services }}
 {{- $service := . }}
 {{- $excluded := false }}
-{{- range $brewServices.system_brew_services.excluded_services }}
+{{- range $brewServices.excluded_services }}
 {{- if eq . $service.name }}{{ $excluded = true }}{{ end }}
 {{- end }}
 {{- if not $excluded }}
@@ -40,7 +40,7 @@ fi
 # Check if service should be managed
 {{- $condition := "always" }}
 {{- if hasKey . "condition" }}{{ $condition = .condition }}{{ end }}
-{{- if .active }}
+{{- if ne .action "stop" }}
 {{- if eq $condition "always" }}
 # Service active - always manage
 {{- if eq .action "restart" }}

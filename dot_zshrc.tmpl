@@ -23,7 +23,7 @@ unset -f tmux &>/dev/null
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
 {{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
-{{- template "shell/brew-services.sh" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
+{{- template "shell/brew-services.sh" (dict "chezmoi" .chezmoi "services" $brewServices.macos_services "excluded_services" $brewServices.excluded_services) }}
 {{- end }}
 
 # PNPM configuration
