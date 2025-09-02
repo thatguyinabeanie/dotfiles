@@ -114,7 +114,7 @@ export CATPPUCCIN_FLAVOR="{{ $dot.CATPPUCCIN_FLAVOR }}"
 ##
 {{- if eq $shell "nushell" }}
 $env.PATH = ($env.PATH | split row (char esep) | prepend [
-{{- range $path.env_paths.path }}
+{{- range $shared.env_shared.env_paths.path }}
 {{- if contains "$XDG_HOME" . }}
     ($env.XDG_HOME | path join "{{ trimPrefix "$XDG_HOME/" . }}")
 {{- else if contains "$HOME" . }}
@@ -131,7 +131,7 @@ $env.PATH = ($env.PATH | split row (char esep) | prepend [
 {{- end }}
 ] | uniq )
 {{- else }}
-{{- range $entry := $path.env_paths.path }}
+{{- range $entry := $shared.env_shared.env_paths.path }}
 {{- if contains "$HOME" $entry }}
 export PATH="{{ $entry }}:$PATH"
 {{- else if contains "$XDG_CONFIG_HOME" $entry }}
