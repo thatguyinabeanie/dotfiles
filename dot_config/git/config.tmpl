@@ -4,7 +4,7 @@
 [user]
     name = {{ .git.config.name }}
     email = {{ .git.config.email }}
-{{- if and (eq .chezmoi.os "darwin") (eq .PERSONAL_ENVIRONMENT false) }}
+{{- if and (eq .chezmoi.os "darwin") (eq .PERSONAL_ENVIRONMENT true) }}
     signingkey = {{ onepasswordRead "op://Tech - Dev/Github Signing Key/public key" }}
 
 [commit]
