@@ -3,14 +3,7 @@
 # Generated: {{ now }}
 # Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, agents.yaml, mcp.yaml
 
-{{- $lsp := (include ".chezmoidata/lsp.yaml" | fromYaml) }}
-{{- $formatters := (include ".chezmoidata/formatters.yaml" | fromYaml) }}
-{{- $linters := (include ".chezmoidata/linters.yaml" | fromYaml) }}
-{{- $tools := (include ".chezmoidata/tools.yaml" | fromYaml) }}
-{{- $agents := (include ".chezmoidata/agents.yaml" | fromYaml) }}
-{{- $mcp := (include ".chezmoidata/mcp.yaml" | fromYaml) }}
-{{- $github := (include ".chezmoidata/github-extensions.yaml" | fromYaml) }}
-{{- /* crossPlatformTools data now consolidated in tools.yaml */ -}}
+# Using direct template variable access (new pattern)
 
 {{ template "utilities/error-handling.sh" }}
 
@@ -177,14 +170,34 @@ install_cargo_tools() {
 
     log_step "Installing $category tools via cargo"
 
-    for tool in "${tools[@]}"; do
-        log_substep "Installing $tool"
-        if cargo install --list | grep -q "^$tool "; then
-            log_debug "✓ $tool already installed"
-        elif cargo install "$tool" >/dev/null 2>&1; then
-            log_debug "✓ $tool installed successfully"
+    for tool_spec in "${tools[@]}"; do
+        # Check if this is a custom install command
+        if [[ "$tool_spec" == *"cargo install"* ]]; then
+            # Extract tool name from the command for checking if already installed
+            tool_name=$(echo "$tool_spec" | sed -n 's/.*--git.*\/\([^/]*\)\.git \([^ ]*\).*/\2/p')
+            if [[ -z "$tool_name" ]]; then
+                # Fallback: extract last argument as tool name
+                tool_name=$(echo "$tool_spec" | awk '{print $NF}')
+            fi
+
+            log_substep "Installing $tool_name"
+            if cargo install --list | grep -q "^$tool_name "; then
+                log_debug "✓ $tool_name already installed"
+            elif eval "$tool_spec" >/dev/null 2>&1; then
+                log_debug "✓ $tool_name installed successfully"
+            else
+                log_error "Failed to install $tool_name via cargo"
+            fi
         else
-            log_error "Failed to install $tool via cargo"
+            # Standard cargo install
+            log_substep "Installing $tool_spec"
+            if cargo install --list | grep -q "^$tool_spec "; then
+                log_debug "✓ $tool_spec already installed"
+            elif cargo install "$tool_spec" >/dev/null 2>&1; then
+                log_debug "✓ $tool_spec installed successfully"
+            else
+                log_error "Failed to install $tool_spec via cargo"
+            fi
         fi
     done
 
@@ -241,7 +254,7 @@ MISE_TOOLS=()
 RUSTUP_TOOLS=()
 
 # Collect language servers by installation method
-{{- range $lsp.language_servers }}
+{{- range .language_servers }}
   {{- if eq .install_via "npm" }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
@@ -255,14 +268,18 @@ GEM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "pip" }}
 PIP_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
 CARGO_TOOLS+=("{{ .name }}")
+    {{- end }}
   {{- else if eq .install_via "mise" }}
 MISE_TOOLS+=("{{ .name }}")
   {{- end }}
 {{- end }}
 
 # Collect formatters by installation method
-{{- range $formatters.formatters }}
+{{- range .formatters }}
   {{- if eq .install_via "npm" }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
@@ -276,7 +293,11 @@ GEM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "pip" }}
 PIP_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
 CARGO_TOOLS+=("{{ .name }}")
+    {{- end }}
   {{- else if eq .install_via "mise" }}
 MISE_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "rustup" }}
@@ -289,7 +310,7 @@ RUSTUP_TOOLS+=("{{ .name }}")
 {{- end }}
 
 # Collect linters by installation method
-{{- range $linters.linters }}
+{{- range .linters }}
   {{- if eq .install_via "npm" }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
@@ -303,7 +324,11 @@ GEM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "pip" }}
 PIP_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
 CARGO_TOOLS+=("{{ .name }}")
+    {{- end }}
   {{- else if eq .install_via "mise" }}
 MISE_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "rustup" }}
@@ -316,12 +341,18 @@ RUSTUP_TOOLS+=("{{ .name }}")
 {{- end }}
 
 # Collect development tools by installation method
-{{- range $tools.dev_tools }}
+{{- range .dev_tools }}
   {{- if eq .install_via "mise" }}
     {{- if .version }}
 MISE_TOOLS+=("{{ .name }}@{{ .version }}")
     {{- else }}
 MISE_TOOLS+=("{{ .name }}")
+    {{- end }}
+  {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
+CARGO_TOOLS+=("{{ .name }}")
     {{- end }}
   {{- end }}
 {{- end }}
@@ -377,7 +408,7 @@ fi
 
 # Set global versions for key tools
 log_step "Setting global tool versions"
-{{- range $tools.dev_tools }}
+{{- range .dev_tools }}
   {{- if and (eq .install_via "mise") .version }}
 if mise list {{ .name }} | grep -q "{{ .version }}"; then
     mise use --global {{ .name }}@{{ .version }}
@@ -389,8 +420,8 @@ fi
 # Install GitHub CLI extensions
 if command_exists "gh"; then
     log_step "Installing GitHub CLI extensions"
-    {{- if hasKey $github "github_extensions" }}
-    {{- range $github.github_extensions }}
+    {{- if .github_extensions }}
+    {{- range .github_extensions }}
     if ! gh extension list | grep -q "{{ .name }}"; then
         log_substep "Installing {{ .name }}"
         if gh extension install "{{ .name }}"; then
@@ -408,7 +439,7 @@ fi
 
 # Verify installations
 log_step "Verifying critical tool installations"
-CRITICAL_TOOLS=("node" "python" "go" "rust")
+CRITICAL_TOOLS=("node" "python" "go")
 for tool in "${CRITICAL_TOOLS[@]}"; do
     if mise which "$tool" >/dev/null 2>&1; then
         version=$(mise current "$tool" 2>/dev/null | awk '{print $2}')
@@ -417,6 +448,14 @@ for tool in "${CRITICAL_TOOLS[@]}"; do
         log_warning "✗ $tool not found"
     fi
 done
+
+# Special handling for Rust (check rustc instead of rust)
+if mise which rustc >/dev/null 2>&1; then
+    version=$(mise current rust 2>/dev/null | awk '{print $2}')
+    log_substep "✓ rust ($version)"
+else
+    log_warning "✗ rust not found"
+fi
 
 # Summary
 log_header "Development Tools Installation Summary"

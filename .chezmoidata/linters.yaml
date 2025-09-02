@@ -52,6 +52,7 @@ linters:
     runtime: rust
     version: latest
     description: "Alternative Markdown linter"
+    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   # Container and infrastructure linters
   - name: hadolint
@@ -189,10 +190,11 @@ linters:
 
   - name: typos-lsp
     languages: [text, markdown]
-    install_via: mise
-    runtime: native
+    install_via: cargo
+    runtime: rust
     version: latest
     description: "Typo checker language server"
+    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
   - name: cspell
     languages: [text, markdown, code]

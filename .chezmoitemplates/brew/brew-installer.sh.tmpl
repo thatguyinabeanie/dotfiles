@@ -3,11 +3,7 @@
 # Generated: {{ now }}
 # Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, agents.yaml, mcp.yaml
 
-{{- $lsp := (include ".chezmoidata/lsp.yaml" | fromYaml) }}
-{{- $formatters := (include ".chezmoidata/formatters.yaml" | fromYaml) }}
-{{- $linters := (include ".chezmoidata/linters.yaml" | fromYaml) }}
-{{- $tools := (include ".chezmoidata/tools.yaml" | fromYaml) }}
-{{- $agents := (include ".chezmoidata/agents.yaml" | fromYaml) }}
+# Using direct template variable access (new pattern)
 
 {{ template "utilities/error-handling.sh" }}
 
@@ -78,35 +74,35 @@ log_step "Collecting brew packages from all sources"
 BREWS=""
 
 # Language servers that install via brew
-{{- range $lsp.language_servers }}
+{{- range .language_servers }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Formatters that install via brew
-{{- range $formatters.formatters }}
+{{- range .formatters }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Linters that install via brew
-{{- range $linters.linters }}
+{{- range .linters }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Development tools that install via brew
-{{- range $tools.dev_tools }}
+{{- range .dev_tools }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew
-{{- range $agents.ai_agents }}
+{{- range .ai_agents }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
@@ -119,7 +115,7 @@ log_step "Collecting cask packages"
 CASKS=""
 
 # AI agents that install via brew_cask
-{{- range $agents.ai_agents }}
+{{- range .ai_agents }}
   {{- if eq .install_via "brew_cask" }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
@@ -130,7 +126,7 @@ install_brew_packages "casks" "$CASKS"
 # Install fonts (now managed as casks in agents.yaml)
 log_step "Installing fonts"
 FONTS=""
-{{- range $agents.ai_agents }}
+{{- range .ai_agents }}
   {{- if and (eq .install_via "brew_cask") (eq .category "font") }}
 FONTS="${FONTS}cask \"{{ .name }}\"\n"
   {{- end }}
@@ -140,7 +136,7 @@ install_brew_packages "fonts" "$FONTS"
 # Install Mac App Store apps (now in agents.yaml)
 if command_exists "mas"; then
     log_step "Installing Mac App Store apps"
-    {{- range $agents.ai_agents }}
+    {{- range .ai_agents }}
       {{- if eq .install_via "mas" }}
     log_substep "Installing {{ .description }} (ID: {{ .mas_id }})"
     if ! mas list | grep -q "{{ .mas_id }}"; then

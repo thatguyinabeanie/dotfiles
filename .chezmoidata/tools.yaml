@@ -411,18 +411,20 @@ dev_tools:
 
   # Language servers and development tools
   - name: markdown-oxide
-    install_via: brew
+    install_via: cargo
     runtime: rust
     version: latest
     description: "Markdown language server"
     category: lsp
+    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   - name: typos-lsp
-    install_via: brew
+    install_via: cargo
     runtime: rust
     version: latest
     description: "Typo checker language server"
     category: lsp
+    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
   # Curl-based installations
   - name: mise

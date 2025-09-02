@@ -1,8 +1,6 @@
-{{- $tools := (include ".chezmoidata/tools.yaml" | fromYaml) }}
-
 [tools]
 # Development tools that install via mise
-{{- range $tool := $tools.dev_tools }}
+{{- range $tool := .dev_tools }}
 {{- if eq $tool.install_via "mise" }}
 {{- if and $tool.name $tool.version }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}

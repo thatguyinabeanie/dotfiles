@@ -113,11 +113,12 @@ language_servers:
 
   - name: markdown-oxide
     languages: [markdown]
-    install_via: brew
+    install_via: cargo
     runtime: rust
     version: latest
     description: "Alternative Markdown language server"
     provides_formatting: false
+    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   # vale-ls removed - doesn't support go install, vale already available via brew
 
@@ -176,13 +177,7 @@ language_servers:
     provides_formatting: false
     install_command: "github.com/nametake/golangci-lint-langserver@latest"
 
-  - name: typos-lsp
-    languages: [text, markdown]
-    install_via: brew
-    runtime: rust
-    version: latest
-    description: "Typo checker language server"
-    provides_formatting: false
+  # typos-lsp moved to linters.yaml (primarily a linter)
 
   # Shell and fish
   - name: fish-lsp

@@ -22,9 +22,15 @@ unset -f tmux &>/dev/null
 
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
-{{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
-{{- template "shell/brew-services.sh" (dict "chezmoi" .chezmoi "services" $brewServices.macos_services "excluded_services" $brewServices.excluded_services) }}
+{{- template "shell/brew-services.sh" (dict "chezmoi" .chezmoi "services" .macos_services "excluded_services" .excluded_services) }}
 {{- end }}
+
+# NPM global configuration
+export NPM_CONFIG_PREFIX="$HOME/.npm-global"
+case ":$PATH:" in
+  *":$NPM_CONFIG_PREFIX/bin:"*) ;;
+  *) export PATH="$NPM_CONFIG_PREFIX/bin:$PATH" ;;
+esac
 
 # PNPM configuration
 export PNPM_HOME="$HOME/.pnpm-global"
