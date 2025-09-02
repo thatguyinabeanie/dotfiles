@@ -9,7 +9,7 @@
 ##
 ## BREW SERVICES MANAGEMENT
 ##
-{{- template "shell/brew-services.nu" (dict "chezmoi" .chezmoi "services" $brewServices.system_brew_services.services "excluded_services" $brewServices.system_brew_services.excluded_services) }}
+{{- template "shell/brew-services.nu" (dict "chezmoi" .chezmoi "services" $brewServices.macos_services "excluded_services" $brewServices.excluded_services) }}
 {{- end }}
 
 ##
