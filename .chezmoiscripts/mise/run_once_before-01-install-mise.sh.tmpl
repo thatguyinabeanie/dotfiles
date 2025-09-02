@@ -4,8 +4,17 @@
 {{- /* Inline mise architecture configuration */ -}}
 {{- $mise := dict "dev_mise_architectures" (dict
   "architectures" (dict
-    "native" (dict "binary" "mise")
-    "x64" (dict "binary" "mise-x64")
+    "native" (dict
+      "binary" "mise"
+      "launchagent" "com.user.mise-update"
+    )
+    "x64_variant" (dict
+      "binary" "mise-x64"
+      "arch" "x64"
+      "description" "x64 compatibility"
+      "launchagent" "com.user.mise-x64-update"
+      "install_on_arm64" true
+    )
   )
   "schedule" (dict
     "native" (dict "hour" 9 "minute" 0)

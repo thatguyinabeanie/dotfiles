@@ -3,6 +3,12 @@
 # Generated: {{ now }}
 # Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, agents.yaml, mcp.yaml
 
+{{- $lsp := (include ".chezmoidata/lsp.yaml" | fromYaml) }}
+{{- $formatters := (include ".chezmoidata/formatters.yaml" | fromYaml) }}
+{{- $linters := (include ".chezmoidata/linters.yaml" | fromYaml) }}
+{{- $tools := (include ".chezmoidata/tools.yaml" | fromYaml) }}
+{{- $agents := (include ".chezmoidata/agents.yaml" | fromYaml) }}
+
 {{ template "utilities/error-handling.sh" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
@@ -51,12 +57,36 @@ install_brew_packages() {
     rm -f "$brewfile"
 }
 
-# Install taps first
+# Install taps first (extracted from tool names)
 log_step "Installing Homebrew taps"
 TAPS=""
-{{- range .macos_taps.taps }}
-TAPS="${TAPS}tap \"{{ . }}\"\n"
+
+# Extract taps from tools.yaml
+{{- range $tools.dev_tools }}
+  {{- if and (eq .install_via "brew") (contains "/" .name) (contains "/tap/" .name) }}
+    {{- $tapName := .name | regexReplaceAll "/[^/]+$" "" }}
+TAPS="${TAPS}tap \"{{ $tapName }}\"\n"
+  {{- end }}
 {{- end }}
+
+# Extract taps from agents.yaml
+{{- range $agents.ai_agents }}
+  {{- if and (eq .install_via "brew") (contains "/" .name) (contains "/tap/" .name) }}
+    {{- $tapName := .name | regexReplaceAll "/[^/]+$" "" }}
+TAPS="${TAPS}tap \"{{ $tapName }}\"\n"
+  {{- end }}
+{{- end }}
+
+# Add common taps
+TAPS="${TAPS}tap \"adoptopenjdk/openjdk\"\n"
+TAPS="${TAPS}tap \"charmbracelet/tap\"\n"
+TAPS="${TAPS}tap \"domt4/autoupdate\"\n"
+TAPS="${TAPS}tap \"felixkratz/formulae\"\n"
+TAPS="${TAPS}tap \"hashicorp/tap\"\n"
+TAPS="${TAPS}tap \"jesseduffield/lazydocker\"\n"
+TAPS="${TAPS}tap \"kubewall/tap\"\n"
+TAPS="${TAPS}tap \"nikitabobko/tap\"\n"
+
 install_brew_packages "taps" "$TAPS"
 
 # Collect all brew packages from different sources
@@ -64,55 +94,37 @@ log_step "Collecting brew packages from all sources"
 BREWS=""
 
 # Language servers that install via brew
-{{- range .language_servers }}
+{{- range $lsp.language_servers }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Formatters that install via brew
-{{- range .formatters }}
+{{- range $formatters.formatters }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Linters that install via brew
-{{- range .linters }}
+{{- range $linters.linters }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Development tools that install via brew
-{{- range .dev_tools }}
+{{- range $tools.dev_tools }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew
-{{- range .ai_agents }}
+{{- range $agents.ai_agents }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Shared brew packages (from existing structure)
-{{- range .macos_brew_shared.tools }}
-BREWS="${BREWS}brew \"{{ . }}\"\n"
-{{- end }}
-
-# Environment-specific brew packages
-{{- if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
-# Work environment packages
-  {{- range .macos_brew_work.tools }}
-BREWS="${BREWS}brew \"{{ . }}\"\n"
-  {{- end }}
-{{- else }}
-# Personal environment packages
-  {{- range .macos_brew_personal.tools }}
-BREWS="${BREWS}brew \"{{ . }}\"\n"
   {{- end }}
 {{- end }}
 
@@ -123,60 +135,40 @@ log_step "Collecting cask packages"
 CASKS=""
 
 # AI agents that install via brew_cask
-{{- range .ai_agents }}
+{{- range $agents.ai_agents }}
   {{- if eq .install_via "brew_cask" }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
-# Shared cask packages
-{{- range .macos_casks_shared.applications }}
-CASKS="${CASKS}cask \"{{ . }}\"\n"
-{{- end }}
-
-# Environment-specific cask packages
-{{- if and (hasKey . "WORK_ENVIRONMENT") (eq .WORK_ENVIRONMENT true) }}
-# Work environment casks
-  {{- range .macos_casks_work.applications }}
-CASKS="${CASKS}cask \"{{ . }}\"\n"
-  {{- end }}
-{{- else }}
-# Personal environment casks
-  {{- range .macos_casks_personal.applications }}
-CASKS="${CASKS}cask \"{{ . }}\"\n"
-  {{- end }}
-{{- end }}
-
 install_brew_packages "casks" "$CASKS"
 
-# Install fonts
+# Install fonts (now managed as casks in agents.yaml)
 log_step "Installing fonts"
 FONTS=""
-{{- range .macos_fonts.fonts }}
-FONTS="${FONTS}cask \"{{ . }}\"\n"
+{{- range $agents.ai_agents }}
+  {{- if and (eq .install_via "brew_cask") (eq .category "font") }}
+FONTS="${FONTS}cask \"{{ .name }}\"\n"
+  {{- end }}
 {{- end }}
 install_brew_packages "fonts" "$FONTS"
 
-# Install Mac App Store apps (personal only)
-{{- if or (not (hasKey . "WORK_ENVIRONMENT")) (eq .WORK_ENVIRONMENT false) }}
+# Install Mac App Store apps (now in agents.yaml)
 if command_exists "mas"; then
     log_step "Installing Mac App Store apps"
-    # Install MAS apps directly (extract ID from format)
-    {{- range .macos_appstore.mas }}
-    app_entry='{{ . }}'
-    app_id=$(echo "$app_entry" | sed 's/.*id: \([0-9]*\).*/\1/')
-    app_name=$(echo "$app_entry" | sed 's/"\([^"]*\)".*/\1/')
-    log_substep "Installing $app_name (ID: $app_id)"
-    if mas install "$app_id"; then
-        log_debug "✓ $app_name installed"
+    {{- range $agents.ai_agents }}
+      {{- if eq .install_via "mas" }}
+    log_substep "Installing {{ .description }} (ID: {{ .mas_id }})"
+    if ! mas list | grep -q "{{ .mas_id }}"; then
+        mas install {{ .mas_id }} || log_warning "Failed to install {{ .description }}"
     else
-        log_warning "Failed to install $app_name"
+        log_warning "Already installed: app ID {{ .mas_id }} ({{ .description }})"
     fi
+      {{- end }}
     {{- end }}
 else
     log_warning "mas not available, skipping Mac App Store apps"
 fi
-{{- end }}
 
 # Setup automatic updates
 log_step "Setting up Homebrew automatic upgrades"
