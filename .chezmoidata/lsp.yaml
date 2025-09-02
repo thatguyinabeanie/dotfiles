@@ -132,15 +132,7 @@ language_servers:
 
   # nginx-language-server removed - doesn't exist on npm
 
-{{- if ne .chezmoi.os "darwin" }}
-  - name: systemd-language-server
-    languages: [systemd]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Systemd unit file language server (Linux only)"
-    provides_formatting: false
-{{- end }}
+  # systemd-language-server removed - Linux-specific, not needed on macOS
 
   # Specialized tools
   - name: cmake-language-server
