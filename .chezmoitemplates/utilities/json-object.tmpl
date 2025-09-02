@@ -1,0 +1,13 @@
+{{/*
+JSON Object Template
+Generates a JSON object from a map with proper comma handling
+
+Usage:
+{{- template "utilities/json-object.tmpl" .your_map }}
+*/}}
+
+{{- $obj := . -}}
+{{- $keys := keys $obj | sortAlpha -}}
+{{- range $i, $key := $keys }}
+        "{{ $key }}": "{{ index $obj $key }}"{{ if lt $i (sub (len $keys) 1) }},{{ end }}
+{{- end }}

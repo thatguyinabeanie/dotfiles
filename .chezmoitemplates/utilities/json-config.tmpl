@@ -1,0 +1,41 @@
+{{/*
+JSON Configuration Template
+Generates clean JSON from YAML data with proper comma handling
+
+Usage:
+{{- template "utilities/json-config.tmpl" (dict "data" .your_data "schema" "https://example.com/schema.json") }}
+
+Parameters:
+- data: The configuration data object
+- schema: Optional JSON schema URL
+*/}}
+
+{{- $data := .data -}}
+{{- $schema := .schema -}}
+
+{
+{{- if $schema }}
+  "$schema": "{{ $schema }}",
+{{- end }}
+
+{{- /* Top-level simple fields */ -}}
+{{- if hasKey $data "model" }}
+  "model": "{{ $data.provider }}/{{ $data.model }}",
+{{- end }}
+{{- if hasKey $data "small_model" }}
+  "small_model": "{{ $data.provider }}/{{ $data.small_model }}",
+{{- end }}
+{{- if hasKey $data "share" }}
+  "share": "{{ $data.share }}",
+{{- end }}
+{{- if hasKey $data "autoupdate" }}
+  "autoupdate": {{ $data.autoupdate }},
+{{- end }}
+
+{{- /* Provider configurations */ -}}
+{{- if hasKey $data "provider_configs" }}
+  "provider": {
+{{- template "utilities/json-providers.tmpl" $data.provider_configs }}
+  }
+{{- end }}
+}
