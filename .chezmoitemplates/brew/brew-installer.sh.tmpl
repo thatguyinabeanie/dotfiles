@@ -57,27 +57,11 @@ install_brew_packages() {
     rm -f "$brewfile"
 }
 
-# Install taps first (extracted from tool names)
+# Install taps first
 log_step "Installing Homebrew taps"
 TAPS=""
 
-# Extract taps from tools.yaml
-{{- range $tools.dev_tools }}
-  {{- if and (eq .install_via "brew") (contains "/" .name) (contains "/tap/" .name) }}
-    {{- $tapName := .name | regexReplaceAll "/[^/]+$" "" }}
-TAPS="${TAPS}tap \"{{ $tapName }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Extract taps from agents.yaml
-{{- range $agents.ai_agents }}
-  {{- if and (eq .install_via "brew") (contains "/" .name) (contains "/tap/" .name) }}
-    {{- $tapName := .name | regexReplaceAll "/[^/]+$" "" }}
-TAPS="${TAPS}tap \"{{ $tapName }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Add common taps
+# Add required taps (manually curated list)
 TAPS="${TAPS}tap \"adoptopenjdk/openjdk\"\n"
 TAPS="${TAPS}tap \"charmbracelet/tap\"\n"
 TAPS="${TAPS}tap \"domt4/autoupdate\"\n"
