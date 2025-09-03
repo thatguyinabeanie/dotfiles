@@ -6,7 +6,7 @@
 # formatters.yaml-hash: {{ include ".chezmoidata/formatters.yaml" | sha256sum }}
 # linters.yaml-hash: {{ include ".chezmoidata/linters.yaml" | sha256sum }}
 # tools.yaml-hash: {{ include ".chezmoidata/tools.yaml" | sha256sum }}
-# agents.yaml-hash: {{ include ".chezmoidata/agents.yaml" | sha256sum }}
-# mcp.yaml-hash: {{ include ".chezmoidata/mcp.yaml" | sha256sum }}
+# agents.yaml-hash: {{ include ".chezmoidata/ai/agents.yaml" | sha256sum }}
+# mcp.yaml-hash: {{ include ".chezmoidata/ai/mcp.yaml" | sha256sum }}
 
 {{ template "brew/brew-installer.sh.tmpl" . }}

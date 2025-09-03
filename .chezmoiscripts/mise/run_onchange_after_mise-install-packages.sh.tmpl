@@ -5,8 +5,8 @@
 # run_onchange: {{ include ".chezmoidata/formatters.yaml" | sha256sum }}
 # run_onchange: {{ include ".chezmoidata/linters.yaml" | sha256sum }}
 # run_onchange: {{ include ".chezmoidata/tools.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/agents.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/mcp.yaml" | sha256sum }}
+# run_onchange: {{ include ".chezmoidata/ai/agents.yaml" | sha256sum }}
+# run_onchange: {{ include ".chezmoidata/ai/mcp.yaml" | sha256sum }}
 # run_onchange: {{ include ".chezmoidata/github-extensions.yaml" | sha256sum }}
 
 {{ template "mise/mise-installer.sh.tmpl" . }}
