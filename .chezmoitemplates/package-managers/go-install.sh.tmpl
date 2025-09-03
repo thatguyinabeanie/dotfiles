@@ -1,0 +1,66 @@
+#!/bin/bash
+# Go package installer - installs packages not managed by mise
+
+{{ template "utilities/error-handling.sh" }}
+
+# Ensure Go is available via mise
+if ! mise which go >/dev/null 2>&1; then
+    log_error "Go not found. Please run mise installation first."
+    exit 1
+fi
+
+log_header "Installing Go packages"
+
+# Collect go packages and install commands
+GO_PACKAGES=()
+
+# Language servers with go install
+{{- range .language_servers }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Formatters with go install
+{{- range .formatters }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Linters with go install
+{{- range .linters }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+if [[ ${#GO_PACKAGES[@]} -eq 0 ]]; then
+    log_info "No go packages to install"
+    exit 0
+fi
+
+log_step "Installing ${#GO_PACKAGES[@]} go packages"
+
+for package in "${GO_PACKAGES[@]}"; do
+    log_substep "Installing $package"
+    if go install "$package" >/dev/null 2>&1; then
+        log_debug "✓ $package installed successfully"
+    else
+        log_error "✗ Failed to install $package"
+    fi
+done
+
+log_success "Go package installation completed"

@@ -244,6 +244,8 @@ install_mise_tools() {
 }
 
 # Collect tools by installation method
+# Note: Tools with mason_ensure_installed=true are skipped for npm/pip/gem/cargo
+# as Mason will handle their installation automatically in Neovim
 NPM_TOOLS=()
 GO_TOOLS=()
 GEM_TOOLS=()
@@ -254,7 +256,7 @@ RUSTUP_TOOLS=()
 
 # Collect language servers by installation method
 {{- range .language_servers }}
-  {{- if eq .install_via "npm" }}
+  {{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
     {{- if .install_command }}
@@ -279,7 +281,7 @@ MISE_TOOLS+=("{{ .name }}")
 
 # Collect formatters by installation method
 {{- range .formatters }}
-  {{- if eq .install_via "npm" }}
+  {{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
     {{- if .install_command }}
@@ -310,7 +312,7 @@ RUSTUP_TOOLS+=("{{ .name }}")
 
 # Collect linters by installation method
 {{- range .linters }}
-  {{- if eq .install_via "npm" }}
+  {{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
 NPM_TOOLS+=("{{ .name }}")
   {{- else if eq .install_via "go" }}
     {{- if .install_command }}

@@ -1,0 +1,79 @@
+#!/bin/bash
+# Python pip package installer - installs packages not managed by mise or Mason
+
+{{ template "utilities/error-handling.sh" }}
+
+# Ensure Python is available via mise
+if ! mise which python >/dev/null 2>&1; then
+    log_error "Python not found. Please run mise installation first."
+    exit 1
+fi
+
+log_header "Installing Python pip packages"
+
+# Collect pip packages not managed by Mason
+PIP_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# AI agents
+{{- range .agents }}
+{{- if eq .install_via "pip" }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# MCP servers
+{{- range .mcp_servers }}
+{{- if eq .install_via "pip" }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+if [[ ${#PIP_PACKAGES[@]} -eq 0 ]]; then
+    log_info "No pip packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+log_step "Installing ${#PIP_PACKAGES[@]} pip packages"
+
+# Install all packages at once for better performance
+log_substep "Installing: ${PIP_PACKAGES[*]}"
+if pip install "${PIP_PACKAGES[@]}"; then
+    log_success "All pip packages installed successfully"
+else
+    log_warning "Some pip packages may have failed to install"
+    
+    # Try installing packages individually to identify failures
+    log_step "Retrying failed packages individually"
+    for package in "${PIP_PACKAGES[@]}"; do
+        if pip show "$package" >/dev/null 2>&1; then
+            log_debug "✓ $package already installed"
+        elif pip install "$package" >/dev/null 2>&1; then
+            log_debug "✓ $package installed successfully"
+        else
+            log_error "✗ Failed to install $package"
+        fi
+    done
+fi
+
+log_success "Python pip package installation completed"

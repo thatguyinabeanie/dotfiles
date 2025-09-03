@@ -1,0 +1,79 @@
+#!/bin/bash
+# NPM package installer - installs packages not managed by mise or Mason
+
+{{ template "utilities/error-handling.sh" }}
+
+# Ensure Node.js is available via mise
+if ! mise which node >/dev/null 2>&1; then
+    log_error "Node.js not found. Please run mise installation first."
+    exit 1
+fi
+
+log_header "Installing NPM packages"
+
+# Collect npm packages not managed by Mason
+NPM_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# AI agents
+{{- range .agents }}
+{{- if eq .install_via "npm" }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# MCP servers
+{{- range .mcp_servers }}
+{{- if eq .install_via "npm" }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+if [[ ${#NPM_PACKAGES[@]} -eq 0 ]]; then
+    log_info "No npm packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+log_step "Installing ${#NPM_PACKAGES[@]} npm packages globally"
+
+# Install all packages at once for better performance
+log_substep "Installing: ${NPM_PACKAGES[*]}"
+if npm install -g "${NPM_PACKAGES[@]}"; then
+    log_success "All npm packages installed successfully"
+else
+    log_warning "Some npm packages may have failed to install"
+    
+    # Try installing packages individually to identify failures
+    log_step "Retrying failed packages individually"
+    for package in "${NPM_PACKAGES[@]}"; do
+        if npm list -g "$package" >/dev/null 2>&1; then
+            log_debug "✓ $package already installed"
+        elif npm install -g "$package" >/dev/null 2>&1; then
+            log_debug "✓ $package installed successfully"
+        else
+            log_error "✗ Failed to install $package"
+        fi
+    done
+fi
+
+log_success "NPM package installation completed"

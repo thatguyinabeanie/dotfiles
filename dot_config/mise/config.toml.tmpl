@@ -1,14 +1,68 @@
 [tools]
-# Development tools that install via mise
+# Core development runtimes (with specified versions from tools.yaml)
 {{- range $tool := .dev_tools }}
 {{- if eq $tool.install_via "mise" }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- if and (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust")) $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}  # {{ $tool.description }}
+{{- else if and (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust")) (not $tool.version) }}
+{{ $tool.name | quote }} = "latest"  # {{ $tool.description }}
 {{- end }}
 {{- end }}
 {{- end }}
 
-# Note: npm packages, AI agents, and MCP servers are now managed via separate installers
+# Development tools that install via mise (excluding core runtimes)
+{{- range $tool := .dev_tools }}
+{{- if eq $tool.install_via "mise" }}
+{{- if and $tool.name $tool.version (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}
+{{- else if and $tool.name (not $tool.version) (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
+{{ $tool.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Language servers managed via mise (not Mason)
+{{- range $lsp := .language_servers }}
+{{- if and (eq $lsp.install_via "mise") (not $lsp.mason_ensure_installed) }}
+{{ $lsp.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+
+# Formatters managed via mise (not Mason)
+{{- range $formatter := .formatters }}
+{{- if and (eq $formatter.install_via "mise") (not $formatter.mason_ensure_installed) }}
+{{ $formatter.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+
+# Linters managed via mise (not Mason)
+{{- range $linter := .linters }}
+{{- if and (eq $linter.install_via "mise") (not $linter.mason_ensure_installed) }}
+{{ $linter.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+
+# AI agents managed via mise
+{{- range $agent := .agents }}
+{{- if eq $agent.install_via "mise" }}
+{{- if $agent.version }}
+{{ $agent.name | quote }} = {{ $agent.version | quote }}
+{{- else }}
+{{ $agent.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+{{- end }}
+
+# MCP servers managed via mise
+{{- range $mcp := .mcp_servers }}
+{{- if eq $mcp.install_via "mise" }}
+{{- if $mcp.version }}
+{{ $mcp.name | quote }} = {{ $mcp.version | quote }}
+{{- else }}
+{{ $mcp.name | quote }} = "latest"
+{{- end }}
+{{- end }}
+{{- end }}
 
 [settings]
 {{ if env "CODESPACES" | not | not -}}
@@ -26,4 +80,3 @@ verbose                             = false         # set to true to see full in
 raw                                 = false         # set to true to directly pipe plugins to stdin/stdout/stderr
 yes                                 = true          # automatically answer yes to all prompts
 idiomatic_version_file_enable_tools = ["ruby", "node"]
-

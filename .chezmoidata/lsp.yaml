@@ -78,7 +78,7 @@ language_servers:
     mason_ensure_installed: true
 
   # Web technologies
-  - name: vscode-css-languageserver-bin
+  - name: css-lsp
     languages: [css, scss, sass]
     install_via: npm
     runtime: node
@@ -86,9 +86,8 @@ language_servers:
     description: "CSS language server"
     provides_formatting: false
     mason_ensure_installed: true
-    mason_name: css-lsp
 
-  - name: vscode-html-languageserver-bin
+  - name: html-lsp
     languages: [html]
     install_via: npm
     runtime: node
@@ -96,9 +95,8 @@ language_servers:
     description: "HTML language server"
     provides_formatting: false
     mason_ensure_installed: true
-    mason_name: html-lsp
 
-  - name: vscode-json-languageserver
+  - name: json-lsp
     languages: [json, jsonc]
     install_via: npm
     runtime: node
@@ -106,7 +104,6 @@ language_servers:
     description: "JSON language server"
     provides_formatting: false
     mason_ensure_installed: true
-    mason_name: json-lsp
 
   - name: yaml-language-server
     languages: [yaml]
@@ -148,7 +145,6 @@ language_servers:
     description: "Dockerfile language server"
     provides_formatting: false
     mason_ensure_installed: true
-    mason_name: dockerfile-language-server
 
   # nginx-language-server removed - doesn't exist on npm
 

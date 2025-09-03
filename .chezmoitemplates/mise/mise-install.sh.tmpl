@@ -1,0 +1,54 @@
+#!/bin/bash
+# Simple mise installer - installs all tools defined in ~/.config/mise/config.toml
+
+{{ template "utilities/error-handling.sh" }}
+
+# Check if mise is installed
+if ! command_exists "mise"; then
+    log_error "mise is not installed. Please install mise first."
+    exit 1
+fi
+
+log_header "Installing mise tools"
+
+# Install all tools defined in mise config
+log_step "Installing tools from ~/.config/mise/config.toml"
+if mise install; then
+    log_success "All mise tools installed successfully"
+else
+    log_warning "Some mise tools may have failed to install"
+fi
+
+# Install GitHub CLI extensions if gh is available
+if command_exists "gh"; then
+    log_step "Installing GitHub CLI extensions"
+    {{- if .github_extensions }}
+    {{- range .github_extensions }}
+    if ! gh extension list | grep -q "{{ .name }}"; then
+        log_substep "Installing {{ .name }}"
+        if gh extension install "{{ .name }}"; then
+            log_debug "✓ {{ .name }} installed"
+        else
+            log_warning "Failed to install {{ .name }}"
+        fi
+    else
+        log_debug "{{ .name }} already installed"
+    fi
+    {{- end }}
+    {{- end }}
+    log_success "GitHub CLI extensions installation completed"
+fi
+
+# Verify critical runtimes are available
+log_step "Verifying critical runtimes"
+CRITICAL_RUNTIMES=("node" "python" "go" "rust")
+for runtime in "${CRITICAL_RUNTIMES[@]}"; do
+    if mise which "${runtime}" >/dev/null 2>&1; then
+        version=$(mise current "${runtime}" 2>/dev/null | awk '{print $2}')
+        log_substep "✓ ${runtime} (${version})"
+    else
+        log_warning "✗ ${runtime} not found"
+    fi
+done
+
+log_success "Mise installation completed"

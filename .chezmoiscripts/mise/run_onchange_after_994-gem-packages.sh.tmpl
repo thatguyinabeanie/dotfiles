@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# This script installs gem packages not managed by mise or Mason
+# run_onchange: {{ include ".chezmoidata/lsp.yaml" | sha256sum }}
+# run_onchange: {{ include ".chezmoidata/formatters.yaml" | sha256sum }}
+# run_onchange: {{ include ".chezmoidata/linters.yaml" | sha256sum }}
+
+{{ template "package-managers/gem-install.sh.tmpl" . }}

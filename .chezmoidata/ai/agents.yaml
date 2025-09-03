@@ -1,18 +1,5 @@
 agents:
-  # Node.js-based AI agents
-  - name: "@anthropic-ai/claude-code"
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Claude AI code integration"
-    category: code_assistant
-
-  - name: "@google/gemini-cli"
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Google Gemini CLI tool"
-    category: code_assistant
+  # Note: Removed @anthropic-ai/claude-code and @google/gemini-cli as they don't exist on npm
 
   - name: "opencode-ai"
     install_via: npm
@@ -21,19 +8,20 @@ agents:
     description: "OpenCode AI"
     category: code_assistant
 
-  - name: "@augmentcode/auggie"
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "Augment Code CLI"
-    category: code_assistant
+  # Note: Commented out packages that may not exist on npm
+  # - name: "@augmentcode/auggie"
+  #   install_via: npm
+  #   runtime: node
+  #   version: latest
+  #   description: "Augment Code CLI"
+  #   category: code_assistant
 
-  - name: "@openai/codex"
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "OpenAI Codex CLI"
-    category: code_assistant
+  # - name: "@openai/codex"
+  #   install_via: npm
+  #   runtime: node
+  #   version: latest
+  #   description: "OpenAI Codex CLI"
+  #   category: code_assistant
 
   # Native/Rust-based AI tools
   - name: claude
@@ -123,9 +111,4 @@ agents:
     description: "AI-powered static analysis"
     category: analysis
 
-  - name: gitleaks
-    install_via: mise
-    runtime: go
-    version: latest
-    description: "AI-enhanced secret detection"
-    category: security
+  # Note: gitleaks moved to linters.yaml to avoid duplication
