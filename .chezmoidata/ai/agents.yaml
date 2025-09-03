@@ -1,35 +1,35 @@
 agents:
   # Node.js-based AI agents
   - name: "@anthropic-ai/claude-code"
-    install_via: mise
+    install_via: npm
     runtime: node
     version: latest
     description: "Claude AI code integration"
     category: code_assistant
 
   - name: "@google/gemini-cli"
-    install_via: mise
+    install_via: npm
     runtime: node
     version: latest
     description: "Google Gemini CLI tool"
     category: code_assistant
 
   - name: "opencode-ai"
-    install_via: mise
+    install_via: npm
     runtime: node
     version: latest
     description: "OpenCode AI"
     category: code_assistant
 
   - name: "@augmentcode/auggie"
-    install_via: mise
+    install_via: npm
     runtime: node
     version: latest
     description: "Augment Code CLI"
     category: code_assistant
 
   - name: "@openai/codex"
-    install_via: mise
+    install_via: npm
     runtime: node
     version: latest
     description: "OpenAI Codex CLI"
@@ -103,7 +103,7 @@ agents:
 
   # AI development frameworks
   - name: langchain-cli
-    install_via: mise
+    install_via: pip
     runtime: python
     version: latest
     description: "LangChain CLI for AI app development"
