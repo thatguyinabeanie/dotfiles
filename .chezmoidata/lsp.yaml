@@ -8,7 +8,6 @@ language_servers:
     description: "TypeScript & JavaScript language server"
     provides_formatting: false
     mason_ensure_installed: true
-    mason_name: typescript-language-server
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
 
@@ -20,6 +19,7 @@ language_servers:
     version: latest
     description: "Rust language server"
     provides_formatting: true
+    mason_ensure_installed: true
 
   - name: gopls
     languages: [go]
@@ -29,6 +29,7 @@ language_servers:
     description: "Go language server"
     provides_formatting: true
     install_command: "golang.org/x/tools/gopls@latest"
+    mason_ensure_installed: true
 
   - name: zls
     languages: [zig]
@@ -37,6 +38,7 @@ language_servers:
     version: latest
     description: "Zig language server"
     provides_formatting: true
+    mason_ensure_installed: true
 
   # Scripting languages
   - name: bash-language-server
@@ -46,6 +48,7 @@ language_servers:
     version: latest
     description: "Bash language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   - name: lua-language-server
     languages: [lua]
@@ -54,6 +57,7 @@ language_servers:
     version: latest
     description: "Lua language server"
     provides_formatting: true
+    mason_ensure_installed: true
 
   - name: ruby-lsp
     languages: [ruby]
@@ -62,6 +66,7 @@ language_servers:
     version: latest
     description: "Ruby language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   - name: pyright
     languages: [python]
@@ -70,6 +75,7 @@ language_servers:
     version: latest
     description: "Python language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # Web technologies
   - name: vscode-css-languageserver-bin
@@ -102,24 +108,6 @@ language_servers:
     mason_ensure_installed: true
     mason_name: json-lsp
 
-  - name: html-lsp
-    languages: [html]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "HTML language server"
-    provides_formatting: false
-    mason_ensure_installed: true
-
-  - name: json-lsp
-    languages: [json, jsonc]
-    install_via: npm
-    runtime: node
-    version: latest
-    description: "JSON language server"
-    provides_formatting: false
-    mason_ensure_installed: true
-
   - name: yaml-language-server
     languages: [yaml]
     install_via: brew
@@ -127,6 +115,7 @@ language_servers:
     version: latest
     description: "YAML language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # Documentation and markup
   - name: marksman
@@ -136,6 +125,7 @@ language_servers:
     version: latest
     description: "Markdown language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   - name: markdown-oxide
     languages: [markdown]
@@ -145,6 +135,7 @@ language_servers:
     description: "Alternative Markdown language server"
     provides_formatting: false
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
+    mason_ensure_installed: true
 
   # vale-ls removed - doesn't support go install, vale already available via brew
 
@@ -156,6 +147,8 @@ language_servers:
     version: latest
     description: "Dockerfile language server"
     provides_formatting: false
+    mason_ensure_installed: true
+    mason_name: dockerfile-language-server
 
   # nginx-language-server removed - doesn't exist on npm
 
@@ -190,6 +183,7 @@ language_servers:
     version: latest
     description: "GitHub Actions workflow language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # circleci-yaml-language-server removed - doesn't exist on npm
 
@@ -202,6 +196,7 @@ language_servers:
     description: "Go linter language server"
     provides_formatting: false
     install_command: "github.com/nametake/golangci-lint-langserver@latest"
+    mason_ensure_installed: true
 
   # typos-lsp moved to linters.yaml (primarily a linter)
 

@@ -58,28 +58,6 @@ ai_agents:
   #   category: chat_assistant
   #   macos_only: true
 
-  - name: chatgpt
-    install_via: brew_cask
-    runtime: native
-    description: "ChatGPT desktop application"
-    category: chat_assistant
-    macos_only: true
-
-  - name: copilot
-    install_via: brew_cask
-    runtime: native
-    description: "GitHub Copilot desktop application"
-    category: code_assistant
-    macos_only: true
-
-  # AI-enhanced development tools
-  - name: aider
-    install_via: mise
-    runtime: python
-    version: latest
-    description: "AI pair programming in the terminal"
-    category: code_assistant
-
   # - name: codeium
   #   install_via: brew_cask
   #   runtime: native
@@ -101,22 +79,6 @@ ai_agents:
     description: "AI-enhanced note-taking and productivity"
     category: productivity
     macos_only: true
-
-  # AI writing and content tools
-  - name: grammarly-desktop
-    install_via: brew_cask
-    runtime: native
-    description: "AI writing assistant"
-    category: writing
-    macos_only: true
-
-  # AI image and media tools (requires sudo, skip for automated install)
-  # - name: topaz-photo-ai
-  #   install_via: brew_cask
-  #   runtime: native
-  #   description: "AI photo enhancement (requires sudo)"
-  #   category: media
-  #   macos_only: true
 
   - name: cleanmymac
     install_via: brew_cask
