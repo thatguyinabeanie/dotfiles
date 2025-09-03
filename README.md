@@ -305,7 +305,7 @@ Templates now access this data directly and efficiently, without complex `includ
 {{- .opencode.ai_opencode.providers.anthropic.enabled }}
 
 {{/* Loop through all AI agents */}}
-{{- range .ai.agents }}
+{{- range .agents }}
   {{ .name }}
 {{- end }}
 ```
