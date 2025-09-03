@@ -6,6 +6,7 @@ linters:
     runtime: native
     version: latest
     description: "Shell script linter"
+    mason_ensure_installed: true
 
   - name: luacheck
     languages: [lua]
@@ -13,6 +14,7 @@ linters:
     runtime: native
     version: latest
     description: "Lua linter"
+    mason_ensure_installed: true
 
   # Web development linters
   - name: eslint_d
@@ -21,6 +23,7 @@ linters:
     runtime: node
     version: latest
     description: "Fast ESLint daemon"
+    mason_ensure_installed: true
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
 
@@ -30,6 +33,7 @@ linters:
     runtime: node
     version: latest
     description: "CSS/SCSS linter"
+    mason_ensure_installed: true
 
   # Markup and documentation linters
   - name: vale
@@ -38,6 +42,7 @@ linters:
     runtime: native
     version: latest
     description: "Prose linter"
+    mason_ensure_installed: true
 
   - name: marksman
     languages: [markdown]
@@ -45,6 +50,7 @@ linters:
     runtime: native
     version: latest
     description: "Markdown linter and language server"
+    mason_ensure_installed: true
 
   - name: markdown-oxide
     languages: [markdown]
@@ -53,6 +59,7 @@ linters:
     version: latest
     description: "Alternative Markdown linter"
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
+    mason_ensure_installed: true
 
   # Container and infrastructure linters
   - name: hadolint
@@ -61,6 +68,7 @@ linters:
     runtime: native
     version: latest
     description: "Dockerfile linter"
+    mason_ensure_installed: true
 
   - name: kube-linter
     languages: [yaml]
@@ -68,6 +76,7 @@ linters:
     runtime: native
     version: latest
     description: "Kubernetes YAML linter"
+    mason_ensure_installed: true
 
   - name: tflint
     languages: [terraform]
@@ -75,6 +84,7 @@ linters:
     runtime: native
     version: latest
     description: "Terraform linter"
+    mason_ensure_installed: true
 
   # YAML linters
   - name: yamllint
@@ -83,6 +93,7 @@ linters:
     runtime: native
     version: latest
     description: "YAML linter"
+    mason_ensure_installed: true
 
   # Go linters
   - name: golangci-lint
@@ -91,6 +102,7 @@ linters:
     runtime: go
     version: latest
     description: "Go meta-linter"
+    mason_ensure_installed: true
 
   - name: golangci-lint-langserver
     languages: [go]
@@ -98,6 +110,7 @@ linters:
     runtime: go
     version: latest
     description: "Go linter language server"
+    mason_ensure_installed: true
 
   # Python linters
   - name: ruff
@@ -106,6 +119,7 @@ linters:
     runtime: python
     version: latest
     description: "Fast Python linter"
+    mason_ensure_installed: true
 
   - name: flake8
     languages: [python]
@@ -113,6 +127,7 @@ linters:
     runtime: python
     version: latest
     description: "Python linter"
+    mason_ensure_installed: true
 
   - name: pylint
     languages: [python]
@@ -120,6 +135,7 @@ linters:
     runtime: python
     version: latest
     description: "Python static analysis"
+    mason_ensure_installed: true
 
   - name: mypy
     languages: [python]
@@ -127,6 +143,7 @@ linters:
     runtime: python
     version: latest
     description: "Python type checker"
+    mason_ensure_installed: true
 
   # Ruby linters
   - name: rubocop
@@ -135,6 +152,7 @@ linters:
     runtime: ruby
     version: latest
     description: "Ruby linter and formatter"
+    mason_ensure_installed: true
 
   - name: standardrb
     languages: [ruby]
@@ -142,6 +160,7 @@ linters:
     runtime: ruby
     version: latest
     description: "Ruby standard style linter"
+    mason_ensure_installed: true
 
   - name: haml-lint
     languages: [haml]
@@ -149,6 +168,7 @@ linters:
     runtime: ruby
     version: latest
     description: "HAML linter"
+    mason_ensure_installed: true
 
   # Environment and configuration linters
   - name: dotenv-linter
@@ -157,6 +177,7 @@ linters:
     runtime: native
     version: latest
     description: ".env file linter"
+    mason_ensure_installed: true
 
   # Security linters
   - name: gitleaks
@@ -165,6 +186,7 @@ linters:
     runtime: go
     version: latest
     description: "Git secrets scanner"
+    mason_ensure_installed: true
 
   - name: semgrep
     languages: [python, javascript, typescript, go, java, ruby]
@@ -172,6 +194,7 @@ linters:
     runtime: python
     version: latest
     description: "Static analysis for security"
+    mason_ensure_installed: true
 
   - name: bandit
     languages: [python]
@@ -179,6 +202,7 @@ linters:
     runtime: python
     version: latest
     description: "Python security linter"
+    mason_ensure_installed: true
 
   # Spelling and typo linters
   - name: typos
@@ -187,6 +211,7 @@ linters:
     runtime: native
     version: latest
     description: "Typo checker"
+    mason_ensure_installed: true
 
   - name: typos-lsp
     languages: [text, markdown]
@@ -195,6 +220,7 @@ linters:
     version: latest
     description: "Typo checker language server"
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
+    mason_ensure_installed: true
 
   - name: cspell
     languages: [text, markdown, code]
@@ -202,6 +228,7 @@ linters:
     runtime: native
     version: latest
     description: "Code spell checker"
+    mason_ensure_installed: true
 
   # JSON linters
   - name: jsonlint
@@ -210,6 +237,7 @@ linters:
     runtime: node
     version: latest
     description: "JSON linter"
+    mason_ensure_installed: true
 
   # SQL linters
   - name: sqlfluff
@@ -218,6 +246,7 @@ linters:
     runtime: python
     version: latest
     description: "SQL linter and formatter"
+    mason_ensure_installed: true
 
   # Rust linters (built into toolchain)
   - name: clippy
@@ -244,6 +273,7 @@ linters:
     runtime: native
     version: latest
     description: "Protocol buffer linter"
+    mason_ensure_installed: true
 
   # Nginx configuration linter
   # nginx-linter removed - doesn't exist on npm
