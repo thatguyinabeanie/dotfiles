@@ -1,4 +1,4 @@
-ai_agents:
+agents:
   # Node.js-based AI agents
   - name: "@anthropic-ai/claude-code"
     install_via: mise

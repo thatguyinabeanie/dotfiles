@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auto-generated Homebrew package installer
-# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, agents.yaml, mcp.yaml
+# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai/agents.yaml, ai/mcp.yaml
 
 # Using direct template variable access (new pattern)
 
@@ -101,7 +101,7 @@ BREWS="${BREWS}brew \"{{ .name }}\"\n"
 {{- end }}
 
 # AI agents that install via brew
-{{- range .ai_agents }}
+{{- range .ai.agents }}
   {{- if eq .install_via "brew" }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
@@ -114,7 +114,7 @@ log_step "Collecting cask packages"
 CASKS=""
 
 # AI agents that install via brew_cask
-{{- range .ai_agents }}
+{{- range .ai.agents }}
   {{- if eq .install_via "brew_cask" }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
@@ -125,7 +125,7 @@ install_brew_packages "casks" "$CASKS"
 # Install fonts (now managed as casks in agents.yaml)
 log_step "Installing fonts"
 FONTS=""
-{{- range .ai_agents }}
+{{- range .ai.agents }}
   {{- if and (eq .install_via "brew_cask") (eq .category "font") }}
 FONTS="${FONTS}cask \"{{ .name }}\"\n"
   {{- end }}
@@ -135,7 +135,7 @@ install_brew_packages "fonts" "$FONTS"
 # Install Mac App Store apps (now in agents.yaml)
 if command_exists "mas"; then
     log_step "Installing Mac App Store apps"
-    {{- range .ai_agents }}
+    {{- range .ai.agents }}
       {{- if eq .install_via "mas" }}
     log_substep "Installing {{ .description }} (ID: {{ .mas_id }})"
     if ! mas list | grep -q "{{ .mas_id }}"; then
