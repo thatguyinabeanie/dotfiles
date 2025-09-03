@@ -6,11 +6,11 @@
 ##
 
 # Injected configuration from chezmoi templates (using direct access)
-const ENABLED_PROVIDERS = {{ keys .ai_opencode.provider | toJson }}
-const DEFAULT_MODEL = "{{ .ai_opencode.model }}"
-const SMALL_MODEL = "{{ .ai_opencode.small_model }}"
-const AUTOUPDATE = {{ .ai_opencode.autoupdate }}
-const SHARE = "{{ .ai_opencode.share }}"
+const ENABLED_PROVIDERS = {{ .opencode.providers | toJson }}
+const DEFAULT_MODEL = "{{ .opencode.model }}"
+const SMALL_MODEL = "{{ .opencode.small_model }}"
+const AUTOUPDATE = {{ .opencode.autoupdate }}
+const SHARE = "{{ .opencode.share }}"
 const CONFIG_FILE = "{{ .chezmoi.sourceDir }}/.chezmoidata/apps/opencode.yaml"
 const OUTPUT_FILE = "{{ .chezmoi.sourceDir }}/.chezmoidata/apps/ai.yaml"
 

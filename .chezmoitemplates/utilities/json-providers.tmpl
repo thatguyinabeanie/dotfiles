@@ -1,25 +1,14 @@
-{{/*
-JSON Provider Configuration Template
-Generates provider configurations with proper comma handling
-
-Usage:
-{{- template "utilities/json-providers.tmpl" .provider }}
-*/}}
-
-{{- $providers := . -}}
-{{- $providerNames := keys $providers | sortAlpha -}}
-{{- range $i, $name := $providerNames -}}
-{{- $config := index $providers $name }}
-    "{{ $name }}": {
-{{- if hasKey $config "models" }}
-      "models": {
-{{- template "utilities/json-object.tmpl" $config.models }}
-      }{{ if hasKey $config "options" }},{{ end }}
-{{- end }}
-{{- if hasKey $config "options" }}
+{{- $global := .global -}}
+{{- $providers := .data -}}
+{{- $first := true -}}
+{{- range $provider, $config := $providers }}
+  {{- if not $first }},{{ end }}
+    "{{ $provider }}": {
+      "models": 
+        {{- includeTemplate (printf "ai/provider-%s.json" $provider) $global }},
       "options": {
-{{- template "utilities/json-object.tmpl" $config.options }}
+        {{- template "utilities/json-object.tmpl" $config.options }}
       }
-{{- end }}
-    }{{ if lt $i (sub (len $providerNames) 1) }},{{ end }}
+    }
+  {{- $first = false -}}
 {{- end }}

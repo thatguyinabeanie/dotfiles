@@ -29,6 +29,59 @@ return {
     },
   },
 
+  -- Mason packages (explicitly marked for Mason management)
+  mason = {
+    core_tools = {
+{{- range .language_servers }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+{{- range .formatters }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+{{- range .linters }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+    exploration_tools = {
+{{- range .dev_tools }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+  },
+
+  -- Filetype associations
+  filetypes = {
+    templates = {
+      bash = { "sh.tmpl", "zsh.tmpl" },
+      lua = { "lua.tmpl" },
+      nu = { "nu.tmpl" },
+      toml = { "toml.tmpl" },
+    },
+    lsp_servers = {
+{{- range $server := .language_servers }}
+{{- range $server.languages }}
+      {{ . }} = "{{ $server.name }}",
+{{- end }}
+{{- end }}
+    },
+    web_frameworks = {
+      "javascriptreact",
+      "typescriptreact",
+      "html",
+      "astro",
+      "svelte",
+      "vue",
+    },
+  },
+
   -- Language server configuration
   lsp = {
     servers = {

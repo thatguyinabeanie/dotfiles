@@ -1,2 +1,2 @@
-{{- $opencode := (include ".chezmoidata/opencode.yaml" | fromYaml).ai_opencode }}
-{{- template "utilities/json-config.tmpl" (dict "data" $opencode "schema" "https://opencode.ai/config.json") }}
+{{- $opencode := .opencode -}}
+{{- template "utilities/json-config.tmpl" (dict "data" $opencode "schema" "https://opencode.ai/config.json" "global" .) }}

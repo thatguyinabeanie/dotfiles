@@ -7,6 +7,8 @@ language_servers:
     version: latest
     description: "TypeScript & JavaScript language server"
     provides_formatting: false
+    mason_ensure_installed: true
+    mason_name: typescript-language-server
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
 
@@ -77,6 +79,8 @@ language_servers:
     version: latest
     description: "CSS language server"
     provides_formatting: false
+    mason_ensure_installed: true
+    mason_name: css-lsp
 
   - name: vscode-html-languageserver-bin
     languages: [html]
@@ -85,6 +89,8 @@ language_servers:
     version: latest
     description: "HTML language server"
     provides_formatting: false
+    mason_ensure_installed: true
+    mason_name: html-lsp
 
   - name: vscode-json-languageserver
     languages: [json, jsonc]
@@ -93,6 +99,26 @@ language_servers:
     version: latest
     description: "JSON language server"
     provides_formatting: false
+    mason_ensure_installed: true
+    mason_name: json-lsp
+
+  - name: html-lsp
+    languages: [html]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "HTML language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: json-lsp
+    languages: [json, jsonc]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "JSON language server"
+    provides_formatting: false
+    mason_ensure_installed: true
 
   - name: yaml-language-server
     languages: [yaml]
