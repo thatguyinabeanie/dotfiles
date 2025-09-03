@@ -356,6 +356,48 @@ CARGO_TOOLS+=("{{ .name }}")
   {{- end }}
 {{- end }}
 
+# Collect MCP servers by installation method
+{{- range .mcp_servers }}
+  {{- if eq .install_via "npm" }}
+NPM_TOOLS+=("{{ .name }}")
+  {{- else if eq .install_via "mise" }}
+    {{- if .version }}
+MISE_TOOLS+=("{{ .name }}@{{ .version }}")
+    {{- else }}
+MISE_TOOLS+=("{{ .name }}")
+    {{- end }}
+  {{- else if eq .install_via "pip" }}
+PIP_TOOLS+=("{{ .name }}")
+  {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
+CARGO_TOOLS+=("{{ .name }}")
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+# Collect AI agents by installation method
+{{- range .agents }}
+  {{- if eq .install_via "npm" }}
+NPM_TOOLS+=("{{ .name }}")
+  {{- else if eq .install_via "mise" }}
+    {{- if .version }}
+MISE_TOOLS+=("{{ .name }}@{{ .version }}")
+    {{- else }}
+MISE_TOOLS+=("{{ .name }}")
+    {{- end }}
+  {{- else if eq .install_via "pip" }}
+PIP_TOOLS+=("{{ .name }}")
+  {{- else if eq .install_via "cargo" }}
+    {{- if .install_command }}
+CARGO_TOOLS+=("{{ .install_command }}")
+    {{- else }}
+CARGO_TOOLS+=("{{ .name }}")
+    {{- end }}
+  {{- end }}
+{{- end }}
+
 # Check mise readiness
 check_mise_ready
 
