@@ -137,7 +137,7 @@ language_servers:
   # vale-ls removed - doesn't support go install, vale already available via brew
 
   # Infrastructure and DevOps
-  - name: dockerfile-language-server-nodejs
+  - name: dockerfile-language-server
     languages: [dockerfile]
     install_via: npm
     runtime: node
