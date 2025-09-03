@@ -68,6 +68,7 @@ formatters:
     runtime: native
     version: latest
     description: "YAML formatter and fixer"
+    mason_ensure_installed: true
 
   - name: yamlfmt
     languages: [yaml]

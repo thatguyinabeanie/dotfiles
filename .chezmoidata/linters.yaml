@@ -257,6 +257,7 @@ linters:
     description: "Rust linter"
     builtin_to_toolchain: true
     install_command: "rustup component add clippy"
+    # Note: clippy is not available in Mason registry, managed via rustup
 
   # XML linters (xmllint is part of libxml2, installed by default on macOS)
   # - name: xmllint

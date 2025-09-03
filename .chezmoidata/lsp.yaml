@@ -162,6 +162,7 @@ language_servers:
     version: latest
     description: "CMake language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # jinja-lsp removed - package doesn't exist on pip
 
@@ -174,6 +175,7 @@ language_servers:
     version: latest
     description: "Vim script language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # CI/CD and GitHub
   - name: gh-actions-language-server
@@ -208,6 +210,7 @@ language_servers:
     version: latest
     description: "Fish shell language server"
     provides_formatting: false
+    mason_ensure_installed: true
 
   # Generic diagnostic server
   - name: diagnostic-languageserver
@@ -217,3 +220,4 @@ language_servers:
     version: latest
     description: "Generic diagnostic language server"
     provides_formatting: false
+    mason_ensure_installed: true
