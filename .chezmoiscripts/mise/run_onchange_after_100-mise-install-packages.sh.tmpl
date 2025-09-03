@@ -1,12 +1,54 @@
 #!/bin/bash
 
-# This script runs when mise config changes and applies package installations
-# run_onchange: {{ include ".chezmoidata/lsp.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/formatters.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/linters.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/tools.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/ai/agents.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/ai/mcp.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/github-extensions.yaml" | sha256sum }}
+# This script installs mise tools and GitHub CLI extensions
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "mise" "root" .) }}
 
-{{ template "mise/mise-install.sh.tmpl" . }}
+set -euo pipefail
+
+# Check if mise is installed
+if ! command -v mise >/dev/null 2>&1; then
+    echo "❌ mise is not installed. Please install mise first."
+    exit 1
+fi
+
+echo "📦 Installing mise tools from config..."
+if mise install; then
+    echo "✅ All mise tools installed successfully"
+else
+    echo "⚠️  Some mise tools may have failed to install"
+fi
+
+# Install GitHub CLI extensions if gh is available
+if command -v gh >/dev/null 2>&1; then
+    echo "🔧 Installing GitHub CLI extensions..."
+    {{- if .github_extensions }}
+    {{- range .github_extensions }}
+    if ! gh extension list | grep -q "{{ .name }}"; then
+        echo "  Installing {{ .name }}"
+        if gh extension install "{{ .name }}"; then
+            echo "  ✅ {{ .name }} installed"
+        else
+            echo "  ⚠️ Failed to install {{ .name }}"
+        fi
+    else
+        echo "  ✅ {{ .name }} already installed"
+    fi
+    {{- end }}
+    {{- end }}
+else
+    echo "ℹ️  GitHub CLI not available, skipping extensions"
+fi
+
+# Verify critical runtimes are available
+echo "🔍 Verifying critical runtimes..."
+CRITICAL_RUNTIMES=("node" "python" "go" "rust")
+for runtime in "${CRITICAL_RUNTIMES[@]}"; do
+    if mise which "${runtime}" >/dev/null 2>&1; then
+        version=$(mise current "${runtime}" 2>/dev/null | awk '{print $2}')
+        echo "  ✅ ${runtime} (${version})"
+    else
+        echo "  ⚠️ ${runtime} not found"
+    fi
+done
+
+echo "✅ Mise installation completed"

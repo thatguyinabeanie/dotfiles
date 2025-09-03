@@ -1,10 +1,80 @@
 #!/bin/bash
 
 # This script installs npm packages not managed by mise or Mason
-# run_onchange: {{ include ".chezmoidata/lsp.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/formatters.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/linters.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/ai/agents.yaml" | sha256sum }}
-# run_onchange: {{ include ".chezmoidata/ai/mcp.yaml" | sha256sum }}
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "npm" "root" .) }}
 
-{{ template "package-managers/npm-install.sh.tmpl" . }}
+set -euo pipefail
+
+# Ensure Node.js is available via mise
+if ! mise which node >/dev/null 2>&1; then
+    echo "❌ Node.js not found. Please run mise installation first."
+    exit 1
+fi
+
+echo "📦 Collecting npm packages..."
+
+# Collect npm packages not managed by Mason
+NPM_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# AI agents
+{{- range .agents }}
+{{- if eq .install_via "npm" }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# MCP servers
+{{- range .mcp_servers }}
+{{- if eq .install_via "npm" }}
+NPM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+if [[ ${#NPM_PACKAGES[@]} -eq 0 ]]; then
+    echo "✅ No npm packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+echo "📦 Installing ${#NPM_PACKAGES[@]} npm packages globally..."
+echo "📋 Packages: ${NPM_PACKAGES[*]}"
+
+# Install all packages at once for better performance
+if npm install -g "${NPM_PACKAGES[@]}"; then
+    echo "✅ All npm packages installed successfully"
+else
+    echo "⚠️ Some npm packages failed, trying individually..."
+    
+    # Try installing packages individually to identify failures
+    for package in "${NPM_PACKAGES[@]}"; do
+        if npm list -g "$package" >/dev/null 2>&1; then
+            echo "  ✅ $package already installed"
+        elif npm install -g "$package" >/dev/null 2>&1; then
+            echo "  ✅ $package installed successfully"
+        else
+            echo "  ❌ Failed to install $package"
+        fi
+    done
+fi
+
+echo "✅ NPM package installation completed"
