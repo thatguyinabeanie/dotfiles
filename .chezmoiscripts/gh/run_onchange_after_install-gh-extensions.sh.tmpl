@@ -11,6 +11,10 @@ set -euo pipefail
 # GH EXTENSION INSTALLATION
 #=============================================================================
 
+{{- if .WORK_ENVIRONMENT }}
+echo "💼 Work environment detected, skipping gh extension installation."
+exit 0
+{{- else }}
 if command -v gh >/dev/null 2>&1; then
   gh config set git_protocol https
   echo "🔧 Installing and upgrading gh extensions..."
@@ -25,3 +29,4 @@ if command -v gh >/dev/null 2>&1; then
   {{- end }}
   echo "✅ gh extensions installed and upgraded"
 fi
+{{- end }}

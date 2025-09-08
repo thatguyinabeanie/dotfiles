@@ -14,6 +14,7 @@ vim.filetype.add({
       end
       return "tmpl"
     end,
+    -- ["ipynb"] = "json",
     ["yml.erb"] = "yaml.erb",
     ["yaml.erb"] = "yaml.erb",
   },
