@@ -74,3 +74,46 @@ enabled = {{ $jankyborders.animations.enabled }}
 duration = {{ $jankyborders.animations.duration }}
 {{- end }}
 {{- end }}
+
+{{- /* Load core YAML data files and make them available to templates */ -}}
+{{- $parsers_file := joinPath .chezmoi.sourceDir ".chezmoidata" "parsers.yaml" }}
+{{- if stat $parsers_file }}
+{{- $parsers_data := (include $parsers_file | fromYaml) }}
+[data.parsers_yaml]
+content = {{ toJson $parsers_data | quote }}
+{{- end }}
+
+{{- $lsp_file := joinPath .chezmoi.sourceDir ".chezmoidata" "lsp.yaml" }}
+{{- if stat $lsp_file }}
+{{- $lsp_data := (include $lsp_file | fromYaml) }}
+[data.lsp_yaml]
+content = {{ toJson $lsp_data | quote }}
+{{- end }}
+
+{{- $formatters_file := joinPath .chezmoi.sourceDir ".chezmoidata" "formatters.yaml" }}
+{{- if stat $formatters_file }}
+{{- $formatters_data := (include $formatters_file | fromYaml) }}
+[data.formatters_yaml]
+content = {{ toJson $formatters_data | quote }}
+{{- end }}
+
+{{- $linters_file := joinPath .chezmoi.sourceDir ".chezmoidata" "linters.yaml" }}
+{{- if stat $linters_file }}
+{{- $linters_data := (include $linters_file | fromYaml) }}
+[data.linters_yaml]
+content = {{ toJson $linters_data | quote }}
+{{- end }}
+
+{{- $tools_file := joinPath .chezmoi.sourceDir ".chezmoidata" "tools.yaml" }}
+{{- if stat $tools_file }}
+{{- $tools_data := (include $tools_file | fromYaml) }}
+[data.tools_yaml]
+content = {{ toJson $tools_data | quote }}
+{{- end }}
+
+{{- $github_extensions_file := joinPath .chezmoi.sourceDir ".chezmoidata" "github-extensions.yaml" }}
+{{- if stat $github_extensions_file }}
+{{- $github_extensions_data := (include $github_extensions_file | fromYaml) }}
+[data.github_extensions_yaml]
+content = {{ toJson $github_extensions_data | quote }}
+{{- end }}
