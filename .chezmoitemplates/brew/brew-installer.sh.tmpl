@@ -120,6 +120,35 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
+# General applications that install via brew_cask
+{{- if .applications.shared }}
+  {{- range .applications.shared }}
+    {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+if [ "${PERSONAL_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.personal }}
+    {{- range .applications.personal }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
+if [ "${WORK_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.work }}
+    {{- range .applications.work }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
 install_brew_packages "casks" "$CASKS"
 
 # Install fonts (now managed as casks in agents.yaml)

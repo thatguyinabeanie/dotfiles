@@ -27,11 +27,15 @@
 {{- /* Provider configurations - convert providers list to provider map */ -}}
 {{- if hasKey $data "providers" }}
   "provider": {
-{{- $providerMap := dict -}}
-{{- range $data.providers -}}
-  {{- $providerMap = set $providerMap . (dict "options" (dict)) -}}
-{{- end -}}
-{{- template "utilities/json-providers.tmpl" (dict "data" $providerMap "global" $global ) }}
+    {{- $first := true -}}
+    {{- range $data.providers -}}
+      {{- if not $first }},{{ end }}
+    "{{- . | trim -}}": {
+      "models": {{ template "utilities/_generate-provider-models.tmpl" (dict "Provider" (. | trim) "SourceDir" $global.chezmoi.sourceDir "Indent" 8) }},
+      "options": {}
+    }
+      {{- $first = false -}}
+    {{- end }}
   }
 {{- end }}
 }

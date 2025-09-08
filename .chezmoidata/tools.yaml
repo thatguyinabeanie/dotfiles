@@ -229,6 +229,13 @@ dev_tools:
     description: "Universal document converter"
     category: documentation
 
+  - name: mactex-no-gui
+    install_via: brew_cask
+    runtime: native
+    version: latest
+    description: "LaTeX distribution for macOS"
+    category: documentation
+
   # Programming language runtimes
   - name: node
     install_via: mise

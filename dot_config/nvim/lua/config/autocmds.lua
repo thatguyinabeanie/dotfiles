@@ -158,3 +158,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 --     end, 200)
 --   end,
 -- })
+
+-- Disable diagnostics for Markdown files
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.diagnostic.disable(0)
+  end,
+})

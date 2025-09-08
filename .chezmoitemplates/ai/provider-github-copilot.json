@@ -1,6 +1,0 @@
-{{- $provider_data := (index (fromYaml (include (.chezmoi.sourceDir | printf "%s/.chezmoidata/ai/github-copilot.yaml"))) "github-copilot") -}}
-{{- $models_obj := dict -}}
-{{- range $provider_data.models -}}
-  {{- $models_obj = set $models_obj .name (dict "limit" .limit) -}}
-{{- end -}}
-{{- toPrettyJson $models_obj -}}
