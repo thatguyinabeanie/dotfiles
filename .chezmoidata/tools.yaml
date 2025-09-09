@@ -193,19 +193,12 @@ dev_tools:
     description: "Kubernetes package manager"
     category: infrastructure
 
-  - name: docker
-    install_via: brew
-    runtime: native
-    version: latest
-    description: "Container platform"
-    category: infrastructure
-
-  - name: docker-compose
-    install_via: mise
-    runtime: native
-    version: latest
-    description: "Multi-container Docker applications"
-    category: infrastructure
+  # - name: docker
+  #   install_via: brew
+  #   runtime: native
+  #   version: latest
+  #   description: "Container platform"
+  #   category: infrastructure
 
   # Documentation tools
   - name: marp-cli

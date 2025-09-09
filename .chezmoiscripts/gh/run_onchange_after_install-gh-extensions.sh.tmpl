@@ -11,6 +11,7 @@ set -euo pipefail
 # GH EXTENSION INSTALLATION
 #=============================================================================
 
+exit 0;
 if command -v gh >/dev/null 2>&1; then
   gh config set git_protocol https
   echo "🔧 Installing and upgrading gh extensions..."

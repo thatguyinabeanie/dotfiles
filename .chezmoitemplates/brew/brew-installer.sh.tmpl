@@ -6,6 +6,10 @@
 
 {{ template "utilities/error-handling.sh" }}
 
+# Set default values for environment variables
+PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
+WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
+
 {{ if eq .chezmoi.os "darwin" -}}
 
 # Check if Homebrew is installed, install if not

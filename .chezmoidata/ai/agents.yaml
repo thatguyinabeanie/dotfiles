@@ -61,19 +61,19 @@ agents:
     category: productivity
     macos_only: true
 
-  - name: notion
-    install_via: brew_cask
-    runtime: native
-    description: "AI-enhanced note-taking and productivity"
-    category: productivity
-    macos_only: true
+  # - name: notion
+  #   install_via: brew_cask
+  #   runtime: native
+  #   description: "AI-enhanced note-taking and productivity"
+  #   category: productivity
+  #   macos_only: true
 
-  - name: cleanmymac
-    install_via: brew_cask
-    runtime: native
-    description: "AI-powered Mac optimization"
-    category: system
-    macos_only: true
+  # - name: cleanmymac
+  #   install_via: brew_cask
+  #   runtime: native
+  #   description: "AI-powered Mac optimization"
+  #   category: system
+  #   macos_only: true
 
   # Terminal-based AI tools
   - name: charmbracelet/tap/mods

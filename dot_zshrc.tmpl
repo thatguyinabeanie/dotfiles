@@ -22,7 +22,7 @@ unset -f tmux &>/dev/null
 
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
-{{- template "shell/brew-services.sh" (dict "chezmoi" .chezmoi "services" .macos_services "excluded_services" .excluded_services) }}
+{{- template "shell/homebrew-helpers.sh.tmpl" (dict "chezmoi" .chezmoi "services" .macos_services "excluded_services" .excluded_services) }}
 {{- end }}
 
 # NPM and PNPM configuration is now handled by the centralized environment system
