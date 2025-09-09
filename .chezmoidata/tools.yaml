@@ -193,6 +193,13 @@ dev_tools:
     description: "Kubernetes package manager"
     category: infrastructure
 
+  - name: k9s
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Kubernetes CLI UI"
+    category: infrastructure
+
   # - name: docker
   #   install_via: brew
   #   runtime: native
@@ -334,6 +341,13 @@ dev_tools:
     runtime: native
     version: latest
     description: "Install and run python applications in isolated environments"
+    category: package_manager
+
+  - name: uv
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Fast Python package installer and resolver"
     category: package_manager
 
   # Build tools

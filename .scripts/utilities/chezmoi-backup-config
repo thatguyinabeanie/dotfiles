@@ -9,9 +9,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CHEZMOI_SOURCE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
-# Generate and source the helper functions
-cd "$CHEZMOI_SOURCE_DIR"
-eval "$(chezmoi execute-template <.chezmoitemplates/shell/config-persistence.sh)"
+# Source the helper functions directly
+source "$CHEZMOI_SOURCE_DIR/.chezmoitemplates/shell/config-persistence.sh"
 
 # Colors for output
 RED='\033[0;31m'

@@ -190,7 +190,7 @@ linters:
 
   - name: semgrep
     languages: [python, javascript, typescript, go, java, ruby]
-    install_via: pip
+    install_via: mise
     runtime: python
     version: latest
     description: "Static analysis for security"

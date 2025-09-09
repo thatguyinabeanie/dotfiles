@@ -82,13 +82,6 @@ agents:
     description: "AI on the command line"
     category: terminal
 
-  - name: fabric
-    install_via: mise
-    runtime: go
-    version: latest
-    description: "AI-powered automation framework"
-    category: automation
-
   # AI development frameworks
   - name: langchain-cli
     install_via: pip
@@ -100,15 +93,8 @@ agents:
   - name: ollama
     install_via: brew
     runtime: native
+    version: latest
     description: "Run large language models locally"
     category: llm_runtime
-
-  # AI code analysis tools
-  - name: semgrep
-    install_via: mise
-    runtime: python
-    version: latest
-    description: "AI-powered static analysis"
-    category: analysis
 
   # Note: gitleaks moved to linters.yaml to avoid duplication
