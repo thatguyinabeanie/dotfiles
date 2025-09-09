@@ -329,6 +329,13 @@ dev_tools:
     description: "Modern JavaScript runtime"
     category: package_manager
 
+  - name: pipx
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Install and run python applications in isolated environments"
+    category: package_manager
+
   # Build tools
   - name: gradle
     install_via: mise
