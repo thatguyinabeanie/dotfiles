@@ -302,7 +302,7 @@ Templates now access this data directly and efficiently, without complex `includ
 #### Loading AI Configurations
 ```go
 {{/* Access the OpenCode provider settings */}}
-{{- .opencode.ai_opencode.providers.anthropic.enabled }}
+{{- .opencode.ai_opencode.providers.google.enabled }}
 
 {{/* Loop through all AI agents */}}
 {{- range .agents }}
@@ -898,10 +898,8 @@ The primary AI development environment uses OpenCode with flexible provider swit
 
 Provider details and model configurations are now managed in their respective template files within `.chezmoitemplates/ai/`.
 
--   **Anthropic Claude**: Models defined in `provider-anthropic.yaml`.
 -   **GitHub Copilot**: Models available via the Copilot integration.
 -   **Google Gemini**: Models defined in `provider-google.yaml`.
--   **OpenRouter**: Access to 300+ models, configured in `provider-openrouter.yaml`.
 
 #### 🛠️ **Development Tools Integration**
 

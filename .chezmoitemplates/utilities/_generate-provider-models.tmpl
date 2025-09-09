@@ -1,6 +1,6 @@
 {{- /*
   Generates the JSON model object for a single provider.
-  Expects a string context (the provider name, e.g., "anthropic").
+  Expects a string context (the provider name, e.g., "google").
 */ -}}
 {{- $provider := .Provider -}}
 {{- $yamlPath := printf "%s/.chezmoidata/ai/%s.yaml" .SourceDir $provider -}}

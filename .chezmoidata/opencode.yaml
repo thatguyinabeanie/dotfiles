@@ -1,14 +1,12 @@
 opencode:
   # OpenCode AI configuration - follows opencode.ai schema
-  model: "github-copilot/gemini-2.5-pro"
-  small_model: "github-copilot/gemini-2.0-flash-001"
+  model: "github-copilot/claude-sonnet-4"
+  small_model: "github-copilot/gemini-2.5-pro"
   autoupdate: true
   share: "manual"
   theme: "system"
 
   # Provider configurations (flat structure as per opencode schema)
   providers:
-    - anthropic
     - github-copilot
     - google
-    - openrouter

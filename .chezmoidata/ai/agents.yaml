@@ -1,5 +1,5 @@
 agents:
-  # Note: Removed @anthropic-ai/claude-code and @google/gemini-cli as they don't exist on npm
+  # Note: Some AI CLI tools don't exist on npm and are installed via other means
 
   - name: "opencode-ai"
     install_via: npm
