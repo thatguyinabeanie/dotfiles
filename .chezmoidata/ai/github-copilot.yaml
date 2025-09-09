@@ -1,27 +1,16 @@
 # .chezmoidata/github-copilot.yaml
 github-copilot:
   models:
+    # Claude models
+    - name: claude-3.5-sonnet
+      limit:
+        context: 200000
+        output: 8192
     - name: claude-3.7-sonnet
       limit:
         context: 200000
         output: 8192
-    - name: gpt-5
-      limit:
-        context: 128000
-        output: 128000
-    - name: claude-opus-4.1
-      limit:
-        context: 200000
-        output: 32000
-    - name: gpt-5-mini
-      limit:
-        context: 128000
-        output: 128000
-    - name: gemini-2.5-pro
-      limit:
-        context: 1048576
-        output: 65536
-    - name: claude-3.5-sonnet
+    - name: claude-3.7-sonnet-thought
       limit:
         context: 200000
         output: 8192
@@ -29,35 +18,59 @@ github-copilot:
       limit:
         context: 80000
         output: 16000
-    - name: gpt-4.1
-      limit:
-        context: 128000
-        output: 16384
-    - name: gpt-4o
-      limit:
-        context: 128000
-        output: 16384
-    - name: o3
-      limit:
-        context: 128000
-        output: 16384
-    - name: gemini-2.0-flash-001
-      limit:
-        context: 1000000
-        output: 8192
-    - name: claude-3.7-sonnet-thought
+    - name: claude-opus-41
       limit:
         context: 200000
-        output: 8192
-    - name: o3-mini
-      limit:
-        context: 128000
-        output: 65536
+        output: 32000
     - name: claude-sonnet-4
       limit:
         context: 200000
         output: 8192
+    
+    # GPT models
+    - name: gpt-4o
+      limit:
+        context: 128000
+        output: 16384
+    - name: gpt-4.1
+      limit:
+        context: 128000
+        output: 16384
+    - name: gpt-5
+      limit:
+        context: 128000
+        output: 128000
+    - name: gpt-5-mini
+      limit:
+        context: 128000
+        output: 128000
+    
+    # Google Gemini models
+    - name: gemini-2.0-flash-001
+      limit:
+        context: 1000000
+        output: 8192
+    - name: gemini-2.5-pro
+      limit:
+        context: 1048576
+        output: 65536
+    
+    # OpenAI reasoning models
+    - name: o3
+      limit:
+        context: 128000
+        output: 16384
+    - name: o3-mini
+      limit:
+        context: 128000
+        output: 65536
     - name: o4-mini
       limit:
         context: 128000
         output: 65536
+    
+    # xAI Grok model
+    - name: grok-code-fast-1
+      limit:
+        context: 256000
+        output: 10000
