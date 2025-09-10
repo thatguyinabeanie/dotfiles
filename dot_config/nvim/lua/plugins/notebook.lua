@@ -20,15 +20,15 @@ return {
       vim.g.molten_image_provider = "image.nvim"
       vim.g.molten_output_win_max_height = 20
     end,
-    opts = {
-      -- your options here
-      -- for example:
-      -- auto_open_output = false,
-      -- output_win_size = 15,
-    },
+    config = function()
+      -- Configuration options for molten-nvim
+      vim.g.molten_auto_open_output = false
+      vim.g.molten_output_win_size = 15
+    end,
   },
   {
     "quarto-dev/quarto-nvim",
+    dependencies = { "jmbuhr/otter.nvim" },
     ft = { "quarto", "markdown" },
     config = function()
       require("quarto").setup({
@@ -45,33 +45,5 @@ return {
         },
       })
     end,
-  },
-  {
-    "3rd/image.nvim",
-    ft = { "quarto", "markdown" },
-    opts = {
-      backend = "ueberzug",
-      integrations = {
-        markdown = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          filetypes = { "markdown", "quarto" }, -- markdown extensions are supported!
-        },
-        neorg = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          filetypes = { "norg" },
-        },
-      },
-      -- five_second_timer = true,
-      max_width = 25,
-      max_height = 12,
-      max_width_window_percentage = 100,
-      max_height_window_percentage = 100,
-      -- window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-      -- window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-    },
   },
 }

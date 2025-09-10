@@ -45,6 +45,17 @@ return {
               useFlatConfig = true,
             },
           },
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern(
+              ".eslintrc",
+              ".eslintrc.js",
+              ".eslintrc.json",
+              ".eslintrc.yaml",
+              ".eslintrc.yml",
+              "eslint.config.js",
+              "package.json"
+            )(fname)
+          end,
         },
         tsserver = { enabled = true },
         vtsls = { enabled = true }, -- Disable vtsls due to inlay hint issues
