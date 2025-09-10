@@ -1,8 +1,0 @@
-font_management:
-  # Font management and settings
-  system_fonts:
-    # Fonts managed by the system (no additional configuration needed)
-    enabled: true
-  
-  # Font packages are managed in packages/macos-fonts.yaml
-  # This file contains font-related settings and preferences

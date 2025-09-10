@@ -1,6 +1,6 @@
 #!/bin/bash
 
-{{- $gh_extensions := (include ".chezmoidata/packages/gh-extensions.yaml" | fromYaml) }}
+{{- $gh_extensions := (include ".chezmoidata/github-extensions.yaml" | fromYaml) }}
 
 # This script runs when gh extensions change and applies package installations
 # run_onchange: {{ $gh_extensions | toJson | sha256sum }}
@@ -11,17 +11,24 @@ set -euo pipefail
 # GH EXTENSION INSTALLATION
 #=============================================================================
 
+# Only install GitHub extensions if explicitly enabled
+if [[ "{{ .INSTALL_GH_EXTENSIONS }}" != "true" ]]; then
+  exit 0
+fi
+
 if command -v gh >/dev/null 2>&1; then
   gh config set git_protocol https
-  echo "🔧 Installing and upgrading gh extensions..."
-  {{- range $gh_extensions.extensions }}
-  if ! gh extension list | grep -q "{{ . }}"; then
-    echo "Installing gh extension: {{ . }}..."
-    gh extension install "https://github.com/{{ . }}"
+  echo "🔧 Installing GitHub CLI extensions..."
+  {{- range $gh_extensions.github_extensions }}
+  echo "  Installing {{ .name }}"
+  if ! gh extension list | grep -q "{{ .name }}"; then
+    gh extension install "{{ .name }}"
+    echo "  ✅ {{ .name }} installed"
   else
-    echo "Upgrading gh extension: {{ . }}..."
-    gh extension upgrade "{{ . }}"
+    echo "  ✅ {{ .name }} already installed"
   fi
   {{- end }}
-  echo "✅ gh extensions installed and upgraded"
+  echo "✅ GitHub CLI extensions installation completed"
+else
+  echo "⚠️ GitHub CLI not found, skipping extensions installation"
 fi

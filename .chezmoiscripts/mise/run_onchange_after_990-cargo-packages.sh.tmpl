@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# This script installs cargo packages not managed by mise or Mason
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "cargo" "root" .) }}
+
+set -euo pipefail
+
+# Ensure Rust is available via mise
+if ! mise which cargo >/dev/null 2>&1; then
+    echo "❌ Rust not found. Please run mise installation first."
+    exit 1
+fi
+
+echo "📦 Collecting cargo packages..."
+
+# Collect cargo packages not managed by Mason
+CARGO_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Development tools
+{{- range .dev_tools }}
+{{- if eq .install_via "cargo" }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end }}
+
+if [[ ${#CARGO_PACKAGES[@]} -eq 0 ]]; then
+    echo "✅ No cargo packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+echo "📦 Installing ${#CARGO_PACKAGES[@]} cargo packages..."
+
+for package_spec in "${CARGO_PACKAGES[@]}"; do
+    # Check if this is a custom install command
+    if [[ "$package_spec" == *"cargo install"* ]]; then
+        # Extract tool name from the command for checking if already installed
+        tool_name=$(echo "$package_spec" | sed -n 's/.*--git.*\/\([^/]*\)\.git \([^ ]*\).*/\2/p')
+        if [[ -z "$tool_name" ]]; then
+            # Fallback: extract last argument as tool name
+            tool_name=$(echo "$package_spec" | awk '{print $NF}')
+        fi
+
+        echo "📦 Installing $tool_name..."
+        if cargo install --list | grep -q "^$tool_name "; then
+            echo "  ✅ $tool_name already installed"
+        elif eval "$package_spec" >/dev/null 2>&1; then
+            echo "  ✅ $tool_name installed successfully"
+        else
+            echo "  ❌ Failed to install $tool_name via cargo"
+        fi
+    else
+        # Standard cargo install
+        echo "📦 Installing $package_spec..."
+        if cargo install --list | grep -q "^$package_spec "; then
+            echo "  ✅ $package_spec already installed"
+        elif cargo install "$package_spec" >/dev/null 2>&1; then
+            echo "  ✅ $package_spec installed successfully"
+        else
+            echo "  ❌ Failed to install $package_spec via cargo"
+        fi
+    fi
+done
+
+echo "✅ Rust cargo package installation completed"

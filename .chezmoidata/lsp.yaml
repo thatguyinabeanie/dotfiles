@@ -1,0 +1,219 @@
+language_servers:
+  # JavaScript/TypeScript ecosystem
+  - name: typescript-language-server
+    languages: [typescript, javascript, javascriptreact, typescriptreact]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "TypeScript & JavaScript language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
+
+  # Systems languages
+  - name: rust-analyzer
+    languages: [rust]
+    install_via: mise
+    runtime: rust
+    version: latest
+    description: "Rust language server"
+    provides_formatting: true
+    mason_ensure_installed: true
+
+  - name: gopls
+    languages: [go]
+    install_via: go
+    runtime: go
+    version: latest
+    description: "Go language server"
+    provides_formatting: true
+    install_command: "golang.org/x/tools/gopls@latest"
+    mason_ensure_installed: true
+
+  - name: zls
+    languages: [zig]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Zig language server"
+    provides_formatting: true
+    mason_ensure_installed: true
+
+  # Scripting languages
+  - name: bash-language-server
+    languages: [bash, sh, zsh]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Bash language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: lua-language-server
+    languages: [lua]
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Lua language server"
+    provides_formatting: true
+    mason_ensure_installed: true
+
+  - name: ruby-lsp
+    languages: [ruby]
+    install_via: gem
+    runtime: ruby
+    version: latest
+    description: "Ruby language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: pyright
+    languages: [python]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Python language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # Web technologies
+  - name: css-lsp
+    languages: [css, scss, sass]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "CSS language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: html-lsp
+    languages: [html]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "HTML language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: json-lsp
+    languages: [json, jsonc]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "JSON language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: yaml-language-server
+    languages: [yaml]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "YAML language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # Documentation and markup
+  - name: marksman
+    languages: [markdown]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Markdown language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  - name: markdown-oxide
+    languages: [markdown]
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Alternative Markdown language server"
+    provides_formatting: false
+    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
+    mason_ensure_installed: true
+
+  # vale-ls removed - doesn't support go install, vale already available via brew
+
+  # Infrastructure and DevOps
+  - name: dockerfile-language-server
+    languages: [dockerfile]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Dockerfile language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # nginx-language-server removed - doesn't exist on npm
+
+  # systemd-language-server removed - Linux-specific, not needed on macOS
+
+  # Specialized tools
+  - name: cmake-language-server
+    languages: [cmake]
+    install_via: pip
+    runtime: python
+    version: latest
+    description: "CMake language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # jinja-lsp removed - package doesn't exist on pip
+
+  # jq-lsp removed - doesn't exist on npm
+
+  - name: vim-language-server
+    languages: [vim]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Vim script language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # CI/CD and GitHub
+  - name: gh-actions-language-server
+    languages: [yaml]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "GitHub Actions workflow language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # circleci-yaml-language-server removed - doesn't exist on npm
+
+  # Linter language servers
+  - name: golangci-lint-langserver
+    languages: [go]
+    install_via: go
+    runtime: go
+    version: latest
+    description: "Go linter language server"
+    provides_formatting: false
+    install_command: "github.com/nametake/golangci-lint-langserver@latest"
+    mason_ensure_installed: true
+
+  # typos-lsp moved to linters.yaml (primarily a linter)
+
+  # Shell and fish
+  - name: fish-lsp
+    languages: [fish]
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fish shell language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
+  # Generic diagnostic server
+  - name: diagnostic-languageserver
+    languages: [text]
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Generic diagnostic language server"
+    provides_formatting: false
+    mason_ensure_installed: true

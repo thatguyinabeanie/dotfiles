@@ -2,7 +2,7 @@
 
 # Configure macOS system defaults and preferences
 # This script runs after homebrew package installation to configure system settings
-# Hash: {{ include ".chezmoidata/packages/macos-casks-shared.yaml" | sha256sum }}
+# Hash: {{ include ".chezmoidata/services.yaml" | sha256sum }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 

@@ -1,8 +1,0 @@
-cross_platform_go:
-  # Go programming language and tools
-  runtime:
-    - name: go
-      version: 1
-      description: "Go programming language"
-  
-  tools: []

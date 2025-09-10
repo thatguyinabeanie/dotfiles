@@ -1,12 +1,14 @@
 # Ignore everything by default.DS_Store
 .DS_Store
 
+.vale
+
 *.md
 !README.md
 !AGENTS.md
 !.docs/*.md
-./*.sh
+!dot_config/opencode/*/*.md
 
-.vale
+./*.sh
 *.sh
 !*/*.sh

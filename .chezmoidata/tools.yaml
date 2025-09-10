@@ -1,0 +1,456 @@
+dev_tools:
+  # System monitoring and performance
+  - name: bottom
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "System monitor (htop alternative)"
+    category: system
+
+  - name: btop
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Resource monitor"
+    category: system
+
+  - name: fastfetch
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "System information tool"
+    category: system
+
+  - name: glances
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "System monitoring tool"
+    category: system
+
+  - name: procs
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Modern ps replacement"
+    category: system
+
+  # File and directory tools
+  - name: eza
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Modern ls replacement"
+    category: file_management
+
+  - name: fd
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fast find alternative"
+    category: file_management
+
+  - name: ripgrep
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fast grep alternative"
+    category: file_management
+
+  - name: bat
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Cat with syntax highlighting"
+    category: file_management
+
+  - name: tree
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Directory tree viewer"
+    category: file_management
+
+  - name: dust
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Disk usage analyzer"
+    category: file_management
+
+  - name: ncdu
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Disk usage analyzer (ncurses)"
+    category: file_management
+
+  - name: gdu
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fast disk usage analyzer"
+    category: file_management
+
+  # Data processing tools
+  - name: jq
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "JSON processor"
+    category: data
+
+  - name: yq
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "YAML processor"
+    category: data
+
+  - name: jaq
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fast jq alternative"
+    category: data
+
+  - name: hyperfine
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Command-line benchmarking tool"
+    category: data
+
+  # Git tools
+  - name: delta
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Git diff viewer"
+    category: git
+
+  - name: github-cli
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "GitHub CLI tool"
+    category: git
+
+  - name: gitleaks
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "Secret scanner for git repos"
+    category: git
+
+  - name: gitsign
+    install_via: mise
+    runtime: go
+    version: latest
+    description: "Keyless Git signing"
+    category: git
+
+  - name: gitui
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Git TUI interface"
+    category: git
+
+  - name: lazygit
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Simple terminal UI for git"
+    category: git
+
+  - name: tig
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Text-mode interface for git"
+    category: git
+
+  # Infrastructure and cloud tools
+  - name: terraform
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Infrastructure as code"
+    category: infrastructure
+
+  - name: kubectl
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Kubernetes CLI"
+    category: infrastructure
+
+  - name: helm
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Kubernetes package manager"
+    category: infrastructure
+
+  - name: k9s
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Kubernetes CLI UI"
+    category: infrastructure
+
+  # - name: docker
+  #   install_via: brew
+  #   runtime: native
+  #   version: latest
+  #   description: "Container platform"
+  #   category: infrastructure
+
+  # Documentation tools
+  - name: marp-cli
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Markdown presentation tool"
+    category: documentation
+
+  - name: mdbook
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Book generator from Markdown"
+    category: documentation
+
+  - name: pandoc
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Universal document converter"
+    category: documentation
+
+  - name: mactex-no-gui
+    install_via: brew_cask
+    runtime: native
+    version: latest
+    description: "LaTeX distribution for macOS"
+    category: documentation
+
+  # Programming language runtimes
+  - name: node
+    install_via: mise
+    runtime: native
+    version: "22"
+    description: "Node.js JavaScript runtime"
+    category: runtime
+
+  - name: python
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Python programming language"
+    category: runtime
+
+  - name: ruby
+    install_via: mise
+    runtime: native
+    version: "3.2.7"
+    description: "Ruby programming language"
+    category: runtime
+
+  - name: go
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Go programming language"
+    category: runtime
+
+  - name: rust
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Rust programming language"
+    category: runtime
+
+  - name: zig
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Zig systems programming language"
+    category: runtime
+
+  - name: java
+    install_via: mise
+    runtime: native
+    version: "zulu-8"
+    description: "Java runtime (Zulu JDK 8)"
+    category: runtime
+
+  - name: elixir
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Elixir programming language"
+    category: runtime
+
+  - name: erlang
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Erlang runtime (Elixir dependency)"
+    category: runtime
+
+  - name: julia
+    install_via: mise
+    runtime: native
+    version: "1.11.6"
+    description: "Julia programming language for scientific computing"
+    category: runtime
+
+  # Package managers
+  - name: pnpm
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Fast Node.js package manager"
+    category: package_manager
+
+  - name: yarn
+    install_via: mise
+    runtime: node
+    version: latest
+    description: "Node.js package manager"
+    category: package_manager
+
+  - name: bun
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Fast JavaScript runtime"
+    category: package_manager
+
+  - name: deno
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Modern JavaScript runtime"
+    category: package_manager
+
+  - name: pipx
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Install and run python applications in isolated environments"
+    category: package_manager
+
+  - name: uv
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Fast Python package installer and resolver"
+    category: package_manager
+
+  # Build tools
+  - name: gradle
+    install_via: mise
+    runtime: java
+    version: latest
+    description: "Build automation tool"
+    category: build
+
+  - name: maven
+    install_via: mise
+    runtime: java
+    version: latest
+    description: "Java build tool"
+    category: build
+
+  - name: cmake
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Cross-platform build system"
+    category: build
+
+  - name: make
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Build automation tool"
+    category: build
+
+  # Terminal and shell tools
+  - name: tmux
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Terminal multiplexer"
+    category: terminal
+
+  - name: zellij
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Terminal workspace"
+    category: terminal
+
+  - name: starship
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Cross-shell prompt"
+    category: terminal
+
+  - name: fzf
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Fuzzy finder"
+    category: terminal
+
+  - name: zoxide
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Smart cd command"
+    category: terminal
+
+  # Editors and IDEs
+  - name: neovim
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Modern Vim-based editor"
+    category: editor
+
+  - name: helix
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Modern modal editor"
+    category: editor
+
+  # Language servers and development tools
+  - name: markdown-oxide
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Markdown language server"
+    category: lsp
+    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
+
+  - name: typos-lsp
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Typo checker language server"
+    category: lsp
+    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
+
+  # Curl-based installations
+  - name: mise
+    install_via: curl
+    runtime: native
+    install_script: "curl https://mise.run | sh"
+    description: "Tool version manager"
+    category: system

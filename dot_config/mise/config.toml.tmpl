@@ -1,113 +1,74 @@
-{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml).cross_platform_tools }}
-{{- $go := (include ".chezmoidata/packages/cross-platform-go.yaml" | fromYaml).cross_platform_go }}
-{{- $rust := (include ".chezmoidata/packages/cross-platform-rust.yaml" | fromYaml).cross_platform_rust }}
-{{- $lua := (include ".chezmoidata/packages/cross-platform-lua.yaml" | fromYaml).cross_platform_lua }}
-{{- $node := (include ".chezmoidata/packages/cross-platform-node.yaml" | fromYaml).cross_platform_node }}
-{{- $python := (include ".chezmoidata/packages/cross-platform-python.yaml" | fromYaml).cross_platform_python }}
-
 [tools]
-# Cross-platform tools from cross-platform-tools.yaml sections (excluding language_servers)
-{{- range $section_name, $section_tools := $tools }}
-{{- if ne $section_name "architecture" }}
-{{- if ne $section_name "schedule" }}
-{{- if ne $section_name "language_servers" }}
-{{- range $tool := $section_tools }}
-{{- if and $tool.name $tool.version }}
+# Core development runtimes (with specified versions from tools.yaml)
+{{- range $tool := .dev_tools }}
+{{- if eq $tool.install_via "mise" }}
+{{- if and (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust")) $tool.version }}
+{{ $tool.name | quote }} = {{ $tool.version | quote }}  # {{ $tool.description }}
+{{- else if and (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust")) (not $tool.version) }}
+{{ $tool.name | quote }} = "latest"  # {{ $tool.description }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Development tools that install via mise (excluding core runtimes)
+{{- range $tool := .dev_tools }}
+{{- if eq $tool.install_via "mise" }}
+{{- if and $tool.name $tool.version (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
 {{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- end }}
+{{- else if and $tool.name (not $tool.version) (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
+{{ $tool.name | quote }} = "latest"
 {{- end }}
 {{- end }}
 {{- end }}
 
-# Go tools from cross-platform-go.yaml
-{{- range $tool := $go.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $go.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
+# Language servers managed via mise (not Mason)
+{{- range $lsp := .language_servers }}
+{{- if and (eq $lsp.install_via "mise") (not $lsp.mason_ensure_installed) }}
+{{ $lsp.name | quote }} = "latest"
 {{- end }}
 {{- end }}
 
-# Rust tools from cross-platform-rust.yaml
-{{- range $tool := $rust.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $rust.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
+# Formatters managed via mise (not Mason)
+{{- range $formatter := .formatters }}
+{{- if and (eq $formatter.install_via "mise") (not $formatter.mason_ensure_installed) }}
+{{ $formatter.name | quote }} = "latest"
 {{- end }}
 {{- end }}
 
-# Lua tools from cross-platform-lua.yaml
-{{- range $tool := $lua.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
-{{- end }}
-{{- end }}
-{{- range $tool := $lua.tools }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
+# Linters managed via mise (not Mason)
+{{- range $linter := .linters }}
+{{- if and (eq $linter.install_via "mise") (not $linter.mason_ensure_installed) }}
+{{ $linter.name | quote }} = "latest"
 {{- end }}
 {{- end }}
 
-# Node.js package managers from cross-platform-node.yaml
-{{- range $tool := $node.package_managers }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
+# AI agents managed via mise
+{{- range $agent := .agents }}
+{{- if eq $agent.install_via "mise" }}
+{{- if $agent.version }}
+{{ $agent.name | quote }} = {{ $agent.version | quote }}
+{{- else }}
+{{ $agent.name | quote }} = "latest"
 {{- end }}
-{{- end }}
-
-# Python tools from cross-platform-python.yaml (only items with versions)
-{{- range $tool := $python.runtime }}
-{{- if and $tool.name $tool.version }}
-{{ $tool.name | quote }} = {{ $tool.version | quote }}
 {{- end }}
 {{- end }}
 
-# Global npm packages from cross-platform-node.yaml
-{{- range $package := $node.global_packages }}
-"npm:{{ $package.name }}" = "latest"
+# MCP servers managed via mise
+{{- range $mcp := .mcp_servers }}
+{{- if eq $mcp.install_via "mise" }}
+{{- if $mcp.version }}
+{{ $mcp.name | quote }} = {{ $mcp.version | quote }}
+{{- else }}
+{{ $mcp.name | quote }} = "latest"
 {{- end }}
-
-# AI agent packages from cross-platform-node.yaml
-{{- range $package := $node.ai_agents }}
-"npm:{{ $package.name }}" = "latest"
 {{- end }}
-
-# MCP server packages from cross-platform-node.yaml
-{{- range $package := $node.mcp_servers }}
-"npm:{{ $package.name }}" = "latest"
 {{- end }}
-
-[tasks.install-python-tools]
-description = "Install Python global packages via pipx and uv"
-run = [
-{{- range $package := $python.pipx_apps }}
-      "pipx --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",
-{{- end }}
-{{- range $package := $python.uv_global_packages }}
-    "uv pip --quiet install {{ $package.name }} || echo 'Failed to install {{ $package.name }}'",,
-{{- end }}
-]
-
-[hooks]
-# Auto-setup Python tools when entering directories with Python projects
-"cd" = "~/.config/mise/scripts/python-project-hook.sh"
 
 [settings]
 {{ if env "CODESPACES" | not | not -}}
 jobs                                = 2                     # limit parallel jobs in Codespaces
-{{ else if eq .chezmoi.os "darwin" -}}
-jobs                                = {{ sub (output "sysctl" "-n" "hw.ncpu" | trim | atoi) 2 }} # number of plugins or runtimes to install in parallel
 {{ else -}}
-jobs                                = {{ sub (output "nproc" | trim | atoi) 2 }}                # number of plugins or runtimes to install in parallel
+jobs                                = 10                    # number of plugins or runtimes to install in parallel
 {{ end -}}
 always_keep_download                = false         # deleted after install by default
 http_timeout                        = "30s"         # set the timeout for http requests as duration string
@@ -119,4 +80,3 @@ verbose                             = false         # set to true to see full in
 raw                                 = false         # set to true to directly pipe plugins to stdin/stdout/stderr
 yes                                 = true          # automatically answer yes to all prompts
 idiomatic_version_file_enable_tools = ["ruby", "node"]
-
