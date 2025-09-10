@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CHEZMOI_SOURCE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 # Source the helper functions directly
-source "$CHEZMOI_SOURCE_DIR/.chezmoitemplates/shell/config-persistence.sh"
+source "$CHEZMOI_SOURCE_DIR/.chezmoitemplates/utilities/config-persistence.sh"
 
 # Colors for output
 RED='\033[0;31m'

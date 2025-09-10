@@ -11,7 +11,7 @@ CHEZMOI_SOURCE_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
 
 # Generate and source the helper functions
 cd "$CHEZMOI_SOURCE_DIR"
-eval "$(chezmoi execute-template < .chezmoitemplates/shell/config-persistence.sh)"
+eval "$(chezmoi execute-template < .chezmoitemplates/utilities/config-persistence.sh)"
 
 # Colors for output
 RED='\033[0;31m'

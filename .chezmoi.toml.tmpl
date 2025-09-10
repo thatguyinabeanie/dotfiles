@@ -1,5 +1,5 @@
 {{- $current_hostname := output "hostname" | trim -}}
-{{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "shell" "config-persistence.sh" -}}
+{{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "utilities" "config-persistence.sh" -}}
 {{- $backup_script := joinPath .chezmoi.sourceDir ".scripts" "utilities" "chezmoi-backup-config" -}}
 
 # Hooks - automatically backup configuration after apply
