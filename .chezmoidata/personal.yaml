@@ -1,0 +1,46 @@
+env_personal:
+  # Personal environment variables
+  variables:
+    PERSONAL_ENVIRONMENT: "{{ .PERSONAL_ENVIRONMENT | default false }}"
+    MANAGE_BREW_SERVICES: "{{ .personal.manage_brew_services | default true }}"
+
+  # Personal-specific paths
+  paths:
+    PERSONAL_PROJECTS: "$HOME/Projects/Personal"
+    PERSONAL_SCRIPTS: "$HOME/.local/bin/personal"
+
+  # Personal development settings
+  development:
+    # Git configuration
+    git:
+      user_name: "{{ .personal.git.name | default .chezmoi.fullHostname }}"
+      user_email: "{{ .personal.git.email | default .chezmoi.username }}@{{ .chezmoi.fqdnHostname }}"
+
+    # SSH configuration
+    ssh:
+      key_path: "$HOME/.ssh/id_ed25519_personal"
+      config_path: "$XDG_CONFIG_HOME/ssh/config_personal"
+
+  # Personal applications and services
+  applications:
+    # Media and entertainment
+    media:
+      SPOTIFY_CONFIG_DIR: "$XDG_CONFIG_HOME/spotify"
+      PLEX_CONFIG_DIR: "$XDG_CONFIG_HOME/plex"
+
+    # Personal productivity
+    productivity:
+      OBSIDIAN_VAULT: "$HOME/Documents/Obsidian"
+      NOTES_DIR: "$HOME/Documents/Notes"
+
+  # Personal cloud and backup settings
+  cloud:
+    # iCloud settings (macOS)
+    icloud:
+      ICLOUD_DRIVE: "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
+      ICLOUD_DESKTOP: "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Desktop"
+
+    # Backup settings
+    backup:
+      BACKUP_DIR: "$HOME/Backups"
+      TIME_MACHINE_EXCLUDE: "$XDG_CACHE_HOME"

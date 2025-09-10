@@ -1,0 +1,41 @@
+{{- $data := .data -}}
+{{- $schema := .schema -}}
+{{- $global := .global -}}
+
+{
+{{- if $schema }}
+  "$schema": "{{ $schema }}",
+{{- end }}
+
+{{- /* Top-level simple fields */ -}}
+{{- if hasKey $data "model" }}
+  "model": "{{ $data.model }}",
+{{- end }}
+{{- if hasKey $data "small_model" }}
+  "small_model": "{{ $data.small_model }}",
+{{- end }}
+{{- if hasKey $data "theme" }}
+  "theme": "{{ $data.theme }}",
+{{- end }}
+{{- if hasKey $data "share" }}
+  "share": "{{ $data.share }}",
+{{- end }}
+{{- if hasKey $data "autoupdate" }}
+  "autoupdate": {{ $data.autoupdate }},
+{{- end }}
+
+{{- /* Provider configurations - convert providers list to provider map */ -}}
+{{- if hasKey $data "providers" }}
+  "provider": {
+    {{- $first := true -}}
+    {{- range $data.providers -}}
+      {{- if not $first }},{{ end }}
+    "{{- . | trim -}}": {
+      "models": {{ template "utilities/_generate-provider-models.tmpl" (dict "Provider" (. | trim) "SourceDir" $global.chezmoi.sourceDir "Indent" 8) }},
+      "options": {}
+    }
+      {{- $first = false -}}
+    {{- end }}
+  }
+{{- end }}
+}

@@ -32,11 +32,9 @@ The configuration data is organized into 5 logical directories with 27 ultra-spe
 │   ├── neovim-*.yaml       # Neovim-specific configurations
 │   └── dev-mise-architectures.yaml # Mise installation settings
 └── ai/                 # 5 files - AI model configurations
-    ├── ai-anthropic.yaml   # Claude model configurations
     ├── ai-github-copilot.yaml # GitHub Copilot models
     ├── ai-google.yaml      # Gemini model configurations
-    ├── ai-opencode.yaml    # OpenCode AI settings
-    └── ai-openrouter.yaml  # OpenRouter model configurations
+    └── ai-opencode.yaml    # OpenCode AI settings
 ```
 
 ## Architecture Principles

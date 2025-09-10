@@ -5,14 +5,12 @@
 ## Generate ai.yaml from models.dev API data based on opencode.yaml configuration
 ##
 
-{{- $opencode := (include ".chezmoidata/ai/ai-opencode.yaml" | fromYaml).ai_opencode }}
-
-# Injected configuration from chezmoi templates
-const ENABLED_PROVIDERS = {{ $opencode.providers | toJson }}
-const DEFAULT_MODEL = "{{ $opencode.model }}"
-const SMALL_MODEL = "{{ $opencode.small_model }}"
-const AUTOUPDATE = {{ $opencode.autoupdate }}
-const SHARE = "{{ $opencode.share }}"
+# Injected configuration from chezmoi templates (using direct access)
+const ENABLED_PROVIDERS = {{ .opencode.providers | toJson }}
+const DEFAULT_MODEL = "{{ .opencode.model }}"
+const SMALL_MODEL = "{{ .opencode.small_model }}"
+const AUTOUPDATE = {{ .opencode.autoupdate }}
+const SHARE = "{{ .opencode.share }}"
 const CONFIG_FILE = "{{ .chezmoi.sourceDir }}/.chezmoidata/apps/opencode.yaml"
 const OUTPUT_FILE = "{{ .chezmoi.sourceDir }}/.chezmoidata/apps/ai.yaml"
 

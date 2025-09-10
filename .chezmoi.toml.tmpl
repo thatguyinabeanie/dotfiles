@@ -1,5 +1,5 @@
 {{- $current_hostname := output "hostname" | trim -}}
-{{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "config-persistence-helpers.sh" -}}
+{{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "utilities" "config-persistence.sh" -}}
 {{- $backup_script := joinPath .chezmoi.sourceDir ".scripts" "utilities" "chezmoi-backup-config" -}}
 
 # Hooks - automatically backup configuration after apply
@@ -10,8 +10,8 @@ args = ["--silent"]
 [data]
 hostname                   = {{ $current_hostname | quote }}
 SHELL                      = {{ (env "SHELL_PREF") | default (output "bash" "-c" (printf "%s read shell_pref" ($config_helper | quote)) | trim) | default "nu" | quote }}
-WORK_ENVIRONMENT           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read work_environment" ($config_helper | quote)) | trim) | default "false" }}
-PERSONAL_ENVIRONMENT       = {{ (env "PERSONAL_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read personal_environment" ($config_helper | quote)) | trim) | default "false" }}
+WORK_ENVIRONMENT           = {{ eq "true" ((env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read work_environment" ($config_helper | quote)) | trim) | default "false") }}
+PERSONAL_ENVIRONMENT       = {{ eq "true" ((env "PERSONAL_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read personal_environment" ($config_helper | quote)) | trim) | default "false") }}
 INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "bash" "-c" (printf "%s read install_sketchy_bar" ($config_helper | quote)) | trim) | default "true" | quote }}
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
@@ -22,11 +22,19 @@ THEME_DARK                 = {{ (env "THEME_DARK") | default (output "bash" "-c"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
+INSTALL_GH_EXTENSIONS     = {{ (env "INSTALL_GH_EXTENSIONS") | default (output "bash" "-c" (printf "%s read install_gh_extensions" ($config_helper | quote)) | trim) | default "false" | quote }}
 INTERACTIVE                = false
 
+{{- $opencode_file := joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml" }}
+{{- $opencode_data := dict }}
+{{- if stat $opencode_file }}
+{{- $opencode_data = (include $opencode_file | fromYaml) }}
+{{- end }}
+{{- $opencode := $opencode_data.opencode | default dict }}
+
 [data.opencode]
-model                      = {{ (env "OPENCODE_MODEL") | default (output "bash" "-c" (printf "%s read opencode_model" ($config_helper | quote)) | trim) | default "openrouter/anthropic/claude-3.5-sonnet" | quote }}
-small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default (output "bash" "-c" (printf "%s read opencode_small_model" ($config_helper | quote)) | trim) | default "openrouter/anthropic/claude-3-haiku" | quote }}
+model                      = {{ (env "OPENCODE_MODEL") | default (output "bash" "-c" (printf "%s read opencode_model" ($config_helper | quote)) | trim) | default ($opencode.model | default "github-copilot/claude-sonnet-4") | quote }}
+small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default (output "bash" "-c" (printf "%s read opencode_small_model" ($config_helper | quote)) | trim) | default ($opencode.small_model | default "github-copilot/gemini-2.5-pro") | quote }}
 
 [data.ui]
 opacity                    = {{ (env "UI_OPACITY") | default (output "bash" "-c" (printf "%s read ui_opacity" ($config_helper | quote)) | trim) | default "0.5" | quote }}
@@ -45,7 +53,7 @@ username                   = {{ (env "GITHUB_USERNAME") | default (output "bash"
 email                      = {{ (env "GIT_EMAIL") | default (output "bash" "-c" (printf "%s read git_email" ($config_helper | quote)) | trim) | default "thatguyin@beanie.gg" | quote }}
 defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default (output "bash" "-c" (printf "%s read git_refresh_period" ($config_helper | quote)) | trim) | default "168h" | quote }}
 work_org                   = {{ (env "WORK_ORG") | default (output "bash" "-c" (printf "%s read work_org" ($config_helper | quote)) | trim) | default "" | quote }}
-work_environment           = {{ (env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false" }}
+work_environment           = {{ eq "true" ((env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false") }}
 
 {{- $jankyborders_file := joinPath .chezmoi.sourceDir ".chezmoidata" "apps" "jankyborders.yaml" }}
 {{- if stat $jankyborders_file }}
@@ -73,4 +81,54 @@ item{{ $i }} = {{ $app | quote }}
 enabled = {{ $jankyborders.animations.enabled }}
 duration = {{ $jankyborders.animations.duration }}
 {{- end }}
+{{- end }}
+
+{{- /* Load core YAML data files and make them available to templates */ -}}
+{{- $parsers_file := joinPath .chezmoi.sourceDir ".chezmoidata" "parsers.yaml" }}
+{{- if stat $parsers_file }}
+{{- $parsers_data := (include $parsers_file | fromYaml) }}
+[data.parsers_yaml]
+content = {{ toJson $parsers_data | quote }}
+{{- end }}
+
+{{- $lsp_file := joinPath .chezmoi.sourceDir ".chezmoidata" "lsp.yaml" }}
+{{- if stat $lsp_file }}
+{{- $lsp_data := (include $lsp_file | fromYaml) }}
+[data.lsp_yaml]
+content = {{ toJson $lsp_data | quote }}
+{{- end }}
+
+{{- $formatters_file := joinPath .chezmoi.sourceDir ".chezmoidata" "formatters.yaml" }}
+{{- if stat $formatters_file }}
+{{- $formatters_data := (include $formatters_file | fromYaml) }}
+[data.formatters_yaml]
+content = {{ toJson $formatters_data | quote }}
+{{- end }}
+
+{{- $linters_file := joinPath .chezmoi.sourceDir ".chezmoidata" "linters.yaml" }}
+{{- if stat $linters_file }}
+{{- $linters_data := (include $linters_file | fromYaml) }}
+[data.linters_yaml]
+content = {{ toJson $linters_data | quote }}
+{{- end }}
+
+{{- $tools_file := joinPath .chezmoi.sourceDir ".chezmoidata" "tools.yaml" }}
+{{- if stat $tools_file }}
+{{- $tools_data := (include $tools_file | fromYaml) }}
+[data.tools_yaml]
+content = {{ toJson $tools_data | quote }}
+{{- end }}
+
+{{- $github_extensions_file := joinPath .chezmoi.sourceDir ".chezmoidata" "github-extensions.yaml" }}
+{{- if stat $github_extensions_file }}
+{{- $github_extensions_data := (include $github_extensions_file | fromYaml) }}
+[data.github_extensions_yaml]
+content = {{ toJson $github_extensions_data | quote }}
+{{- end }}
+
+{{- $opencode_file := joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml" }}
+{{- if stat $opencode_file }}
+{{- $opencode_data := (include $opencode_file | fromYaml) }}
+[data.opencode_yaml]
+content = {{ toJson $opencode_data | quote }}
 {{- end }}

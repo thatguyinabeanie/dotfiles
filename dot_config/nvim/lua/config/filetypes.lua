@@ -28,7 +28,7 @@ vim.filetype.add({
     [".*%.yml%.tmpl"] = "yaml.tmpl",
     [".*%.json%.tmpl"] = "json.tmpl",
     [".*%.lua%.tmpl"] = "lua.tmpl",
-    [".*%.sh%.tmpl"] = "sh.tmpl",
+    [".*%.sh%.tmpl"] = "sh.chezmoitmpl",
     [".*%.zsh%.tmpl"] = "zsh.tmpl",
     [".*%.nu%.tmpl"] = "nu.tmpl",
     [".*%.conf%.tmpl"] = "conf.tmpl",

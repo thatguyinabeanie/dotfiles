@@ -1,7 +1,0 @@
-env_work:
-  # Work environment variables
-  variables:
-    WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT | default false }}"
-    AWS_PROFILE: "{{ .work.aws_profile }}"
-    DOCKER_DEFAULT_PLATFORM: "linux/amd64"
-    SLACK_WORKSPACE: "{{ .work.slack_workspace }}"

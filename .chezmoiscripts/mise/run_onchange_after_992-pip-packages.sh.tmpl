@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# This script installs pip packages not managed by mise or Mason
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }}
+
+set -euo pipefail
+
+# Ensure Python is available via mise
+if ! mise which python >/dev/null 2>&1; then
+    echo "❌ Python not found. Please run mise installation first."
+    exit 1
+fi
+
+echo "📦 Collecting pip packages..."
+
+# Collect pip packages not managed by Mason
+PIP_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# AI agents
+{{- range .agents }}
+{{- if eq .install_via "pip" }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# MCP servers
+{{- range .mcp_servers }}
+{{- if eq .install_via "pip" }}
+PIP_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+if [[ ${#PIP_PACKAGES[@]} -eq 0 ]]; then
+    echo "✅ No pip packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+echo "📦 Installing ${#PIP_PACKAGES[@]} pip packages..."
+echo "📋 Packages: ${PIP_PACKAGES[*]}"
+
+# Install all packages at once for better performance
+if pip install "${PIP_PACKAGES[@]}"; then
+    echo "✅ All pip packages installed successfully"
+else
+    echo "⚠️ Some pip packages failed, trying individually..."
+    
+    # Try installing packages individually to identify failures
+    for package in "${PIP_PACKAGES[@]}"; do
+        if pip show "$package" >/dev/null 2>&1; then
+            echo "  ✅ $package already installed"
+        elif pip install "$package" >/dev/null 2>&1; then
+            echo "  ✅ $package installed successfully"
+        else
+            echo "  ❌ Failed to install $package"
+        fi
+    done
+fi
+
+echo "✅ Python pip package installation completed"
