@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# This script installs go packages not managed by mise
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "go" "root" .) }}
+
+set -euo pipefail
+
+# Ensure Go is available via mise
+if ! mise which go >/dev/null 2>&1; then
+    echo "❌ Go not found. Please run mise installation first."
+    exit 1
+fi
+
+echo "📦 Collecting go packages..."
+
+# Collect go packages and install commands
+GO_PACKAGES=()
+
+# Language servers with go install
+{{- range .language_servers }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Formatters with go install
+{{- range .formatters }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Linters with go install
+{{- range .linters }}
+{{- if eq .install_via "go" }}
+{{- if .install_command }}
+GO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+GO_PACKAGES+=("{{ .name }}@latest")
+{{- end }}
+{{- end }}
+{{- end }}
+
+if [[ ${#GO_PACKAGES[@]} -eq 0 ]]; then
+    echo "✅ No go packages to install"
+    exit 0
+fi
+
+echo "📦 Installing ${#GO_PACKAGES[@]} go packages..."
+
+for package in "${GO_PACKAGES[@]}"; do
+    echo "📦 Installing $package..."
+    if go install "$package" >/dev/null 2>&1; then
+        echo "  ✅ $package installed successfully"
+    else
+        echo "  ❌ Failed to install $package"
+    fi
+done
+
+echo "✅ Go package installation completed"

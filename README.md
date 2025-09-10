@@ -230,172 +230,87 @@ chezmoi init
 
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
 
-## 🌌 Configuration structure
+## 🌌 Configuration Structure
+
+The dotfiles are organized around a powerful, modular data system managed by Chezmoi. At its core is a flat and granular data structure in the `.chezmoidata/` directory, where each file defines a specific domain of the development environment (e.g., `lsp.yaml`, `formatters.yaml`, `tools.yaml`).
+
+This data is consumed by a **Template Factory System** located in `.chezmoitemplates/`. These templates act as generators, transforming the raw data into tool-specific configurations. This architecture ensures a single source of truth for all packages and settings, with changes automatically propagating to all relevant parts of the system.
 
 ```shell
 dotfiles/
-├── 🚀 dot_config/
+├── 🔭 .chezmoidata/             # Flat, granular YAML data files
+│   ├── ai/                     # AI-specific configurations
+│   │   ├── agents.yaml
+│   │   ├── mcp.yaml
+│   │   └── ...
+│   ├── lsp.yaml
+│   ├── formatters.yaml
+│   ├── tools.yaml
+│   └── ... (20+ other specific data files)
+├── 🏭 .chezmoitemplates/         # Template factory for generating configs
 │   ├── nvim/
-│   │   └── run_once_after_*.sh  # Work vault setup script
+│   ├── mise/
+│   ├── brew/
+│   └── ...
+├── 🚀 dot_config/                 # Final, generated configuration files
+│   ├── nvim/
 │   ├── tmux/
 │   └── ...
-├── 🔭 .chezmoidata/             # Reorganized YAML data files
-│   ├── packages/              # Package management (macOS, cross-platform)
-│   ├── environment/           # Environment variables and paths
-│   ├── system/                # System configurations and app settings
-│   ├── development/           # Development tools and Neovim configs
-│   └── ai/                    # AI model configurations
-├── 💾 .scripts/utilities/       # Persistent configuration system
-│   ├── chezmoi-backup-config
-│   └── chezmoi-restore-config
-├── 📚 .docs/                    # Specialized documentation
-│   ├── ARCHITECTURE.md
-│   └── ...
-├── 📁 Pictures/Wallpapers/      # Wallpaper collection
-└── 🌠 .chezmoi.toml.tmpl        # Enhanced with persistent storage
+├── 💾 .scripts/                   # Utility and installation scripts
+├── 📚 .docs/                      # In-depth documentation
+└── 🌠 .chezmoi.toml.tmpl         # Main chezmoi configuration
 ```
 
 ### 📋 **Detailed .chezmoidata Organization**
 
-The configuration data is organized into **27 ultra-specific files** across **5 logical directories** for maximum maintainability:
+The configuration data is organized into **27 ultra-specific files**. This flat structure allows for clear, direct access in templates (e.g., `.lsp.language_servers`, `.formatters.formatters`).
 
-#### 📦 **packages/** - Package Management (15 files)
-```
-cross-platform-*.yaml     # Shared development tools by language
-├── cross-platform-go.yaml      # Go tools and packages  
-├── cross-platform-lua.yaml     # Lua tools and LSPs
-├── cross-platform-node.yaml    # Node.js global packages
-├── cross-platform-python.yaml  # Python tools and packages  
-├── cross-platform-rust.yaml    # Rust toolchain and utilities
-└── cross-platform-tools.yaml   # General development tools
-
-macos-brew-*.yaml         # Homebrew packages by context
-├── macos-brew-shared.yaml       # Common CLI tools
-├── macos-brew-personal.yaml     # Personal development tools
-└── macos-brew-work.yaml         # Work-specific tools
-
-macos-casks-*.yaml        # GUI applications by context  
-├── macos-casks-shared.yaml      # Common applications
-├── macos-casks-personal.yaml    # Personal applications
-└── macos-casks-work.yaml        # Work applications
-
-macos-*.yaml              # Platform-specific packages
-├── macos-appstore.yaml          # Mac App Store apps
-├── macos-fonts.yaml             # Font packages
-└── macos-taps.yaml              # Homebrew taps
-```
-
-#### 🌍 **environment/** - Environment Variables (4 files)
-```
-env-shared.yaml           # Common environment variables
-env-personal.yaml         # Personal context settings
-env-work.yaml            # Work-specific environment  
-env-paths.yaml           # XDG base directories and paths
-```
-
-#### ⚙️ **system/** - System Configurations (6 files)
-```
-app-*.yaml               # Application-specific configs
-├── app-aerospace.yaml           # Window manager settings
-├── app-jankyborders.yaml        # Border management
-
-
-system-*.yaml            # System service management
-├── font-management.yaml         # Font handling
-├── macos-services.yaml          # macOS system services  
-└── system-brew-services.yaml    # Homebrew service management
-```
-
-#### 🛠️ **development/** - Development Tools (10 files)
-```
-dev-*.yaml               # Development tools by category
-├── dev-cloud-tools.yaml         # K8s, terraform, infrastructure
-├── dev-documentation.yaml       # Documentation tools
-├── dev-formatters.yaml          # Code formatters by language
-├── dev-git-tools.yaml           # Git utilities
-├── dev-linters.yaml             # Linting tools by language
-├── dev-mise-architectures.yaml  # Mise installation configs
-└── dev-testing.yaml             # Testing frameworks
-
-neovim-*.yaml            # Neovim-specific configurations
-├── neovim-formatters.yaml       # Neovim formatters
-├── neovim-lsp-servers.yaml      # Language server configs
-└── neovim-treesitter.yaml       # Syntax highlighting
-```
-
-#### 🤖 **ai/** - AI Model Configurations (5 files)
-```
-ai-anthropic.yaml        # Claude model configurations
-ai-github-copilot.yaml   # GitHub Copilot models
-ai-google.yaml          # Gemini model configurations  
-ai-opencode.yaml        # OpenCode AI settings
-ai-openrouter.yaml      # OpenRouter model configurations
-```
+-   **`lsp.yaml`**: All language servers with metadata.
+-   **`formatters.yaml`**: All code formatters and their language mappings.
+-   **`linters.yaml`**: All linters with language/runtime info.
+-   **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
+-   **`tools.yaml`**: All general development tools, CLIs, and utilities.
+-   **`ai/agents.yaml`**: All AI agents and their installation details.
+-   **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
+-   **`github-extensions.yaml`**: All GitHub CLI extensions.
+-   **`services.yaml`**: System services and application configurations.
+-   **`opencode.yaml`**: OpenCode AI-specific settings.
+-   **`shared.yaml`**, **`personal.yaml`**, **`work.yaml`**: Environment variables for different contexts.
 
 ### 🔧 **Template Integration Patterns**
 
+Templates now access this data directly and efficiently, without complex `include` logic.
+
 #### Loading Package Data
 ```go
-{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml).cross_platform_tools }}
-{{- $brewShared := (include ".chezmoidata/packages/macos-brew-shared.yaml" | fromYaml).macos_brew_shared }}
+{{/* Access all linters to be installed via brew */}}
+{{- $brew_linters := (where .linters.linters "install_via" "brew") }}
+
+{{/* Access all formatters to be installed via mise */}}
+{{- $mise_formatters := (where .formatters.formatters "install_via" "mise") }}
 ```
 
-#### Loading Environment Data  
+#### Loading Environment Data
 ```go
-{{- $shared := (include ".chezmoidata/environment/env-shared.yaml" | fromYaml).env_shared }}
-{{- $paths := (include ".chezmoidata/environment/env-paths.yaml" | fromYaml).env_paths }}
+{{/* Access a shared environment variable */}}
+{{- .shared.env_shared.variables.EDITOR }}
+
+{{/* Access a work-specific variable */}}
+{{- .work.env_work.variables.AWS_PROFILE }}
 ```
 
 #### Loading AI Configurations
 ```go
-{{- $opencode := (include ".chezmoidata/ai/ai-opencode.yaml" | fromYaml).ai_opencode }}
-{{- $anthropic := (include ".chezmoidata/ai/ai-anthropic.yaml" | fromYaml).ai_anthropic }}
+{{/* Access the OpenCode provider settings */}}
+{{- .opencode.ai_opencode.providers.google.enabled }}
+
+{{/* Loop through all AI agents */}}
+{{- range .agents }}
+  {{ .name }}
+{{- end }}
 ```
 
-### ✨ **Adding New Configurations**
-
-#### 1. Choose the Right Directory
-- **packages/** - Tools, languages, applications  
-- **environment/** - Environment variables, paths
-- **system/** - App configs, system services
-- **development/** - Dev tools, editor configs
-- **ai/** - AI models, provider settings
-
-#### 2. Follow Naming Convention
-- **Platform prefix**: `macos-`, `cross-platform-`
-- **Context suffix**: `-shared`, `-personal`, `-work`  
-- **Category prefix**: `dev-`, `app-`, `ai-`, `env-`
-- **Purpose clarity**: `-formatters`, `-linters`, `-brew`, `-casks`
-
-#### 3. Use Consistent Data Structure
-```yaml
-[category]_[context]:
-  # Top-level categorization
-  [subcategory]:
-    - item1
-    - item2
-    
-  # or for more complex data
-  [subcategory]:
-    setting1: value1
-    setting2: value2
-```
-
-### 🧪 **Validation Commands**
-
-```bash
-# Check template rendering
-chezmoi apply --dry-run
-
-# Verify specific templates
-chezmoi execute-template < file.tmpl
-
-# Check data loading
-chezmoi data
-
-# Run quality checks
-lefthook run pre-commit
-```
+This clean, declarative system makes adding new tools or changing configurations simple, robust, and easy to maintain.
 
 ## 🎨 Theme control system
 
@@ -525,71 +440,51 @@ The configuration ensures a consistent scientific computing environment across a
 - [Neovim](https://neovim.io/) - Text editor
 - [Homebrew](https://brew.sh/) - Package manager
 
-## ⚙️ Mise integration & dependency management
-
-![Rotom](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/479.png)
+### ⚙️ **Mise Integration & Dependency Management**
 
 Comprehensive runtime and dependency management using Mise, providing consistent development environments across projects and machines.
 
-### 🎯 **What is Mise?**
+#### 🏗️ **Architecture Overview**
 
-Mise is a modern runtime manager that replaces tools like asdf, nvm, pyenv, rbenv, etc. with a single, fast, and reliable solution for managing:
-
-- **Programming languages** (Python, Node.js, Go, Rust, etc.)
-- **Development tools** (CLI utilities, formatters, linters)
-- **Environment variables** (project-specific configurations)
-- **Tasks** (project automation and scripts)
-
-### 🏗️ **Architecture Overview**
+The Mise configuration is dynamically generated from the granular data files in `.chezmoidata/`. A dedicated template, `dot_config/mise/config.toml.tmpl`, gathers all tools that specify `install_via: mise` from `tools.yaml`, `linters.yaml`, `formatters.yaml`, etc., and compiles them into a single `config.toml` for Mise to consume.
 
 ```text
 Dotfiles Mise Integration:
 ├── Configuration Data (.chezmoidata/)
-│   ├── packages/cross-platform-*.yaml    # Language-specific tools
-│   ├── development/dev-mise-architectures.yaml # Installation configs
-│   └── development/dev-*.yaml            # Development tools by category
+│   ├── tools.yaml
+│   ├── linters.yaml
+│   ├── formatters.yaml
+│   └── ... (all files with `install_via: mise`)
 ├── Generated Configuration
-│   └── config.toml.tmpl                  # Main mise configuration
+│   └── dot_config/mise/config.toml.tmpl  # Main mise configuration generator
 ├── Installation Scripts
-│   ├── run_once_before-01-install-mise.sh.tmpl
-│   └── run_onchange_after_mise-install-packages.sh.tmpl
+│   ├── .chezmoiscripts/mise/run_once_before-01-install-mise.sh.tmpl
+│   └── .chezmoiscripts/mise/run_onchange_after_mise-install-packages.sh.tmpl
 └── Automation
     ├── LaunchAgent files                 # Auto-update scheduling
     └── setup-cargo.sh                   # Rust toolchain setup
 ```
 
-### ⚙️ **Configuration Data Structure**
+#### ⚙️ **Configuration Data Structure**
 
-#### Language-Specific Package Files
+Tools are defined in their respective granular data files with an `install_via` key.
 
-The mise configuration is built from dedicated package files:
-
-**Cross-Platform Tools** (`.chezmoidata/packages/cross-platform-tools.yaml`):
+**Example from `.chezmoidata/tools.yaml`**:
 ```yaml
-cross_platform_tools:
-  tools:
-    - age@latest
-    - act@latest  
-    - ast-grep@latest
-    # ... development utilities
+dev_tools:
+  - name: age
+    install_via: mise
+    version: latest
+  - name: act
+    install_via: mise
+    version: latest
+  - name: ast-grep
+    install_via: mise
+    version: latest
+  # ... other development utilities
 ```
 
-**Language-Specific Files**:
-- `cross-platform-go.yaml` - Go tools and packages
-- `cross-platform-lua.yaml` - Lua tools and language servers
-- `cross-platform-node.yaml` - Node.js tools and global packages
-- `cross-platform-python.yaml` - Python tools and packages
-- `cross-platform-rust.yaml` - Rust toolchain and utilities
-
-#### Main Configuration Template
-
-The `config.toml.tmpl` loads and combines all package data:
-
-```go
-{{- $tools := (include ".chezmoidata/packages/cross-platform-tools.yaml" | fromYaml).cross_platform_tools }}
-{{- $go := (include ".chezmoidata/packages/cross-platform-go.yaml" | fromYaml).cross_platform_go }}
-{{- $rust := (include ".chezmoidata/packages/cross-platform-rust.yaml" | fromYaml).cross_platform_rust }}
-```
+The main configuration template then collects all these definitions to build the final `config.toml`.
 
 ### 🚀 **Usage Examples**
 
@@ -979,13 +874,13 @@ Integrated tmux shortcuts for quick dotfiles access:
 
 These keybindings make it easy to jump into your dotfiles configuration from any tmux session.
 
-## 🤖 Development environment for AI
+### 🤖 **Development Environment for AI**
 
-Comprehensive AI toolchain with many providers and seamless integration. All configurations are managed through `.chezmoidata/ai/` templates for consistent setup across machines.
+Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the new granular data files (`ai/agents.yaml`, `ai/mcp.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
 
-### 🎯 **Quick Setup Guide**
+#### 🎯 **Quick Setup Guide**
 
-#### Prerequisites
+##### Prerequisites
 ```bash
 # Ensure mise and required tools are installed
 mise install
@@ -996,174 +891,43 @@ export OPENAI_API_KEY="your-key"
 export GOOGLE_API_KEY="your-key"
 ```
 
-#### OpenCode Configuration
-The primary AI development environment uses OpenCode with flexible provider switching:
+##### OpenCode Configuration
+The primary AI development environment uses OpenCode with flexible provider switching, configured in `.chezmoidata/opencode.yaml`.
 
-```bash
-# Current configuration (in .chezmoidata/ai/ai-opencode.yaml)
-Provider: github-copilot
-Primary Model: gemini-2.5-pro 
-Small Model: gemini-2.0-flash-001
-Supported Providers: anthropic, google, github-copilot, openrouter
-```
+#### 🤖 **Provider-Specific Setup**
 
-### 🤖 **Provider-Specific Setup**
+Provider details and model configurations are now managed in their respective template files within `.chezmoitemplates/ai/`.
 
-#### **Anthropic Claude**
-```bash
-# Set up API key
-export ANTHROPIC_API_KEY="sk-ant-..."
+-   **GitHub Copilot**: Models available via the Copilot integration.
+-   **Google Gemini**: Models defined in `provider-google.yaml`.
 
-# Available models (configured in ai-anthropic.yaml):
-claude-3-7-sonnet-20250219    # 200K context, 64K output
-claude-opus-4-20250514        # 200K context, 32K output  
-claude-3-5-sonnet-20241022    # 200K context, 8K output
-claude-3-5-haiku-20241022     # 200K context, 8K output
+#### 🛠️ **Development Tools Integration**
 
-# Usage in OpenCode
-opencode --provider anthropic --model claude-3-7-sonnet-20250219
-```
-
-#### **GitHub Copilot**
-```bash
-# Authenticate with GitHub
-gh auth login
-
-# Available models (via GitHub Copilot):
-gpt-5                # 128K context, 128K output
-claude-opus-4.1      # 200K context, 32K output
-gemini-2.5-pro       # 1M context, 65K output
-o3                   # 128K context, 16K output
-
-# Activate in VS Code/Neovim
-:Copilot setup
-```
-
-#### **Google Gemini**
-```bash
-# Set up API key  
-export GOOGLE_API_KEY="AIza..."
-
-# Available models (configured in ai-google.yaml):
-gemini-2.5-pro              # 1M context, 65K output
-gemini-2.0-flash            # 1M context, 8K output  
-gemini-1.5-pro              # 1M context, 8K output
-gemini-2.5-flash            # 1M context, 65K output
-
-# Usage
-opencode --provider google --model gemini-2.5-pro
-```
-
-#### **OpenRouter (Multiple Providers)**
-```bash
-# Set up API key
-export OPENROUTER_API_KEY="sk-or-..."
-
-# Access to 300+ models including:
-x-ai/grok-4                 # 256K context, 64K output
-anthropic/claude-3.7-sonnet # 200K context, 128K output
-openai/gpt-5                # 400K context, 128K output
-deepseek/deepseek-r1        # 164K context, 164K output
-
-# Many free models available:
-deepseek/deepseek-r1:free
-google/gemini-2.0-flash-exp:free
-meta-llama/llama-3.3-70b-instruct:free
-
-# Usage
-opencode --provider openrouter --model x-ai/grok-4
-```
-
-### 🛠️ **Development Tools Integration**
-
-#### **Model Context Protocol (MCP) Servers**
+##### **Model Context Protocol (MCP) Servers**
+MCP servers are defined in `.chezmoidata/ai/mcp.yaml` and installed via Mise.
 ```bash
 # Install MCP servers for enhanced AI capabilities
-mise run install-python-mcp
+mise run install-mcp-servers
 
 # Available servers:
 mcphub list-servers
-mcphub test-server filesystem  # File system access
-mcphub test-server git         # Git repository access  
-mcphub test-server web         # Web scraping capabilities
 ```
 
-#### **Neovim AI Integration**
+##### **Neovim AI Integration**
+Neovim plugins like Avante, CodeCompanion, and Copilot provide a rich, integrated AI experience.
 
-| Tool          | Keybinding   | Provider       | Action                  |
-| ------------- | ------------ | -------------- | ----------------------- |
-| Avante        | `<leader>aa` | Claude         | Code assistance panel   |
-| CodeCompanion | `<leader>cc` | Multi-provider | Chat interface          |
-| Copilot       | `<C-g>`      | GitHub         | Inline suggestions      |
-| OpenCode      | `:OpenCode`  | Configurable   | AI pair programming     |
+##### **Command Line Tools**
+-   **OpenCode**: The primary interface for AI-assisted development.
+-   **Claude Desktop**: Syncs project context for chat.
+-   **GitHub Copilot CLI**: Quick suggestions and explanations.
 
-#### **Command Line Tools**
-```bash
-# OpenCode - Primary development AI
-opencode "help me debug this function"
-opencode --model claude-3-7-sonnet "explain this codebase"
+#### ⚙️ **Configuration Management**
 
-# Claude Desktop integration  
-claude-code --sync     # Sync current project context
-claude-code --chat     # Open chat with project awareness
+Switching providers or models is as simple as editing the relevant YAML file in `.chezmoidata/` and running `chezmoi apply`.
 
-# GitHub Copilot CLI
-gh copilot suggest "git command to undo last commit"
-gh copilot explain "docker build -t myapp ."
-```
-
-### ⚙️ **Configuration Management**
-
-#### **Switching Providers**
-```bash
-# Update OpenCode default provider
-chezmoi edit .chezmoidata/ai/ai-opencode.yaml
-
-# Change to Anthropic
-provider: anthropic
-model: claude-3-7-sonnet-20250219
-
-# Change to Google  
-provider: google
-model: gemini-2.5-pro
-
-# Apply changes
-chezmoi apply
-```
-
-#### **Model Limits Reference**
-All model context and output limits are configured in respective YAML files:
-
-- **High Context**: Gemini (1M+), Grok-4 (256K), Claude (200K)
-- **High Output**: Claude-3.7-Sonnet (64K), Gemini-2.5-Pro (65K)
-- **Balanced**: GPT-5 (128K/128K), Claude-Opus-4.1 (200K/32K)
-- **Fast/Free**: Flash models, Haiku, many OpenRouter free tiers
-
-### 🔄 **Workflow Examples**
-
-#### **Multi-Model Development**
-```bash
-# Start with fast model for planning
-opencode --model gemini-2.0-flash "plan the architecture for user auth"
-
-# Switch to powerful model for implementation  
-opencode --model claude-3-7-sonnet "implement the auth system"
-
-# Use specialized model for code review
-opencode --model deepseek-r1 "review this code for bugs"
-```
-
-#### **Context-Aware Development**
-```bash
-# Sync current project with Claude
-claude-code --sync
-
-# Get project-specific help
-opencode "following this project's patterns, add user profiles"
-
-# Multi-file analysis
-opencode --files src/auth.py,src/models.py "refactor for better separation"
-```
+-   **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode.
+-   **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
+-   **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
 
 ## 🛠️ Shell productivity features
 
@@ -1459,26 +1223,15 @@ Automatic cloning and management of personal and work repositories with conditio
 
 ## 🎯 Recent Major Update: .chezmoidata Reorganization
 
-The configuration data structure has been completely reorganized for maximum maintainability and clarity:
+The configuration data structure has been completely reorganized into a flat, granular, and language-centric system. This new architecture is the foundation of the **Template Factory System**, where simple, powerful data files in `.chezmoidata/` are used by generators in `.chezmoitemplates/` to create complex, tool-specific configurations.
 
 ### ✨ **What Changed**
-- **27 ultra-specific files** organized into 5 logical directories  
-- **Maximum decomposition** - each file has one clear purpose
-- **Platform separation** - clear macOS vs cross-platform distinction
-- **Context separation** - shared, personal, and work configurations split
-
-### 📁 **New Structure**
-```
-.chezmoidata/
-├── packages/     # 15 files - Package management by platform & context
-├── environment/  # 4 files - Environment variables & paths  
-├── system/       # 6 files - System configs & app settings
-├── development/  # 10 files - Dev tools & Neovim configs
-└── ai/          # 5 files - AI model configurations
-```
+- **Flat, Granular Data**: The nested directory structure (`packages/`, `development/`, etc.) has been replaced by a flat list of specific YAML files (e.g., `lsp.yaml`, `formatters.yaml`, `tools.yaml`).
+- **Single Source of Truth**: Each tool or package is defined only once.
+- **Template-Driven**: Configuration files are now simple one-line calls to template generators.
+- **Intuitive & Maintainable**: The new structure is easier to navigate, understand, and extend.
 
 ### 🚀 **Benefits**
-- **74% complexity reduction** in navigation
-- **Future-proof** for Linux expansion
-- **Intuitive organization** with descriptive file names
-- **Maintainable** with clear separation of concerns
+- **Reduced Complexity**: Simplified data access and management.
+- **Future-proof**: Easily extensible for new tools, platforms, and languages.
+- **Robustness**: Changes are propagated automatically and consistently.

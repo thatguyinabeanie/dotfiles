@@ -19,10 +19,14 @@ mise run setup-hooks
 lefthook run pre-commit
 
 # Apply dotfiles changes
-chezmoi apply
+chezmoi apply --force
 
 # See what changes would be made without applying them
 chezmoi diff
+
+# Validate template changes during development (recommended workflow)
+chezmoi apply --dry-run  # Test for template syntax errors
+chezmoi apply --force     # Apply only if dry-run succeeds
 
 # Run all tests
 cd .tests && go test ./...
@@ -36,6 +40,26 @@ cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=cov
 # Run relevant tests for changed files
 .tests/scripts/run_relevant_tests.sh
 ```
+
+## Template Development Best Practices
+
+### DRY Principle in Templates
+
+- **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract package lists for different managers
+- **Targeted hashing**: Package installer scripts use specific hash triggers (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire configuration files
+- **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch template syntax errors before applying changes
+
+### Iterative Development Workflow
+
+1. **Make template changes**
+2. **Validate with dry-run**: `chezmoi apply --dry-run`
+3. **Fix any template syntax errors**
+4. **Apply when validation passes**: `chezmoi apply --force`
+5. **Test the actual functionality** (installation scripts, etc.)
+
+This workflow prevents broken templates from being applied to your system and ensures robust template development.
+
+**Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test. If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
 
 ## Code Style Guidelines
 
@@ -60,32 +84,7 @@ cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=cov
 
 When adding cross-platform support, these files/directories are macOS-only and should use `{{- if eq .chezmoi.os "darwin" }}` conditionals:
 
-- **Directories**: `Library/`, `.chezmoidata/packages/` (macOS packages), `.chezmoiscripts/homebrew/`, `dot_config/aerospace/`, `dot_config/karabiner/`
+- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
 - **Homebrew Dependencies**: Profile/shell configs, tmux, nushell, ghostty configs reference `/opt/homebrew`
 - **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
 - **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
-
-## Cross-Platform Migration Plan
-
-### Phase 1: Package Management Restructure
-
-1. ✅ Moved Homebrew data: `homebrew/` → `packages/macos/`
-2. ✅ Updated all Homebrew script paths to use new structure
-3. Analyze `packages/macos/brews.yaml` - identify cross-platform packages
-4. Create `packages/shared.yaml` - brew→yay package name mappings
-5. Create `packages/linux.yaml` - Linux-only AUR packages
-6. Update package data to separate platform-specific vs shared packages
-
-### Phase 2: Script Organization
-
-1. Move `.chezmoiscripts/homebrew/` → `.chezmoiscripts/macos/`
-2. Create `.chezmoiscripts/linux/` with yay-based installation scripts
-3. Add OS conditionals to mise scripts (LaunchAgent parts)
-4. Keep cross-platform scripts (mise, rust, machine-setup) with internal conditionals
-
-### Phase 3: Configuration Conditionals
-
-1. Add to `.chezmoiignore`: `dot_config/aerospace/`, `dot_config/karabiner/`
-2. Wrap Homebrew paths in shell configs with `{{- if eq .chezmoi.os "darwin" }}`
-3. Conditionalize AppleScript commands in aliases
-4. Add macOS conditionals to app-specific settings

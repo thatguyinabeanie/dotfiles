@@ -1,5 +1,0 @@
-macos_casks_work:
-  # Work GUI applications
-  applications:
-    - aws-vpn-client
-    - lastpass

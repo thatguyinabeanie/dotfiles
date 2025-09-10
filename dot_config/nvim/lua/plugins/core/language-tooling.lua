@@ -24,7 +24,15 @@ return {
     opts = {
       servers = {
         bashls = { filetypes = { "sh", "bash", "zsh", "sh.tmpl", "zsh.tmpl" } },
-        lua_ls = { filetypes = { "lua", "lua.tmpl" } },
+        lua_ls = {
+          filetypes = { "lua", "lua.tmpl" },
+          root_dir = function(fname)
+            if vim.fn.stridx(fname, ".chezmoitemplates") ~= -1 then
+              return nil
+            end
+            return require("lspconfig.util").root_pattern(".git")(fname)
+          end,
+        },
         nushell = { filetypes = { "nu", "nu.tmpl" } },
         ruby_lsp = {},
         taplo = { filetypes = { "toml", "toml.tmpl" } },

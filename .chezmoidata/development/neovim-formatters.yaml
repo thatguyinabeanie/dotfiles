@@ -1,4 +1,0 @@
-neovim_formatters:
-  # Neovim formatter configurations
-  # Most formatters are configured via LSP servers
-  # This file contains formatter-specific settings

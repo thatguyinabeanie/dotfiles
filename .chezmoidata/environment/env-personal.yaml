@@ -1,5 +1,0 @@
-env_personal:
-  # Personal environment variables
-  variables:
-    PERSONAL_ENVIRONMENT: "{{ .PERSONAL_ENVIRONMENT | default false }}"
-    MANAGE_BREW_SERVICES: "{{ .personal.manage_brew_services | default true }}"

@@ -1,29 +1,23 @@
 #!/bin/bash
+{{- $services := (include ".chezmoidata/services.yaml" | fromYaml) }}
 
 options=(
-	style={{ .jankyborders.style }}
-	width={{ .jankyborders.width }}
-{{- if .jankyborders.hidpi }}
+	style={{ $services.app_configs.jankyborders.style }}
+	width={{ $services.app_configs.jankyborders.width }}
+{{- if $services.app_configs.jankyborders.hidpi }}
 	hidpi=on
 {{- else }}
 	hidpi=off
 {{- end }}
-	active_color=0x{{ .jankyborders.colors.active }}
-	inactive_color=0x{{ .jankyborders.colors.inactive }}
-{{- if .jankyborders.ax_focus }}
+	active_color={{ $services.app_configs.jankyborders.active_color }}
+	inactive_color={{ $services.app_configs.jankyborders.inactive_color }}
+{{- if $services.app_configs.jankyborders.ax_focus }}
 	ax_focus=on
 {{- else }}
 	ax_focus=off
 {{- end }}
-{{- if .jankyborders.blacklist }}
-{{- range $key, $app := .jankyborders.blacklist }}
-{{- if $app }}
-	blacklist="{{ $app }}"
-{{- end }}
-{{- end }}
-{{- end }}
-{{- if and .jankyborders.animations .jankyborders.animations.enabled }}
-	animation_duration={{ .jankyborders.animations.duration }}
+{{- if $services.app_configs.jankyborders.blur_radius }}
+	blur_radius={{ $services.app_configs.jankyborders.blur_radius }}
 {{- end }}
 )
 

@@ -1,0 +1,212 @@
+#!/bin/bash
+# Auto-generated Homebrew package installer
+# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai/agents.yaml, ai/mcp.yaml
+
+# Using direct template variable access (new pattern)
+
+{{ template "utilities/error-handling.sh" }}
+
+# Set default values for environment variables
+PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
+WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+# Check if Homebrew is installed, install if not
+if ! command_exists "brew"; then
+    log_info "Installing Homebrew Package Manager for macOS"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    log_success "Homebrew Package Manager installed"
+else
+    log_debug "Homebrew is already installed"
+fi
+
+# Ensure PATH is configured for Homebrew
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Function to install packages in batches
+install_brew_packages() {
+    local package_type="$1"
+    local packages="$2"
+    
+    if [[ -z "$packages" ]]; then
+        log_debug "No $package_type packages to install"
+        return 0
+    fi
+    
+    log_step "Installing $package_type packages"
+    
+    # Create temporary Brewfile
+    local brewfile=$(mktemp)
+    echo -e "$packages" > "$brewfile"
+    
+    # Install packages using Brewfile
+    if brew bundle install --file="$brewfile"; then
+        log_success "$package_type packages installed successfully"
+    else
+        log_error "Failed to install some $package_type packages"
+        return 1
+    fi
+    
+    # Clean up
+    rm -f "$brewfile"
+}
+
+# Install taps first
+log_step "Installing Homebrew taps"
+TAPS=""
+
+# Add required taps (manually curated list)
+TAPS="${TAPS}tap \"adoptopenjdk/openjdk\"\n"
+TAPS="${TAPS}tap \"charmbracelet/tap\"\n"
+TAPS="${TAPS}tap \"domt4/autoupdate\"\n"
+TAPS="${TAPS}tap \"felixkratz/formulae\"\n"
+TAPS="${TAPS}tap \"hashicorp/tap\"\n"
+TAPS="${TAPS}tap \"jesseduffield/lazydocker\"\n"
+TAPS="${TAPS}tap \"kubewall/tap\"\n"
+TAPS="${TAPS}tap \"nikitabobko/tap\"\n"
+
+install_brew_packages "taps" "$TAPS"
+
+# Collect all brew packages from different sources
+log_step "Collecting brew packages from all sources"
+BREWS=""
+
+# Language servers that install via brew
+{{- range .language_servers }}
+  {{- if eq .install_via "brew" }}
+BREWS="${BREWS}brew \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# Formatters that install via brew
+{{- range .formatters }}
+  {{- if eq .install_via "brew" }}
+BREWS="${BREWS}brew \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# Linters that install via brew
+{{- range .linters }}
+  {{- if eq .install_via "brew" }}
+BREWS="${BREWS}brew \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# Development tools that install via brew
+{{- range .dev_tools }}
+  {{- if eq .install_via "brew" }}
+BREWS="${BREWS}brew \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# AI agents that install via brew
+{{- range .agents }}
+  {{- if eq .install_via "brew" }}
+BREWS="${BREWS}brew \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+install_brew_packages "brews" "$BREWS"
+
+# Install casks
+log_step "Collecting cask packages"
+CASKS=""
+
+# AI agents that install via brew_cask
+{{- range .agents }}
+  {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# General applications that install via brew_cask
+{{- if .applications.shared }}
+  {{- range .applications.shared }}
+    {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+if [ "${PERSONAL_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.personal }}
+    {{- range .applications.personal }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
+if [ "${WORK_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.work }}
+    {{- range .applications.work }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
+install_brew_packages "casks" "$CASKS"
+
+# Install fonts (now managed as casks in agents.yaml)
+log_step "Installing fonts"
+FONTS=""
+{{- range .agents }}
+  {{- if and (eq .install_via "brew_cask") (eq .category "font") }}
+FONTS="${FONTS}cask \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+install_brew_packages "fonts" "$FONTS"
+
+# Install Mac App Store apps (now in agents.yaml)
+if command_exists "mas"; then
+    log_step "Installing Mac App Store apps"
+    {{- range .agents }}
+      {{- if eq .install_via "mas" }}
+    log_substep "Installing {{ .description }} (ID: {{ .mas_id }})"
+    if ! mas list | grep -q "{{ .mas_id }}"; then
+        mas install {{ .mas_id }} || log_warning "Failed to install {{ .description }}"
+    else
+        log_warning "Already installed: app ID {{ .mas_id }} ({{ .description }})"
+    fi
+      {{- end }}
+    {{- end }}
+else
+    log_warning "mas not available, skipping Mac App Store apps"
+fi
+
+# Setup automatic updates
+log_step "Setting up Homebrew automatic upgrades"
+if brew autoupdate status 2>&1 | grep -q "not configured"; then
+    if brew autoupdate start --upgrade --cleanup --immediate{{- if not .WORK_ENVIRONMENT }} --sudo{{- end }}; then
+        log_success "Homebrew automatic upgrades configured"
+    else
+        log_warning "Failed to configure automatic upgrades"
+    fi
+else
+    log_debug "Homebrew automatic upgrades already configured"
+fi
+
+# Summary
+log_header "Homebrew Installation Summary"
+log_info "Installed packages by category:"
+log_substep "Language servers: $(echo -e "$BREWS" | grep -E '(language-server|lsp|analyzer)' | wc -l | tr -d ' ')"
+log_substep "Formatters: $(echo -e "$BREWS" | grep -E '(fmt|format|yamlfix|yamlfmt)' | wc -l | tr -d ' ')"
+log_substep "Linters: $(echo -e "$BREWS" | grep -E '(lint|check|vale|hadolint|tflint|cspell)' | wc -l | tr -d ' ')"
+log_substep "Development tools: $(echo -e "$BREWS" | grep -v -E '(language-server|lsp|analyzer|fmt|format|yamlfix|yamlfmt|lint|check|vale|hadolint|tflint|cspell)' | wc -l | tr -d ' ')"
+log_substep "GUI applications: $(echo -e "$CASKS" | wc -l | tr -d ' ')"
+log_substep "Fonts: $(echo -e "$FONTS" | wc -l | tr -d ' ')"
+
+log_success "Homebrew package installation completed"
+
+{{- else }}
+log_warning "This script is designed for macOS only"
+exit 0
+{{- end }}

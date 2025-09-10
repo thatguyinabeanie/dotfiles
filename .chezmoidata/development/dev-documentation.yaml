@@ -1,9 +1,0 @@
-dev_documentation:
-  # Documentation and presentation tools
-  documentation_tools:
-    - marp-cli
-    - mdbook
-    - markdown-oxide
-
-  utility_tools:
-    - ast-grep

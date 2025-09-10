@@ -1,0 +1,13 @@
+{{- /*
+  Generates the JSON model object for a single provider.
+  Expects a string context (the provider name, e.g., "google").
+*/ -}}
+{{- $provider := .Provider -}}
+{{- $yamlPath := printf "%s/.chezmoidata/ai/%s.yaml" .SourceDir $provider -}}
+{{- $providerData := (index (fromYaml (include $yamlPath)) $provider) -}}
+{{- $modelsObj := dict -}}
+{{- range $providerData.models -}}
+  {{- $modelsObj = set $modelsObj .name (dict "limit" .limit) -}}
+{{- end -}}
+{{- $json := toPrettyJson $modelsObj -}}
+{{- "\n" | indent .Indent }}{{ $json | indent .Indent }}

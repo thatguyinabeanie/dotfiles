@@ -12,3 +12,4 @@ AGENTS.md
 opencode.json
 mise.local.toml
 lefthook.yml
+.augmentignore

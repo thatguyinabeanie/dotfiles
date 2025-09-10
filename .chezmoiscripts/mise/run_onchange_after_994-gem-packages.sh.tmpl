@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# This script installs gem packages not managed by mise or Mason
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "gem" "root" .) }}
+
+set -euo pipefail
+
+# Ensure Ruby is available via mise
+if ! mise which ruby >/dev/null 2>&1; then
+    echo "❌ Ruby not found. Please run mise installation first."
+    exit 1
+fi
+
+echo "📦 Collecting gem packages..."
+
+# Collect gem packages not managed by Mason
+GEM_PACKAGES=()
+
+# Language servers not managed by Mason
+{{- range .language_servers }}
+{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Formatters not managed by Mason
+{{- range .formatters }}
+{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+# Linters not managed by Mason
+{{- range .linters }}
+{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+if [[ ${#GEM_PACKAGES[@]} -eq 0 ]]; then
+    echo "✅ No gem packages to install (all handled by Mason or mise)"
+    exit 0
+fi
+
+echo "📦 Installing ${#GEM_PACKAGES[@]} gem packages..."
+
+for package in "${GEM_PACKAGES[@]}"; do
+    echo "📦 Installing $package..."
+    if gem list -i "$package" >/dev/null 2>&1; then
+        echo "  ✅ $package already installed"
+    elif gem install "$package" >/dev/null 2>&1; then
+        echo "  ✅ $package installed successfully"
+    else
+        echo "  ❌ Failed to install $package"
+    fi
+done
+
+echo "✅ Ruby gem package installation completed"
