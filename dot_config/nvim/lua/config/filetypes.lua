@@ -5,7 +5,12 @@
 vim.filetype.add({
   extension = {
     tmpl = function(path, bufnr)
-      -- Detect the base extension before .tmpl
+      -- Let chezmoi plugin handle .tmpl files in chezmoi directories
+      if path:match("/%.local/share/chezmoi/") then
+        return nil -- Don't set filetype, let chezmoi plugin handle it
+      end
+      
+      -- For non-chezmoi .tmpl files, use our detection
       local base_name = vim.fn.fnamemodify(path, ":t:r")
       local base_ext = vim.fn.fnamemodify(base_name, ":e")
 
@@ -14,6 +19,7 @@ vim.filetype.add({
       end
       return "tmpl"
     end,
+    -- ["ipynb"] = "json",
     ["yml.erb"] = "yaml.erb",
     ["yaml.erb"] = "yaml.erb",
   },
@@ -27,7 +33,6 @@ vim.filetype.add({
     [".*%.yaml%.tmpl"] = "yaml.tmpl",
     [".*%.yml%.tmpl"] = "yaml.tmpl",
     [".*%.json%.tmpl"] = "json.tmpl",
-    [".*%.lua%.tmpl"] = "lua.tmpl",
     [".*%.sh%.tmpl"] = "sh.chezmoitmpl",
     [".*%.zsh%.tmpl"] = "zsh.tmpl",
     [".*%.nu%.tmpl"] = "nu.tmpl",

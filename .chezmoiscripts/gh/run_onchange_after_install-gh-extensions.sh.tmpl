@@ -15,7 +15,6 @@ set -euo pipefail
 if [[ "{{ .INSTALL_GH_EXTENSIONS }}" != "true" ]]; then
   exit 0
 fi
-
 if command -v gh >/dev/null 2>&1; then
   gh config set git_protocol https
   echo "🔧 Installing GitHub CLI extensions..."

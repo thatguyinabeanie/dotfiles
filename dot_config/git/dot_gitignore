@@ -9,4 +9,7 @@ AGENTS.md
 *mise.toml
 *.http
 .vite
+opencode.json
+mise.local.toml
+lefthook.yml
 .augmentignore
