@@ -59,6 +59,8 @@ cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=cov
 
 This workflow prevents broken templates from being applied to your system and ensures robust template development.
 
+**Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test. If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
+
 ## Code Style Guidelines
 
 - **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive). Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
