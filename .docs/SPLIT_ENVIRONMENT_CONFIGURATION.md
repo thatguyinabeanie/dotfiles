@@ -1,181 +1,245 @@
 # Split Environment Configuration System
 
-The environment variable configuration has been split into logical, manageable files within `MISSION_CONTROL/.chezmoidata/environment/`.
+The environment variable configuration uses a personal/work split approach within the `.chezmoidata/` directory structure.
 
 ## Directory Structure
 
 ```text
-MISSION_CONTROL/.chezmoidata/environment/
-├── xdg.yaml           # XDG directories + app configs + editor + theming
-├── path.yaml          # PATH configuration
-├── git.yaml           # Git configuration
-├── nodejs.yaml        # Node.js and npm tools
-├── compilation.yaml   # Build tools and compilers
-├── work.yaml          # Work/corporate environment
-├── conditional.yaml   # Conditional variables (docker, ai)
-└── shells/
-    ├── zsh.yaml       # Zsh-specific config
-    ├── nushell.yaml   # Nushell-specific config
-    ├── bash.yaml      # Bash-specific config
-    └── fish.yaml      # Fish-specific config
+.chezmoidata/
+├── personal.yaml        # Personal development environment
+├── work.yaml           # Work/corporate environment  
+├── shared.yaml         # Shared configuration across contexts
+├── applications.yaml   # Application-specific configurations
+├── tools.yaml          # Development tools and utilities
+├── lsp.yaml           # Language Server Protocol configurations
+├── services.yaml      # macOS system services configuration
+└── ai/                # AI provider configurations
+    ├── agents.yaml
+    └── github-copilot.yaml
 ```
 
-## Benefits of Split Configuration
+## Configuration Philosophy
 
-### ✅ **Focused Editing**
+### ✅ **Context-Based Split**
 
-- **Add Git variables** → Edit only `git.yaml`
-- **Add Node.js tools** → Edit only `nodejs.yaml`
-- **Add new app directory** → Edit only `xdg.yaml`
-- **Add work environment** → Edit only `work.yaml`
+- **Personal development** → `personal.yaml`
+- **Work environment** → `work.yaml`  
+- **Shared settings** → `shared.yaml`
+- **App-specific config** → `applications.yaml`
 
-### ✅ **Clear Organization**
+### ✅ **Tool-Focused Organization**
 
-- Each file has a single responsibility
-- Related variables are grouped together
-- Easy to find and modify specific settings
+- Development tools and utilities in `tools.yaml`
+- LSP server configurations in `lsp.yaml`
+- System services in `services.yaml`
+- AI configurations in `ai/` subdirectory
 
-### ✅ **Reduced Conflicts**
+### ✅ **Template Integration**
 
-- Multiple people can edit different areas simultaneously
-- Changes are isolated to specific domains
-- Easier to review and understand changes
+- All YAML files provide data for Chezmoi templates
+- Environment variables generated in shell profiles
+- Conditional logic based on work/personal context
+- Cross-platform compatibility with macOS/Linux detection
 
-### ✅ **Maintainability**
+## Core Configuration Files
 
-- Small, focused files are easier to understand
-- Comments and documentation can be more specific
-- Testing changes is more targeted
+### Personal vs Work Split
 
-## File Descriptions
+**`personal.yaml`** - Personal development environment
+```yaml
+# Personal development settings
+DEVELOPMENT_MODE: true
+PERSONAL_PROJECTS_DIR: "{{ .chezmoi.homeDir }}/Code/personal"
+GITHUB_USERNAME: "personal-username"
+```
 
-### Core Configuration Files
+**`work.yaml`** - Work/corporate environment  
+```yaml
+# Work environment settings
+WORK_ENVIRONMENT: true
+WORK_PROJECTS_DIR: "{{ .chezmoi.homeDir }}/Code/work"
+CORPORATE_PROXY: "http://proxy.company.com:8080"
+```
 
-**`xdg.yaml`** - XDG Base Directory + App Configurations
-
+**`shared.yaml`** - Cross-context configuration
 ```yaml
 # XDG Base Directories
-XDG_CONFIG_HOME: "$XDG_HOME/.config"
-XDG_DATA_HOME: "$XDG_HOME/.local/share"
+XDG_CONFIG_HOME: "{{ .chezmoi.homeDir }}/.config"
+XDG_DATA_HOME: "{{ .chezmoi.homeDir }}/.local/share"
 
-# Application Directories
-TMUX_CONFIG_DIR: "$XDG_CONFIG_HOME/tmux"
-VSCODE_USER_DATA_DIR: "$XDG_CONFIG_HOME/code"
-GOPATH: "$XDG_CONFIG_HOME/go"
-
-# Editor & Theming
+# Editor configuration
 EDITOR: "nvim"
-BAT_THEME: "Catppuccin {{ title .CATPPUCCIN_FLAVOR }}"
+VISUAL: "nvim"
 ```
 
-**`path.yaml`** - PATH Configuration
+### Tool-Specific Configuration
 
+**`applications.yaml`** - Application configurations
 ```yaml
-entries:
-  - "/usr/local/bin"
-  - "/opt/homebrew/bin"
-  - "$HOME/.cargo/bin"
-  - "$HOME/.local/bin"
+# Browser settings
+DEFAULT_BROWSER: "{{ .applications.browser }}"
+
+# Terminal applications
+TERMINAL: "{{ .applications.terminal }}"
+TMUX_CONFIG: "{{ .chezmoi.homeDir }}/.config/tmux"
 ```
 
-### Domain-Specific Configuration
-
-**`compilation.yaml`** - Build flags and compilation
-
+**`tools.yaml`** - Development tools
 ```yaml
-SDKROOT: "$(xcrun --sdk macosx --show-sdk-path)"
-LDFLAGS: "-L/opt/homebrew/opt/openssl@3/lib"
-CPPFLAGS: "-I/opt/homebrew/opt/openssl@3/include"
-```
-
-**`git.yaml`** - Git configuration
-
-```yaml
-GIT_CONFIG_GLOBAL: "$XDG_CONFIG_HOME/git/config"
-GIT_CONFIG_SYSTEM: "/etc/gitconfig"
-```
-
-**`nodejs.yaml`** - Node.js and FNM
-
-```yaml
-FNM_VERSION_FILE_STRATEGY: "local"
+# Version managers
 FNM_DIR: "{{ .chezmoi.homeDir }}/.local/share/fnm"
-FNM_LOGLEVEL: "info"
+MISE_CONFIG_DIR: "{{ .chezmoi.homeDir }}/.config/mise"
+
+# Build tools  
+CARGO_HOME: "{{ .chezmoi.homeDir }}/.cargo"
+GOPATH: "{{ .chezmoi.homeDir }}/go"
 ```
 
-**`work.yaml`** - Work/corporate environment
-
+**`lsp.yaml`** - Language Server Protocol
 ```yaml
-WORK_ENVIRONMENT: "{{ .WORK_ENVIRONMENT | default false }}"
-GOOGLE_CLOUD_PROJECT: "{{ .work.google_cloud_project }}"
-DOCKER_DEFAULT_PLATFORM: "linux/amd64"
-KUBERNETES_NAMESPACE: "{{ .work.k8s_namespace }}"
+# LSP server configurations for Neovim/editors
+formatters:
+  lua: ["stylua"]
+  go: ["gofumpt", "goimports"]
+  
+linters:  
+  lua: ["luacheck"]
+  go: ["golangci-lint"]
 ```
 
-### Shell-Specific Configuration
+## Template Usage
 
-**`shells/zsh.yaml`**, **`shells/nushell.yaml`**, **`shells/bash.yaml`**, **`shells/fish.yaml`** - Shell-specific variables and settings
+### Environment Generation
+
+Environment variables are generated in shell templates:
+
+**`dot_zshenv.tmpl`** - Zsh environment
+```bash
+{{ if .WORK_ENVIRONMENT -}}
+# Work environment active
+export WORK_MODE=true
+{{ else -}}
+# Personal environment active  
+export PERSONAL_MODE=true
+{{ end -}}
+
+# Shared settings
+export EDITOR="{{ .EDITOR }}"
+export XDG_CONFIG_HOME="{{ .XDG_CONFIG_HOME }}"
+```
+
+**`env.nu.tmpl`** - Nushell environment
+```nushell
+{{ if .WORK_ENVIRONMENT -}}
+$env.WORK_MODE = true
+{{ else -}}
+$env.PERSONAL_MODE = true  
+{{ end -}}
+
+$env.EDITOR = "{{ .EDITOR }}"
+```
 
 ### Conditional Configuration
 
-**`conditional.yaml`** - Environment-specific variables
-
+**Work Detection Logic**:
 ```yaml
-docker_credentials:
-  condition: '{{ if and (hasKey . "docker.password") (hasKey . "docker.username") }}'
-  variables:
-    DOCKERHUB_PASSWORD: "{{ .docker.password }}"
+# In personal.yaml or work.yaml
+WORK_ENVIRONMENT: {{ .work.enabled | default false }}
 ```
+
+**Platform Detection**:
+```yaml
+{{ if eq .chezmoi.os "darwin" -}}
+# macOS-specific configuration
+HOMEBREW_PREFIX: "/opt/homebrew"
+{{ else if eq .chezmoi.os "linux" -}}
+# Linux-specific configuration  
+HOMEBREW_PREFIX: "/home/linuxbrew/.linuxbrew"
+{{ end -}}
+```
+
+## Actual Implementation Details
+
+### Current Structure Benefits
+
+1. **Simple organization**: Flat YAML structure in `.chezmoidata/`
+2. **Clear separation**: Personal/work split with shared common config
+3. **Tool-focused**: Dedicated files for specific tool categories
+4. **Template-driven**: All configuration flows through Chezmoi templates
+
+### Key Differences from Previous Design
+
+- **No nested environment directory**: Uses flat `.chezmoidata/` structure
+- **No shell-specific YAML files**: Shell differences handled in templates
+- **No complex loading system**: Simple template-based generation
+- **No environment modules**: Direct YAML data to template flow
 
 ## Usage Examples
 
-### Adding a New Development Tool
+### Adding New Development Tool
 
-#### Example: Adding Rust environment variables
-
-- **Create or edit the relevant file**:
-
-```bash
-# Add to apps.yaml or create rust.yaml
-RUSTUP_HOME: "$XDG_DATA_HOME/rustup"
-CARGO_HOME: "$XDG_DATA_HOME/cargo"
-````
-
-- **Variables automatically appear in both shells** when templates are applied
-
-### Adding IDE Support
-
-- **Edit `ide.yaml`**:
-
+**Edit `tools.yaml`**:
 ```yaml
-CURSOR_USER_DATA_DIR: "$XDG_CONFIG_HOME/cursor"
-ZED_CONFIG_DIR: "$XDG_CONFIG_HOME/zed"
+# Add Rust configuration
+RUSTUP_HOME: "{{ .chezmoi.homeDir }}/.local/share/rustup"
+CARGO_HOME: "{{ .chezmoi.homeDir }}/.cargo"
+RUST_BACKTRACE: "1"
 ```
 
-- **Apply changes**:
-
+**Apply changes**:
 ```bash
 chezmoi apply
 ```
 
-### Adding Conditional Variables
+### Adding Work-Specific Setting
 
-- **Edit `conditional.yaml`**:
-
+**Edit `work.yaml`**:
 ```yaml
-rust_development:
-  condition: "{{ if .rust.enabled }}"
-  variables:
-    RUST_BACKTRACE: "1"
-    RUSTC_WRAPPER: "sccache"
+# Add corporate tool
+CORPORATE_VPN: "{{ .work.vpn_endpoint }}"
+KUBERNETES_NAMESPACE: "{{ .work.k8s_namespace }}"
 ```
 
-## Migration Strategy
+### Adding Cross-Platform Path
 
-This split structure provides:
+**Edit `shared.yaml`**:
+```yaml
+{{ if eq .chezmoi.os "darwin" -}}
+HOMEBREW_BIN: "/opt/homebrew/bin"
+{{ else -}}
+HOMEBREW_BIN: "/home/linuxbrew/.linuxbrew/bin"  
+{{ end -}}
+```
 
-- **Immediate benefits** - easier navigation and editing
-- **Future flexibility** - can create template automation later
-- **Clean organization** - logical grouping of related variables
+## Integration with Other Systems
 
-The simple templates (`dot_zshenv_simple.tmpl` and `env_simple.nu.tmpl`) provide a clean baseline that can be enhanced with this modular structure as needed.
+### LSP Integration
+- `lsp.yaml` provides configuration for Neovim LSP servers
+- Formatters and linters defined per language
+- Mason tool management integration
+
+### Services Integration  
+- `services.yaml` manages macOS LaunchAgents
+- Automatic service restart on configuration changes
+- Integration with Homebrew services
+
+### AI Integration
+- `ai/` directory contains AI provider configurations
+- GitHub Copilot settings and API keys
+- Agent configurations for different AI tools
+
+## Migration and Maintenance
+
+### Current Benefits
+- **Simpler than documented**: Actual implementation is more straightforward
+- **Effective organization**: Personal/work split works well in practice
+- **Easy to maintain**: Flat structure is easier to navigate and modify
+- **Template flexibility**: Chezmoi templates provide needed conditional logic
+
+### Future Enhancements
+- Could add shell-specific sections within existing files
+- Could expand AI configurations as new tools are added
+- Could add more sophisticated work environment detection
+- Could implement configuration validation
+
+This split configuration approach provides an effective balance between organization and simplicity, making it easy to maintain environment configurations across different contexts and platforms.

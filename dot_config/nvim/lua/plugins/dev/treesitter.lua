@@ -10,7 +10,8 @@ return {
     event = { "BufReadPost", "BufNewFile" },
 
     config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      require("nvim-treesitter.install").prefer_git = true
+      require("nvim-treesitter").setup(opts)
       -- Register template file associations
       for parser, templates in pairs(config.filetypes.templates) do
         local tmpl_list = type(templates) == "table" and templates or { templates }

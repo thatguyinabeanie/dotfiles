@@ -1,4 +1,4 @@
-# AGENTS.md
+# AGENTS-nvim.md
 
 ## Project Overview
 
@@ -142,6 +142,22 @@ stylua .
 - `<leader>ap` - Prompt actions
 - `<leader>ax` - Clear chat
 
+**OpenCode AI Assistant:**
+- `<leader>oc` - Toggle opencode
+- `<leader>oA` - Ask opencode (free form)
+- `<leader>oa` - Ask opencode about cursor/selection
+- `<leader>on` - New opencode session
+- `<leader>or` - Reset opencode session
+- `<leader>oy` - Copy last opencode response
+- `<leader>os` - Select opencode prompt
+- `<leader>oe` - Explain this code
+- `<leader>of` - Fix issues in buffer
+- `<leader>od` - Document selected code (visual mode)
+- `<leader>oT` - Generate tests for this
+- `<leader>oD` - Fix diagnostics
+- `<leader>og` - Review git diff
+- `<S-C-u>/<S-C-d>` - Navigate opencode messages
+
 **REST API Testing (Kulala):**
 - `<leader>R` - +REST menu
 - `<leader>Rs` - Send request
@@ -208,7 +224,7 @@ stylua .
 - `<leader>f*` - File operations
 - `<leader>g*` - Git operations  
 - `<leader>l*` - Lazy operations
-- `<leader>o*` - Overseer/Task operations
+- `<leader>o*` - OpenCode AI operations & Overseer/Task operations
 - `<leader>q*` - Quit/Session operations
 - `<leader>r*` - Refactoring operations
 - `<leader>s*` - Search operations
@@ -274,64 +290,230 @@ stylua .
 - `.lazyvim.json`: LazyVim extras and version tracking
 
 
-## Potential Enhancements
+## Plugin Architecture
 
-1. Plugin Dependency Mapping
+### Core Plugins (`lua/plugins/core/`)
 
-• Document which plugins depend on others (e.g.,
-blink-cmp needs snippets, avante needs copilot)
-• Show external tool requirements (LSP servers,
-formatters, linters)
-• Map LazyVim extras to their dependencies
+**blink-cmp.lua**: Advanced completion engine
+- Modern replacement for nvim-cmp with better performance
+- Supports LSP, snippets, buffer, and path sources
+- Custom keymaps for completion navigation
+- Integration with AI completion providers
 
-2. Troubleshooting Guide
+**snacks-*.lua**: LazyVim's utility plugin suite
+- **snacks-core.lua**: Core snacks configuration
+- **snacks-dashboard.lua**: Welcome screen and session management
+- **snacks-indent.lua**: Indent guides and scope highlighting
 
-• Common plugin conflicts and resolutions
-• LSP server installation issues
-• Performance debugging steps
-• Template syntax error patterns in chezmoi
+**treewalker.lua**: AST-aware navigation
+- Intelligent movement through code structure
+- Respects language syntax for better navigation
+- Alternative to traditional word/paragraph movement
 
-3. File Type & Event Mapping
+### AI Plugins (`lua/plugins/ai/`)
 
-• Which plugins activate for specific file types
-• Lazy loading events and their triggers
-• Custom file type associations (.tmpl files, etc.)
+**copilot.lua**: GitHub Copilot integration
+- AI-powered code completion and suggestions
+- Chat interface for code explanations
+- Integration with completion system
 
-4. Configuration Patterns
+**codecompanion.lua**: Multi-provider AI assistant
+- Support for multiple AI providers (OpenAI, Anthropic, etc.)
+- Inline chat and code generation
+- Context-aware suggestions
 
-• How to properly override LazyVim defaults
-• Plugin configuration inheritance patterns
-• Safe ways to disable LazyVim extras
-• Template integration best practices
+**avante.lua**: Advanced AI coding assistant
+- Sophisticated AI interactions
+- Code review and refactoring suggestions
+- Multi-turn conversations
 
-5. Environment Dependencies
+**mcp-hub.lua**: Model Context Protocol integration
+- Standardized AI model interactions
+- Plugin ecosystem for AI tools
+- Extensible AI capabilities
 
-• Required external tools and their versions
-• Environment variables that affect behavior
-• Platform-specific considerations (macOS vs Linux)
-• Chezmoi integration points
+### UI Plugins (`lua/plugins/ui/`)
 
-6. Performance Considerations
+**theme.lua**: Catppuccin color scheme
+- Dynamic light/dark mode switching
+- Consistent theming across all components
+- Integration with system appearance
 
-• Startup time optimization tips
-• Lazy loading best practices
-• Memory usage patterns
-• Plugin load order impact
+**noice.lua**: Enhanced UI components
+- Better command line interface
+- Improved notifications and messages
+- Hover documentation styling
 
-7. Integration Points
+**indent-blankline.lua**: Visual indentation guides
+- Subtle indent line visualization
+- Scope highlighting for nested structures
+- Integration with treesitter
 
-• How custom plugins should integrate with existing setup
-• Safe extension points for new functionality
-• Conflict avoidance strategies
-• Testing new configurations
+### Utility Plugins (`lua/plugins/utilities/`)
 
-8. Quick Reference Sections
+**vim-tmux-navigator.lua**: Seamless tmux integration
+- Unified navigation between vim splits and tmux panes
+- Smart detection of tmux environment
+- Consistent `Ctrl+hjkl` navigation
 
-• Common file paths and their purposes
-• Plugin override examples
-• Debugging commands
-• Health check interpretation
+**kulala.lua**: REST API testing
+- HTTP request execution from buffer
+- Response visualization and formatting
+- Integration with multiple output formats
 
-Which of these would be most valuable for your use case?
-I can start with the ones that would help agents make
-safer, more informed changes to the configuration.
+**image.lua**: Inline image rendering
+- Display images directly in Neovim buffers
+- Support for various image formats
+- Integration with terminal image protocols
+
+**chezmoi.lua**: Dotfiles management integration
+- Chezmoi template syntax highlighting
+- Direct editing of chezmoi-managed files
+- Template validation and testing
+
+### Development Tools
+
+**Git Integration:**
+- **fugitive.lua**: Core Git operations and staging
+- **diffview.lua**: Side-by-side diff visualization with smart toggling
+- **blame.lua**: Inline Git blame annotations
+
+**Language Support:**
+- **treesitter.lua**: Syntax highlighting and text objects
+- **mason.lua**: LSP server and tool management
+- **lsp configurations**: Per-language LSP setups
+
+**Testing & Debugging:**
+- Neotest integration for running tests
+- DAP (Debug Adapter Protocol) configurations
+- Language-specific debugging setups
+
+## Jupyter Notebook Integration
+
+### Overview
+
+This configuration includes a comprehensive Jupyter Notebook environment that works entirely within Neovim, eliminating the need for external browser windows or separate applications.
+
+### Core Components
+
+**jupytext.nvim**: Transparent file conversion
+- Automatically converts `.ipynb` files to editable text formats
+- Supports Quarto Markdown (`.qmd`) and Python script formats
+- Seamless sync between notebook and text representations
+
+**molten-nvim**: Kernel communication engine
+- Manages Jupyter kernels and execution
+- Displays text-based output in dedicated panels
+- Handles code cell execution and management
+
+**quarto-nvim**: Language server integration
+- Provides LSP features (completion, diagnostics) in code cells
+- Supports mixed-language documents
+- Integration with Quarto ecosystem
+
+**image.nvim**: Rich output rendering
+- Displays matplotlib plots and images inline
+- Terminal graphics protocol support
+- Integration with notebook output system
+
+### Notebook Workflow
+
+1. **Opening Notebooks**: Open `.ipynb` files directly; jupytext creates editable `.qmd` buffer
+2. **Kernel Management**: Use `<localleader>i` to initialize and select Python kernel
+3. **Code Execution**: Navigate to code cells and use `<localleader>r` to execute
+4. **Output Handling**: Text output appears in bottom panel, plots in side panel
+5. **Saving**: Regular `:w` saves back to original `.ipynb` format
+
+### Prerequisites
+
+**Python Environment:**
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -U pip jupyter jupytext ipykernel quarto matplotlib pandas seaborn
+```
+
+**External Dependencies:**
+- `ueberzug` or `ueberzugpp` for image rendering (Linux/macOS only)
+- Active Python virtual environment when launching Neovim
+
+### Keybindings
+
+| Key | Action | Description |
+|-----|--------|-------------|
+| `<localleader>i` | Initialize kernel | Start Jupyter kernel session |
+| `<localleader>r` | Run cell | Execute current code cell |
+| `<localleader>d` | Delete output | Remove cell output |
+
+### Troubleshooting
+
+- **Kernel not found**: Ensure virtual environment is active when starting Neovim
+- **No plots**: Verify `ueberzug` installation and terminal support
+- **No LSP**: Check `quarto` package installation and LSP attachment
+- **No sync**: Verify `jupytext` CLI tool is available in PATH
+
+## Integration Points
+
+### Tmux Integration
+- **vim-tmux-navigator**: Seamless pane navigation
+- **Shared clipboard**: Copy/paste between tmux and Neovim
+- **Session awareness**: Neovim detects tmux environment
+
+### Terminal Integration (Ghostty)
+- **True color support**: Full RGB color rendering
+- **Font optimization**: Proper font rendering and sizing
+- **Image support**: Terminal graphics for inline images
+
+### Chezmoi Integration
+- **Template support**: Syntax highlighting for `.tmpl` files
+- **Live editing**: Direct editing of chezmoi-managed configurations
+- **Validation**: Template syntax checking and testing
+
+### Git Workflow
+- **Staging interface**: Visual Git operations with Fugitive
+- **Diff viewing**: Side-by-side comparisons with Diffview
+- **Blame integration**: Inline Git history and attribution
+
+## Performance Optimizations
+
+### Startup Time
+- Aggressive lazy loading of plugins
+- Conditional loading based on file types
+- Minimal startup configuration
+
+### Memory Usage
+- Efficient plugin management with lazy.nvim
+- Unloading of unused language servers
+- Optimized treesitter parsers
+
+### Responsiveness
+- Async operations for heavy tasks
+- Non-blocking UI updates
+- Efficient buffer management
+
+## Customization Guidelines
+
+### Adding New Plugins
+1. Determine appropriate category directory
+2. Follow LazyVim plugin specification format
+3. Use lazy loading with appropriate triggers
+4. Document new keybindings and avoid conflicts
+
+### Modifying Keymaps
+1. Check existing keymap patterns to avoid conflicts
+2. Use appropriate leader key prefixes
+3. Document changes in this file
+4. Test with vim-tmux-navigator integration
+
+### Theme Customization
+1. Modify `theme.lua` for color scheme changes
+2. Ensure consistency with tmux and terminal themes
+3. Test in both light and dark modes
+4. Consider accessibility requirements
+
+### Language Support
+1. Add LSP configurations in appropriate files
+2. Configure formatters and linters in Mason
+3. Set up debugging configurations if needed
+4. Add language-specific keybindings with `<localleader>`
+
+This Neovim configuration provides a powerful, modern development environment that integrates seamlessly with the broader dotfiles ecosystem while maintaining the flexibility and extensibility that makes Neovim exceptional.

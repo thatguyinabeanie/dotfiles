@@ -1,35 +1,34 @@
-# Testing infrastructure & CI/CD
+# Testing Infrastructure
 
-Comprehensive guide to the testing system and continuous integration setup for the dotfiles repository.
+Comprehensive guide to the testing system for the dotfiles repository.
 
-## 🏗️ Testing architecture
+## 🏗️ Testing Architecture
 
 ```text
 Testing Infrastructure:
-├── Unit Tests (_tests_/unit/)
+├── Unit Tests (.tests/unit/)
 │   ├── config_test.go           # Configuration validation
-│   └── nvim_config_test.go      # Neovim setup testing
-├── Integration Tests (_tests_/integration/)
-│   ├── fs_test.go              # File system operations
-│   └── obsidian_test.go        # Obsidian integration
+│   ├── nvim_config_test.go      # Neovim setup testing  
+│   └── tmux_config_test.go      # Tmux configuration testing
+├── Integration Tests (.tests/integration/)
+│   └── fs_test.go              # File system operations
 ├── GitHub Actions (.github/workflows/)
-│   ├── test.yml                # Main test suite
-│   ├── test-nvim.yml           # Neovim-specific tests
 │   ├── lint.yml                # Code quality checks
 │   └── security.yml            # Security scanning
-└── Scripts (_tests_/scripts/)
-    ├── run_relevant_tests.sh   # Smart test execution
-    └── test_nvim_startup.sh    # Neovim startup validation
+├── Helpers (.tests/helpers/)
+│   └── testutils.go            # Shared test utilities
+└── Scripts (.tests/scripts/)
+    └── run_relevant_tests.sh   # Smart test execution
 ```
 
-## 🧪 Test types & coverage
+## 🧪 Test Types & Coverage
 
-### Unit tests
+### Unit Tests
 
-**Location**: `_tests_/unit/`
-**Purpose**: test individual components and configurations
+**Location**: `.tests/unit/`  
+**Purpose**: Test individual components and configurations
 
-#### Configuration tests (`config_test.go`)
+#### Configuration Tests (`config_test.go`)
 
 ```go
 // Tests chezmoi configuration validity
@@ -39,15 +38,15 @@ func TestChezmoiConfig(t *testing.T) {
     // Verifies configuration completeness
 }
 
-// Tests mise integration
-func TestMiseConfig(t *testing.T) {
-    // Validates language version specifications
-    // Checks dependency management setup
-    // Verifies hook configurations
+// Tests data structure integrity
+func TestDataStructure(t *testing.T) {
+    // Validates YAML structure in .chezmoidata/
+    // Checks for required fields
+    // Verifies cross-references
 }
 ```
 
-#### Neovim tests (`nvim_config_test.go`)
+#### Neovim Tests (`nvim_config_test.go`)
 
 ```go
 // Tests plugin configuration integrity
@@ -65,9 +64,20 @@ func TestLuaConfig(t *testing.T) {
 }
 ```
 
+#### Tmux Tests (`tmux_config_test.go`)
+
+```go
+// Tests tmux configuration validity
+func TestTmuxConfig(t *testing.T) {
+    // Validates tmux.conf syntax
+    // Checks plugin configurations
+    // Verifies keybinding definitions
+}
+```
+
 ### Integration Tests
 
-**Location**: `_tests_/integration/`
+**Location**: `.tests/integration/`  
 **Purpose**: Test cross-component functionality and real-world scenarios
 
 #### File System Tests (`fs_test.go`)
@@ -88,140 +98,91 @@ func TestChezmoiApply(t *testing.T) {
 }
 ```
 
-#### Obsidian Integration (`obsidian_test.go`)
+### Test Utilities
+
+#### Shared Helpers (`helpers/testutils.go`)
 
 ```go
-// Tests vault setup and configuration
-func TestObsidianSetup(t *testing.T) {
-    // Validates vault creation
-    // Tests external repository cloning
-    // Verifies configuration templating
+// Common test utilities and setup functions
+func SetupTestEnvironment() TestEnv {
+    // Creates isolated test environment
+    // Sets up temporary directories
+    // Configures test data
+}
+
+func CleanupTestEnvironment(env TestEnv) {
+    // Removes test artifacts
+    // Restores original state
+    // Cleans up temporary files
 }
 ```
 
 ## 🚀 CI/CD Workflows
 
-### Main Test Suite (`.github/workflows/test.yml`)
+### Lint Workflow (`.github/workflows/lint.yml`)
 
-**Triggers**: Push to main, pull requests
-**Matrix Strategy**: Multiple OS and Go versions
-
-```yaml
-strategy:
-  matrix:
-    os: [ubuntu-latest, macos-latest]
-    go-version: [1.21, 1.22]
-
-steps:
-  - name: Run Tests
-    run: |
-      cd _tests_
-      go test -v ./... -coverprofile=coverage.out
-
-  - name: Coverage Check
-    run: |
-      coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
-      if (( $(echo "$coverage < 80" | bc -l) )); then
-        echo "Coverage $coverage% is below threshold (80%)"
-        exit 1
-      fi
-```
-
-### Neovim-Specific Tests (`.github/workflows/test-nvim.yml`)
-
-**Purpose**: Validate Neovim configuration in multiple environments
-**Special Features**: Performance testing and startup time validation
+**Triggers**: Push to main, pull requests  
+**Purpose**: Code quality and style validation
 
 ```yaml
-# Test Neovim startup performance
-- name: Neovim Startup Test
-  run: |
-    timeout 30s nvim --headless -c "lua print('Startup test')" -c "qa"
-    exit_code=$?
-    if [ $exit_code -eq 124 ]; then
-      echo "Neovim startup timeout - configuration issue detected"
-      exit 1
-    fi
+name: Lint
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-# Plugin health checks
-- name: Plugin Health Check
-  run: |
-    nvim --headless -c "checkhealth" -c "qa" > health_report.txt
-    if grep -q "ERROR" health_report.txt; then
-      echo "Plugin health issues detected"
-      exit 1
-    fi
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run linting checks
+        run: |
+          # Shell script linting
+          shellcheck **/*.sh
+          
+          # YAML validation  
+          yamllint .chezmoidata/
+          
+          # Lua formatting check
+          stylua --check .
 ```
 
-## 🎯 Smart Test Execution
+### Security Workflow (`.github/workflows/security.yml`)
 
-### Relevant Tests Runner (`run_relevant_tests.sh`)
+**Purpose**: Security scanning and vulnerability detection
 
-**Purpose**: Run only tests affected by changes (performance optimization)
+```yaml
+name: Security
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
-```bash
-#!/bin/bash
-# Intelligent test selection based on changed files
-
-# Detect changed files
-CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
-
-# Determine relevant test suites
-if echo "$CHANGED_FILES" | grep -q "nvim\|lua"; then
-    echo "🧪 Running Neovim tests..."
-    go test -v ./unit/nvim_config_test.go
-fi
-
-if echo "$CHANGED_FILES" | grep -q "mise\|python\|languages"; then
-    echo "🧪 Running mise integration tests..."
-    go test -v ./integration/mise_test.go
-fi
-
-# Always run core configuration tests
-echo "🧪 Running core tests..."
-go test -v ./unit/config_test.go
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run security scans
+        run: |
+          # Secret detection
+          gitleaks detect --source . --verbose
+          
+          # Additional security checks
+          # Dependency scanning
+          # Configuration validation
 ```
 
-**Features**:
-
-- **Change detection** via git diff analysis
-- **Selective execution** based on modified components
-- **Performance optimization** (faster CI runs)
-- **Intelligent fallbacks** for comprehensive coverage
-
-## 📊 Coverage & Quality Metrics
-
-### Coverage Requirements
-
-- **Minimum threshold**: 80% code coverage
-- **Enforcement**: CI fails if coverage drops below threshold
-- **Reporting**: Coverage reports generated for each PR
-
-```bash
-# Coverage calculation and enforcement
-coverage=$(go tool cover -func=coverage.out | grep total | awk '{print $3}' | sed 's/%//')
-if (( $(echo "$coverage < 80" | bc -l) )); then
-    echo "❌ Coverage $coverage% is below threshold (80%)"
-    exit 1
-else
-    echo "✅ Coverage $coverage% meets threshold"
-fi
-```
-
-### Quality Gates
-
-1. **Lint checks** (golangci-lint)
-2. **Security scanning** (gitleaks, gosec)
-3. **Configuration validation** (yamllint, shellcheck)
-4. **Template syntax** (chezmoi verify)
-
-## 🔧 Local Development
+## 🎯 Local Development
 
 ### Running Tests Locally
 
 ```bash
 # Run all tests
-cd _tests_
+cd .tests
 go test -v ./...
 
 # Run specific test suite
@@ -231,6 +192,9 @@ go test -v ./integration/
 # Run with coverage
 go test -v ./... -coverprofile=coverage.out
 go tool cover -html=coverage.out  # View coverage report
+
+# Run single test file
+go test -v ./unit/config_test.go
 ```
 
 ### Test Development Guidelines
@@ -239,8 +203,8 @@ go tool cover -html=coverage.out  # View coverage report
 // Test naming convention
 func TestFeatureName(t *testing.T) {
     // Setup
-    setup := createTestEnvironment()
-    defer cleanup(setup)
+    setup := helpers.SetupTestEnvironment()
+    defer helpers.CleanupTestEnvironment(setup)
 
     // Execute
     result := functionUnderTest(input)
@@ -270,6 +234,107 @@ func TestMultipleScenarios(t *testing.T) {
 }
 ```
 
+## 🔧 Smart Test Execution
+
+### Relevant Tests Runner (`scripts/run_relevant_tests.sh`)
+
+**Purpose**: Run only tests affected by changes (performance optimization)
+
+```bash
+#!/bin/bash
+# Intelligent test selection based on changed files
+
+# Detect changed files
+CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+
+# Determine relevant test suites
+if echo "$CHANGED_FILES" | grep -q "nvim\|lua"; then
+    echo "🧪 Running Neovim tests..."
+    go test -v ./unit/nvim_config_test.go
+fi
+
+if echo "$CHANGED_FILES" | grep -q "tmux"; then
+    echo "🧪 Running Tmux tests..."
+    go test -v ./unit/tmux_config_test.go
+fi
+
+if echo "$CHANGED_FILES" | grep -q "chezmoi\|yaml"; then
+    echo "🧪 Running configuration tests..."
+    go test -v ./unit/config_test.go
+fi
+
+# Always run integration tests for significant changes
+if [ $(echo "$CHANGED_FILES" | wc -l) -gt 5 ]; then
+    echo "🧪 Running integration tests..."
+    go test -v ./integration/
+fi
+```
+
+**Features**:
+- **Change detection** via git diff analysis
+- **Selective execution** based on modified components  
+- **Performance optimization** (faster local testing)
+- **Intelligent fallbacks** for comprehensive coverage
+
+### Neovim-Specific Testing (`run_nvim_tests.sh`)
+
+**Purpose**: Validate Neovim configuration in isolation
+
+```bash
+#!/bin/bash
+# Neovim-specific testing and validation
+
+# Test Neovim startup
+echo "Testing Neovim startup..."
+timeout 30s nvim --headless -c "lua print('Startup test')" -c "qa"
+if [ $? -eq 124 ]; then
+    echo "❌ Neovim startup timeout - configuration issue detected"
+    exit 1
+fi
+
+# Plugin health checks
+echo "Running plugin health checks..."
+nvim --headless -c "checkhealth" -c "qa" > health_report.txt
+if grep -q "ERROR" health_report.txt; then
+    echo "❌ Plugin health issues detected"
+    cat health_report.txt
+    exit 1
+fi
+
+echo "✅ Neovim tests passed"
+```
+
+## 📊 Coverage & Quality Metrics
+
+### Current Test Structure
+
+The testing infrastructure includes:
+
+1. **Unit Tests**: 3 test files covering core components
+2. **Integration Tests**: 1 test file for end-to-end scenarios  
+3. **Helper Utilities**: Shared test functions and setup
+4. **CI/CD Integration**: Automated linting and security checks
+
+### Quality Gates
+
+1. **Lint checks**: shellcheck, yamllint, stylua
+2. **Security scanning**: gitleaks for secret detection
+3. **Configuration validation**: chezmoi template syntax
+4. **Neovim health**: Plugin and configuration validation
+
+### Local Quality Checks
+
+```bash
+# Run all quality checks locally
+lefthook run pre-commit
+
+# Individual checks
+shellcheck **/*.sh                    # Shell script linting
+yamllint .chezmoidata/               # YAML validation  
+stylua --check .                     # Lua formatting
+gitleaks detect --source .           # Secret detection
+```
+
 ## 🚨 Troubleshooting
 
 ### Common Test Failures
@@ -280,6 +345,7 @@ func TestMultipleScenarios(t *testing.T) {
 # Debug template issues
 chezmoi execute-template < problematic_template.tmpl
 chezmoi data  # Check available template data
+chezmoi verify  # Validate all templates
 ```
 
 #### Neovim Plugin Conflicts
@@ -290,16 +356,21 @@ nvim --headless -c "checkhealth" -c "qa"
 
 # Test minimal configuration
 nvim -u NONE  # Start without plugins
+
+# Debug specific plugin
+nvim --headless -c "Lazy health" -c "qa"
 ```
 
-#### Coverage Drops
+#### Go Module Issues
 
 ```bash
-# Identify uncovered code
-go tool cover -func=coverage.out | grep -v "100.0%"
+# Update dependencies
+cd .tests
+go mod tidy
+go mod download
 
-# Add tests for uncovered functions
-# Focus on error paths and edge cases
+# Clear module cache if needed
+go clean -modcache
 ```
 
 ### Performance Issues
@@ -309,8 +380,11 @@ go tool cover -func=coverage.out | grep -v "100.0%"
 go test -v ./... -cpuprofile=cpu.prof
 go tool pprof cpu.prof
 
-# Optimize slow tests
-go test -v ./... -timeout=30s  # Set timeout limits
+# Set timeout limits
+go test -v ./... -timeout=30s
+
+# Run specific slow tests
+go test -v -run=TestSpecificFunction
 ```
 
 ## 📈 Metrics & Monitoring
@@ -318,41 +392,50 @@ go test -v ./... -timeout=30s  # Set timeout limits
 ### Test Metrics Tracked
 
 - **Execution time** (per test suite)
-- **Coverage percentage** (per package)
+- **Test coverage** (where applicable)
 - **Failure rate** (trending over time)
-- **Startup performance** (Neovim initialization time)
+- **Configuration validation** (template syntax, YAML structure)
 
 ### GitHub Actions Insights
 
-```yaml
-# Performance tracking in CI
-- name: Track Performance
-  run: |
-    echo "Test execution time: $(date)" > performance.log
-    time go test -v ./... >> performance.log
-
-    # Upload metrics for trending analysis
-    if [ "$GITHUB_EVENT_NAME" = "push" ]; then
-      # Store metrics for performance tracking
-      echo "Performance data stored"
-    fi
-```
+The workflows provide:
+- **Automated quality checks** on every push/PR
+- **Security scanning** for secrets and vulnerabilities
+- **Multi-platform validation** (where applicable)
+- **Consistent code formatting** enforcement
 
 ## 🔮 Future Enhancements
 
 ### Planned Improvements
 
-1. **Mutation testing** for better test quality validation
-2. **Visual regression testing** for Neovim UI components
-3. **Integration with external services** (API testing)
-4. **Performance benchmarking** with historical comparison
+1. **Coverage reporting** for Go tests with thresholds
+2. **Integration testing** for external tool dependencies
+3. **Performance benchmarking** with historical comparison
+4. **Cross-platform testing** (Linux, macOS validation)
 5. **Automated test generation** for new configurations
 
-### Test Automation
+### Test Automation Opportunities
 
 - **Auto-generated tests** for new Neovim plugins
 - **Configuration validation rules** as code
-- **Dependency testing** for external tools
-- **Cross-platform compatibility** validation
+- **Dependency testing** for external tools (mise, homebrew)
+- **Template rendering validation** for all chezmoi templates
 
-This testing infrastructure ensures the reliability and quality of the dotfiles configuration across different environments and use cases, providing confidence in updates and changes.
+## 🎯 Best Practices
+
+### Writing Effective Tests
+
+1. **Focus on critical paths**: Test configuration loading, template rendering
+2. **Use table-driven tests**: Handle multiple scenarios efficiently
+3. **Isolate test environments**: Use temporary directories and cleanup
+4. **Mock external dependencies**: Don't rely on network or system state
+5. **Validate error conditions**: Test failure scenarios and edge cases
+
+### Maintenance Guidelines
+
+1. **Keep tests fast**: Use selective execution for development
+2. **Update tests with changes**: Modify tests when configuration changes
+3. **Document test purposes**: Clear test names and comments
+4. **Regular test reviews**: Ensure tests remain relevant and valuable
+
+This testing infrastructure provides confidence in the dotfiles configuration while maintaining development velocity through smart test execution and comprehensive quality checks.
