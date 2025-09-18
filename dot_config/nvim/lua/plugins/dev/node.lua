@@ -22,7 +22,7 @@ return {
             },
           },
           root_dir = function(fname)
-            local util = require("lspconfig.util")
+            local util = require("lazyvim.util")
 
             -- Check for ESLint config files first
             local config_patterns = {
@@ -36,13 +36,13 @@ return {
               "eslint.config.cjs",
             }
 
-            local config_root = util.root_pattern(unpack(config_patterns))(fname)
+            local config_root = util.root.find(config_patterns)(fname)
             if config_root then
               return config_root
             end
 
             -- Check package.json for ESLint dependency
-            local package_root = util.root_pattern("package.json")(fname)
+            local package_root = util.root.find("package.json")(fname)
             if package_root then
               local package_json = package_root .. "/package.json"
               local ok, content = pcall(vim.fn.readfile, package_json)
