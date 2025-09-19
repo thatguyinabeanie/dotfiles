@@ -86,14 +86,19 @@ return {
               return
             end
 
-            -- Verify ESLint can run without errors
-            local result =
-              vim.fn.system(eslint_cmd .. " --print-config " .. vim.fn.shellescape(vim.api.nvim_buf_get_name(bufnr)))
-            if vim.v.shell_error ~= 0 then
-              vim.notify("ESLint configuration error. Check your ESLint config.", vim.log.levels.WARN)
-              client.stop()
-              return
-            end
+            -- Verify ESLint can run without errors (async)
+            vim.system(
+              { eslint_cmd, "--print-config", vim.api.nvim_buf_get_name(bufnr) },
+              { text = true },
+              function(result)
+                if result.code ~= 0 then
+                  vim.schedule(function()
+                    vim.notify("ESLint configuration error. Check your ESLint config.", vim.log.levels.WARN)
+                    client.stop()
+                  end)
+                end
+              end
+            )
           end,
         },
       },

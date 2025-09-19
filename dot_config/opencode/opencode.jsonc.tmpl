@@ -29,7 +29,7 @@
 {{- $first := true }}
 {{- range $key, $value := $provider }}
 {{- if not $first }},{{ end }}
-    "{{ $key }}": {{- if eq $key "github-copilot" }} {{ toJson (index $ "github-copilot") }}{{ else if eq $key "google" }} {{ toJson (index $ "google") }}{{ else }} {}{{ end }}
+    "{{ $key }}": {{- if or (eq $key "github-copilot") (eq $key "google") }} {{ toJson (index $provider $key) }}{{ else }} {}{{ end }}
 {{- $first = false }}
 {{- end }}
   },

@@ -1,7 +1,6 @@
 return {
   "lukas-reineke/indent-blankline.nvim",
   dependencies = { "catppuccin" },
-  dependencies = { "catppuccin" },
   event = "LazyFile",
   main = "ibl",
   opts = function()
