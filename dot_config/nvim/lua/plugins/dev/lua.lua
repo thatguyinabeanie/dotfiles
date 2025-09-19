@@ -11,7 +11,8 @@ return {
             if vim.fn.stridx(fname, ".chezmoitemplates") ~= -1 then
               return nil
             end
-              return require("lazyvim.util").root.git()(fname)
+            local util = require("lspconfig.util")
+            return util.find_git_ancestor(fname)
           end,
         },
       },

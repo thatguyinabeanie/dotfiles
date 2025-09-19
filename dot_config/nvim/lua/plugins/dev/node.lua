@@ -11,7 +11,7 @@ return {
         -- TypeScript server
         tsserver = { enabled = true },
         vtsls = { enabled = true },
-        
+
         -- ESLint with smart project detection
         eslint = {
           autostart = false,
@@ -22,7 +22,8 @@ return {
             },
           },
           root_dir = function(fname)
-            local util = require("lazyvim.util")
+            local lspconfig = require("lspconfig")
+            local util = require("lspconfig.util")
 
             -- Check for ESLint config files first
             local config_patterns = {
@@ -36,13 +37,13 @@ return {
               "eslint.config.cjs",
             }
 
-            local config_root = util.root.find(config_patterns)(fname)
+            local config_root = util.root_pattern(unpack(config_patterns))(fname)
             if config_root then
               return config_root
             end
 
             -- Check package.json for ESLint dependency
-            local package_root = util.root.find("package.json")(fname)
+            local package_root = util.root_pattern("package.json")(fname)
             if package_root then
               local package_json = package_root .. "/package.json"
               local ok, content = pcall(vim.fn.readfile, package_json)
@@ -82,7 +83,8 @@ return {
             end
 
             -- Verify ESLint can run without errors
-            local result = vim.fn.system(eslint_cmd .. " --print-config " .. vim.fn.shellescape(vim.api.nvim_buf_get_name(bufnr)))
+            local result =
+              vim.fn.system(eslint_cmd .. " --print-config " .. vim.fn.shellescape(vim.api.nvim_buf_get_name(bufnr)))
             if vim.v.shell_error ~= 0 then
               vim.notify("ESLint configuration error. Check your ESLint config.", vim.log.levels.WARN)
               client.stop()

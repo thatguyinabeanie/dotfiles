@@ -2,7 +2,7 @@
 return {
   -- Ruby LSP server
   {
-    "neovim/nvim-lspconfig", 
+    "neovim/nvim-lspconfig",
     opts = {
       servers = {
         ruby_lsp = {},
