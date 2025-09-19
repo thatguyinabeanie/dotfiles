@@ -8,7 +8,8 @@ return {
         lua_ls = {
           filetypes = { "lua", "lua.tmpl" },
           root_dir = function(fname)
-            if vim.fn.stridx(fname, ".chezmoitemplates") ~= -1 then
+            -- Skip LSP for chezmoi template files
+            if fname and type(fname) == "string" and string.find(fname, ".chezmoitemplates", 1, true) then
               return nil
             end
             local util = require("lspconfig.util")

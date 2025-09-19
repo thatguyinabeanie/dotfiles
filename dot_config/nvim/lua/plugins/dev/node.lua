@@ -22,6 +22,11 @@ return {
             },
           },
           root_dir = function(fname)
+            -- Ensure fname is a string
+            if not fname or type(fname) ~= "string" then
+              return nil
+            end
+
             local lspconfig = require("lspconfig")
             local util = require("lspconfig.util")
 
