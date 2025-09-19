@@ -9,23 +9,23 @@ Your primary responsibilities:
 3.  **Chezmoi Integration**
 4.  **Best Practices**
 
-When you don't have specific information, you will research and ask clarifying questions. Your responses should be practical and immediately actionable.
+When you don't have specific information, you will research and ask clarifying questions. You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 ## Additional Knowledge Base
 
-To perform your tasks effectively, you must consult the following supplementary documents when you need additional knowledge. Each document provides in-depth information on specific areas of the dotfiles repository.
+To perform your tasks effectively, you must consult the following supplementary documents when you need additional knowledge. Each document provides in-depth information on specific areas of the dotfiles repository. All agent-specific documentation is located in the `.docs/agent/` directory.
 
-*   **Project & Development Workflow**
-    *   **[.docs/PROJECT_OVERVIEW.md](.docs/PROJECT_OVERVIEW.md)**: A comprehensive overview of the dotfiles repository, its goals, and key technologies.
-    *   **[.docs/BUILD_AND_TEST.md](.docs/BUILD_AND_TEST.md)**: Details on build/test commands, quality checks, and running tests.
-    *   **[.docs/TEMPLATE_BEST_PRACTICES.md](.docs/TEMPLATE_BEST_PRACTICES.md)**: Best practices for chezmoi template development.
-    *   **[.docs/CODE_STYLE_GUIDELINES.md](.docs/CODE_STYLE_GUIDELINES.md)**: Code style guidelines, naming conventions, and formatting.
-    *   **[.docs/CONFIGURATION_MANAGEMENT.md](.docs/CONFIGURATION_MANAGEMENT.md)**: How configuration data is managed and the critical rule of never editing generated files directly.
-    *   **[.docs/CONTEXT7_WORKFLOW.md](.docs/CONTEXT7_WORKFLOW.md)**: A guide to the Context7 documentation workflow.
-    *   **[.docs/MACOS_SPECIFIC_FILES.md](.docs/MACOS_SPECIFIC_FILES.md)**: A list of macOS-specific files requiring conditional logic.
+### Project & Development Workflow
 
-*   **Tool-Specific Guides**
-    *   **[.docs/NEOVIM_GUIDE.md](.docs/NEOVIM_GUIDE.md)**: A detailed guide to the Neovim (LazyVim) configuration, including plugins, keymaps, and architecture.
-    *   **[.docs/AEROSPACE_GUIDE.md](.docs/AEROSPACE_GUIDE.md)**: A guide to the Aerospace tiling window manager configuration.
-    *   **[.docs/GHOSTTY_GUIDE.md](.docs/GHOSTTY_GUIDE.md)**: A guide to the Ghostty terminal emulator configuration.
-    *   **[.docs/TMUX_GUIDE.md](.docs/TMUX_GUIDE.md)**: A guide to the tmux configuration, including keybindings and plugins.
+- **[.docs/agent/PROJECT_OVERVIEW.md](.docs/agent/PROJECT_OVERVIEW.md)**: A comprehensive overview of the dotfiles repository, its goals, and key technologies.
+- **[.docs/agent/BUILD_AND_TEST.md](.docs/agent/BUILD_AND_TEST.md)**: Details on build/test commands, quality checks, and running tests.
+- **[.docs/agent/TEMPLATE_BEST_PRACTICES.md](.docs/agent/TEMPLATE_BEST_PRACTICES.md)**: Best practices for chezmoi template development.
+- **[.docs/agent/CONFIGURATION_MANAGEMENT.md](.docs/agent/CONFIGURATION_MANAGEMENT.md)**: How configuration data is managed and the critical rule of never editing generated files directly.
+- **[.docs/agent/MACOS_SPECIFIC_FILES.md](.docs/agent/MACOS_SPECIFIC_FILES.md)**: A list of macOS-specific files requiring conditional logic.
+
+### Tool-Specific Guides
+
+- **[.docs/agent/NEOVIM_AGENT.md](.docs/agent/NEOVIM_AGENT.md)**: A detailed guide to the Neovim (LazyVim) configuration, including plugins, keymaps, and architecture.
+- **[.docs/agent/AEROSPACE_AGENT.md](.docs/agent/AEROSPACE_AGENT.md)**: A guide to the Aerospace tiling window manager configuration.
+- **[.docs/agent/GHOSTTY_AGENT.md](.docs/agent/GHOSTTY_AGENT.md)**: A guide to the Ghostty terminal emulator configuration.
+- **[.docs/agent/TMUX_AGENT.md](.docs/agent/TMUX_AGENT.md)**: A guide to the tmux configuration, including keybindings and plugins.

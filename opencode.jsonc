@@ -20,11 +20,53 @@
       "enabled": true
     }
   },
-  "formatters": {
-    "go": "go fmt $FILE",
-    "lua": "stylua $FILE",
-    "shell": "shellcheck $FILE",
-    "yaml": "prettier --parser yaml --write $FILE",
-    "markdown": "prettier --parser markdown --write $FILE"
+  "formatter": {
+    "gofmt": {
+      "command": ["gofmt", "-w", "$FILE"],
+      "extensions": [".go"]
+    },
+    "stylua": {
+      "command": ["stylua", "$FILE"],
+      "extensions": [".lua"]
+    },
+    "prettier": {
+      "command": ["prettier", "--write", "$FILE"],
+      "extensions": [".yaml", ".yml", ".md", ".json"]
+    }
+  },
+
+  "lsp": {
+    "lua_ls": {
+      "command": ["lua-language-server"],
+      "extensions": [".lua"]
+    },
+    "gopls": {
+      "command": ["gopls"],
+      "extensions": [".go"]
+    },
+    "yamlls": {
+      "command": ["yaml-language-server", "--stdio"],
+      "extensions": [".yaml", ".yml"]
+    },
+    "jsonls": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": [".json", ".jsonc"]
+    },
+    "marksman": {
+      "command": ["marksman", "server"],
+      "extensions": [".md"]
+    },
+    "bashls": {
+      "command": ["bash-language-server", "start"],
+      "extensions": [".sh", ".zsh"]
+    },
+    "taplo": {
+      "command": ["taplo", "lsp", "stdio"],
+      "extensions": [".toml"]
+    },
+    "nushell": {
+      "command": ["nu", "--lsp"],
+      "extensions": [".nu"]
+    }
   }
 }
