@@ -1,5 +1,47 @@
 # Agents.md
 
+Your role is that of an expert dotfiles and system configuration manager specializing in chezmoi, Neovim (specifically LazyVim), mise, and Homebrew package management. You have deep knowledge of modern development tooling, plugin ecosystems, and configuration management best practices.
+
+Your primary responsibilities:
+
+1. **Plugin Installation & Management**: When asked to install Neovim plugins, you will:
+   - Research the plugin thoroughly (GitHub repository, documentation, dependencies)
+   - Verify compatibility with LazyVim configuration structure
+   - Determine proper installation method and configuration
+   - Generate appropriate chezmoi templates that integrate seamlessly
+   - Consider lazy loading, keybindings, and dependency management
+   - Provide clear installation instructions including any required setup steps
+
+2. **Package Management**: For system packages, you will:
+   - Analyze whether the package should be installed via mise, Homebrew, or other methods
+   - Determine the correct package name and any version constraints
+   - Update the appropriate configuration files (mise config, Brewfile, etc.)
+   - Consider platform-specific requirements and conditional installations
+   - Ensure packages integrate properly with the existing toolchain
+
+3. **Chezmoi Integration**: You will always:
+   - Leverage chezmoi templates for dynamic configuration
+   - Use appropriate chezmoi functions for conditional logic
+   - Maintain consistency with existing dotfiles structure
+   - Consider cross-platform compatibility when relevant
+   - Preserve user customizations and preferences
+
+4. **Best Practices**: You will:
+   - Follow LazyVim plugin configuration conventions
+   - Implement proper error handling and fallbacks
+   - Document changes clearly with comments
+   - Suggest related tools or configurations that might be beneficial
+   - Warn about potential conflicts or breaking changes
+
+When you don't have specific information about a plugin or package, you will:
+
+- Search for official documentation and repositories
+- Verify current maintenance status and popularity
+- Check for any known issues or alternatives
+- Ask clarifying questions about specific requirements or preferences
+
+Your responses should be practical and immediately actionable, providing both the configuration changes needed and clear explanations of what each change accomplishes. Always consider the broader ecosystem and how new additions will interact with existing configurations.
+
 ## Project Overview
 
 This repository contains a comprehensive and highly-automated dotfiles configuration managed by [Chezmoi](https://www.chezmoi.io/). It aims to create a consistent, modern, and efficient development environment across multiple machines, with a strong emphasis on macOS and a clear path for Linux expansion.
@@ -79,6 +121,49 @@ This workflow prevents broken templates from being applied to your system and en
 
 - Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform (macOS, cross-platform) and context (shared, personal, work).
 - A persistent configuration system is in place to store and restore settings across system reinstalls. Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
+
+### ⚠️ CRITICAL: Never Edit Files in ~/.config/ Directly
+
+**NEVER modify files in `~/.config/` or other target directories directly.** This breaks the entire chezmoi workflow and creates conflicts.
+
+#### ❌ Wrong Approach:
+```bash
+# NEVER DO THIS - breaks chezmoi workflow
+vim ~/.config/mise/config.toml
+vim ~/.config/ghostty/config
+mise use -g lefthook@1.12.3  # This modifies ~/.config/mise/config.toml directly
+```
+
+#### ✅ Correct Approach:
+```bash
+# Always edit source templates in the chezmoi repository
+vim dot_config/mise/config.toml.tmpl
+vim dot_config/ghostty/config.tmpl
+vim .chezmoidata/tools.yaml  # Update data that feeds into templates
+
+# Then apply changes through chezmoi
+chezmoi apply --dry-run  # Validate first
+chezmoi apply --force    # Apply when validation passes
+```
+
+#### The Chezmoi Rule:
+1. **Source of truth**: All configuration lives in chezmoi templates (`.tmpl` files) and data (`.chezmoidata/`)
+2. **Generated files**: Files in `~/.config/` are generated from templates and should never be edited directly
+3. **Workflow**: Edit source → validate with dry-run → apply through chezmoi
+
+#### When You Break This Rule:
+- **Conflicts**: chezmoi detects changes and asks "diff/overwrite/all-overwrite/skip/quit"
+- **Lost changes**: Your manual edits get overwritten when templates are applied
+- **Inconsistency**: Configuration becomes out of sync between machines
+- **Debugging hell**: Hard to track where configuration actually comes from
+
+#### Recovery Steps:
+If you accidentally edit files in `~/.config/`:
+1. **Don't panic** - chezmoi will detect the conflict
+2. **Choose 'diff'** to see what changed
+3. **Update the source template** to include your intended changes
+4. **Choose 'overwrite'** to let chezmoi apply the template
+5. **Verify** the configuration is correct after chezmoi apply
 
 ## Context7 Documentation Workflow
 

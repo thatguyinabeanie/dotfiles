@@ -16,9 +16,9 @@ INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "b
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
 
-THEME_MODE                 = {{ (env "THEME_MODE") | default (output "bash" "-c" (printf "%s read theme_mode" ($config_helper | quote)) | trim) | default "dark" | quote }}
-THEME_LIGHT                = {{ (env "THEME_LIGHT") | default (output "bash" "-c" (printf "%s read theme_light" ($config_helper | quote)) | trim) | default "Catppuccin Latte" | quote }}
-THEME_DARK                 = {{ (env "THEME_DARK") | default (output "bash" "-c" (printf "%s read theme_dark" ($config_helper | quote)) | trim) | default "Catppuccin Mocha" | quote }}
+THEME_MODE                 = "dark"
+THEME_LIGHT                = "catppuccin-latte"
+THEME_DARK                 = "catppuccin-mocha"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}

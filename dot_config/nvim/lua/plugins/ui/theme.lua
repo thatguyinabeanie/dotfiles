@@ -1,6 +1,8 @@
 return {
   {
     "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
     opts = {
       flavour = "mocha",
       background = {
@@ -81,7 +83,7 @@ return {
         dap = true, -- Load when debugging
         dap_ui = true, -- Load when debugging
         indent_blankline = {
-          enabled = false, -- Using Snacks indent/scope
+          enabled = true,
         },
       },
       custom_highlights = function(colors)

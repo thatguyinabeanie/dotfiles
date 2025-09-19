@@ -1,1 +1,68 @@
-{{ template "nvim/nvim-language-config.lua" . }}
+{{- $parsers_data := fromJson .parsers_yaml.content }}
+{{- $lsp_data := fromJson .lsp_yaml.content }}
+{{- $formatters_data := fromJson .formatters_yaml.content }}
+{{- $linters_data := fromJson .linters_yaml.content }}
+{{- $tools_data := fromJson .tools_yaml.content }}
+
+return {
+  treesitter = {
+    parsers = {
+{{- range $parsers_data.treesitter_parsers }}
+      "{{ .name }}",
+{{- end }}
+    },
+  },
+  filetypes = {
+    web_frameworks = {
+      "javascriptreact",
+      "typescriptreact",
+      "html",
+      "astro",
+      "svelte",
+      "vue",
+    },
+    templates = {
+      bash = { "sh.tmpl", "zsh.tmpl" },
+      lua = { "lua.tmpl" },
+      nu = { "nu.tmpl" },
+      toml = { "toml.tmpl" },
+    },
+  },
+  mason = {
+    lsp_servers = {
+{{- range $lsp_data.language_servers }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+    lspconfig_servers = {
+{{- range $lsp_data.language_servers }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "lspconfig_name" }}{{ .lspconfig_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+    formatters = {
+{{- range $formatters_data.formatters }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+    linters = {
+{{- range $linters_data.linters }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+    exploration_tools = {
+{{- range $tools_data.dev_tools }}
+  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- end }}
+{{- end }}
+    },
+  },
+}
