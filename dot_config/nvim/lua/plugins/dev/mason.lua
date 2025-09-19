@@ -23,10 +23,15 @@ return {
     -- LazyVim 15.x: Updated events for better LSP attachment
     event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts = {
-      -- LazyVim 15.x: Use automatic_enable instead of setup_handlers
-      automatic_enable = true,
       -- Ensure installed servers from our template config (using lspconfig names)
       ensure_installed = config.mason.lspconfig_servers,
+      -- Use setup_handlers for better control over LSP server initialization
+      handlers = {
+        -- Default handler for all servers
+        function(server_name)
+          require("lspconfig")[server_name].setup({})
+        end,
+      },
     },
   },
 

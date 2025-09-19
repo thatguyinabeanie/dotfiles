@@ -22,12 +22,11 @@ return {
             },
           },
           root_dir = function(fname)
-            -- Ensure fname is a string
-            if not fname or type(fname) ~= "string" then
+            -- Ensure fname is valid
+            if not fname or type(fname) ~= "string" or fname == "" then
               return nil
             end
 
-            local lspconfig = require("lspconfig")
             local util = require("lspconfig.util")
 
             -- Check for ESLint config files first
@@ -43,19 +42,19 @@ return {
             }
 
             local config_root = util.root_pattern(unpack(config_patterns))(fname)
-            if config_root then
+            if config_root and type(config_root) == "string" then
               return config_root
             end
 
             -- Check package.json for ESLint dependency
             local package_root = util.root_pattern("package.json")(fname)
-            if package_root then
+            if package_root and type(package_root) == "string" then
               local package_json = package_root .. "/package.json"
               local ok, content = pcall(vim.fn.readfile, package_json)
-              if ok and #content > 0 then
+              if ok and content and #content > 0 then
                 local package_str = table.concat(content, "\n")
-                local package_data = vim.fn.json_decode(package_str)
-                if package_data then
+                local ok_decode, package_data = pcall(vim.fn.json_decode, package_str)
+                if ok_decode and package_data and type(package_data) == "table" then
                   local deps = package_data.dependencies or {}
                   local dev_deps = package_data.devDependencies or {}
 
