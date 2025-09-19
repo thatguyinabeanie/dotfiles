@@ -1,5 +1,4 @@
 -- Mason tool management and auto-installation
--- Updated for LazyVim 15.x compatibility with Mason v2.x API
 local config = require("utils.language-config")
 
 return {
@@ -7,12 +6,13 @@ return {
   {
     "mason-org/mason.nvim",
     opts = {
-      -- LazyVim 15.x: Enhanced UI and performance settings
+      -- Enhanced UI and performance settings
       ui = {
         border = "rounded",
         width = 0.8,
         height = 0.8,
       },
+      ensure_installed = config.mason.core_tools,
     },
   },
 
@@ -20,7 +20,7 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     dependencies = { "mason-org/mason.nvim" },
-    -- LazyVim 15.x: Updated events for better LSP attachment
+    -- Updated events for better LSP attachment
     event = { "BufReadPre", "BufNewFile", "BufWritePre" },
     opts = {
       -- Ensure installed servers from our template config (using lspconfig names)
@@ -51,5 +51,23 @@ return {
       start_delay = 3000,
       debounce_hours = 5,
     },
+
+    config = function(_, opts)
+      require("mason-tool-installer").setup(opts)
+
+      -- Auto-install LSP servers on filetype detection
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(event)
+          local server = config.filetypes.lsp_servers[event.match]
+          if server then
+            local mason_registry = require("mason-registry")
+            if not mason_registry.is_installed(server) then
+              vim.notify("Installing " .. server .. " for " .. event.match .. "...", vim.log.levels.INFO)
+              vim.cmd("MasonInstall " .. server)
+            end
+          end
+        end,
+      })
+    end,
   },
 }

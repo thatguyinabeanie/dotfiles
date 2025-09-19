@@ -1,8 +1,8 @@
 opencode:
   # OpenCode AI configuration - follows opencode.ai schema
   model: "github-copilot/claude-sonnet-4"
-  small_model: "opencode/grok-code"
-  autoupdate: false
+  small_model: "github-copilot/grok-code-fast-1"
+  autoupdate: true
   share: "manual"
   theme: "system"
 
