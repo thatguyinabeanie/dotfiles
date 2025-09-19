@@ -6,7 +6,9 @@
   "share": "manual",
   "theme": "system",
 
-  "instructions": ["AGENTS.md", "dot_config/*/AGENTS-*.md", "**/README.md", ".docs/*.md", ".docs/context7/**/*.md"],
+  "instructions": [
+    "AGENTS.md",
+  ],
 
   "mcp": {
     "context7": {
@@ -17,5 +19,12 @@
       },
       "enabled": true
     }
+  },
+  "formatters": {
+    "go": "go fmt",
+    "lua": "stylua",
+    "shell": "shellcheck -f gcc",
+    "yaml": "prettier --parser yaml",
+    "markdown": "prettier --parser markdown"
   }
 }
