@@ -21,10 +21,10 @@
     }
   },
   "formatters": {
-    "go": "go fmt",
-    "lua": "stylua",
-    "shell": "shellcheck -f gcc",
-    "yaml": "prettier --parser yaml",
-    "markdown": "prettier --parser markdown"
+    "go": "go fmt $FILE",
+    "lua": "stylua $FILE",
+    "shell": "shellcheck $FILE",
+    "yaml": "prettier --parser yaml --write $FILE",
+    "markdown": "prettier --parser markdown --write $FILE"
   }
 }
