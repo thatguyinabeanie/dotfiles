@@ -10,7 +10,7 @@
 !.docs/human/*.md
 !.docs/agent/*.md
 !dot_config/opencode/*/*.md
-
+!.opencode/**
 ./*.sh
 *.sh
 !*/*.sh

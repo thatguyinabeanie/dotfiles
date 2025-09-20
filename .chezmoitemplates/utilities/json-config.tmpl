@@ -24,6 +24,39 @@
   "autoupdate": {{ $data.autoupdate }},
 {{- end }}
 
+{{- /* MCP configuration */ -}}
+{{- if hasKey $data "mcp" }}
+  "mcp": {
+{{- range $serverName, $serverConfig := $data.mcp }}
+    "{{ $serverName }}": {
+{{- if hasKey $serverConfig "type" }}
+      "type": "{{ $serverConfig.type }}",
+{{- end }}
+{{- if hasKey $serverConfig "url" }}
+      "url": "{{ $serverConfig.url }}",
+{{- end }}
+{{- if hasKey $serverConfig "command" }}
+      "command": [
+{{- range $i, $cmd := $serverConfig.command }}
+{{- if gt $i 0 }}, {{ end }}"{{ $cmd }}"
+{{- end }}
+      ],
+{{- end }}
+{{- if hasKey $serverConfig "headers" }}
+      "headers": {
+{{- range $key, $value := $serverConfig.headers }}
+        "{{ $key }}": "{{ $value }}"{{- if not (last $serverConfig.headers $key) }},{{ end }}
+{{- end }}
+      },
+{{- end }}
+{{- if hasKey $serverConfig "enabled" }}
+      "enabled": {{ $serverConfig.enabled }}
+{{- end }}
+    }{{- if not (last $data.mcp $serverName) }},{{ end }}
+{{- end }}
+  },
+{{- end }}
+
 {{- /* Provider configurations - convert providers list to provider map */ -}}
 {{- if hasKey $data "providers" }}
   "provider": {
