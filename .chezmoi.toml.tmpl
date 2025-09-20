@@ -17,8 +17,8 @@ MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
 
 THEME_MODE                 = "dark"
-THEME_LIGHT                = "catppuccin-latte"
-THEME_DARK                 = "catppuccin-mocha"
+THEME_LIGHT                = "Catppuccin Latte"
+THEME_DARK                 = "Catppuccin Mocha"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
