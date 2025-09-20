@@ -8,10 +8,20 @@ return {
         lua_ls = {
           filetypes = { "lua", "lua.tmpl" },
           root_dir = function(fname)
-            if vim.fn.stridx(fname, ".chezmoitemplates") ~= -1 then
+            -- Ensure fname is valid
+            if not fname or type(fname) ~= "string" or fname == "" then
               return nil
             end
-            return require("lspconfig.util").root_pattern(".git")(fname)
+            
+            -- Skip LSP for chezmoi template files
+            if string.find(fname, ".chezmoitemplates", 1, true) then
+              return nil
+            end
+            
+            local util = require("lspconfig.util")
+            -- Ensure we return a valid path or nil
+            local result = util.find_git_ancestor(fname)
+            return result and type(result) == "string" and result or nil
           end,
         },
       },

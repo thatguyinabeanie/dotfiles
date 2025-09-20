@@ -1,51 +1,31 @@
 # .chezmoidata/google.yaml
 google:
   models:
-    - name: gemini-1.5-pro
+    gemini-1.5-pro:
       limit:
-        context: 1000000
+        context: 400000
         output: 8192
-    - name: gemini-2.5-pro
+    gemini-2.5-pro:
       limit:
-        context: 1048576
+        context: 400000
         output: 65536
-    - name: gemini-2.0-flash-lite
+    gemini-2.0-flash-lite:
       limit:
-        context: 1048576
+        context: 400000
         output: 8192
-    - name: gemini-1.5-flash
+    gemini-1.5-flash:
       limit:
-        context: 1000000
+        context: 400000
         output: 8192
-    - name: gemini-2.5-flash
+    gemini-2.5-flash:
       limit:
-        context: 1048576
+        context: 400000
         output: 65536
-    - name: gemini-2.5-pro-preview-06-05
+    gemini-2.0-flash:
       limit:
-        context: 1048576
-        output: 65536
-    - name: gemini-2.0-flash
-      limit:
-        context: 1048576
+        context: 400000
         output: 8192
-    - name: gemini-2.5-flash-preview-05-20
+    gemini-1.5-flash-8b:
       limit:
-        context: 1048576
-        output: 65536
-    - name: gemini-1.5-flash-8b
-      limit:
-        context: 1000000
+        context: 400000
         output: 8192
-    - name: gemini-2.5-pro-preview-05-06
-      limit:
-        context: 1048576
-        output: 65536
-    - name: gemini-2.5-flash-preview-04-17
-      limit:
-        context: 1048576
-        output: 65536
-    - name: gemini-2.5-flash-lite-preview-06-17
-      limit:
-        context: 65536
-        output: 65536

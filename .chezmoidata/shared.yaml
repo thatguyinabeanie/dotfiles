@@ -3,6 +3,7 @@ env_shared:
   variables:
     GHOSTTY_AUTO_TMUX: true
     MANAGE_BREW_SERVICES: "true"
+    INSTALL_GH_EXTENSIONS: false
     EDITOR: "nvim"
     VISUAL: "nvim"
     LDFLAGS: "-L/opt/homebrew/opt/openssl@3/lib"
