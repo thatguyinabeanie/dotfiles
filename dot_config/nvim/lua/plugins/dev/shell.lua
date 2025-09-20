@@ -5,11 +5,11 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        bashls = { 
-          filetypes = { "sh", "bash", "zsh", "sh.tmpl", "zsh.tmpl" } 
+        bashls = {
+          filetypes = { "sh", "bash", "zsh", "sh.tmpl", "zsh.tmpl" },
         },
-        nushell = { 
-          filetypes = { "nu", "nu.tmpl" } 
+        nushell = {
+          filetypes = { "nu", "nu.tmpl" },
         },
       },
     },

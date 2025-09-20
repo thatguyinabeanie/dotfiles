@@ -16,9 +16,9 @@ INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "b
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
 
-THEME_MODE                 = {{ (env "THEME_MODE") | default (output "bash" "-c" (printf "%s read theme_mode" ($config_helper | quote)) | trim) | default "dark" | quote }}
-THEME_LIGHT                = {{ (env "THEME_LIGHT") | default (output "bash" "-c" (printf "%s read theme_light" ($config_helper | quote)) | trim) | default "catppuccin-latte" | quote }}
-THEME_DARK                 = {{ (env "THEME_DARK") | default (output "bash" "-c" (printf "%s read theme_dark" ($config_helper | quote)) | trim) | default "catppuccin-mocha" | quote }}
+THEME_MODE                 = "dark"
+THEME_LIGHT                = "Catppuccin Latte"
+THEME_DARK                 = "Catppuccin Mocha"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
@@ -33,8 +33,8 @@ INTERACTIVE                = false
 {{- $opencode := $opencode_data.opencode | default dict }}
 
 [data.opencode]
-model                      = {{ (env "OPENCODE_MODEL") | default (output "bash" "-c" (printf "%s read opencode_model" ($config_helper | quote)) | trim) | default ($opencode.model | default "github-copilot/claude-sonnet-4") | quote }}
-small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default (output "bash" "-c" (printf "%s read opencode_small_model" ($config_helper | quote)) | trim) | default ($opencode.small_model | default "github-copilot/gemini-2.5-pro") | quote }}
+model                      = {{ (env "OPENCODE_MODEL") | default ($opencode.model | default "github-copilot/claude-sonnet-4") | quote }}
+small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default ($opencode.small_model | default "github-copilot/o3-mini") | quote }}
 
 [data.ui]
 opacity                    = {{ (env "UI_OPACITY") | default (output "bash" "-c" (printf "%s read ui_opacity" ($config_helper | quote)) | trim) | default "0.5" | quote }}

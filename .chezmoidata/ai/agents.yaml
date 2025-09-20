@@ -9,12 +9,12 @@ agents:
     category: code_assistant
 
   # Note: Commented out packages that may not exist on npm
-  # - name: "@augmentcode/auggie"
-  #   install_via: npm
-  #   runtime: node
-  #   version: latest
-  #   description: "Augment Code CLI"
-  #   category: code_assistant
+  - name: "@augmentcode/auggie"
+    install_via: npm
+    runtime: node
+    version: latest
+    description: "Augment Code CLI"
+    category: code_assistant
 
   # - name: "@openai/codex"
   #   install_via: npm

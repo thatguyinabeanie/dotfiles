@@ -6,8 +6,24 @@ opencode:
   share: "manual"
   theme: "system"
 
-  # Provider configurations (flat structure as per opencode schema)
-  providers:
-    - github-copilot
-    - google
+  # Instructions - AGENTS.md files for context
+  instructions:
 
+  # Keybindings using valid OpenCode keybind names
+  keybinds:
+    leader: "ctrl+x"
+    session_child_cycle: "ctrl+tab"
+
+  # Provider configurations (object structure as per opencode schema)
+  provider:
+    github-copilot: {}
+    google: {}
+
+  # MCP server configuration
+  mcp:
+    context7:
+      type: "remote"
+      url: "https://mcp.context7.com/mcp"
+      headers:
+        CONTEXT7_API_KEY: "${CONTEXT7_API_KEY}"
+      enabled: true
