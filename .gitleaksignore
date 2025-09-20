@@ -1,0 +1,8 @@
+# Gitleaks ignore file - contains revoked/safe secrets
+# Format: <fingerprint>
+
+# Revoked Context7 API key - these commits contain a revoked key that is no longer active
+# The key was properly replaced with environment variable ${CONTEXT7_API_KEY}
+d2df2d7af662303105a788fff0d76b99c0bc630a:.chezmoidata/opencode.yaml:generic-api-key:28
+6841564022b7e91af4223bbd88e556f4fe758bb8:.chezmoidata/opencode.yaml:generic-api-key:28
+6841564022b7e91af4223bbd88e556f4fe758bb8:opencode.jsonc:generic-api-key:16
