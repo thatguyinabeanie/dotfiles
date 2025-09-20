@@ -58,7 +58,13 @@ return {
       -- Auto-install LSP servers on filetype detection
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(event)
-          local server = config.filetypes.lsp_servers[event.match]
+          -- Safely access lsp_servers mapping
+          local lsp_servers = config.filetypes and config.filetypes.lsp_servers
+          if not lsp_servers then
+            return
+          end
+          
+          local server = lsp_servers[event.match]
           if server then
             local mason_registry = require("mason-registry")
             if not mason_registry.is_installed(server) then
