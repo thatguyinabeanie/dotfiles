@@ -6,9 +6,13 @@
 *.md
 !README.md
 !AGENTS.md
-!.docs/*.md
+!**/AGENTS-*.md
+!.docs/human/*.md
+!.docs/agent/*.md
 !dot_config/opencode/*/*.md
 
 ./*.sh
 *.sh
 !*/*.sh
+!.opencode/*/*.md
+

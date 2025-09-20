@@ -1,2 +1,58 @@
 {{- $opencode := .opencode -}}
-{{- template "utilities/json-config.tmpl" (dict "data" $opencode "schema" "https://opencode.ai/config.json" "global" .) }}
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "{{ $opencode.model }}",
+  "small_model": "{{ $opencode.small_model }}",
+  "autoupdate": {{ $opencode.autoupdate }},
+  "share": "{{ $opencode.share }}",
+  "theme": "{{ $opencode.theme }}",
+  
+  "instructions": [
+{{- range $i, $instruction := $opencode.instructions }}
+{{- if $i }},{{ end }}
+    "{{ $instruction }}"
+{{- end }}
+  ],
+
+  "keybinds": {
+{{- $keybinds := $opencode.keybinds }}
+{{- $first := true }}
+{{- range $key, $value := $keybinds }}
+{{- if not $first }},{{ end }}
+    "{{ $key }}": "{{ $value }}"
+{{- $first = false }}
+{{- end }}
+  },
+
+  "provider": {
+{{- $provider := $opencode.provider }}
+{{- $first := true }}
+{{- range $key, $value := $provider }}
+{{- if not $first }},{{ end }}
+    "{{ $key }}": {{- if or (eq $key "github-copilot") (eq $key "google") }} {{ toJson (index $provider $key) }}{{ else }} {}{{ end }}
+{{- $first = false }}
+{{- end }}
+  },
+
+  "mcp": {
+{{- $mcp := $opencode.mcp }}
+{{- $first := true }}
+{{- range $key, $value := $mcp }}
+{{- if not $first }},{{ end }}
+    "{{ $key }}": {
+      "type": "{{ $value.type }}",
+      "url": "{{ $value.url }}",
+      "headers": {
+{{- $headerFirst := true }}
+{{- range $hkey, $hvalue := $value.headers }}
+{{- if not $headerFirst }},{{ end }}
+        "{{ $hkey }}": "{{ $hvalue }}"
+{{- $headerFirst = false }}
+{{- end }}
+      },
+      "enabled": {{ $value.enabled }}
+    }
+{{- $first = false }}
+{{- end }}
+  }
+}

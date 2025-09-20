@@ -1,20 +1,182 @@
-# Tmux Keybindings Reference
+# AGENTS-tmux.md
 
-This document provides a comprehensive overview of all tmux keybindings configured in this dotfiles repository, cross-referenced with the actual tmux configuration.
+## Overview
 
-## Configuration Files
+This tmux configuration is designed for a modern terminal-based development workflow with vim-like navigation, aesthetic enhancements, and tight integration with other development tools. The configuration is modular and split across multiple files for maintainability.
 
-- **Main Config**: `dot_config/tmux/tmux.conf`
-- **Keybindings**: `dot_config/tmux/tmux.keybindings.conf`
-- **Status Bar**: `dot_config/tmux/tmux.status.conf`
-- **Theme**: `dot_config/tmux/tmux.theme.catppuccin.conf.tmpl`
-- **Symlink**: `symlink_dot_tmux.conf.tmpl` → `~/.tmux.conf`
+## Configuration Structure
 
-## Prefix Key
+The tmux configuration is organized into several focused files:
 
-**Default Prefix**: `Ctrl-a` (changed from default `Ctrl-b`)
+- **`tmux.conf`** - Main configuration and imports
+- **`tmux.keybindings.conf`** - All keybinding definitions  
+- **`tmux.status.conf`** - Status bar configuration
+- **`tmux.theme.catppuccin.conf.tmpl`** - Theme styling (Catppuccin)
+- **`tmux.cursor.conf`** - Cursor and terminal integration
+- **`tmux.pomodoro.conf`** - Pomodoro timer integration
 
-## Essential Keybindings
+## Key Features
+
+### 1. **Vim-Style Navigation**
+- Seamless navigation between tmux panes and vim splits
+- Consistent hjkl movement patterns
+- Smart pane switching that works with vim-tmux-navigator
+
+### 2. **Modern Terminal Integration**
+- True color support (24-bit)
+- Undercurl support for modern terminals
+- Enhanced mouse support
+- Clipboard integration with system clipboard
+
+### 3. **Developer-Focused Workflow**
+- Session management optimized for project work
+- Quick window/pane creation and navigation
+- Integration with external tools (fzf, etc.)
+
+## Keybindings Reference
+
+### **Prefix Key**: `Ctrl+a`
+All tmux commands are prefixed with `Ctrl+a` (changed from default `Ctrl+b` for ergonomics).
+
+### **Core Navigation**
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `Prefix + h/j/k/l` | Navigate panes | Vim-style pane navigation |
+| `Prefix + H/J/K/L` | Resize panes | Resize current pane in direction |
+| `Prefix + arrow keys` | Navigate panes | Alternative pane navigation |
+| `Prefix + Ctrl+h/l` | Navigate windows | Move between windows |
+
+### **Window & Pane Management**
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `Prefix + c` | New window | Create new window |
+| `Prefix + &` | Kill window | Close current window |
+| `Prefix + x` | Kill pane | Close current pane |
+| `Prefix + %` | Vertical split | Split pane vertically |
+| `Prefix + "` | Horizontal split | Split pane horizontally |
+| `Prefix + z` | Zoom pane | Toggle pane zoom |
+
+### **Session Management**
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `Prefix + s` | List sessions | Show session selector |
+| `Prefix + d` | Detach | Detach from current session |
+| `Prefix + $` | Rename session | Rename current session |
+| `Prefix + (` | Previous session | Switch to previous session |
+| `Prefix + )` | Next session | Switch to next session |
+
+### **Copy Mode (Vim-style)**
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `Prefix + [` | Enter copy mode | Start text selection |
+| `v` | Begin selection | Start visual selection |
+| `y` | Copy selection | Copy to clipboard |
+| `q` | Exit copy mode | Return to normal mode |
+
+### **Advanced Features**
+| Keybinding | Action | Description |
+|------------|--------|-------------|
+| `Prefix + r` | Reload config | Reload tmux configuration |
+| `Prefix + I` | Install plugins | Install/update plugins |
+| `Prefix + U` | Update plugins | Update all plugins |
+
+## Plugin Integration
+
+### **Tmux Plugin Manager (TPM)**
+- **tmux-sensible**: Better defaults
+- **tmux-resurrect**: Session persistence
+- **tmux-continuum**: Automatic session saving
+- **vim-tmux-navigator**: Seamless vim/tmux navigation
+
+### **Theme Integration**
+- **Catppuccin theme**: Consistent with system theme
+- Dynamic theme switching based on system appearance
+- Custom status bar with git integration
+
+## Integration Points
+
+### **With Neovim**
+- Seamless navigation between vim splits and tmux panes
+- Shared clipboard functionality
+- Consistent color scheme and styling
+
+### **With Ghostty Terminal**
+- True color support
+- Custom keybindings for tmux window management
+- Optimized for terminal font rendering
+
+### **With Development Workflow**
+- Session templates for different project types
+- Integration with git status in status bar
+- Support for development tools (fzf, ripgrep, etc.)
+
+## Configuration Patterns
+
+### **Window Naming Strategy**
+- Automatic window renaming based on current directory
+- Custom names for persistent windows (monitoring, logs, etc.)
+- Session-specific window arrangements
+
+### **Pane Layout Preferences**
+- Main pane for editing (usually vim)
+- Side pane for terminal operations
+- Bottom pane for monitoring/logs when needed
+
+### **Session Organization**
+- One session per project/repository
+- Shared session for general terminal work
+- Temporary sessions for quick tasks
+
+## Customization Guidelines
+
+### **Adding New Keybindings**
+1. Add to `tmux.keybindings.conf`
+2. Follow vim-style patterns where possible
+3. Avoid conflicts with vim-tmux-navigator
+4. Document in this file
+
+### **Theme Modifications**
+1. Edit `tmux.theme.catppuccin.conf.tmpl`
+2. Maintain consistency with system theme
+3. Test in both light and dark modes
+4. Consider colorblind accessibility
+
+### **Plugin Management**
+1. Add plugins to main `tmux.conf`
+2. Configure plugin-specific settings in dedicated sections
+3. Test plugin compatibility before committing
+4. Update documentation when adding plugins
+
+## Troubleshooting
+
+### **Common Issues**
+1. **Navigation not working**: Check vim-tmux-navigator installation
+2. **Colors not displaying**: Verify terminal true color support
+3. **Clipboard not working**: Check system clipboard integration
+4. **Plugins not loading**: Run `Prefix + I` to install plugins
+
+### **Performance Optimization**
+- Limit status bar update frequency for better performance
+- Use efficient plugin configurations
+- Minimize unnecessary visual elements
+
+## Best Practices
+
+1. **Keep sessions focused**: One session per project/context
+2. **Use descriptive window names**: Makes navigation easier
+3. **Leverage pane layouts**: Consistent arrangements improve workflow
+4. **Regular config updates**: Keep plugins and configurations current
+5. **Document custom modifications**: Maintain this file when making changes
+
+## OpenCode Integration Notes
+
+When using with OpenCode:
+- Tmux prefix `Ctrl+a` does not conflict with OpenCode keybindings
+- Can run OpenCode within tmux sessions for better session management
+- Vim-tmux-navigator works seamlessly with OpenCode's editor integration
+- Consider using dedicated tmux windows for OpenCode sessions
+
+## Complete Keybinding Reference
 
 ### Session Management
 
@@ -320,36 +482,71 @@ Mouse support is enabled with the following features:
 - Environment variable preservation
 - Custom PATH configuration for Homebrew
 
-## Troubleshooting
+## FZF URL and Theming Integration
 
-### Common Issues
+### FZF URL Features
 
-1. **Key bindings not working**: Reload config with `Prefix + r`
-2. **Colors not displaying**: Check terminal true color support
-3. **Clipboard not working**: Ensure `reattach-to-user-namespace` is installed
-4. **Plugin issues**: Try `Prefix + I` to reinstall plugins
+The `tmux-fzf-url` plugin provides intelligent URL extraction and opening capabilities:
 
-### Debugging Commands
+#### URL Detection Patterns
+- **HTTP/HTTPS URLs**: Standard web addresses
+- **Git URLs**: SSH and HTTPS git repository URLs  
+- **File Paths**: Local and remote file paths
+- **IP Addresses**: IPv4 and IPv6 addresses with ports
+- **Email Addresses**: Mailto links and plain email addresses
 
+#### Usage
+1. Press `Prefix + u` to activate FZF URL mode
+2. All URLs from the current pane are extracted and displayed in FZF
+3. Use arrow keys or vim-style navigation to select a URL
+4. Press Enter to open the selected URL with the system default application
+
+#### Custom URL Handlers
+- **Web URLs**: Open in default browser
+- **Git URLs**: Clone repository or open in Git client
+- **File Paths**: Open in default application or editor
+- **Email**: Open in default email client
+
+### Theming Strategy
+
+The tmux configuration uses a sophisticated theming approach that integrates with the broader system theme:
+
+#### Theme Components
+1. **Base Theme**: Catppuccin color palette with multiple variants
+2. **Dynamic Switching**: Automatic light/dark mode based on system settings
+3. **Consistent Colors**: Shared color scheme across tmux, Neovim, and terminal
+4. **Custom Overrides**: Specific adjustments for better visibility and aesthetics
+
+#### Theme Files
+- `tmux.theme.catppuccin.conf.tmpl`: Main theme configuration with Chezmoi templating
+- Color variables are sourced from global Chezmoi data for consistency
+- Supports multiple Catppuccin flavors (Latte, Frappé, Macchiato, Mocha)
+
+#### Status Bar Theming
+- **Window Status**: Active/inactive window indicators with custom colors
+- **Session Info**: Session name with highlighting
+- **System Info**: CPU, memory, battery status with color coding
+- **Time Display**: Custom time format with themed colors
+
+#### Pane Border Theming
+- **Active Pane**: Highlighted border color for current pane
+- **Inactive Panes**: Subtle border colors for background panes
+- **Status Integration**: Border colors match status bar theme
+
+### Advanced Configuration
+
+#### Custom FZF URL Configuration
 ```bash
-# List all key bindings
-tmux list-keys
-
-# Show tmux server info
-tmux info
-
-# Check tmux version
-tmux -V
-
-# Validate configuration
-tmux source-file ~/.tmux.conf
+# Custom URL patterns can be added to enhance detection
+set -g @fzf-url-extra-filter 'grep -oE "(magnet:\?[^\s]*)"'  # Magnet links
+set -g @fzf-url-bind 'ctrl-o:execute-silent(open {})'        # Custom open binding
 ```
 
-## Configuration Hierarchy
+#### Theme Customization
+```bash
+# Custom color overrides in tmux.theme.catppuccin.conf.tmpl
+set -g status-style "bg={{ .colors.surface0 }},fg={{ .colors.text }}"
+set -g window-status-current-style "bg={{ .colors.blue }},fg={{ .colors.base }}"
+```
 
-1. **Main config**: `~/.tmux.conf` (symlinked from repo)
-2. **Modular configs**: Sourced from `~/.config/tmux/`
-3. **Plugin configs**: Loaded by TPM
-4. **Theme configs**: Catppuccin theme with custom overrides
-
-This comprehensive keybinding reference covers all configured shortcuts and provides context for their usage within the broader tmux ecosystem.
+This comprehensive tmux setup provides a powerful, efficient, and aesthetically pleasing terminal multiplexer experience that integrates seamlessly with the broader development environment.

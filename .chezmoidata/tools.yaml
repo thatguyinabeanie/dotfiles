@@ -129,6 +129,13 @@ dev_tools:
     description: "Git diff viewer"
     category: git
 
+  - name: lefthook
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Git hooks manager"
+    category: git
+
   - name: github-cli
     install_via: mise
     runtime: native

@@ -7,7 +7,7 @@ return {
       bigfile = { enabled = true },
       dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = { enabled = true },
-      image = { enabled = true }, -- Enable image support
+      image = { enabled = true },
       input = { enabled = true },
       lazygit = {
         enabled = true,

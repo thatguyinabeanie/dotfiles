@@ -1,73 +1,73 @@
 ##
 ## TMUX - TPM
 ##
-["plugins/tmux"]
+["tmux"]
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/catppuccin/tmux.git" 
 
-["plugins/tmux-battery"]
+["tmux-battery"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-battery.git" 
+url  = "https://github.com/tmux-tmux-battery.git" 
 
-["plugins/tmux-cpu"]
+["tmux-cpu"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-cpu.git" 
+url  = "https://github.com/tmux-tmux-cpu.git" 
 
-["plugins/tmux-logging"]
+["tmux-logging"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-logging.git" 
+url  = "https://github.com/tmux-tmux-logging.git" 
 
-["plugins/tmux-pain-control"]
+["tmux-pain-control"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-pain-control.git"
+url  = "https://github.com/tmux-tmux-pain-control.git"
 
-["plugins/tmux-resurrect"]
+["tmux-resurrect"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-resurrect.git"
+url  = "https://github.com/tmux-tmux-resurrect.git"
 
-["plugins/tmux-sensible"]
+["tmux-sensible"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-sensible.git"
+url  = "https://github.com/tmux-tmux-sensible.git"
 
-["plugins/tmux-yank"]
+["tmux-yank"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-yank.git"
+url  = "https://github.com/tmux-tmux-yank.git"
 
-["plugins/tpm"]
+["tpm"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tpm.git"
+url  = "https://github.com/tmux-tpm.git"
 
-["plugins/tmux-sessionx"]
+["tmux-sessionx"]
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/omerxx/tmux-sessionx.git"
 
-["plugins/vim-tmux-navigator"]
+["vim-tmux-navigator"]
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/christoomey/vim-tmux-navigator.git"
 
-["plugins/tmux-which-key"]
+["tmux-which-key"]
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/alexwforsythe/tmux-which-key.git"
 
-["plugins/tmux-fzf-url"]
+["tmux-fzf-url"]
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/wfxr/tmux-fzf-url.git"
 
-["plugins/tmux-open"]
+["tmux-open"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-open.git"
+url  = "https://github.com/tmux-tmux-open.git"
 
