@@ -27,6 +27,21 @@ return {
       nu = { "nu.tmpl" },
       toml = { "toml.tmpl" },
     },
+    lsp_servers = {
+{{- range $server := $lsp_data.language_servers }}
+  {{- if and (hasKey $server "mason_ensure_installed") $server.mason_ensure_installed }}
+    {{- $mason_name := "" }}
+    {{- if hasKey $server "mason_name" }}
+      {{- $mason_name = $server.mason_name }}
+    {{- else }}
+      {{- $mason_name = $server.name }}
+    {{- end }}
+    {{- range $server.languages }}
+      ["{{ . }}"] = "{{ $mason_name }}",
+    {{- end }}
+  {{- end }}
+{{- end }}
+    },
   },
   mason = {
     lsp_servers = {
