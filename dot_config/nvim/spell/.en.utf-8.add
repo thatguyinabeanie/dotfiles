@@ -448,6 +448,11 @@ PropTypes
 useState
 useReducer
 JSDoc
+chezmoiignore
+Context7
+A11y
+whenToUse
+systemPrompt
 heatmaps
 treemaps
 mcp
@@ -483,7 +488,6 @@ Surface1
 lua
 WebAssembly
 todo
-Context7
 Vue
 FastAPI
 Django

@@ -6,9 +6,7 @@
      {{- template "utilities/platform-storage.tmpl" (dict "syntax" "nushell" "context" .) }}
 */ -}}
 
-##
-## PLATFORM STORAGE ENVIRONMENT VARIABLES
-##
+
 {{- if eq .context.chezmoi.os "darwin" }}
 {{- $platformJson := (output "sh" "-c" "defaults export com.chezmoi.env - 2>/dev/null | plutil -convert json -o - - 2>/dev/null || echo '{}'") }}
 {{- $platformVars := (fromJson $platformJson) }}

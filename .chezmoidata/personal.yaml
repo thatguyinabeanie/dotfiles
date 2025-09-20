@@ -35,11 +35,6 @@ env_personal:
 
   # Personal cloud and backup settings
   cloud:
-    # iCloud settings (macOS)
-    icloud:
-      ICLOUD_DRIVE: "$HOME/Library/Mobile Documents/com~apple~CloudDocs"
-      ICLOUD_DESKTOP: "$HOME/Library/Mobile Documents/com~apple~CloudDocs/Desktop"
-
     # Backup settings
     backup:
       BACKUP_DIR: "$HOME/Backups"
