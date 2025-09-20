@@ -26,7 +26,7 @@ github-copilot:
       limit:
         context: 200000
         output: 8192
-    
+
     # GPT models
     - name: gpt-4o
       limit:
@@ -44,7 +44,7 @@ github-copilot:
       limit:
         context: 128000
         output: 128000
-    
+
     # Google Gemini models
     - name: gemini-2.0-flash-001
       limit:
@@ -54,7 +54,7 @@ github-copilot:
       limit:
         context: 1048576
         output: 65536
-    
+
     # OpenAI reasoning models
     - name: o3
       limit:
@@ -68,7 +68,7 @@ github-copilot:
       limit:
         context: 128000
         output: 65536
-    
+
     # xAI Grok model
     - name: grok-code-fast-1
       limit:

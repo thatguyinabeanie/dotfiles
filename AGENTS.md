@@ -8,83 +8,89 @@ The setup is meticulously organized, leveraging a modular data structure within 
 
 Key technologies include **Go** for testing, **Shell (Bash/Zsh/Nushell)** for scripting, **Lua** for Neovim configuration, and extensive **YAML** for data configuration.
 
-## Build/Test Commands
+## Agent Documentation
+
+For detailed information about managing this chezmoi dotfiles repository, see the dedicated agent documentation at `.opencode/agent/chezmoi-dotfiles-manager.md`. This includes:
+
+- Build and test commands
+- Template development best practices
+- Code style guidelines
+- Configuration management details
+- macOS-specific file handling
+- Step-by-step workflows for common tasks
+
+## Quick Start
 
 ```bash
-# Setup hooks after cloning repo (one-time)
-# Note: hooks auto-install via mise postinstall hook, but you can manually run:
-mise run setup-hooks
+# Clone and initialize the repository
+git clone <repository-url>
+cd <repository-directory>
+chezmoi init --apply --force
 
-# Run all quality checks (linting, formatting, security)
+# Run quality checks
 lefthook run pre-commit
 
-# Apply dotfiles changes
-chezmoi apply --force
-
-# See what changes would be made without applying them
-chezmoi diff
-
-# Validate template changes during development (recommended workflow)
-chezmoi apply --dry-run  # Test for template syntax errors
-chezmoi apply --force     # Apply only if dry-run succeeds
-
-# Run all tests
+# Run tests
 cd .tests && go test ./...
-
-# Run single test file
-cd .tests && go test ./unit/config_test.go -v
-
-# Run tests with coverage
-cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out
-
-# Run relevant tests for changed files
-.tests/scripts/run_relevant_tests.sh
 ```
 
-## Template Development Best Practices
+## Available Tools
 
-### DRY Principle in Templates
+### Context7 Integration Tools
 
-- **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract package lists for different managers
-- **Targeted hashing**: Package installer scripts use specific hash triggers (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire configuration files
-- **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch template syntax errors before applying changes
+- **context7_resolve_library_id**: Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries. Must be called before fetching documentation to obtain valid library IDs.
+- **context7_get_library_docs**: Fetches up-to-date documentation for a library using a Context7-compatible library ID. Supports topic-focused retrieval and token limits for optimized context.
 
-### Iterative Development Workflow
+## Specialized Agent Architecture
 
-1. **Make template changes**
-2. **Validate with dry-run**: `chezmoi apply --dry-run`
-3. **Fix any template syntax errors**
-4. **Apply when validation passes**: `chezmoi apply --force`
-5. **Test the actual functionality** (installation scripts, etc.)
+This repository leverages a specialized agent architecture where the **chezmoi-dotfiles-manager** acts as an orchestrator coordinating with domain-specific agents for complex multi-step operations.
 
-This workflow prevents broken templates from being applied to your system and ensures robust template development.
+### Agent Orchestration Patterns
 
-**Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test. If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
+**Orchestrator Agent (chezmoi-dotfiles-manager)**
+- High-degree reasoning and task coordination
+- Analyzes requests and determines which specialized agents to engage
+- Coordinates multi-agent workflows for complex changes
+- Maintains state consistency across configuration areas
+- Provides unified feedback on multi-step operations
 
-## Code Style Guidelines
+**Specialized Agent Categories**
 
-- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive). Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
-- **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
-- **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
-- **YAML**: Max 120 chars, no document-start markers (`---`), newline at EOF required.
-- **Markdown**: Use Vale for prose linting, follow markdownlint rules.
+**Core Infrastructure Agents**
+- Configuration Validator: YAML consistency, template syntax, cross-platform compatibility
+- Environment Sync: Local vs remote state comparison, drift detection
+- Security Auditor: Secret scanning, permission validation, integration security
 
-### Naming Conventions
+**Tool-Specific Agents**
+- Package Manager: Brew/mise/cargo updates, dependency resolution
+- Shell Configuration: Performance optimization, plugin management
+- Development Environment: Language setups, LSP configuration
 
-- `dot_`: Prefix for hidden files managed by Chezmoi.
-- `private_`: Prefix for files encrypted by Chezmoi.
-- `.tmpl`: Suffix for Chezmoi templates.
+**Application-Specific Agents**
+- Terminal Multiplexer: tmux/zellij configuration management
+- Editor Configuration: nvim/vscode plugin and setting management
+- Git Workflow: Hook management, signing, repository-specific settings
 
-## Configuration Management
+**System Integration Agents**
+- macOS Integration: System preferences, Homebrew services, Launch Agents
+- Theme Manager: Cross-application theme synchronization
+- Backup & Recovery: Configuration snapshots, disaster recovery
 
-- Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform (macOS, cross-platform) and context (shared, personal, work).
-- A persistent configuration system is in place to store and restore settings across system reinstalls. Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
+### Multi-Agent Workflow Examples
 
-## macOS-Specific Files
+**Development Environment Update**
+```
+Request → Orchestrator → [Security Auditor → Package Manager → Development Environment → Git Workflow]
+```
 
-When adding cross-platform support, these files/directories are macOS-only and should use `{{- if eq .chezmoi.os "darwin" }}` conditionals:
+**Theme Synchronization**
+```
+Request → Orchestrator → [Configuration Validator → Theme Manager → Terminal Multiplexer → Editor Configuration]
+```
 
-- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
-- **Homebrew Dependencies**: Profile/shell configs, tmux, nushell, ghostty configs reference `/opt/homebrew`
-- **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
-- **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
+**System Migration**
+```
+Request → Orchestrator → [Backup & Recovery → Environment Sync → Package Manager → System Integration]
+```
+
+The orchestrator ensures proper sequencing, dependency handling, and rollback capabilities across all agent interactions.

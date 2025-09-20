@@ -10,3 +10,4 @@ opencode:
   providers:
     - github-copilot
     - google
+

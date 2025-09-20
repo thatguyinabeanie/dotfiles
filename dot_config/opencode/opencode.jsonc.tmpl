@@ -1,2 +1,122 @@
-{{- $opencode := .opencode -}}
-{{- template "utilities/json-config.tmpl" (dict "data" $opencode "schema" "https://opencode.ai/config.json" "global" .) }}
+{{- $opencode_full := fromJson .opencode_yaml.content -}}
+{{- $opencode := $opencode_full.opencode -}}
+{{- $schema := "https://opencode.ai/config.json" -}}
+{{- $global := . -}}
+
+{
+{{- if $schema }}
+  "$schema": "{{ $schema }}",
+{{- end }}
+
+{{- /* Top-level simple fields */ -}}
+{{- if hasKey $opencode "model" }}
+  "model": "{{ $opencode.model }}",
+{{- end }}
+{{- if hasKey $opencode "small_model" }}
+  "small_model": "{{ $opencode.small_model }}",
+{{- end }}
+{{- if hasKey $opencode "theme" }}
+  "theme": "{{ $opencode.theme }}",
+{{- end }}
+{{- if hasKey $opencode "share" }}
+  "share": "{{ $opencode.share }}",
+{{- end }}
+{{- if hasKey $opencode "autoupdate" }}
+  "autoupdate": {{ $opencode.autoupdate }},
+{{- end }}
+
+{{- /* MCP configuration */ -}}
+  "mcp": {
+{{- $mcpItems := list -}}
+{{- /* Add context7 MCP server if CONTEXT7_APIKEY env var exists */ -}}
+{{- if env "CONTEXT7_APIKEY" }}
+{{- $mcpItems = append $mcpItems "context7" -}}
+{{- end }}
+{{- /* Add other MCP servers from YAML config */ -}}
+{{- if hasKey $opencode "mcp" }}
+{{- range $serverName, $serverConfig := $opencode.mcp }}
+{{- if ne $serverName "context7" }}
+{{- $mcpItems = append $mcpItems $serverName -}}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- $mcpLen := len $mcpItems -}}
+{{- if gt $mcpLen 0 }}
+{{- range $mcpIndex, $serverName := $mcpItems }}
+{{- if eq $serverName "context7" }}
+    "context7": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "{{ env "CONTEXT7_APIKEY" }}"
+      ],
+      "enabled": true
+    }{{- if lt (add $mcpIndex 1) $mcpLen }},{{ end }}
+{{- else }}
+{{- $serverConfig := index $opencode.mcp $serverName }}
+    "{{ $serverName }}": {
+{{- if hasKey $serverConfig "type" }}
+      "type": "{{ $serverConfig.type }}",
+{{- end }}
+{{- if hasKey $serverConfig "url" }}
+      "url": "{{ $serverConfig.url }}",
+{{- end }}
+{{- if hasKey $serverConfig "command" }}
+      "command": [
+{{- range $i, $cmd := $serverConfig.command }}
+{{- if gt $i 0 }}, {{ end }}"{{ $cmd }}"
+{{- end }}
+      ],
+{{- end }}
+{{- if hasKey $serverConfig "headers" }}
+      "headers": {
+{{- $headersLen := len $serverConfig.headers -}}
+{{- $headerIndex := 0 -}}
+{{- range $key, $value := $serverConfig.headers }}
+        "{{ $key }}": "{{ $value }}"{{- if lt (add $headerIndex 1) $headersLen }},{{ end }}
+{{- $headerIndex = add $headerIndex 1 -}}
+{{- end }}
+      },
+{{- end }}
+{{- if hasKey $serverConfig "enabled" }}
+      "enabled": {{ $serverConfig.enabled }}
+{{- end }}
+    }{{- if lt (add $mcpIndex 1) $mcpLen }},{{ end }}
+{{- end }}
+{{- end }}
+{{- else }}
+{{- /* No MCP servers available */ -}}
+{{- end }}
+  },
+
+{{- /* Provider configurations - convert providers list to provider map */ -}}
+{{- if hasKey $opencode "providers" }}
+  "provider": {
+    {{- $first := true -}}
+    {{- range $opencode.providers -}}
+      {{- if not $first }},{{ end }}
+    "{{- . | trim -}}": {
+      "models": {
+{{- $provider := . | trim -}}
+{{- $yamlPath := printf "%s/.chezmoidata/ai/%s.yaml" $global.chezmoi.sourceDir $provider -}}
+{{- $providerData := (index (fromYaml (include $yamlPath)) $provider) -}}
+{{- range $i, $model := $providerData.models -}}
+{{- if gt $i 0 }},{{ end }}
+        "{{ $model.name }}": {
+          "limit": {
+            "context": {{ $model.limit.context }},
+            "output": {{ $model.limit.output }}
+          }
+        }
+{{- end }}
+      },
+      "options": {}
+    }
+      {{- $first = false -}}
+    {{- end }}
+  }
+{{- end }}
+}

@@ -1,8 +1,8 @@
 #!/usr/bin/env nu
-##
-## NUSHELL ALIASES AND FUNCTIONS
-## Advanced shell functions for productivity and development workflow
-##
+#
+# NUSHELL ALIASES AND FUNCTIONS
+# Advanced shell functions for productivity and development workflow
+#
 
 {{- if eq .chezmoi.os "darwin" }}
 {{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
