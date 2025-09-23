@@ -19,25 +19,6 @@ formatters:
     mason_ensure_installed: true
     mason_name: prettierd
 
-  # Prettier plugins
-  - name: prettier-plugin-sh
-    languages: [sh, bash, zsh]
-    install_via: bun
-    runtime: node
-    version: latest
-    description: "Prettier plugin for shell scripts"
-    mason_ensure_installed: false
-    prettier_plugin: true
-
-  - name: prettier-plugin-toml
-    languages: [toml]
-    install_via: bun
-    runtime: node
-    version: latest
-    description: "Prettier plugin for TOML files"
-    mason_ensure_installed: false
-    prettier_plugin: true
-
   # Systems languages
   - name: rustfmt
     languages: [rust]
@@ -156,5 +137,3 @@ formatters:
     description: "TOML formatter"
     mason_ensure_installed: true
 
-  # Dockerfile
-  # dockerfile-formatter removed - doesn't exist on npm

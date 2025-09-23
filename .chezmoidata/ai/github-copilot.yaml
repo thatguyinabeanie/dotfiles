@@ -13,8 +13,8 @@ github-copilot:
       limit:
         context: 128000
         output: 8192
-    
-    # GPT models - good general purpose models  
+
+    # GPT models - good general purpose models
     gpt-4o:
       limit:
         context: 128000
@@ -23,7 +23,7 @@ github-copilot:
       limit:
         context: 128000
         output: 8192
-    
+
     # Google Gemini models - strong multimodal capabilities
     gemini-2.0-flash-001:
       limit:
@@ -33,7 +33,7 @@ github-copilot:
       limit:
         context: 128000
         output: 8192
-    
+
     # OpenAI reasoning models - specialized for complex reasoning
     o3-mini:
       limit:
