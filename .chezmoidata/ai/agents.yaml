@@ -46,14 +46,6 @@ agents:
     category: ide
     macos_only: true
 
-  # AI productivity tools
-  - name: raycast
-    install_via: brew_cask
-    runtime: native
-    description: "AI-powered launcher and productivity tool"
-    category: productivity
-    macos_only: true
-
   # Terminal-based AI tools
   - name: charmbracelet/tap/mods
     install_via: brew
