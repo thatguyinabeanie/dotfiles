@@ -1,21 +1,28 @@
 agents:
   # Note: Some AI CLI tools don't exist on npm and are installed via other means
 
-  - name: "npm:opencode-ai"
-    install_via: mise
-    runtime: node
+  - name: "opencode-ai"
+    install_via: bun
+    runtime: native
     version: "latest"
     description: "OpenCode AI"
     category: code_assistant
 
   # Note: Commented out packages that may not exist on npm
   - name: "@augmentcode/auggie"
-    install_via: npm
-    runtime: node
+    install_via: bun
+    runtime: native
     version: latest
     description: "Augment Code CLI"
     category: code_assistant
 
+  - name: "@google/gemini-cli"
+    install_via: bun
+    runtime: native
+    version: latest
+    description: "Google Gemini Cli Coding Agent"
+    category: code_assistant
+    
   # - name: "@openai/codex"
   #   install_via: npm
   #   runtime: node
@@ -25,7 +32,7 @@ agents:
 
   # Native/Rust-based AI tools
   - name: claude
-    install_via: mise
+    install_via: bun
     runtime: native
     version: latest
     description: "Anthropic Claude CLI"
@@ -39,20 +46,6 @@ agents:
     category: ide
     macos_only: true
 
-  # - name: claude-desktop
-  #   install_via: brew_cask
-  #   runtime: native
-  #   description: "Claude desktop application (not available via brew)"
-  #   category: chat_assistant
-  #   macos_only: true
-
-  # - name: codeium
-  #   install_via: brew_cask
-  #   runtime: native
-  #   description: "Free AI code completion (not available via brew)"
-  #   category: code_assistant
-  #   macos_only: true
-
   # AI productivity tools
   - name: raycast
     install_via: brew_cask
@@ -60,20 +53,6 @@ agents:
     description: "AI-powered launcher and productivity tool"
     category: productivity
     macos_only: true
-
-  # - name: notion
-  #   install_via: brew_cask
-  #   runtime: native
-  #   description: "AI-enhanced note-taking and productivity"
-  #   category: productivity
-  #   macos_only: true
-
-  # - name: cleanmymac
-  #   install_via: brew_cask
-  #   runtime: native
-  #   description: "AI-powered Mac optimization"
-  #   category: system
-  #   macos_only: true
 
   # Terminal-based AI tools
   - name: charmbracelet/tap/mods

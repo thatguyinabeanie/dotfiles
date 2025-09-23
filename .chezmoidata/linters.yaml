@@ -19,7 +19,7 @@ linters:
   # Web development linters
   - name: eslint_d
     languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "Fast ESLint daemon"
@@ -29,7 +29,7 @@ linters:
 
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "CSS/SCSS linter"
@@ -233,7 +233,7 @@ linters:
   # JSON linters
   - name: jsonlint
     languages: [json]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "JSON linter"

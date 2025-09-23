@@ -1,0 +1,48 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "rm -rf *": "deny",
+      "sudo *": "ask"
+    }
+  },
+  
+  "lsp": {
+    "bash": {
+      "command": ["bash-language-server", "start"],
+      "extensions": ["sh", "zsh"]
+    },
+    "lua": {
+      "command": ["lua-language-server"],
+      "extensions": ["lua"]
+    },
+    "json": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": ["json", "jsonc"]
+    },
+    "yaml": {
+      "command": ["yaml-language-server", "--stdio"],
+      "extensions": ["yaml", "yml"]
+    },
+    "markdown": {
+      "command": ["marksman", "server"],
+      "extensions": ["md"]
+    }
+  },
+  
+  "formatter": {
+    "shfmt": {
+      "command": ["shfmt", "-i", "2", "-bn", "-ci", "-sr"],
+      "extensions": ["sh", "zsh"]
+    },
+    "prettierd": {
+      "command": ["prettierd", "{file}"],
+      "extensions": ["json", "jsonc", "yaml", "yml", "md"]
+    },
+    "taplo": {
+      "command": ["taplo", "format", "-"],
+      "extensions": ["toml"]
+    }
+  }
+}

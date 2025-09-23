@@ -1,0 +1,22 @@
+{{- define "collect_cargo_packages" -}}
+{{- $mason_check := .mason_check }}
+{{- range .packages }}
+{{- if eq .install_via "cargo" }}
+{{- if $mason_check }}
+{{- if not .mason_ensure_installed }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- else }}
+{{- if .install_command }}
+CARGO_PACKAGES+=("{{ .install_command }}")
+{{- else }}
+CARGO_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end -}}
