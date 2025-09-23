@@ -1,14 +1,11 @@
 agents:
-  # Note: Some AI CLI tools don't exist on npm and are installed via other means
-
   - name: "opencode-ai"
-    install_via: bun
-    runtime: native
+    install_via: npm
+    runtime: node
     version: "latest"
     description: "OpenCode AI"
     category: code_assistant
 
-  # Note: Commented out packages that may not exist on npm
   - name: "@augmentcode/auggie"
     install_via: bun
     runtime: native
@@ -22,7 +19,7 @@ agents:
     version: latest
     description: "Google Gemini Cli Coding Agent"
     category: code_assistant
-    
+
   # - name: "@openai/codex"
   #   install_via: npm
   #   runtime: node
@@ -30,12 +27,11 @@ agents:
   #   description: "OpenAI Codex CLI"
   #   category: code_assistant
 
-  # Native/Rust-based AI tools
-  - name: claude
+  - name: "@anthropic-ai/claude-code"
     install_via: bun
     runtime: native
     version: latest
-    description: "Anthropic Claude CLI"
+    description: "Claude Code Commands Manager"
     category: chat_assistant
 
   # GUI AI Applications (macOS casks)
@@ -53,19 +49,3 @@ agents:
     description: "AI on the command line"
     category: terminal
 
-  # AI development frameworks
-  - name: langchain-cli
-    install_via: pip
-    runtime: python
-    version: latest
-    description: "LangChain CLI for AI app development"
-    category: framework
-
-  - name: ollama
-    install_via: brew
-    runtime: native
-    version: latest
-    description: "Run large language models locally"
-    category: llm_runtime
-
-  # Note: gitleaks moved to linters.yaml to avoid duplication
