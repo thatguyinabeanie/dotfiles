@@ -1,0 +1,32 @@
+{{- define "install_cargo_packages" -}}
+for package_spec in "${CARGO_PACKAGES[@]}"; do
+    # Check if this is a custom install command
+    if [[ "$package_spec" == *"cargo install"* ]]; then
+        # Extract tool name from the command for checking if already installed
+        tool_name=$(echo "$package_spec" | sed -n 's/.*--git.*\/\([^/]*\)\.git \([^ ]*\).*/\2/p')
+        if [[ -z "$tool_name" ]]; then
+            # Fallback: extract last argument as tool name
+            tool_name=$(echo "$package_spec" | awk '{print $NF}')
+        fi
+
+        echo "📦 Installing $tool_name..."
+        if cargo install --list | grep -q "^$tool_name "; then
+            echo "  ✅ $tool_name already installed"
+        elif eval "$package_spec" >/dev/null 2>&1; then
+            echo "  ✅ $tool_name installed successfully"
+        else
+            echo "  ❌ Failed to install $tool_name via cargo"
+        fi
+    else
+        # Standard cargo install
+        echo "📦 Installing $package_spec..."
+        if cargo install --list | grep -q "^$package_spec "; then
+            echo "  ✅ $package_spec already installed"
+        elif cargo install "$package_spec" >/dev/null 2>&1; then
+            echo "  ✅ $package_spec installed successfully"
+        else
+            echo "  ❌ Failed to install $package_spec via cargo"
+        fi
+    fi
+done
+{{- end -}}

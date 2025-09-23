@@ -2,6 +2,7 @@
 # A comprehensive list of GUI applications, categorized by context.
 applications:
   shared:
+
     # Shared applications for all environments
     - name: aerospace
       install_via: brew_cask
@@ -77,8 +78,10 @@ applications:
       description: "API platform for building and using APIs"
     - name: raycast
       install_via: brew_cask
-      category: productivity
       description: "AI-powered launcher and productivity tool"
+      category: productivity
+      macos_only: true
+
     - name: slack
       install_via: brew_cask
       category: communication

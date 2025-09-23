@@ -2,7 +2,7 @@ formatters:
   # JavaScript/TypeScript ecosystem
   - name: prettier
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "Code formatter for web languages"
@@ -11,13 +11,32 @@ formatters:
 
   - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "Fast Prettier daemon"
     conflicts_with_lsp_formatting: true
     mason_ensure_installed: true
     mason_name: prettierd
+
+  # Prettier plugins
+  - name: prettier-plugin-sh
+    languages: [sh, bash, zsh]
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "Prettier plugin for shell scripts"
+    mason_ensure_installed: false
+    prettier_plugin: true
+
+  - name: prettier-plugin-toml
+    languages: [toml]
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "Prettier plugin for TOML files"
+    mason_ensure_installed: false
+    prettier_plugin: true
 
   # Systems languages
   - name: rustfmt
@@ -95,7 +114,7 @@ formatters:
   # SQL
   - name: sql-formatter
     languages: [sql]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "SQL formatter"
@@ -113,7 +132,7 @@ formatters:
   # CSS/SCSS
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: npm
+    install_via: bun
     runtime: node
     version: latest
     description: "CSS/SCSS formatter and linter"

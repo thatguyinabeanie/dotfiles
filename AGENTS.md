@@ -9,6 +9,25 @@ Your primary responsibilities:
 3.  **Chezmoi Integration**
 4.  **Best Practices**
 
+## Package Management
+
+**CRITICAL RULE**: Never install packages manually (npm, brew, pip, etc.). All packages MUST be managed through `.chezmoidata/` YAML files.
+
+### Package Installation Workflow
+1. **Identify package type**: formatters, linters, tools, etc.
+2. **Edit appropriate `.chezmoidata/*.yaml` file**
+3. **Follow established patterns**: `install_via`, `runtime`, `version`, etc.
+4. **Validate with**: `chezmoi apply --dry-run`
+5. **Apply changes**: `chezmoi apply`
+
+### Quick Reference
+- **Formatters**: `.chezmoidata/formatters.yaml`
+- **Linters**: `.chezmoidata/linters.yaml` 
+- **Tools**: `.chezmoidata/tools.yaml`
+- **AI Tools**: `.chezmoidata/ai/agents.yaml`
+
+**Before installing anything, consult**: [.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)
+
 When you don't have specific information, you will research and ask clarifying questions. You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 ## Additional Knowledge Base
@@ -21,6 +40,7 @@ To perform your tasks effectively, you must consult the following supplementary 
 - **[.docs/agent/BUILD_AND_TEST.md](.docs/agent/BUILD_AND_TEST.md)**: Details on build/test commands, quality checks, and running tests.
 - **[.docs/agent/TEMPLATE_BEST_PRACTICES.md](.docs/agent/TEMPLATE_BEST_PRACTICES.md)**: Best practices for chezmoi template development.
 - **[.docs/agent/CONFIGURATION_MANAGEMENT.md](.docs/agent/CONFIGURATION_MANAGEMENT.md)**: How configuration data is managed and the critical rule of never editing generated files directly.
+- **[.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)**: Complete guide to package management workflow, installation methods, and troubleshooting.
 - **[.docs/agent/MACOS_SPECIFIC_FILES.md](.docs/agent/MACOS_SPECIFIC_FILES.md)**: A list of macOS-specific files requiring conditional logic.
 
 ### Tool-Specific Guides
@@ -36,9 +56,6 @@ To perform your tasks effectively, you must consult the following supplementary 
 # Validate template changes during development (recommended workflow)
 chezmoi apply --dry-run  # Test for template syntax errors
 chezmoi apply --force     # Apply only if dry-run succeeds
-
-# Run all tests
-cd .tests && go test ./...
 ```
 
 ## Available Tools
@@ -52,52 +69,12 @@ cd .tests && go test ./...
 
 This repository leverages a specialized agent architecture where the **chezmoi-dotfiles-manager** acts as an orchestrator coordinating with domain-specific agents for complex multi-step operations.
 
-### Agent Orchestration Patterns
+### Agents
 
-**Orchestrator Agent (chezmoi-dotfiles-manager)**
+**chezmoi-dotfiles-manager**
 - High-degree reasoning and task coordination
 - Analyzes requests and determines which specialized agents to engage
 - Coordinates multi-agent workflows for complex changes
 - Maintains state consistency across configuration areas
 - Provides unified feedback on multi-step operations
 
-**Specialized Agent Categories**
-
-**Core Infrastructure Agents**
-- Configuration Validator: YAML consistency, template syntax, cross-platform compatibility
-- Environment Sync: Local vs remote state comparison, drift detection
-- Security Auditor: Secret scanning, permission validation, integration security
-
-**Tool-Specific Agents**
-- Package Manager: Brew/mise/cargo updates, dependency resolution
-- Shell Configuration: Performance optimization, plugin management
-- Development Environment: Language setups, LSP configuration
-
-**Application-Specific Agents**
-- Terminal Multiplexer: tmux/zellij configuration management
-- Editor Configuration: nvim/vscode plugin and setting management
-- Git Workflow: Hook management, signing, repository-specific settings
-
-**System Integration Agents**
-- macOS Integration: System preferences, Homebrew services, Launch Agents
-- Theme Manager: Cross-application theme synchronization
-- Backup & Recovery: Configuration snapshots, disaster recovery
-
-### Multi-Agent Workflow Examples
-
-**Development Environment Update**
-```
-Request → Orchestrator → [Security Auditor → Package Manager → Development Environment → Git Workflow]
-```
-
-**Theme Synchronization**
-```
-Request → Orchestrator → [Configuration Validator → Theme Manager → Terminal Multiplexer → Editor Configuration]
-```
-
-- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
-- **Homebrew Dependencies**: Profile/shell configs, tmux, nushell, ghostty configs reference `/opt/homebrew`
-- **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
-- **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
-
-# Global AGENTS.md
