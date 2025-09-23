@@ -1,0 +1,9 @@
+{{- define "load_yaml" -}}
+{{- $file := .file }}
+{{- $key := .key }}
+{{- if stat $file }}
+{{- $data := (include $file | fromYaml) }}
+[data.{{ $key }}_yaml]
+content = {{ toJson $data | quote }}
+{{- end }}
+{{- end -}}

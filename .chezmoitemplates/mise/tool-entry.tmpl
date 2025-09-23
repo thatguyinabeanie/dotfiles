@@ -1,0 +1,7 @@
+{{- define "tool_entry" -}}
+{{- if .version }}
+{{ .name | quote }} = {{ .version | quote }}
+{{- else }}
+{{ .name | quote }} = "latest"
+{{- end }}
+{{- end -}}

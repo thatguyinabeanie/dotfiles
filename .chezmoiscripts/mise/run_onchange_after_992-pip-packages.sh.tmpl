@@ -14,42 +14,7 @@ fi
 echo "📦 Collecting pip packages..."
 
 # Collect pip packages not managed by Mason
-PIP_PACKAGES=()
-
-# Language servers not managed by Mason
-{{- range .language_servers }}
-{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
-PIP_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# Formatters not managed by Mason
-{{- range .formatters }}
-{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
-PIP_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# Linters not managed by Mason
-{{- range .linters }}
-{{- if and (eq .install_via "pip") (not .mason_ensure_installed) }}
-PIP_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# AI agents
-{{- range .agents }}
-{{- if eq .install_via "pip" }}
-PIP_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# MCP servers
-{{- range .mcp_servers }}
-{{- if eq .install_via "pip" }}
-PIP_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
+PIP_PACKAGES=({{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }})
 
 if [[ ${#PIP_PACKAGES[@]} -eq 0 ]]; then
     echo "✅ No pip packages to install (all handled by Mason or mise)"
