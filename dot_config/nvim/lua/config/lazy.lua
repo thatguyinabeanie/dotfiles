@@ -16,31 +16,30 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-  spec = {
-    {
-      "LazyVim/LazyVim",
-      import = "lazyvim.plugins",
-      opts = {
-        colorscheme = "catppuccin",
+  require("lazy").setup({
+    spec = {
+      {
+        "LazyVim/LazyVim",
+        import = "lazyvim.plugins",
+        opts = {
+          colorscheme = "catppuccin",
+        },
       },
+      { import = "plugins/ai" },
+      { import = "plugins/dev" },
+      { import = "plugins/git" },
+      { import = "plugins/core" },
+      { import = "plugins/utilities" },
     },
-    { import = "plugins/core" },
-    { import = "plugins/ai" },
-    { import = "plugins/ui" },
-    { import = "plugins/dev" },
-    { import = "plugins/git" },
-    { import = "plugins/utilities" },
-  },
   defaults = {
-    lazy = false,
+    lazy = true,
     version = false,
   },
   install = {
     missing = true,
   },
   checker = {
-    enabled = true,
+    enabled = true, 
     notify = true,
     frequency = 3600, -- Check every hour (3600 seconds)
     check_pinned = false, -- Don't check pinned plugins

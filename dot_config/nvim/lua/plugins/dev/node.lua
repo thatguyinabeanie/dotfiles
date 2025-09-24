@@ -1,6 +1,24 @@
 -- Node.js ecosystem development tools
 -- Covers JavaScript, TypeScript, React, Vue, Tailwind, ESLint, and related tooling
-local config = require("utils.language-config")
+-- Fallback configuration when template is not generated
+local config = {
+  filetypes = {
+    web_frameworks = {
+      "javascriptreact",
+      "typescriptreact", 
+      "html",
+      "astro",
+      "svelte",
+      "vue",
+    },
+  },
+}
+
+-- Try to load the template-generated config, fallback to defaults if not available
+local ok, template_config = pcall(require, "utils.language-config")
+if ok then
+  config = template_config
+end
 
 return {
   -- TypeScript/JavaScript LSP servers
