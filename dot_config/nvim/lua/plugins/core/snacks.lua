@@ -49,17 +49,21 @@ return {
         width = 60,
         height = 20,
 
-        sections = {{
-          section = "header"
-        }, {
-          section = "keys",
-          gap = 1,
-          padding = 1
-        }, {
-          section = "startup",
-          gap = 1,
-          padding = 1
-        }},
+        sections = {
+          {
+            section = "header",
+          },
+          {
+            section = "keys",
+            gap = 1,
+            padding = 1,
+          },
+          {
+            section = "startup",
+            gap = 1,
+            padding = 1,
+          },
+        },
 
         preset = {
           keys = { -- File Operations
@@ -69,7 +73,7 @@ return {
               desc = "Find File",
               action = function()
                 Snacks.picker.files()
-              end
+              end,
             }, -- Search Operations
             {
               icon = "󰊄 ",
@@ -77,7 +81,7 @@ return {
               desc = "Grep",
               action = function()
                 Snacks.picker.grep()
-              end
+              end,
             }, -- Configuration
             {
               icon = "󰒓 ",
@@ -85,27 +89,28 @@ return {
               desc = "chezmoi.toml",
               action = function()
                 require("utils.chezmoi").open_config_toml()
-              end
+              end,
             }, -- Package Management
             {
               icon = "󰒲 ",
               key = "l",
               desc = "Lazy",
-              action = ":Lazy"
-            }, {
+              action = ":Lazy",
+            },
+            {
               icon = "󰏗 ",
               key = "x",
               desc = "Lazy Extras",
-              action = ":LazyExtras"
+              action = ":LazyExtras",
             }, -- Exit
             {
               icon = "󰅚 ",
               key = "q",
               desc = "Quit",
-              action = ":qa"
-            }
-          }
-        }
+              action = ":qa",
+            },
+          },
+        },
       },
 
       -- Indent configuration
