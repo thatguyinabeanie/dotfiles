@@ -39,13 +39,13 @@ vim.opt.rtp:prepend(lazypath)
     missing = true,
   },
   checker = {
-    enabled = false, -- Temporarily disable to test if this causes the freeze
+    enabled = true, 
     notify = true,
     frequency = 3600, -- Check every hour (3600 seconds)
     check_pinned = false, -- Don't check pinned plugins
   },
   change_detection = {
-    enabled = true, -- Temporarily disable to test if this causes the freeze
+    enabled = true,
     notify = true, -- Don't notify about config changes
   },
   ui = {

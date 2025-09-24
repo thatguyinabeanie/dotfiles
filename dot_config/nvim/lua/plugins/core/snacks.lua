@@ -18,7 +18,7 @@ return {
       },
       notifier = { enabled = true },
       picker = {
-        enabled = true, -- Temporarily disable to test if this causes the freeze
+        enabled = true,
         ui_select = true, -- Enable vim.ui.select override
         exclude = { -- add folder names here to exclude
           ".DS_Store",
