@@ -1,6 +1,7 @@
 {{- define "load_yaml" -}}
-{{- $file := .file }}
-{{- $key := .key }}
+{{- $context := index . 0 }}
+{{- $key := index . 1 }}
+{{- $file := printf "%s/.chezmoidata/%s.yaml" $context.chezmoi.sourceDir $key }}
 {{- if stat $file }}
 {{- $data := (include $file | fromYaml) }}
 [data.{{ $key }}_yaml]
@@ -93,10 +94,10 @@ duration = {{ $jankyborders.animations.duration }}
 {{- end }}
 
 {{- /* Load core YAML data files and make them available to templates */ -}}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "parsers.yaml") "key" "parsers") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "lsp.yaml") "key" "lsp") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "formatters.yaml") "key" "formatters") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "linters.yaml") "key" "linters") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "tools.yaml") "key" "tools") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "github-extensions.yaml") "key" "github_extensions") }}
-{{ template "load_yaml" (dict "file" (joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml") "key" "opencode") }}
+{{ template "load_yaml" (list . "parsers") }}
+{{ template "load_yaml" (list . "lsp") }}
+{{ template "load_yaml" (list . "formatters") }}
+{{ template "load_yaml" (list . "linters") }}
+{{ template "load_yaml" (list . "tools") }}
+{{ template "load_yaml" (list . "github-extensions") }}
+{{ template "load_yaml" (list . "opencode") }}
