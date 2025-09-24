@@ -14,9 +14,6 @@
   "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
   "augment.nextEdit.showDiffInHover": true,
   "augment.nextEdit.highlightSuggestionsInTheEditor": true,
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
   "redhat.telemetry.enabled": true,
   "explorer.confirmDragAndDrop": false,
   "terminal.external.linuxExec": "ghostty",

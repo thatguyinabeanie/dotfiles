@@ -9,33 +9,24 @@ return {
         width = 60,
         height = 20,
 
-        sections = {
-          {
-            section = "header",
-          },
-          {
-            section = "keys",
-            gap = 1,
-            padding = 1,
-          },
-          {
-            section = "startup",
-            gap = 1,
-            padding = 1,
-          },
-        },
+         sections = {
+           {
+             section = "header",
+           },
+           {
+             section = "keys",
+             gap = 1,
+             padding = 1,
+           },
+           {
+             section = "startup",
+             gap = 1,
+             padding = 1,
+           },
+         },
 
         preset = {
           keys = {
-            -- Project Management
-            {
-              icon = "󰉋 ",
-              key = "p",
-              desc = "Projects",
-              action = function()
-                Snacks.picker.projects()
-              end,
-            },
             -- File Operations
             {
               icon = "󰈞 ",
@@ -54,14 +45,6 @@ return {
                 Snacks.picker.grep()
               end,
             },
-            -- {
-            --   icon = "󰄉 ",
-            --   key = "r",
-            --   desc = "Recent Files",
-            --   action = function()
-            --     Snacks.picker.recent()
-            --   end,
-            -- },
             -- Configuration
             {
               icon = "󰒓 ",

@@ -7,7 +7,7 @@ return {
       bigfile = { enabled = true },
       dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = { enabled = true },
-      image = { enabled = true },
+       image = { enabled = false }, -- Disable image support to avoid potential issues
       input = { enabled = true },
       lazygit = {
         enabled = true,
@@ -16,28 +16,22 @@ return {
         },
       },
       notifier = { enabled = true },
-      picker = {
-        enabled = true,
-        ui_select = true, -- Enable vim.ui.select override
-        exclude = { -- add folder names here to exclude
-          ".DS_Store",
-        },
-        layout = {
-          preset = "default", -- Force default layout (horizontal with floating preview)
-          cycle = false,
-        },
-        sources = {
-          explorer = {
-            auto_close = false,
-            hidden = true,
-            ignored = true,
-            follow = false,
+        picker = {
+          enabled = false, -- Temporarily disable to test if this causes the freeze
+          ui_select = true, -- Enable vim.ui.select override
+          exclude = { -- add folder names here to exclude
+            ".DS_Store",
           },
-          files = {
-            hidden = true, -- Start with hidden files off, toggle with Alt+h
+          layout = {
+            preset = "default", -- Force default layout (horizontal with floating preview)
+            cycle = false,
+          },
+          sources = {
+            files = {
+              hidden = false, -- Start with hidden files off to avoid scanning issues
+            },
           },
         },
-      },
 
       quickfile = { enabled = true },
       rename = { enabled = true }, -- LSP file renaming with plugin integration

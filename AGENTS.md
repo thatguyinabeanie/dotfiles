@@ -100,4 +100,3 @@ Request → Orchestrator → [Configuration Validator → Theme Manager → Term
 - **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
 - **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
 
-# Global AGENTS.md
