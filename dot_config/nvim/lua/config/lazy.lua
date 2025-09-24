@@ -25,12 +25,11 @@ vim.opt.rtp:prepend(lazypath)
           colorscheme = "catppuccin",
         },
       },
+      { import = "plugins/ai" },
+      { import = "plugins/dev" },
+      { import = "plugins/git" },
       { import = "plugins/core" },
-      { import = "plugins/ui" },
-      -- { import = "plugins/ai-test" },
-      -- { import = "plugins/dev" },
-      -- { import = "plugins/git" },
-      -- { import = "plugins/utilities" },
+      { import = "plugins/utilities" },
     },
   defaults = {
     lazy = true,
@@ -39,16 +38,16 @@ vim.opt.rtp:prepend(lazypath)
   install = {
     missing = true,
   },
-   checker = {
-     enabled = false, -- Temporarily disable to test if this causes the freeze
-     notify = true,
-     frequency = 3600, -- Check every hour (3600 seconds)
-     check_pinned = false, -- Don't check pinned plugins
-   },
-   change_detection = {
-     enabled = false, -- Temporarily disable to test if this causes the freeze
-     notify = true, -- Don't notify about config changes
-   },
+  checker = {
+    enabled = false, -- Temporarily disable to test if this causes the freeze
+    notify = true,
+    frequency = 3600, -- Check every hour (3600 seconds)
+    check_pinned = false, -- Don't check pinned plugins
+  },
+  change_detection = {
+    enabled = false, -- Temporarily disable to test if this causes the freeze
+    notify = true, -- Don't notify about config changes
+  },
   ui = {
     border = "rounded",
   },

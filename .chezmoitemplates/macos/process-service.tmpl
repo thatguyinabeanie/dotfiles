@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 {{- define "process_service" -}}
 {{- $service := .service }}
 {{- $running_services := .running_services }}
@@ -53,35 +51,3 @@ fi
 {{- end }}
 {{- end }}
 {{- end -}}
-
-{{- if eq .chezmoi.os "darwin" }}
-{{- $brewServices := (include ".chezmoidata/services.yaml" | fromYaml) }}
-
-# Exit silently if MANAGE_BREW_SERVICES is falsey
-if [[ "${MANAGE_BREW_SERVICES}" =~ ^(0|false|False|FALSE|f|F|no|No|NO|n|N|off|Off|OFF)$ ]]; then
-	exit 0
-fi
-
-# Check if brew is installed
-if ! command -v brew &> /dev/null; then
-    exit 0
-fi
-
-# Brew Services Manager - Initial Setup
-
-# Use relaxed error handling for service management (some services may not exist)
-set +e
-
-echo "🔧 Initial brew services setup..."
-
-# Get currently running services once
-{{- $RUNNING_SERVICES := output "bash" "-c" "brew services list --json | jq -r '.[] | select(.status == \"started\") | .name'" | trim -}}
-
-{{- range $brewServices.macos_services }}
-{{ template "process_service" (dict "service" . "running_services" $RUNNING_SERVICES "excluded_services" $brewServices.excluded_services) }}
-{{- end }}
-
-echo "📊 Final brew services status:"
-brew services list
-
-{{- end }}

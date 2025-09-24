@@ -1,0 +1,15 @@
+{{/*
+JSON Simple Fields Template
+Generates simple key-value fields for JSON configuration
+
+Usage:
+{{- template "utilities/json-simple-fields.tmpl" (dict "data" .data "fields" (list "model" "small_model" "theme" "share" "autoupdate")) }}
+*/}}
+
+{{- $data := .data -}}
+{{- $fields := .fields -}}
+{{- range $field := $fields -}}
+  {{- if hasKey $data $field }}
+  "{{ $field }}": {{ if eq $field "autoupdate" }}{{ index $data $field }}{{ else }}"{{ index $data $field }}"{{ end }},
+  {{- end -}}
+{{- end -}}

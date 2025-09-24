@@ -1,0 +1,30 @@
+{{/*
+Simplified JSON Configuration Template
+Generates JSON configurations using helper templates for reduced complexity
+
+Usage:
+{{- template "utilities/json-config-simplified.tmpl" (dict "data" .data "schema" .schema "global" .global) }}
+*/}}
+
+{{- $data := .data -}}
+{{- $schema := .schema -}}
+{{- $global := .global -}}
+
+{
+{{- if $schema }}
+  "$schema": "{{ $schema }}",
+{{- end }}
+
+{{- /* Simple fields using helper */ -}}
+{{- template "utilities/json-simple-fields.tmpl" (dict "data" $data "fields" (list "model" "small_model" "theme" "share" "autoupdate")) }}
+
+{{- /* MCP configuration using helper */ -}}
+{{- if hasKey $data "mcp" -}}
+{{- template "utilities/json-mcp-config.tmpl" $data.mcp }}
+{{- end }}
+
+{{- /* Provider configuration using helper */ -}}
+{{- if hasKey $data "providers" -}}
+{{- template "utilities/json-provider-map.tmpl" (dict "providers" $data.providers "global" $global) }}
+{{- end }}
+}

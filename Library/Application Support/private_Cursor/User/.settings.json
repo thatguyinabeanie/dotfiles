@@ -81,8 +81,6 @@
   "mise.configureExtensionsUseSymLinks": true,
   "mise.updateOpenTerminalsEnvAutomatically": false,
   "extensions.disableExtensions": [
-    "ms-python.python",
-    "esbenp.prettier-vscode"
   ],
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.tree.indent": 20,
@@ -92,5 +90,9 @@
     "editor.defaultFormatter": "yinfei.luahelper"
   },
   "docker.extension.enableComposeLanguageServer": false,
-  "workbench.preferredDarkColorTheme": "Tokyo Night Storm"
+  "workbench.preferredDarkColorTheme": "Tokyo Night Storm",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "json.schemaDownload.enable": true
 }

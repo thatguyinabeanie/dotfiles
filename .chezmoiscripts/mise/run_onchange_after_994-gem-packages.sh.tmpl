@@ -3,6 +3,27 @@
 # This script installs gem packages not managed by mise or Mason
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "gem" "root" .) }}
 
+{{- define "collect_gem_packages" -}}
+{{- range .packages }}
+{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end -}}
+
+{{- define "install_gem_packages" -}}
+for package in "${GEM_PACKAGES[@]}"; do
+    echo "📦 Installing $package..."
+    if gem list -i "$package" >/dev/null 2>&1; then
+        echo "  ✅ $package already installed"
+    elif gem install "$package" >/dev/null 2>&1; then
+        echo "  ✅ $package installed successfully"
+    else
+        echo "  ❌ Failed to install $package"
+    fi
+done
+{{- end -}}
+
 set -euo pipefail
 
 # Ensure Ruby is available via mise
@@ -16,26 +37,9 @@ echo "📦 Collecting gem packages..."
 # Collect gem packages not managed by Mason
 GEM_PACKAGES=()
 
-# Language servers not managed by Mason
-{{- range .language_servers }}
-{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
-GEM_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# Formatters not managed by Mason
-{{- range .formatters }}
-{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
-GEM_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
-# Linters not managed by Mason
-{{- range .linters }}
-{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
-GEM_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
+{{ template "collect_gem_packages" (dict "packages" .language_servers) }}
+{{ template "collect_gem_packages" (dict "packages" .formatters) }}
+{{ template "collect_gem_packages" (dict "packages" .linters) }}
 
 if [[ ${#GEM_PACKAGES[@]} -eq 0 ]]; then
     echo "✅ No gem packages to install (all handled by Mason or mise)"
@@ -44,15 +48,6 @@ fi
 
 echo "📦 Installing ${#GEM_PACKAGES[@]} gem packages..."
 
-for package in "${GEM_PACKAGES[@]}"; do
-    echo "📦 Installing $package..."
-    if gem list -i "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package already installed"
-    elif gem install "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package installed successfully"
-    else
-        echo "  ❌ Failed to install $package"
-    fi
-done
+{{ template "install_gem_packages" }}
 
 echo "✅ Ruby gem package installation completed"

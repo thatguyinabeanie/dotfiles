@@ -1,0 +1,7 @@
+{{- define "collect_gem_packages" -}}
+{{- range .packages }}
+{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+{{- end -}}
