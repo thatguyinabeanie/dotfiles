@@ -12,12 +12,12 @@ return {
             if not fname or type(fname) ~= "string" or fname == "" then
               return nil
             end
-            
+
             -- Skip LSP for chezmoi template files
             if string.find(fname, ".chezmoitemplates", 1, true) then
               return nil
             end
-            
+
             local util = require("lspconfig.util")
             -- Ensure we return a valid path or nil
             local result = util.find_git_ancestor(fname)

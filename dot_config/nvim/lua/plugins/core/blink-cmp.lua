@@ -3,10 +3,10 @@
 -- https://cmp.saghen.dev
 return {
   "saghen/blink.cmp",
-  build = false, -- Don't build from source (use prebuilt binaries)
+  build = false, -- Disable Rust build completely to avoid binary issues
   event = "VeryLazy",
   opts = {
-    -- Performance optimizations (avoid compilation issues)
+    -- Force Lua implementation to avoid Rust binary issues
     fuzzy = {
       implementation = "lua", -- Use Lua implementation to avoid Rust binary issues
       use_frecency = true,

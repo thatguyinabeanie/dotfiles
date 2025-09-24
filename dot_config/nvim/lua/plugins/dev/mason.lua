@@ -1,5 +1,23 @@
 -- Mason tool management and auto-installation
-local config = require("utils.language-config")
+-- Fallback configuration when template is not generated
+local config = {
+  mason = {
+    core_tools = {},
+    lspconfig_servers = {},
+    formatters = {},
+    linters = {},
+    exploration_tools = {},
+  },
+  filetypes = {
+    lsp_servers = {},
+  },
+}
+
+-- Try to load the template-generated config, fallback to defaults if not available
+local ok, template_config = pcall(require, "utils.language-config")
+if ok then
+  config = template_config
+end
 
 return {
   -- Mason: Core tools
@@ -46,8 +64,8 @@ return {
         config.mason.formatters,
         vim.list_extend(config.mason.linters, config.mason.exploration_tools)
       ),
-      auto_update = false,
-      run_on_start = true,
+      auto_update = true,
+      run_on_start = true, -- Disable run on start to prevent freeze
       start_delay = 3000,
       debounce_hours = 5,
     },
@@ -63,7 +81,7 @@ return {
           if not lsp_servers then
             return
           end
-          
+
           local server = lsp_servers[event.match]
           if server then
             local mason_registry = require("mason-registry")
