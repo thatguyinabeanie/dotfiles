@@ -45,7 +45,7 @@ vim.opt.rtp:prepend(lazypath)
     check_pinned = false, -- Don't check pinned plugins
   },
   change_detection = {
-    enabled = false, -- Temporarily disable to test if this causes the freeze
+    enabled = true, -- Temporarily disable to test if this causes the freeze
     notify = true, -- Don't notify about config changes
   },
   ui = {
