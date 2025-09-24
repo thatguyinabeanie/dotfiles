@@ -1,0 +1,8 @@
+{
+  "instructions": [
+    "AGENTS.md",
+    "**/AGENTS.md",
+    "dot_config/**/AGENTS.md"
+  ],
+  "$schema": "https://opencode.ai/config.json"
+}
