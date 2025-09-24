@@ -1,5 +1,3 @@
-if true then return {} end
-
 return {
   {
     "folke/snacks.nvim",
@@ -20,7 +18,7 @@ return {
       },
       notifier = { enabled = true },
       picker = {
-        enabled = false, -- Temporarily disable to test if this causes the freeze
+        enabled = true, -- Temporarily disable to test if this causes the freeze
         ui_select = true, -- Enable vim.ui.select override
         exclude = { -- add folder names here to exclude
           ".DS_Store",
