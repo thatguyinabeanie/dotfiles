@@ -1,13 +1,4 @@
-{{- define "load_yaml" -}}
-{{- $context := index . 0 }}
-{{- $key := index . 1 }}
-{{- $file := printf "%s/.chezmoidata/%s.yaml" $context.chezmoi.sourceDir $key }}
-{{- if stat $file }}
-{{- $data := (include $file | fromYaml) }}
-[data.{{ $key }}_yaml]
-content = {{ toJson $data | quote }}
-{{- end }}
-{{- end -}}
+
 {{- $current_hostname := output "hostname" | trim -}}
 {{- $config_helper := joinPath .chezmoi.sourceDir ".chezmoitemplates" "utilities" "config-persistence.sh" -}}
 {{- $backup_script := joinPath .chezmoi.sourceDir ".scripts" "utilities" "chezmoi-backup-config" -}}
@@ -93,11 +84,20 @@ duration = {{ $jankyborders.animations.duration }}
 {{- end }}
 {{- end }}
 
-{{- /* Load core YAML data files and make them available to templates */ -}}
-{{ template "load_yaml" (list . "parsers") }}
-{{ template "load_yaml" (list . "lsp") }}
-{{ template "load_yaml" (list . "formatters") }}
-{{ template "load_yaml" (list . "linters") }}
-{{ template "load_yaml" (list . "tools") }}
-{{ template "load_yaml" (list . "github-extensions") }}
-{{ template "load_yaml" (list . "opencode") }}
+{{- /* 
+LAZY LOADING OPTIMIZATION: YAML data files are no longer loaded in .chezmoi.toml.tmpl
+for performance reasons. Individual templates can load specific YAML files as needed
+using the helper template functions below.
+
+To load YAML data in a template, use:
+{{ $data := (include (printf "%s/.chezmoidata/tools.yaml" .chezmoi.sourceDir) | fromYaml) }}
+
+Available YAML files:
+- parsers.yaml
+- lsp.yaml  
+- formatters.yaml
+- linters.yaml
+- tools.yaml
+- github-extensions.yaml
+- opencode.yaml
+*/ -}}
