@@ -90,7 +90,7 @@
     "editor.defaultFormatter": "yinfei.luahelper"
   },
   "docker.extension.enableComposeLanguageServer": false,
-  "workbench.preferredDarkColorTheme": "Tokyo Night Storm",
+  "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },

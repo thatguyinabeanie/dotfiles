@@ -5,7 +5,7 @@ local config = {
   filetypes = {
     web_frameworks = {
       "javascriptreact",
-      "typescriptreact", 
+      "typescriptreact",
       "html",
       "astro",
       "svelte",
@@ -32,7 +32,7 @@ return {
 
         -- ESLint with smart project detection
         eslint = {
-          autostart = false,
+          autostart = true,
           settings = {
             workingDirectories = { mode = "auto" },
             experimental = {
@@ -59,7 +59,7 @@ return {
               "eslint.config.cjs",
             }
 
-            local config_root = util.root_pattern(unpack(config_patterns))(fname)
+            local config_root = util.root_pattern(table.unpack(config_patterns))(fname)
             if config_root and type(config_root) == "string" then
               return config_root
             end
@@ -68,8 +68,8 @@ return {
             local package_root = util.root_pattern("package.json")(fname)
             if package_root and type(package_root) == "string" then
               local package_json = package_root .. "/package.json"
-              local ok, content = pcall(vim.fn.readfile, package_json)
-              if ok and content and #content > 0 then
+              local success, content = pcall(vim.fn.readfile, package_json)
+              if success and content and #content > 0 then
                 local package_str = table.concat(content, "\n")
                 local ok_decode, package_data = pcall(vim.fn.json_decode, package_str)
                 if ok_decode and package_data and type(package_data) == "table" then
