@@ -1,3 +1,41 @@
+--[[
+Treewalker.nvim - Fast Tree-sitter Based Navigation
+
+OVERVIEW:
+Treewalker provides fast, predictable movement through your code using Tree-sitter's
+syntax tree structure. Instead of moving by lines or words, it moves by logical
+code constructs (functions, blocks, statements, etc.).
+
+KEYBINDINGS:
+The plugin doesn't set default keybindings. You need to map the commands yourself.
+Common mappings in your keymaps:
+
+  vim.keymap.set('n', '<C-j>', '<cmd>Treewalker Down<cr>', { silent = true })
+  vim.keymap.set('n', '<C-k>', '<cmd>Treewalker Up<cr>', { silent = true })
+  vim.keymap.set('n', '<C-h>', '<cmd>Treewalker Left<cr>', { silent = true })
+  vim.keymap.set('n', '<C-l>', '<cmd>Treewalker Right<cr>', { silent = true })
+
+COMMANDS:
+  :Treewalker Up      - Move up the syntax tree (to parent node)
+  :Treewalker Down    - Move down the syntax tree (to first child)
+  :Treewalker Left    - Move to previous sibling node
+  :Treewalker Right   - Move to next sibling node
+
+USAGE EXAMPLES:
+- In a function: Down moves into the function body, Up moves to function definition
+- In an if statement: Left/Right moves between if/else/elseif blocks
+- In arrays/objects: Left/Right moves between elements
+- In method chains: Up/Down navigates the chain hierarchy
+
+WHY USE TREEWALKER:
+- Faster than traditional navigation for code structure
+- Consistent behavior across different file types
+- Respects code semantics rather than just text layout
+- Great for refactoring and code exploration
+
+NOTE: Requires Tree-sitter parsers for your languages to work effectively.
+--]]
+
 return {
   {
     "aaronik/treewalker.nvim",

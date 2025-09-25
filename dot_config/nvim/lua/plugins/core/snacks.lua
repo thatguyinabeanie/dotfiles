@@ -8,7 +8,7 @@ return {
       bigfile = { enabled = true },
       dim = { enabled = true }, -- Focus mode by dimming inactive code
       gitbrowse = { enabled = true },
-      image = { enabled = false }, -- Disable image support to avoid potential issues
+      image = { enabled = true },
       input = { enabled = true },
       lazygit = {
         enabled = true,
@@ -25,11 +25,11 @@ return {
         },
         layout = {
           preset = "default", -- Force default layout (horizontal with floating preview)
-          cycle = false,
+          cycle = true,
         },
         sources = {
           files = {
-            hidden = false, -- Start with hidden files off to avoid scanning issues
+            hidden = true, -- Start with hidden files off to avoid scanning issues
           },
         },
       },
@@ -48,7 +48,6 @@ return {
         enabled = true,
         width = 60,
         height = 20,
-
         sections = {
           {
             section = "header",
@@ -64,7 +63,6 @@ return {
             padding = 1,
           },
         },
-
         preset = {
           keys = { -- File Operations
             {

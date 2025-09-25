@@ -53,6 +53,15 @@ vim.keymap.set("n", "<leader>fD", function()
   vim.fn.setreg("+", parent_dir_full)
 end, { desc = "Copy Parent Dir Absolute Path" })
 
+vim.keymap.set("n", "<leader>ft", function()
+  local filetype = vim.bo.filetype
+  if filetype == "" then
+    vim.notify("No filetype set for current buffer", vim.log.levels.INFO)
+  else
+    vim.notify("Filetype: " .. filetype, vim.log.levels.INFO)
+  end
+end, { desc = "Show Buffer Filetype" })
+
 --
 -- BUFFER OPERATIONS
 --
