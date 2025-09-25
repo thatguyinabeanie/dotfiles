@@ -78,3 +78,43 @@ This repository leverages a specialized agent architecture where the **chezmoi-d
 - Maintains state consistency across configuration areas
 - Provides unified feedback on multi-step operations
 
+**Specialized Agent Categories**
+
+**Core Infrastructure Agents**
+- Configuration Validator: YAML consistency, template syntax, cross-platform compatibility
+- Environment Sync: Local vs remote state comparison, drift detection
+- Security Auditor: Secret scanning, permission validation, integration security
+
+**Tool-Specific Agents**
+- Package Manager: Brew/mise/cargo updates, dependency resolution
+- Shell Configuration: Performance optimization, plugin management
+- Development Environment: Language setups, LSP configuration
+
+**Application-Specific Agents**
+- Terminal Multiplexer: tmux/zellij configuration management
+- Editor Configuration: nvim/vscode plugin and setting management
+- Git Workflow: Hook management, signing, repository-specific settings
+
+**System Integration Agents**
+- macOS Integration: System preferences, Homebrew services, Launch Agents
+- Theme Manager: Cross-application theme synchronization
+- Backup & Recovery: Configuration snapshots, disaster recovery
+
+### Multi-Agent Workflow Examples
+
+**Development Environment Update**
+```
+Request → Orchestrator → [Security Auditor → Package Manager → Development Environment → Git Workflow]
+```
+
+**Theme Synchronization**
+```
+Request → Orchestrator → [Configuration Validator → Theme Manager → Terminal Multiplexer → Editor Configuration]
+```
+
+### macOS Integration Details
+
+- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
+- **Homebrew Dependencies**: Profile/shell configs, tmux, nushell, ghostty configs reference `/opt/homebrew`
+- **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
+- **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths

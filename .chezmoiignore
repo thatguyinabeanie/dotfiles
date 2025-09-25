@@ -14,4 +14,5 @@ dot_config/private_karabiner
 ./*.md
 ./*.sh
 opencode.jsonc
+physics_simulations
 mise.toml

@@ -12,14 +12,14 @@
 --
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    -- Get the first argument
-    local first_arg = vim.fn.argv(0)
+    -- Get the first argument and ensure it's a string
+    local first_arg = tostring(vim.fn.argv(0))
 
     -- If we're opening a directory
     if first_arg ~= "" and vim.fn.isdirectory(first_arg) == 1 then
       -- Change to the specified directory (don't go to git root)
-      vim.cmd("cd " .. vim.fn.fnameescape(tostring(first_arg)))
-      vim.notify("Working directory: " .. tostring(first_arg), vim.log.levels.INFO)
+      vim.cmd("cd " .. vim.fn.fnameescape(first_arg))
+      vim.notify("Working directory: " .. first_arg, vim.log.levels.INFO)
     end
   end,
 })
@@ -163,6 +163,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
   callback = function()
-    vim.diagnostic.disable(0)
+    vim.diagnostic.enable(false)
   end,
 })

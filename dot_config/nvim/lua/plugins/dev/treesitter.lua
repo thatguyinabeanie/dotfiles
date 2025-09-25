@@ -1,5 +1,27 @@
 -- TreeSitter configuration and syntax highlighting
-local config = require("utils.language-config")
+-- Fallback configuration when template is not generated
+local config = {
+  treesitter = {
+    parsers = {
+      "lua", "vim", "vimdoc", "query", "python", "javascript", "typescript",
+      "html", "css", "json", "yaml", "toml", "bash", "markdown", "markdown_inline"
+    },
+  },
+  filetypes = {
+    templates = {
+      bash = { "sh.tmpl", "zsh.tmpl" },
+      lua = { "lua.tmpl" },
+      nu = { "nu.tmpl" },
+      toml = { "toml.tmpl" },
+    },
+  },
+}
+
+-- Try to load the template-generated config, fallback to defaults if not available
+local ok, template_config = pcall(require, "utils.language-config")
+if ok then
+  config = template_config
+end
 
 return {
   -- TreeSitter configuration
