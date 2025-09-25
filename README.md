@@ -22,8 +22,8 @@ A cosmic journey through the development environment
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-![Lint](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/lint.yml?label=Lint&style=flat-square)
-![Security](https://img.shields.io/github/actions/workflow/status/thatguyinabeanie/dotfiles/security.yml?label=Security&style=flat-square)
+![Lint](https://img.shields.io/github/actions/workflow/status/gmendoza/dotfiles/lint.yml?label=Lint&style=flat-square)
+![Security](https://img.shields.io/github/actions/workflow/status/gmendoza/dotfiles/security.yml?label=Security&style=flat-square)
 
 ## 🌟 Event horizon
 
@@ -32,13 +32,13 @@ One command to cross the event horizon and pull in all configurations:
 ### Personal setup
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply thatguyinabeanie
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply gmendoza
 ```
 
 ### Work environment setup
 
 ```bash
-curl -fsLS get.chezmoi.io | WORK_ENVIRONMENT=true sh -s -- -b ~/.local/bin init --apply thatguyinabeanie
+curl -fsLS get.chezmoi.io | WORK_ENVIRONMENT=true sh -s -- -b ~/.local/bin init --apply gmendoza
 ```
 
 [![View Installation Guide](https://img.shields.io/badge/View_Installation_Guide-22863a?style=for-the-badge)](#-event-horizon)
@@ -78,13 +78,7 @@ The system provides three-tier configuration precedence:
 2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings
 3. **Template Defaults** (fallback) - hardcoded sensible defaults
 
-### 🔄 Three-tier precedence
 
-Your configuration values follow a smart precedence system:
-
-1. **Environment Variables** (highest) - `export SHELL_PREF=zsh`
-2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings
-3. **Template Defaults** (fallback) - hardcoded sensible defaults
 
 ### 🛠️ Management commands
 
@@ -727,6 +721,7 @@ mise run setup-hooks
 - **Luacheck** - Lua static analysis and linting
 - **ShellCheck** - Shell script analysis and best practices
 - **Go Lint** - golangci-lint for Go code quality
+- **Prettier with Go Template Support** - Formats Chezmoi template files (.tmpl) using prettier-plugin-go-template
 
 #### **Documentation & Writing**
 - **Vale** - Prose linting for Markdown files
@@ -929,13 +924,13 @@ Switching providers or models is as simple as editing the relevant YAML file in 
 -   **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
 -   **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
 
-## 🛠️ Shell productivity features
+## 🛠️ Shell Productivity Features
 
-Enhanced shell experience with powerful aliases, functions, and integrated workflows for maximum developer productivity:
+Enhanced shell experience with powerful aliases, functions, and integrated workflows for maximum developer productivity.
 
-### 🚀 **Development Workflow Automation**
+### 🚀 Development Workflow Automation
 
-#### **Project Initialization**
+#### Project Initialization
 ```bash
 # Quick project setup with templates
 dev_init_python <project-name>     # Python project with venv + requirements
@@ -950,7 +945,7 @@ mise use python@3.12               # Auto-detected and configured
 poetry install                     # Dependencies managed by mise hook
 ```
 
-#### **Smart Directory Navigation**
+#### Smart Directory Navigation
 ```bash
 # Recent project jumping (integrated with zoxide)
 z my-proj          # Jump to recently used project directory
@@ -968,7 +963,8 @@ workspace_clean    # Remove unused/merged project directories
 @bin               # -> ~/.local/bin
 ```
 
-#### **Git Workflow Enhancement**
+### 🔧 Git Workflow Enhancement
+
 ```bash
 # Interactive emoji commits with conventional format
 git_emoji_commit "add user authentication system"
@@ -990,9 +986,9 @@ git_contributor_stats          # Show contribution statistics
 git_find_large_files          # Identify repository bloat
 ```
 
-### 📊 **Development Environment Management**
+### 📊 Development Environment Management
 
-#### **Service Management**
+#### Service Management
 ```bash
 # Docker development workflow
 docker_dev_up                  # Start development services (auto-detects compose)
@@ -1006,7 +1002,7 @@ brew_services_stop_dev        # Stop development services
 brew_services_status          # Colorized status of all services
 ```
 
-#### **Process & Resource Monitoring**
+#### Process & Resource Monitoring
 ```bash
 # System monitoring with style
 sys_monitor                   # Interactive system monitor (btop + custom widgets)
@@ -1020,9 +1016,9 @@ python_processes            # List Python processes with venv info
 docker_resource_usage       # Container resource consumption
 ```
 
-### 🔧 **Productivity Utilities**
+### 🔧 Productivity Utilities
 
-#### **File Management & Search**
+#### File Management & Search
 ```bash
 # Enhanced file operations
 find_large <size> [path]     # Find files larger than size (e.g., find_large 100M)
@@ -1036,7 +1032,7 @@ sync_dotfiles               # Sync dotfiles to multiple machines
 copy_with_structure <file>   # Copy preserving directory structure
 ```
 
-#### **Text Processing & Formatting**
+#### Text Processing & Formatting
 ```bash
 # Developer-friendly text manipulation
 json_pretty <file|url>       # Pretty-print JSON with syntax highlighting  
@@ -1051,9 +1047,9 @@ base64_encode/decode <text> # Quick encoding/decoding
 url_encode/decode <text>    # URL encoding utilities
 ```
 
-### 🌐 **Network & Web Development**
+### 🌐 Network & Web Development
 
-#### **API Development & Testing**
+#### API Development & Testing
 ```bash
 # HTTP testing made easy
 http_get <url>              # GET request with formatted output
@@ -1067,7 +1063,7 @@ tunnel_expose <port>        # Expose local port via ngrok/cloudflare
 cors_proxy <target_url>     # CORS proxy for local development
 ```
 
-#### **Network Diagnostics**
+#### Network Diagnostics
 ```bash
 # Connection testing with insights
 ping_enhanced <host>        # Ping with geographic and latency insights
@@ -1077,9 +1073,9 @@ dns_lookup <domain>         # Comprehensive DNS information
 ssl_check <domain>          # SSL certificate validation and expiry
 ```
 
-### 🎮 **Terminal Experience Enhancement**
+### 🎮 Terminal Experience Enhancement
 
-#### **Interactive Command Building**
+#### Interactive Command Building
 ```bash
 # FZF-powered command construction
 cmd_build                   # Interactive command builder with history
@@ -1092,7 +1088,7 @@ run_with_timeout <seconds>  # Execute with automatic timeout
 run_and_notify              # Execute and send desktop notification when done
 ```
 
-#### **Session Management**
+#### Session Management
 ```bash
 # Multiplexer integration
 tmux_dev_session <project>  # Create development session with predefined layout
@@ -1105,9 +1101,9 @@ zellij_dev_layout          # Load development-optimized layout
 zellij_project_session     # Project-specific session with git integration
 ```
 
-### 📱 **Platform-Specific Productivity (macOS)**
+### 📱 Platform-Specific Features (macOS)
 
-#### **System Integration**
+#### System Integration
 ```bash
 # macOS-specific enhancements
 desktop_cleanup            # Organize desktop files into dated folders
@@ -1122,7 +1118,7 @@ spotify_save_current           # Save current track to library
 volume_set <percentage>        # Set system volume
 ```
 
-#### **Clipboard & Sharing**
+#### Clipboard & Sharing
 ```bash
 # Advanced clipboard operations
 clip_history               # Show clipboard history with fzf selection
@@ -1135,9 +1131,9 @@ airdrop_to <device>       # Send file via AirDrop (if available)
 share_screen_region       # Share specific screen region (screenshot + upload)
 ```
 
-### ⚙️ **Configuration & Maintenance**
+### ⚙️ Configuration & Maintenance
 
-#### **Dotfiles Management**
+#### Dotfiles Management
 ```bash
 # Chezmoi workflow automation
 dots_edit <file>          # Edit dotfile and preview changes
@@ -1151,7 +1147,7 @@ update_all_tools         # Update mise tools, brew packages, pip packages
 health_check_system      # Comprehensive system health validation
 ```
 
-#### **Development Environment Sync**
+#### Development Environment Sync
 ```bash
 # Cross-machine synchronization
 sync_ssh_keys            # Sync SSH keys across authorized machines
@@ -1160,9 +1156,9 @@ export_dev_env           # Export current environment configuration
 import_dev_env <config>  # Import environment from another machine
 ```
 
-### 🔍 **Advanced Search & Discovery**
+### 🔍 Advanced Search & Discovery
 
-#### **Code Intelligence**
+#### Code Intelligence
 ```bash
 # Project-wide code analysis
 code_complexity [path]    # Analyze code complexity metrics
