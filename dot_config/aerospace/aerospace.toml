@@ -7,6 +7,39 @@
 # After that, you can edit ~/.aerospace.toml to your liking
 
 # =============================================================================
+# QUICK REFERENCE GUIDE
+# =============================================================================
+#
+# LAYOUT SWITCHING:
+# - Alt+/ = Switch to tiles mode (side-by-side windows)
+# - Alt+, = Switch to accordion mode (stacked windows like browser tabs)
+#
+# WINDOW NAVIGATION IN ACCORDION MODE:
+# 1. Alt+Ctrl+; (enter service mode)
+# 2. h/j/k/l (focus left/down/up/right)  
+# 3. Esc (exit service mode)
+#
+# WORKSPACE SWITCHING:
+# - Alt+1-9 = Switch to numbered workspaces
+# - Alt+A-Z = Switch to letter workspaces
+# - Alt+Tab = Switch to previous workspace
+#
+# MOVE WINDOWS:
+# - Alt+Shift+1-9 = Move window to numbered workspace
+# - Alt+Shift+A-Z = Move window to letter workspace
+#
+# WINDOW MANAGEMENT (Service Mode - Alt+Ctrl+;):
+# - h/j/k/l = Focus window in direction
+# - Alt+h/j/k/l = Move window in direction  
+# - Alt+Shift+h/j/k/l = Join window with neighbor
+# - r = Reset/flatten layout
+# - f = Toggle floating/tiling
+# - b = Balance window sizes
+#
+# =============================================================================
+
+
+# =============================================================================
 # STARTUP CONFIGURATION
 # =============================================================================
 
@@ -94,6 +127,45 @@ outer.left = 6       # Gap from left screen edge
 outer.bottom = 6     # Gap from bottom screen edge (dock area)
 outer.top = 8        # Gap from top screen edge (menu bar area)
 outer.right = 6      # Gap from right screen edge
+
+# =============================================================================
+# WORKSPACE & MONITOR MANAGEMENT
+# =============================================================================
+
+# Quick switch between current and previous workspace
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+alt-tab = 'workspace-back-and-forth'
+
+# Move current workspace to next monitor (cycles through available monitors)
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# =============================================================================
+# MODE SWITCHING
+# =============================================================================
+
+# Enter service mode for advanced window management
+# Service mode provides window focus, movement, and layout commands
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+alt-ctrl-semicolon = 'mode service'
+
+# =============================================================================
+# APPLICATION-SPECIFIC RULES
+# =============================================================================
+# Force specific applications to use floating windows instead of tiling
+# Useful for apps that work better as floating windows (dialogs, utilities, etc.)
+
+# Force Finder to always be floating for better file management workflow
+# Finder works better as floating windows due to its dialog-heavy interface
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = 'layout floating'
+
+# Force Visual Studio Code Insiders to always be floating for better code editing workflow
+# VS Code Insiders works better as floating windows for development
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCodeInsiders'
+run = 'layout floating'
 
 # =============================================================================
 # SERVICE MODE KEYBINDINGS
@@ -305,75 +377,3 @@ alt-shift-w = 'move-node-to-workspace W --focus-follows-window' # Move window to
 alt-shift-x = 'move-node-to-workspace X'                        # Move window to workspace X (no follow)
 alt-shift-y = 'move-node-to-workspace Y'                        # Move window to workspace Y (no follow)
 alt-shift-z = 'move-node-to-workspace Z'                        # Move window to workspace Z (no follow)
-
-# =============================================================================
-# WORKSPACE & MONITOR MANAGEMENT
-# =============================================================================
-
-# Quick switch between current and previous workspace
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-tab = 'workspace-back-and-forth'
-
-# Move current workspace to next monitor (cycles through available monitors)
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
-# =============================================================================
-# MODE SWITCHING
-# =============================================================================
-
-# Enter service mode for advanced window management
-# Service mode provides window focus, movement, and layout commands
-# See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-ctrl-semicolon = 'mode service'
-
-# =============================================================================
-# APPLICATION-SPECIFIC RULES
-# =============================================================================
-# Force specific applications to use floating windows instead of tiling
-# Useful for apps that work better as floating windows (dialogs, utilities, etc.)
-
-# Force Finder to always be floating for better file management workflow
-# Finder works better as floating windows due to its dialog-heavy interface
-[[on-window-detected]]
-if.app-id = 'com.apple.finder'
-run = 'layout floating'
-
-# Force Visual Studio Code Insiders to always be floating for better code editing workflow
-# VS Code Insiders works better as floating windows for development
-[[on-window-detected]]
-if.app-id = 'com.microsoft.VSCodeInsiders'
-run = 'layout floating'
-
-# =============================================================================
-# QUICK REFERENCE GUIDE
-# =============================================================================
-#
-# LAYOUT SWITCHING:
-# - Alt+/ = Switch to tiles mode (side-by-side windows)
-# - Alt+, = Switch to accordion mode (stacked windows like browser tabs)
-#
-# WINDOW NAVIGATION IN ACCORDION MODE:
-# 1. Alt+Ctrl+; (enter service mode)
-# 2. h/j/k/l (focus left/down/up/right)  
-# 3. Esc (exit service mode)
-#
-# WORKSPACE SWITCHING:
-# - Alt+1-9 = Switch to numbered workspaces
-# - Alt+A-Z = Switch to letter workspaces
-# - Alt+Tab = Switch to previous workspace
-#
-# MOVE WINDOWS:
-# - Alt+Shift+1-9 = Move window to numbered workspace
-# - Alt+Shift+A-Z = Move window to letter workspace
-#
-# WINDOW MANAGEMENT (Service Mode - Alt+Ctrl+;):
-# - h/j/k/l = Focus window in direction
-# - Alt+h/j/k/l = Move window in direction  
-# - Alt+Shift+h/j/k/l = Join window with neighbor
-# - r = Reset/flatten layout
-# - f = Toggle floating/tiling
-# - b = Balance window sizes
-#
-# =============================================================================
-
