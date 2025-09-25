@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "github-copilot/claude-sonnet-4",
-  "small_model": "github-copilot/grok-code-fast-1",
+  "small_model": "github-copilot/claude-sonnet-4",
   "autoupdate": false,
   "share": "auto",
   "theme": "system",
@@ -12,6 +12,19 @@
       "sudo *": "ask"
     }
   },
+  "provider": {
+    "github-copilot": {
+      "models": {
+        "claude-sonnet-4": {
+          "limit": {
+            "context": 128000,
+            "output": 16000
+          }
+        }
+      }
+    }
+  },
+
   "lsp": {
     "bash": {
       "command": ["bash-language-server", "start"],
@@ -39,7 +52,7 @@
       "command": ["shfmt", "-i", "2", "-bn", "-ci", "-sr"],
       "extensions": ["sh", "zsh"]
     },
-    "prettier": {
+    "prettierd": {
       "command": ["prettierd", "{file}"],
       "extensions": ["json", "jsonc", "yaml", "yml", "md"]
     },
