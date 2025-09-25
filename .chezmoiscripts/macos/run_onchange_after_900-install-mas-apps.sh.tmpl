@@ -1,0 +1,95 @@
+#!/bin/bash
+# Install Mac App Store applications using mas
+# run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "mas" "root" .) }}
+# {{ template "utilities/error-handling.sh" }}
+
+set -euo pipefail
+
+# Load environment variables
+export PATH="/opt/homebrew/bin:$PATH"
+
+# Check if mas is installed
+if ! command -v mas &> /dev/null; then
+    echo "❌ mas (Mac App Store CLI) is not installed. Please install it first with: brew install mas"
+    exit 1
+fi
+
+# Check if we can access the Mac App Store (mas account doesn't work on newer macOS)
+if ! mas list &> /dev/null; then
+    echo "❌ Cannot access the Mac App Store. Please ensure you are signed in to the Mac App Store app."
+    echo "Note: You may need to open the Mac App Store app and sign in first."
+    exit 1
+fi
+
+echo "🏪 Installing Mac App Store applications..."
+
+# Function to install mas app
+install_mas_app() {
+    local app_name="$1"
+    local app_id="$2"
+    
+    # Check if app is already installed
+    if mas list | grep -q "^$app_id"; then
+        echo "✅ $app_name ($app_id) - Already installed"
+        return 0
+    fi
+    
+    echo "📱 Installing $app_name ($app_id)..."
+    if mas install "$app_id"; then
+        echo "✅ $app_name - Successfully installed"
+    else
+        echo "❌ Failed to install $app_name ($app_id)"
+        return 1
+    fi
+}
+
+# Install shared Mac App Store apps
+{{- if .applications.shared }}
+{{- range .applications.shared }}
+{{- if eq .install_via "mas" }}
+install_mas_app "{{ .name }}" "{{ .app_id }}"
+{{- end }}
+{{- end }}
+{{- end }}
+
+# Install personal Mac App Store apps (only in personal environment)
+{{- $hasPersonalMasApps := false }}
+{{- if .applications.personal }}
+{{- range .applications.personal }}
+{{- if eq .install_via "mas" }}
+{{- $hasPersonalMasApps = true }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- if $hasPersonalMasApps }}
+if [ "${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}" = "true" ]; then
+{{- range .applications.personal }}
+{{- if eq .install_via "mas" }}
+    install_mas_app "{{ .name }}" "{{ .app_id }}"
+{{- end }}
+{{- end }}
+fi
+{{- end }}
+
+# Install work Mac App Store apps (only in work environment)
+{{- $hasWorkMasApps := false }}
+{{- if .applications.work }}
+{{- range .applications.work }}
+{{- if eq .install_via "mas" }}
+{{- $hasWorkMasApps = true }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- if $hasWorkMasApps }}
+if [ "${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}" = "true" ]; then
+{{- range .applications.work }}
+{{- if eq .install_via "mas" }}
+    install_mas_app "{{ .name }}" "{{ .app_id }}"
+{{- end }}
+{{- end }}
+fi
+{{- end }}
+
+echo "🏪 Mac App Store application installation complete!"

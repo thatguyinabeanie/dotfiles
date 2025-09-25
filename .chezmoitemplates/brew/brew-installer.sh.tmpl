@@ -165,22 +165,6 @@ FONTS="${FONTS}cask \"{{ .name }}\"\n"
 {{- end }}
 install_brew_packages "fonts" "$FONTS"
 
-# Install Mac App Store apps (now in agents.yaml)
-if command_exists "mas"; then
-    log_step "Installing Mac App Store apps"
-    {{- range .agents }}
-      {{- if eq .install_via "mas" }}
-    log_substep "Installing {{ .description }} (ID: {{ .mas_id }})"
-    if ! mas list | grep -q "{{ .mas_id }}"; then
-        mas install {{ .mas_id }} || log_warning "Failed to install {{ .description }}"
-    else
-        log_warning "Already installed: app ID {{ .mas_id }} ({{ .description }})"
-    fi
-      {{- end }}
-    {{- end }}
-else
-    log_warning "mas not available, skipping Mac App Store apps"
-fi
 
 # Setup automatic updates
 log_step "Setting up Homebrew automatic upgrades"

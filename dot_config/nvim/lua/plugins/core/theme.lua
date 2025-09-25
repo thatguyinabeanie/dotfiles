@@ -3,6 +3,20 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
+    -- Override LazyVim's problematic colorscheme integration
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      -- Create the missing module by redirecting to the correct catppuccin bufferline special
+      package.preload["catppuccin.groups.integrations.bufferline"] = function()
+        local special_bufferline = require("catppuccin.special.bufferline")
+        return {
+          get = special_bufferline.get_theme or function()
+            return special_bufferline.get()
+          end,
+          get_theme = special_bufferline.get_theme or special_bufferline.get,
+        }
+      end
+    end,
     opts = {
       flavour = "mocha",
       background = {
@@ -54,11 +68,8 @@ return {
         },
         treesitter = true,
         treesitter_context = true,
-        ufo = false,
-        -- Git
         neogit = true,
         gitsigns = true,
-        -- UI
         snacks = {
           enabled = true,
         },
@@ -79,6 +90,7 @@ return {
         markdown = true,
         render_markdown = true,
         -- Disabled
+        bufferline = false, -- Disable to avoid LazyVim integration conflicts
         cmp = false, -- Using blink_cmp
         dap = true, -- Load when debugging
         dap_ui = true, -- Load when debugging
@@ -104,13 +116,5 @@ return {
         }
       end,
     },
-  },
-  {
-    "catppuccin",
-    optional = true,
-    opts = function()
-      local bufferline = require("catppuccin.groups.integrations.bufferline")
-      bufferline.get = bufferline.get or bufferline.get_theme
-    end,
   },
 }
