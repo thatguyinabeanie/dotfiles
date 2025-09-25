@@ -39,7 +39,7 @@
       "command": ["shfmt", "-i", "2", "-bn", "-ci", "-sr"],
       "extensions": ["sh", "zsh"]
     },
-    "prettier": {
+    "prettierd": {
       "command": ["prettierd", "{file}"],
       "extensions": ["json", "jsonc", "yaml", "yml", "md", "tmpl"]
     },
