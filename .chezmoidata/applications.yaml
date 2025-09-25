@@ -1,6 +1,17 @@
 # .chezmoidata/applications.yaml
 # A comprehensive list of GUI applications, categorized by context.
 applications:
+  work:
+    # Work-specific applications
+    - name: aws-vpn-client
+      install_via: brew_cask
+      category: networking
+      description: "AWS Client VPN"
+    - name: lastpass
+      install_via: brew_cask
+      category: productivity
+      description: "LastPass password manager"
+
   shared:
     # Shared applications for all environments
     - name: aerospace
@@ -89,23 +100,6 @@ applications:
       install_via: brew_cask
       category: editor
       description: "High-performance, multiplayer code editor"
-    
-    # Mac App Store apps - Shared (Development)
-    - name: "Xcode"
-      install_via: mas
-      app_id: 497799835
-      category: development
-      description: "Apple's development environment"
-    - name: "Compressor"
-      install_via: mas
-      app_id: 424390742
-      category: media
-      description: "Video compression tool"
-    - name: "FileZilla Pro" 
-      install_via: mas
-      app_id: 1298486723
-      category: file_transfer
-      description: "Professional FTP client"
 
   personal:
     # Personal applications
@@ -157,7 +151,7 @@ applications:
       install_via: brew_cask
       category: media
       description: "Music streaming service"
-    
+
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"
       install_via: mas
@@ -184,14 +178,18 @@ applications:
       app_id: 1476088902
       category: education
       description: "Language learning software"
-
-  work:
-    # Work-specific applications
-    - name: aws-vpn-client
-      install_via: brew_cask
-      category: networking
-      description: "AWS Client VPN"
-    - name: lastpass
-      install_via: brew_cask
-      category: productivity
-      description: "LastPass password manager"
+    - name: "Xcode"
+      install_via: mas
+      app_id: 497799835
+      category: development
+      description: "Apple's development environment"
+    - name: "Compressor"
+      install_via: mas
+      app_id: 424390742
+      category: media
+      description: "Video compression tool"
+    - name: "FileZilla Pro"
+      install_via: mas
+      app_id: 1298486723
+      category: file_transfer
+      description: "Professional FTP client"
