@@ -48,4 +48,3 @@ agents:
     runtime: native
     description: "AI on the command line"
     category: terminal
-
