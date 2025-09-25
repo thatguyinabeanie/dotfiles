@@ -1,8 +1,8 @@
-{{- $parsers_data := fromJson .parsers_yaml.content }}
-{{- $lsp_data := fromJson .lsp_yaml.content }}
-{{- $formatters_data := fromJson .formatters_yaml.content }}
-{{- $linters_data := fromJson .linters_yaml.content }}
-{{- $tools_data := fromJson .tools_yaml.content }}
+{{- $parsers_data := (include (printf "%s/.chezmoidata/parsers.yaml" .chezmoi.sourceDir) | fromYaml) }}
+{{- $lsp_data := (include (printf "%s/.chezmoidata/lsp.yaml" .chezmoi.sourceDir) | fromYaml) }}
+{{- $formatters_data := (include (printf "%s/.chezmoidata/formatters.yaml" .chezmoi.sourceDir) | fromYaml) }}
+{{- $linters_data := (include (printf "%s/.chezmoidata/linters.yaml" .chezmoi.sourceDir) | fromYaml) }}
+{{- $tools_data := (include (printf "%s/.chezmoidata/tools.yaml" .chezmoi.sourceDir) | fromYaml) }}
 
 return {
   treesitter = {
