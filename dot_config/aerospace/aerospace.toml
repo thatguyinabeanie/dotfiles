@@ -128,26 +128,7 @@ outer.bottom = 6     # Gap from bottom screen edge (dock area)
 outer.top = 8        # Gap from top screen edge (menu bar area)
 outer.right = 6      # Gap from right screen edge
 
-# =============================================================================
-# WORKSPACE & MONITOR MANAGEMENT
-# =============================================================================
 
-# Quick switch between current and previous workspace
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-tab = 'workspace-back-and-forth'
-
-# Move current workspace to next monitor (cycles through available monitors)
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
-
-# =============================================================================
-# MODE SWITCHING
-# =============================================================================
-
-# Enter service mode for advanced window management
-# Service mode provides window focus, movement, and layout commands
-# See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-ctrl-semicolon = 'mode service'
 
 # =============================================================================
 # APPLICATION-SPECIFIC RULES
@@ -165,6 +146,12 @@ run = 'layout floating'
 # VS Code Insiders works better as floating windows for development
 [[on-window-detected]]
 if.app-id = 'com.microsoft.VSCodeInsiders'
+run = 'layout floating'
+
+# Force 1Password to always be floating for better password management workflow
+# 1Password works better as floating windows due to its utility nature and small interface
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
 run = 'layout floating'
 
 # =============================================================================
@@ -236,6 +223,23 @@ alt-shift-l = ['join-with right'] # Join with window on right
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 
 [mode.main.binding]
+
+# =============================================================================
+# WORKSPACE & MONITOR MANAGEMENT
+# =============================================================================
+
+# Quick switch between current and previous workspace
+# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
+alt-tab = 'workspace-back-and-forth'
+
+# Move current workspace to next monitor (cycles through available monitors)
+# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
+alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+
+# Enter service mode for advanced window management
+# Service mode provides window focus, movement, and layout commands
+# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+alt-ctrl-semicolon = 'mode service'
 
 # =============================================================================
 # AVAILABLE KEY REFERENCE
