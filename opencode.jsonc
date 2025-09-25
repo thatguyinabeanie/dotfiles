@@ -54,7 +54,7 @@
     },
     "prettierd": {
       "command": ["prettierd", "{file}"],
-      "extensions": ["json", "jsonc", "yaml", "yml", "md"]
+      "extensions": ["json", "jsonc", "yaml", "yml", "md", "tmpl"]
     },
     "taplo": {
       "command": ["taplo", "format", "-"],

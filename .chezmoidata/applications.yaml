@@ -2,7 +2,6 @@
 # A comprehensive list of GUI applications, categorized by context.
 applications:
   shared:
-
     # Shared applications for all environments
     - name: aerospace
       install_via: brew_cask
