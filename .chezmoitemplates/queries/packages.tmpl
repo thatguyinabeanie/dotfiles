@@ -1,7 +1,7 @@
 {{- /*
 Generic package query template - the ONLY query template needed!
 Usage: {{ template "queries/packages.tmpl" (dict "PackageManager" "npm" "root" .) }}
-Supported managers: cargo, npm, pip, go, gem, mise
+Supported managers: cargo, npm, pip, go, gem, mise, mas
 */ -}}
 {{- $manager := .PackageManager -}}
 {{- $root := .root -}}
@@ -78,6 +78,31 @@ Supported managers: cargo, npm, pip, go, gem, mise
     {{- range $root.mcp_servers -}}
       {{- if eq .install_via $manager -}}
         {{- $packages = append $packages .name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  
+  {{- /* Mac App Store applications (mas only) */ -}}
+  {{- if eq $manager "mas" -}}
+    {{- if $root.applications.shared -}}
+      {{- range $root.applications.shared -}}
+        {{- if eq .install_via "mas" -}}
+          {{- $packages = append $packages .app_id -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $root.applications.personal -}}
+      {{- range $root.applications.personal -}}
+        {{- if eq .install_via "mas" -}}
+          {{- $packages = append $packages .app_id -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $root.applications.work -}}
+      {{- range $root.applications.work -}}
+        {{- if eq .install_via "mas" -}}
+          {{- $packages = append $packages .app_id -}}
+        {{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

@@ -63,14 +63,6 @@ applications:
       install_via: brew_cask
       category: browser
       description: "Opera web browser"
-    - name: opera-air
-      install_via: brew_cask
-      category: browser
-      description: "Opera Air browser"
-    - name: opera-gx
-      install_via: brew_cask
-      category: browser
-      description: "Opera GX gaming browser"
     - name: postman
       install_via: brew_cask
       category: development
@@ -97,6 +89,23 @@ applications:
       install_via: brew_cask
       category: editor
       description: "High-performance, multiplayer code editor"
+    
+    # Mac App Store apps - Shared (Development)
+    - name: "Xcode"
+      install_via: mas
+      app_id: 497799835
+      category: development
+      description: "Apple's development environment"
+    - name: "Compressor"
+      install_via: mas
+      app_id: 424390742
+      category: media
+      description: "Video compression tool"
+    - name: "FileZilla Pro" 
+      install_via: mas
+      app_id: 1298486723
+      category: file_transfer
+      description: "Professional FTP client"
 
   personal:
     # Personal applications
@@ -148,6 +157,33 @@ applications:
       install_via: brew_cask
       category: media
       description: "Music streaming service"
+    
+    # Mac App Store apps - Personal
+    - name: "Final Cut Pro"
+      install_via: mas
+      app_id: 424389933
+      category: media
+      description: "Professional video editing"
+    - name: "Logic Pro"
+      install_via: mas
+      app_id: 634148309
+      category: audio_production
+      description: "Professional music production"
+    - name: "Motion"
+      install_via: mas
+      app_id: 434290957
+      category: media
+      description: "Motion graphics and compositing"
+    - name: "GarageBand"
+      install_via: mas
+      app_id: 682658836
+      category: audio_production
+      description: "Music creation software"
+    - name: "Rosetta Stone Learn Languages"
+      install_via: mas
+      app_id: 1476088902
+      category: education
+      description: "Language learning software"
 
   work:
     # Work-specific applications
