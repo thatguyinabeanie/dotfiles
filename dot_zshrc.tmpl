@@ -80,7 +80,7 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 # source ~/.config/zsh/secrets.zsh
 
 # Auto-attach to tmux session for interactive shells (opt-in)
-if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$GHOSTTY_AUTO_TMUX" = "true" ]; then
+if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$ZSH_AUTO_TMUX" = "true" ]; then
     if command -v tmux >/dev/null 2>&1; then
          exec tmux new-session -A -s 'ghostty'
     fi

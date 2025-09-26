@@ -129,7 +129,6 @@ outer.top = 8        # Gap from top screen edge (menu bar area)
 outer.right = 6      # Gap from right screen edge
 
 
-
 # =============================================================================
 # APPLICATION-SPECIFIC RULES
 # =============================================================================
@@ -153,6 +152,20 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'
 run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'layout floating'
+
+# Alternative Chrome matching using app-name
+[[on-window-detected]]
+if.app-name-regex-substring = 'Chrome'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'layout floating'
+
 
 # =============================================================================
 # SERVICE MODE KEYBINDINGS
