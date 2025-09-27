@@ -143,6 +143,14 @@ applications:
       install_via: brew_cask
       category: communication
       description: "Gaming and community chat"
+    - name: figma
+      install_via: brew_cask
+      category: design
+      description: "Collaborative interface design tool"
+    - name: figma-agent
+      install_via: brew_cask
+      category: design
+      description: "Font installers for Figma.app"
     - name: obs
       install_via: brew_cask
       category: media
