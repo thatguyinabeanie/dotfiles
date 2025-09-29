@@ -39,3 +39,7 @@ env_personal:
     backup:
       BACKUP_DIR: "$HOME/Backups"
       TIME_MACHINE_EXCLUDE: "$XDG_CACHE_HOME"
+
+  # API keys and tokens (use environment variables)
+  api_keys:
+    context7_api_key: "{{ .CONTEXT7_API_KEY | default '' }}"
