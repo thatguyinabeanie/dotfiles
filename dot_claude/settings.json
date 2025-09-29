@@ -28,7 +28,7 @@
       "Bash(pnpm run:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:ui.shadcn.com)",
-      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
