@@ -29,7 +29,7 @@ pre-commit:
 pre-push:
   commands:
     gitleaks:
-      run: gitleaks detect --no-banner --log-level=error
+      run: gitleaks detect --no-banner --log-level=error --baseline-path=.gitleaks-baseline.json
 
 # Reduce output verbosity
 output:
