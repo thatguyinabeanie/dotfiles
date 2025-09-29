@@ -20,7 +20,7 @@ pre-commit:
       glob: "**/*.{yml,yaml}"
       run: .scripts/hooks/pre-commit-yamllint.sh {staged_files}
     gitleaks:
-      run: gitleaks protect --staged --no-banner --log-level=error
+      run: gitleaks protect --staged --no-banner --log-level=error --baseline-path=.gitleaks-baseline.json
     sort-spell:
       glob: "dot_config/nvim/spell/.en.utf-8.add"
       run: .scripts/hooks/pre-commit-sort-spell.sh {staged_files}
