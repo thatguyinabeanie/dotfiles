@@ -19,6 +19,7 @@ regexes = [
 
 commits = [
     # Add any commit hashes to allowlist here
+    "9a7efbe5d29c586f7a4fb6e9eb328d894c748842",  # Old commit with Context7 API key, removed from history
 ]
 
 # Custom rules in addition to default ones
