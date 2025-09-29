@@ -84,8 +84,8 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   
   {{- /* Mac App Store applications (mas only) */ -}}
   {{- if eq $manager "mas" -}}
-    {{- if $root.applications.shared -}}
-      {{- range $root.applications.shared -}}
+    {{- if $root.env_shared.applications -}}
+      {{- range $root.env_shared.applications -}}
         {{- if eq .install_via "mas" -}}
           {{- $packages = append $packages .app_id -}}
         {{- end -}}

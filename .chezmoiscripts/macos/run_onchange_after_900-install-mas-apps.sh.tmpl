@@ -44,8 +44,8 @@ install_mas_app() {
 }
 
 # Install shared Mac App Store apps
-{{- if .applications.shared }}
-{{- range .applications.shared }}
+{{- if .env_shared.applications }}
+{{- range .env_shared.applications }}
 {{- if eq .install_via "mas" }}
 install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- end }}

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auto-generated Homebrew package installer
-# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai/agents.yaml, ai/mcp.yaml
+# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai_tools.yaml, shared.yaml
 
 # Using direct template variable access (new pattern)
 
@@ -125,8 +125,8 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
 {{- end }}
 
 # General applications that install via brew_cask
-{{- if .applications.shared }}
-  {{- range .applications.shared }}
+{{- if .env_shared.applications }}
+  {{- range .env_shared.applications }}
     {{- if eq .install_via "brew_cask" }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
     {{- end }}
