@@ -26,6 +26,11 @@ pre-commit:
       run: .scripts/hooks/pre-commit-sort-spell.sh {staged_files}
       stage_fixed: true
 
+pre-push:
+  commands:
+    gitleaks:
+      run: gitleaks detect --no-banner --log-level=error
+
 # Reduce output verbosity
 output:
   - success

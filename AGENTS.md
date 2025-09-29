@@ -23,8 +23,7 @@ Your primary responsibilities:
 ### Quick Reference
 - **Formatters**: `.chezmoidata/formatters.yaml`
 - **Linters**: `.chezmoidata/linters.yaml` 
-- **Tools**: `.chezmoidata/tools.yaml`
-- **AI Tools**: `.chezmoidata/ai_tools.yaml`
+- **Tools**: `.chezmoidata/tools.yaml` (includes AI tools and MCP servers)
 
 **Before installing anything, consult**: [.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)
 

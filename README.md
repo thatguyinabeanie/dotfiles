@@ -233,7 +233,6 @@ This data is consumed by a **Template Factory System** located in `.chezmoitempl
 ```shell
 dotfiles/
 ├── 🔭 .chezmoidata/             # Flat, granular YAML data files
-│   ├── ai_tools.yaml           # Combined AI agents and MCP servers
 │   ├── lsp.yaml
 │   ├── formatters.yaml
 │   ├── tools.yaml
@@ -260,8 +259,7 @@ The configuration data is organized into **27 ultra-specific files**. This flat 
 -   **`formatters.yaml`**: All code formatters and their language mappings.
 -   **`linters.yaml`**: All linters with language/runtime info.
 -   **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
--   **`tools.yaml`**: All general development tools, CLIs, and utilities.
--   **`ai_tools.yaml`**: Combined AI agents and MCP servers configuration.
+-   **`tools.yaml`**: All general development tools, CLIs, and utilities (including AI agents and MCP servers).
 -   **`github-extensions.yaml`**: All GitHub CLI extensions.
 -   **`services.yaml`**: System services and application configurations.
 -   **`opencode.yaml`**: OpenCode AI-specific settings.
@@ -867,7 +865,7 @@ These keybindings make it easy to jump into your dotfiles configuration from any
 
 ### 🤖 **Development Environment for AI**
 
-Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the consolidated data files (`ai_tools.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
+Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the consolidated data files (`tools.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
 
 #### 🎯 **Quick Setup Guide**
 
@@ -895,7 +893,7 @@ Provider details and model configurations are now managed in `.chezmoidata/openc
 #### 🛠️ **Development Tools Integration**
 
 ##### **Model Context Protocol (MCP) Servers**
-MCP servers are defined in `.chezmoidata/ai_tools.yaml` and installed via Mise.
+MCP servers are defined in `.chezmoidata/tools.yaml` and installed via Mise.
 ```bash
 # Install MCP servers for enhanced AI capabilities
 mise run install-mcp-servers
@@ -917,7 +915,7 @@ Neovim plugins like Avante, CodeCompanion, and Copilot provide a rich, integrate
 Switching providers or models is as simple as editing the relevant YAML file in `.chezmoidata/` and running `chezmoi apply`.
 
 -   **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode, and adjust model lists and parameters.
--   **`.chezmoidata/ai_tools.yaml`**: Add or remove AI agents and MCP servers.
+-   **`.chezmoidata/tools.yaml`**: Add or remove AI agents and MCP servers.
 
 ## 🛠️ Shell Productivity Features
 
