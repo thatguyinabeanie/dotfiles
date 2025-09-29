@@ -1,3 +1,7 @@
+# .chezmoidata/ai/tools.yaml
+# Combined AI tools configuration including agents and MCP servers
+
+# AI Agents and Assistants
 agents:
   - name: "opencode-ai"
     install_via: npm
@@ -48,3 +52,31 @@ agents:
     runtime: native
     description: "AI on the command line"
     category: terminal
+
+# Model Context Protocol (MCP) Servers
+mcp_servers:
+  # Core MCP servers (Node.js implementations) - verified to exist
+  - name: "@modelcontextprotocol/server-filesystem"
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "MCP filesystem operations server"
+    purpose: "File system operations and management"
+    dependencies: []
+
+  - name: "@modelcontextprotocol/server-memory"
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "MCP memory management server"
+    purpose: "Persistent memory and context management"
+    dependencies: []
+
+  # Development and deployment MCP servers
+  - name: "vercel"
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "Vercel CLI tool with MCP capabilities"
+    purpose: "Vercel deployment and management"
+    dependencies: []

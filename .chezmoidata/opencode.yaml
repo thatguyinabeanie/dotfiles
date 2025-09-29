@@ -22,3 +22,100 @@ opencode:
 
   # MCP server configuration
   mcp:
+
+# Combined AI provider configurations for OpenCode
+providers:
+  opencode:
+    models:
+      code-supernova:
+        limit: 1000000
+        output: 1000000
+      grok-code:
+        limit: 256000
+        output: 256000
+
+  # Google Gemini models - strong multimodal capabilities with high context limits
+  google:
+    models:
+      gemini-1.5-pro:
+        limit:
+          context: 400000
+          output: 8192
+      gemini-2.5-pro:
+        limit:
+          context: 400000
+          output: 65536
+      gemini-2.0-flash-lite:
+        limit:
+          context: 400000
+          output: 8192
+      gemini-1.5-flash:
+        limit:
+          context: 400000
+          output: 8192
+      gemini-2.5-flash:
+        limit:
+          context: 400000
+          output: 65536
+      gemini-2.0-flash:
+        limit:
+          context: 400000
+          output: 8192
+      gemini-1.5-flash-8b:
+        limit:
+          context: 400000
+          output: 8192
+
+  # GitHub Copilot PRO has a global token limit of 128,000 tokens across all models
+  # This configuration includes individual model limits for proper OpenCode schema compliance
+  github-copilot:
+    models:
+      # Claude models - most capable for complex tasks
+      claude-sonnet-4:
+        limit:
+          context: 128000
+          output: 8192
+      claude-3.7-sonnet-thought:
+        limit:
+          context: 128000
+          output: 16384
+      claude-3.7-sonnet:
+        limit:
+          context: 128000
+          output: 16384
+      claude-3.5-sonnet:
+        limit:
+          context: 128000
+          output: 8192
+      grok-code-fast-1:
+        limit:
+          context: 128000
+          output: 10000
+
+      # GPT models - good general purpose models
+      gpt-5:
+        limit:
+          context: 128000
+          output: 8192
+      gpt-5-codex:
+        limit:
+          context: 128000
+          output: 64000
+      gpt-4o:
+        limit:
+          context: 128000
+          output: 16394
+      gpt-4.1:
+        limit:
+          context: 128000
+          output: 16394
+
+      # Google Gemini models (via GitHub Copilot) - capped at 128k context
+      gemini-2.5-pro:
+        limit:
+          context: 128000
+          output: 64000
+      gemini-2.0-flash-001:
+        limit:
+          context: 128000
+          output: 8192

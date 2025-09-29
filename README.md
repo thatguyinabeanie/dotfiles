@@ -233,10 +233,7 @@ This data is consumed by a **Template Factory System** located in `.chezmoitempl
 ```shell
 dotfiles/
 ├── 🔭 .chezmoidata/             # Flat, granular YAML data files
-│   ├── ai/                     # AI-specific configurations
-│   │   ├── agents.yaml
-│   │   ├── mcp.yaml
-│   │   └── ...
+│   ├── ai_tools.yaml           # Combined AI agents and MCP servers
 │   ├── lsp.yaml
 │   ├── formatters.yaml
 │   ├── tools.yaml
@@ -264,8 +261,7 @@ The configuration data is organized into **27 ultra-specific files**. This flat 
 -   **`linters.yaml`**: All linters with language/runtime info.
 -   **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
 -   **`tools.yaml`**: All general development tools, CLIs, and utilities.
--   **`ai/agents.yaml`**: All AI agents and their installation details.
--   **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
+-   **`ai_tools.yaml`**: Combined AI agents and MCP servers configuration.
 -   **`github-extensions.yaml`**: All GitHub CLI extensions.
 -   **`services.yaml`**: System services and application configurations.
 -   **`opencode.yaml`**: OpenCode AI-specific settings.
@@ -295,8 +291,8 @@ Templates now access this data directly and efficiently, without complex `includ
 
 #### Loading AI Configurations
 ```go
-{{/* Access the OpenCode provider settings */}}
-{{- .opencode.ai_opencode.providers.google.enabled }}
+{{/* Access the provider settings */}}
+{{- .providers.google.models }}
 
 {{/* Loop through all AI agents */}}
 {{- range .agents }}
@@ -871,7 +867,7 @@ These keybindings make it easy to jump into your dotfiles configuration from any
 
 ### 🤖 **Development Environment for AI**
 
-Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the new granular data files (`ai/agents.yaml`, `ai/mcp.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
+Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the consolidated data files (`ai_tools.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
 
 #### 🎯 **Quick Setup Guide**
 
@@ -891,7 +887,7 @@ The primary AI development environment uses OpenCode with flexible provider swit
 
 #### 🤖 **Provider-Specific Setup**
 
-Provider details and model configurations are now managed in their respective template files within `.chezmoitemplates/ai/`.
+Provider details and model configurations are now managed in `.chezmoidata/opencode.yaml`.
 
 -   **GitHub Copilot**: Models available via the Copilot integration.
 -   **Google Gemini**: Models defined in `provider-google.yaml`.
@@ -899,7 +895,7 @@ Provider details and model configurations are now managed in their respective te
 #### 🛠️ **Development Tools Integration**
 
 ##### **Model Context Protocol (MCP) Servers**
-MCP servers are defined in `.chezmoidata/ai/mcp.yaml` and installed via Mise.
+MCP servers are defined in `.chezmoidata/ai_tools.yaml` and installed via Mise.
 ```bash
 # Install MCP servers for enhanced AI capabilities
 mise run install-mcp-servers
@@ -920,9 +916,8 @@ Neovim plugins like Avante, CodeCompanion, and Copilot provide a rich, integrate
 
 Switching providers or models is as simple as editing the relevant YAML file in `.chezmoidata/` and running `chezmoi apply`.
 
--   **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode.
--   **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
--   **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
+-   **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode, and adjust model lists and parameters.
+-   **`.chezmoidata/ai_tools.yaml`**: Add or remove AI agents and MCP servers.
 
 ## 🛠️ Shell Productivity Features
 
