@@ -1,3 +1,5 @@
+if true then return {} end
+
 return {
   {
     "zbirenbaum/copilot.lua",
@@ -11,7 +13,7 @@ return {
       "ravitemer/mcphub.nvim", -- Ensure mcphub loads first for MCP integration
     },
     opts = {
-      model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
+      model = "claude-sonnet-4.5",
     },
     keys = {
       { "<leader>ap", "<cmd>CopilotChatOpen<cr>", desc = "Copilot Chat Open" },

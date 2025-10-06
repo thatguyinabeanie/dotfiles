@@ -1,7 +1,10 @@
+if true then return {} end
+
 return {
   {
     "ravitemer/mcphub.nvim",
-    enabled = not vim.env.CI,
+    -- enabled = not vim.env.CI,
+    enabled = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
