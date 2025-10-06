@@ -215,6 +215,17 @@ language_servers:
     provides_formatting: false
     mason_ensure_installed: true
 
+  - name: copilot
+    mason_name: copilot-language-server
+    lspconfig_name: copilot
+    languages: [text]
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "GitHub Copilot language server"
+    provides_formatting: false
+    mason_ensure_installed: true
+
   # circleci-yaml-language-server removed - doesn't exist on npm
 
   # Linter language servers

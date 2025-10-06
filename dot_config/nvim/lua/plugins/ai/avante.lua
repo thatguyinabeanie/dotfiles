@@ -1,3 +1,4 @@
+if true then return {} end
 return {
   {
     "yetone/avante.nvim",
@@ -8,7 +9,7 @@ return {
       provider = "copilot",
       providers = {
         copilot = {
-          model = "claude-sonnet-4", -- Claude Sonnet 4 via Copilot
+          model = "claude-sonnet-4.5", -- Claude Sonnet 4 via Copilot
           timeout = 30000,
           extra_request_body = {
             temperature = 0,
@@ -18,24 +19,24 @@ return {
         -- Keep OpenAI as a fallback option
       },
       -- MCP Integration - system prompt includes active MCP servers
-      system_prompt = function()
-        local hub_ok, mcphub = pcall(require, "mcphub")
-        if hub_ok then
-          local hub = mcphub.get_hub_instance()
-          return hub and hub:get_active_servers_prompt() or ""
-        end
-        return ""
-      end,
-      -- MCP Tools - adds use_mcp_tool and access_mcp_resource
-      custom_tools = function()
-        local tools_ok, avante_ext = pcall(require, "mcphub.extensions.avante")
-        if tools_ok then
-          return {
-            avante_ext.mcp_tool(),
-          }
-        end
-        return {}
-      end,
+      -- system_prompt = function()
+      --   local hub_ok, mcphub = pcall(require, "mcphub")
+      --   if hub_ok then
+      --     local hub = mcphub.get_hub_instance()
+      --     return hub and hub:get_active_servers_prompt() or ""
+      --   end
+      --   return ""
+      -- end,
+      -- -- MCP Tools - adds use_mcp_tool and access_mcp_resource
+      -- custom_tools = function()
+      --   local tools_ok, avante_ext = pcall(require, "mcphub.extensions.avante")
+      --   if tools_ok then
+      --     return {
+      --       avante_ext.mcp_tool(),
+      --     }
+      --   end
+      --   return {}
+      -- end,
 
       -- Avante keymaps:
       -- <leader>aa - ask (chat with AI about selection/buffer)

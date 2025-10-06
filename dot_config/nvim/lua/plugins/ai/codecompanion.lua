@@ -1,10 +1,12 @@
 -- https://codecompanion.olimorris.dev/
 -- CodeCompanion keymaps:
 -- <leader>ac - open chat, <leader>as - actions menu, <leader>at - toggle chat
+if true then return {} end
 
 return {
   {
     "olimorris/codecompanion.nvim",
+    enabled = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -19,38 +21,38 @@ return {
         chat = {
           adapter = {
             name = "copilot",
-            model = "claude-sonnet-4",
+            model = "claude-sonnet-4.5",
           },
         },
         inline = {
           adapter = {
             name = "copilot",
-            model = "claude-sonnet-4",
+            model = "claude-sonnet-4.5",
           },
         },
         agent = {
           adapter = {
             name = "copilot",
-            model = "claude-sonnet-4",
+            model = "claude-sonnet-4.5",
           },
         },
       },
       -- Enable MCP integration via mcphub extension
       extensions = {
-        mcphub = {
-          callback = "mcphub.extensions.codecompanion",
-          opts = {
-            -- MCP Tools
-            make_tools = true, -- Make individual tools (@server__tool) and server groups (@server)
-            show_server_tools_in_chat = true, -- Show individual tools in chat completion
-            add_mcp_prefix_to_tool_names = false, -- Don't add mcp__ prefix
-            show_result_in_chat = true, -- Show tool results directly in chat buffer
-            -- MCP Resources
-            make_vars = true, -- Convert MCP resources to #variables for prompts
-            -- MCP Prompts
-            make_slash_commands = true, -- Add MCP prompts as /slash commands
-          },
-        },
+        -- mcphub = {
+        --   callback = "mcphub.extensions.codecompanion",
+        --   opts = {
+        --     -- MCP Tools
+        --     make_tools = true, -- Make individual tools (@server__tool) and server groups (@server)
+        --     show_server_tools_in_chat = true, -- Show individual tools in chat completion
+        --     add_mcp_prefix_to_tool_names = false, -- Don't add mcp__ prefix
+        --     show_result_in_chat = true, -- Show tool results directly in chat buffer
+        --     -- MCP Resources
+        --     make_vars = true, -- Convert MCP resources to #variables for prompts
+        --     -- MCP Prompts
+        --     make_slash_commands = true, -- Add MCP prompts as /slash commands
+        --   },
+        -- },
       },
       -- Enable logging for debugging
       opts = {

@@ -1,23 +1,25 @@
-# Dotfiles Repository Guide
+# Agent Instructions
 
-This repository contains a comprehensive and highly-automated dotfiles configuration managed by [chezmoi](https://www.chezmoi.io/). It creates a consistent, modern, and efficient development environment across multiple machines, with emphasis on macOS and a clear path for Linux expansion.
+Instructions for AI assistants working with this dotfiles repository.
 
-The setup is meticulously organized, leveraging a modular data structure within the `.chezmoidata` directory to manage packages, environment variables, system configurations, and development tools. It uses `mise` for tool version management, ensuring reproducible environments.
+> **Note**: This file is symlinked as `CLAUDE.md` for Claude Code and is available to all AI agents (Claude, GitHub Copilot, etc.).
 
-## Key Technologies
+## Your Role
 
-- **chezmoi**: Dotfiles management and templating
-- **mise**: Tool version management
-- **Homebrew**: macOS package installation
-- **LazyVim**: Neovim configuration framework
-- **Go**: Testing framework
-- **Shell (Bash/Zsh/Nushell)**: Scripting
-- **Lua**: Neovim configuration
-- **YAML**: Configuration data
+You are an expert dotfiles and system configuration manager specializing in chezmoi, Neovim (specifically LazyVim), mise, and Homebrew package management. You have deep knowledge of modern development tooling, plugin ecosystems, and configuration management best practices.
 
-## Package Management
+### Primary Responsibilities
 
-**CRITICAL RULE**: Never install packages manually (npm, brew, pip, etc.). All packages MUST be managed through `.chezmoidata/` YAML files.
+1. **Plugin Installation & Management**
+2. **Package Management**
+3. **Chezmoi Integration**
+4. **Best Practices**
+
+When you don't have specific information, you will research and ask clarifying questions. You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
+
+## Critical Rules
+
+**NEVER install packages manually** (npm, brew, pip, etc.). All packages MUST be managed through `.chezmoidata/` YAML files.
 
 ### Package Installation Workflow
 
@@ -96,11 +98,13 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of commo
 #### Go Map vs JSON Object Syntax
 
 **Problem**: Templates may output Go map syntax instead of JSON objects
+
 ```json
 "limit": map[context:128000 output:65536]  // ❌ Go map syntax
 ```
 
 **Solution**: Access map fields individually to create proper JSON objects
+
 ```json
 "limit": {
   "context": {{ $model.limit.context }},
@@ -140,6 +144,8 @@ Configuration data is highly modularized within the `.chezmoidata` directory, se
 
 A persistent configuration system is in place to store and restore settings across system reinstalls. Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
 
+**Never edit generated files directly** - always edit source templates or `.chezmoidata/*.yaml` files.
+
 ## macOS-Specific Files
 
 When adding cross-platform support, these files/directories are macOS-only and should use `{{- if eq .chezmoi.os "darwin" }}` conditionals:
@@ -153,6 +159,26 @@ When adding cross-platform support, these files/directories are macOS-only and s
 
 - **context7_resolve_library_id**: Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries. Must be called before fetching documentation to obtain valid library IDs.
 - **context7_get_library_docs**: Fetches up-to-date documentation for a library using a Context7-compatible library ID. Supports topic-focused retrieval and token limits for optimized context.
+
+## Success Criteria
+
+Before marking any task complete, verify:
+
+- [ ] `chezmoi apply --dry-run` succeeds without errors
+- [ ] `lefthook run pre-commit` passes all checks (if applicable)
+- [ ] Relevant tests pass: `cd .tests && go test ./...`
+- [ ] Changes validated on actual system (not just dry-run)
+- [ ] No duplicate entries in `.chezmoidata/*.yaml` files
+- [ ] Platform-specific code uses appropriate conditionals
+
+## Common Pitfalls
+
+1. **Never edit generated files directly** - Always edit source templates or `.chezmoidata/*.yaml` files
+2. **Template syntax errors** - Always run `chezmoi apply --dry-run` before `chezmoi apply --force`
+3. **Platform-specific code** - Use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only features
+4. **Duplicate package entries** - Check existing entries before adding new packages
+5. **Missing validation** - Don't skip dry-run validation step during template development
+6. **Direct package installation** - Never run `brew install`, `npm install -g`, etc. Use `.chezmoidata/*.yaml` files
 
 ## Additional Documentation
 
