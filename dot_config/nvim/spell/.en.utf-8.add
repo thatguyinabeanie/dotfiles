@@ -29,6 +29,7 @@ Axler's
 backend
 Base64
 baseUrl
+BattleStadium
 beautifulsoup4
 bigquery
 Bontera
@@ -74,6 +75,8 @@ conf
 config
 configs
 Context7
+Convex's
+ConvexClientProvider
 cookie
 CopilotChat
 CORS
@@ -139,6 +142,7 @@ FastAPI
 Fastfetch
 fd
 FedRAMP
+Figma
 filelock
 filesystem
 filetype
@@ -195,6 +199,7 @@ ipython
 isodate
 iTerm2
 itertools
+iz
 jaraco
 jedi
 jinja2
@@ -269,6 +274,7 @@ MCPHub
 md
 memoization
 menubar
+Metagame
 minikube
 Minior
 mise
@@ -334,6 +340,8 @@ PostgreSQL
 postinstall
 PR's
 PRD
+Prisma
+prizePool
 PropTypes
 proto
 protobuf
@@ -363,6 +371,7 @@ pytz
 pyyaml
 pyzmq
 qa
+queryability
 Quickfix
 Raycast
 RBAC
@@ -374,6 +383,7 @@ Recharts
 Redis
 redshift
 Redux
+registrationDeadline
 remapper
 repl
 repo's
@@ -384,6 +394,7 @@ Rotom
 rpds
 rsa
 RSpec
+rulesets
 s3transfer
 SameSite
 Scikit
@@ -398,6 +409,7 @@ shadcn
 ShadcnUI
 SheetJS
 shellcheck
+signup
 SIGPIPE
 slugify
 sonner
@@ -415,9 +427,11 @@ Strang's
 struct
 stylua
 submodules
+Supabase
 Superagent
 supervisord
 Surface1
+Svix
 SwapDown
 SwapLeft
 SwapRight
@@ -435,6 +449,7 @@ tmpl
 tmux
 todo
 todolist
+todos
 toml
 tomlkit
 toolchain
@@ -444,6 +459,7 @@ traitlets
 Transpilation
 treemaps
 Treewalker
+tRPC
 tsc
 tsconfig
 tseslint
@@ -454,6 +470,7 @@ TypeCheck
 TypeScript
 tzdata
 ui
+unassign
 unidecode
 unsanitized
 URIs
@@ -483,6 +500,8 @@ WASM
 WCAG
 wcwidth
 WebAssembly
+Webhook
+webhooks
 webpack
 WebSocket
 WebSockets
@@ -498,26 +517,8 @@ Yazi
 yml
 zellij
 zipp
+Zod
+zodResolver
 zoxide
 Zsh
 zshrc
-dotfiles
-chezmoi
-context7
-Ghostty
-TypeScript
-Supabase
-Prisma
-tRPC
-signup
-hardcoded
-Convex's
-Metagame
-queryability
-typecheck
-Zod
-zodResolver
-zod
-Figma
-todos
-BattleStadium
