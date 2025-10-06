@@ -216,6 +216,7 @@ opt.smartcase = true
 opt.grepprg = "rg --vimgrep"
 opt.expandtab = true
 opt.autowrite = true
+opt.autoread = true -- Auto-reload files changed outside of Neovim
 opt.confirm = true
 opt.signcolumn = "yes"
 opt.numberwidth = 2 -- Adjust gutter width for better compatibility
