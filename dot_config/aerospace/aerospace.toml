@@ -172,7 +172,6 @@ run = 'layout floating'
 if.app-id = 'com.linkplay.wiimhome'
 run = 'layout floating'
 
-
 # =============================================================================
 # SERVICE MODE KEYBINDINGS
 # =============================================================================

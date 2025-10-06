@@ -28,7 +28,12 @@
       "Bash(pnpm run:*)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:ui.shadcn.com)",
+<<<<<<< HEAD
       "WebFetch(domain:raw.githubusercontent.com)"
+||||||| a2e744f
+=======
+      "WebFetch(domain:raw.githubusercontent.com)",
+>>>>>>> origin/main
     ]
   }
 }

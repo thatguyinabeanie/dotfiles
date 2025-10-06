@@ -19,11 +19,15 @@ regexes = [
 
 commits = [
     # Add any commit hashes to allowlist here
+<<<<<<< HEAD
     "9a7efbe5d29c586f7a4fb6e9eb328d894c748842",  # Old commit with Context7 API key, removed from history
 ]
 
 stopwords = [
     "9a7efbe5d29c586f7a4fb6e9eb328d894c748842:dot_gemini/.settings.json:generic-api-key:20",
+||||||| a2e744f
+=======
+>>>>>>> origin/main
 ]
 
 # Custom rules in addition to default ones
