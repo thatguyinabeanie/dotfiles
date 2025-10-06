@@ -139,12 +139,17 @@ stylua .
 
 ### LazyVim Extras Keymaps
 
-**AI & Copilot Chat:**
+**AI & Sidekick:**
 - `<leader>a` - +ai menu
-- `<leader>aa` - Toggle CopilotChat
-- `<leader>aq` - Quick chat
-- `<leader>ap` - Prompt actions
-- `<leader>ax` - Clear chat
+- `<leader>aa` - Toggle Sidekick CLI
+- `<leader>as` - Select CLI tool
+- `<leader>at` - Send "this" context
+- `<leader>av` - Send visual selection (visual mode)
+- `<leader>ap` - Select prompt
+- `<leader>ac` - Toggle Claude directly
+- `<leader>am` - MCP Hub
+- `<c-.>` - Switch focus (CLI ↔ editor)
+- `<Tab>` - Apply/navigate Next Edit Suggestions (NES)
 
 **REST API Testing (Kulala):**
 - `<leader>R` - +REST menu

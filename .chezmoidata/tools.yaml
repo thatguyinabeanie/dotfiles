@@ -215,12 +215,12 @@ dev_tools:
   #   category: infrastructure
 
   # Documentation tools
-  - name: marp-cli
-    install_via: mise
-    runtime: node
-    version: latest
-    description: "Markdown presentation tool"
-    category: documentation
+  # - name: marp-cli
+  #   install_via: mise
+  #   runtime: node
+  #   version: latest
+  #   description: "Markdown presentation tool"
+  #   category: documentation
 
   - name: mdbook
     install_via: mise
@@ -275,7 +275,7 @@ dev_tools:
   - name: rust
     install_via: mise
     runtime: native
-    version: latest
+    version: nightly
     description: "Rust programming language"
     category: runtime
 
@@ -465,8 +465,8 @@ dev_tools:
 # AI Agents and Assistants
 agents:
   - name: "opencode-ai"
-    install_via: npm
-    runtime: node
+    install_via: bun
+    runtime: native
     version: "latest"
     description: "OpenCode AI"
     category: code_assistant
@@ -514,6 +514,20 @@ agents:
     description: "AI on the command line"
     category: terminal
 
+  - name: "@github/copilot"
+    install_via: bun
+    runtime: native
+    version: latest
+    description: "GitHub Copilot CLI"
+    category: code_assistant
+
+  # - name: aider-chat
+  #   install_via: pipx
+  #   runtime: python
+  #   version: latest
+  #   description: "AI pair programming in your terminal"
+  #   category: code_assistant
+
 # Model Context Protocol (MCP) Servers
 mcp_servers:
   # Development and deployment MCP servers
@@ -524,3 +538,11 @@ mcp_servers:
     description: "Vercel CLI tool with MCP capabilities"
     purpose: "Vercel deployment and management"
     dependencies: []
+  - name: mcp-hub
+    install_via: bun
+    runtime: node
+    version: latest
+    description: "MCP Hub"
+    dependencies: []
+    purpose: "MCP Hub"
+
