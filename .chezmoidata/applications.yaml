@@ -159,6 +159,10 @@ applications:
       install_via: brew_cask
       category: media
       description: "Music streaming service"
+    - name: tidal
+      install_via: brew_cask
+      category: media
+      description: "High-fidelity music streaming service"
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"
