@@ -51,13 +51,10 @@ jobs:
           fetch-depth: 0
 
       - name: Run Gitleaks
-        run: |
-          # Install gitleaks
-          curl -sSfL https://raw.githubusercontent.com/gitleaks/gitleaks/master/scripts/install.sh | sudo sh -s -- -b /usr/local/bin
-          # Run gitleaks with baseline
-          gitleaks detect --no-banner --log-level=error --baseline-path=.gitleaks-baseline.json --exit-code=2 --report-format=sarif --report-path=results.sarif
+        uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master

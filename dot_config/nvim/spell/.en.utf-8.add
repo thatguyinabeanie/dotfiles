@@ -271,6 +271,7 @@ macOS
 markdownlint
 markupsafe
 mashumaro
+MatchReportDialog
 Matplotlib
 mccabe
 MCP
@@ -318,6 +319,7 @@ Okta
 OpenAI
 opencode
 OpenCode's
+orgs
 OWASP
 params
 parsedatetime
@@ -457,6 +459,9 @@ todos
 toml
 tomlkit
 toolchain
+topnav
+tournamentMatches
+tournamentRegistrations
 TPM
 tqdm
 traitlets
@@ -500,6 +505,8 @@ Vitest
 vscode
 vsda
 Vue
+Waitlist
+waitlisted
 WASM
 WCAG
 wcwidth
