@@ -84,14 +84,8 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   
   {{- /* Mac App Store applications (mas only) */ -}}
   {{- if eq $manager "mas" -}}
-<<<<<<< HEAD
-    {{- if $root.env_shared.applications -}}
-      {{- range $root.env_shared.applications -}}
-||||||| a2e744f
-=======
     {{- if $root.applications.shared -}}
       {{- range $root.applications.shared -}}
->>>>>>> origin/main
         {{- if eq .install_via "mas" -}}
           {{- $packages = append $packages .app_id -}}
         {{- end -}}
@@ -114,4 +108,4 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   {{- end -}}
 {{- end -}}
 
-{{- $packages | sortAlpha | uniq | join " " | sha256sum -}}
+{{- $packages | sortAlpha | uniq | join " " -}}

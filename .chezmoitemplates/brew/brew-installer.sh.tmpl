@@ -1,135 +1,5 @@
 #!/bin/bash
 # Auto-generated Homebrew package installer
-<<<<<<< HEAD
-# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai_tools.yaml, shared.yaml
-
-# Using direct template variable access (new pattern)
-
-{{ template "utilities/error-handling.sh" }}
-
-# Set default values for environment variables
-PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
-WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
-
-{{ if eq .chezmoi.os "darwin" -}}
-
-# Check if Homebrew is installed, install if not
-if ! command_exists "brew"; then
-    log_info "Installing Homebrew Package Manager for macOS"
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    log_success "Homebrew Package Manager installed"
-else
-    log_debug "Homebrew is already installed"
-fi
-
-# Ensure PATH is configured for Homebrew
-if [[ -f "/opt/homebrew/bin/brew" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -f "/usr/local/bin/brew" ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-fi
-
-# Function to install packages in batches
-install_brew_packages() {
-    local package_type="$1"
-    local packages="$2"
-    
-    if [[ -z "$packages" ]]; then
-        log_debug "No $package_type packages to install"
-        return 0
-    fi
-    
-    log_step "Installing $package_type packages"
-    
-    # Create temporary Brewfile
-    local brewfile=$(mktemp)
-    echo -e "$packages" > "$brewfile"
-    
-    # Install packages using Brewfile
-    if brew bundle install --file="$brewfile"; then
-        log_success "$package_type packages installed successfully"
-    else
-        log_error "Failed to install some $package_type packages"
-        return 1
-    fi
-    
-    # Clean up
-    rm -f "$brewfile"
-}
-
-# Install taps first
-log_step "Installing Homebrew taps"
-TAPS=""
-
-# Add required taps (manually curated list)
-TAPS="${TAPS}tap \"adoptopenjdk/openjdk\"\n"
-TAPS="${TAPS}tap \"charmbracelet/tap\"\n"
-TAPS="${TAPS}tap \"domt4/autoupdate\"\n"
-TAPS="${TAPS}tap \"felixkratz/formulae\"\n"
-TAPS="${TAPS}tap \"hashicorp/tap\"\n"
-TAPS="${TAPS}tap \"jesseduffield/lazydocker\"\n"
-TAPS="${TAPS}tap \"kubewall/tap\"\n"
-TAPS="${TAPS}tap \"nikitabobko/tap\"\n"
-
-install_brew_packages "taps" "$TAPS"
-
-# Collect all brew packages from different sources
-log_step "Collecting brew packages from all sources"
-BREWS=""
-
-# Language servers that install via brew
-{{- range .language_servers }}
-  {{- if eq .install_via "brew" }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Formatters that install via brew
-{{- range .formatters }}
-  {{- if eq .install_via "brew" }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Linters that install via brew
-{{- range .linters }}
-  {{- if eq .install_via "brew" }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# Development tools that install via brew
-{{- range .dev_tools }}
-  {{- if eq .install_via "brew" }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# AI agents that install via brew
-{{- range .agents }}
-  {{- if eq .install_via "brew" }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-install_brew_packages "brews" "$BREWS"
-
-# Install casks
-log_step "Collecting cask packages"
-CASKS=""
-
-# AI agents that install via brew_cask
-{{- range .agents }}
-  {{- if eq .install_via "brew_cask" }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
-  {{- end }}
-{{- end }}
-
-# General applications that install via brew_cask
-{{- if .env_shared.applications }}
-  {{- range .env_shared.applications }}
-||||||| a2e744f
-=======
 # Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai/agents.yaml, ai/mcp.yaml
 
 # Using direct template variable access (new pattern)
@@ -162,18 +32,18 @@ fi
 install_brew_packages() {
     local package_type="$1"
     local packages="$2"
-    
+
     if [[ -z "$packages" ]]; then
         log_debug "No $package_type packages to install"
         return 0
     fi
-    
+
     log_step "Installing $package_type packages"
-    
+
     # Create temporary Brewfile
     local brewfile=$(mktemp)
     echo -e "$packages" > "$brewfile"
-    
+
     # Install packages using Brewfile
     if brew bundle install --file="$brewfile"; then
         log_success "$package_type packages installed successfully"
@@ -181,7 +51,7 @@ install_brew_packages() {
         log_error "Failed to install some $package_type packages"
         return 1
     fi
-    
+
     # Clean up
     rm -f "$brewfile"
 }
@@ -257,7 +127,6 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
 # General applications that install via brew_cask
 {{- if .applications.shared }}
   {{- range .applications.shared }}
->>>>>>> origin/main
     {{- if eq .install_via "brew_cask" }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
     {{- end }}
