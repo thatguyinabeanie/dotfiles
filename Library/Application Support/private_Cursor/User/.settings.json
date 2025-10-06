@@ -115,9 +115,7 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "cursor.enable_agent_window_setting": true,
-  "cursor.diffs.useCharacterLevelDiffs": true
-||||||| a2e744f
-=======
+  "cursor.diffs.useCharacterLevelDiffs": true,
   "terminal.integrated.defaultProfile.osx": "zsh",
   "editor.fontSize": 16,
   "mise.binPath": "/Users/beanie/.local/bin/mise",
@@ -194,5 +192,4 @@
     "asvetliakov.vscode-neovim": 1
   },
   "json.schemaDownload.enable": true
->>>>>>> origin/main
 }
