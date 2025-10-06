@@ -1,6 +1,6 @@
 #!/bin/bash
 # Auto-generated Homebrew package installer
-# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml, ai/agents.yaml, ai/mcp.yaml
+# Sources: lsp.yaml, formatters.yaml, linters.yaml, tools.yaml
 
 # Using direct template variable access (new pattern)
 
@@ -32,18 +32,18 @@ fi
 install_brew_packages() {
     local package_type="$1"
     local packages="$2"
-    
+
     if [[ -z "$packages" ]]; then
         log_debug "No $package_type packages to install"
         return 0
     fi
-    
+
     log_step "Installing $package_type packages"
-    
+
     # Create temporary Brewfile
     local brewfile=$(mktemp)
     echo -e "$packages" > "$brewfile"
-    
+
     # Install packages using Brewfile
     if brew bundle install --file="$brewfile"; then
         log_success "$package_type packages installed successfully"
@@ -51,7 +51,7 @@ install_brew_packages() {
         log_error "Failed to install some $package_type packages"
         return 1
     fi
-    
+
     # Clean up
     rm -f "$brewfile"
 }

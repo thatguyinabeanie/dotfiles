@@ -12,7 +12,7 @@ return {
           timeout = 30000,
           extra_request_body = {
             temperature = 0,
-            max_tokens = 8192, -- Default for copilot is 20480
+            max_tokens = 128000, -- Default for copilot is 20480
           },
         },
         -- Keep OpenAI as a fallback option

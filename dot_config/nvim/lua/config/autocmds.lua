@@ -166,3 +166,29 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.diagnostic.enable(false)
   end,
 })
+
+--
+-- AUTO-RELOAD FILES CHANGED EXTERNALLY
+--
+-- This enables automatic reloading of files modified by external tools
+-- (e.g., AI coding assistants like Claude Code, OpenCode, Copilot, etc.)
+--
+-- Note: `autoread` alone is not sufficient - it requires `checktime` to be
+-- called at appropriate moments to actually check for file changes.
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+  pattern = "*",
+  callback = function()
+    -- Only check if not in command-line mode
+    if vim.fn.mode() ~= "c" then
+      vim.cmd("checktime")
+    end
+  end,
+})
+
+-- Optional: Notification when a file is reloaded
+vim.api.nvim_create_autocmd("FileChangedShellPost", {
+  pattern = "*",
+  callback = function()
+    vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.INFO)
+  end,
+})

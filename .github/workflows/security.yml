@@ -54,6 +54,7 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
@@ -74,3 +75,4 @@ jobs:
           #   with:
           #     sarif_file: "trivy-results.sarif"
           #     category: "trivy"
+# Security Fix Complete

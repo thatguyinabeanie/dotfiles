@@ -143,6 +143,10 @@ applications:
       install_via: brew_cask
       category: communication
       description: "Gaming and community chat"
+    - name: figma
+      install_via: brew_cask
+      category: design
+      description: "Collaborative interface design tool"
     - name: obs
       install_via: brew_cask
       category: media
@@ -151,6 +155,10 @@ applications:
       install_via: brew_cask
       category: media
       description: "Music streaming service"
+    - name: tidal
+      install_via: brew_cask
+      category: media
+      description: "High-fidelity music streaming service"
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"

@@ -129,7 +129,6 @@ outer.top = 8        # Gap from top screen edge (menu bar area)
 outer.right = 6      # Gap from right screen edge
 
 
-
 # =============================================================================
 # APPLICATION-SPECIFIC RULES
 # =============================================================================
@@ -152,6 +151,20 @@ run = 'layout floating'
 # 1Password works better as floating windows due to its utility nature and small interface
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = 'layout floating'
+
+# Force Wiim Home to always be floating for better media control workflow
+# Wiim Home works better as floating windows due to its media player interface
+[[on-window-detected]]
+if.app-id = 'com.linkplay.wiimhome'
 run = 'layout floating'
 
 # =============================================================================

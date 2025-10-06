@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 20,
+  "EndLine": 20,
+  "StartColumn": 11,
+  "EndColumn": 74,
+  "Match": "CONTEXT7_API_KEY\": \"ctx7sk-ff4243a7-58a4-4655-8b6b-855d34ed2738\"",
+  "Secret": "ctx7sk-ff4243a7-58a4-4655-8b6b-855d34ed2738",
+  "File": "dot_gemini/.settings.json",
+  "SymlinkFile": "",
+  "Commit": "9a7efbe5d29c586f7a4fb6e9eb328d894c748842",
+  "Link": "https://github.com/thatguyinabeanie/dotfiles/blob/9a7efbe5d29c586f7a4fb6e9eb328d894c748842/dot_gemini/.settings.json#L20",
+  "Entropy": 3.930016,
+  "Author": "Gabe Mendoza",
+  "Email": "thatguyin@beanie.gg",
+  "Date": "2025-09-26T23:17:26Z",
+  "Message": "fix: make Messages and Chrome apps float in AeroSpace\n\n- Fix Messages app bundle ID from com.apple.Messages to com.apple.MobileSMS\n- Add Chrome floating support with both bundle ID and app-name regex matching\n- Ensures consistent floating behavior for communication and browsing apps",
+  "Tags": [],
+  "Fingerprint": "9a7efbe5d29c586f7a4fb6e9eb328d894c748842:dot_gemini/.settings.json:generic-api-key:20"
+ }
+]

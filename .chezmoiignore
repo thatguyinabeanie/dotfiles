@@ -16,3 +16,5 @@ dot_config/private_karabiner
 opencode.jsonc
 physics_simulations
 mise.toml
+bun.lock
+package.json

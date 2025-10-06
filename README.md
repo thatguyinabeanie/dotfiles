@@ -263,7 +263,7 @@ The configuration data is organized into **27 ultra-specific files**. This flat 
 -   **`formatters.yaml`**: All code formatters and their language mappings.
 -   **`linters.yaml`**: All linters with language/runtime info.
 -   **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
--   **`tools.yaml`**: All general development tools, CLIs, and utilities.
+-   **`tools.yaml`**: All general development tools, CLIs, and utilities (including AI agents and MCP servers).
 -   **`ai/agents.yaml`**: All AI agents and their installation details.
 -   **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
 -   **`github-extensions.yaml`**: All GitHub CLI extensions.
@@ -297,6 +297,7 @@ Templates now access this data directly and efficiently, without complex `includ
 ```go
 {{/* Access the OpenCode provider settings */}}
 {{- .opencode.ai_opencode.providers.google.enabled }}
+>>>>>>> origin/main
 
 {{/* Loop through all AI agents */}}
 {{- range .agents }}

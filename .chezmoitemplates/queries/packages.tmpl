@@ -108,4 +108,4 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   {{- end -}}
 {{- end -}}
 
-{{- $packages | sortAlpha | uniq | join " " | sha256sum -}}
+{{- $packages | sortAlpha | uniq | join " " -}}
