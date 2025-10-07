@@ -25,7 +25,6 @@ require("lazy").setup({
         colorscheme = "catppuccin",
       },
     },
-    { import = "plugins/ai" },
     { import = "plugins/core" },
     { import = "plugins/dev" },
     { import = "plugins/git" },
