@@ -1,10 +1,12 @@
 A11y
 ai
 allowlist
+amd64
 Angulartics
 api
 apis
 AppleScript
+application
 appnope
 args
 ARM64
@@ -27,6 +29,7 @@ Axler
 Axler's
 backend
 Base64
+baseimage
 baseUrl
 BattleStadium
 beautifulsoup4
@@ -38,6 +41,8 @@ Bramses
 Btop
 Bufferline
 Buildkit
+buildspec
+Buildx
 cachetools
 camelCase
 capybara
@@ -98,6 +103,7 @@ dateutil
 dbt
 DBUI
 dconf
+deadsnakes
 debugpy
 deduplication
 deepdiff
@@ -123,6 +129,7 @@ EADDRINUSE
 ECR
 EFS
 ElasticSearch
+enablement
 english
 entrypoint
 env
@@ -179,6 +186,7 @@ Hardcoded
 hasFeatureFlag
 heatmap
 heatmaps
+heptio
 Homebrew
 Hostname
 HTML5
@@ -192,6 +200,7 @@ importlib
 iniconfig
 init
 instatiate
+io
 ipykernel
 ipynb
 ipython
@@ -244,6 +253,10 @@ lD
 LDAP
 Lefthook
 LGTM
+libgcrypt20
+libgnutls30
+libssl
+libssl3
 linter
 linters
 linuxserver
@@ -287,8 +300,10 @@ MUI
 mypy
 mysql
 nancy
+Neotest
 Neovim
 Neovim's
+netcat
 networkx
 NextJS
 nginx
@@ -311,6 +326,7 @@ ObsidianToday
 ObsidianWorkspace
 ObsidianYesterday
 Okta
+onboarding
 OpenAI
 opencode
 OpenCode's
@@ -329,6 +345,7 @@ platformdirs
 PlatformOps
 Plotly
 pluggy
+pluto
 pnpm
 POC
 pokemon
@@ -339,6 +356,7 @@ post1
 postgres
 PostgreSQL
 postinstall
+PPA
 PR's
 PRD
 Prisma
@@ -390,13 +408,16 @@ repl
 repo's
 ReportGen
 resumable
+Reusability
 ripgrep
+rollout
 Rotom
 rpds
 rsa
 RSpec
 rulesets
 s3transfer
+s6
 SameSite
 Scikit
 scramp
@@ -412,6 +433,7 @@ SheetJS
 shellcheck
 signup
 SIGPIPE
+sigs
 slugify
 sonner
 sortedcontainers
@@ -428,6 +450,7 @@ Strang's
 struct
 stylua
 submodules
+sudo
 Supabase
 Superagent
 supervisord
@@ -474,6 +497,7 @@ TypeCheck
 TypeScript
 tzdata
 ui
+UID
 unassign
 unidecode
 unsanitized
@@ -486,6 +510,7 @@ useReducer
 useState
 utils
 v1
+v3
 v7
 Vercel
 verify
@@ -528,12 +553,3 @@ zodResolver
 zoxide
 Zsh
 zshrc
-pluto
-chezmoi
-ghostty
-context7
-Neovim
-npm
-yaml
-Keymaps
-Neotest
