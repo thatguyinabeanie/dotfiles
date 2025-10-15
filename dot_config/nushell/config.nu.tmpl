@@ -8,6 +8,9 @@ source ~/.config/fzf/fzf-theme.nu
 # Load platform storage environment functions
 use ~/.config/nushell/platform-storage-env.nu *
 
+# Load 1Password environment configuration
+source ~/.config/nushell/onepassword-env.nu
+
 # Disable nushell banner
 $env.config = ($env.config | upsert show_banner false)
 

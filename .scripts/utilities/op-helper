@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# 1Password Helper Script
+# Provides unified interface for 1Password CLI across personal and work environments
+# - Personal: Uses interactive authentication with 1Password app
+# - Work: Uses service account token for non-interactive access
+
+set -euo pipefail
+
+# Source chezmoi config helper for environment detection
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CHEZMOI_ROOT="${SCRIPT_DIR}/../.."
+CONFIG_HELPER="${CHEZMOI_ROOT}/.chezmoitemplates/utilities/config-persistence.sh"
+
+# Detect environment
+if [ -f "$CONFIG_HELPER" ]; then
+    WORK_ENV=$(bash -c "$CONFIG_HELPER read work_environment" 2>/dev/null || echo "false")
+else
+    WORK_ENV="${WORK_ENVIRONMENT:-false}"
+fi
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Functions
+print_error() {
+    echo -e "${RED}Error: $1${NC}" >&2
+}
+
+print_success() {
+    echo -e "${GREEN}$1${NC}"
+}
+
+print_warning() {
+    echo -e "${YELLOW}Warning: $1${NC}"
+}
+
+# Check if op CLI is installed
+check_op_cli() {
+    if ! command -v op &> /dev/null; then
+        print_error "1Password CLI (op) is not installed"
+        echo "Install it from: https://developer.1password.com/docs/cli/get-started/" >&2
+        exit 1
+    fi
+}
+
+# Check if we're in work environment with service account
+is_work_service_account() {
+    [ "$WORK_ENV" = "true" ] && [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]
+}
+
+# Get secret from 1Password
+# Usage: get_secret <vault> <item> <field>
+get_secret() {
+    local vault="$1"
+    local item="$2"
+    local field="${3:-password}"
+
+    if is_work_service_account; then
+        # Use service account (token from environment)
+        op item get "$item" --vault "$vault" --fields "$field" 2>/dev/null || {
+            print_error "Failed to retrieve '$item' from vault '$vault'"
+            return 1
+        }
+    else
+        # Use interactive authentication (personal environment)
+        op item get "$item" --vault "$vault" --fields "$field" 2>/dev/null || {
+            print_error "Failed to retrieve '$item' from vault '$vault'"
+            print_warning "You may need to sign in: op-signin"
+            return 1
+        }
+    fi
+}
+
+# Validate service account access
+validate_service_account() {
+    if [ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
+        print_error "OP_SERVICE_ACCOUNT_TOKEN is not set"
+        echo ""
+        echo "To set up your service account token:"
+        echo "  1. Create a service account in 1Password"
+        echo "  2. Add the token to your shell profile:"
+        echo "     export OP_SERVICE_ACCOUNT_TOKEN='ops_xxx'"
+        echo "  3. Restart your shell or source your profile"
+        return 1
+    fi
+
+    # Try to authenticate
+    if ! op whoami &> /dev/null; then
+        print_error "Service account authentication failed"
+        echo "Please check your OP_SERVICE_ACCOUNT_TOKEN is valid"
+        return 1
+    fi
+
+    print_success "Service account authenticated successfully"
+    op whoami
+    return 0
+}
+
+# Show help
+show_help() {
+    cat <<EOF
+1Password Helper Script
+
+Usage: op-helper <command> [arguments]
+
+Commands:
+  get <vault> <item> [field]  - Get a secret from 1Password
+  validate                     - Validate service account access (work env only)
+  status                       - Show current authentication status
+  help                         - Show this help message
+
+Environment:
+  Current: $([ "$WORK_ENV" = "true" ] && echo "Work" || echo "Personal")
+  Auth: $(is_work_service_account && echo "Service Account" || echo "Interactive")
+
+Examples:
+  # Get a password
+  op-helper get "Private" "GitHub" password
+
+  # Get a credential field
+  op-helper get "Work Secrets" "API Key" credential
+
+  # Validate service account
+  op-helper validate
+
+EOF
+}
+
+# Show status
+show_status() {
+    echo "1Password Configuration Status"
+    echo "================================"
+    echo "Environment: $([ "$WORK_ENV" = "true" ] && echo "Work" || echo "Personal")"
+    echo "Auth Method: $(is_work_service_account && echo "Service Account" || echo "Interactive")"
+    echo ""
+
+    if is_work_service_account; then
+        echo "Service Account Token: $([ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && echo "Set" || echo "Not Set")"
+        if op whoami &> /dev/null; then
+            print_success "Authentication: Valid"
+            op whoami
+        else
+            print_error "Authentication: Invalid"
+        fi
+    else
+        echo "Using 1Password Desktop App authentication"
+        if op whoami &> /dev/null; then
+            print_success "Signed in"
+            op whoami
+        else
+            print_warning "Not signed in (run: op-signin)"
+        fi
+    fi
+}
+
+# Main
+main() {
+    check_op_cli
+
+    local command="${1:-help}"
+    shift || true
+
+    case "$command" in
+        get)
+            if [ $# -lt 2 ]; then
+                print_error "Usage: op-helper get <vault> <item> [field]"
+                exit 1
+            fi
+            get_secret "$@"
+            ;;
+        validate)
+            if [ "$WORK_ENV" != "true" ]; then
+                print_error "Validation only available in work environment"
+                exit 1
+            fi
+            validate_service_account
+            ;;
+        status)
+            show_status
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            print_error "Unknown command: $command"
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+main "$@"

@@ -16,6 +16,11 @@ fi
 
 source ~/.config/zsh/aliases.zsh
 
+# Source 1Password environment configuration
+if [ -f ~/.config/zsh/onepassword-env.zsh ]; then
+  source ~/.config/zsh/onepassword-env.zsh
+fi
+
 # Allow tmux usage even if aliased or defined as a function
 unalias tmux &>/dev/null
 unset -f tmux &>/dev/null
