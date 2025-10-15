@@ -33,15 +33,15 @@ env_work:
   # Work cloud and infrastructure
   cloud:
     # AWS settings
-    aws:
-      AWS_CONFIG_FILE: "$XDG_CONFIG_HOME/aws/config"
-      AWS_SHARED_CREDENTIALS_FILE: "$XDG_CONFIG_HOME/aws/credentials"
-      AWS_DEFAULT_REGION: "{{ .work.aws.default_region | default \"us-west-2\" }}"
-
-    # Kubernetes settings
-    kubernetes:
-      KUBECONFIG: "$XDG_CONFIG_HOME/kube/work-config"
-      KUBECTL_CONTEXT: "{{ .work.kubernetes.context }}"
+    # aws:
+    #   AWS_CONFIG_FILE: "$XDG_CONFIG_HOME/aws/config"
+    #   AWS_SHARED_CREDENTIALS_FILE: "$XDG_CONFIG_HOME/aws/credentials"
+    #   AWS_DEFAULT_REGION: "{{ .work.aws.default_region | default \"us-east-1\" }}"
+    #
+    # # Kubernetes settings
+    # kubernetes:
+    #   KUBECONFIG: "$XDG_CONFIG_HOME/kube/work-config"
+    #   KUBECTL_CONTEXT: "{{ .work.kubernetes.context }}"
 
     # Docker settings
     docker:

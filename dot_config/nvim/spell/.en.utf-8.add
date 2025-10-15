@@ -63,8 +63,11 @@ CircleCI
 civis
 civisanalytics
 civisApiToken
+claude
 cli
 cloudpickle
+cluster01
+cluster03
 cmd
 cmp
 CodeBuild
@@ -129,6 +132,7 @@ E2E
 EADDRINUSE
 ECR
 EFS
+EKS
 ElasticSearch
 enablement
 english
@@ -450,6 +454,7 @@ stdout
 Strang's
 struct
 stylua
+submodule
 submodules
 sudo
 Supabase

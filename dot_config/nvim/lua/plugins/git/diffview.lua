@@ -1,7 +1,3 @@
-if true then
-  return {}
-end
-
 -- Function to check if there are git changes
 local function has_git_changes()
   local handle = io.popen("git status --porcelain 2>/dev/null")
@@ -46,8 +42,6 @@ end
 return {
   {
     "sindrets/diffview.nvim",
-    enabled = true,
-    lazy = true,
     cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
     keys = {
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Git - File History" },

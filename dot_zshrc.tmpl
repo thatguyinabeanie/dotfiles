@@ -28,6 +28,15 @@ unset -f tmux &>/dev/null
 # Source brew services functions on macOS
 {{- if eq .chezmoi.os "darwin" }}
 {{- template "shell/homebrew-helpers.sh.tmpl" (dict "chezmoi" .chezmoi "services" .macos_services "excluded_services" .excluded_services) }}
+# Source work-specific kubectl functions if available
+{{- if eq .WORK_ENVIRONMENT true }}
+{{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
+{{- if stat $kubectl_functions }}
+if [ -f "{{ $kubectl_functions }}" ]; then
+  source "{{ $kubectl_functions }}"
+fi
+{{- end }}
+{{- end -}}
 {{- end }}
 
 # NPM and PNPM configuration is now handled by the centralized environment system
@@ -83,6 +92,9 @@ fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
 
 # source ~/.config/zsh/work.zsh
 # source ~/.config/zsh/secrets.zsh
+
+
+
 
 # Auto-attach to tmux session for interactive shells (opt-in)
 if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$ZSH_AUTO_TMUX" = "true" ]; then

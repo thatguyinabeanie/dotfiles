@@ -386,6 +386,14 @@ dev_tools:
     description: "Build automation tool"
     category: build
 
+  # Security and secrets management
+  - name: 1password-cli
+    install_via: brew_cask
+    runtime: native
+    version: latest
+    description: "1Password command-line tool"
+    category: security
+
   # Terminal and shell tools
   - name: tmux
     install_via: brew
@@ -454,7 +462,7 @@ dev_tools:
     category: lsp
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
-   # Curl-based installations
+    # Curl-based installations
   - name: mise
     install_via: curl
     runtime: native
@@ -545,4 +553,3 @@ mcp_servers:
     description: "MCP Hub"
     dependencies: []
     purpose: "MCP Hub"
-
