@@ -10,19 +10,19 @@
 --
 -- AUTO CHANGE TO GIT ROOT DIRECTORY
 --
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    -- Get the first argument and ensure it's a string
-    local first_arg = tostring(vim.fn.argv(0))
-
-    -- If we're opening a directory
-    if first_arg ~= "" and vim.fn.isdirectory(first_arg) == 1 then
-      -- Change to the specified directory (don't go to git root)
-      vim.cmd("cd " .. vim.fn.fnameescape(first_arg))
-      vim.notify("Working directory: " .. first_arg, vim.log.levels.INFO)
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   callback = function()
+--     -- Get the first argument and ensure it's a string
+--     local first_arg = tostring(vim.fn.argv(0))
+--
+--     -- If we're opening a directory
+--     if first_arg ~= "" and vim.fn.isdirectory(first_arg) == 1 then
+--       -- Change to the specified directory (don't go to git root)
+--       vim.cmd("cd " .. vim.fn.fnameescape(first_arg))
+--       vim.notify("Working directory: " .. first_arg, vim.log.levels.INFO)
+--     end
+--   end,
+-- })
 
 --   end,
 -- })
@@ -175,15 +175,15 @@ vim.api.nvim_create_autocmd("FileType", {
 --
 -- Note: `autoread` alone is not sufficient - it requires `checktime` to be
 -- called at appropriate moments to actually check for file changes.
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
-  pattern = "*",
-  callback = function()
-    -- Only check if not in command-line mode
-    if vim.fn.mode() ~= "c" then
-      vim.cmd("checktime")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
+--   pattern = "*",
+--   callback = function()
+--     -- Only check if not in command-line mode
+--     if vim.fn.mode() ~= "c" then
+--       vim.cmd("checktime")
+--     end
+--   end,
+-- })
 
 -- Optional: Notification when a file is reloaded
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
