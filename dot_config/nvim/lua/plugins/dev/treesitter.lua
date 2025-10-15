@@ -3,8 +3,21 @@
 local config = {
   treesitter = {
     parsers = {
-      "lua", "vim", "vimdoc", "query", "python", "javascript", "typescript",
-      "html", "css", "json", "yaml", "toml", "bash", "markdown", "markdown_inline"
+      "lua",
+      "vim",
+      "vimdoc",
+      "query",
+      "python",
+      "javascript",
+      "typescript",
+      "html",
+      "css",
+      "json",
+      "yaml",
+      "toml",
+      "bash",
+      "markdown",
+      "markdown_inline",
     },
   },
   filetypes = {

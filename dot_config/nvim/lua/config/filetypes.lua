@@ -9,7 +9,7 @@ vim.filetype.add({
       if path:match("/%.local/share/chezmoi/") then
         return nil -- Don't set filetype, let chezmoi plugin handle it
       end
-      
+
       -- For non-chezmoi .tmpl files, use our detection
       local base_name = vim.fn.fnamemodify(path, ":t:r")
       local base_ext = vim.fn.fnamemodify(base_name, ":e")
