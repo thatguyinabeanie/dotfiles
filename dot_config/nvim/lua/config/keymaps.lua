@@ -19,6 +19,7 @@
 vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "Lazy Extras" })
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "Lazy Git" })
 vim.keymap.set("n", "<leader>ld", "<cmd>LazyDocker<cr>", { desc = "Lazy Docker" })
+vim.keymap.set("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Projects picker
 vim.keymap.set("n", "<leader>fp", function()
