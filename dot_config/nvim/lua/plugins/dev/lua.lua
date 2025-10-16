@@ -6,7 +6,6 @@ return {
     opts = {
       servers = {
         lua_ls = {
-          filetypes = { "lua", "lua.tmpl" },
           root_dir = function(fname)
             -- Ensure fname is valid
             if not fname or type(fname) ~= "string" or fname == "" then

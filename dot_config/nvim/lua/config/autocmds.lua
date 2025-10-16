@@ -7,158 +7,6 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
---
--- AUTO CHANGE TO GIT ROOT DIRECTORY
---
--- vim.api.nvim_create_autocmd("VimEnter", {
---   callback = function()
---     -- Get the first argument and ensure it's a string
---     local first_arg = tostring(vim.fn.argv(0))
---
---     -- If we're opening a directory
---     if first_arg ~= "" and vim.fn.isdirectory(first_arg) == 1 then
---       -- Change to the specified directory (don't go to git root)
---       vim.cmd("cd " .. vim.fn.fnameescape(first_arg))
---       vim.notify("Working directory: " .. first_arg, vim.log.levels.INFO)
---     end
---   end,
--- })
-
---   end,
--- })
-
--- Override chezmoi template filetype detection
--- NOTE: Commented out - redundant with filetypes.lua which uses vim.filetype.add()
--- The modern vim.filetype.add() approach in filetypes.lua is preferred and more efficient
---[[
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.tmpl" },
-  callback = function()
-    local filepath = vim.fn.expand("%:p")
-
-    -- Only process files in chezmoi directories
-    if not string.find(filepath, "/chezmoi/") then
-      return
-    end
-
-    -- Extract base filename without .tmpl extension
-    local basename = vim.fn.fnamemodify(filepath, ":t:r")
-    local ext = vim.fn.fnamemodify(basename, ":e")
-
-    -- Map extensions to filetypes
-    local ext_map = {
-      lua = "lua",
-      sh = "sh",
-      zsh = "zsh",
-      nu = "nu",
-      js = "javascript",
-      ts = "typescript",
-      py = "python",
-      json = "json",
-      yaml = "yaml",
-      yml = "yaml",
-      toml = "toml",
-      html = "html",
-      css = "css",
-      md = "markdown"
-    }
-
-    if ext_map[ext] then
-      vim.opt_local.filetype = ext_map[ext]
-
-      -- Disable diagnostics for template files to avoid Go template syntax errors
-      vim.defer_fn(function()
-        vim.diagnostic.enable(false, { bufnr = 0 })
-      end, 100)
-    end
-  end,
-})
---]]
-
---
--- SPELL CHECKING DIAGNOSTICS
---
--- Custom spell check diagnostic source
--- local spell_namespace = vim.api.nvim_create_namespace("spell_diagnostics")
---
--- local function update_spell_diagnostics(bufnr)
---   bufnr = bufnr or vim.api.nvim_get_current_buf()
---
---   -- Only check if spell is enabled
---   if not vim.wo.spell then
---     vim.diagnostic.reset(spell_namespace, bufnr)
---     return
---   end
---
---   local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
---   local diagnostics = {}
---
---   for line_nr, line in ipairs(lines) do
---     local col = 0
---     while col < #line do
---       local word_start, word_end = string.find(line, "%w+", col + 1)
---       if not word_start then break end
---
---       local word = string.sub(line, word_start, word_end)
---       -- Check if word is misspelled using Vim's spellbadword()
---       local bad_word = vim.fn.spellbadword(word)
---       if bad_word[1] ~= "" then
---         local suggestions = vim.fn.spellsuggest(word, 3)
---         local message = "Misspelled word"
---         if #suggestions > 0 then
---           message = message .. ". Suggestions: " .. table.concat(suggestions, ", ")
---         end
---
---         table.insert(diagnostics, {
---           lnum = line_nr - 1,
---           col = word_start - 1,
---           end_col = word_end,
---           severity = vim.diagnostic.severity.HINT,
---           message = message,
---           source = "spell",
---         })
---       end
---
---       col = word_end
---     end
---   end
---
---   vim.diagnostic.set(spell_namespace, bufnr, diagnostics)
--- end
---
--- -- Update spell diagnostics on text changes and when spell is toggled
--- vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "BufEnter" }, {
---   callback = function()
---     -- Only for text files where spell checking makes sense
---     local ft = vim.bo.filetype
---     if ft == "markdown" or ft == "text" or ft == "gitcommit" or ft == "mail" then
---       vim.defer_fn(function()
---         update_spell_diagnostics()
---       end, 100)
---     end
---   end,
--- })
---
--- -- Update when spell option changes
--- vim.api.nvim_create_autocmd("OptionSet", {
---   pattern = "spell",
---   callback = function()
---     update_spell_diagnostics()
---   end,
--- })
---
--- -- Enable spell checking for markdown and text files
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "markdown", "text", "gitcommit", "mail" },
---   callback = function()
---     vim.opt_local.spell = true
---     -- Initial spell check
---     vim.defer_fn(function()
---       update_spell_diagnostics()
---     end, 200)
---   end,
--- })
-
 -- Disable diagnostics for Markdown files
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
@@ -166,24 +14,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.diagnostic.enable(false)
   end,
 })
-
---
--- AUTO-RELOAD FILES CHANGED EXTERNALLY
---
--- This enables automatic reloading of files modified by external tools
--- (e.g., AI coding assistants like Claude Code, OpenCode, Copilot, etc.)
---
--- Note: `autoread` alone is not sufficient - it requires `checktime` to be
--- called at appropriate moments to actually check for file changes.
--- vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
---   pattern = "*",
---   callback = function()
---     -- Only check if not in command-line mode
---     if vim.fn.mode() ~= "c" then
---       vim.cmd("checktime")
---     end
---   end,
--- })
 
 -- Optional: Notification when a file is reloaded
 vim.api.nvim_create_autocmd("FileChangedShellPost", {
@@ -194,56 +24,42 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 })
 
 -- Custom filetype detection and configuration
--- This file is loaded early in init.lua to ensure custom filetypes are available
+-- Unified template file handling:
+-- - Chezmoi .tmpl files → <basetype>.chezmoitmpl
+-- - Non-chezmoi .tmpl files → <basetype>.tmpl
+vim.filetype.add({
+  extension = {
+    tmpl = function(path, bufnr)
+      -- Extract base name without .tmpl extension
+      local base_name = vim.fn.fnamemodify(path, ":t:r")
+      local base_ext = vim.fn.fnamemodify(base_name, ":e")
 
--- -- Enhanced filetype detection for common template files
--- vim.filetype.add({
---   extension = {
---     tmpl = function(path, bufnr)
---       -- Let chezmoi plugin handle .tmpl files in chezmoi directories
---       if path:match("/%.local/share/chezmoi/") then
---         return nil -- Don't set filetype, let chezmoi plugin handle it
---       end
---
---       -- For non-chezmoi .tmpl files, use our detection
---       local base_name = vim.fn.fnamemodify(path, ":t:r")
---       local base_ext = vim.fn.fnamemodify(base_name, ":e")
---
---       if base_ext ~= "" then
---         return base_ext .. ".tmpl"
---       end
---       return "tmpl"
---     end,
---     -- ["ipynb"] = "json",
---     ["yml.erb"] = "yaml.erb",
---     ["yaml.erb"] = "yaml.erb",
---   },
---
---   filename = {
---     [".chezmoiignore"] = "gitignore",
---     [".chezmoiexternal"] = "toml",
---     [".chezmoiexternal.toml"] = "toml",
---   },
---
---   pattern = {
---     [".*%.toml%.tmpl"] = "toml.chezmoitmpl",
---     [".*%.yaml%.tmpl"] = "yaml.tmpl",
---     [".*%.yml%.tmpl"] = "yaml.tmpl",
---     [".*%.json%.tmpl"] = "json.tmpl",
---     [".*%.sh%.tmpl"] = "sh.chezmoitmpl",
---     [".*%.zsh%.tmpl"] = "zsh.tmpl",
---     [".*%.nu%.tmpl"] = "nu.tmpl",
---     [".*%.conf%.tmpl"] = "conf.tmpl",
---   },
---
--- })
+      -- Check if file is in chezmoi directory
+      if path:match("/%.local/share/chezmoi/") then
+        -- If base has an extension, use it with .chezmoitmpl suffix
+        if base_ext ~= "" then
+          return base_ext .. ".chezmoitmpl"
+        end
+        -- No extension: let filename patterns handle specific cases (dot_bashrc, etc.)
+        return nil
+      end
 
--- -- Configure syntax highlighting for ERB YAML files
--- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
---   pattern = { "*.yml.erb", "*.yaml.erb" },
---   callback = function()
---     vim.bo.filetype = "yaml.erb"
---     vim.bo.syntax = "yaml.erb"
---   end,
--- })
---
+      -- For non-chezmoi .tmpl files (e.g., ~/source/popsicle/test.toml.tmpl)
+      if base_ext ~= "" then
+        return base_ext .. ".tmpl"
+      end
+      return "tmpl"
+    end,
+    ["yml.erb"] = "yaml.erb",
+  },
+
+  filename = {
+    [".chezmoiignore"] = "gitignore",
+    [".chezmoiexternal"] = "toml",
+    [".chezmoiexternal.toml"] = "toml",
+    ["dot_profile.tmpl"] = "bash.chezmoitmpl",
+    ["dot_bashrc.tmpl"] = "bash.chezmoitmpl",
+    ["dot_zshenv.tmpl"] = "zsh.chezmoitmpl",
+    ["dot_zshrc.tmpl"] = "zsh.chezmoitmpl",
+  },
+})

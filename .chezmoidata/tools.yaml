@@ -43,6 +43,13 @@ dev_tools:
     description: "Modern ls replacement"
     category: file_management
 
+  - name: carapace
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Arguement Completion"
+    category: terminal
+
   - name: fd
     install_via: brew
     runtime: native
@@ -357,6 +364,13 @@ dev_tools:
     description: "Fast Python package installer and resolver"
     category: package_manager
 
+  - name: cargo-binstall
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Install pre-compiled Rust binaries (accelerates cargo installs)"
+    category: package_manager
+
   # Build tools
   - name: gradle
     install_via: mise
@@ -454,6 +468,12 @@ dev_tools:
     category: lsp
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
+  # - name: pokeget
+  #   install_via: cargo
+  #   version: latest
+  #   description: "Pokeget"
+  #   category: terminal
+
   - name: typos-lsp
     install_via: cargo
     runtime: rust
@@ -469,6 +489,13 @@ dev_tools:
     install_script: "curl https://mise.run | sh"
     description: "Tool version manager"
     category: system
+
+  - name: zsh-syntax-highlighting
+    install_via: brew
+    runtime: native
+    version: latest
+    description: ZSH Syntax Highlighting
+    category: terminal
 
 # AI Agents and Assistants
 agents:

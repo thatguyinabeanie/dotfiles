@@ -14,8 +14,6 @@ source ~/.config/nushell/onepassword-env.nu
 # Disable nushell banner
 $env.config = ($env.config | upsert show_banner false)
 
-
-
 # Load Catppuccin theme based on CATPPUCCIN_FLAVOR env var
 # match ($env.CATPPUCCIN_FLAVOR? | default "mocha") {
 #     "latte" => { source ~/.config/nushell/.catppuccin/themes/catppuccin_latte.nu },
@@ -30,5 +28,4 @@ $env.config = ($env.config | upsert show_banner false)
 if ($env | get --optional TMUX | is-empty) and ($env | get --optional GHOSTTY_AUTO_TMUX) == "true" {
   exec "{{ output "which" "tmux" | trim }}" new-session -A -s "ghostty"
 }
-
 

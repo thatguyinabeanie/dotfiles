@@ -5,12 +5,12 @@ env_work:
     AWS_PROFILE: "{{ .work.aws_profile }}"
     DOCKER_DEFAULT_PLATFORM: "linux/amd64"
     SLACK_WORKSPACE: "{{ .work.slack_workspace }}"
+    AWS_USERNAME: "gmendoza"
+    KUBE_PLATFORM_ROLE: "Developer"
+    KUBE_SERVICES_ROLE: "Developer"
 
   # Work-specific paths
   paths:
-    WORK_PROJECTS: "$HOME/Projects/Work"
-    WORK_SCRIPTS: "$HOME/.local/bin/work"
-    WORK_DOCS: "$HOME/Documents/Work"
 
   # Work development settings
   development:
@@ -20,60 +20,8 @@ env_work:
       user_email: "{{ .work.git.email }}"
       signing_key: "{{ .work.git.signing_key }}"
 
-    # SSH configuration
-    ssh:
-      key_path: "$HOME/.ssh/id_ed25519_work"
-      config_path: "$XDG_CONFIG_HOME/ssh/config_work"
-
-    # VPN and security
-    security:
-      VPN_CONFIG: "$XDG_CONFIG_HOME/vpn/work"
-      CERTIFICATES_DIR: "$HOME/.local/share/certificates/work"
-
   # Work cloud and infrastructure
   cloud:
-    # AWS settings
-    # aws:
-    #   AWS_CONFIG_FILE: "$XDG_CONFIG_HOME/aws/config"
-    #   AWS_SHARED_CREDENTIALS_FILE: "$XDG_CONFIG_HOME/aws/credentials"
-    #   AWS_DEFAULT_REGION: "{{ .work.aws.default_region | default \"us-east-1\" }}"
-    #
-    # # Kubernetes settings
-    # kubernetes:
-    #   KUBECONFIG: "$XDG_CONFIG_HOME/kube/work-config"
-    #   KUBECTL_CONTEXT: "{{ .work.kubernetes.context }}"
-
     # Docker settings
     docker:
-      DOCKER_CONFIG: "$XDG_CONFIG_HOME/docker/work"
       DOCKER_BUILDKIT: "1"
-
-  # Work applications and services
-  applications:
-    # Communication
-    communication:
-      SLACK_CONFIG_DIR: "$XDG_CONFIG_HOME/slack/work"
-      TEAMS_CONFIG_DIR: "$XDG_CONFIG_HOME/teams/work"
-      ZOOM_CONFIG_DIR: "$XDG_CONFIG_HOME/zoom/work"
-
-    # Development tools
-    development:
-      JIRA_CONFIG_DIR: "$XDG_CONFIG_HOME/jira"
-      CONFLUENCE_CONFIG_DIR: "$XDG_CONFIG_HOME/confluence"
-      JENKINS_CONFIG_DIR: "$XDG_CONFIG_HOME/jenkins"
-
-    # Monitoring and observability
-    monitoring:
-      GRAFANA_CONFIG_DIR: "$XDG_CONFIG_HOME/grafana"
-      PROMETHEUS_CONFIG_DIR: "$XDG_CONFIG_HOME/prometheus"
-      DATADOG_CONFIG_DIR: "$XDG_CONFIG_HOME/datadog"
-
-  # Work-specific environment overrides
-  overrides:
-    # Disable personal services in work environment
-    MANAGE_PERSONAL_SERVICES: false
-    PERSONAL_BACKUP_ENABLED: false
-    
-    # Work-specific tool configurations
-    GIT_COMMIT_TEMPLATE: "$XDG_CONFIG_HOME/git/work_commit_template"
-    EDITOR_WORK_CONFIG: "$XDG_CONFIG_HOME/nvim/work.lua"
