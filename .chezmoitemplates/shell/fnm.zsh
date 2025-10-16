@@ -1,8 +1,5 @@
-#! /bin/zsh
-
-# Node.js version management setup
-# Check if FNM is available and set it up
-if command -v fnm >/dev/null 2>&1; then
+#!/bin/zsh
+{{- if lookPath "fnm" }}
   # Set FNM environment variables
   export FNM_VERSION_FILE_STRATEGY="local"
   export FNM_DIR="{{ .chezmoi.homeDir }}/.local/share/fnm"
@@ -11,8 +8,6 @@ if command -v fnm >/dev/null 2>&1; then
   export FNM_COREPACK_ENABLED="false"
   export FNM_RESOLVE_ENGINES="true"
   export FNM_ARCH="arm64"
-  
   # Initialize FNM environment
   eval "$(fnm env --use-on-cd)"
-fi
-
+{{- end }}

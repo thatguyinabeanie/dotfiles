@@ -96,9 +96,6 @@ env_shared:
         MISE_CACHE_DIR: "$XDG_CACHE_HOME/mise"
       docker:
         DOCKER_CONFIG: "$XDG_CONFIG_HOME/docker"
-      kubernetes:
-        KUBECONFIG: "$XDG_CONFIG_HOME/kube/config"
-        KUBECACHEDIR: "$XDG_CACHE_HOME/kube"
 
   # Shell configuration
   shell_config:

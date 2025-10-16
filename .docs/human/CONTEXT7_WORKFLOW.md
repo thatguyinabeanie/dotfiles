@@ -78,7 +78,7 @@ Context7 provides documentation for popular libraries including:
 **Common Issues**:
 - **Cache not updating**: Delete specific library cache directory to force refresh
 - **Network issues**: Check internet connection; Context7 requires online access for fresh fetches
-- **Library not found**: Verify library name spelling or try alternative names (e.g., "nextjs" vs "next.js")
+- **Library not found**: Verify library name spelling or try alternative names (for example, "nextjs" vs "next.js")
 
 **Debug Commands**:
 ```bash

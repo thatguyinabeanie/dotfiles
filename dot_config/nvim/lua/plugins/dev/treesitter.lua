@@ -3,16 +3,22 @@
 local config = {
   treesitter = {
     parsers = {
-      "lua", "vim", "vimdoc", "query", "python", "javascript", "typescript",
-      "html", "css", "json", "yaml", "toml", "bash", "markdown", "markdown_inline"
-    },
-  },
-  filetypes = {
-    templates = {
-      bash = { "sh.tmpl", "zsh.tmpl" },
-      lua = { "lua.tmpl" },
-      nu = { "nu.tmpl" },
-      toml = { "toml.tmpl" },
+      "lua",
+      "vim",
+      "vimdoc",
+      "query",
+      "python",
+      "javascript",
+      "typescript",
+      "html",
+      "css",
+      "json",
+      "yaml",
+      "toml",
+      "bash",
+      "nu",
+      "markdown",
+      "markdown_inline",
     },
   },
 }
@@ -22,6 +28,12 @@ local ok, template_config = pcall(require, "utils.language-config")
 if ok then
   config = template_config
 end
+
+-- Map of special case filetypes to parsers
+local parser_map = {
+  sh = "bash",
+  zsh = "bash",
+}
 
 return {
   -- TreeSitter configuration
@@ -34,20 +46,43 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.install").prefer_git = true
       require("nvim-treesitter").setup(opts)
-      -- Register template file associations
-      for parser, templates in pairs(config.filetypes.templates) do
-        local tmpl_list = type(templates) == "table" and templates or { templates }
-        for _, tmpl in ipairs(tmpl_list) do
-          vim.treesitter.language.register(parser, tmpl)
-        end
-      end
+
+      -- Generic autocmd to handle template filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "*",
+        callback = function(args)
+          local buf = args.buf
+          local ft = vim.bo[buf].filetype
+
+          -- Automatically register template filetypes to their base parser
+          local base_lang = ft:match("^(.+)%.tmpl$") or ft:match("^(.+)%.chezmoitmpl$")
+          if base_lang then
+            -- Use parser_map for special cases, otherwise use base_lang directly
+            local parser = parser_map[base_lang] or base_lang
+            vim.treesitter.language.register(parser, ft)
+          end
+
+          -- Ensure treesitter highlighting is attached
+          if not vim.treesitter.highlighter.active[buf] then
+            pcall(vim.treesitter.start, buf)
+          end
+        end,
+      })
     end,
 
     opts = {
       auto_install = true,
       endwise = { enable = true },
       ensure_installed = config.treesitter.parsers,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        -- Disable treesitter for template files (follow chezmoi.vim recommendation)
+        disable = function(lang, buf)
+          local filetype = vim.bo[buf].filetype
+          -- Disable for any .tmpl or .chezmoitmpl filetypes
+          return filetype:match("%.tmpl$") or filetype:match("%.chezmoitmpl$")
+        end,
+      },
       indent = { enable = true },
       incremental_selection = {
         enable = true,

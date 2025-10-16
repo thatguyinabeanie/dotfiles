@@ -273,7 +273,7 @@ stylua .
 - **Configuration**: Use `opts` tables for plugin configuration, avoid inline setup calls
 - **Error handling**: Use `pcall()` for potentially failing operations, check `vim.fn.executable()`
 - **Comments**: Minimal comments, prefer self-documenting code. Use `--` for Lua comments
-- **Template files**: Support `.tmpl` extensions for chezmoi templates (e.g., `lua.tmpl`, `toml.tmpl`)
+- **Template files**: Support `.tmpl` extensions for chezmoi templates (for example, `lua.tmpl`, `toml.tmpl`)
 
 ## LazyVim Structure
 
@@ -287,7 +287,7 @@ stylua .
 
 1. Plugin Dependency Mapping
 
-• Document which plugins depend on others (e.g.,
+• Document which plugins depend on others (for example,
 blink-cmp needs snippets, avante needs copilot)
 • Show external tool requirements (LSP servers,
 formatters, linters)

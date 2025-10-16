@@ -24,10 +24,10 @@
 ```yaml
 install_via: bun          # Node.js packages (preferred)
 install_via: npm          # Node.js packages (legacy)
-install_via: brew         # Homebrew packages  
-install_via: mise         # Mise-managed tools
+install_via: brew         # Homebrew packages
+install_via: mise         # Mise-managed tools (supports cargo: backend for Rust)
 install_via: pip          # Python packages
-install_via: cargo        # Rust packages
+install_via: cargo        # Rust packages (accelerated by cargo-binstall)
 install_via: gem          # Ruby packages
 install_via: go           # Go packages
 install_via: brew_cask    # macOS applications
@@ -136,6 +136,43 @@ install_via: cargo
 runtime: rust
 install_command: "cargo install --git <repo> <name>"
 ```
+
+### Cargo and cargo-binstall
+```yaml
+install_via: cargo
+runtime: rust
+# Automatically accelerated by cargo-binstall when available
+# cargo-binstall downloads precompiled binaries instead of compiling from source
+```
+
+**How it works:**
+- `cargo-binstall` is installed as a prerequisite (first in the cargo packages script)
+- Subsequent cargo installs automatically use cargo-binstall when precompiled binaries exist
+- Falls back to `cargo install` (compile from source) if binaries unavailable
+- Significantly faster installations for most popular Rust tools
+
+### Mise Cargo Backend
+Mise can manage Rust tools using the `cargo:` prefix, delegating to cargo/cargo-binstall:
+
+```bash
+# Manual installation (for testing)
+mise use -g cargo:eza@latest
+
+# In dotfiles (future architecture)
+[tools]
+"cargo:eza" = "latest"
+```
+
+**Benefits of mise cargo backend:**
+- Unified version management across all tools
+- Automatic use of cargo-binstall for faster installs
+- Install from Git repositories with tags/branches/commits
+- Advanced options (features, locked mode, bin selection)
+
+**Current Architecture:**
+- Cargo tools use `install_via: cargo` in YAML files
+- Installed via dedicated script (not mise config)
+- cargo-binstall automatically accelerates all installations
 
 ## Validation Checklist
 

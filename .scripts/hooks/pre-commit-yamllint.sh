@@ -16,31 +16,24 @@ if [ ${#YAML_FILES[@]} -eq 0 ]; then
   exit 0
 fi
 
-echo "🔍 Validating YAML files using Node.js YAML parser (same engine as Neovim's yaml-language-server)..."
+echo "🔍 Validating YAML files using yq..."
 
-# Use Node.js to validate YAML (same parser as yaml-language-server)
+# Check if yq is installed
+if ! command -v yq &> /dev/null; then
+  echo "❌ yq is not installed. Install with: brew install yq"
+  exit 1
+fi
+
+# Use yq to validate YAML
 for file in "${YAML_FILES[@]}"; do
   echo "Validating: $file"
-  
-  # Use Node.js with js-yaml (same library used by yaml-language-server)
-  if ! node -e "
-    const yaml = require('js-yaml');
-    const fs = require('fs');
-    try {
-      yaml.load(fs.readFileSync('$file', 'utf8'));
-      console.log('✅ Valid YAML: $file');
-    } catch (e) {
-      console.error('❌ Invalid YAML in $file:', e.message);
-      process.exit(1);
-    }
-  " 2>/dev/null; then
-    # Fallback to yaml-language-server if js-yaml not available
-    echo "⚠️  js-yaml not found, checking basic syntax..."
-    if ! python3 -c "import yaml; yaml.safe_load(open('$file'))" 2>/dev/null; then
-      echo "❌ YAML validation failed for $file"
-      exit 1
-    fi
-    echo "✅ Basic YAML syntax valid: $file"
+
+  if yq e '.' "$file" > /dev/null 2>&1; then
+    echo "✅ Valid YAML: $file"
+  else
+    echo "❌ YAML validation failed for $file"
+    yq e '.' "$file" 2>&1
+    exit 1
   fi
 done
 

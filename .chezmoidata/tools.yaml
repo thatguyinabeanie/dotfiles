@@ -43,6 +43,13 @@ dev_tools:
     description: "Modern ls replacement"
     category: file_management
 
+  - name: carapace
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Arguement Completion"
+    category: terminal
+
   - name: fd
     install_via: brew
     runtime: native
@@ -357,6 +364,13 @@ dev_tools:
     description: "Fast Python package installer and resolver"
     category: package_manager
 
+  - name: cargo-binstall
+    install_via: cargo
+    runtime: rust
+    version: latest
+    description: "Install pre-compiled Rust binaries (accelerates cargo installs)"
+    category: package_manager
+
   # Build tools
   - name: gradle
     install_via: mise
@@ -385,6 +399,14 @@ dev_tools:
     version: latest
     description: "Build automation tool"
     category: build
+
+  # Security and secrets management
+  - name: 1password-cli
+    install_via: brew_cask
+    runtime: native
+    version: latest
+    description: "1Password command-line tool"
+    category: security
 
   # Terminal and shell tools
   - name: tmux
@@ -446,6 +468,12 @@ dev_tools:
     category: lsp
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
+  # - name: pokeget
+  #   install_via: cargo
+  #   version: latest
+  #   description: "Pokeget"
+  #   category: terminal
+
   - name: typos-lsp
     install_via: cargo
     runtime: rust
@@ -454,13 +482,20 @@ dev_tools:
     category: lsp
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
-   # Curl-based installations
+    # Curl-based installations
   - name: mise
     install_via: curl
     runtime: native
     install_script: "curl https://mise.run | sh"
     description: "Tool version manager"
     category: system
+
+  - name: zsh-syntax-highlighting
+    install_via: brew
+    runtime: native
+    version: latest
+    description: ZSH Syntax Highlighting
+    category: terminal
 
 # AI Agents and Assistants
 agents:
@@ -545,4 +580,3 @@ mcp_servers:
     description: "MCP Hub"
     dependencies: []
     purpose: "MCP Hub"
-

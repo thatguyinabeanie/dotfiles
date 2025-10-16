@@ -1,88 +1,92 @@
-#!/bin/zsh
+{{- $zshHighlightPath := "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" }}
+{{- if stat $zshHighlightPath }}
+# Source additional configuration files
+source "{{ $zshHighlightPath }}"
+{{- end }}
 
-autoload -U add-zsh-hook
+{{- $zshaliases := printf "%s/.config/zsh/aliases.zsh" .chezmoi.homeDir }}
+{{- if stat $zshaliases }}
+# Source 1Password environment configuration
+source "{{ $zshaliases }}"
+{{- end }}
 
-# Initialize completion system early
+{{- $zshOnePasswordEnv := printf "%s/.config/zsh/onepassword-env.zsh" .chezmoi.homeDir }}
+{{- if stat $zshOnePasswordEnv }}
+# Source 1Password environment configuration
+source "{{ $zshOnePasswordEnv }}"
+{{- end }}
+
+{{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
+{{- if and (eq .WORK_ENVIRONMENT true) (stat $kubectl_functions) }}
+# Source work-specific kubectl functions if available
+source "{{ $kubectl_functions }}"
+{{- end }}
+
+{{- $fzfThemePath := printf "%s/.config/fzf/fzf-theme.sh" .chezmoi.homeDir }}
+{{- if stat $fzfThemePath }}
+# Source FZF theme
+source "{{ $fzfThemePath }}"
+{{- end }}
+
+{{- $cargoEnvPath := printf "%s/.cargo/env" .chezmoi.homeDir }}
+{{- if stat $cargoEnvPath }}
+# Source Cargo environment
+source "{{ $cargoEnvPath }}"
+{{- end }}
+
+{{- $starshipConfig := printf "%s/.config/starship/starship.toml" .chezmoi.homeDir }}
+{{- if stat $starshipConfig }}
+export STARSHIP_CONFIG="{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
+{{- end }}
+
+{{- if lookPath "brew" }}
+eval "$(brew shellenv)"
+{{- end }}
+
+{{- $dockerCompletions := printf "%s/.docker/completions/_docker" .chezmoi.homeDir }}
+{{- if stat $dockerCompletions }}
+fpath=({{ $dockerCompletions }} $fpath)
+{{- end }}
+
+# Initialize completion system before tools that register completions
 autoload -Uz compinit
 compinit
 
-# Environment variables are automatically sourced from .zshenv before .zshrc
-
-# Source additional configuration files
-ZSH_SYNTAX_HIGHLIGHTING_PATH="/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-if [ -f "$ZSH_SYNTAX_HIGHLIGHTING_PATH" ]; then
-  source "$ZSH_SYNTAX_HIGHLIGHTING_PATH"
-fi
-
-source ~/.config/zsh/aliases.zsh
-
-# Allow tmux usage even if aliased or defined as a function
-unalias tmux &>/dev/null
-unset -f tmux &>/dev/null
-
-# Source brew services functions on macOS
-{{- if eq .chezmoi.os "darwin" }}
-{{- template "shell/homebrew-helpers.sh.tmpl" (dict "chezmoi" .chezmoi "services" .macos_services "excluded_services" .excluded_services) }}
+{{- if lookPath "zoxide" }}
+eval "$(zoxide init zsh)"
 {{- end }}
 
-# NPM and PNPM configuration is now handled by the centralized environment system
-# See .chezmoidata/shared.yaml for PATH and environment variable configuration
+{{- if lookPath "starship" }}
+eval "$(starship init zsh)"
+{{- end }}
 
-# Starship configuration
-export STARSHIP_CONFIG=~/.config/starship/starship.toml
+{{- if lookPath "mise" }}
+eval "$(mise activate zsh)"
+{{- end }}
 
-# Initialize tools
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
-fi
+{{- if lookPath "fzf" }}
+eval "$(fzf --zsh)"
+{{- end }}
 
-if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init zsh)"
-fi
+{{- if lookPath "carapace" }}
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+{{- end }}
 
-if command -v mise >/dev/null 2>&1; then
-  eval "$(mise activate zsh)"
-fi
-
-# Initialize fzf if available
-if command -v fzf >/dev/null 2>&1; then
-	source <(fzf --zsh)
-fi
-
-# Source FZF theme
-if [[ -f "$HOME/.config/fzf/fzf-theme.sh" ]]; then
-    source "$HOME/.config/fzf/fzf-theme.sh"
-fi
-
-# Source Cargo environment if available
-if [ -f "$HOME/.cargo/env" ]; then
-	source "$HOME/.cargo/env"
-fi
-
-# Source Carapace
-if command -v carapace >/dev/null 2>&1; then
-  export CARAPACE_BRIDGES='zsh,bash' # optional
-  zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-  source <(carapace _carapace)
-fi
-
-# Docker CLI completions setup
-fpath=({{ .chezmoi.homeDir }}/.docker/completions $fpath)
-
+{{- if and (lookPath "pokeget") (lookPath "fastfetch")}}
 # Display system info with Pokemon and fastfetch if available
-# if command -v pokeget >/dev/null 2>&1 && command -v fastfetch >/dev/null 2>&1; then
-#   pokeget random --hide-name | fastfetch --file-raw -
-# fi
+# pokeget random --hide-name |
+fastfetch --file-raw -
+{{- end }}
 
-# Source MCP functions for project auto-detection
-
-# source ~/.config/zsh/work.zsh
-# source ~/.config/zsh/secrets.zsh
-
+{{- if lookPath "tmux" }}
+{{- if eq (env "ZSH_AUTO_TMUX") "true" }}
 # Auto-attach to tmux session for interactive shells (opt-in)
-if [[ $- == *i* ]] && [ -z "$TMUX" ] && [ "$ZSH_AUTO_TMUX" = "true" ]; then
-    if command -v tmux >/dev/null 2>&1; then
-         exec tmux new-session -A -s 'ghostty'
-    fi
+if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
+  exec tmux new-session -A -s 'ghostty'
 fi
+{{- end }}
+{{- end }}
+
 

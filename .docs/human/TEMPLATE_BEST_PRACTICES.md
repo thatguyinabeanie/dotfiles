@@ -3,7 +3,7 @@
 ### DRY Principle in Templates
 
 - **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract package lists for different managers
-- **Targeted hashing**: Package installer scripts use specific hash triggers (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire configuration files
+- **Targeted hashing**: Package installer scripts use specific hash triggers (for example, `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire configuration files
 - **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch template syntax errors before applying changes
 
 ### Iterative Development Workflow

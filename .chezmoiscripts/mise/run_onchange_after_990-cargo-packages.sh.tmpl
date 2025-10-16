@@ -11,6 +11,19 @@ if ! mise which cargo >/dev/null 2>&1; then
     exit 1
 fi
 
+# Install cargo-binstall first as it accelerates all other cargo installations
+echo "🔧 Checking cargo-binstall prerequisite..."
+if ! command -v cargo-binstall >/dev/null 2>&1; then
+    echo "📦 Installing cargo-binstall (enables faster binary installations)..."
+    if cargo install cargo-binstall >/dev/null 2>&1; then
+        echo "  ✅ cargo-binstall installed successfully"
+    else
+        echo "  ⚠️  Failed to install cargo-binstall, falling back to regular cargo install"
+    fi
+else
+    echo "  ✅ cargo-binstall already available"
+fi
+
 echo "📦 Collecting cargo packages..."
 
 # Collect cargo packages not managed by Mason
@@ -49,9 +62,9 @@ CARGO_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# Development tools
+# Development tools (excluding cargo-binstall which is installed separately)
 {{- range .dev_tools }}
-{{- if eq .install_via "cargo" }}
+{{- if and (eq .install_via "cargo") (ne .name "cargo-binstall") }}
 {{- if .install_command }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}

@@ -71,40 +71,6 @@ export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}
 
 
 ##
-## COMMAND-BASED VARIABLES
-##
-{{- if eq $shell "nushell" }}
-{{- range $key, $config := $shared.env_shared.command_variables }}
-{{- if typeIs "string" $config }}
-$env.{{ $key }} = (^{{ $config }} | str trim)
-{{- else }}
-$env.{{ $key }} = ({{ $config.command }})
-{{- end }}
-{{- end }}
-{{- end }}
-
-
-##
-## DERIVED PATH VARIABLES
-##
-{{- range $key, $config := $shared.env_shared.derived_path_variables }}
-{{- if eq $shell "nushell" }}
-{{- if hasKey $config "path" }}
-$env.{{ $key }} = ($env.{{ trimPrefix "$" $config.base }} | path join "{{ $config.path }}")
-{{- else }}
-$env.{{ $key }} = $env.{{ trimPrefix "$" $config.base }}
-{{- end }}
-{{- else }}
-{{- if hasKey $config "path" }}
-export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
-{{- else }}
-export {{ $key }}="${{ trimPrefix "$" $config.base }}"
-{{- end }}
-{{- end }}
-{{- end }}
-
-
-##
 ## THEME VARIABLES
 ##
 {{- if eq $shell "nushell" }}
@@ -364,24 +330,7 @@ export {{ $key }}="{{ $value }}"
 {{- end }}
 
 {{- if eq $shell "nushell" }}
-
 {{ template "utilities/platform-storage.tmpl" (dict "syntax" "nushell" "context" $dot) }}
-
-$env.CARAPACE_BRIDGES = 'zsh,bash,inshellisense'
-carapace _carapace nushell | save -f ~/.cache/carapace/init.nu
-mkdir $nu.data-dir
-if not (($nu.data-dir | path join "vendor/autoload/mise_activate.nu") | path exists) {
-    mise activate nu | save -f ($nu.data-dir | path join "vendor/autoload/mise_activate.nu")
-}
-if not (($nu.data-dir | path join "vendor/autoload/zoxide.nu") | path exists) {
-    zoxide init nushell | save -f ($nu.data-dir | path join "vendor/autoload/zoxide.nu")
-}
-if not (($nu.data-dir | path join "vendor/autoload/starship.nu") | path exists) {
-    starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
-}
-if ($env.HOME | path join ".cargo/env.nu" | path exists) {
-    cp ($env.HOME | path join ".cargo/env.nu") ($nu.data-dir | path join "vendor/autoload")
-}
 {{- else }}
-{{- template "utilities/platform-storage.tmpl" (dict "syntax" "export" "context" $dot) }}
+{{ template "utilities/platform-storage.tmpl" (dict "syntax" "export" "context" $dot) }}
 {{- end }}
