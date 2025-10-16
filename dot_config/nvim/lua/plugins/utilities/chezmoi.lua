@@ -3,6 +3,11 @@
 
 return {
   {
+    -- highlighting for chezmoi files template files
+    "alker0/chezmoi.vim",
+    lazy = false, -- Override LazyVim default
+  },
+  {
     "folke/snacks.nvim",
     keys = {
       {

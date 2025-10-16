@@ -74,7 +74,15 @@ return {
       auto_install = true,
       endwise = { enable = true },
       ensure_installed = config.treesitter.parsers,
-      highlight = { enable = true },
+      highlight = {
+        enable = true,
+        -- Disable treesitter for template files (follow chezmoi.vim recommendation)
+        disable = function(lang, buf)
+          local filetype = vim.bo[buf].filetype
+          -- Disable for any .tmpl or .chezmoitmpl filetypes
+          return filetype:match("%.tmpl$") or filetype:match("%.chezmoitmpl$")
+        end,
+      },
       indent = { enable = true },
       incremental_selection = {
         enable = true,
