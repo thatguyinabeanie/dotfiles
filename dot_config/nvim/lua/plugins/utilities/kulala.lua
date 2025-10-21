@@ -1,3 +1,7 @@
+if true then
+  return {}
+end
+
 -- Get work environment from env var
 local work_env = os.getenv("WORK_ENVIRONMENT")
 

@@ -25,6 +25,7 @@ files["dot_config/yazi/plugins/**"] = {
 ignore = {
 	"631", -- line too long
 	"212", -- unused argument (for yazi plugin methods)
+	"511", -- unreachable code (for disabled plugin files)
 }
 
 -- Files to exclude

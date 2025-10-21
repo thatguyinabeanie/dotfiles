@@ -1,5 +1,15 @@
 return {
   {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      presets = {
+        inc_rename = true, -- Enables an input dialog for inc-rename.nvim
+        lsp_doc_border = true, -- Add a border to hover docs and signature help
+      },
+    },
+  },
+  {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
@@ -109,33 +119,6 @@ return {
             },
           },
         },
-      },
-
-      -- Indent configuration
-      indent = {
-        enabled = true,
-        only_scope = true, -- Only show chunks, not regular indent guides
-        scope = { enabled = false }, -- Disable scope to avoid conflict
-        chunk = {
-          enabled = true,
-          char = {
-            corner_top = "╭",
-            corner_bottom = "╰",
-            horizontal = "─",
-            vertical = "│",
-            arrow = ">",
-          },
-          hl = {
-            "ChunkLevel1",
-            "ChunkLevel2",
-            "ChunkLevel3",
-            "ChunkLevel4",
-            "ChunkLevel5",
-          },
-        },
-        filter = function(buf)
-          return vim.g.snacks_indent ~= false and vim.b[buf].snacks_indent ~= false and vim.bo[buf].buftype == ""
-        end,
       },
     },
   },

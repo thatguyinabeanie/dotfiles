@@ -1,5 +1,20 @@
 -- Lua development tools and configuration
 return {
+  -- LazyDev for Neovim Lua development
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    opts = {
+      library = {
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "LazyVim", words = { "LazyVim" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
+        { path = "lazy.nvim", words = { "LazyVim" } },
+      },
+    },
+  },
+
   -- Lua LSP server
   {
     "neovim/nvim-lspconfig",
@@ -23,21 +38,6 @@ return {
             return result and type(result) == "string" and result or nil
           end,
         },
-      },
-    },
-  },
-
-  -- LazyDev for Neovim Lua development
-  {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    cmd = "LazyDev",
-    opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "LazyVim", words = { "LazyVim" } },
-        { path = "snacks.nvim", words = { "Snacks" } },
-        { path = "lazy.nvim", words = { "LazyVim" } },
       },
     },
   },
