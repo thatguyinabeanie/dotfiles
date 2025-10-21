@@ -72,8 +72,7 @@ return {
         flash = true,
         markdown = true,
         render_markdown = true,
-        -- Disabled
-        bufferline = true, -- Disable to avoid LazyVim integration conflicts
+        bufferline = true,
         cmp = false, -- Using blink_cmp
         dap = true, -- Load when debugging
         dap_ui = true, -- Load when debugging
