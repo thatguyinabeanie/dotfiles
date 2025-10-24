@@ -13,3 +13,5 @@ opencode.json
 mise.local.toml
 lefthook.yml
 .augmentignore
+vendor/bundle/ruby
+.scratch

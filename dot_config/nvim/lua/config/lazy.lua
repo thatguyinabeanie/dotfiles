@@ -27,7 +27,6 @@ require("lazy").setup({
     },
     { import = "plugins/core" },
     { import = "plugins/dev" },
-    { import = "plugins/dev/languages/" },
     { import = "plugins/git" },
     { import = "plugins/utilities" },
   },

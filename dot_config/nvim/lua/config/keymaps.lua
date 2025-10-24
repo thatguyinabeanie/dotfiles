@@ -4,17 +4,46 @@
 
 -- local wk = require("which-key")
 
--- Treewalker movement (normal & visual mode)
--- vim.keymap.set({ 'n', 'v' }, '<M-h>', '<cmd>Treewalker Left<cr>', { desc = "Treewalker Left", silent = true })
--- vim.keymap.set({ 'n', 'v' }, '<M-j>', '<cmd>Treewalker Down<cr>', { desc = "Treewalker Down", silent = true })
--- vim.keymap.set({ 'n', 'v' }, '<M-k>', '<cmd>Treewalker Up<cr>', { desc = "Treewalker Up", silent = true })
--- vim.keymap.set({ 'n', 'v' }, '<M-l>', '<cmd>Treewalker Right<cr>', { desc = "Treewalker Right", silent = true })
+--
+-- LINE OPERATIONS (Override LazyVim defaults)
+--
+-- Move LazyVim's Alt+j/k line movement to Alt+Ctrl+j/k to free up Alt+hjkl for Treewalker
+-- LazyVim defaults: <A-j> and <A-k> move lines up/down
+-- Our override: <A-C-j> and <A-C-k> move lines up/down
 
--- Treewalker swapping (normal mode)
--- vim.keymap.set('n', '<M-H>', '<cmd>Treewalker SwapLeft<cr>', { desc = "Treewalker Swap Left", silent = true })
--- vim.keymap.set('n', '<M-J>', '<cmd>Treewalker SwapDown<cr>', { desc = "Treewalker Swap Down", silent = true })
--- vim.keymap.set('n', '<M-K>', '<cmd>Treewalker SwapUp<cr>', { desc = "Treewalker Swap Up", silent = true })
--- vim.keymap.set('n', '<M-L>', '<cmd>Treewalker SwapRight<cr>', { desc = "Treewalker Swap Right", silent = true })
+-- Move lines down (normal, insert, visual)
+vim.keymap.set("n", "<A-C-j>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "Move Line Down" })
+vim.keymap.set("i", "<A-C-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Line Down" })
+vim.keymap.set("v", "<A-C-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv", { desc = "Move Lines Down" })
+
+-- Move lines up (normal, insert, visual)
+vim.keymap.set("n", "<A-C-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "Move Line Up" })
+vim.keymap.set("i", "<A-C-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Line Up" })
+vim.keymap.set("v", "<A-C-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv", { desc = "Move Lines Up" })
+
+-- Indent/dedent lines (normal, visual)
+vim.keymap.set("n", "<A-C-l>", ">>", { desc = "Indent Line" })
+vim.keymap.set("n", "<A-C-h>", "<<", { desc = "Dedent Line" })
+vim.keymap.set("v", "<A-C-l>", ">gv", { desc = "Indent Lines" })
+vim.keymap.set("v", "<A-C-h>", "<gv", { desc = "Dedent Lines" })
+
+-- Note: We don't delete LazyVim's default Alt+j/k here because Treewalker's
+-- plugin keymaps (which load via lazy.nvim's keys spec) will naturally override
+-- them. Deleting them here causes a race condition.
+
+--
+-- TREEWALKER KEYBINDINGS
+--
+-- Treewalker keybindings are now defined in the plugin file:
+-- dot_config/nvim/lua/plugins/core/treewalker.lua
+--
+-- Quick reference:
+--   Alt+hjkl           → Tree navigation (previous/down/up/next sibling)
+--   Alt+Shift+hjkl     → Node swapping (reorder nodes)
+--   Alt+Ctrl+jk        → Move lines up/down (LazyVim override)
+--   Alt+Ctrl+hl        → Indent/dedent lines
+--
+-- See .docs/treewalker-integration.md for comprehensive documentation.
 
 vim.keymap.set("n", "<leader>le", "<cmd>LazyExtras<cr>", { desc = "Lazy Extras" })
 vim.keymap.set("n", "<leader>lg", "<cmd>LazyGit<cr>", { desc = "Lazy Git" })

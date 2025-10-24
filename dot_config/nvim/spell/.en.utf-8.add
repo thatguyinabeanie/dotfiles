@@ -269,6 +269,7 @@ LLM
 LLMs
 localhost
 localized
+logHeapUsage
 LogRocket
 LSP
 LSPs
@@ -302,6 +303,7 @@ MongoDB
 monorepo
 msgpack
 MUI
+muiStyled
 mypy
 mysql
 nancy
@@ -417,6 +419,7 @@ resumable
 Reusability
 ripgrep
 rollout
+rosie
 Rotom
 rpds
 rsa
@@ -435,6 +438,7 @@ SessionX
 setuptools
 shadcn
 ShadcnUI
+SharedIndexInformers
 SheetJS
 shellcheck
 signup
