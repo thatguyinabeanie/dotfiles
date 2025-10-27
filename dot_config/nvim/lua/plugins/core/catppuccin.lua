@@ -1,22 +1,6 @@
 return {
   {
     "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    -- Override LazyVim's problematic colorscheme integration
-    config = function(_, opts)
-      require("catppuccin").setup(opts)
-      -- Create the missing module by redirecting to the correct catppuccin bufferline special
-      package.preload["catppuccin.groups.integrations.bufferline"] = function()
-        local special_bufferline = require("catppuccin.special.bufferline")
-        return {
-          get = special_bufferline.get_theme or function()
-            return special_bufferline.get()
-          end,
-          get_theme = special_bufferline.get_theme or special_bufferline.get,
-        }
-      end
-    end,
     opts = {
       flavour = "mocha",
       background = {
@@ -75,7 +59,6 @@ return {
         },
         mini = {
           enabled = true,
-          -- indentscope_color = "", -- Disabled, using Snacks scope
         },
         telescope = {
           enabled = true,
@@ -89,8 +72,7 @@ return {
         flash = true,
         markdown = true,
         render_markdown = true,
-        -- Disabled
-        bufferline = false, -- Disable to avoid LazyVim integration conflicts
+        bufferline = true,
         cmp = false, -- Using blink_cmp
         dap = true, -- Load when debugging
         dap_ui = true, -- Load when debugging
@@ -98,23 +80,6 @@ return {
           enabled = true,
         },
       },
-      custom_highlights = function(colors)
-        return {
-          -- Indent guide highlights (referenced by indent-blankline.lua)
-          IndentLevel1 = { fg = "#3C4C5A" }, -- Muted blue-gray
-          IndentLevel2 = { fg = "#3C5A4C" }, -- Muted green-gray
-          IndentLevel3 = { fg = "#5A5A3C" }, -- Muted yellow-gray
-          IndentLevel4 = { fg = "#5A4C3C" }, -- Muted orange-gray
-          IndentLevel5 = { fg = "#4C3C5A" }, -- Muted purple-gray
-
-          -- Chunk highlights (referenced by snacks.lua)
-          ChunkLevel1 = { fg = colors.blue, bold = true },
-          ChunkLevel2 = { fg = colors.green, bold = true },
-          ChunkLevel3 = { fg = colors.yellow, bold = true },
-          ChunkLevel4 = { fg = colors.peach, bold = true },
-          ChunkLevel5 = { fg = colors.mauve, bold = true },
-        }
-      end,
     },
   },
 }

@@ -15,8 +15,8 @@
 # - Alt+, = Switch to accordion mode (stacked windows like browser tabs)
 #
 # WINDOW NAVIGATION IN ACCORDION MODE:
-# 1. Alt+Ctrl+; (enter service mode)
-# 2. h/j/k/l (focus left/down/up/right)  
+# 1. Alt+Ctrl+s (enter service mode)
+# 2. h/j/k/l (focus left/down/up/right)
 # 3. Esc (exit service mode)
 #
 # WORKSPACE SWITCHING:
@@ -28,7 +28,7 @@
 # - Alt+Shift+1-9 = Move window to numbered workspace
 # - Alt+Shift+A-Z = Move window to letter workspace
 #
-# WINDOW MANAGEMENT (Service Mode - Alt+Ctrl+;):
+# WINDOW MANAGEMENT (Service Mode - Alt+Ctrl+s):
 # - h/j/k/l = Focus window in direction
 # - Alt+h/j/k/l = Move window in direction  
 # - Alt+Shift+h/j/k/l = Join window with neighbor
@@ -251,8 +251,9 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # Enter service mode for advanced window management
 # Service mode provides window focus, movement, and layout commands
+# Changed from alt-ctrl-semicolon to alt-ctrl-s to avoid conflicts with Neovim line operations
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-alt-ctrl-semicolon = 'mode service'
+alt-ctrl-s = 'mode service'
 
 # =============================================================================
 # AVAILABLE KEY REFERENCE
@@ -391,6 +392,6 @@ alt-shift-t = 'move-node-to-workspace T --focus-follows-window' # Move window to
 alt-shift-u = 'move-node-to-workspace U --focus-follows-window' # Move window to workspace U
 alt-shift-v = 'move-node-to-workspace V --focus-follows-window' # Move window to workspace V
 alt-shift-w = 'move-node-to-workspace W --focus-follows-window' # Move window to workspace W
-alt-shift-x = 'move-node-to-workspace X'                        # Move window to workspace X (no follow)
-alt-shift-y = 'move-node-to-workspace Y'                        # Move window to workspace Y (no follow)
-alt-shift-z = 'move-node-to-workspace Z'                        # Move window to workspace Z (no follow)
+alt-shift-x = 'move-node-to-workspace X --focus-follows-window' # Move window to workspace X
+alt-shift-y = 'move-node-to-workspace Y --focus-follows-window' # Move window to workspace Y
+alt-shift-z = 'move-node-to-workspace Z --focus-follows-window' # Move window to workspace Z

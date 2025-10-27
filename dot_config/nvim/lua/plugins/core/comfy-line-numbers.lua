@@ -1,19 +1,4 @@
--- Comfortable line numbers with smooth transitions and UI plugins
 return {
-  {
-    "shortcuts/no-neck-pain.nvim",
-    enabled = true,
-  },
-  {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    enabled = false,
-    config = function()
-      require("tiny-inline-diagnostic").setup({
-        preset = "modern",
-      })
-      vim.diagnostic.config({ virtual_text = false })
-    end,
-  },
   {
     "mluders/comfy-line-numbers.nvim",
     event = { "BufReadPost", "BufNewFile" },

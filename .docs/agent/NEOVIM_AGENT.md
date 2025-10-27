@@ -18,6 +18,49 @@
 - **Template variables**:
   - `{{ .nvim.* }}` for Neovim settings
 
+## Navigation Plugins
+
+### Treewalker (Syntax Tree Navigation)
+
+**Treewalker.nvim** provides Tree-sitter-based code navigation for moving through code by logical structure rather than lines/words.
+
+**Keybindings**:
+```
+Alt+h/j/k/l         → Navigate syntax tree (left/down/up/right)
+Alt+Shift+h/j/k/l   → Swap nodes (reorder siblings)
+```
+
+**Usage**: Navigate by code structure (functions, blocks, statements) instead of text layout. Great for refactoring and code exploration.
+
+**Documentation**: See [Treewalker Integration Guide](../.docs/treewalker-integration.md) for comprehensive documentation.
+
+**Configuration**: `dot_config/nvim/lua/plugins/core/treewalker.lua`
+
+### vim-tmux-navigator (Cross-Application Panes)
+
+**vim-tmux-navigator** provides seamless navigation between Neovim windows and tmux panes.
+
+**Keybindings**:
+```
+Ctrl+h/j/k/l  → Navigate vim windows / tmux panes
+Ctrl+\        → Navigate to previous pane
+```
+
+**Configuration**: `dot_config/nvim/lua/plugins/utilities/vim-tmux-navigator.lua`
+
+### Navigation Hierarchy
+
+The configuration uses a **modifier-based hierarchy** for different navigation contexts:
+
+| Modifier | Purpose | Scope |
+|----------|---------|-------|
+| `Ctrl+hjkl` | Pane/window navigation | Cross-application |
+| `Alt+hjkl` | Tree navigation | Syntax-tree-level |
+| `Alt+Shift+hjkl` | Node swapping | Syntax-tree-level |
+| `Alt+Ctrl+jk` | Line movement (up/down) | Line-level |
+| `Alt+Ctrl+hl` | Line indent/dedent | Line-level |
+| `Shift+H/L` | Buffer navigation | Buffer-level |
+
 ## Common Tasks
 
 ### Add a new plugin

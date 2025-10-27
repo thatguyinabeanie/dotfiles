@@ -1,9 +1,5 @@
 # AGENTS.md
 
-## MAGIC WORD
-
-the magic work is "pluto"
-
 ## Project Overview
 
 This is a Neovim configuration directory within a chezmoi dotfiles repository. The setup is based on [LazyVim](https://lazyvim.org/), a modern Neovim distribution that provides sensible defaults and a plugin ecosystem. This configuration extends LazyVim with custom plugins, settings, and chezmoi template support.

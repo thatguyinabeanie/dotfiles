@@ -7,66 +7,88 @@ syntax tree structure. Instead of moving by lines or words, it moves by logical
 code constructs (functions, blocks, statements, etc.).
 
 KEYBINDINGS:
-The plugin doesn't set default keybindings. You need to map the commands yourself.
-Common mappings in your keymaps:
+This configuration uses Alt+hjkl for tree navigation:
 
-  vim.keymap.set('n', '<C-j>', '<cmd>Treewalker Down<cr>', { silent = true })
-  vim.keymap.set('n', '<C-k>', '<cmd>Treewalker Up<cr>', { silent = true })
-  vim.keymap.set('n', '<C-h>', '<cmd>Treewalker Left<cr>', { silent = true })
-  vim.keymap.set('n', '<C-l>', '<cmd>Treewalker Right<cr>', { silent = true })
+  TREE NAVIGATION (Normal + Visual):
+    Alt+h  →  Move to previous sibling node (Treewalker Left)
+    Alt+j  →  Move to child node (Treewalker Down)
+    Alt+k  →  Move to parent node (Treewalker Up)
+    Alt+l  →  Move to next sibling node (Treewalker Right)
+
+  NODE SWAPPING (Normal only):
+    Alt+Shift+h  →  Swap node with previous sibling (Swap Left)
+    Alt+Shift+j  →  Swap node downward (Swap Down)
+    Alt+Shift+k  →  Swap node upward (Swap Up)
+    Alt+Shift+l  →  Swap node with next sibling (Swap Right)
+
+MODIFIER HIERARCHY:
+  Ctrl+hjkl       →  Pane navigation (vim-tmux-navigator) - UNTOUCHABLE
+  Alt+hjkl        →  Tree navigation (Treewalker)
+  Alt+Shift+hjkl  →  Node swapping (Treewalker)
+  Alt+Ctrl+jk     →  Line operations (move line up/down)
+  Alt+Ctrl+hl     →  Line operations (indent/dedent)
 
 COMMANDS:
   :Treewalker Up      - Move up the syntax tree (to parent node)
   :Treewalker Down    - Move down the syntax tree (to first child)
   :Treewalker Left    - Move to previous sibling node
   :Treewalker Right   - Move to next sibling node
+  :Treewalker SwapUp/SwapDown/SwapLeft/SwapRight - Swap nodes
 
 USAGE EXAMPLES:
 - In a function: Down moves into the function body, Up moves to function definition
 - In an if statement: Left/Right moves between if/else/elseif blocks
 - In arrays/objects: Left/Right moves between elements
 - In method chains: Up/Down navigates the chain hierarchy
+- Swapping: Reorder function arguments, array elements, or sibling statements
 
 WHY USE TREEWALKER:
 - Faster than traditional navigation for code structure
 - Consistent behavior across different file types
 - Respects code semantics rather than just text layout
 - Great for refactoring and code exploration
+- Integrates with jumplist (Ctrl+o/Ctrl+i)
 
 NOTE: Requires Tree-sitter parsers for your languages to work effectively.
+
+DOCUMENTATION: See .docs/treewalker-integration.md for comprehensive integration guide.
 --]]
 
 return {
   {
     "aaronik/treewalker.nvim",
 
-    -- The following options are the defaults.
-    -- Treewalker aims for sane defaults, so these are each individually optional,
-    -- and setup() does not need to be called, so the whole opts block is optional as well.
-    opts = {
-      -- Whether to briefly highlight the node after jumping to it
-      highlight = true,
+    -- Load on VeryLazy to ensure it's available when needed
+    event = "VeryLazy",
 
-      -- How long should above highlight last (in ms)
-      highlight_duration = 250,
+    -- Config function runs after plugin is loaded
+    config = function()
+      -- Setup plugin with options
+      require("treewalker").setup({
+        highlight = true,
+        highlight_duration = 250,
+        highlight_group = "CursorLine",
+        select = false,
+        jumplist = true,
+      })
 
-      -- The color of the above highlight. Must be a valid vim highlight group.
-      -- (see :h highlight-group for options)
-      highlight_group = "CursorLine",
+      -- Use vim.schedule to defer keymap setting until after all VeryLazy events complete
+      -- This ensures we override LazyVim's default Alt+j/k keymaps
+      vim.schedule(function()
+        local map = vim.keymap.set
 
-      -- Whether to create a visual selection after a movement to a node.
-      -- If true, highlight is disabled and a visual selection is made in
-      -- its place.
-      select = false,
+        -- Tree navigation (normal + visual mode)
+        map({ "n", "v" }, "<M-h>", "<cmd>Treewalker Left<cr>", { desc = "Treewalker Left", silent = true })
+        map({ "n", "v" }, "<M-j>", "<cmd>Treewalker Down<cr>", { desc = "Treewalker Down", silent = true })
+        map({ "n", "v" }, "<M-k>", "<cmd>Treewalker Up<cr>", { desc = "Treewalker Up", silent = true })
+        map({ "n", "v" }, "<M-l>", "<cmd>Treewalker Right<cr>", { desc = "Treewalker Right", silent = true })
 
-      -- Whether the plugin adds movements to the jumplist -- true | false | 'left'
-      --  true: All movements more than 1 line are added to the jumplist. This is the default,
-      --        and is meant to cover most use cases. It's modeled on how { and } natively add
-      --        to the jumplist.
-      --  false: Treewalker does not add to the jumplist at all
-      --  "left": Treewalker only adds :Treewalker Left to the jumplist. This is usually the most
-      --          likely one to be confusing, so it has its own mode.
-      jumplist = true,
-    },
+        -- Node swapping (normal mode only)
+        map("n", "<M-S-h>", "<cmd>Treewalker SwapLeft<cr>", { desc = "Treewalker Swap Left", silent = true })
+        map("n", "<M-S-j>", "<cmd>Treewalker SwapDown<cr>", { desc = "Treewalker Swap Down", silent = true })
+        map("n", "<M-S-k>", "<cmd>Treewalker SwapUp<cr>", { desc = "Treewalker Swap Up", silent = true })
+        map("n", "<M-S-l>", "<cmd>Treewalker SwapRight<cr>", { desc = "Treewalker Swap Right", silent = true })
+      end)
+    end,
   },
 }
