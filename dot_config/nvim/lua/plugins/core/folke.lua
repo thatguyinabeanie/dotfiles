@@ -4,8 +4,8 @@ return {
     event = "VeryLazy",
     opts = {
       presets = {
-        inc_rename = true, -- Enables an input dialog for inc-rename.nvim
-        lsp_doc_border = true, -- Add a border to hover docs and signature help
+        inc_rename = true,
+        lsp_doc_border = true,
       },
     },
   },
@@ -16,7 +16,7 @@ return {
     opts = {
       -- Core features
       bigfile = { enabled = true },
-      dim = { enabled = true }, -- Focus mode by dimming inactive code
+      dim = { enabled = true },
       gitbrowse = { enabled = true },
       image = { enabled = true },
       input = { enabled = true },
@@ -29,29 +29,29 @@ return {
       notifier = { enabled = true },
       picker = {
         enabled = true,
-        ui_select = true, -- Enable vim.ui.select override
-        exclude = { -- add folder names here to exclude
+        ui_select = true,
+        exclude = {
           ".DS_Store",
         },
         layout = {
-          preset = "default", -- Force default layout (horizontal with floating preview)
+          preset = "default",
           cycle = true,
         },
         sources = {
           files = {
-            hidden = true, -- Start with hidden files off to avoid scanning issues
+            hidden = true,
           },
         },
       },
       quickfile = { enabled = true },
-      rename = { enabled = true }, -- LSP file renaming with plugin integration
+      rename = { enabled = true },
       scope = { enabled = true },
-      scratch = { enabled = true }, -- Persistent scratch buffers
-      scroll = { enabled = true }, -- Enable scroll animations
+      scratch = { enabled = true },
+      scroll = { enabled = true },
       statuscolumn = { enabled = true },
-      terminal = { enabled = true }, -- Floating/split terminals
-      words = { enabled = true }, -- Keep for word highlighting under cursor
-      zen = { enabled = true }, -- Distraction-free coding mode
+      terminal = { enabled = true },
+      words = { enabled = true },
+      zen = { enabled = true },
 
       -- Dashboard configuration
       dashboard = {
