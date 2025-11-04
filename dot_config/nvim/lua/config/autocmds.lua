@@ -22,3 +22,11 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
     vim.notify("File changed on disk. Buffer reloaded.", vim.log.levels.INFO)
   end,
 })
+
+-- Detect .yaml.j2 files as yaml.jinja2 for proper Jinja2 + YAML highlighting
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.yaml.j2",
+  callback = function()
+    vim.bo.filetype = "yaml.jinja2"
+  end,
+})
