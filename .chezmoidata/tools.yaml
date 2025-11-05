@@ -214,6 +214,13 @@ dev_tools:
     description: "Kubernetes CLI UI"
     category: infrastructure
 
+  - name: dive
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "A tool for exploring Docker image layers."
+    category: infrastructure
+
   # - name: docker
   #   install_via: brew
   #   runtime: native

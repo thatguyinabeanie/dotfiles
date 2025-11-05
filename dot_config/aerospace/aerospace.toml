@@ -167,6 +167,12 @@ run = 'layout floating'
 if.app-id = 'com.linkplay.wiimhome'
 run = 'layout floating'
 
+# Force Kandji Self Service to always be floating for better utility workflow
+# Kandji Self Service works better as floating windows due to its utility nature
+[[on-window-detected]]
+if.app-id = 'io.kandji.Self-Service'
+run = 'layout floating'
+
 # =============================================================================
 # SERVICE MODE KEYBINDINGS
 # =============================================================================
