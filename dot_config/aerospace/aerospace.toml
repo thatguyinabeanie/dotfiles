@@ -123,10 +123,10 @@ preset = 'qwerty'
 [gaps]
 inner.horizontal = 4 # Gap between windows horizontally
 inner.vertical = 4   # Gap between windows vertically
-outer.left = 2       # Gap from left screen edge
-outer.bottom = 2     # Gap from bottom screen edge (dock area)
-outer.top = 2        # Gap from top screen edge (menu bar area)
-outer.right = 2      # Gap from right screen edge
+outer.top = 4        # Gap from top screen edge (menu bar area)
+outer.bottom = 8     # Gap from bottom screen edge (dock area)
+outer.left = 8       # Gap from left screen edge
+outer.right = 8      # Gap from right screen edge
 
 
 # =============================================================================
