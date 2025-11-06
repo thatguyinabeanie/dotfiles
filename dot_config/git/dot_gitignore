@@ -16,3 +16,4 @@ lefthook.yml
 vendor/bundle/ruby
 .scratch
 .undotree
+.editorconfig

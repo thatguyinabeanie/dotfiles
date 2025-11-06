@@ -19,6 +19,7 @@ local config = {
       "nu",
       "markdown",
       "markdown_inline",
+      "jinja2",
     },
   },
 }
@@ -46,6 +47,9 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.install").prefer_git = true
       require("nvim-treesitter").setup(opts)
+
+      -- Register yaml.jinja2 filetype to use both YAML and Jinja2 parsers
+      vim.treesitter.language.register("yaml", "yaml.jinja2")
 
       -- Generic autocmd to handle template filetypes
       vim.api.nvim_create_autocmd("FileType", {

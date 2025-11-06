@@ -8,7 +8,7 @@ macos_services:
 
   - name: borders
     type: brew_service
-    action: start
+    action: stop
     description: "Window border service (jankyborders)"
     condition: always
 

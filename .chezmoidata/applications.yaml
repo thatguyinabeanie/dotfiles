@@ -87,7 +87,6 @@ applications:
       description: "AI-powered launcher and productivity tool"
       category: productivity
       macos_only: true
-
     - name: slack
       install_via: brew_cask
       category: communication
@@ -96,6 +95,10 @@ applications:
       install_via: brew_cask
       category: development
       description: "Apple's library of iconography"
+    - name: tidal
+      install_via: brew_cask
+      category: media
+      description: "High-fidelity music streaming service"
     - name: visual-studio-code@insiders
       install_via: brew_cask
       category: editor
@@ -159,10 +162,6 @@ applications:
       install_via: brew_cask
       category: media
       description: "Music streaming service"
-    - name: tidal
-      install_via: brew_cask
-      category: media
-      description: "High-fidelity music streaming service"
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"
