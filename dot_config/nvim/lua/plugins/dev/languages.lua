@@ -73,6 +73,9 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        -- Disable Angular language server (not needed for React/TypeScript projects)
+        angularls = { enabled = false },
+
         -- TypeScript server
         tsserver = { enabled = true },
         vtsls = { enabled = true },
