@@ -173,6 +173,12 @@ run = 'layout floating'
 if.app-id = 'io.kandji.Self-Service'
 run = 'layout floating'
 
+# Force Claude Desktop to always be floating for better AI assistant workflow
+# Claude Desktop works better as floating windows for quick access and reference
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claude'
+run = 'layout floating'
+
 # =============================================================================
 # SERVICE MODE KEYBINDINGS
 # =============================================================================
