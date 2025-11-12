@@ -9,42 +9,42 @@ url  = "https://github.com/catppuccin/tmux.git"
 ["tmux-battery"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-battery.git" 
+url  = "https://github.com/tmux-plugins/tmux-battery.git" 
 
 ["tmux-cpu"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-cpu.git" 
+url  = "https://github.com/tmux-plugins/tmux-cpu.git" 
 
 ["tmux-logging"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-logging.git" 
+url  = "https://github.com/tmux-plugins/tmux-logging.git" 
 
 ["tmux-pain-control"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-pain-control.git"
+url  = "https://github.com/tmux-plugins/tmux-pain-control.git"
 
 ["tmux-resurrect"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-resurrect.git"
+url  = "https://github.com/tmux-plugins/tmux-resurrect.git"
 
 ["tmux-sensible"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-sensible.git"
+url  = "https://github.com/tmux-plugins/tmux-sensible.git"
 
 ["tmux-yank"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-yank.git"
+url  = "https://github.com/tmux-plugins/tmux-yank.git"
 
 ["tpm"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tpm.git"
+url  = "https://github.com/tmux-plugins/tpm.git"
 
 ["tmux-sessionx"]
 type = "git-repo"
@@ -69,5 +69,5 @@ url  = "https://github.com/wfxr/tmux-fzf-url.git"
 ["tmux-open"]
 type = "git-repo"
 refreshPeriod = "168h"
-url  = "https://github.com/tmux-tmux-open.git"
+url  = "https://github.com/tmux-plugins/tmux-open.git"
 

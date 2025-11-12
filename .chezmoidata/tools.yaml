@@ -221,20 +221,26 @@ dev_tools:
     description: "A tool for exploring Docker image layers."
     category: infrastructure
 
-  # - name: docker
-  #   install_via: brew
-  #   runtime: native
-  #   version: latest
-  #   description: "Container platform"
-  #   category: infrastructure
+  - name: docker-desktop
+    install_via: brew_cask
+    runtime: native
+    version: latest
+    description: "Container platform"
+    category: infrastructure
 
-  # Documentation tools
-  # - name: marp-cli
-  #   install_via: mise
-  #   runtime: node
-  #   version: latest
-  #   description: "Markdown presentation tool"
-  #   category: documentation
+  - name: docker-completion
+    install_via: brew
+    runtime: native
+    version: latest
+    description: "Docker completions"
+    category: infrastructure
+
+  - name: docker-buildx
+    install_via: brew
+    version: latest
+    runtime: native
+    description: "Modern Docker building"
+    category: infrastructure
 
   - name: mdbook
     install_via: mise
