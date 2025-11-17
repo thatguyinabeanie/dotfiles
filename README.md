@@ -78,8 +78,6 @@ The system provides three-tier configuration precedence:
 2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings
 3. **Template Defaults** (fallback) - hardcoded sensible defaults
 
-
-
 ### 🛠️ Management commands
 
 ```bash
@@ -96,6 +94,7 @@ defaults read ai.opencode.chezmoi
 ### ⚙️ **Core Configuration Values**
 
 #### Core Preferences
+
 - `hostname` - System hostname
 - `shell_pref` - Preferred shell (nu, zsh, bash)
 - `work_environment` - Work environment flag
@@ -103,11 +102,13 @@ defaults read ai.opencode.chezmoi
 - `catppuccin_flavor` - Catppuccin theme flavor
 
 #### Theme System
+
 - `theme_mode` - Current theme mode (dark/light)
 - `theme_light` - Light theme name
 - `theme_dark` - Dark theme name
 
 #### UI Configuration
+
 - `ui_opacity` - Terminal opacity
 - `ui_blur` - Blur amount
 - `ui_font_size` - Font size
@@ -116,6 +117,7 @@ defaults read ai.opencode.chezmoi
 - `ui_window_width` - Window width
 
 #### Git Configuration
+
 - `git_name` - Git user name
 - `github_username` - GitHub username
 - `git_email` - Git email
@@ -124,12 +126,14 @@ defaults read ai.opencode.chezmoi
 ### 💾 **Storage Methods**
 
 #### macOS (Primary)
+
 - **Method**: `defaults` command
 - **Domain**: `com.chezmoi.config`
 - **Location**: `~/Library/Preferences/com.chezmoi.config.plist`
 - **Features**: Type-aware (string, boolean, integer)
 
 #### Linux (Cross-platform ready)
+
 - **dconf**: `/com/chezmoi/config/` keys
 - **gsettings**: `com.chezmoi.config` schema
 - **XDG config**: `~/.config/chezmoi/persistent-config` file
@@ -169,6 +173,7 @@ chezmoi-backup-config  # Save the change
 ### 🔧 **Troubleshooting**
 
 #### View Current Configuration
+
 ```bash
 # Check what template will generate
 chezmoi execute-template < .chezmoi.toml.tmpl
@@ -181,6 +186,7 @@ config-persistence-helpers.sh detect
 ```
 
 #### Reset Configuration
+
 ```bash
 # Clear all persistent storage
 config-persistence-helpers.sh clear
@@ -259,23 +265,24 @@ dotfiles/
 
 The configuration data is organized into **27 ultra-specific files**. This flat structure allows for clear, direct access in templates (e.g., `.lsp.language_servers`, `.formatters.formatters`).
 
--   **`lsp.yaml`**: All language servers with metadata.
--   **`formatters.yaml`**: All code formatters and their language mappings.
--   **`linters.yaml`**: All linters with language/runtime info.
--   **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
--   **`tools.yaml`**: All general development tools, CLIs, and utilities (including AI agents and MCP servers).
--   **`ai/agents.yaml`**: All AI agents and their installation details.
--   **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
--   **`github-extensions.yaml`**: All GitHub CLI extensions.
--   **`services.yaml`**: System services and application configurations.
--   **`opencode.yaml`**: OpenCode AI-specific settings.
--   **`shared.yaml`**, **`personal.yaml`**, **`work.yaml`**: Environment variables for different contexts.
+- **`lsp.yaml`**: All language servers with metadata.
+- **`formatters.yaml`**: All code formatters and their language mappings.
+- **`linters.yaml`**: All linters with language/runtime info.
+- **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
+- **`tools.yaml`**: All general development tools, CLIs, and utilities (including AI agents and MCP servers).
+- **`ai/agents.yaml`**: All AI agents and their installation details.
+- **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
+- **`github-extensions.yaml`**: All GitHub CLI extensions.
+- **`services.yaml`**: System services and application configurations.
+- **`opencode.yaml`**: OpenCode AI-specific settings.
+- **`shared.yaml`**, **`personal.yaml`**, **`work.yaml`**: Environment variables for different contexts.
 
 ### 🔧 **Template Integration Patterns**
 
 Templates now access this data directly and efficiently, without complex `include` logic.
 
 #### Loading Package Data
+
 ```go
 {{/* Access all linters to be installed via brew */}}
 {{- $brew_linters := (where .linters.linters "install_via" "brew") }}
@@ -285,6 +292,7 @@ Templates now access this data directly and efficiently, without complex `includ
 ```
 
 #### Loading Environment Data
+
 ```go
 {{/* Access a shared environment variable */}}
 {{- .shared.env_shared.variables.EDITOR }}
@@ -294,6 +302,7 @@ Templates now access this data directly and efficiently, without complex `includ
 ```
 
 #### Loading AI Configurations
+
 ```go
 {{/* Access the OpenCode provider settings */}}
 {{- .opencode.ai_opencode.providers.google.enabled }}
@@ -369,6 +378,7 @@ Essential scientific Python environment with comprehensive data science tools ma
 The system includes essential scientific Python libraries via the cross-platform Python configuration:
 
 #### **Core Libraries**
+
 - **NumPy** - Numerical computing foundation
 - **Pandas** - Data manipulation and analysis
 - **Matplotlib** - Static plotting and visualization
@@ -377,6 +387,7 @@ The system includes essential scientific Python libraries via the cross-platform
 - **Seaborn** - Statistical data visualization
 
 #### **Development Tools**
+
 - **Black** - Code formatter for clean, readable code
 - **Pytest** - Testing framework for scientific code
 - **MyPy** - Static type checking
@@ -465,6 +476,7 @@ Dotfiles Mise Integration:
 Tools are defined in their respective granular data files with an `install_via` key.
 
 **Example from `.chezmoidata/tools.yaml`**:
+
 ```yaml
 dev_tools:
   - name: age
@@ -612,6 +624,7 @@ mise install ast-grep@latest
 #### Common Issues
 
 **Tools Not Found**
+
 ```bash
 # Check mise installation
 mise doctor
@@ -624,6 +637,7 @@ mise activate zsh >> ~/.zshrc
 ```
 
 **Version Conflicts**
+
 ```bash
 # Check active versions
 mise current
@@ -636,6 +650,7 @@ mise cache clear
 ```
 
 **Python Package Issues**
+
 ```bash
 # Check Python environment
 mise exec python -- which python
@@ -718,6 +733,7 @@ mise run setup-hooks
 ### ⚙️ **Configured Quality Checks**
 
 #### **Code Quality & Formatting**
+
 - **Stylua** - Lua code formatting (auto-fixes staging)
 - **Luacheck** - Lua static analysis and linting
 - **ShellCheck** - Shell script analysis and best practices
@@ -725,10 +741,12 @@ mise run setup-hooks
 - **Prettier with Go Template Support** - Formats Chezmoi template files (.tmpl) using prettier-plugin-go-template
 
 #### **Documentation & Writing**
+
 - **Vale** - Prose linting for Markdown files
 - **Spell Check** - Sorted spell dictionary maintenance
 
 #### **Security & Compliance**
+
 - **Gitleaks** - Prevents secrets and sensitive data from being committed
 - **YAML Validation** - (Optional) Schema validation for YAML files
 
@@ -748,7 +766,7 @@ pre-commit:
     stylua:
       glob: "**/*.lua"
       run: .scripts/hooks/pre-commit-stylua.sh {staged_files}
-      stage_fixed: true  # Auto-stage formatting fixes
+      stage_fixed: true # Auto-stage formatting fixes
     gitleaks:
       run: gitleaks protect --staged --no-banner --log-level=error
 ```
@@ -800,12 +818,13 @@ pre-commit:
     your-hook:
       glob: "**/*.ext"
       run: .scripts/hooks/your-hook.sh {staged_files}
-      stage_fixed: false  # Set to true for formatters
+      stage_fixed: false # Set to true for formatters
 ```
 
 ### 🚨 **Common Issues & Solutions**
 
 #### **Hook Failures**
+
 ```bash
 # View detailed output
 lefthook run pre-commit --verbose
@@ -820,6 +839,7 @@ shellcheck script.sh
 ```
 
 #### **Setup Issues**
+
 ```bash
 # Reinstall hooks
 lefthook install
@@ -877,6 +897,7 @@ Comprehensive AI toolchain with multiple providers and seamless integration. All
 #### 🎯 **Quick Setup Guide**
 
 ##### Prerequisites
+
 ```bash
 # Ensure mise and required tools are installed
 mise install
@@ -888,19 +909,22 @@ export GOOGLE_API_KEY="your-key"
 ```
 
 ##### OpenCode Configuration
+
 The primary AI development environment uses OpenCode with flexible provider switching, configured in `.chezmoidata/opencode.yaml`.
 
 #### 🤖 **Provider-Specific Setup**
 
 Provider details and model configurations are now managed in their respective template files within `.chezmoitemplates/ai/`.
 
--   **GitHub Copilot**: Models available via the Copilot integration.
--   **Google Gemini**: Models defined in `provider-google.yaml`.
+- **GitHub Copilot**: Models available via the Copilot integration.
+- **Google Gemini**: Models defined in `provider-google.yaml`.
 
 #### 🛠️ **Development Tools Integration**
 
 ##### **Model Context Protocol (MCP) Servers**
+
 MCP servers are defined in `.chezmoidata/ai/mcp.yaml` and installed via Mise.
+
 ```bash
 # Install MCP servers for enhanced AI capabilities
 mise run install-mcp-servers
@@ -910,20 +934,22 @@ mcphub list-servers
 ```
 
 ##### **Neovim AI Integration**
+
 Neovim plugins like Avante, CodeCompanion, and Copilot provide a rich, integrated AI experience.
 
 ##### **Command Line Tools**
--   **OpenCode**: The primary interface for AI-assisted development.
--   **Claude Desktop**: Syncs project context for chat.
--   **GitHub Copilot CLI**: Quick suggestions and explanations.
+
+- **OpenCode**: The primary interface for AI-assisted development.
+- **Claude Desktop**: Syncs project context for chat.
+- **GitHub Copilot CLI**: Quick suggestions and explanations.
 
 #### ⚙️ **Configuration Management**
 
 Switching providers or models is as simple as editing the relevant YAML file in `.chezmoidata/` and running `chezmoi apply`.
 
--   **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode.
--   **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
--   **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
+- **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode.
+- **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
+- **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
 
 ## 🛠️ Shell Productivity Features
 
@@ -932,10 +958,11 @@ Enhanced shell experience with powerful aliases, functions, and integrated workf
 ### 🚀 Development Workflow Automation
 
 #### Project Initialization
+
 ```bash
 # Quick project setup with templates
 dev_init_python <project-name>     # Python project with venv + requirements
-dev_init_node <project-name>       # Node.js with package.json + gitignore  
+dev_init_node <project-name>       # Node.js with package.json + gitignore
 dev_init_rust <project-name>       # Cargo workspace with common configs
 dev_init_go <project-name>         # Go module with mod file + structure
 
@@ -947,19 +974,20 @@ poetry install                     # Dependencies managed by mise hook
 ```
 
 #### Smart Directory Navigation
+
 ```bash
 # Recent project jumping (integrated with zoxide)
 z my-proj          # Jump to recently used project directory
 zi                 # Interactive directory selection with fzf
 
-# Project workspace management  
+# Project workspace management
 workspace_switch   # FZF menu for switching between active projects
 workspace_list     # Show all tracked workspaces with git status
 workspace_clean    # Remove unused/merged project directories
 
 # Quick access to common directories
 @config            # -> ~/.config
-@dots              # -> ~/.local/share/chezmoi  
+@dots              # -> ~/.local/share/chezmoi
 @logs              # -> ~/.local/log
 @bin               # -> ~/.local/bin
 ```
@@ -977,7 +1005,7 @@ git_branch_cleanup             # Remove merged branches interactively
 git_sync_fork                  # Sync fork with upstream (auto-detects)
 
 # Advanced git operations
-git_stash_save_with_message    # Stash with descriptive message  
+git_stash_save_with_message    # Stash with descriptive message
 git_commit_fixup               # Quick fixup for previous commit
 git_rebase_interactive_auto    # Smart interactive rebase with conflict resolution
 
@@ -990,6 +1018,7 @@ git_find_large_files          # Identify repository bloat
 ### 📊 Development Environment Management
 
 #### Service Management
+
 ```bash
 # Docker development workflow
 docker_dev_up                  # Start development services (auto-detects compose)
@@ -1004,6 +1033,7 @@ brew_services_status          # Colorized status of all services
 ```
 
 #### Process & Resource Monitoring
+
 ```bash
 # System monitoring with style
 sys_monitor                   # Interactive system monitor (btop + custom widgets)
@@ -1020,6 +1050,7 @@ docker_resource_usage       # Container resource consumption
 ### 🔧 Productivity Utilities
 
 #### File Management & Search
+
 ```bash
 # Enhanced file operations
 find_large <size> [path]     # Find files larger than size (e.g., find_large 100M)
@@ -1034,16 +1065,17 @@ copy_with_structure <file>   # Copy preserving directory structure
 ```
 
 #### Text Processing & Formatting
+
 ```bash
 # Developer-friendly text manipulation
-json_pretty <file|url>       # Pretty-print JSON with syntax highlighting  
+json_pretty <file|url>       # Pretty-print JSON with syntax highlighting
 yaml_lint <file>            # Validate and format YAML files
 markdown_preview <file>      # Live markdown preview in browser
 log_colorize <logfile>      # Add syntax highlighting to log files
 
 # Quick data conversion
 csv_to_json <file>          # Convert CSV to JSON
-json_to_yaml <file>         # Convert JSON to YAML  
+json_to_yaml <file>         # Convert JSON to YAML
 base64_encode/decode <text> # Quick encoding/decoding
 url_encode/decode <text>    # URL encoding utilities
 ```
@@ -1051,6 +1083,7 @@ url_encode/decode <text>    # URL encoding utilities
 ### 🌐 Network & Web Development
 
 #### API Development & Testing
+
 ```bash
 # HTTP testing made easy
 http_get <url>              # GET request with formatted output
@@ -1065,6 +1098,7 @@ cors_proxy <target_url>     # CORS proxy for local development
 ```
 
 #### Network Diagnostics
+
 ```bash
 # Connection testing with insights
 ping_enhanced <host>        # Ping with geographic and latency insights
@@ -1077,6 +1111,7 @@ ssl_check <domain>          # SSL certificate validation and expiry
 ### 🎮 Terminal Experience Enhancement
 
 #### Interactive Command Building
+
 ```bash
 # FZF-powered command construction
 cmd_build                   # Interactive command builder with history
@@ -1090,6 +1125,7 @@ run_and_notify              # Execute and send desktop notification when done
 ```
 
 #### Session Management
+
 ```bash
 # Multiplexer integration
 tmux_dev_session <project>  # Create development session with predefined layout
@@ -1105,21 +1141,17 @@ zellij_project_session     # Project-specific session with git integration
 ### 📱 Platform-Specific Features (macOS)
 
 #### System Integration
+
 ```bash
 # macOS-specific enhancements
 desktop_cleanup            # Organize desktop files into dated folders
 screenshot_ocr             # OCR text from screenshot to clipboard
 quick_look <file>          # macOS Quick Look from terminal
 open_in_finder [path]      # Open path in Finder (default: current dir)
-
-# Spotify & media controls
-spotify_play/pause/next/prev    # Spotify controls
-spotify_current                 # Show current track with artwork
-spotify_save_current           # Save current track to library
-volume_set <percentage>        # Set system volume
 ```
 
 #### Clipboard & Sharing
+
 ```bash
 # Advanced clipboard operations
 clip_history               # Show clipboard history with fzf selection
@@ -1135,6 +1167,7 @@ share_screen_region       # Share specific screen region (screenshot + upload)
 ### ⚙️ Configuration & Maintenance
 
 #### Dotfiles Management
+
 ```bash
 # Chezmoi workflow automation
 dots_edit <file>          # Edit dotfile and preview changes
@@ -1149,6 +1182,7 @@ health_check_system      # Comprehensive system health validation
 ```
 
 #### Development Environment Sync
+
 ```bash
 # Cross-machine synchronization
 sync_ssh_keys            # Sync SSH keys across authorized machines
@@ -1160,6 +1194,7 @@ import_dev_env <config>  # Import environment from another machine
 ### 🔍 Advanced Search & Discovery
 
 #### Code Intelligence
+
 ```bash
 # Project-wide code analysis
 code_complexity [path]    # Analyze code complexity metrics
@@ -1223,12 +1258,14 @@ Automatic cloning and management of personal and work repositories with conditio
 The configuration data structure has been completely reorganized into a flat, granular, and language-centric system. This new architecture is the foundation of the **Template Factory System**, where simple, powerful data files in `.chezmoidata/` are used by generators in `.chezmoitemplates/` to create complex, tool-specific configurations.
 
 ### ✨ **What Changed**
+
 - **Flat, Granular Data**: The nested directory structure (`packages/`, `development/`, etc.) has been replaced by a flat list of specific YAML files (e.g., `lsp.yaml`, `formatters.yaml`, `tools.yaml`).
 - **Single Source of Truth**: Each tool or package is defined only once.
 - **Template-Driven**: Configuration files are now simple one-line calls to template generators.
 - **Intuitive & Maintainable**: The new structure is easier to navigate, understand, and extend.
 
 ### 🚀 **Benefits**
+
 - **Reduced Complexity**: Simplified data access and management.
 - **Future-proof**: Easily extensible for new tools, platforms, and languages.
 - **Robustness**: Changes are propagated automatically and consistently.

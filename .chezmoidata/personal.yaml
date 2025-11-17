@@ -25,7 +25,6 @@ env_personal:
   applications:
     # Media and entertainment
     media:
-      SPOTIFY_CONFIG_DIR: "$XDG_CONFIG_HOME/spotify"
       PLEX_CONFIG_DIR: "$XDG_CONFIG_HOME/plex"
 
     # Personal productivity
