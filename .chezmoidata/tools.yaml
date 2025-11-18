@@ -325,7 +325,7 @@ dev_tools:
     description: "Node.js package manager"
     category: package_manager
 
-  - name: bun
+  - name: npm
     install_via: mise
     runtime: native
     description: "Fast JavaScript runtime"
@@ -469,19 +469,19 @@ dev_tools:
 # AI Agents and Assistants
 agents:
   - name: "opencode-ai"
-    install_via: bun
+    install_via: npm
     runtime: native
     description: "OpenCode AI"
     category: code_assistant
 
   - name: "@augmentcode/auggie"
-    install_via: bun
+    install_via: npm
     runtime: native
     description: "Augment Code CLI"
     category: code_assistant
 
   - name: "@google/gemini-cli"
-    install_via: bun
+    install_via: npm
     runtime: native
     description: "Google Gemini Cli Coding Agent"
     category: code_assistant
@@ -515,7 +515,7 @@ agents:
     category: terminal
 
   - name: "@github/copilot"
-    install_via: bun
+    install_via: npm
     runtime: native
     description: "GitHub Copilot CLI"
     category: code_assistant
@@ -531,13 +531,13 @@ agents:
 mcp_servers:
   # Development and deployment MCP servers
   - name: "vercel"
-    install_via: bun
+    install_via: npm
     runtime: node
     description: "Vercel CLI tool with MCP capabilities"
     purpose: "Vercel deployment and management"
     dependencies: []
   - name: mcp-hub
-    install_via: bun
+    install_via: npm
     runtime: node
     description: "MCP Hub"
     dependencies: []
