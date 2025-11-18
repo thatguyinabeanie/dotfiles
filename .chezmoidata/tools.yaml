@@ -494,7 +494,7 @@ agents:
   #   category: code_assistant
 
   - name: "@anthropic-ai/claude-code"
-    install_via: bun
+    install_via: npm
     runtime: native
     description: "Claude Code Commands Manager"
     category: code_assistant
