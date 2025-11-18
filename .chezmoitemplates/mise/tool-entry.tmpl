@@ -1,5 +1,5 @@
 {{- define "tool_entry" -}}
-{{- if .version }}
+{{- if hasKey . "version" }}
 {{ .name | quote }} = {{ .version | quote }}
 {{- else }}
 {{ .name | quote }} = "latest"
