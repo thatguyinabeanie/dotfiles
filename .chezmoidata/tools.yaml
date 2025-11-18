@@ -171,12 +171,33 @@ dev_tools:
     description: "Git TUI interface"
     category: git
 
+  - name: lazydocker
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Simple terminal UI for docker"
+    category: git
+
   - name: lazygit
-    install_via: brew
+    install_via: mise
     runtime: native
     version: latest
     description: "Simple terminal UI for git"
     category: git
+
+  - name: lazyjournal
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Simple terminal UI journald, auditd, file system, Docker (including Swarm) containers, Compose stacks, Podman and Kubernetes pods"
+    category: system
+
+  - name: lazyssh
+    install_via: mise
+    runtime: native
+    version: latest
+    description: "Simple terminal UI for ssh"
+    category: system
 
   - name: tig
     install_via: brew
@@ -228,19 +249,19 @@ dev_tools:
     description: "Container platform"
     category: infrastructure
 
-  - name: docker-completion
-    install_via: brew
-    runtime: native
-    version: latest
-    description: "Docker completions"
-    category: infrastructure
-
-  - name: docker-buildx
-    install_via: brew
-    version: latest
-    runtime: native
-    description: "Modern Docker building"
-    category: infrastructure
+  # - name: docker-completion
+  #   install_via: brew
+  #   runtime: native
+  #   version: latest
+  #   description: "Docker completions"
+  #   category: infrastructure
+  #
+  # - name: docker-buildx
+  #   install_via: brew
+  #   version: latest
+  #   runtime: native
+  #   description: "Modern Docker building"
+  #   category: infrastructure
 
   - name: mdbook
     install_via: mise

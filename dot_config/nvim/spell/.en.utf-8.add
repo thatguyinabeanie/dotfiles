@@ -54,6 +54,7 @@ cachetools
 camelCase
 capybara
 Catppuccin
+cd
 CDN
 certifi
 cffi
@@ -75,6 +76,7 @@ CLIs
 cloudflare
 CloudFormation
 cloudpickle
+CloudTrail
 cluster01
 cluster03
 cmd
@@ -215,6 +217,7 @@ gsettings
 GTK
 Handoff
 handoffs
+hardcode
 Hardcoded
 hasFeatureFlag
 heatmap
@@ -242,6 +245,7 @@ iTerm2
 itertools
 iz
 jaraco
+jdx
 jedi
 jinja2
 JIRA
@@ -250,6 +254,7 @@ joblib
 JobStatus
 JobTrait
 JobType
+jq
 js
 JSDoc
 json
@@ -367,6 +372,7 @@ ObsidianSearch
 ObsidianToday
 ObsidianWorkspace
 ObsidianYesterday
+OIDC
 Okta
 onboarding
 OpenAI
@@ -504,9 +510,11 @@ src
 StartedAt
 staticcheck
 statusline
+stderr
 stdout
 Strang's
 struct
+STS
 stylua
 submodule
 submodules
@@ -571,6 +579,7 @@ useCallback
 useCurrentUser
 useMemo
 useReducer
+userguide
 useState
 util
 utils

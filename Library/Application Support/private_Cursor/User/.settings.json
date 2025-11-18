@@ -20,7 +20,7 @@
   "terminal.integrated.scrollback": 10000,
   "terminal.integrated.stickyScroll.enabled": true,
   "editor.fontSize": 16,
-  "mise.binPath": "${userHome}/.local/bin/mise",
+  "mise.binPath": "/Users/gmendoza/.local/bin/mise",
   "github.copilot.enable": {
     "*": false
   },
