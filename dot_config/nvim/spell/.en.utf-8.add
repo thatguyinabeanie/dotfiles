@@ -1,6 +1,7 @@
 
 A11y
 ai
+AirDrop
 allowlist
 amd64
 Angulartics
@@ -40,6 +41,7 @@ BattleStadium
 beautifulsoup4
 bigquery
 Bontera
+botbase
 boto3
 botocore
 Bramses
@@ -52,6 +54,7 @@ cachetools
 camelCase
 capybara
 Catppuccin
+cd
 CDN
 certifi
 cffi
@@ -69,13 +72,18 @@ civisanalytics
 civisApiToken
 claude
 cli
+CLIs
+cloudflare
 CloudFormation
 cloudpickle
+CloudTrail
 cluster01
 cluster03
 cmd
 cmp
 CodeBuild
+CodeCloud
+CodeCloudManager
 CodeClouds
 CodeCompanion
 Codespaces
@@ -134,6 +142,7 @@ dotenv
 Dotfile
 dotfiles
 dropdown
+DS
 dtypes
 DWFM
 DynamoDB
@@ -175,6 +184,7 @@ filelock
 filesystem
 filetype
 fips
+fixup
 Flake8
 fnm
 Fontello
@@ -189,6 +199,7 @@ getScript
 getsentry
 Ghostty
 Github
+gitignore
 GitLab
 Gitleaks
 go1
@@ -206,6 +217,7 @@ gsettings
 GTK
 Handoff
 handoffs
+hardcode
 Hardcoded
 hasFeatureFlag
 heatmap
@@ -233,6 +245,7 @@ iTerm2
 itertools
 iz
 jaraco
+jdx
 jedi
 jinja2
 JIRA
@@ -241,6 +254,7 @@ joblib
 JobStatus
 JobTrait
 JobType
+jq
 js
 JSDoc
 json
@@ -263,6 +277,7 @@ KPIs
 KUBE
 KUBECONFIG
 kubectl
+KubeDeployment
 Kubernetes
 kulala
 Kunze
@@ -336,6 +351,7 @@ networkx
 Neurodivergent
 NextJS
 nginx
+ngrok
 NIST
 NLB
 NLB's
@@ -356,6 +372,7 @@ ObsidianSearch
 ObsidianToday
 ObsidianWorkspace
 ObsidianYesterday
+OIDC
 Okta
 onboarding
 OpenAI
@@ -371,6 +388,7 @@ ParseNotificationEvent
 parso
 PascalCase
 passthrough
+pastebin
 pathspec
 perf
 pexpect
@@ -404,10 +422,13 @@ PRs
 psutil
 psycopg2
 ptyprocess
+pvc
+PVCs
 px
 py
 pyarrow
 pyasn1
+pycache
 pycodestyle
 pycparser
 pydantic
@@ -433,6 +454,7 @@ rbenv
 readFile
 reauthenticate
 reauthentication
+rebase
 Recharts
 Redis
 redshift
@@ -453,6 +475,7 @@ rsa
 RSpec
 rulesets
 runbooks
+S3
 s3transfer
 s6
 sailplan
@@ -480,7 +503,6 @@ sonner
 sortedcontainers
 soupsieve
 specifc
-Spotify
 sqlfluff
 SQLite
 sqlparse
@@ -488,9 +510,11 @@ src
 StartedAt
 staticcheck
 statusline
+stderr
 stdout
 Strang's
 struct
+STS
 stylua
 submodule
 submodules
@@ -506,6 +530,7 @@ SwapRight
 SwapUp
 SWC
 swissPairing
+sys
 systemPrompt
 tblib
 teamValidator
@@ -526,9 +551,11 @@ tournamentMatches
 tournamentRegistrations
 TPM
 tqdm
+traceroute
 traitlets
 Transpilation
 treemaps
+TreeSitter
 Treewalker
 tRPC
 tsc
@@ -552,6 +579,7 @@ useCallback
 useCurrentUser
 useMemo
 useReducer
+userguide
 useState
 util
 utils
@@ -560,6 +588,7 @@ v1
 v2
 v3
 v7
+venv
 Vercel
 verify
 VeryLazy
@@ -601,6 +630,3 @@ zodResolver
 zoxide
 Zsh
 zshrc
-JSON
-sys
-botbase

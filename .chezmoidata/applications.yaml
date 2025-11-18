@@ -54,10 +54,7 @@ applications:
       install_via: brew_cask
       category: utility
       description: "File archiver for macOS"
-    - name: kiro
-      install_via: brew_cask
-      category: utility
-      description: "Kiro IDE"
+
     - name: kindaVim
       install_via: brew_cask
       category: productivity
@@ -158,10 +155,6 @@ applications:
       install_via: brew_cask
       category: media
       description: "Open Broadcaster Software for streaming and recording"
-    - name: spotify
-      install_via: brew_cask
-      category: media
-      description: "Music streaming service"
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"

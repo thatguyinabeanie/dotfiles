@@ -117,6 +117,13 @@ install_brew_packages "brews" "$BREWS"
 log_step "Collecting cask packages"
 CASKS=""
 
+# Development tools that install via brew_cask
+{{- range .dev_tools }}
+  {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
 # AI agents that install via brew_cask
 {{- range .agents }}
   {{- if eq .install_via "brew_cask" }}

@@ -6,7 +6,6 @@ language_servers:
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     install_via: bun
     runtime: node
-    version: latest
     description: "TypeScript & JavaScript language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -20,7 +19,6 @@ language_servers:
     languages: [rust]
     install_via: mise
     runtime: rust
-    version: latest
     description: "Rust language server"
     provides_formatting: true
     mason_ensure_installed: true
@@ -30,7 +28,6 @@ language_servers:
     languages: [go]
     install_via: go
     runtime: go
-    version: latest
     description: "Go language server"
     provides_formatting: true
     install_command: "golang.org/x/tools/gopls@latest"
@@ -41,7 +38,6 @@ language_servers:
     languages: [zig]
     install_via: brew
     runtime: native
-    version: latest
     description: "Zig language server"
     provides_formatting: true
     mason_ensure_installed: true
@@ -53,7 +49,6 @@ language_servers:
     languages: [bash, sh, zsh]
     install_via: bun
     runtime: node
-    version: latest
     description: "Bash language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -64,7 +59,6 @@ language_servers:
     languages: [lua]
     install_via: mise
     runtime: native
-    version: latest
     description: "Lua language server"
     provides_formatting: true
     mason_ensure_installed: true
@@ -75,7 +69,6 @@ language_servers:
     languages: [ruby]
     install_via: gem
     runtime: ruby
-    version: latest
     description: "Ruby language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -85,7 +78,6 @@ language_servers:
     languages: [python]
     install_via: brew
     runtime: native
-    version: latest
     description: "Python language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -97,7 +89,6 @@ language_servers:
     languages: [css, scss, sass]
     install_via: bun
     runtime: node
-    version: latest
     description: "CSS language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -108,7 +99,6 @@ language_servers:
     languages: [html]
     install_via: bun
     runtime: node
-    version: latest
     description: "HTML language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -119,7 +109,6 @@ language_servers:
     languages: [json, jsonc]
     install_via: bun
     runtime: node
-    version: latest
     description: "JSON language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -130,7 +119,6 @@ language_servers:
     languages: [yaml]
     install_via: bun
     runtime: node
-    version: latest
     description: "YAML language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -141,7 +129,6 @@ language_servers:
     languages: [markdown]
     install_via: brew
     runtime: native
-    version: latest
     description: "Markdown language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -152,7 +139,6 @@ language_servers:
     languages: [markdown]
     install_via: cargo
     runtime: rust
-    version: latest
     description: "Alternative Markdown language server"
     provides_formatting: false
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
@@ -167,7 +153,6 @@ language_servers:
     languages: [dockerfile]
     install_via: bun
     runtime: node
-    version: latest
     description: "Dockerfile language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -183,7 +168,6 @@ language_servers:
     languages: [cmake]
     install_via: pip
     runtime: python
-    version: latest
     description: "CMake language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -198,7 +182,6 @@ language_servers:
     languages: [vim]
     install_via: bun
     runtime: node
-    version: latest
     description: "Vim script language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -210,7 +193,6 @@ language_servers:
     languages: [yaml]
     install_via: bun
     runtime: node
-    version: latest
     description: "GitHub Actions workflow language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -221,7 +203,6 @@ language_servers:
     languages: [text]
     install_via: bun
     runtime: node
-    version: latest
     description: "GitHub Copilot language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -235,7 +216,6 @@ language_servers:
     languages: [go]
     install_via: go
     runtime: go
-    version: latest
     description: "Go linter language server"
     provides_formatting: false
     install_command: "github.com/nametake/golangci-lint-langserver@latest"
@@ -250,7 +230,6 @@ language_servers:
     languages: [fish]
     install_via: cargo
     runtime: rust
-    version: latest
     description: "Fish shell language server"
     provides_formatting: false
     mason_ensure_installed: true
@@ -262,7 +241,6 @@ language_servers:
     languages: [text]
     install_via: bun
     runtime: node
-    version: latest
     description: "Generic diagnostic language server"
     provides_formatting: false
     mason_ensure_installed: true

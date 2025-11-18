@@ -4,7 +4,6 @@ formatters:
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     install_via: bun
     runtime: node
-    version: latest
     description: "Code formatter for web languages"
     conflicts_with_lsp_formatting: true
     mason_ensure_installed: true
@@ -13,7 +12,6 @@ formatters:
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     install_via: bun
     runtime: node
-    version: latest
     description: "Fast Prettier daemon"
     conflicts_with_lsp_formatting: true
     mason_ensure_installed: true
@@ -24,7 +22,6 @@ formatters:
     languages: [rust]
     install_via: rustup
     runtime: rust
-    version: latest
     description: "Rust code formatter"
     builtin_to_toolchain: true
     install_command: "rustup component add rustfmt"
@@ -34,7 +31,6 @@ formatters:
     languages: [python]
     install_via: pip
     runtime: python
-    version: latest
     description: "Python code formatter"
     mason_ensure_installed: true
 
@@ -45,7 +41,6 @@ formatters:
     languages: [ruby]
     install_via: gem
     runtime: ruby
-    version: latest
     description: "Ruby formatter and linter"
     mason_ensure_installed: true
 
@@ -57,7 +52,6 @@ formatters:
     languages: [bash, sh, zsh]
     install_via: mise
     runtime: native
-    version: latest
     description: "Shell script formatter"
     mason_ensure_installed: true
 
@@ -66,7 +60,6 @@ formatters:
     languages: [yaml]
     install_via: brew
     runtime: native
-    version: latest
     description: "YAML formatter and fixer"
     mason_ensure_installed: true
 
@@ -74,7 +67,6 @@ formatters:
     languages: [yaml]
     install_via: brew
     runtime: native
-    version: latest
     description: "YAML formatter"
     mason_ensure_installed: true
 
@@ -84,7 +76,6 @@ formatters:
     languages: [go]
     install_via: go
     runtime: go
-    version: latest
     description: "Go imports formatter"
     install_command: "golang.org/x/tools/cmd/goimports@latest"
     mason_ensure_installed: true
@@ -97,7 +88,6 @@ formatters:
     languages: [sql]
     install_via: bun
     runtime: node
-    version: latest
     description: "SQL formatter"
     mason_ensure_installed: true
 
@@ -106,7 +96,6 @@ formatters:
     languages: [xml]
     install_via: pip
     runtime: python
-    version: latest
     description: "XML formatter"
     mason_ensure_installed: true
 
@@ -115,7 +104,6 @@ formatters:
     languages: [css, scss, sass]
     install_via: bun
     runtime: node
-    version: latest
     description: "CSS/SCSS formatter and linter"
     mason_ensure_installed: true
 
@@ -124,7 +112,6 @@ formatters:
     languages: [json]
     install_via: brew
     runtime: native
-    version: latest
     description: "JSON processor and formatter"
     mason_ensure_installed: true
 
@@ -133,7 +120,6 @@ formatters:
     languages: [toml]
     install_via: mise
     runtime: native
-    version: latest
     description: "TOML formatter"
     mason_ensure_installed: true
 

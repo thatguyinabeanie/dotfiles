@@ -153,7 +153,7 @@ return {
     default_view = "body",
     debug = false,
     global_keymaps = true,
-    global_keymaps_prefix = "<leader>R", -- Add this line
+    global_keymaps_prefix = "<leader>R",
   },
 
   config = function(_, opts)

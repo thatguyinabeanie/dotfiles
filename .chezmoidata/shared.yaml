@@ -20,8 +20,8 @@ env_shared:
 
   # Shell paths (platform-specific)
   shell_paths:
-    zsh: "{{ if eq .chezmoi.os \"darwin\" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }}"
-    nushell: "{{ if eq .chezmoi.os \"darwin\" }}/opt/homebrew/bin/nu{{ else }}/usr/bin/nu{{ end }}"
+    zsh: '{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }}'
+    nushell: '{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/nu{{ else }}/usr/bin/nu{{ end }}'
 
   # Path construction variables
   path_variables:
@@ -60,7 +60,6 @@ env_shared:
         CARGO_HOME: "cargo"
         RUSTUP_HOME: "rustup"
         GOPATH: "go"
-        PNPM_HOME: "pnpm"
 
     # XDG Cache-based applications
     xdg_cache_apps:
@@ -135,7 +134,6 @@ env_shared:
     path:
       - "$HOME/.local/bin"
       - "$HOME/.cargo/bin"
-      - "$HOME/.pnpm-global/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/opt/homebrew/bin"
       - "/opt/homebrew/sbin"
