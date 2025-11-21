@@ -5,10 +5,7 @@
 
 {{ template "utilities/error-handling.sh" }}
 {{- template "utilities/logging.sh.tmpl" }}
-
-# Set default values for environment variables
-PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
-WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
+{{- template "utilities/env-helpers.sh.tmpl" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 
@@ -86,7 +83,7 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
-if [ "${PERSONAL_ENVIRONMENT}" = "true" ]; then
+if is_personal_environment; then
   {{- if .applications.personal }}
     {{- range .applications.personal }}
       {{- if eq .install_via "brew_cask" }}
@@ -96,7 +93,7 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 fi
 
-if [ "${WORK_ENVIRONMENT}" = "true" ]; then
+if is_work_environment; then
   {{- if .applications.work }}
     {{- range .applications.work }}
       {{- if eq .install_via "brew_cask" }}
