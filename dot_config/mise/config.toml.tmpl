@@ -3,7 +3,7 @@
 {{- range $tool := .dev_tools }}
 {{- if eq $tool.install_via "mise" }}
 {{- if or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust") }}
-{{ $tool.name | quote }} = {{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}  # {{ $tool.description }}
+{{ $tool.name | quote }} = {{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}
 {{- end }}
 {{- end }}
 {{- end }}
@@ -20,35 +20,35 @@
 # Language servers managed via mise (not Mason)
 {{- range $lsp := .language_servers }}
 {{- if and (eq $lsp.install_via "mise") (not $lsp.mason_ensure_installed) }}
-{{ template "tool_entry" $lsp }}
+{{ template "mise/tool-entry.tmpl" $lsp }}
 {{- end }}
 {{- end }}
 
 # Formatters managed via mise (not Mason)
 {{- range $formatter := .formatters }}
 {{- if and (eq $formatter.install_via "mise") (not $formatter.mason_ensure_installed) }}
-{{ template "tool_entry" $formatter }}
+{{ template "mise/tool-entry.tmpl" $formatter }}
 {{- end }}
 {{- end }}
 
 # Linters managed via mise (not Mason)
 {{- range $linter := .linters }}
 {{- if and (eq $linter.install_via "mise") (not $linter.mason_ensure_installed) }}
-{{ template "tool_entry" $linter }}
+{{ template "mise/tool-entry.tmpl" $linter }}
 {{- end }}
 {{- end }}
 
 # AI agents managed via mise
 {{- range $agent := .agents }}
 {{- if eq $agent.install_via "mise" }}
-{{ template "tool_entry" $agent }}
+{{ template "mise/tool-entry.tmpl" $agent }}
 {{- end }}
 {{- end }}
 
 # MCP servers managed via mise
 {{- range $mcp := .mcp_servers }}
 {{- if eq $mcp.install_via "mise" }}
-{{ template "tool_entry" $mcp }}
+{{ template "mise/tool-entry.tmpl" $mcp }}
 {{- end }}
 {{- end }}
 

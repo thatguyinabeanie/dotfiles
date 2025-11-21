@@ -5,8 +5,6 @@ language_servers:
     lspconfig_name: ts_ls
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     install_via: bun
-    runtime: node
-    description: "TypeScript & JavaScript language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -18,8 +16,6 @@ language_servers:
     lspconfig_name: rust_analyzer
     languages: [rust]
     install_via: mise
-    runtime: rust
-    description: "Rust language server"
     provides_formatting: true
     mason_ensure_installed: true
 
@@ -27,8 +23,6 @@ language_servers:
     lspconfig_name: gopls
     languages: [go]
     install_via: go
-    runtime: go
-    description: "Go language server"
     provides_formatting: true
     install_command: "golang.org/x/tools/gopls@latest"
     mason_ensure_installed: true
@@ -37,8 +31,6 @@ language_servers:
     lspconfig_name: zls
     languages: [zig]
     install_via: brew
-    runtime: native
-    description: "Zig language server"
     provides_formatting: true
     mason_ensure_installed: true
 
@@ -48,8 +40,6 @@ language_servers:
     lspconfig_name: bashls
     languages: [bash, sh, zsh]
     install_via: bun
-    runtime: node
-    description: "Bash language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -58,8 +48,6 @@ language_servers:
     lspconfig_name: lua_ls
     languages: [lua]
     install_via: mise
-    runtime: native
-    description: "Lua language server"
     provides_formatting: true
     mason_ensure_installed: true
 
@@ -68,8 +56,6 @@ language_servers:
     lspconfig_name: ruby_lsp
     languages: [ruby]
     install_via: gem
-    runtime: ruby
-    description: "Ruby language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -77,8 +63,6 @@ language_servers:
     lspconfig_name: pyright
     languages: [python]
     install_via: brew
-    runtime: native
-    description: "Python language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -88,8 +72,6 @@ language_servers:
     lspconfig_name: cssls
     languages: [css, scss, sass]
     install_via: bun
-    runtime: node
-    description: "CSS language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -98,8 +80,6 @@ language_servers:
     lspconfig_name: html
     languages: [html]
     install_via: bun
-    runtime: node
-    description: "HTML language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -108,8 +88,6 @@ language_servers:
     lspconfig_name: jsonls
     languages: [json, jsonc]
     install_via: bun
-    runtime: node
-    description: "JSON language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -118,8 +96,6 @@ language_servers:
     lspconfig_name: yamlls
     languages: [yaml]
     install_via: bun
-    runtime: node
-    description: "YAML language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -128,8 +104,6 @@ language_servers:
     lspconfig_name: marksman
     languages: [markdown]
     install_via: brew
-    runtime: native
-    description: "Markdown language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -138,8 +112,6 @@ language_servers:
     lspconfig_name: markdown_oxide
     languages: [markdown]
     install_via: cargo
-    runtime: rust
-    description: "Alternative Markdown language server"
     provides_formatting: false
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
     mason_ensure_installed: true
@@ -152,8 +124,6 @@ language_servers:
     lspconfig_name: dockerls
     languages: [dockerfile]
     install_via: bun
-    runtime: node
-    description: "Dockerfile language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -167,8 +137,6 @@ language_servers:
     lspconfig_name: cmake
     languages: [cmake]
     install_via: pip
-    runtime: python
-    description: "CMake language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -181,8 +149,6 @@ language_servers:
     lspconfig_name: vimls
     languages: [vim]
     install_via: bun
-    runtime: node
-    description: "Vim script language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -192,8 +158,6 @@ language_servers:
     lspconfig_name: gh_actions_ls
     languages: [yaml]
     install_via: bun
-    runtime: node
-    description: "GitHub Actions workflow language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -202,8 +166,6 @@ language_servers:
     lspconfig_name: copilot
     languages: [text]
     install_via: bun
-    runtime: node
-    description: "GitHub Copilot language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -215,8 +177,6 @@ language_servers:
     lspconfig_name: golangci_lint_ls
     languages: [go]
     install_via: go
-    runtime: go
-    description: "Go linter language server"
     provides_formatting: false
     install_command: "github.com/nametake/golangci-lint-langserver@latest"
     mason_ensure_installed: true
@@ -229,8 +189,6 @@ language_servers:
     lspconfig_name: fish_lsp
     languages: [fish]
     install_via: cargo
-    runtime: rust
-    description: "Fish shell language server"
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -240,8 +198,6 @@ language_servers:
     lspconfig_name: diagnosticls
     languages: [text]
     install_via: bun
-    runtime: node
-    description: "Generic diagnostic language server"
     provides_formatting: false
     mason_ensure_installed: true
 # Updated Thu Sep 18 23:00:04 CDT 2025

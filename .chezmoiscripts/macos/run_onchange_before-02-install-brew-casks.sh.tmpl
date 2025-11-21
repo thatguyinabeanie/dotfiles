@@ -1,0 +1,114 @@
+#!/bin/bash
+
+# Homebrew Casks (GUI Applications) Installation Script
+# run_onchange: {{ template "queries/brew-casks.tmpl" . }}
+
+{{ template "utilities/error-handling.sh" }}
+
+# Set default values for environment variables
+PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
+WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
+
+{{ if eq .chezmoi.os "darwin" -}}
+
+# Check if Homebrew is installed
+if ! command_exists "brew"; then
+    log_error "Homebrew is not installed. Please run the formulae installation script first."
+    exit 1
+fi
+
+# Ensure PATH is configured for Homebrew
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+# Function to install packages in batches
+install_brew_packages() {
+    local package_type="$1"
+    local packages="$2"
+
+    if [[ -z "$packages" ]]; then
+        log_debug "No $package_type packages to install"
+        return 0
+    fi
+
+    log_step "Installing $package_type packages"
+
+    # Create temporary Brewfile
+    local brewfile=$(mktemp)
+    echo -e "$packages" > "$brewfile"
+
+    # Install packages using Brewfile
+    if brew bundle install --file="$brewfile"; then
+        log_success "$package_type packages installed successfully"
+    else
+        log_error "Failed to install some $package_type packages"
+        return 1
+    fi
+
+    # Clean up
+    rm -f "$brewfile"
+}
+
+# Install casks
+log_step "Collecting cask packages"
+CASKS=""
+
+# Development tools that install via brew_cask
+{{- range .dev_tools }}
+  {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# AI agents that install via brew_cask
+{{- range .agents }}
+  {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+  {{- end }}
+{{- end }}
+
+# General applications that install via brew_cask
+{{- if .applications.shared }}
+  {{- range .applications.shared }}
+    {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+    {{- end }}
+  {{- end }}
+{{- end }}
+
+if [ "${PERSONAL_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.personal }}
+    {{- range .applications.personal }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
+if [ "${WORK_ENVIRONMENT}" = "true" ]; then
+  {{- if .applications.work }}
+    {{- range .applications.work }}
+      {{- if eq .install_via "brew_cask" }}
+CASKS="${CASKS}cask \"{{ .name }}\"\n"
+      {{- end }}
+    {{- end }}
+  {{- end }}
+fi
+
+install_brew_packages "casks" "$CASKS"
+
+# Summary
+log_header "Homebrew Casks Installation Summary"
+log_info "Installed packages:"
+log_substep "GUI applications: $(echo -e "$CASKS" | wc -l | tr -d ' ')"
+
+log_success "Homebrew casks installation completed"
+
+{{- else }}
+log_warning "This script is designed for macOS only"
+exit 0
+{{- end }}

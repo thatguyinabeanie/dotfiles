@@ -3,23 +3,17 @@ linters:
   - name: shellcheck
     languages: [bash, sh, zsh]
     install_via: brew
-    runtime: native
-    description: "Shell script linter"
     mason_ensure_installed: true
 
   - name: luacheck
     languages: [lua]
     install_via: brew
-    runtime: native
-    description: "Lua linter"
     mason_ensure_installed: true
 
   # Web development linters
   - name: eslint_d
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     install_via: bun
-    runtime: node
-    description: "Fast ESLint daemon"
     mason_ensure_installed: true
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
@@ -27,30 +21,22 @@ linters:
   - name: stylelint
     languages: [css, scss, sass]
     install_via: bun
-    runtime: node
-    description: "CSS/SCSS linter"
     mason_ensure_installed: true
 
   # Markup and documentation linters
   - name: vale
     languages: [markdown, text]
     install_via: brew
-    runtime: native
-    description: "Prose linter"
     mason_ensure_installed: true
 
   - name: marksman
     languages: [markdown]
     install_via: brew
-    runtime: native
-    description: "Markdown linter and language server"
     mason_ensure_installed: true
 
   - name: markdown-oxide
     languages: [markdown]
     install_via: cargo
-    runtime: rust
-    description: "Alternative Markdown linter"
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
     mason_ensure_installed: true
 
@@ -58,174 +44,127 @@ linters:
   - name: hadolint
     languages: [dockerfile]
     install_via: brew
-    runtime: native
-    description: "Dockerfile linter"
     mason_ensure_installed: true
 
   - name: kube-linter
     languages: [yaml]
     install_via: mise
-    runtime: native
-    description: "Kubernetes YAML linter"
     mason_ensure_installed: true
 
   - name: tflint
     languages: [terraform]
     install_via: brew
-    runtime: native
-    description: "Terraform linter"
     mason_ensure_installed: true
 
   # YAML linters
   - name: yamllint
     languages: [yaml]
     install_via: brew
-    runtime: native
-    description: "YAML linter"
     mason_ensure_installed: true
 
   # Go linters
   - name: golangci-lint
     languages: [go]
     install_via: mise
-    runtime: go
-    description: "Go meta-linter"
     mason_ensure_installed: true
 
   - name: golangci-lint-langserver
     languages: [go]
     install_via: mise
-    runtime: go
-    description: "Go linter language server"
     mason_ensure_installed: true
 
   # Python linters
   - name: ruff
     languages: [python]
     install_via: mise
-    runtime: python
-    description: "Fast Python linter"
     mason_ensure_installed: true
 
   - name: flake8
     languages: [python]
     install_via: pip
-    runtime: python
-    description: "Python linter"
     mason_ensure_installed: true
 
   - name: pylint
     languages: [python]
     install_via: pip
-    runtime: python
-    description: "Python static analysis"
     mason_ensure_installed: true
 
   - name: mypy
     languages: [python]
     install_via: pip
-    runtime: python
-    description: "Python type checker"
     mason_ensure_installed: true
 
   # Ruby linters
   - name: rubocop
     languages: [ruby]
     install_via: gem
-    runtime: ruby
-    description: "Ruby linter and formatter"
     mason_ensure_installed: true
 
   - name: standardrb
     languages: [ruby]
     install_via: gem
-    runtime: ruby
-    description: "Ruby standard style linter"
     mason_ensure_installed: true
 
   - name: haml-lint
     languages: [haml]
     install_via: gem
-    runtime: ruby
-    description: "HAML linter"
     mason_ensure_installed: true
 
   # Environment and configuration linters
   - name: dotenv-linter
     languages: [env]
     install_via: mise
-    runtime: native
-    description: ".env file linter"
     mason_ensure_installed: true
 
   # Security linters
   - name: gitleaks
     languages: [git]
     install_via: mise
-    runtime: go
-    description: "Git secrets scanner"
     mason_ensure_installed: true
 
   - name: semgrep
     languages: [python, javascript, typescript, go, java, ruby]
     install_via: mise
-    runtime: python
-    description: "Static analysis for security"
     mason_ensure_installed: true
 
   - name: bandit
     languages: [python]
     install_via: pip
-    runtime: python
-    description: "Python security linter"
     mason_ensure_installed: true
 
   # Spelling and typo linters
   - name: typos
     languages: [text, markdown]
     install_via: mise
-    runtime: native
-    description: "Typo checker"
     mason_ensure_installed: true
 
   - name: typos-lsp
     languages: [text, markdown]
     install_via: cargo
-    runtime: rust
-    description: "Typo checker language server"
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
     mason_ensure_installed: true
 
   - name: cspell
     languages: [text, markdown, code]
     install_via: brew
-    runtime: native
-    description: "Code spell checker"
     mason_ensure_installed: true
 
   # JSON linters
   - name: jsonlint
     languages: [json]
     install_via: bun
-    runtime: node
-    description: "JSON linter"
     mason_ensure_installed: true
 
   # SQL linters
   - name: sqlfluff
     languages: [sql]
     install_via: pip
-    runtime: python
-    description: "SQL linter and formatter"
     mason_ensure_installed: true
 
   # Rust linters (built into toolchain)
   - name: clippy
     languages: [rust]
     install_via: rustup
-    runtime: rust
-    description: "Rust linter"
-    builtin_to_toolchain: true
     install_command: "rustup component add clippy"
     # Note: clippy is not available in Mason registry, managed via rustup
 
@@ -241,8 +180,6 @@ linters:
   - name: buf
     languages: [proto]
     install_via: mise
-    runtime: native
-    description: "Protocol buffer linter"
     mason_ensure_installed: true
 
   # Nginx configuration linter
