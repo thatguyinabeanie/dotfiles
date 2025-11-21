@@ -132,12 +132,8 @@ is_machine_identity_configured() {
   fi
   
   # Check if current chezmoi data matches stored data (for updates)
-  local chezmoi_work="{{ .WORK_ENVIRONMENT | default "false" }}"
-  {{- if hasKey . "PERSONAL_ENVIRONMENT" }}
-  local chezmoi_personal="{{ .PERSONAL_ENVIRONMENT | default "false" }}"
-  {{- else }}
-  local chezmoi_personal="{{ not .WORK_ENVIRONMENT }}"
-  {{- end }}
+  local chezmoi_work="{{ if hasKey . "WORK_ENVIRONMENT" }}{{ .WORK_ENVIRONMENT | default "false" }}{{ else }}false{{ end }}"
+  local chezmoi_personal="{{ if hasKey . "PERSONAL_ENVIRONMENT" }}{{ .PERSONAL_ENVIRONMENT | default "false" }}{{ else }}{{ if hasKey . "WORK_ENVIRONMENT" }}{{ not .WORK_ENVIRONMENT }}{{ else }}false{{ end }}{{ end }}"
   
   # Normalize values for comparison
   normalize_boolean() {
