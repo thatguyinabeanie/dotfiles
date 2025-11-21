@@ -4,8 +4,11 @@
 # run_onchange: {{ template "queries/brew-formulae.tmpl" . }}
 
 {{ template "utilities/error-handling.sh" }}
+{{- template "utilities/logging.sh.tmpl" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
+
+log_section "🍺 Homebrew Formulae (CLI Tools)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 

@@ -4,12 +4,15 @@
 # run_onchange: {{ template "queries/brew-casks.tmpl" . }}
 
 {{ template "utilities/error-handling.sh" }}
+{{- template "utilities/logging.sh.tmpl" }}
 
 # Set default values for environment variables
 PERSONAL_ENVIRONMENT="${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}"
 WORK_ENVIRONMENT="${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}"
 
 {{ if eq .chezmoi.os "darwin" -}}
+
+log_section "📦 Homebrew Casks (GUI Applications)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 

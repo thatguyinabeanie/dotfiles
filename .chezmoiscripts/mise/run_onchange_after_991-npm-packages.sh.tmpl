@@ -5,13 +5,16 @@
 
 set -euo pipefail
 
+{{- template "utilities/logging.sh.tmpl" }}
+
 # Ensure Node.js is available via mise
 if ! mise which node >/dev/null 2>&1; then
     echo "❌ Node.js not found. Please run mise installation first."
+    log_to_file "ERROR: Node.js not found"
     exit 1
 fi
 
-echo "📦 Collecting npm packages..."
+log_detail "Collecting npm packages..."
 
 # Collect npm packages not managed by Mason
 NPM_PACKAGES=()
@@ -52,29 +55,47 @@ NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 
 if [[ ${#NPM_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No npm packages to install (all handled by Mason or mise)"
+    log_summary "✅ No npm packages to install (all handled by Mason or mise)"
     exit 0
 fi
 
-echo "📦 Installing ${#NPM_PACKAGES[@]} npm packages globally..."
-echo "📋 Packages: ${NPM_PACKAGES[*]}"
+log_section "📦 Installing ${#NPM_PACKAGES[@]} NPM Packages"
+log_detail "Packages: ${NPM_PACKAGES[*]}"
 
-# Install all packages at once for better performance
-if npm install -g "${NPM_PACKAGES[@]}"; then
-    echo "✅ All npm packages installed successfully"
+# Try bulk install first (faster)
+log_detail "Attempting bulk installation..."
+if npm install -g "${NPM_PACKAGES[@]}" >> "$LOG_FILE" 2>&1; then
+    log_summary "✅ All npm packages installed successfully"
 else
-    echo "⚠️ Some npm packages failed, trying individually..."
-    
-    # Try installing packages individually to identify failures
+    log_detail "Bulk install failed, installing individually..."
+
+    # Install packages individually with progress
+    local installed=0
+    local failed=0
+    local total=${#NPM_PACKAGES[@]}
+    local current=0
+
     for package in "${NPM_PACKAGES[@]}"; do
+        current=$((current + 1))
+        show_progress "$current" "$total" "$package"
+
         if npm list -g "$package" >/dev/null 2>&1; then
-            echo "  ✅ $package already installed"
-        elif npm install -g "$package" >/dev/null 2>&1; then
-            echo "  ✅ $package installed successfully"
+            log_detail "$package already installed"
+            installed=$((installed + 1))
+        elif npm install -g "$package" >> "$LOG_FILE" 2>&1; then
+            log_detail "$package installed successfully"
+            installed=$((installed + 1))
         else
-            echo "  ❌ Failed to install $package"
+            log_to_file "ERROR: Failed to install $package"
+            failed=$((failed + 1))
         fi
     done
-fi
 
-echo "✅ NPM package installation completed"
+    clear_progress
+
+    if [[ $failed -eq 0 ]]; then
+        log_summary "✅ NPM packages: $installed installed, 0 failed"
+    else
+        log_summary "⚠️  NPM packages: $installed installed, $failed failed (see $LOG_FILE)"
+    fi
+fi

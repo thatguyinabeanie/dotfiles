@@ -5,26 +5,29 @@
 
 set -euo pipefail
 
+{{- template "utilities/logging.sh.tmpl" }}
+
 # Ensure Rust is available via mise
 if ! mise which cargo >/dev/null 2>&1; then
     echo "❌ Rust not found. Please run mise installation first."
+    log_to_file "ERROR: Rust not found"
     exit 1
 fi
 
 # Install cargo-binstall first as it accelerates all other cargo installations
-echo "🔧 Checking cargo-binstall prerequisite..."
+log_detail "Checking cargo-binstall prerequisite..."
 if ! command -v cargo-binstall >/dev/null 2>&1; then
-    echo "📦 Installing cargo-binstall (enables faster binary installations)..."
-    if cargo install cargo-binstall >/dev/null 2>&1; then
-        echo "  ✅ cargo-binstall installed successfully"
+    log_detail "Installing cargo-binstall (enables faster binary installations)..."
+    if cargo install cargo-binstall >> "$LOG_FILE" 2>&1; then
+        log_detail "cargo-binstall installed successfully"
     else
-        echo "  ⚠️  Failed to install cargo-binstall, falling back to regular cargo install"
+        log_detail "Failed to install cargo-binstall, falling back to regular cargo install"
     fi
 else
-    echo "  ✅ cargo-binstall already available"
+    log_detail "cargo-binstall already available"
 fi
 
-echo "📦 Collecting cargo packages..."
+log_detail "Collecting cargo packages..."
 
 # Collect cargo packages not managed by Mason
 CARGO_PACKAGES=()
@@ -74,13 +77,20 @@ CARGO_PACKAGES+=("{{ .name }}")
 {{- end }}
 
 if [[ ${#CARGO_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No cargo packages to install (all handled by Mason or mise)"
+    log_summary "✅ No cargo packages to install (all handled by Mason or mise)"
     exit 0
 fi
 
-echo "📦 Installing ${#CARGO_PACKAGES[@]} cargo packages..."
+log_section "🦀 Installing ${#CARGO_PACKAGES[@]} Cargo Packages"
+
+local installed=0
+local failed=0
+local total=${#CARGO_PACKAGES[@]}
+local current=0
 
 for package_spec in "${CARGO_PACKAGES[@]}"; do
+    current=$((current + 1))
+
     # Check if this is a custom install command
     if [[ "$package_spec" == *"cargo install"* ]]; then
         # Extract tool name from the command for checking if already installed
@@ -90,25 +100,39 @@ for package_spec in "${CARGO_PACKAGES[@]}"; do
             tool_name=$(echo "$package_spec" | awk '{print $NF}')
         fi
 
-        echo "📦 Installing $tool_name..."
+        show_progress "$current" "$total" "$tool_name"
+
         if cargo install --list | grep -q "^$tool_name "; then
-            echo "  ✅ $tool_name already installed"
-        elif eval "$package_spec" >/dev/null 2>&1; then
-            echo "  ✅ $tool_name installed successfully"
+            log_detail "$tool_name already installed"
+            installed=$((installed + 1))
+        elif eval "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_detail "$tool_name installed successfully"
+            installed=$((installed + 1))
         else
-            echo "  ❌ Failed to install $tool_name via cargo"
+            log_to_file "ERROR: Failed to install $tool_name via cargo"
+            failed=$((failed + 1))
         fi
     else
         # Standard cargo install
-        echo "📦 Installing $package_spec..."
+        show_progress "$current" "$total" "$package_spec"
+
         if cargo install --list | grep -q "^$package_spec "; then
-            echo "  ✅ $package_spec already installed"
-        elif cargo install "$package_spec" >/dev/null 2>&1; then
-            echo "  ✅ $package_spec installed successfully"
+            log_detail "$package_spec already installed"
+            installed=$((installed + 1))
+        elif cargo install "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_detail "$package_spec installed successfully"
+            installed=$((installed + 1))
         else
-            echo "  ❌ Failed to install $package_spec via cargo"
+            log_to_file "ERROR: Failed to install $package_spec via cargo"
+            failed=$((failed + 1))
         fi
     fi
 done
 
-echo "✅ Rust cargo package installation completed"
+clear_progress
+
+if [[ $failed -eq 0 ]]; then
+    log_summary "✅ Cargo packages: $installed installed, 0 failed"
+else
+    log_summary "⚠️  Cargo packages: $installed installed, $failed failed (see $LOG_FILE)"
+fi

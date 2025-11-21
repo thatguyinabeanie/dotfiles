@@ -1,0 +1,80 @@
+#!/bin/bash
+# Enhanced logging utilities with verbosity control and file logging
+
+# Log file configuration
+LOG_DIR="${HOME}/.local/log"
+LOG_FILE="${LOG_DIR}/chezmoi-install.log"
+CHEZMOI_VERBOSE="${CHEZMOI_VERBOSE:-0}"
+
+# Ensure log directory exists
+mkdir -p "$LOG_DIR"
+
+# Initialize log file with timestamp
+if [[ ! -f "$LOG_FILE" ]] || [[ $(find "$LOG_FILE" -mtime +1 2>/dev/null) ]]; then
+    echo "=== Chezmoi Installation Log ===" > "$LOG_FILE"
+    echo "Started: $(date)" >> "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+fi
+
+# Log to file (always)
+log_to_file() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" >> "$LOG_FILE"
+}
+
+# Show only in verbose mode
+log_detail() {
+    log_to_file "DETAIL: $*"
+    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
+        echo "  $*"
+    fi
+}
+
+# Always show, log to file
+log_summary() {
+    log_to_file "SUMMARY: $*"
+    echo "$*"
+}
+
+# Section header with visual separator
+log_section() {
+    local message="$1"
+    local separator="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    log_to_file "SECTION: $message"
+    echo ""
+    echo "$separator"
+    echo "$message"
+    echo "$separator"
+}
+
+# Progress indicator - updates same line
+show_progress() {
+    local current="$1"
+    local total="$2"
+    local item="$3"
+    local percent=$((current * 100 / total))
+
+    # Create progress bar
+    local filled=$((percent / 2))
+    local empty=$((50 - filled))
+    local bar=$(printf '█%.0s' $(seq 1 $filled))
+    local spaces=$(printf '░%.0s' $(seq 1 $empty))
+
+    printf "\r⏳ [%3d%%] [%s%s] %s (%d/%d)" \
+        "$percent" "$bar" "$spaces" "$item" "$current" "$total"
+
+    log_to_file "PROGRESS: $percent% - $item ($current/$total)"
+}
+
+# Clear progress line and move to next
+clear_progress() {
+    printf "\r%80s\r" " "
+}
+
+# Export functions for use in other scripts
+export -f log_to_file
+export -f log_detail
+export -f log_summary
+export -f log_section
+export -f show_progress
+export -f clear_progress
