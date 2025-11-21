@@ -42,13 +42,25 @@ fi
 # Verify critical runtimes are available
 echo "🔍 Verifying critical runtimes..."
 CRITICAL_RUNTIMES=("node" "python" "go" "rust")
-for runtime in "${CRITICAL_RUNTIMES[@]}"; do
+
+check_runtime_status() {
+    local runtime="$1"
+
+    # Check if runtime is actually installed and working
     if mise which "${runtime}" >/dev/null 2>&1; then
-        version=$(mise current "${runtime}" 2>/dev/null | awk '{print $2}')
+        local version=$(mise current "${runtime}" 2>/dev/null | awk '{print $2}')
         echo "  ✅ ${runtime} (${version})"
+    # Check if runtime is configured in mise (will be installed)
+    elif grep -q "\"${runtime}\"" ~/.config/mise/config.toml 2>/dev/null || \
+         mise config ls 2>/dev/null | grep -q "${runtime}"; then
+        echo "  ⏳ ${runtime} (installing...)"
     else
-        echo "  ⚠️ ${runtime} not found"
+        echo "  ⚠️ ${runtime} not configured"
     fi
+}
+
+for runtime in "${CRITICAL_RUNTIMES[@]}"; do
+    check_runtime_status "${runtime}"
 done
 
 echo "✅ Mise installation completed"

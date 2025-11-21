@@ -3,8 +3,24 @@
 set -euo pipefail
 
 # Import GPG key for make verification
+# Key: Paul D. Smith <paul@mad-scientist.net> (make maintainer)
+# Used to verify signatures of downloaded make packages
 echo "🔑 Importing GPG key for make verification..."
-gpg --keyserver keyserver.ubuntu.com --recv-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A || echo "GPG key import failed, but continuing..."
+
+# First, check if key is already present
+if gpg --list-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A >/dev/null 2>&1; then
+    echo "✅ GPG key already present"
+# Try to import from primary keyserver
+elif gpg --keyserver keyserver.ubuntu.com --recv-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A 2>/dev/null; then
+    echo "✅ GPG key imported successfully"
+# Try alternative keyserver
+elif gpg --keyserver keys.openpgp.org --recv-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A 2>/dev/null; then
+    echo "✅ GPG key imported from alternative keyserver"
+else
+    echo "⚠️  Failed to import GPG key. Package signature verification may fail."
+    echo "   You can manually import later with:"
+    echo "   gpg --keyserver keyserver.ubuntu.com --recv-keys B2508A90102F8AE3B12A0090DEACCAAEDB78137A"
+fi
 
 # Detect the best storage method for the current platform
 detect_storage_method() {
