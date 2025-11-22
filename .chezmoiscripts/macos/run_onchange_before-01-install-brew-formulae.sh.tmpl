@@ -35,8 +35,12 @@ install_brew_packages() {
 
     if [ $exit_code -eq 0 ]; then
         # Success - show summary instead of full output
-        local new_count=$(echo "$output" | grep -c "Installing" || echo "0")
-        local cached_count=$(echo "$output" | grep -c "Using" || echo "0")
+        local new_count=$(echo "$output" | grep -c "Installing" 2>/dev/null || true)
+        local cached_count=$(echo "$output" | grep -c "Using" 2>/dev/null || true)
+
+        # Default to 0 if empty
+        new_count=${new_count:-0}
+        cached_count=${cached_count:-0}
 
         if [ "$new_count" -gt 0 ] || [ "$cached_count" -gt 0 ]; then
             log_success "$package_type: $new_count new, $cached_count cached"

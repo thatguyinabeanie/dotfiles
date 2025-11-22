@@ -1,0 +1,19 @@
+# Homebrew taps configuration
+# Taps are third-party Homebrew repositories
+homebrew_taps:
+  - name: adoptopenjdk/openjdk
+    description: "AdoptOpenJDK (Java distributions)"
+  - name: charmbracelet/tap
+    description: "Charm CLI tools (mods, etc.)"
+  - name: domt4/autoupdate
+    description: "Homebrew automatic updates"
+  - name: felixkratz/formulae
+    description: "macOS productivity tools"
+  - name: hashicorp/tap
+    description: "HashiCorp tools (terraform, etc.)"
+  - name: jesseduffield/lazydocker
+    description: "LazyDocker TUI"
+  - name: kubewall/tap
+    description: "Kubernetes tools"
+  - name: nikitabobko/tap
+    description: "AeroSpace window manager"
