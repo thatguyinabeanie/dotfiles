@@ -5,195 +5,106 @@ applications:
     # Work-specific applications
     - name: aws-vpn-client
       install_via: brew_cask
-      category: networking
-      description: "AWS Client VPN"
     - name: lastpass
       install_via: brew_cask
-      category: productivity
-      description: "LastPass password manager"
 
   shared:
     # Shared applications for all environments
     - name: aerospace
       install_via: brew_cask
-      category: system
-      description: "Tiling window manager for macOS"
     - name: cursor
       install_via: brew_cask
-      category: editor
-      description: "AI-powered code editor"
     - name: cyberduck
       install_via: brew_cask
-      category: file_transfer
-      description: "FTP, SFTP, WebDAV, S3, & OpenStack Swift browser"
     - name: disk-inventory-x
       install_via: brew_cask
-      category: system
-      description: "Disk usage utility"
     - name: espanso
       install_via: brew_cask
-      category: productivity
-      description: "Cross-platform text expander"
     - name: firefox
       install_via: brew_cask
-      category: browser
-      description: "Mozilla Firefox browser"
     - name: ghostty
       install_via: brew_cask
-      category: terminal
-      description: "GPU-accelerated terminal emulator"
     - name: google-chrome
       install_via: brew_cask
-      category: browser
-      description: "Google Chrome browser"
     - name: karabiner-elements
       install_via: brew_cask
-      category: system
-      description: "Keyboard customizer for macOS"
     - name: keka
       install_via: brew_cask
-      category: utility
-      description: "File archiver for macOS"
 
     - name: kindaVim
       install_via: brew_cask
-      category: productivity
-      description: "Vim-like keybindings for macOS"
     - name: kitty
       install_via: brew_cask
-      category: terminal
-      description: "GPU-based terminal emulator"
     - name: nightfall
       install_via: brew_cask
-      category: system
-      description: "Menu bar utility to toggle dark mode"
     - name: obsidian
       install_via: brew_cask
-      category: productivity
-      description: "Knowledge base and note-taking app"
     - name: opera
       install_via: brew_cask
-      category: browser
-      description: "Opera web browser"
     - name: postman
       install_via: brew_cask
-      category: development
-      description: "API platform for building and using APIs"
     - name: raycast
       install_via: brew_cask
-      description: "AI-powered launcher and productivity tool"
-      category: productivity
-      macos_only: true
     - name: slack
       install_via: brew_cask
-      category: communication
-      description: "Team collaboration"
     - name: sf-symbols
       install_via: brew_cask
-      category: development
-      description: "Apple's library of iconography"
     - name: tidal
       install_via: brew_cask
-      category: media
-      description: "High-fidelity music streaming service"
     - name: visual-studio-code@insiders
       install_via: brew_cask
-      category: editor
-      description: "Visual Studio Code Insiders edition"
     - name: zed
       install_via: brew_cask
-      category: editor
-      description: "High-performance, multiplayer code editor"
 
   personal:
     # Personal applications
     - name: 1password
       install_via: brew_cask
-      category: productivity
-      description: "1Password password manager"
     - name: 1password-cli
       install_via: brew_cask
-      category: development
-      description: "1Password command-line tool"
     - name: ableton-live-suite
       install_via: brew_cask
-      category: audio_production
-      description: "Digital audio workstation"
     - name: affinity-designer
       install_via: brew_cask
-      category: design
-      description: "Vector graphics editor"
     - name: affinity-photo
       install_via: brew_cask
-      category: design
-      description: "Raster graphics editor"
     - name: affinity-publisher
       install_via: brew_cask
-      category: design
-      description: "Desktop publishing application"
     - name: blender
       install_via: brew_cask
-      category: design
-      description: "3D computer graphics software"
     - name: betterdiscord-installer
       install_via: brew_cask
-      category: utility
-      description: "Installer for BetterDiscord"
     - name: darktable
       install_via: brew_cask
-      category: photography
-      description: "Open source photography workflow application"
     - name: discord
       install_via: brew_cask
-      category: communication
-      description: "Gaming and community chat"
     - name: figma
       install_via: brew_cask
-      category: design
-      description: "Collaborative interface design tool"
     - name: obs
       install_via: brew_cask
-      category: media
-      description: "Open Broadcaster Software for streaming and recording"
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"
       install_via: mas
       app_id: 424389933
-      category: media
-      description: "Professional video editing"
     - name: "Logic Pro"
       install_via: mas
       app_id: 634148309
-      category: audio_production
-      description: "Professional music production"
     - name: "Motion"
       install_via: mas
       app_id: 434290957
-      category: media
-      description: "Motion graphics and compositing"
     - name: "GarageBand"
       install_via: mas
       app_id: 682658836
-      category: audio_production
-      description: "Music creation software"
     - name: "Rosetta Stone Learn Languages"
       install_via: mas
       app_id: 1476088902
-      category: education
-      description: "Language learning software"
     - name: "Xcode"
       install_via: mas
       app_id: 497799835
-      category: development
-      description: "Apple's development environment"
     - name: "Compressor"
       install_via: mas
       app_id: 424390742
-      category: media
-      description: "Video compression tool"
     - name: "FileZilla Pro"
       install_via: mas
       app_id: 1298486723
-      category: file_transfer
-      description: "Professional FTP client"

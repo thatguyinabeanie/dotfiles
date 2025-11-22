@@ -137,6 +137,7 @@ env_shared:
       - "$XDG_DATA_HOME/mise/shims"
       - "/opt/homebrew/bin"
       - "/opt/homebrew/sbin"
+      - "/usr/local/bin"
       - "$HOME/.cache/.bun/bin"
 
   # Command-based variables (computed at runtime)

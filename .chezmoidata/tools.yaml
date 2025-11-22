@@ -2,217 +2,112 @@ dev_tools:
   # System monitoring and performance
   - name: bottom
     install_via: mise
-    runtime: native
-    description: "System monitor (htop alternative)"
-    category: system
 
   - name: btop
     install_via: brew
-    runtime: native
-    description: "Resource monitor"
-    category: system
 
   - name: fastfetch
     install_via: mise
-    runtime: native
-    description: "System information tool"
-    category: system
 
   - name: glances
     install_via: brew
-    runtime: native
-    description: "System monitoring tool"
-    category: system
 
   - name: procs
     install_via: brew
-    runtime: native
-    description: "Modern ps replacement"
-    category: system
 
   # File and directory tools
   - name: eza
     install_via: brew
-    runtime: native
-    description: "Modern ls replacement"
-    category: file_management
 
   - name: carapace
     install_via: brew
-    runtime: native
-    description: "Arguement Completion"
-    category: terminal
 
   - name: fd
     install_via: brew
-    runtime: native
-    description: "Fast find alternative"
-    category: file_management
 
   - name: ripgrep
     install_via: brew
-    runtime: native
-    description: "Fast grep alternative"
-    category: file_management
 
   - name: bat
     install_via: brew
-    runtime: native
-    description: "Cat with syntax highlighting"
-    category: file_management
 
   - name: tree
     install_via: brew
-    runtime: native
-    description: "Directory tree viewer"
-    category: file_management
 
   - name: dust
     install_via: brew
-    runtime: native
-    description: "Disk usage analyzer"
-    category: file_management
 
   - name: ncdu
     install_via: brew
-    runtime: native
-    description: "Disk usage analyzer (ncurses)"
-    category: file_management
 
   - name: gdu
     install_via: brew
-    runtime: native
-    description: "Fast disk usage analyzer"
-    category: file_management
 
   # Data processing tools
   - name: jq
     install_via: brew
-    runtime: native
-    description: "JSON processor"
-    category: data
 
   - name: yq
     install_via: brew
-    runtime: native
-    description: "YAML processor"
-    category: data
 
   - name: jaq
     install_via: brew
-    runtime: native
-    description: "Fast jq alternative"
-    category: data
 
   - name: hyperfine
     install_via: mise
-    runtime: native
-    description: "Command-line benchmarking tool"
-    category: data
 
   # Git tools
   - name: delta
     install_via: mise
-    runtime: native
-    description: "Git diff viewer"
-    category: git
 
   - name: lefthook
     install_via: mise
-    runtime: native
-    description: "Git hooks manager"
-    category: git
 
   - name: github-cli
     install_via: mise
-    runtime: native
-    description: "GitHub CLI tool"
-    category: git
 
   - name: gitleaks
     install_via: mise
-    runtime: go
-    description: "Secret scanner for git repos"
-    category: git
 
   - name: gitsign
     install_via: mise
-    runtime: go
-    description: "Keyless Git signing"
-    category: git
 
   - name: gitui
     install_via: mise
-    runtime: native
-    description: "Git TUI interface"
-    category: git
 
   - name: lazydocker
     install_via: mise
-    runtime: native
-    description: "Simple terminal UI for docker"
-    category: git
 
   - name: lazygit
     install_via: mise
-    runtime: native
-    description: "Simple terminal UI for git"
-    category: git
 
   - name: lazyjournal
     install_via: mise
-    runtime: native
-    description: "Simple terminal UI journald, auditd, file system, Docker (including Swarm) containers, Compose stacks, Podman and Kubernetes pods"
-    category: system
 
   - name: lazyssh
     install_via: mise
-    runtime: native
-    description: "Simple terminal UI for ssh"
-    category: system
 
   - name: tig
     install_via: brew
-    runtime: native
-    description: "Text-mode interface for git"
-    category: git
 
   # Infrastructure and cloud tools
   - name: terraform
     install_via: mise
-    runtime: native
-    description: "Infrastructure as code"
-    category: infrastructure
 
   - name: kubectl
     install_via: mise
-    runtime: native
-    description: "Kubernetes CLI"
-    category: infrastructure
 
   - name: helm
     install_via: mise
-    runtime: native
-    description: "Kubernetes package manager"
-    category: infrastructure
 
   - name: k9s
     install_via: mise
-    runtime: native
-    description: "Kubernetes CLI UI"
-    category: infrastructure
 
   - name: dive
     install_via: mise
-    runtime: native
-    description: "A tool for exploring Docker image layers."
-    category: infrastructure
 
   - name: docker-desktop
     install_via: brew_cask
-    runtime: native
-    description: "Container platform"
-    category: infrastructure
 
   # - name: docker-completion
   #   install_via: brew
@@ -230,213 +125,114 @@ dev_tools:
 
   - name: mdbook
     install_via: mise
-    runtime: native
-    description: "Book generator from Markdown"
-    category: documentation
 
   - name: pandoc
     install_via: brew
-    runtime: native
-    description: "Universal document converter"
-    category: documentation
 
   - name: mactex-no-gui
     install_via: brew_cask
-    runtime: native
-    description: "LaTeX distribution for macOS"
-    category: documentation
 
   # Programming language runtimes
   - name: node
     install_via: mise
-    runtime: native
     version: "22"
-    description: "Node.js JavaScript runtime"
-    category: runtime
 
   - name: python
     install_via: mise
-    runtime: native
-    description: "Python programming language"
-    category: runtime
 
   - name: ruby
     install_via: mise
-    runtime: native
     version: "3.2.7"
-    description: "Ruby programming language"
-    category: runtime
 
   - name: go
     install_via: mise
-    runtime: native
-    description: "Go programming language"
-    category: runtime
 
   - name: rust
     install_via: mise
-    runtime: native
     version: nightly
-    description: "Rust programming language"
-    category: runtime
 
   - name: zig
     install_via: mise
-    runtime: native
-    description: "Zig systems programming language"
-    category: runtime
 
   - name: java
     install_via: mise
-    runtime: native
     version: "zulu-8"
-    description: "Java runtime (Zulu JDK 8)"
-    category: runtime
 
   - name: elixir
     install_via: mise
-    runtime: native
-    description: "Elixir programming language"
-    category: runtime
 
   - name: erlang
     install_via: mise
-    runtime: native
-    description: "Erlang runtime (Elixir dependency)"
-    category: runtime
 
   - name: julia
     install_via: mise
-    runtime: native
     version: "1.11.6"
-    description: "Julia programming language for scientific computing"
-    category: runtime
 
   # Package managers
   - name: pnpm
     install_via: mise
-    runtime: node
-    description: "Fast Node.js package manager"
-    category: package_manager
 
   - name: yarn
     install_via: mise
-    runtime: node
-    description: "Node.js package manager"
-    category: package_manager
 
   - name: npm
     install_via: mise
-    runtime: native
-    description: "Fast JavaScript runtime"
-    category: package_manager
 
   - name: deno
     install_via: mise
-    runtime: native
-    description: "Modern JavaScript runtime"
-    category: package_manager
 
   - name: pipx
     install_via: brew
-    runtime: native
-    description: "Install and run python applications in isolated environments"
-    category: package_manager
 
   - name: uv
     install_via: mise
-    runtime: native
-    description: "Fast Python package installer and resolver"
-    category: package_manager
 
   - name: cargo-binstall
     install_via: cargo
-    runtime: rust
-    description: "Install pre-compiled Rust binaries (accelerates cargo installs)"
-    category: package_manager
 
   # Build tools
   - name: gradle
     install_via: mise
-    runtime: java
-    description: "Build automation tool"
-    category: build
 
   - name: maven
     install_via: mise
-    runtime: java
-    description: "Java build tool"
-    category: build
 
   - name: cmake
     install_via: brew
-    runtime: native
-    description: "Cross-platform build system"
-    category: build
 
   - name: make
     install_via: brew
-    runtime: native
-    description: "Build automation tool"
-    category: build
 
   # Security and secrets management
   - name: 1password-cli
     install_via: brew_cask
-    runtime: native
-    description: "1Password command-line tool"
-    category: security
 
   # Terminal and shell tools
   - name: tmux
     install_via: brew
-    runtime: native
-    description: "Terminal multiplexer"
-    category: terminal
 
   - name: zellij
     install_via: brew
-    runtime: native
-    description: "Terminal workspace"
-    category: terminal
 
   - name: starship
     install_via: brew
-    runtime: native
-    description: "Cross-shell prompt"
-    category: terminal
 
   - name: fzf
     install_via: brew
-    runtime: native
-    description: "Fuzzy finder"
-    category: terminal
 
   - name: zoxide
     install_via: brew
-    runtime: native
-    description: "Smart cd command"
-    category: terminal
 
   # Editors and IDEs
   - name: neovim
     install_via: brew
-    runtime: native
-    description: "Modern Vim-based editor"
-    category: editor
 
   - name: helix
     install_via: brew
-    runtime: native
-    description: "Modern modal editor"
-    category: editor
 
   # Language servers and development tools
   - name: markdown-oxide
     install_via: cargo
-    runtime: rust
-    description: "Markdown language server"
-    category: lsp
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   # - name: pokeget
@@ -447,78 +243,45 @@ dev_tools:
 
   - name: typos-lsp
     install_via: cargo
-    runtime: rust
-    description: "Typo checker language server"
-    category: lsp
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
     # Curl-based installations
   - name: mise
     install_via: curl
-    runtime: native
-    install_script: "curl https://mise.run | sh"
-    description: "Tool version manager"
-    category: system
 
   - name: zsh-syntax-highlighting
     install_via: brew
-    runtime: native
-    description: ZSH Syntax Highlighting
-    category: terminal
 
 # AI Agents and Assistants
 agents:
   - name: "opencode-ai"
     install_via: npm
-    runtime: native
-    description: "OpenCode AI"
-    category: code_assistant
 
   - name: "@augmentcode/auggie"
     install_via: npm
-    runtime: native
-    description: "Augment Code CLI"
-    category: code_assistant
 
   - name: "@google/gemini-cli"
     install_via: npm
-    runtime: native
-    description: "Google Gemini Cli Coding Agent"
-    category: code_assistant
 
   # - name: "@openai/codex"
-  #   install_via: npm
-  #   runtime: node
-  #   version: latest
-  #   description: "OpenAI Codex CLI"
-  #   category: code_assistant
+  - name: codex
+    install_via: mise
+    version: latest
 
-  - name: "@anthropic-ai/claude-code"
-    install_via: npm
-    runtime: native
-    description: "Claude Code Commands Manager"
-    category: code_assistant
+  # - name: "@anthropic-ai/claude-code"
+  - name: claude
+    install_via: mise
 
   # GUI AI Applications (macOS casks)
   - name: cursor
     install_via: brew_cask
-    runtime: native
-    description: "AI-powered code editor"
-    category: ide
-    macos_only: true
 
   # Terminal-based AI tools
   - name: charmbracelet/tap/mods
     install_via: brew
-    runtime: native
-    description: "AI on the command line"
-    category: terminal
 
   - name: "@github/copilot"
     install_via: npm
-    runtime: native
-    description: "GitHub Copilot CLI"
-    category: code_assistant
 
   # - name: aider-chat
   #   install_via: pipx
@@ -532,13 +295,5 @@ mcp_servers:
   # Development and deployment MCP servers
   - name: "vercel"
     install_via: npm
-    runtime: node
-    description: "Vercel CLI tool with MCP capabilities"
-    purpose: "Vercel deployment and management"
-    dependencies: []
   - name: mcp-hub
     install_via: npm
-    runtime: node
-    description: "MCP Hub"
-    dependencies: []
-    purpose: "MCP Hub"

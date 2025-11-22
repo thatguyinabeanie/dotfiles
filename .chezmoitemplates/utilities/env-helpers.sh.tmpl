@@ -1,0 +1,28 @@
+# Environment detection helper functions
+# Provides clean API for checking work vs personal environment
+
+# Check if running in work environment
+is_work_environment() {
+    [[ "${WORK_ENVIRONMENT:-{{ if hasKey . "WORK_ENVIRONMENT" }}{{ .WORK_ENVIRONMENT | default "false" }}{{ else }}false{{ end }}}" == "true" ]]
+}
+
+# Check if running in personal environment
+is_personal_environment() {
+    [[ "${PERSONAL_ENVIRONMENT:-{{ if hasKey . "PERSONAL_ENVIRONMENT" }}{{ .PERSONAL_ENVIRONMENT | default "false" }}{{ else }}false{{ end }}}" == "true" ]]
+}
+
+# Get current environment context as string
+get_environment_context() {
+    if is_work_environment; then
+        echo "work"
+    elif is_personal_environment; then
+        echo "personal"
+    else
+        echo "shared"
+    fi
+}
+
+# Export functions for use in scripts
+export -f is_work_environment
+export -f is_personal_environment
+export -f get_environment_context

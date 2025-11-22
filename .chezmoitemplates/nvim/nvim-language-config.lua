@@ -139,10 +139,8 @@ return {
         runtime = "{{ .runtime }}",
         description = "{{ .description }}",
         {{- if hasKey . "conflicts_with_lsp_formatting" }}
-        conflicts_with_lsp_formatting = {{ .conflicts_with_lsp_formatting }},
         {{- end }}
         {{- if hasKey . "builtin_to_toolchain" }}
-        builtin_to_toolchain = {{ .builtin_to_toolchain }},
         {{- end }}
       },
 {{- end }}
@@ -185,7 +183,6 @@ return {
         runtime = "{{ .runtime }}",
         description = "{{ .description }}",
         {{- if hasKey . "builtin_to_toolchain" }}
-        builtin_to_toolchain = {{ .builtin_to_toolchain }},
         {{- end }}
       },
 {{- end }}
