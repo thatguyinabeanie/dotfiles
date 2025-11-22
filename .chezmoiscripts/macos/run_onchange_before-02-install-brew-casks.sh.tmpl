@@ -4,8 +4,8 @@
 # run_onchange: {{ template "queries/brew-casks.tmpl" . }}
 
 {{ template "utilities/error-handling.sh" }}
-{{- template "utilities/logging.sh.tmpl" }}
-{{- template "utilities/env-helpers.sh.tmpl" }}
+{{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/env-helpers.sh.tmpl" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 
@@ -29,28 +29,49 @@ install_brew_packages() {
     local brewfile=$(mktemp)
     echo -e "$packages" > "$brewfile"
 
-    # Install packages using Brewfile and capture output
-    local output
-    output=$(brew bundle install --file="$brewfile" 2>&1)
-    local exit_code=$?
+    # Determine brew bundle arguments based on verbose mode
+    local brew_args="install --file=$brewfile"
+    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
+        brew_args="$brew_args --verbose"
+    fi
+
+    # Install packages - behavior depends on verbose mode
+    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
+        # Verbose mode: stream output directly for real-time visibility
+        log_info "Running: brew bundle $brew_args"
+        log_info "Streaming output (this may take a while for large apps)..."
+        brew bundle $brew_args
+        local exit_code=$?
+    else
+        # Normal mode: capture output and show summary
+        local output
+        output=$(brew bundle $brew_args 2>&1)
+        local exit_code=$?
+    fi
 
     if [ $exit_code -eq 0 ]; then
-        # Success - show summary instead of full output
-        local new_count=$(echo "$output" | grep -c "Installing" 2>/dev/null || echo "0")
-        local cached_count=$(echo "$output" | grep -c "Using" 2>/dev/null || echo "0")
+        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
+            # Success - show summary instead of full output (non-verbose only)
+            local new_count=$(echo "$output" | grep -c "Installing" 2>/dev/null || echo "0")
+            local cached_count=$(echo "$output" | grep -c "Using" 2>/dev/null || echo "0")
 
-        # Ensure we have integers (remove any whitespace/newlines)
-        new_count=$(echo "$new_count" | tr -d '\n' | tr -d ' ')
-        cached_count=$(echo "$cached_count" | tr -d '\n' | tr -d ' ')
+            # Ensure we have integers (remove any whitespace/newlines)
+            new_count=$(echo "$new_count" | tr -d '\n' | tr -d ' ')
+            cached_count=$(echo "$cached_count" | tr -d '\n' | tr -d ' ')
 
-        if [ "$new_count" -gt 0 ] 2>/dev/null || [ "$cached_count" -gt 0 ] 2>/dev/null; then
-            log_success "$package_type: $new_count new, $cached_count cached"
+            if [ "$new_count" -gt 0 ] 2>/dev/null || [ "$cached_count" -gt 0 ] 2>/dev/null; then
+                log_success "$package_type: $new_count new, $cached_count cached"
+            else
+                log_success "$package_type packages installed successfully"
+            fi
         else
             log_success "$package_type packages installed successfully"
         fi
     else
         # Error - show full output for debugging
-        echo "$output"
+        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
+            echo "$output"
+        fi
         log_error "Failed to install some $package_type packages"
         rm -f "$brewfile"
         return 1

@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-{{- template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/logging.sh.tmpl" }}
 
 # Ensure Node.js is available via mise
 if ! mise which node >/dev/null 2>&1; then
@@ -70,10 +70,10 @@ else
     log_detail "Bulk install failed, installing individually..."
 
     # Install packages individually with progress
-    local installed=0
-    local failed=0
-    local total=${#NPM_PACKAGES[@]}
-    local current=0
+    installed=0
+    failed=0
+    total=${#NPM_PACKAGES[@]}
+    current=0
 
     for package in "${NPM_PACKAGES[@]}"; do
         current=$((current + 1))

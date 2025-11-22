@@ -5,7 +5,7 @@
 
 set -euo pipefail
 
-{{- template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/logging.sh.tmpl" }}
 
 # Ensure Rust is available via mise
 if ! mise which cargo >/dev/null 2>&1; then
@@ -83,10 +83,10 @@ fi
 
 log_section "🦀 Installing ${#CARGO_PACKAGES[@]} Cargo Packages"
 
-local installed=0
-local failed=0
-local total=${#CARGO_PACKAGES[@]}
-local current=0
+installed=0
+failed=0
+total=${#CARGO_PACKAGES[@]}
+current=0
 
 for package_spec in "${CARGO_PACKAGES[@]}"; do
     current=$((current + 1))

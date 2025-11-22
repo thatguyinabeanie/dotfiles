@@ -48,7 +48,7 @@ check_runtime_status() {
 
     # Check if runtime is actually installed and working
     if mise which "${runtime}" >/dev/null 2>&1; then
-        local version=$(mise current "${runtime}" 2>/dev/null | awk '{print $2}')
+        local version=$(mise current "${runtime}" 2>/dev/null)
         echo "  ✅ ${runtime} (${version})"
     # Check if runtime is configured in mise (will be installed)
     elif grep -q "\"${runtime}\"" ~/.config/mise/config.toml 2>/dev/null || \

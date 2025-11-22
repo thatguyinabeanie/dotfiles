@@ -67,7 +67,8 @@ show_progress() {
 
 # Clear progress line and move to next
 clear_progress() {
-    printf "\r%80s\r" " "
+    # Use ANSI escape code to clear entire line
+    printf "\r\033[K"
 }
 
 # Export functions for use in other scripts
