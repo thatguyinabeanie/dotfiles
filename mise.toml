@@ -19,6 +19,7 @@ marksman = "latest"            # Markdown LSP server
 
 node = "22"
 "npm:markdown-link-check" = "latest"
+
 [tasks]
 # Common development tasks
 lint = "lefthook run pre-commit --all-files"
