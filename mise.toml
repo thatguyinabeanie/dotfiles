@@ -17,6 +17,7 @@ chezmoi = "latest"             # Dotfiles manager (for testing)
 markdownlint-cli2 = "latest"
 
 node= "22"
+marksman = "latest"
 [tasks]
 # Common development tasks
 lint = "lefthook run pre-commit --all-files"
