@@ -205,30 +205,30 @@ dev_tools:
 
   # Security and secrets management
   - name: 1password-cli
-    install_via: brew_cask
+    install_via: mise
 
   # Terminal and shell tools
   - name: tmux
-    install_via: brew
+    install_via: mise
 
   - name: zellij
-    install_via: brew
+    install_via: mise
 
   - name: starship
-    install_via: brew
+    install_via: mise
 
   - name: fzf
-    install_via: brew
+    install_via: mise
 
   - name: zoxide
     install_via: brew
 
   # Editors and IDEs
   - name: neovim
-    install_via: brew
+    install_via: mise
 
   - name: helix
-    install_via: brew
+    install_via: mise
 
   # Language servers and development tools
   - name: markdown-oxide

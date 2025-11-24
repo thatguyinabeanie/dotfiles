@@ -203,4 +203,38 @@ return {
       telescope = { utilities = { callback = function() end } },
     },
   },
+
+  -- Markdown LSP server
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        marksman = {
+          root_dir = function(fname)
+            -- Ensure fname is valid
+            if not fname or type(fname) ~= "string" or fname == "" then
+              return nil
+            end
+
+            local util = require("lspconfig.util")
+
+            -- Priority 1: Look for .marksman.toml (project-specific config)
+            local marksman_root = util.root_pattern(".marksman.toml")(fname)
+            if marksman_root and type(marksman_root) == "string" then
+              return marksman_root
+            end
+
+            -- Priority 2: Find git repository root
+            local git_root = util.find_git_ancestor(fname)
+            if git_root and type(git_root) == "string" then
+              return git_root
+            end
+
+            -- Priority 3: Fallback to file's directory (single-file mode)
+            return vim.fn.fnamemodify(fname, ":h")
+          end,
+        },
+      },
+    },
+  },
 }

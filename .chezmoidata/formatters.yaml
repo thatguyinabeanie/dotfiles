@@ -2,13 +2,13 @@ formatters:
   # JavaScript/TypeScript ecosystem
   - name: prettier
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: bun
+    install_via: mise
     conflicts_with_lsp_formatting: true
     mason_ensure_installed: true
 
   - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: bun
+    install_via: npm
     conflicts_with_lsp_formatting: true
     mason_ensure_installed: true
     mason_name: prettierd
@@ -73,7 +73,7 @@ formatters:
   # SQL
   - name: sql-formatter
     languages: [sql]
-    install_via: bun
+    install_via: npm
     mason_ensure_installed: true
 
   # XML/HTML
@@ -85,7 +85,7 @@ formatters:
   # CSS/SCSS
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: bun
+    install_via: npm
     mason_ensure_installed: true
 
   # JSON

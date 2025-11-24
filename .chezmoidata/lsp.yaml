@@ -4,7 +4,7 @@ language_servers:
     mason_name: typescript-language-server
     lspconfig_name: ts_ls
     languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -39,7 +39,7 @@ language_servers:
     mason_name: bash-language-server
     lspconfig_name: bashls
     languages: [bash, sh, zsh]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -71,7 +71,7 @@ language_servers:
     mason_name: css-lsp
     lspconfig_name: cssls
     languages: [css, scss, sass]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -79,7 +79,7 @@ language_servers:
     mason_name: html-lsp
     lspconfig_name: html
     languages: [html]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -87,7 +87,7 @@ language_servers:
     mason_name: json-lsp
     lspconfig_name: jsonls
     languages: [json, jsonc]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -95,7 +95,7 @@ language_servers:
     mason_name: yamlls
     lspconfig_name: yamlls
     languages: [yaml]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -123,7 +123,7 @@ language_servers:
     mason_name: dockerfile-language-server
     lspconfig_name: dockerls
     languages: [dockerfile]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -148,7 +148,7 @@ language_servers:
     mason_name: vim-language-server
     lspconfig_name: vimls
     languages: [vim]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -157,7 +157,7 @@ language_servers:
     mason_name: gh-actions-language-server
     lspconfig_name: gh_actions_ls
     languages: [yaml]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -165,7 +165,7 @@ language_servers:
     mason_name: copilot-language-server
     lspconfig_name: copilot
     languages: [text]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 
@@ -197,7 +197,7 @@ language_servers:
     mason_name: diagnostic-languageserver
     lspconfig_name: diagnosticls
     languages: [text]
-    install_via: bun
+    install_via: npm
     provides_formatting: false
     mason_ensure_installed: true
 # Updated Thu Sep 18 23:00:04 CDT 2025

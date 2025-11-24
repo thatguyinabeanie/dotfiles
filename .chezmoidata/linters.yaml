@@ -13,14 +13,14 @@ linters:
   # Web development linters
   - name: eslint_d
     languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: bun
+    install_via: npm
     mason_ensure_installed: true
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
 
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: bun
+    install_via: npm
     mason_ensure_installed: true
 
   # Markup and documentation linters
@@ -157,7 +157,7 @@ linters:
   # JSON linters
   - name: jsonlint
     languages: [json]
-    install_via: bun
+    install_via: npm
     mason_ensure_installed: true
 
   # SQL linters

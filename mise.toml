@@ -19,6 +19,7 @@ marksman = "latest"            # Markdown LSP server
 
 node = "22"
 "npm:markdown-link-check" = "latest"
+fzf = "latest"
 
 [tasks]
 # Common development tasks

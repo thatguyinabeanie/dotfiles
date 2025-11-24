@@ -40,6 +40,7 @@ baseUrl
 BattleStadium
 beautifulsoup4
 bigquery
+binstall
 Bontera
 botbase
 boto3
@@ -204,6 +205,7 @@ gitignore
 GitLab
 Gitleaks
 go1
+gofmt
 Golang
 golangci
 googleapis
@@ -414,6 +416,7 @@ postinstall
 PPA
 PR's
 PRD
+precompiled
 Prisma
 prizePool
 PropTypes
@@ -471,6 +474,7 @@ resumable
 Reusability
 ripgrep
 rollout
+rollup
 rosie
 Rotom
 rpds
@@ -478,6 +482,8 @@ rsa
 RSpec
 rulesets
 runbooks
+runtimes
+rustfmt
 S3
 s3transfer
 s6
@@ -499,6 +505,7 @@ ShadcnUI
 SharedIndexInformers
 SheetJS
 shellcheck
+shfmt
 sigkill
 signup
 SIGPIPE
@@ -539,6 +546,7 @@ SWC
 swissPairing
 sys
 systemPrompt
+taplo
 tblib
 teamValidator
 Teardown
@@ -628,6 +636,7 @@ writeFile
 XDG
 XSS
 YAML
+yamlfmt
 Yazi
 yml
 zellij
