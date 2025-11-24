@@ -41,7 +41,6 @@ You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 **Before installing anything, consult**: [.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)
 
-
 ## Build and Test Commands
 
 ```bash
