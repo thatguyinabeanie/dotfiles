@@ -11,13 +11,13 @@ vale = "latest"                # Prose linter for markdown
 shellcheck = "latest"          # Shell script linter
 stylua = "latest"              # Lua formatter
 # luacheck = "latest"            # Lua linter
+markdownlint-cli2 = "latest"   # Markdown linter
 
 # Optional development tools
 chezmoi = "latest"             # Dotfiles manager (for testing)
-markdownlint-cli2 = "latest"
+marksman = "latest"            # Markdown LSP server
 
-node= "22"
-marksman = "latest"
+node = "22"
 [tasks]
 # Common development tasks
 lint = "lefthook run pre-commit --all-files"

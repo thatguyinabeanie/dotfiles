@@ -103,7 +103,7 @@ language_servers:
   - name: marksman
     lspconfig_name: marksman
     languages: [markdown]
-    install_via: brew
+    install_via: mise
     provides_formatting: false
     mason_ensure_installed: true
 

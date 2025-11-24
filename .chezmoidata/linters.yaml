@@ -40,6 +40,11 @@ linters:
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
     mason_ensure_installed: true
 
+  - name: markdown-link-check
+    languages: [markdown]
+    install_via: npm
+    mason_ensure_installed: false
+
   # Container and infrastructure linters
   - name: hadolint
     languages: [dockerfile]
