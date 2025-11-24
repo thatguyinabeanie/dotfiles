@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This script installs go packages not managed by mise
+# Global Package Installation (Hybrid Approach)
+# Installs packages globally for system-wide use. Mason may also install some for Neovim.
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "go" "root" .) }}
 
 set -euo pipefail
@@ -11,15 +12,15 @@ if ! mise which go >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "📦 Collecting go packages..."
+echo "📦 Collecting packages for global installation..."
 
 # Collect go packages and install commands
 GO_PACKAGES=()
 
 # Language servers with go install
 {{- range .language_servers }}
-{{- if eq .install_via "go" }}
-{{- if .install_command }}
+{{- if has "go" .installer }}
+{{- if hasKey . "install_command" }}
 GO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 GO_PACKAGES+=("{{ .name }}@latest")
@@ -29,8 +30,8 @@ GO_PACKAGES+=("{{ .name }}@latest")
 
 # Formatters with go install
 {{- range .formatters }}
-{{- if eq .install_via "go" }}
-{{- if .install_command }}
+{{- if has "go" .installer }}
+{{- if hasKey . "install_command" }}
 GO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 GO_PACKAGES+=("{{ .name }}@latest")
@@ -40,8 +41,8 @@ GO_PACKAGES+=("{{ .name }}@latest")
 
 # Linters with go install
 {{- range .linters }}
-{{- if eq .install_via "go" }}
-{{- if .install_command }}
+{{- if has "go" .installer }}
+{{- if hasKey . "install_command" }}
 GO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 GO_PACKAGES+=("{{ .name }}@latest")

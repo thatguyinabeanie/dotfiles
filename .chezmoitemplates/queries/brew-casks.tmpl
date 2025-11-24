@@ -3,14 +3,14 @@
 
 {{- /* Collect from dev_tools */ -}}
 {{- range .dev_tools -}}
-  {{- if eq .install_via "brew_cask" -}}
+  {{- if has "brew_cask" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from agents */ -}}
 {{- range .agents -}}
-  {{- if eq .install_via "brew_cask" -}}
+  {{- if has "brew_cask" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
@@ -18,7 +18,7 @@
 {{- /* Collect from applications (shared context) */ -}}
 {{- if .applications.shared -}}
   {{- range .applications.shared -}}
-    {{- if eq .install_via "brew_cask" -}}
+    {{- if has "brew_cask" .installer -}}
       {{- $packages = append $packages .name -}}
     {{- end -}}
   {{- end -}}
@@ -27,7 +27,7 @@
 {{- /* Collect from applications (personal context) */ -}}
 {{- if .applications.personal -}}
   {{- range .applications.personal -}}
-    {{- if eq .install_via "brew_cask" -}}
+    {{- if has "brew_cask" .installer -}}
       {{- $packages = append $packages .name -}}
     {{- end -}}
   {{- end -}}
@@ -36,7 +36,7 @@
 {{- /* Collect from applications (work context) */ -}}
 {{- if .applications.work -}}
   {{- range .applications.work -}}
-    {{- if eq .install_via "brew_cask" -}}
+    {{- if has "brew_cask" .installer -}}
       {{- $packages = append $packages .name -}}
     {{- end -}}
   {{- end -}}

@@ -37,8 +37,8 @@ install_brew_packages() {
     # Install packages - behavior depends on verbose mode
     if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
         # Verbose mode: stream output directly for real-time visibility
-        log_info "Running: brew bundle $brew_args"
-        log_info "Streaming output (this may take a while for large apps)..."
+        log_detail "Running: brew bundle $brew_args"
+        log_detail "Streaming output (this may take a while for large apps)..."
         brew bundle $brew_args
         local exit_code=$?
     else
@@ -102,35 +102,35 @@ BREWS=""
 
 # Language servers that install via brew
 {{- range .language_servers }}
-  {{- if eq .install_via "brew" }}
+  {{- if has "brew" .installer }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Formatters that install via brew
 {{- range .formatters }}
-  {{- if eq .install_via "brew" }}
+  {{- if has "brew" .installer }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Linters that install via brew
 {{- range .linters }}
-  {{- if eq .install_via "brew" }}
+  {{- if has "brew" .installer }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # Development tools that install via brew
 {{- range .dev_tools }}
-  {{- if eq .install_via "brew" }}
+  {{- if has "brew" .installer }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew
 {{- range .agents }}
-  {{- if eq .install_via "brew" }}
+  {{- if has "brew" .installer }}
 BREWS="${BREWS}brew \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
@@ -151,7 +151,7 @@ fi
 
 # Summary
 log_header "Homebrew Formulae Installation Summary"
-log_info "Installed packages by category:"
+log_detail "Installed packages by category:"
 log_substep "Language servers: $(echo -e "$BREWS" | grep -E '(language-server|lsp|analyzer)' | wc -l | tr -d ' ')"
 log_substep "Formatters: $(echo -e "$BREWS" | grep -E '(fmt|format|yamlfix|yamlfmt)' | wc -l | tr -d ' ')"
 log_substep "Linters: $(echo -e "$BREWS" | grep -E '(lint|check|vale|hadolint|tflint|cspell)' | wc -l | tr -d ' ')"

@@ -24,35 +24,35 @@ BUN_PACKAGES=()
 
 # AI agents
 {{- range .agents }}
-{{- if eq .install_via "bun" }}
+{{- if has "bun" .installer }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # MCP servers
 {{- range .mcp_servers }}
-{{- if eq .install_via "bun" }}
+{{- if has "bun" .installer }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Language servers not managed by Mason
 {{- range .language_servers }}
-{{- if and (eq .install_via "bun") (not .mason_ensure_installed) }}
+{{- if and (has "bun" .installer) }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Formatters not managed by Mason
 {{- range .formatters }}
-{{- if and (eq .install_via "bun") (not .mason_ensure_installed) }}
+{{- if and (has "bun" .installer) }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Linters not managed by Mason
 {{- range .linters }}
-{{- if and (eq .install_via "bun") (not .mason_ensure_installed) }}
+{{- if and (has "bun" .installer) }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}

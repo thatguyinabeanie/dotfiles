@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This script installs pip packages not managed by mise or Mason
+# Global Package Installation (Hybrid Approach)
+# Installs packages globally for system-wide use. Mason may also install some for Neovim.
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }}
 
 set -euo pipefail
@@ -11,9 +12,9 @@ if ! mise which python >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "📦 Collecting pip packages..."
+echo "📦 Collecting packages for global installation..."
 
-# Collect pip packages not managed by Mason
+# Collect pip packages with installer array containing this manager
 PIP_PACKAGES=({{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }})
 
 if [[ ${#PIP_PACKAGES[@]} -eq 0 ]]; then

@@ -46,7 +46,7 @@ install_mas_app() {
 # Install shared Mac App Store apps
 {{- if .applications.shared }}
 {{- range .applications.shared }}
-{{- if eq .install_via "mas" }}
+{{- if has "mas" .installer }}
 install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- end }}
 {{- end }}
@@ -56,7 +56,7 @@ install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- $hasPersonalMasApps := false }}
 {{- if .applications.personal }}
 {{- range .applications.personal }}
-{{- if eq .install_via "mas" }}
+{{- if has "mas" .installer }}
 {{- $hasPersonalMasApps = true }}
 {{- end }}
 {{- end }}
@@ -65,7 +65,7 @@ install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- if $hasPersonalMasApps }}
 if [ "${PERSONAL_ENVIRONMENT:-{{ .PERSONAL_ENVIRONMENT | default "false" }}}" = "true" ]; then
 {{- range .applications.personal }}
-{{- if eq .install_via "mas" }}
+{{- if has "mas" .installer }}
     install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- end }}
 {{- end }}
@@ -76,7 +76,7 @@ fi
 {{- $hasWorkMasApps := false }}
 {{- if .applications.work }}
 {{- range .applications.work }}
-{{- if eq .install_via "mas" }}
+{{- if has "mas" .installer }}
 {{- $hasWorkMasApps = true }}
 {{- end }}
 {{- end }}
@@ -85,7 +85,7 @@ fi
 {{- if $hasWorkMasApps }}
 if [ "${WORK_ENVIRONMENT:-{{ .WORK_ENVIRONMENT | default "false" }}}" = "true" ]; then
 {{- range .applications.work }}
-{{- if eq .install_via "mas" }}
+{{- if has "mas" .installer }}
     install_mas_app "{{ .name }}" "{{ .app_id }}"
 {{- end }}
 {{- end }}

@@ -2,190 +2,151 @@ linters:
   # Shell linters
   - name: shellcheck
     languages: [bash, sh, zsh]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   - name: luacheck
     languages: [lua]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   # Web development linters
   - name: eslint_d
     languages: [typescript, javascript, javascriptreact, typescriptreact]
-    install_via: npm
-    mason_ensure_installed: true
+    installer: [npm, mason]
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
 
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: npm
-    mason_ensure_installed: true
+    installer: [npm, mason]
 
   # Markup and documentation linters
   - name: vale
     languages: [markdown, text]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   - name: marksman
     languages: [markdown]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   - name: markdown-oxide
     languages: [markdown]
-    install_via: cargo
+    installer: [cargo, mason]
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
-    mason_ensure_installed: true
 
   - name: markdown-link-check
     languages: [markdown]
-    install_via: npm
-    mason_ensure_installed: false
+    installer: [npm]
 
   # Container and infrastructure linters
   - name: hadolint
     languages: [dockerfile]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   - name: kube-linter
     languages: [yaml]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: tflint
     languages: [terraform]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   # YAML linters
   - name: yamllint
     languages: [yaml]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # Go linters
   - name: golangci-lint
     languages: [go]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: golangci-lint-langserver
     languages: [go]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # Python linters
   - name: ruff
     languages: [python]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: flake8
     languages: [python]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   - name: pylint
     languages: [python]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   - name: mypy
     languages: [python]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   # Ruby linters
   - name: rubocop
     languages: [ruby]
-    install_via: gem
-    mason_ensure_installed: true
+    installer: [mason]
 
   - name: standardrb
     languages: [ruby]
-    install_via: gem
-    mason_ensure_installed: true
+    installer: [mason]
 
   - name: haml-lint
     languages: [haml]
-    install_via: gem
-    mason_ensure_installed: true
+    installer: [mason]
 
   # Environment and configuration linters
   - name: dotenv-linter
     languages: [env]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # Security linters
   - name: gitleaks
     languages: [git]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: semgrep
     languages: [python, javascript, typescript, go, java, ruby]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: bandit
     languages: [python]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   # Spelling and typo linters
   - name: typos
     languages: [text, markdown]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   - name: typos-lsp
     languages: [text, markdown]
-    install_via: cargo
+    installer: [cargo, mason]
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
-    mason_ensure_installed: true
 
   - name: cspell
     languages: [text, markdown, code]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   # JSON linters
   - name: jsonlint
     languages: [json]
-    install_via: npm
-    mason_ensure_installed: true
+    installer: [npm, mason]
 
   # SQL linters
   - name: sqlfluff
     languages: [sql]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   # Rust linters (built into toolchain)
   - name: clippy
     languages: [rust]
-    install_via: rustup
+    installer: [rustup]
     install_command: "rustup component add clippy"
     # Note: clippy is not available in Mason registry, managed via rustup
-
-  # XML linters (xmllint is part of libxml2, installed by default on macOS)
-  # - name: xmllint
-  #   languages: [xml]
-  #   install_via: system
-  #   runtime: native
-  #   version: latest
-  #   description: "XML linter (system provided)"
 
   # Protocol buffer linters
   - name: buf
     languages: [proto]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # Nginx configuration linter
   # nginx-linter removed - doesn't exist on npm

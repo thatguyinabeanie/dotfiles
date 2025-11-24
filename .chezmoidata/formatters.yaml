@@ -2,70 +2,58 @@ formatters:
   # JavaScript/TypeScript ecosystem
   - name: prettier
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: mise
+    installer: [mise, mason]
     conflicts_with_lsp_formatting: true
-    mason_ensure_installed: true
 
   - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
-    install_via: npm
+    installer: [npm, mason]
     conflicts_with_lsp_formatting: true
-    mason_ensure_installed: true
     mason_name: prettierd
 
   # Markdown
   - name: markdownlint-cli2
     languages: [markdown]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # Systems languages
   - name: rustfmt
     languages: [rust]
-    install_via: rustup
+    installer: [rustup]
     install_command: "rustup component add rustfmt"
 
   # Python
   - name: black
     languages: [python]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   # blackd-client removed - blackd daemon included with black package
 
   # Ruby
   - name: standardrb
     languages: [ruby]
-    install_via: gem
-    mason_ensure_installed: true
-
-  # Lua
-  # luaformatter removed - doesn't exist on npm, stylua available via other methods
+    installer: [gem, mason]
 
   # Shell
   - name: shfmt
     languages: [bash, sh, zsh]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 
   # YAML
   - name: yamlfix
     languages: [yaml]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   - name: yamlfmt
     languages: [yaml]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   # Go (gofmt is built into Go toolchain - no separate installation needed)
 
   - name: goimports
     languages: [go]
-    install_via: go
+    installer: [go, mason]
     install_command: "golang.org/x/tools/cmd/goimports@latest"
-    mason_ensure_installed: true
 
   # HTTP/REST
   # kulala-fmt removed - available via Mason, not cargo
@@ -73,30 +61,25 @@ formatters:
   # SQL
   - name: sql-formatter
     languages: [sql]
-    install_via: npm
-    mason_ensure_installed: true
+    installer: [npm, mason]
 
   # XML/HTML
   - name: xmlformatter
     languages: [xml]
-    install_via: pip
-    mason_ensure_installed: true
+    installer: [mason]
 
   # CSS/SCSS
   - name: stylelint
     languages: [css, scss, sass]
-    install_via: npm
-    mason_ensure_installed: true
+    installer: [npm, mason]
 
   # JSON
   - name: jq
     languages: [json]
-    install_via: brew
-    mason_ensure_installed: true
+    installer: [brew, mason]
 
   # TOML
   - name: taplo
     languages: [toml]
-    install_via: mise
-    mason_ensure_installed: true
+    installer: [mise, mason]
 

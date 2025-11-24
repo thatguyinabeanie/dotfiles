@@ -10,7 +10,7 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
 {{- if eq $manager "mise" -}}
   {{- /* Special case for mise: collect dev_tools and github_extensions */ -}}
   {{- range $root.dev_tools -}}
-    {{- if eq .install_via "mise" -}}
+    {{- if has "mise" .installer -}}
       {{- $packages = append $packages .name -}}
     {{- end -}}
   {{- end -}}
@@ -22,7 +22,7 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   
   {{- /* Language servers */ -}}
   {{- range $root.language_servers -}}
-    {{- if and (eq .install_via $manager) (not .mason_ensure_installed) -}}
+    {{- if has $manager .installer -}}
       {{- if and (eq $manager "go") .install_command -}}
         {{- $packages = append $packages .install_command -}}
       {{- else if eq $manager "go" -}}
@@ -35,7 +35,7 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   
   {{- /* Formatters */ -}}
   {{- range $root.formatters -}}
-    {{- if and (eq .install_via $manager) (not .mason_ensure_installed) -}}
+    {{- if has $manager .installer -}}
       {{- if and (eq $manager "go") .install_command -}}
         {{- $packages = append $packages .install_command -}}
       {{- else if eq $manager "go" -}}
@@ -48,7 +48,7 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   
   {{- /* Linters */ -}}
   {{- range $root.linters -}}
-    {{- if and (eq .install_via $manager) (not .mason_ensure_installed) -}}
+    {{- if has $manager .installer -}}
       {{- if and (eq $manager "go") .install_command -}}
         {{- $packages = append $packages .install_command -}}
       {{- else if eq $manager "go" -}}
@@ -62,7 +62,7 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   {{- /* Dev tools (cargo only, others handled by mise) */ -}}
   {{- if eq $manager "cargo" -}}
     {{- range $root.dev_tools -}}
-      {{- if eq .install_via "cargo" -}}
+      {{- if has "cargo" .installer -}}
         {{- $packages = append $packages .name -}}
       {{- end -}}
     {{- end -}}
@@ -71,12 +71,12 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   {{- /* AI agents and MCP servers (npm/pip only) */ -}}
   {{- if or (eq $manager "npm") (eq $manager "pip") -}}
     {{- range $root.agents -}}
-      {{- if eq .install_via $manager -}}
+      {{- if has $manager .installer -}}
         {{- $packages = append $packages .name -}}
       {{- end -}}
     {{- end -}}
     {{- range $root.mcp_servers -}}
-      {{- if eq .install_via $manager -}}
+      {{- if has $manager .installer -}}
         {{- $packages = append $packages .name -}}
       {{- end -}}
     {{- end -}}
@@ -86,21 +86,21 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
   {{- if eq $manager "mas" -}}
     {{- if $root.applications.shared -}}
       {{- range $root.applications.shared -}}
-        {{- if eq .install_via "mas" -}}
+        {{- if has "mas" .installer -}}
           {{- $packages = append $packages .app_id -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
     {{- if $root.applications.personal -}}
       {{- range $root.applications.personal -}}
-        {{- if eq .install_via "mas" -}}
+        {{- if has "mas" .installer -}}
           {{- $packages = append $packages .app_id -}}
         {{- end -}}
       {{- end -}}
     {{- end -}}
     {{- if $root.applications.work -}}
       {{- range $root.applications.work -}}
-        {{- if eq .install_via "mas" -}}
+        {{- if has "mas" .installer -}}
           {{- $packages = append $packages .app_id -}}
         {{- end -}}
       {{- end -}}

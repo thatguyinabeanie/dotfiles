@@ -3,35 +3,35 @@
 
 {{- /* Collect from language servers */ -}}
 {{- range .language_servers -}}
-  {{- if eq .install_via "brew" -}}
+  {{- if has "brew" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from formatters */ -}}
 {{- range .formatters -}}
-  {{- if eq .install_via "brew" -}}
+  {{- if has "brew" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from linters */ -}}
 {{- range .linters -}}
-  {{- if eq .install_via "brew" -}}
+  {{- if has "brew" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from dev_tools */ -}}
 {{- range .dev_tools -}}
-  {{- if eq .install_via "brew" -}}
+  {{- if has "brew" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from agents */ -}}
 {{- range .agents -}}
-  {{- if eq .install_via "brew" -}}
+  {{- if has "brew" .installer -}}
     {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- end -}}
