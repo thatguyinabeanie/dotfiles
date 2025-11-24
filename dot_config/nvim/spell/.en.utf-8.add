@@ -78,6 +78,7 @@ CloudFormation
 cloudpickle
 CloudTrail
 cluster01
+cluster02
 cluster03
 cmd
 cmp
@@ -272,6 +273,7 @@ Karabiner
 Keychain
 keymap
 KEYMAPS
+Kotlin
 KPI
 KPIs
 KUBE
@@ -422,6 +424,7 @@ PRs
 psutil
 psycopg2
 ptyprocess
+pulumi
 pvc
 PVCs
 px
@@ -486,6 +489,8 @@ scrollback
 SDK's
 Seaborn
 serverless
+services01
+services03
 SessionX
 setuptools
 SHA
@@ -503,6 +508,7 @@ sonner
 sortedcontainers
 soupsieve
 specifc
+sql
 sqlfluff
 SQLite
 sqlparse
@@ -513,6 +519,7 @@ statusline
 stderr
 stdout
 Strang's
+Streamlit
 struct
 STS
 stylua

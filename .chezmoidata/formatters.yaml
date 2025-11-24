@@ -13,6 +13,12 @@ formatters:
     mason_ensure_installed: true
     mason_name: prettierd
 
+  # Markdown
+  - name: markdownlint-cli2
+    languages: [markdown]
+    install_via: bun
+    mason_ensure_installed: true
+
   # Systems languages
   - name: rustfmt
     languages: [rust]

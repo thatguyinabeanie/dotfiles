@@ -1,0 +1,22 @@
+# Development dependencies for dotfiles repository
+# Tools needed for linting and maintaining the dotfiles
+
+[tools]
+# Core development tools
+lefthook = "latest"            # Git hooks manager
+gitleaks = "latest"            # Secret scanning
+
+# Linting and formatting tools
+vale = "latest"                # Prose linter for markdown
+shellcheck = "latest"          # Shell script linter
+stylua = "latest"              # Lua formatter
+# luacheck = "latest"            # Lua linter
+
+# Optional development tools
+chezmoi = "latest"             # Dotfiles manager (for testing)
+
+[tasks]
+# Common development tasks
+lint = "lefthook run pre-commit --all-files"
+format = "stylua --config-path .stylua.toml --glob '**/*.lua' ."
+
