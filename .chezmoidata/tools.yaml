@@ -85,9 +85,6 @@ dev_tools:
   - name: lazyjournal
     installer: [mise]
 
-  - name: lazyssh
-    installer: [mise]
-
   - name: tig
     installer: [brew]
 
