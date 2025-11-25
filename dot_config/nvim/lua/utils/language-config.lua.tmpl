@@ -1,17 +1,9 @@
-{{- $parsers_data := (include (printf "%s/.chezmoidata/parsers.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $lsp_data := (include (printf "%s/.chezmoidata/lsp.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $formatters_data := (include (printf "%s/.chezmoidata/formatters.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $linters_data := (include (printf "%s/.chezmoidata/linters.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $tools_data := (include (printf "%s/.chezmoidata/tools.yaml" .chezmoi.sourceDir) | fromYaml) }}
 
 return {
-  treesitter = {
-    parsers = {
-{{- range $parsers_data.treesitter_parsers }}
-      "{{ .name }}",
-{{- end }}
-    },
-  },
   filetypes = {
     web_frameworks = {
       "javascriptreact",
