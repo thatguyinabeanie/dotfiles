@@ -5,7 +5,7 @@ formatters:
     installer: [mise, mason]
     conflicts_with_lsp_formatting: true
 
-  - name: prettierd
+  - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     installer: [npm, mason]
     conflicts_with_lsp_formatting: true
