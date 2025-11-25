@@ -10,8 +10,6 @@ applications:
 
   shared:
     # Shared applications for all environments
-    # - name: affinity
-    #   installer: [brew_cask]
     - name: aerospace
       installer: [brew_cask]
     - name: cursor
@@ -65,6 +63,8 @@ applications:
     - name: 1password-cli
       installer: [brew_cask]
     - name: ableton-live-suite
+      installer: [brew_cask]
+    - name: affinity
       installer: [brew_cask]
     - name: affinity-designer
       installer: [brew_cask]
