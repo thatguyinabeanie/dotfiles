@@ -38,8 +38,8 @@ install_brew_packages() {
     # Install packages - behavior depends on verbose mode
     if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
         # Verbose mode: stream output directly for real-time visibility
-        log_info "Running: brew bundle $brew_args"
-        log_info "Streaming output (this may take a while for large apps)..."
+        log_detail "Running: brew bundle $brew_args"
+        log_detail "Streaming output (this may take a while for large apps)..."
         brew bundle $brew_args
         local exit_code=$?
     else
@@ -87,14 +87,14 @@ CASKS=""
 
 # Development tools that install via brew_cask
 {{- range .dev_tools }}
-  {{- if eq .install_via "brew_cask" }}
+  {{- if has "brew_cask" .installer }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew_cask
 {{- range .agents }}
-  {{- if eq .install_via "brew_cask" }}
+  {{- if has "brew_cask" .installer }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
   {{- end }}
 {{- end }}
@@ -102,7 +102,7 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
 # General applications that install via brew_cask
 {{- if .applications.shared }}
   {{- range .applications.shared }}
-    {{- if eq .install_via "brew_cask" }}
+    {{- if has "brew_cask" .installer }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
     {{- end }}
   {{- end }}
@@ -111,7 +111,7 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
 if is_personal_environment; then
   {{- if .applications.personal }}
     {{- range .applications.personal }}
-      {{- if eq .install_via "brew_cask" }}
+      {{- if has "brew_cask" .installer }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
       {{- end }}
     {{- end }}
@@ -121,7 +121,7 @@ fi
 if is_work_environment; then
   {{- if .applications.work }}
     {{- range .applications.work }}
-      {{- if eq .install_via "brew_cask" }}
+      {{- if has "brew_cask" .installer }}
 CASKS="${CASKS}cask \"{{ .name }}\"\n"
       {{- end }}
     {{- end }}
@@ -132,7 +132,7 @@ install_brew_packages "casks" "$CASKS"
 
 # Summary
 log_header "Homebrew Casks Installation Summary"
-log_info "Installed packages:"
+log_detail "Installed packages:"
 log_substep "GUI applications: $(echo -e "$CASKS" | wc -l | tr -d ' ')"
 
 log_success "Homebrew casks installation completed"

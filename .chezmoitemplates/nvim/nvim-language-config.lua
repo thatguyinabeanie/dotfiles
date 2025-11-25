@@ -34,30 +34,30 @@ return {
     },
   },
 
-  -- Mason packages (explicitly marked for Mason management)
+  -- Mason packages (tools with mason in installer array)
   mason = {
     core_tools = {
 {{- range $lsp_data.language_servers }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
 {{- range $formatters_data.formatters }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
 {{- range $linters_data.linters }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     exploration_tools = {
 {{- $tools_data := fromJson .tools_yaml.content }}
 {{- range $tools_data.dev_tools }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if and (hasKey . "installer") (has "mason" .installer) }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },

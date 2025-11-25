@@ -1,6 +1,7 @@
 # 1Password Service Account Setup Guide
 
-This guide walks you through setting up a 1Password service account for your work laptop, allowing limited, automated access to specific secrets without the full 1Password Desktop app.
+This guide walks you through setting up a 1Password service account for your work laptop,
+allowing limited, automated access to specific secrets without the full 1Password Desktop app.
 
 ## Overview
 
@@ -28,7 +29,7 @@ Service accounts are ideal for work laptops because they:
 
 ### Via 1Password Web Interface
 
-1. Sign in to your 1Password account at https://my.1password.com
+1. Sign in to your 1Password account at <https://my.1password.com>
 2. Navigate to **Settings** → **Service Accounts**
 3. Click **Create Service Account**
 4. Give it a name (for example, "Work Laptop - Limited Access")
@@ -41,7 +42,7 @@ Service accounts are ideal for work laptops because they:
 
 Grant the **minimum required access**:
 
-```
+```text
 ✅ Recommended Access:
 - Work Automation vault (read-only)
 - Specific items: API keys, work SSH keys, work tokens
@@ -56,7 +57,7 @@ Grant the **minimum required access**:
 
 After creating the service account, 1Password will show you the token **once**. It looks like:
 
-```
+```text
 ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
@@ -65,16 +66,19 @@ ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 Add to your shell profile (outside of chezmoi-managed files):
 
 **For Zsh** (`~/.zshenv` or `~/.zshrc.local`):
+
 ```bash
 export OP_SERVICE_ACCOUNT_TOKEN='ops_your_token_here'
 ```
 
 **For Nushell** (`~/.config/nushell/env.local.nu`):
+
 ```nushell
 $env.OP_SERVICE_ACCOUNT_TOKEN = 'ops_your_token_here'
 ```
 
 **For Bash** (`~/.bashrc.local` or `~/.bash_profile.local`):
+
 ```bash
 export OP_SERVICE_ACCOUNT_TOKEN='ops_your_token_here'
 ```
@@ -94,6 +98,7 @@ chmod 600 ~/.config/op/service-account-token
 ```
 
 Then update `.chezmoidata/onepassword.yaml`:
+
 ```yaml
 work:
   token_source: "file"
@@ -109,9 +114,24 @@ The token file locations above are intentionally **outside** the chezmoi-managed
 ✅ **Recommended**: Set token rotation policy (for example, rotate every 90 days)
 ✅ **Recommended**: Create separate service accounts per machine
 
-## Step 3: Configure Secrets Access
+## Step 3: Track Token Creation Date (Recommended)
 
-Edit `.chezmoidata/onepassword.yaml` to define what secrets to access:
+To enable token age tracking and rotation reminders, record when you created the token:
+
+```bash
+defaults write com.chezmoi.config op_token_created_date -int $(date +%s)
+```
+
+This enables:
+
+- Automatic warnings when token approaches 90-day rotation
+- Token age display in `op-helper status`
+- Token expiry tracking in `op-helper token-info`
+
+## Step 4: Configure Automatic Secret Loading (Optional)
+
+Edit `.chezmoidata/onepassword.yaml` to define secrets that should automatically load
+into environment variables on shell startup:
 
 ```yaml
 onepassword:
@@ -136,7 +156,13 @@ onepassword:
         env_var: "WORK_SSH_PRIVATE_KEY"
 ```
 
-## Step 4: Verify Setup
+**Benefits:**
+
+- Secrets load automatically on shell startup
+- Results are cached for 1 hour to avoid repeated CLI calls
+- Environment variables available to all processes in the shell
+
+## Step 5: Verify Setup
 
 After setting the token and restarting your shell:
 
@@ -152,7 +178,8 @@ op-helper get "Work Automation" "GitHub API Token" credential
 ```
 
 Expected output:
-```
+
+```text
 1Password Configuration Status
 ================================
 Environment: Work
@@ -176,11 +203,30 @@ op-helper get <vault> <item> [field]
 op-helper get "Work Automation" "GitHub Token" credential
 op-helper get "Work Automation" "API Key" password
 
-# Check status
+# Check detailed status
 op-helper status
 
-# Validate authentication
+# Validate authentication and access
 op-helper validate
+
+# Show token age and rotation info
+op-helper token-info
+
+# Rotate service account token
+op-helper rotate-token
+```
+
+### Automatic Secret Loading
+
+If you configured secrets in `.chezmoidata/onepassword.yaml`, they'll automatically load when you start a new shell:
+
+```bash
+# Secrets are available as environment variables
+echo $GITHUB_TOKEN
+echo $AWS_ACCESS_KEY_ID
+
+# Cache is stored in ~/.cache/op-secrets.cache
+# Cache expires after 1 hour to balance performance and security
 ```
 
 ### In Scripts and Automation
@@ -202,7 +248,8 @@ You can use `op` CLI directly in templates (work environment only):
 ```template
 {{- if eq .WORK_ENVIRONMENT true }}
 # This will use service account automatically
-export GITHUB_TOKEN="{{ output "op" "item" "get" "GitHub Token" "--vault" "Work Automation" "--fields" "credential" | trim }}"
+export GITHUB_TOKEN="{{ output "op" "item" "get" "GitHub Token" \
+  "--vault" "Work Automation" "--fields" "credential" | trim }}"
 {{- end }}
 ```
 
@@ -211,11 +258,13 @@ export GITHUB_TOKEN="{{ output "op" "item" "get" "GitHub Token" "--vault" "Work 
 ### "Service account authentication failed"
 
 **Causes:**
+
 - Token not set or incorrect
 - Token expired
 - Service account disabled
 
 **Solutions:**
+
 ```bash
 # 1. Verify token is set
 echo $OP_SERVICE_ACCOUNT_TOKEN
@@ -229,11 +278,13 @@ op whoami
 ### "Failed to retrieve item"
 
 **Causes:**
+
 - Service account doesn't have access to that vault/item
 - Item name or vault name incorrect
 - Insufficient permissions
 
 **Solutions:**
+
 ```bash
 # 1. List accessible vaults
 op vault list
@@ -251,14 +302,84 @@ op vault list
 export OP_SERVICE_ACCOUNT_TOKEN='ops_xxx'
 ```
 
+## Token Rotation
+
+### Automatic Rotation Reminders
+
+If you tracked the token creation date, you'll automatically receive warnings when the token approaches 90
+days old:
+
+```text
+⚠️  1Password service account token is 85 days old
+   Consider rotating soon (recommended: every 90 days)
+   Run: op-rotate
+```
+
+These warnings appear:
+
+- Once per day maximum (non-intrusive)
+- Starting at day 85
+- On shell startup
+
+### Manual Token Rotation
+
+To rotate your service account token:
+
+```bash
+# Interactive rotation wizard
+op-helper rotate-token
+```
+
+The wizard will:
+
+1. Show current token age
+2. Guide you through creating a new token
+3. Validate the new token before applying
+4. Help you save it securely
+5. Record the new creation date
+6. Remind you to revoke the old token
+
+### Manual Rotation Steps
+
+If you prefer to rotate manually:
+
+1. **Create new token** in 1Password web interface
+2. **Test the new token**:
+
+   ```bash
+   OP_SERVICE_ACCOUNT_TOKEN='ops_new_token' op whoami
+   ```
+
+3. **Update your configuration**:
+
+   ```bash
+   # Update environment variable or token file
+   echo 'ops_new_token' > ~/.config/op/service-account-token
+   ```
+
+4. **Record creation date**:
+
+   ```bash
+   defaults write com.chezmoi.config op_token_created_date -int $(date +%s)
+   ```
+
+5. **Verify**:
+
+   ```bash
+   op-helper validate
+   ```
+
+6. **Revoke old token** in 1Password web interface
+
 ## Security Best Practices
 
 ### Token Management
 
 1. **Rotate tokens regularly** (recommend: every 90 days)
-2. **Use separate tokens per machine** (don't share across devices)
-3. **Revoke old tokens** when rotating
-4. **Monitor service account usage** in 1Password web interface
+2. **Track token creation date** for automatic reminders
+3. **Use separate tokens per machine** (don't share across devices)
+4. **Revoke old tokens immediately** after rotation
+5. **Monitor service account usage** in 1Password web interface
 
 ### Access Control
 
@@ -276,21 +397,63 @@ export OP_SERVICE_ACCOUNT_TOKEN='ops_xxx'
 
 ## Comparison: Personal vs Work
 
-| Feature | Personal | Work |
-|---------|----------|------|
-| **Authentication** | Interactive (Desktop App) | Non-interactive (Service Account) |
-| **Access Scope** | Full account access | Limited to specific vaults |
-| **Setup** | Desktop app required | Token-based, CLI-only |
-| **Best For** | Daily use, full access | Automation, limited access |
-| **SSH Agent** | ✅ Integrated | ❌ Use traditional keys |
+| Feature             | Personal                      | Work                                |
+| ------------------- | ----------------------------- | ----------------------------------- |
+| **Authentication**  | Interactive (Desktop App)     | Non-interactive (Service Account)   |
+| **Access Scope**    | Full account access           | Limited to specific vaults          |
+| **Setup**           | Desktop app required          | Token-based, CLI-only               |
+| **Best For**        | Daily use, full access        | Automation, limited access          |
+| **SSH Agent**       | ✅ Integrated                  | ❌ Use traditional keys              |
+
+## Advanced Features
+
+### Secret Caching
+
+Automatic secret loading uses intelligent caching:
+
+- **Cache Location**: `~/.cache/op-secrets.cache`
+- **Cache Duration**: 1 hour (3600 seconds)
+- **Benefits**: Reduces 1Password CLI calls, improves shell startup time
+- **Security**: Cache file has 600 permissions (user-only access)
+
+To clear the cache:
+
+```bash
+rm ~/.cache/op-secrets.cache
+```
+
+### Personal Environment Support
+
+All features also work in personal environment (Desktop App):
+
+```bash
+# Enhanced validation checks SSH agent, vaults, authentication
+op-helper validate
+
+# Shows SSH agent status, vault access, token info
+op-helper status
+
+# Automatic secret loading works with Desktop App too
+# Configure in .chezmoidata/onepassword.yaml under personal.secrets
+```
+
+### Cross-Shell Support
+
+All features work identically in:
+
+- **Zsh**: Primary shell with full support
+- **Nushell**: Complete parallel implementation
+- **Bash**: Compatible (if you add similar integration)
 
 ## Next Steps
 
 1. ✅ Create service account in 1Password
 2. ✅ Save token securely (environment variable or file)
-3. ✅ Configure secrets in `.chezmoidata/onepassword.yaml`
-4. ✅ Test with `op-helper validate`
-5. ✅ Use in scripts and automation
+3. ✅ Track token creation date for rotation reminders
+4. ✅ Configure automatic secret loading (optional)
+5. ✅ Test with `op-helper validate`
+6. ✅ Use in scripts and automation
+7. ✅ Set calendar reminder for token rotation (90 days)
 
 ## Additional Resources
 
@@ -307,4 +470,4 @@ If you encounter issues:
 3. Verify token is correctly set and not expired
 4. Review access permissions for required vaults/items
 
-For 1Password-specific issues, consult: https://support.1password.com
+For 1Password-specific issues, consult: <https://support.1password.com>

@@ -4,107 +4,107 @@ applications:
   work:
     # Work-specific applications
     - name: aws-vpn-client
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: lastpass
-      install_via: brew_cask
+      installer: [brew_cask]
 
   shared:
     # Shared applications for all environments
     - name: aerospace
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: cursor
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: cyberduck
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: disk-inventory-x
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: espanso
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: firefox
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: ghostty
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: google-chrome
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: karabiner-elements
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: keka
-      install_via: brew_cask
+      installer: [brew_cask]
 
     - name: kindaVim
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: kitty
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: nightfall
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: obsidian
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: opera
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: postman
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: raycast
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: slack
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: sf-symbols
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: tidal
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: visual-studio-code@insiders
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: zed
-      install_via: brew_cask
+      installer: [brew_cask]
 
   personal:
     # Personal applications
     - name: 1password
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: 1password-cli
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: ableton-live-suite
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: affinity-designer
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: affinity-photo
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: affinity-publisher
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: blender
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: betterdiscord-installer
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: darktable
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: discord
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: figma
-      install_via: brew_cask
+      installer: [brew_cask]
     - name: obs
-      install_via: brew_cask
+      installer: [brew_cask]
 
     # Mac App Store apps - Personal
     - name: "Final Cut Pro"
-      install_via: mas
+      installer: [mas]
       app_id: 424389933
     - name: "Logic Pro"
-      install_via: mas
+      installer: [mas]
       app_id: 634148309
     - name: "Motion"
-      install_via: mas
+      installer: [mas]
       app_id: 434290957
     - name: "GarageBand"
-      install_via: mas
+      installer: [mas]
       app_id: 682658836
     - name: "Rosetta Stone Learn Languages"
-      install_via: mas
+      installer: [mas]
       app_id: 1476088902
     - name: "Xcode"
-      install_via: mas
+      installer: [mas]
       app_id: 497799835
     - name: "Compressor"
-      install_via: mas
+      installer: [mas]
       app_id: 424390742
     - name: "FileZilla Pro"
-      install_via: mas
+      installer: [mas]
       app_id: 1298486723

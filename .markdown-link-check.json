@@ -1,15 +1,14 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^http://localhost"
-    },
-    {
-      "pattern": "^https://github\\.com/.+/actions/workflows/.+/badge\\.svg"
+      "pattern": "^https?://"
     }
   ],
   "replacementPatterns": [],
-  "timeout": "20s",
-  "retryOn429": true,
-  "retryCount": 5,
-  "fallbackRetryDelay": "30s"
+  "httpHeaders": [],
+  "timeout": "5s",
+  "retryOn429": false,
+  "retryCount": 0,
+  "fallbackRetryDelay": "5s",
+  "aliveStatusCodes": [200, 206]
 }

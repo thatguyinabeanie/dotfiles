@@ -1,34 +1,5 @@
 -- TreeSitter configuration and syntax highlighting
--- Fallback configuration when template is not generated
-local config = {
-  treesitter = {
-    parsers = {
-      "lua",
-      "vim",
-      "vimdoc",
-      "query",
-      "python",
-      "javascript",
-      "typescript",
-      "html",
-      "css",
-      "json",
-      "yaml",
-      "toml",
-      "bash",
-      "nu",
-      "markdown",
-      "markdown_inline",
-      "jinja2",
-    },
-  },
-}
-
--- Try to load the template-generated config, fallback to defaults if not available
-local ok, template_config = pcall(require, "utils.language-config")
-if ok then
-  config = template_config
-end
+-- Minimal essential parsers - auto_install handles the rest
 
 -- Map of special case filetypes to parsers
 local parser_map = {
@@ -77,7 +48,12 @@ return {
     opts = {
       auto_install = true,
       endwise = { enable = true },
-      ensure_installed = config.treesitter.parsers,
+      ensure_installed = {
+        "lua", -- Neovim config
+        "vim", -- Vim script
+        "vimdoc", -- Vim documentation
+        "query", -- TreeSitter queries
+      },
       highlight = {
         enable = true,
         -- Disable treesitter for template files (follow chezmoi.vim recommendation)

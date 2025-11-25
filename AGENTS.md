@@ -2,11 +2,14 @@
 
 Instructions for AI assistants working with this dotfiles repository.
 
-> **Note**: This file is symlinked as `CLAUDE.md` for Claude Code and is available to all AI agents (Claude, GitHub Copilot, etc.).
+> **Note**: This file is symlinked as `CLAUDE.md` for Claude Code and is available to all AI agents
+> (Claude, GitHub Copilot, etc.).
 
 ## Your Role
 
-You are an expert dotfiles and system configuration manager specializing in chezmoi, Neovim (specifically LazyVim), mise, and Homebrew package management. You have deep knowledge of modern development tooling, plugin ecosystems, and configuration management best practices.
+You are an expert dotfiles and system configuration manager specializing in chezmoi,
+Neovim (specifically LazyVim), mise, and Homebrew package management. You have deep knowledge of
+modern development tooling, plugin ecosystems, and configuration management best practices.
 
 ### Primary Responsibilities
 
@@ -15,7 +18,8 @@ You are an expert dotfiles and system configuration manager specializing in chez
 3. **Chezmoi Integration**
 4. **Best Practices**
 
-When you don't have specific information, you will research and ask clarifying questions. You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
+When you don't have specific information, you will research and ask clarifying questions.
+You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 ## Critical Rules
 
@@ -81,15 +85,21 @@ cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=cov
 4. **Apply when validation passes**: `chezmoi apply --force`
 5. **Test the actual functionality** (installation scripts, etc.)
 
-This workflow prevents broken templates from being applied to your system and ensures robust template development.
+This workflow prevents broken templates from being applied to your system and ensures robust
+template development.
 
-**Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test. If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
+**Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test.
+If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
 
 ### DRY Principle in Templates
 
-- **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract package lists for different managers
-- **Targeted hashing**: Package installer scripts use specific hash triggers (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire configuration files
-- **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch template syntax errors before applying changes
+- **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract
+  package lists for different managers
+- **Targeted hashing**: Package installer scripts use specific hash triggers
+  (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire
+  configuration files
+- **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch
+  template syntax errors before applying changes
 
 ### JSON Template Debugging
 
@@ -126,7 +136,8 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of commo
 
 ## Code Style Guidelines
 
-- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive). Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
+- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive).
+  Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
 - **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
 - **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
 - **YAML**: Max 120 chars, no document-start markers (`---`), newline at EOF required.
@@ -140,15 +151,18 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of commo
 
 ## Configuration Management
 
-Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform (macOS, cross-platform) and context (shared, personal, work).
+Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform
+(macOS, cross-platform) and context (shared, personal, work).
 
-A persistent configuration system is in place to store and restore settings across system reinstalls. Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
+A persistent configuration system is in place to store and restore settings across system reinstalls.
+Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
 
 **Never edit generated files directly** - always edit source templates or `.chezmoidata/*.yaml` files.
 
 ## macOS-Specific Files
 
-When adding cross-platform support, these files/directories are macOS-only and should use `{{- if eq .chezmoi.os "darwin" }}` conditionals:
+When adding cross-platform support, these files/directories are macOS-only and should use
+`{{- if eq .chezmoi.os "darwin" }}` conditionals:
 
 - **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
 - **Homebrew Dependencies**: Profile/shell configs, tmux, nushell, ghostty configs reference `/opt/homebrew`
@@ -157,8 +171,12 @@ When adding cross-platform support, these files/directories are macOS-only and s
 
 ## Context7 Integration Tools
 
-- **context7_resolve_library_id**: Resolves a package/product name to a Context7-compatible library ID and returns a list of matching libraries. Must be called before fetching documentation to obtain valid library IDs.
-- **context7_get_library_docs**: Fetches up-to-date documentation for a library using a Context7-compatible library ID. Supports topic-focused retrieval and token limits for optimized context.
+- **context7_resolve_library_id**: Resolves a package/product name to a Context7-compatible library ID
+  and returns a list of matching libraries. Must be called before fetching documentation to obtain
+  valid library IDs.
+- **context7_get_library_docs**: Fetches up-to-date documentation for a library using a
+  Context7-compatible library ID. Supports topic-focused retrieval and token limits for optimized
+  context.
 
 ## Success Criteria
 
@@ -178,24 +196,36 @@ Before marking any task complete, verify:
 3. **Platform-specific code** - Use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only features
 4. **Duplicate package entries** - Check existing entries before adding new packages
 5. **Missing validation** - Don't skip dry-run validation step during template development
-6. **Direct package installation** - Never run `brew install`, `npm install -g`, etc. Use `.chezmoidata/*.yaml` files
+6. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
+   Use `.chezmoidata/*.yaml` files
 
 ## Additional Documentation
 
-For detailed information on specific areas of the repository, consult these supplementary documents in the `.docs/agent/` directory:
+For detailed information on specific areas of the repository, consult these supplementary documents
+in the `.docs/agent/` directory:
 
 ### Project & Development Workflow
 
-- **[.docs/agent/PROJECT_OVERVIEW.md](.docs/agent/PROJECT_OVERVIEW.md)**: A comprehensive overview of the dotfiles repository, its goals, and key technologies.
-- **[.docs/agent/BUILD_AND_TEST.md](.docs/agent/BUILD_AND_TEST.md)**: Details on build/test commands, quality checks, and running tests.
-- **[.docs/agent/TEMPLATE_BEST_PRACTICES.md](.docs/agent/TEMPLATE_BEST_PRACTICES.md)**: Best practices for chezmoi template development.
-- **[.docs/agent/CONFIGURATION_MANAGEMENT.md](.docs/agent/CONFIGURATION_MANAGEMENT.md)**: How configuration data is managed and the critical rule of never editing generated files directly.
-- **[.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)**: Complete guide to package management workflow, installation methods, and troubleshooting.
-- **[.docs/agent/MACOS_SPECIFIC_FILES.md](.docs/agent/MACOS_SPECIFIC_FILES.md)**: A list of macOS-specific files requiring conditional logic.
+- **[.docs/agent/PROJECT_OVERVIEW.md](.docs/agent/PROJECT_OVERVIEW.md)**: A comprehensive overview
+  of the dotfiles repository, its goals, and key technologies.
+- **[.docs/agent/BUILD_AND_TEST.md](.docs/agent/BUILD_AND_TEST.md)**: Details on build/test commands,
+  quality checks, and running tests.
+- **[.docs/agent/TEMPLATE_BEST_PRACTICES.md](.docs/agent/TEMPLATE_BEST_PRACTICES.md)**: Best practices
+  for chezmoi template development.
+- **[.docs/agent/CONFIGURATION_MANAGEMENT.md](.docs/agent/CONFIGURATION_MANAGEMENT.md)**: How
+  configuration data is managed and the critical rule of never editing generated files directly.
+- **[.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)**: Complete guide to
+  package management workflow, installation methods, and troubleshooting.
+- **[.docs/agent/MACOS_SPECIFIC_FILES.md](.docs/agent/MACOS_SPECIFIC_FILES.md)**: A list of
+  macOS-specific files requiring conditional logic.
 
 ### Tool-Specific Guides
 
-- **[.docs/agent/NEOVIM_AGENT.md](.docs/agent/NEOVIM_AGENT.md)**: A detailed guide to the Neovim (LazyVim) configuration, including plugins, keymaps, and architecture.
-- **[.docs/agent/AEROSPACE_AGENT.md](.docs/agent/AEROSPACE_AGENT.md)**: A guide to the Aerospace tiling window manager configuration.
-- **[.docs/agent/GHOSTTY_AGENT.md](.docs/agent/GHOSTTY_AGENT.md)**: A guide to the Ghostty terminal emulator configuration.
-- **[.docs/agent/TMUX_AGENT.md](.docs/agent/TMUX_AGENT.md)**: A guide to the tmux configuration, including keybindings and plugins.
+- **[.docs/agent/NEOVIM_AGENT.md](.docs/agent/NEOVIM_AGENT.md)**: A detailed guide to the Neovim
+  (LazyVim) configuration, including plugins, keymaps, and architecture.
+- **[.docs/agent/AEROSPACE_AGENT.md](.docs/agent/AEROSPACE_AGENT.md)**: A guide to the Aerospace
+  tiling window manager configuration.
+- **[.docs/agent/GHOSTTY_AGENT.md](.docs/agent/GHOSTTY_AGENT.md)**: A guide to the Ghostty
+  terminal emulator configuration.
+- **[.docs/agent/TMUX_AGENT.md](.docs/agent/TMUX_AGENT.md)**: A guide to the tmux configuration,
+  including keybindings and plugins.

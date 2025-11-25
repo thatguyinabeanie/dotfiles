@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This script installs cargo packages not managed by mise or Mason
+# Cargo Global Package Installation (Hybrid Approach)
+# Installs Rust packages globally for system-wide use. Mason also installs these for Neovim.
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "cargo" "root" .) }}
 
 set -euo pipefail
@@ -27,15 +28,15 @@ else
     log_detail "cargo-binstall already available"
 fi
 
-log_detail "Collecting cargo packages..."
+log_detail "Collecting cargo packages for global installation..."
 
-# Collect cargo packages not managed by Mason
+# Collect all packages with 'cargo' in installer array
 CARGO_PACKAGES=()
 
 # Language servers not managed by Mason
 {{- range .language_servers }}
-{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
-{{- if .install_command }}
+{{- if and (has "cargo" .installer) }}
+{{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 CARGO_PACKAGES+=("{{ .name }}")
@@ -45,8 +46,8 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Formatters not managed by Mason
 {{- range .formatters }}
-{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
-{{- if .install_command }}
+{{- if and (has "cargo" .installer) }}
+{{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 CARGO_PACKAGES+=("{{ .name }}")
@@ -56,8 +57,8 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Linters not managed by Mason
 {{- range .linters }}
-{{- if and (eq .install_via "cargo") (not .mason_ensure_installed) }}
-{{- if .install_command }}
+{{- if and (has "cargo" .installer) }}
+{{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 CARGO_PACKAGES+=("{{ .name }}")
@@ -67,8 +68,8 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Development tools (excluding cargo-binstall which is installed separately)
 {{- range .dev_tools }}
-{{- if and (eq .install_via "cargo") (ne .name "cargo-binstall") }}
-{{- if .install_command }}
+{{- if and (has "cargo" .installer) (ne .name "cargo-binstall") }}
+{{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
 CARGO_PACKAGES+=("{{ .name }}")
@@ -77,11 +78,19 @@ CARGO_PACKAGES+=("{{ .name }}")
 {{- end }}
 
 if [[ ${#CARGO_PACKAGES[@]} -eq 0 ]]; then
-    log_summary "✅ No cargo packages to install (all handled by Mason or mise)"
+    log_summary "✅ No cargo packages to install"
     exit 0
 fi
 
-log_section "🦀 Installing ${#CARGO_PACKAGES[@]} Cargo Packages"
+log_section "🦀 Global Cargo Installation (${#CARGO_PACKAGES[@]} packages)"
+log_detail "Installing globally for system-wide availability"
+{{- $masonCount := 0 }}
+{{- range .language_servers }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .formatters }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .linters }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- if gt $masonCount 0 }}
+log_detail "Note: {{ $masonCount }} packages also managed by Mason for Neovim"
+{{- end }}
 
 installed=0
 failed=0

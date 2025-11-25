@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# This script installs gem packages not managed by mise or Mason
+# Global Package Installation (Hybrid Approach)
+# Installs packages globally for system-wide use. Mason may also install some for Neovim.
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "gem" "root" .) }}
 
 {{- define "collect_gem_packages" -}}
 {{- range .packages }}
-{{- if and (eq .install_via "gem") (not .mason_ensure_installed) }}
+{{- if and (has "gem" .installer) }}
 GEM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
@@ -32,9 +33,9 @@ if ! mise which ruby >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "📦 Collecting gem packages..."
+echo "📦 Collecting packages for global installation..."
 
-# Collect gem packages not managed by Mason
+# Collect gem packages with installer array containing this manager
 GEM_PACKAGES=()
 
 {{ template "collect_gem_packages" (dict "packages" .language_servers) }}

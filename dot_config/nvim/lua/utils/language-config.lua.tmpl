@@ -1,17 +1,9 @@
-{{- $parsers_data := (include (printf "%s/.chezmoidata/parsers.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $lsp_data := (include (printf "%s/.chezmoidata/lsp.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $formatters_data := (include (printf "%s/.chezmoidata/formatters.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $linters_data := (include (printf "%s/.chezmoidata/linters.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $tools_data := (include (printf "%s/.chezmoidata/tools.yaml" .chezmoi.sourceDir) | fromYaml) }}
 
 return {
-  treesitter = {
-    parsers = {
-{{- range $parsers_data.treesitter_parsers }}
-      "{{ .name }}",
-{{- end }}
-    },
-  },
   filetypes = {
     web_frameworks = {
       "javascriptreact",
@@ -29,7 +21,7 @@ return {
     },
     lsp_servers = {
 {{- range $server := $lsp_data.language_servers }}
-  {{- if and (hasKey $server "mason_ensure_installed") $server.mason_ensure_installed }}
+  {{- if has "mason" $server.installer }}
     {{- $mason_name := "" }}
     {{- if hasKey $server "mason_name" }}
       {{- $mason_name = $server.mason_name }}
@@ -46,36 +38,36 @@ return {
   mason = {
     lsp_servers = {
 {{- range $lsp_data.language_servers }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     lspconfig_servers = {
 {{- range $lsp_data.language_servers }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
+  {{- if has "mason" .installer }}
       "{{ if hasKey . "lspconfig_name" }}{{ .lspconfig_name }}{{ else }}{{ .name }}{{ end }}",
   {{- end }}
 {{- end }}
     },
     formatters = {
 {{- range $formatters_data.formatters }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     linters = {
 {{- range $linters_data.linters }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     exploration_tools = {
 {{- range $tools_data.dev_tools }}
-  {{- if and (hasKey . "mason_ensure_installed") .mason_ensure_installed }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+  {{- if has "mason" .installer }}
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },

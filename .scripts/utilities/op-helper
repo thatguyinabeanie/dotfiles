@@ -76,6 +76,11 @@ get_secret() {
 
 # Validate service account access
 validate_service_account() {
+    print_success "Validating Service Account Authentication"
+    echo "=========================================="
+    echo ""
+
+    # Check token is set
     if [ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
         print_error "OP_SERVICE_ACCOUNT_TOKEN is not set"
         echo ""
@@ -87,15 +92,74 @@ validate_service_account() {
         return 1
     fi
 
+    print_success "✓ Token is set"
+
     # Try to authenticate
     if ! op whoami &> /dev/null; then
-        print_error "Service account authentication failed"
+        print_error "✗ Service account authentication failed"
         echo "Please check your OP_SERVICE_ACCOUNT_TOKEN is valid"
         return 1
     fi
 
-    print_success "Service account authenticated successfully"
+    print_success "✓ Authentication successful"
     op whoami
+
+    # Test vault access
+    echo ""
+    echo "Testing vault access..."
+    local vaults=$(op vault list --format=json 2>/dev/null)
+    if [ -n "$vaults" ]; then
+        local vault_count=$(echo "$vaults" | jq -r 'length')
+        print_success "✓ Access to $vault_count vault(s)"
+        echo "$vaults" | jq -r '.[] | "  - \(.name)"'
+    else
+        print_warning "Unable to list vaults"
+    fi
+
+    return 0
+}
+
+# Validate personal environment (Desktop App)
+validate_personal() {
+    print_success "Validating Personal Environment (Desktop App)"
+    echo "=============================================="
+    echo ""
+
+    # Check if signed in
+    if ! op whoami &> /dev/null; then
+        print_error "✗ Not signed in to 1Password"
+        echo "Run: op-signin"
+        return 1
+    fi
+
+    print_success "✓ Signed in"
+    op whoami
+
+    # Check SSH agent socket (macOS only)
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo ""
+        echo "Checking SSH agent..."
+        local ssh_socket="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+        if [ -S "$ssh_socket" ]; then
+            print_success "✓ SSH agent socket exists"
+        else
+            print_warning "✗ SSH agent socket not found"
+            echo "  Ensure 1Password SSH agent is enabled in settings"
+        fi
+    fi
+
+    # Test vault access
+    echo ""
+    echo "Testing vault access..."
+    local vaults=$(op vault list --format=json 2>/dev/null)
+    if [ -n "$vaults" ]; then
+        local vault_count=$(echo "$vaults" | jq -r 'length')
+        print_success "✓ Access to $vault_count vault(s)"
+        echo "$vaults" | jq -r '.[] | "  - \(.name)"'
+    else
+        print_warning "Unable to list vaults"
+    fi
+
     return 0
 }
 
@@ -108,8 +172,10 @@ Usage: op-helper <command> [arguments]
 
 Commands:
   get <vault> <item> [field]  - Get a secret from 1Password
-  validate                     - Validate service account access (work env only)
-  status                       - Show current authentication status
+  validate                     - Validate authentication and access
+  status                       - Show detailed authentication status
+  rotate-token                 - Rotate service account token (work env only)
+  token-info                   - Show token age and expiry information
   help                         - Show this help message
 
 Environment:
@@ -123,8 +189,14 @@ Examples:
   # Get a credential field
   op-helper get "Work Secrets" "API Key" credential
 
-  # Validate service account
+  # Validate authentication
   op-helper validate
+
+  # Show status
+  op-helper status
+
+  # Rotate service account token
+  op-helper rotate-token
 
 EOF
 }
@@ -133,26 +205,248 @@ EOF
 show_status() {
     echo "1Password Configuration Status"
     echo "================================"
-    echo "Environment: $([ "$WORK_ENV" = "true" ] && echo "Work" || echo "Personal")"
-    echo "Auth Method: $(is_work_service_account && echo "Service Account" || echo "Interactive")"
+    echo ""
+    echo "Environment:    $([ "$WORK_ENV" = "true" ] && echo "Work" || echo "Personal")"
+    echo "Auth Method:    $(is_work_service_account && echo "Service Account" || echo "Interactive (Desktop App)")"
     echo ""
 
     if is_work_service_account; then
-        echo "Service Account Token: $([ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && echo "Set" || echo "Not Set")"
+        echo "Service Account Configuration:"
+        echo "  Token Status:   $([ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ] && echo "✓ Set" || echo "✗ Not Set")"
+
+        # Show token age if tracked
+        if command -v defaults &> /dev/null; then
+            local token_date=$(defaults read com.chezmoi.config op_token_created_date 2>/dev/null || echo "")
+            if [ -n "$token_date" ]; then
+                local current_date=$(date +%s)
+                local token_age=$(( (current_date - token_date) / 86400 ))
+                local days_until_rotation=$((90 - token_age))
+
+                echo "  Token Age:      $token_age days"
+                if [ $days_until_rotation -gt 0 ]; then
+                    echo "  Rotation Due:   in $days_until_rotation days"
+                else
+                    echo "  Rotation Due:   $(print_warning "OVERDUE")"
+                fi
+            fi
+        fi
+
+        echo ""
         if op whoami &> /dev/null; then
-            print_success "Authentication: Valid"
+            print_success "Authentication: ✓ Valid"
+            echo ""
             op whoami
+
+            # Show accessible vaults
+            echo ""
+            echo "Accessible Vaults:"
+            local vaults=$(op vault list --format=json 2>/dev/null)
+            if [ -n "$vaults" ]; then
+                echo "$vaults" | jq -r '.[] | "  • \(.name)"'
+            fi
         else
-            print_error "Authentication: Invalid"
+            print_error "Authentication: ✗ Invalid"
+            echo "Check your OP_SERVICE_ACCOUNT_TOKEN"
         fi
     else
-        echo "Using 1Password Desktop App authentication"
+        echo "Desktop App Configuration:"
+        echo ""
         if op whoami &> /dev/null; then
-            print_success "Signed in"
+            print_success "Authentication: ✓ Signed in"
+            echo ""
             op whoami
+
+            # Check SSH agent
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                echo ""
+                local ssh_socket="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+                if [ -S "$ssh_socket" ]; then
+                    print_success "SSH Agent: ✓ Available"
+                else
+                    print_warning "SSH Agent: ✗ Not available"
+                fi
+            fi
+
+            # Show accessible vaults
+            echo ""
+            echo "Accessible Vaults:"
+            local vaults=$(op vault list --format=json 2>/dev/null)
+            if [ -n "$vaults" ]; then
+                echo "$vaults" | jq -r '.[] | "  • \(.name)"'
+            fi
         else
-            print_warning "Not signed in (run: op-signin)"
+            print_warning "Authentication: Not signed in"
+            echo "Run: op-signin"
         fi
+    fi
+}
+
+# Show token information
+show_token_info() {
+    if [ "$WORK_ENV" != "true" ]; then
+        print_error "Token info only available in work environment"
+        exit 1
+    fi
+
+    echo "Service Account Token Information"
+    echo "=================================="
+    echo ""
+
+    if [ -z "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
+        print_error "OP_SERVICE_ACCOUNT_TOKEN is not set"
+        exit 1
+    fi
+
+    print_success "Token: Set"
+
+    # Check if token creation date is tracked
+    if command -v defaults &> /dev/null; then
+        local token_date=$(defaults read com.chezmoi.config op_token_created_date 2>/dev/null || echo "")
+
+        if [ -n "$token_date" ]; then
+            local current_date=$(date +%s)
+            local token_age=$(( (current_date - token_date) / 86400 ))
+            local days_until_rotation=$((90 - token_age))
+
+            echo "Created:        $(date -r "$token_date" "+%Y-%m-%d %H:%M:%S")"
+            echo "Age:            $token_age days"
+
+            if [ $days_until_rotation -gt 0 ]; then
+                print_success "Rotation Due:   in $days_until_rotation days"
+            else
+                print_warning "Rotation Due:   OVERDUE (by $(( -days_until_rotation )) days)"
+            fi
+
+            echo ""
+            echo "Recommended rotation interval: 90 days"
+        else
+            print_warning "Token creation date not tracked"
+            echo ""
+            echo "To track token age, run after creating a new token:"
+            echo "  defaults write com.chezmoi.config op_token_created_date -int \$(date +%s)"
+        fi
+    else
+        print_warning "Cannot track token age (defaults command not available)"
+    fi
+}
+
+# Rotate service account token
+rotate_token() {
+    if [ "$WORK_ENV" != "true" ]; then
+        print_error "Token rotation only available in work environment"
+        exit 1
+    fi
+
+    echo "Service Account Token Rotation"
+    echo "==============================="
+    echo ""
+    print_warning "This process will guide you through rotating your service account token."
+    echo ""
+
+    # Show current token info
+    if [ -n "${OP_SERVICE_ACCOUNT_TOKEN:-}" ]; then
+        echo "Current token status:"
+        if command -v defaults &> /dev/null; then
+            local token_date=$(defaults read com.chezmoi.config op_token_created_date 2>/dev/null || echo "")
+            if [ -n "$token_date" ]; then
+                local current_date=$(date +%s)
+                local token_age=$(( (current_date - token_date) / 86400 ))
+                echo "  Age: $token_age days"
+            fi
+        fi
+        echo ""
+    fi
+
+    echo "Steps to rotate your token:"
+    echo "  1. Go to 1Password and create a new service account token"
+    echo "  2. Copy the new token (starts with 'ops_')"
+    echo "  3. Update your shell configuration with the new token"
+    echo "  4. Test the new token"
+    echo "  5. Revoke the old token in 1Password"
+    echo ""
+
+    read -p "Do you have a new token ready? (y/n) " -n 1 -r
+    echo ""
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborting. Create a new token first, then run this command again."
+        exit 0
+    fi
+
+    echo ""
+    read -p "Enter the new service account token: " -r new_token
+
+    if [ -z "$new_token" ]; then
+        print_error "No token provided"
+        exit 1
+    fi
+
+    # Validate token format
+    if [[ ! "$new_token" =~ ^ops_ ]]; then
+        print_warning "Token doesn't start with 'ops_' - are you sure this is correct?"
+        read -p "Continue anyway? (y/n) " -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            exit 0
+        fi
+    fi
+
+    # Test new token
+    echo ""
+    echo "Testing new token..."
+    if OP_SERVICE_ACCOUNT_TOKEN="$new_token" op whoami &> /dev/null; then
+        print_success "✓ New token is valid"
+    else
+        print_error "✗ New token validation failed"
+        echo "Please check the token and try again"
+        exit 1
+    fi
+
+    # Save token to file or show instructions
+    local token_file="$HOME/.config/op/service-account-token"
+    echo ""
+    echo "Token validated successfully!"
+    echo ""
+    echo "To complete the rotation, update your token in one of these locations:"
+    echo "  1. Environment variable in ~/.zshenv or ~/.config/nushell/env.local.nu:"
+    echo "     export OP_SERVICE_ACCOUNT_TOKEN='$new_token'"
+    echo ""
+    echo "  2. Or save to token file:"
+    echo "     mkdir -p $(dirname "$token_file")"
+    echo "     echo '$new_token' > $token_file"
+    echo "     chmod 600 $token_file"
+    echo ""
+
+    read -p "Would you like to save to token file now? (y/n) " -n 1 -r
+    echo ""
+
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        mkdir -p "$(dirname "$token_file")"
+        echo "$new_token" > "$token_file"
+        chmod 600 "$token_file"
+        print_success "✓ Token saved to $token_file"
+
+        # Update creation date
+        if command -v defaults &> /dev/null; then
+            defaults write com.chezmoi.config op_token_created_date -int $(date +%s)
+            print_success "✓ Token creation date recorded"
+        fi
+
+        echo ""
+        print_success "Token rotation complete!"
+        echo ""
+        echo "Next steps:"
+        echo "  1. Restart your shell or run: source ~/.zshrc"
+        echo "  2. Verify with: op-helper validate"
+        echo "  3. Revoke the old token in 1Password"
+    else
+        echo ""
+        echo "Remember to:"
+        echo "  1. Update your shell configuration manually"
+        echo "  2. Restart your shell"
+        echo "  3. Update token creation date:"
+        echo "     defaults write com.chezmoi.config op_token_created_date -int \$(date +%s)"
+        echo "  4. Revoke the old token in 1Password"
     fi
 }
 
@@ -172,14 +466,20 @@ main() {
             get_secret "$@"
             ;;
         validate)
-            if [ "$WORK_ENV" != "true" ]; then
-                print_error "Validation only available in work environment"
-                exit 1
+            if [ "$WORK_ENV" = "true" ]; then
+                validate_service_account
+            else
+                validate_personal
             fi
-            validate_service_account
             ;;
         status)
             show_status
+            ;;
+        token-info)
+            show_token_info
+            ;;
+        rotate-token)
+            rotate_token
             ;;
         help|--help|-h)
             show_help

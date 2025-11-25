@@ -40,6 +40,7 @@ baseUrl
 BattleStadium
 beautifulsoup4
 bigquery
+binstall
 Bontera
 botbase
 boto3
@@ -78,6 +79,7 @@ CloudFormation
 cloudpickle
 CloudTrail
 cluster01
+cluster02
 cluster03
 cmd
 cmp
@@ -203,6 +205,7 @@ gitignore
 GitLab
 Gitleaks
 go1
+gofmt
 Golang
 golangci
 googleapis
@@ -272,6 +275,7 @@ Karabiner
 Keychain
 keymap
 KEYMAPS
+Kotlin
 KPI
 KPIs
 KUBE
@@ -412,6 +416,7 @@ postinstall
 PPA
 PR's
 PRD
+precompiled
 Prisma
 prizePool
 PropTypes
@@ -422,6 +427,7 @@ PRs
 psutil
 psycopg2
 ptyprocess
+pulumi
 pvc
 PVCs
 px
@@ -468,6 +474,7 @@ resumable
 Reusability
 ripgrep
 rollout
+rollup
 rosie
 Rotom
 rpds
@@ -475,6 +482,8 @@ rsa
 RSpec
 rulesets
 runbooks
+runtimes
+rustfmt
 S3
 s3transfer
 s6
@@ -486,6 +495,8 @@ scrollback
 SDK's
 Seaborn
 serverless
+services01
+services03
 SessionX
 setuptools
 SHA
@@ -494,6 +505,7 @@ ShadcnUI
 SharedIndexInformers
 SheetJS
 shellcheck
+shfmt
 sigkill
 signup
 SIGPIPE
@@ -503,6 +515,7 @@ sonner
 sortedcontainers
 soupsieve
 specifc
+sql
 sqlfluff
 SQLite
 sqlparse
@@ -513,6 +526,7 @@ statusline
 stderr
 stdout
 Strang's
+Streamlit
 struct
 STS
 stylua
@@ -532,6 +546,7 @@ SWC
 swissPairing
 sys
 systemPrompt
+taplo
 tblib
 teamValidator
 Teardown
@@ -621,6 +636,7 @@ writeFile
 XDG
 XSS
 YAML
+yamlfmt
 Yazi
 yml
 zellij

@@ -7,6 +7,12 @@ pre-commit:
     vale:
       glob: "**/*.md"
       run: vale --config .vale.ini {staged_files}
+    markdownlint:
+      glob: "**/*.md"
+      run: .scripts/hooks/pre-commit-markdownlint.sh {staged_files}
+    markdown-link-check:
+      glob: "**/*.md"
+      run: .scripts/hooks/pre-commit-markdown-link-check.sh {staged_files}
     shellcheck:
       run: .scripts/hooks/pre-commit-shellcheck.sh {staged_files}
     stylua:
@@ -38,5 +44,3 @@ output:
   - success
   - failure
   - summary
-skip_output:
-  - meta

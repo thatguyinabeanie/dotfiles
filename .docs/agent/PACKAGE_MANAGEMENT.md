@@ -3,7 +3,8 @@
 ## Quick Overview
 
 - **Purpose**: This document explains the complete package management workflow for the dotfiles repository.
-- **Integration**: Uses chezmoi templates with `.chezmoidata/` YAML files to manage all packages across different package managers.
+- **Integration**: Uses chezmoi templates with `.chezmoidata/` YAML files to manage all packages across
+  different package managers.
 
 ## Key Principles
 
@@ -15,12 +16,14 @@
 ## Package Categories & Files
 
 ### Core Files
+
 - **`.chezmoidata/tools.yaml`**: Development tools (node, python, go, etc.)
 - **`.chezmoidata/formatters.yaml`**: Code formatters (prettier, black, rustfmt, etc.)
 - **`.chezmoidata/linters.yaml`**: Code linters (eslint, ruff, etc.)
 - **`.chezmoidata/ai/agents.yaml`**: AI tools and agents
 
 ### Supported Installation Methods
+
 ```yaml
 install_via: bun          # Node.js packages (preferred)
 install_via: npm          # Node.js packages (legacy)
@@ -39,13 +42,16 @@ install_via: curl         # Direct downloads
 ### Add Prettier Plugin (Example: prettier-plugin-sh)
 
 **❌ WRONG WAY:**
+
 ```bash
 npm install -g prettier-plugin-sh  # DON'T DO THIS
 ```
 
 **✅ CORRECT WAY:**
+
 1. **Edit**: `.chezmoidata/formatters.yaml`
 2. **Add entry**:
+
 ```yaml
 - name: prettier-plugin-sh
   languages: [sh, bash, zsh]
@@ -56,13 +62,15 @@ npm install -g prettier-plugin-sh  # DON'T DO THIS
   mason_ensure_installed: false
   prettier_plugin: true
 ```
-3. **Validate**: `chezmoi apply --dry-run`
-4. **Apply**: `chezmoi apply`
+
+1. **Validate**: `chezmoi apply --dry-run`
+2. **Apply**: `chezmoi apply`
 
 ### Add Development Tool
 
 **Files**: Edit `.chezmoidata/tools.yaml`
 **Pattern**:
+
 ```yaml
 - name: tool-name
   install_via: mise|brew|bun
@@ -76,6 +84,7 @@ npm install -g prettier-plugin-sh  # DON'T DO THIS
 
 **Files**: Edit `.chezmoidata/formatters.yaml`
 **Pattern**:
+
 ```yaml
 - name: formatter-name
   languages: [file, extensions]
@@ -90,6 +99,7 @@ npm install -g prettier-plugin-sh  # DON'T DO THIS
 
 **Files**: Edit `.chezmoidata/linters.yaml`
 **Pattern**:
+
 ```yaml
 - name: linter-name
   languages: [file, extensions]
@@ -103,6 +113,7 @@ npm install -g prettier-plugin-sh  # DON'T DO THIS
 ## Installation Methods Detail
 
 ### Bun Packages (Preferred for Node.js)
+
 ```yaml
 install_via: bun
 runtime: node
@@ -110,6 +121,7 @@ runtime: node
 ```
 
 ### NPM Packages (Legacy)
+
 ```yaml
 install_via: npm
 runtime: node
@@ -117,6 +129,7 @@ runtime: node
 ```
 
 ### Mise Tools
+
 ```yaml
 install_via: mise
 runtime: native
@@ -124,6 +137,7 @@ runtime: native
 ```
 
 ### Homebrew
+
 ```yaml
 install_via: brew
 runtime: native
@@ -131,6 +145,7 @@ runtime: native
 ```
 
 ### Custom Commands
+
 ```yaml
 install_via: cargo
 runtime: rust
@@ -138,6 +153,7 @@ install_command: "cargo install --git <repo> <name>"
 ```
 
 ### Cargo and cargo-binstall
+
 ```yaml
 install_via: cargo
 runtime: rust
@@ -146,12 +162,14 @@ runtime: rust
 ```
 
 **How it works:**
+
 - `cargo-binstall` is installed as a prerequisite (first in the cargo packages script)
 - Subsequent cargo installs automatically use cargo-binstall when precompiled binaries exist
 - Falls back to `cargo install` (compile from source) if binaries unavailable
 - Significantly faster installations for most popular Rust tools
 
 ### Mise Cargo Backend
+
 Mise can manage Rust tools using the `cargo:` prefix, delegating to cargo/cargo-binstall:
 
 ```bash
@@ -164,12 +182,14 @@ mise use -g cargo:eza@latest
 ```
 
 **Benefits of mise cargo backend:**
+
 - Unified version management across all tools
 - Automatic use of cargo-binstall for faster installs
 - Install from Git repositories with tags/branches/commits
 - Advanced options (features, locked mode, bin selection)
 
 **Current Architecture:**
+
 - Cargo tools use `install_via: cargo` in YAML files
 - Installed via dedicated script (not mise config)
 - cargo-binstall automatically accelerates all installations
@@ -185,6 +205,7 @@ mise use -g cargo:eza@latest
 ## Troubleshooting
 
 ### Manual Installation Cleanup
+
 ```bash
 # Remove manually installed npm packages
 npm uninstall -g prettier-plugin-sh prettier-plugin-toml
@@ -194,11 +215,13 @@ chezmoi apply
 ```
 
 ### Version Conflicts
+
 - Check for duplicate entries across different YAML files
 - Ensure consistent version specifications
 - Use `mise list` to check installed versions
 
 ### Missing Packages
+
 - Verify package name spelling in YAML files
 - Check if package exists in specified package manager
 - Review installation logs: `chezmoi apply -v`
@@ -206,6 +229,7 @@ chezmoi apply
 ## Advanced Patterns
 
 ### Conditional Installation
+
 ```yaml
 - name: macos-only-tool
   install_via: brew
@@ -213,6 +237,7 @@ chezmoi apply
 ```
 
 ### Multiple Install Methods
+
 ```yaml
 - name: tool-name
   install_via: brew
@@ -222,27 +247,31 @@ chezmoi apply
 ```
 
 ### Plugin Dependencies
+
 ```yaml
 - name: prettier-plugin-sh
   install_via: npm
   runtime: node
-  requires: [prettier]  # Ensure prettier is installed first
+  requires: [prettier] # Ensure prettier is installed first
 ```
 
 ## Common Package Types by Category
 
 ### Code Formatters
-- **Prettier ecosystem**: prettier, prettier-plugin-*, @prettier/*
+
+- **Prettier ecosystem**: prettier, prettier-plugin-_, @prettier/_
 - **Language-specific**: black (Python), rustfmt (Rust), gofmt (Go)
 - **Shell**: shfmt
 - **Data formats**: taplo (TOML), yamlfmt (YAML)
 
 ### Development Tools
+
 - **Version managers**: mise, fnm, pyenv
 - **Build tools**: webpack, vite, rollup
 - **Language runtimes**: node, python, go, rust
 
 ### System Utilities
+
 - **File management**: eza, fd, ripgrep, bat
 - **System monitoring**: btop, bottom, glances
 - **Terminal tools**: tmux, starship, fzf
@@ -250,6 +279,7 @@ chezmoi apply
 ## Real-World Examples
 
 ### Adding a New Prettier Plugin
+
 ```yaml
 # .chezmoidata/formatters.yaml
 - name: prettier-plugin-toml
@@ -263,8 +293,9 @@ chezmoi apply
 ```
 
 ### Adding a Language Server
+
 ```yaml
-# .chezmoidata/tools.yaml  
+# .chezmoidata/tools.yaml
 - name: typescript-language-server
   install_via: bun
   runtime: node
@@ -274,6 +305,7 @@ chezmoi apply
 ```
 
 ### Adding a Rust Tool
+
 ```yaml
 # .chezmoidata/tools.yaml
 - name: ripgrep

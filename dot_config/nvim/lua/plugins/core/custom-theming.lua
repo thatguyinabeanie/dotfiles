@@ -1,6 +1,7 @@
 if true then
   return {}
 end
+
 return {
   -- {
   --   "shortcuts/no-neck-pain.nvim",

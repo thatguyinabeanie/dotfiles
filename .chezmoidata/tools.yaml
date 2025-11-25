@@ -1,299 +1,284 @@
 dev_tools:
   # System monitoring and performance
   - name: bottom
-    install_via: mise
+    installer: [mise]
 
   - name: btop
-    install_via: brew
+    # installer: [mise]
+    installer: [brew]
 
   - name: fastfetch
-    install_via: mise
+    installer: [mise]
 
   - name: glances
-    install_via: brew
+    installer: [brew]
 
   - name: procs
-    install_via: brew
+    installer: [brew]
 
   # File and directory tools
   - name: eza
-    install_via: brew
+    installer: [mise]
 
   - name: carapace
-    install_via: brew
+    installer: [mise]
 
   - name: fd
-    install_via: brew
+    installer: [mise]
 
   - name: ripgrep
-    install_via: brew
+    installer: [mise]
 
   - name: bat
-    install_via: brew
+    installer: [mise]
 
   - name: tree
-    install_via: brew
+    installer: [brew]
 
   - name: dust
-    install_via: brew
+    installer: [brew]
 
   - name: ncdu
-    install_via: brew
+    installer: [brew]
 
   - name: gdu
-    install_via: brew
+    installer: [brew]
 
   # Data processing tools
   - name: jq
-    install_via: brew
+    installer: [mise]
 
   - name: yq
-    install_via: brew
+    installer: [mise]
 
   - name: jaq
-    install_via: brew
+    installer: [brew]
 
   - name: hyperfine
-    install_via: mise
+    installer: [mise]
 
   # Git tools
   - name: delta
-    install_via: mise
+    installer: [mise]
 
   - name: lefthook
-    install_via: mise
+    installer: [mise]
 
   - name: github-cli
-    install_via: mise
+    installer: [mise]
 
   - name: gitleaks
-    install_via: mise
+    installer: [mise]
 
   - name: gitsign
-    install_via: mise
+    installer: [mise]
 
   - name: gitui
-    install_via: mise
+    installer: [mise]
 
   - name: lazydocker
-    install_via: mise
+    installer: [mise]
 
   - name: lazygit
-    install_via: mise
+    installer: [mise]
 
   - name: lazyjournal
-    install_via: mise
-
-  - name: lazyssh
-    install_via: mise
+    installer: [mise]
 
   - name: tig
-    install_via: brew
+    installer: [brew]
 
   # Infrastructure and cloud tools
   - name: terraform
-    install_via: mise
+    installer: [mise]
 
   - name: kubectl
-    install_via: mise
+    installer: [mise]
 
   - name: helm
-    install_via: mise
+    installer: [mise]
 
   - name: k9s
-    install_via: mise
+    installer: [mise]
 
   - name: dive
-    install_via: mise
+    installer: [mise]
 
   - name: docker-desktop
-    install_via: brew_cask
+    installer: [brew_cask]
 
   # - name: docker-completion
-  #   install_via: brew
+  #   installer: [brew]
   #   runtime: native
   #   version: latest
   #   description: "Docker completions"
   #   category: infrastructure
   #
   # - name: docker-buildx
-  #   install_via: brew
+  #   installer: [brew]
   #   version: latest
   #   runtime: native
   #   description: "Modern Docker building"
   #   category: infrastructure
 
   - name: mdbook
-    install_via: mise
+    installer: [mise]
 
   - name: pandoc
-    install_via: brew
+    installer: [brew]
 
   - name: mactex-no-gui
-    install_via: brew_cask
+    installer: [brew_cask]
 
   # Programming language runtimes
   - name: node
-    install_via: mise
+    installer: [mise]
     version: "22"
 
   - name: python
-    install_via: mise
+    installer: [mise]
 
   - name: ruby
-    install_via: mise
+    installer: [mise]
     version: "3.2.7"
 
   - name: go
-    install_via: mise
+    installer: [mise]
 
   - name: rust
-    install_via: mise
+    installer: [mise]
     version: nightly
 
   - name: zig
-    install_via: mise
+    installer: [mise]
 
   - name: java
-    install_via: mise
+    installer: [mise]
     version: "zulu-8"
 
   - name: elixir
-    install_via: mise
+    installer: [mise]
 
   - name: erlang
-    install_via: mise
+    installer: [mise]
 
   - name: julia
-    install_via: mise
+    installer: [mise]
     version: "1.11.6"
 
   # Package managers
   - name: pnpm
-    install_via: mise
+    installer: [mise]
 
   - name: yarn
-    install_via: mise
+    installer: [mise]
 
   - name: npm
-    install_via: mise
+    installer: [mise]
 
   - name: deno
-    install_via: mise
+    installer: [mise]
 
   - name: pipx
-    install_via: brew
+    installer: [brew]
 
   - name: uv
-    install_via: mise
+    installer: [mise]
 
   - name: cargo-binstall
-    install_via: cargo
+    installer: [cargo]
 
   # Build tools
   - name: gradle
-    install_via: mise
+    installer: [mise]
 
   - name: maven
-    install_via: mise
+    installer: [mise]
 
   - name: cmake
-    install_via: brew
+    installer: [brew]
 
   - name: make
-    install_via: brew
+    installer: [brew]
 
   # Security and secrets management
   - name: 1password-cli
-    install_via: brew_cask
+    installer: [mise]
 
   # Terminal and shell tools
   - name: tmux
-    install_via: brew
+    installer: [mise]
 
   - name: zellij
-    install_via: brew
+    installer: [mise]
 
   - name: starship
-    install_via: brew
+    installer: [mise]
 
   - name: fzf
-    install_via: brew
+    installer: [mise]
 
   - name: zoxide
-    install_via: brew
+    installer: [mise]
 
   # Editors and IDEs
   - name: neovim
-    install_via: brew
+    installer: [mise]
 
   - name: helix
-    install_via: brew
+    installer: [mise]
 
   # Language servers and development tools
   - name: markdown-oxide
-    install_via: cargo
+    installer: [cargo]
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   # - name: pokeget
-  #   install_via: cargo
+  #   installer: [cargo]
   #   version: latest
   #   description: "Pokeget"
   #   category: terminal
 
   - name: typos-lsp
-    install_via: cargo
+    installer: [cargo]
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
     # Curl-based installations
   - name: mise
-    install_via: curl
+    installer: [curl]
 
   - name: zsh-syntax-highlighting
-    install_via: brew
+    installer: [brew]
 
 # AI Agents and Assistants
 agents:
   - name: "opencode-ai"
-    install_via: npm
+    installer: [npm]
 
   - name: "@augmentcode/auggie"
-    install_via: npm
+    installer: [npm]
 
   - name: "@google/gemini-cli"
-    install_via: npm
+    installer: [npm]
 
-  # - name: "@openai/codex"
-  - name: codex
-    install_via: mise
+  - name: "@openai/codex"
+    installer: [npm]
     version: latest
 
-  # - name: "@anthropic-ai/claude-code"
-  - name: claude
-    install_via: mise
-
-  # GUI AI Applications (macOS casks)
-  - name: cursor
-    install_via: brew_cask
+  - name: "@anthropic-ai/claude-code"
+    installer: [npm]
 
   # Terminal-based AI tools
   - name: charmbracelet/tap/mods
-    install_via: brew
+    installer: [brew]
 
   - name: "@github/copilot"
-    install_via: npm
-
-  # - name: aider-chat
-  #   install_via: pipx
-  #   runtime: python
-  #   version: latest
-  #   description: "AI pair programming in your terminal"
-  #   category: code_assistant
+    installer: [npm]
 
 # Model Context Protocol (MCP) Servers
 mcp_servers:
   # Development and deployment MCP servers
   - name: "vercel"
-    install_via: npm
+    installer: [npm]
   - name: mcp-hub
-    install_via: npm
+    installer: [npm]

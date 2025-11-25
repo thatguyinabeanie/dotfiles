@@ -1,0 +1,18 @@
+# Marksman LSP Configuration
+# Explicitly declares this as a markdown workspace
+
+[core]
+# Recognize markdown file extensions
+markdown.file_extensions = ["md", "markdown"]
+
+# Use level 1 headings as document titles
+title_from_heading = true
+
+[completion]
+# Use file-path-stem style for wiki links
+wiki.style = "file-path-stem"
+
+[code_action]
+# Enable helpful code actions
+toc.enable = true
+create_missing_file.enable = true

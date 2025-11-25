@@ -19,26 +19,17 @@
   "files.associations": {
     "*.nu.tmpl": "nushell"
   },
-  "mise.binPath": "/opt/homebrew/bin/mise",
+  "mise.binPath": "~/.local/bin/mise",
   "editor.minimap.autohide": true,
   "editor.minimap.maxColumn": 40,
   "chat.editing.confirmEditRequestRetry": false,
   "terminal.integrated.env.osx": {},
-  "notes.notesLocation": "/Users/gmendoza/source/civis-brain",
+  "notes.notesLocation": "~/source/civis-brain",
   "github.copilot.chat.codesearch.enabled": true,
   "accessibility.signalOptions.volume": 85,
   "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "git.enableSmartCommit": true,
-  "mcp": {
-    "servers": {
-      "console-ninja": {
-        "command": "npx",
-        "args": ["-y", "-c", "node ~/.console-ninja/mcp/"]
-      }
-    }
-  },
-  "wallaby.startAutomatically": false,
   "console-ninja.featureSet": "Community",
   "chat.mcp.discovery.enabled": true,
   "workbench.activityBar.location": "top",

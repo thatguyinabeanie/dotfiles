@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This script installs npm packages not managed by mise or Mason
+# NPM Global Package Installation (Hybrid Approach)
+# Installs packages globally for system-wide use. Mason also installs these for Neovim.
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "npm" "root" .) }}
 
 set -euo pipefail
@@ -14,52 +15,60 @@ if ! mise which node >/dev/null 2>&1; then
     exit 1
 fi
 
-log_detail "Collecting npm packages..."
+log_detail "Collecting npm packages for global installation..."
 
-# Collect npm packages not managed by Mason
+# Collect all packages with 'npm' in installer array
 NPM_PACKAGES=()
 
 # Language servers not managed by Mason
 {{- range .language_servers }}
-{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+{{- if and (has "npm" .installer) }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Formatters not managed by Mason
 {{- range .formatters }}
-{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+{{- if and (has "npm" .installer) }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Linters not managed by Mason
 {{- range .linters }}
-{{- if and (eq .install_via "npm") (not .mason_ensure_installed) }}
+{{- if and (has "npm" .installer) }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # AI agents
 {{- range .agents }}
-{{- if eq .install_via "npm" }}
+{{- if has "npm" .installer }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # MCP servers
 {{- range .mcp_servers }}
-{{- if eq .install_via "npm" }}
+{{- if has "npm" .installer }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 if [[ ${#NPM_PACKAGES[@]} -eq 0 ]]; then
-    log_summary "✅ No npm packages to install (all handled by Mason or mise)"
+    log_summary "✅ No npm packages to install"
     exit 0
 fi
 
-log_section "📦 Installing ${#NPM_PACKAGES[@]} NPM Packages"
+log_section "📦 Global NPM Installation (${#NPM_PACKAGES[@]} packages)"
+log_detail "Installing globally for system-wide availability"
+{{- $masonCount := 0 }}
+{{- range .language_servers }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .formatters }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .linters }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- if gt $masonCount 0 }}
+log_detail "Note: {{ $masonCount }} packages also managed by Mason for Neovim"
+{{- end }}
 
 # Pre-check which packages are already installed
 log_detail "Checking for already installed packages..."
