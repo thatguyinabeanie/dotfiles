@@ -64,6 +64,8 @@ applications:
       installer: [brew_cask]
     - name: ableton-live-suite
       installer: [brew_cask]
+    - name: affinity
+      installer: [brew_cask]
     - name: affinity-designer
       installer: [brew_cask]
     - name: affinity-photo
