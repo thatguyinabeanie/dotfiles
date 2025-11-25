@@ -82,3 +82,4 @@ formatters:
     languages: [toml]
     installer: [mise, mason]
 
+# Trigger npm reinstall
