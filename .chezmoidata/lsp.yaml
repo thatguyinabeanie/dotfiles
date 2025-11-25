@@ -49,7 +49,7 @@ language_servers:
     mason_name: ruby-lsp
     lspconfig_name: ruby_lsp
     languages: [ruby]
-    installer: [gem, mason]
+    installer: [mason]
     provides_formatting: false
 
   - name: pyright
