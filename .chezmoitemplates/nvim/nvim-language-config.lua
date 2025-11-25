@@ -39,17 +39,17 @@ return {
     core_tools = {
 {{- range $lsp_data.language_servers }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
 {{- range $formatters_data.formatters }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
 {{- range $linters_data.linters }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
@@ -57,7 +57,7 @@ return {
 {{- $tools_data := fromJson .tools_yaml.content }}
 {{- range $tools_data.dev_tools }}
   {{- if and (hasKey . "installer") (has "mason" .installer) }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },

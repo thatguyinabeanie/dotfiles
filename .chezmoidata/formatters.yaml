@@ -5,11 +5,10 @@ formatters:
     installer: [mise, mason]
     conflicts_with_lsp_formatting: true
 
-  - name: "@fsouza/prettierd"
+  - name: prettierd
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     installer: [npm, mason]
     conflicts_with_lsp_formatting: true
-    mason_name: prettierd
 
   # Markdown
   - name: markdownlint-cli2

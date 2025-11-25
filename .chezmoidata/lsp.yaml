@@ -1,7 +1,6 @@
 language_servers:
   # JavaScript/TypeScript ecosystem
-  - name: tsserver
-    mason_name: typescript-language-server
+  - name: typescript-language-server
     lspconfig_name: ts_ls
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     installer: [npm, mason]
@@ -11,7 +10,6 @@ language_servers:
 
   # Systems languages
   - name: rust-analyzer
-    mason_name: rust-analyzer
     lspconfig_name: rust_analyzer
     languages: [rust]
     installer: [mise, mason]
@@ -31,22 +29,19 @@ language_servers:
     provides_formatting: true
 
   # Scripting languages
-  - name: bashls
-    mason_name: bash-language-server
+  - name: bash-language-server
     lspconfig_name: bashls
     languages: [bash, sh, zsh]
     installer: [npm, mason]
     provides_formatting: false
 
-  - name: lua_ls
-    mason_name: lua-language-server
+  - name: lua-language-server
     lspconfig_name: lua_ls
     languages: [lua]
     installer: [mise, mason]
     provides_formatting: true
 
-  - name: ruby_lsp
-    mason_name: ruby-lsp
+  - name: ruby-lsp
     lspconfig_name: ruby_lsp
     languages: [ruby]
     installer: [mason]
@@ -59,22 +54,19 @@ language_servers:
     provides_formatting: false
 
   # Web technologies
-  - name: cssls
-    mason_name: css-lsp
+  - name: css-lsp
     lspconfig_name: cssls
     languages: [css, scss, sass]
     installer: [mason]
     provides_formatting: false
 
-  - name: html
-    mason_name: html-lsp
+  - name: html-lsp
     lspconfig_name: html
     languages: [html]
     installer: [mason]
     provides_formatting: false
 
-  - name: jsonls
-    mason_name: json-lsp
+  - name: json-lsp
     lspconfig_name: jsonls
     languages: [json, jsonc]
     installer: [mason]
@@ -95,7 +87,6 @@ language_servers:
     provides_formatting: false
 
   - name: markdown-oxide
-    mason_name: markdown-oxide
     lspconfig_name: markdown_oxide
     languages: [markdown]
     installer: [cargo, mason]
@@ -105,8 +96,7 @@ language_servers:
   # vale-ls removed - doesn't support go install, vale already available via brew
 
   # Infrastructure and DevOps
-  - name: dockerls
-    mason_name: dockerfile-language-server
+  - name: dockerfile-language-server
     lspconfig_name: dockerls
     languages: [dockerfile]
     installer: [mason]
@@ -117,30 +107,26 @@ language_servers:
   # systemd-language-server removed - Linux-specific, not needed on macOS
 
   # Specialized tools
-  - name: cmake
-    mason_name: cmake-language-server
+  - name: cmake-language-server
     lspconfig_name: cmake
     languages: [cmake]
     installer: [mason]
     provides_formatting: false
 
-  - name: vimls
-    mason_name: vim-language-server
+  - name: vim-language-server
     lspconfig_name: vimls
     languages: [vim]
     installer: [npm, mason]
     provides_formatting: false
 
   # CI/CD and GitHub
-  - name: gh_actions_lsp
-    mason_name: gh-actions-language-server
+  - name: gh-actions-language-server
     lspconfig_name: gh_actions_ls
     languages: [yaml]
     installer: [npm, mason]
     provides_formatting: false
 
-  - name: copilot
-    mason_name: copilot-language-server
+  - name: copilot-language-server
     lspconfig_name: copilot
     languages: [text]
     installer: [mason]
@@ -149,8 +135,7 @@ language_servers:
   # circleci-yaml-language-server removed - doesn't exist on npm
 
   # Linter language servers
-  - name: golangcilsp
-    mason_name: golangci-lint-langserver
+  - name: golangci-lint-langserver
     lspconfig_name: golangci_lint_ls
     languages: [go]
     installer: [go, mason]
@@ -160,16 +145,14 @@ language_servers:
   # typos-lsp moved to linters.yaml (primarily a linter)
 
   # Shell and fish
-  - name: fish_lsp
-    mason_name: fish-lsp
+  - name: fish-lsp
     lspconfig_name: fish_lsp
     languages: [fish]
     installer: [mason]
     provides_formatting: false
 
   # Generic diagnostic server
-  - name: diagnosticls
-    mason_name: diagnostic-languageserver
+  - name: diagnostic-languageserver
     lspconfig_name: diagnosticls
     languages: [text]
     installer: [npm, mason]

@@ -23,35 +23,35 @@ NPM_PACKAGES=()
 # Language servers not managed by Mason
 {{- range .language_servers }}
 {{- if and (has "npm" .installer) }}
-NPM_PACKAGES+=("{{ if and (hasKey . "mason_name") .mason_name }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}")
+NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Formatters not managed by Mason
 {{- range .formatters }}
 {{- if and (has "npm" .installer) }}
-NPM_PACKAGES+=("{{ if and (hasKey . "mason_name") .mason_name }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}")
+NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Linters not managed by Mason
 {{- range .linters }}
 {{- if and (has "npm" .installer) }}
-NPM_PACKAGES+=("{{ if and (hasKey . "mason_name") .mason_name }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}")
+NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # AI agents
 {{- range .agents }}
 {{- if has "npm" .installer }}
-NPM_PACKAGES+=("{{ if and (hasKey . "mason_name") .mason_name }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}")
+NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # MCP servers
 {{- range .mcp_servers }}
 {{- if has "npm" .installer }}
-NPM_PACKAGES+=("{{ if and (hasKey . "mason_name") .mason_name }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}")
+NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
