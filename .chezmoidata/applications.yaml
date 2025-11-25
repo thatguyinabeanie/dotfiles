@@ -10,6 +10,8 @@ applications:
 
   shared:
     # Shared applications for all environments
+    # - name: affinity
+    #   installer: [brew_cask]
     - name: aerospace
       installer: [brew_cask]
     - name: cursor

@@ -1,4 +1,4 @@
-["themes/catppuccin"]
+[".catppuccin"]
   type = "git-repo"
   refreshPeriod = "168h"
-  url = "https://github.com/catppuccin/lazygit.git"
+  url  = "https://github.com/catppuccin/lazygit.git"
