@@ -30,15 +30,6 @@
   "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "git.enableSmartCommit": true,
-  "mcp": {
-    "servers": {
-      "console-ninja": {
-        "command": "npx",
-        "args": ["-y", "-c", "node ~/.console-ninja/mcp/"]
-      }
-    }
-  },
-  "wallaby.startAutomatically": false,
   "console-ninja.featureSet": "Community",
   "chat.mcp.discovery.enabled": true,
   "workbench.activityBar.location": "top",
