@@ -39,7 +39,7 @@ return {
     lsp_servers = {
 {{- range $lsp_data.language_servers }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
@@ -53,21 +53,21 @@ return {
     formatters = {
 {{- range $formatters_data.formatters }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     linters = {
 {{- range $linters_data.linters }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     exploration_tools = {
 {{- range $tools_data.dev_tools }}
   {{- if has "mason" .installer }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
+      "{{ .name }}",
   {{- end }}
 {{- end }}
     },
