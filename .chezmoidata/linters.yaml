@@ -84,7 +84,7 @@ linters:
   # Ruby linters
   - name: rubocop
     languages: [ruby]
-    installer: [mason]
+    installer: [gem, mason]
 
   - name: standardrb
     languages: [ruby]

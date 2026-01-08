@@ -74,6 +74,10 @@ zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 source <(carapace _carapace)
 {{- end }}
 
+{{- if lookPath "jira" }}
+eval "$(jira completion zsh)"
+{{- end }}
+
 {{- if and (lookPath "pokeget") (lookPath "fastfetch")}}
 # Display system info with Pokemon and fastfetch if available
 # pokeget random --hide-name |

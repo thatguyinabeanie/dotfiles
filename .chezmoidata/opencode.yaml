@@ -16,6 +16,7 @@ opencode:
 
   # Provider configurations (object structure as per opencode schema)
   provider:
+    anthropic: {}
     github-copilot: {}
     google: {}
     opencode: {}
@@ -25,6 +26,47 @@ opencode:
 
 # Combined AI provider configurations for OpenCode
 providers:
+  # Anthropic Claude models - direct API access to latest Claude models
+  # Note: Claude Sonnet 4.5 and 4 support 1M context with beta header "context-1m-2025-08-07"
+  # OpenCode doesn't currently support custom headers, so 200K is the default context limit
+  anthropic:
+    models:
+      # Latest Claude 4.5 models
+      claude-sonnet-4.5:
+        limit:
+          context: 200000
+          output: 64000
+      claude-haiku-4.5:
+        limit:
+          context: 200000
+          output: 64000
+      claude-opus-4.5:
+        limit:
+          context: 200000
+          output: 64000
+
+      # Legacy Claude 4.x models
+      claude-opus-4.1:
+        limit:
+          context: 200000
+          output: 32000
+      claude-sonnet-4:
+        limit:
+          context: 200000
+          output: 64000
+      claude-3.7-sonnet:
+        limit:
+          context: 200000
+          output: 64000
+      claude-opus-4:
+        limit:
+          context: 200000
+          output: 32000
+      claude-3-haiku:
+        limit:
+          context: 200000
+          output: 4096
+
   opencode:
     models:
       code-supernova:

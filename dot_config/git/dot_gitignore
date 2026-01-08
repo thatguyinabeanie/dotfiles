@@ -17,3 +17,6 @@ vendor/bundle/ruby
 .scratch
 .undotree
 .editorconfig
+.mcp.json
+mcp.json
+opencode.json*
