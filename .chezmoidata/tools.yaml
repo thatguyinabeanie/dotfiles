@@ -21,7 +21,7 @@ dev_tools:
     installer: [mise]
 
   - name: carapace
-    installer: [mise]
+    installer: [brew]
 
   - name: fd
     installer: [mise]
@@ -86,6 +86,9 @@ dev_tools:
     installer: [mise]
 
   - name: tig
+    installer: [brew]
+
+  - name: jira-cli
     installer: [brew]
 
   # Infrastructure and cloud tools
@@ -183,7 +186,7 @@ dev_tools:
     installer: [brew]
 
   - name: uv
-    installer: [mise]
+    installer: [brew]
 
   - name: cargo-binstall
     installer: [cargo]
@@ -213,7 +216,7 @@ dev_tools:
     installer: [mise]
 
   - name: starship
-    installer: [mise]
+    installer: [brew]
 
   - name: fzf
     installer: [mise]
