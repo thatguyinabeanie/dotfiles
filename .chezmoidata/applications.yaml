@@ -30,7 +30,6 @@ applications:
       installer: [brew_cask]
     - name: keka
       installer: [brew_cask]
-
     - name: kindaVim
       installer: [brew_cask]
     - name: kitty

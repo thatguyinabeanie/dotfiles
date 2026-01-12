@@ -90,9 +90,6 @@
   },
   "docker.extension.enableComposeLanguageServer": false,
   "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
   "json.schemaDownload.enable": true,
   "vitest.shellType": "terminal",
   "nushellLanguageServer.trace.server": "messages",
@@ -114,5 +111,23 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "cursor.enable_agent_window_setting": true,
-  "cursor.diffs.useCharacterLevelDiffs": true
+  "cursor.diffs.useCharacterLevelDiffs": true,
+  "claudeCode.initialPermissionMode": "plan",
+  "claudeCode.preferredLocation": "panel",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.confirmSync": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "yaml.schemas": {
+    "file:///Users/gmendoza/.cursor/extensions/atlassian.atlascode-4.0.14-universal/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+  },
+  "atlascode.rovodev.showEntitlementNotifications": false,
+  "claudeCode.useTerminal": true,
+  "claudeCode.disableLoginPrompt": true,
+  "atlascode.jira.lastCreateSiteAndProject": {
+    "siteId": "c93ebbc0-c846-480a-b1dc-2911b76c7cc8",
+    "projectKey": "CIVIS"
+  },
+  "diffEditor.ignoreTrimWhitespace": false
 }
