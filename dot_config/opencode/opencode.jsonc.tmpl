@@ -15,44 +15,14 @@
   ],
 
   "keybinds": {
-{{- $keybinds := $opencode.keybinds }}
-{{- $first := true }}
-{{- range $key, $value := $keybinds }}
-{{- if not $first }},{{ end }}
-    "{{ $key }}": "{{ $value }}"
-{{- $first = false }}
-{{- end }}
+{{- template "utilities/json-object.tmpl" $opencode.keybinds }}
   },
 
   "provider": {
-{{- $provider := $opencode.provider }}
-{{- $first := true }}
-{{- range $key, $value := $provider }}
-{{- if not $first }},{{ end }}
-    "{{ $key }}": {{- if or (eq $key "github-copilot") (eq $key "google") }} {{ toJson (index $provider $key) }}{{ else }} {}{{ end }}
-{{- $first = false }}
-{{- end }}
+{{- template "opencode/provider-section.tmpl" $opencode.provider }}
   },
 
   "mcp": {
-{{- $mcp := $opencode.mcp }}
-{{- $first := true }}
-{{- range $key, $value := $mcp }}
-{{- if not $first }},{{ end }}
-    "{{ $key }}": {
-      "type": "{{ $value.type }}",
-      "url": "{{ $value.url }}",
-      "headers": {
-{{- $headerFirst := true }}
-{{- range $hkey, $hvalue := $value.headers }}
-{{- if not $headerFirst }},{{ end }}
-        "{{ $hkey }}": "{{ $hvalue }}"
-{{- $headerFirst = false }}
-{{- end }}
-      },
-      "enabled": {{ $value.enabled }}
-    }
-{{- $first = false }}
-{{- end }}
+{{- template "opencode/mcp-section.tmpl" $opencode.mcp }}
   }
 }

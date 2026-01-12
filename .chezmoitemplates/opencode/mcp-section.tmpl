@@ -1,0 +1,22 @@
+{{/*
+OpenCode MCP Section Template
+Generates the MCP (Model Context Protocol) server configuration
+
+Usage:
+{{- template "opencode/mcp-section.tmpl" .opencode.mcp }}
+*/}}
+
+{{- $mcp := . -}}
+{{- $keys := keys $mcp | sortAlpha -}}
+{{- range $i, $key := $keys }}
+{{- $value := index $mcp $key }}
+{{- if $i }},{{ end }}
+    "{{ $key }}": {
+      "type": "{{ $value.type }}",
+      "url": "{{ $value.url }}",
+      "headers": {
+{{- template "utilities/json-object.tmpl" $value.headers }}
+      },
+      "enabled": {{ $value.enabled }}
+    }
+{{- end }}

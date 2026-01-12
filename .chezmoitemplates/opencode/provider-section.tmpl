@@ -1,0 +1,14 @@
+{{/*
+OpenCode Provider Section Template
+Generates the provider configuration with conditional JSON output
+
+Usage:
+{{- template "opencode/provider-section.tmpl" .opencode.provider }}
+*/}}
+
+{{- $provider := . -}}
+{{- $keys := keys $provider | sortAlpha -}}
+{{- range $i, $key := $keys }}
+{{- if $i }},{{ end }}
+    "{{ $key }}": {{- if or (eq $key "github-copilot") (eq $key "google") }} {{ toJson (index $provider $key) }}{{ else }} {}{{ end }}
+{{- end }}
