@@ -20,9 +20,10 @@ marksman = "latest"            # Markdown LSP server
 node = "22"
 bun = "latest"
 "npm:markdown-link-check" = "latest"
+opencode = "latest"
 
-[hooks]
-postinstall = "mise run install-npm-packages"
+# Note: postinstall hook removed because it only works in the chezmoi directory context
+# Run `mise run install-npm-packages` manually when needed for development
 
 [tasks]
 # Common development tasks

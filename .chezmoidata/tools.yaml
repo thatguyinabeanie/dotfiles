@@ -67,9 +67,6 @@ dev_tools:
   - name: github-cli
     installer: [mise]
 
-  - name: gitleaks
-    installer: [mise]
-
   - name: gitsign
     installer: [mise]
 
@@ -231,20 +228,11 @@ dev_tools:
   - name: helix
     installer: [mise]
 
-  # Language servers and development tools
-  - name: markdown-oxide
-    installer: [cargo]
-    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
-
   # - name: pokeget
   #   installer: [cargo]
   #   version: latest
   #   description: "Pokeget"
   #   category: terminal
-
-  - name: typos-lsp
-    installer: [cargo]
-    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
     # Curl-based installations
   - name: mise
