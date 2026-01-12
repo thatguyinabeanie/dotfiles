@@ -467,8 +467,7 @@ Dotfiles Mise Integration:
 │   ├── .chezmoiscripts/mise/run_once_before-01-install-mise.sh.tmpl
 │   └── .chezmoiscripts/mise/run_onchange_after_mise-install-packages.sh.tmpl
 └── Automation
-    ├── LaunchAgent files                 # Auto-update scheduling
-    └── setup-cargo.sh                   # Rust toolchain setup
+    └── LaunchAgent files                 # Auto-update scheduling
 ```
 
 #### ⚙️ **Configuration Data Structure**

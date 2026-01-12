@@ -21,7 +21,7 @@ dev_tools:
     installer: [mise]
 
   - name: carapace
-    installer: [mise]
+    installer: [brew]
 
   - name: fd
     installer: [mise]
@@ -67,9 +67,6 @@ dev_tools:
   - name: github-cli
     installer: [mise]
 
-  - name: gitleaks
-    installer: [mise]
-
   - name: gitsign
     installer: [mise]
 
@@ -86,6 +83,9 @@ dev_tools:
     installer: [mise]
 
   - name: tig
+    installer: [brew]
+
+  - name: jira-cli
     installer: [brew]
 
   # Infrastructure and cloud tools
@@ -183,7 +183,7 @@ dev_tools:
     installer: [brew]
 
   - name: uv
-    installer: [mise]
+    installer: [brew]
 
   - name: cargo-binstall
     installer: [cargo]
@@ -213,7 +213,7 @@ dev_tools:
     installer: [mise]
 
   - name: starship
-    installer: [mise]
+    installer: [brew]
 
   - name: fzf
     installer: [mise]
@@ -228,20 +228,11 @@ dev_tools:
   - name: helix
     installer: [mise]
 
-  # Language servers and development tools
-  - name: markdown-oxide
-    installer: [cargo]
-    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
-
   # - name: pokeget
   #   installer: [cargo]
   #   version: latest
   #   description: "Pokeget"
   #   category: terminal
-
-  - name: typos-lsp
-    installer: [cargo]
-    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
     # Curl-based installations
   - name: mise

@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# Rust toolchain installation via rustup
+# Note: Using POSIX sh for broader compatibility
+
+set -eu
+
+# Initialize RUST_INSTALLED variable
+RUST_INSTALLED=false
+
 # Check if Rust is already installed via mise
 if command -v rustc >/dev/null 2>&1; then
   rustc_path=$(which rustc)
@@ -8,8 +16,6 @@ if command -v rustc >/dev/null 2>&1; then
     echo "🔵 Using mise-managed Rust toolchain."
     RUST_INSTALLED=true
   fi
-else
-  RUST_INSTALLED=false
 fi
 
 # Install Rust via rustup if not already installed via mise

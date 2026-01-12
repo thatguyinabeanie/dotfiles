@@ -142,7 +142,12 @@ language_servers:
     provides_formatting: false
     install_command: "github.com/nametake/golangci-lint-langserver@latest"
 
-  # typos-lsp moved to linters.yaml (primarily a linter)
+  - name: typos-lsp
+    lspconfig_name: typos_lsp
+    languages: [text, markdown]
+    installer: [cargo, mason]
+    provides_formatting: false
+    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
   # Shell and fish
   - name: fish-lsp

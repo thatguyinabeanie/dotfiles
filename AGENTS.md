@@ -45,8 +45,10 @@ You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 ```bash
 # Setup hooks after cloning repo (one-time)
-# Note: hooks auto-install via mise postinstall hook, but you can manually run:
 mise run setup-hooks
+
+# Install development dependencies (if working in the dotfiles repo)
+mise run install-npm-packages
 
 # Run all quality checks (linting, formatting, security)
 lefthook run pre-commit
@@ -61,18 +63,6 @@ chezmoi diff
 chezmoi apply --dry-run   # Test for template syntax errors
 chezmoi apply --force     # Apply only if dry-run succeeds
 chezmoi init --apply      # Run if chezmoi.toml.tmpl changes
-
-# Run all tests
-cd .tests && go test ./...
-
-# Run single test file
-cd .tests && go test ./unit/config_test.go -v
-
-# Run tests with coverage
-cd .tests && go test -coverprofile=coverage.out ./... && go tool cover -html=coverage.out
-
-# Run relevant tests for changed files
-.tests/scripts/run_relevant_tests.sh
 ```
 
 ## Template Development
@@ -184,7 +174,6 @@ Before marking any task complete, verify:
 
 - [ ] `chezmoi apply --dry-run` succeeds without errors
 - [ ] `lefthook run pre-commit` passes all checks (if applicable)
-- [ ] Relevant tests pass: `cd .tests && go test ./...`
 - [ ] Changes validated on actual system (not just dry-run)
 - [ ] No duplicate entries in `.chezmoidata/*.yaml` files
 - [ ] Platform-specific code uses appropriate conditionals

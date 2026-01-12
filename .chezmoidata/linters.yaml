@@ -15,10 +15,6 @@ linters:
 
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
 
-  - name: stylelint
-    languages: [css, scss, sass]
-    installer: [npm, mason]
-
   # Markup and documentation linters
   - name: vale
     languages: [markdown, text]
@@ -27,11 +23,6 @@ linters:
   - name: marksman
     languages: [markdown]
     installer: [brew, mason]
-
-  - name: markdown-oxide
-    languages: [markdown]
-    installer: [cargo, mason]
-    install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
   - name: markdown-link-check
     languages: [markdown]
@@ -84,11 +75,7 @@ linters:
   # Ruby linters
   - name: rubocop
     languages: [ruby]
-    installer: [mason]
-
-  - name: standardrb
-    languages: [ruby]
-    installer: [mason]
+    installer: [gem, mason]
 
   - name: haml-lint
     languages: [haml]
@@ -113,14 +100,10 @@ linters:
     installer: [mason]
 
   # Spelling and typo linters
+  # Note: typos-lsp is in lsp.yaml (it's a language server, not just a linter)
   - name: typos
     languages: [text, markdown]
     installer: [mise, mason]
-
-  - name: typos-lsp
-    languages: [text, markdown]
-    installer: [cargo, mason]
-    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
   - name: cspell
     languages: [text, markdown, code]

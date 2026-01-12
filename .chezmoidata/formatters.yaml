@@ -72,11 +72,6 @@ formatters:
     languages: [css, scss, sass]
     installer: [npm, mason]
 
-  # JSON
-  - name: jq
-    languages: [json]
-    installer: [brew, mason]
-
   # TOML
   - name: taplo
     languages: [toml]

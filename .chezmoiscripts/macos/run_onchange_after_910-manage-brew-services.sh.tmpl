@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Brew Services Manager
+# Manages Homebrew services based on .chezmoidata/services.yaml
+
 {{- define "process_service" -}}
 {{- $service := .service }}
 {{- $running_services := .running_services }}
