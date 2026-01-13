@@ -1,0 +1,75 @@
+# GitHub Copilot Models - API Wrapper with Token Restrictions
+#
+# IMPORTANT: GitHub Copilot PRO enforces a global 128,000 token context limit
+# across ALL models, regardless of the underlying model's native capabilities.
+#
+# This means:
+# - Claude Sonnet 4 (native 200K) -> capped at 128K via Copilot
+# - Gemini 2.5 Pro (native 400K+) -> capped at 128K via Copilot
+#
+# These limits are enforced at the API level by GitHub, not by the models.
+# Without accurate limits configured, OpenCode may request more tokens than
+# allowed, resulting in errors or truncated responses.
+#
+# Documentation: https://docs.github.com/en/copilot
+
+github-copilot:
+  models:
+    # Claude Models (via GitHub Copilot) - capped at 128K
+    - name: claude-sonnet-4
+      limit:
+        context: 128000
+        output: 8192
+
+    - name: claude-3.7-sonnet-thought
+      limit:
+        context: 128000
+        output: 16384
+
+    - name: claude-3.7-sonnet
+      limit:
+        context: 128000
+        output: 16384
+
+    - name: claude-3.5-sonnet
+      limit:
+        context: 128000
+        output: 8192
+
+    # xAI Grok (via GitHub Copilot)
+    - name: grok-code-fast-1
+      limit:
+        context: 128000
+        output: 10000
+
+    # OpenAI GPT Models (via GitHub Copilot)
+    - name: gpt-5
+      limit:
+        context: 128000
+        output: 8192
+
+    - name: gpt-5-codex
+      limit:
+        context: 128000
+        output: 64000
+
+    - name: gpt-4o
+      limit:
+        context: 128000
+        output: 16394
+
+    - name: gpt-4.1
+      limit:
+        context: 128000
+        output: 16394
+
+    # Google Gemini Models (via GitHub Copilot) - capped at 128K
+    - name: gemini-2.5-pro
+      limit:
+        context: 128000
+        output: 64000
+
+    - name: gemini-2.0-flash-001
+      limit:
+        context: 128000
+        output: 8192

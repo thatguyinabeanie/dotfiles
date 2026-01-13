@@ -1,14 +1,21 @@
 {{/*
 OpenCode Provider Section Template
-Generates the provider configuration with conditional JSON output
+Generates the provider configuration with model limits from .chezmoidata/ai/
+
+Each provider's model limits are loaded from their respective YAML files in
+.chezmoidata/ai/<provider>.yaml. This eliminates hardcoded provider names
+and provides a single source of truth for model configurations.
 
 Usage:
-{{- template "opencode/provider-section.tmpl" .opencode.provider }}
+{{- template "opencode/provider-section.tmpl" (dict "provider" .opencode.provider "global" .) }}
 */}}
 
-{{- $provider := . -}}
+{{- $provider := .provider -}}
+{{- $global := .global -}}
 {{- $keys := keys $provider | sortAlpha -}}
 {{- range $i, $key := $keys }}
 {{- if $i }},{{ end }}
-    "{{ $key }}": {{- if or (eq $key "github-copilot") (eq $key "google") }} {{ toJson (index $provider $key) }}{{ else }} {}{{ end }}
+    "{{ $key }}": {
+      "models": {{ template "utilities/_generate-provider-models.tmpl" (dict "Provider" $key "SourceDir" $global.chezmoi.sourceDir "Indent" 6) }}
+    }
 {{- end }}

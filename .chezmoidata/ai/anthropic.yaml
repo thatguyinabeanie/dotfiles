@@ -1,0 +1,53 @@
+# Anthropic Claude Models - Direct API Access
+#
+# Context Limit: 200,000 tokens (default)
+# Note: Claude Sonnet 4.5 and 4 support 1M context with beta header
+#       "context-1m-2025-08-07", but OpenCode doesn't currently support
+#       custom headers, so 200K is used as the default limit.
+#
+# Documentation: https://docs.anthropic.com/en/docs/about-claude/models
+
+anthropic:
+  models:
+    # Claude 4.5 Series - Latest generation
+    - name: claude-sonnet-4.5
+      limit:
+        context: 200000
+        output: 64000
+
+    - name: claude-haiku-4.5
+      limit:
+        context: 200000
+        output: 64000
+
+    - name: claude-opus-4.5
+      limit:
+        context: 200000
+        output: 64000
+
+    # Claude 4.x Series
+    - name: claude-opus-4.1
+      limit:
+        context: 200000
+        output: 32000
+
+    - name: claude-sonnet-4
+      limit:
+        context: 200000
+        output: 64000
+
+    - name: claude-3.7-sonnet
+      limit:
+        context: 200000
+        output: 64000
+
+    - name: claude-opus-4
+      limit:
+        context: 200000
+        output: 32000
+
+    # Claude 3.x Legacy
+    - name: claude-3-haiku
+      limit:
+        context: 200000
+        output: 4096
