@@ -197,10 +197,6 @@ env_shared:
       install_via: brew_cask
       category: terminal
       description: "GPU-based terminal emulator"
-    - name: wezterm
-      install_via: brew_cask
-      category: terminal
-      description: "GPU-accelerated terminal emulator and multiplexer"
     - name: nightfall
       install_via: brew_cask
       category: system
