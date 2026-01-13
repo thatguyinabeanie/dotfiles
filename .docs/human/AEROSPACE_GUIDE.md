@@ -2,7 +2,9 @@
 
 ## Overview
 
-Aerospace is a tiling window manager for macOS that provides i3-like functionality with native macOS integration. This configuration emphasizes vim-inspired navigation, efficient workspace management, and seamless integration with development tools.
+Aerospace is a tiling window manager for macOS that provides i3-like functionality with native
+macOS integration. This configuration emphasizes vim-inspired navigation, efficient workspace
+management, and seamless integration with development tools.
 
 ## Configuration Philosophy
 
@@ -42,7 +44,7 @@ Aerospace is a tiling window manager for macOS that provides i3-like functionali
 
 ## Keybinding Reference
 
-### **Service Mode Activation**: `Alt+Ctrl+;`
+### **Service Mode Activation**: `Alt+Ctrl+s`
 
 Enter service mode for advanced window operations. All service mode commands automatically return to main mode.
 
@@ -183,10 +185,10 @@ Some workspaces are commented out to avoid conflicts:
 [gaps]
     inner.horizontal = 4    # Space between windows horizontally
     inner.vertical = 4      # Space between windows vertically
-    outer.left = 6          # Space from left screen edge
-    outer.bottom = 6        # Space from bottom screen edge
-    outer.top = 8           # Space from top screen edge (menu bar)
-    outer.right = 6         # Space from right screen edge
+    outer.top = 4           # Space from top screen edge (menu bar)
+    outer.bottom = 8        # Space from bottom screen edge
+    outer.left = 8          # Space from left screen edge
+    outer.right = 8         # Space from right screen edge
 ```
 
 ## Integration with Development Tools
@@ -367,4 +369,6 @@ aerospace --check-config
 3. **Workspace 3**: Browser for documentation
 4. **Service mode**: Quick layout adjustments
 
-This AeroSpace configuration provides efficient window management that enhances rather than interferes with development workflows, creating a seamless and productive environment for coding and system administration tasks.
+This AeroSpace configuration provides efficient window management that enhances rather than
+interferes with development workflows, creating a seamless and productive environment for coding
+and system administration tasks.

@@ -30,39 +30,6 @@ excluded_services:
 
 # Application configurations
 app_configs:
-  aerospace:
-    # Aerospace window manager configuration
-    style: "tiling"
-    gaps: 8
-    border_width: 2
-    focus_follows_mouse: false
-    mouse_follows_focus: false
-    
-    # Workspace configuration
-    workspaces:
-      - name: "1"
-        monitor: "main"
-      - name: "2"
-        monitor: "main"
-      - name: "3"
-        monitor: "main"
-      - name: "4"
-        monitor: "main"
-      - name: "5"
-        monitor: "main"
-
-    # Key bindings
-    keybindings:
-      mod: "alt"
-      focus_left: "h"
-      focus_down: "j"
-      focus_up: "k"
-      focus_right: "l"
-      move_left: "shift-h"
-      move_down: "shift-j"
-      move_up: "shift-k"
-      move_right: "shift-l"
-
   jankyborders:
     # Window border configuration
     style: "round"
