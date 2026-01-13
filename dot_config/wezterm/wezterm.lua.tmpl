@@ -105,7 +105,11 @@ config.hide_mouse_cursor_when_typing = true
 -- ============================================================================
 
 -- Launch zsh which then starts Zellij via our init script
-config.default_prog = { '{{ .env_shared.shell_paths.zsh }}', '-l', '-c', os.getenv('HOME') .. '/.config/wezterm/wezterm-init.zsh' }
+{{- $zsh := "/bin/zsh" }}
+{{- if eq .chezmoi.os "darwin" }}
+{{- $zsh = "/opt/homebrew/bin/zsh" }}
+{{- end }}
+config.default_prog = { '{{ $zsh }}', '-l', '-c', os.getenv('HOME') .. '/.config/wezterm/wezterm-init.zsh' }
 
 -- ============================================================================
 -- TAB BAR (Disabled - using Zellij for tabs/panes)

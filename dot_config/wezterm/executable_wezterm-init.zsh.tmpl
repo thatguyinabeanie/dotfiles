@@ -14,6 +14,8 @@
 
 # Find zellij executable
 ZELLIJ_PATHS=(
+  "$HOME/.local/share/mise/shims/zellij"
+  "$HOME/.local/bin/zellij"
   "/opt/homebrew/bin/zellij"
   "/usr/local/bin/zellij"
   "/usr/bin/zellij"
@@ -40,9 +42,9 @@ if [ -z "$ZELLIJ" ] && [ -z "$WEZTERM_NO_ZELLIJ" ]; then
   else
     # Zellij not found - fall back to regular zsh
     echo "⚠️  Zellij not found. Starting zsh directly..."
-    exec {{ .env_shared.shell_paths.zsh }} -l
+    exec {{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }} -l
   fi
 else
   # Already in Zellij or user disabled it - start zsh normally
-  exec {{ .env_shared.shell_paths.zsh }} -l
+  exec {{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }} -l
 fi
