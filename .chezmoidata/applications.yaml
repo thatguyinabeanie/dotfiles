@@ -34,6 +34,10 @@ applications:
       installer: [brew_cask]
     - name: kitty
       installer: [brew_cask]
+    - name: alacritty
+      installer: [brew_cask]
+    - name: warp
+      installer: [brew_cask]
     - name: nightfall
       installer: [brew_cask]
     - name: obsidian
