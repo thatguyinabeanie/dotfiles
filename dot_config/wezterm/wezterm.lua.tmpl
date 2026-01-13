@@ -1,0 +1,242 @@
+-- ============================================================================
+-- WezTerm Configuration
+-- ============================================================================
+-- GPU-accelerated terminal emulator with Zellij integration
+-- Documentation: https://wezfurlong.org/wezterm/
+-- ============================================================================
+
+local wezterm = require 'wezterm'
+local config = wezterm.config_builder()
+
+-- ============================================================================
+-- APPEARANCE & THEME
+-- ============================================================================
+
+-- Dynamic Catppuccin theme switching based on system appearance
+{{ if eq .THEME_MODE "system" -}}
+-- System mode: auto-switch between light and dark themes
+local function scheme_for_appearance(appearance)
+  if appearance:find 'Dark' then
+    return 'Catppuccin {{ title .CATPPUCCIN_FLAVOR }}'
+  else
+    return 'Catppuccin Latte'
+  end
+end
+
+wezterm.on('window-config-reloaded', function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  local appearance = window:get_appearance()
+  local scheme = scheme_for_appearance(appearance)
+  if overrides.color_scheme ~= scheme then
+    overrides.color_scheme = scheme
+    window:set_config_overrides(overrides)
+  end
+end)
+
+-- Set initial color scheme based on current appearance
+config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+{{ else if eq .THEME_MODE "dark" -}}
+-- Dark mode: always use dark Catppuccin theme
+config.color_scheme = 'Catppuccin {{ title .CATPPUCCIN_FLAVOR }}'
+{{ else if eq .THEME_MODE "light" -}}
+-- Light mode: always use Catppuccin Latte
+config.color_scheme = 'Catppuccin Latte'
+{{ else -}}
+-- Default to dark Catppuccin theme
+config.color_scheme = 'Catppuccin {{ title .CATPPUCCIN_FLAVOR }}'
+{{ end }}
+
+-- Window appearance
+config.window_background_opacity = {{ .ui.opacity }}
+config.macos_window_background_blur = {{ .ui.blur }}
+config.window_padding = {
+  left = 10,
+  right = 10,
+  top = 10,
+  bottom = 10,
+}
+
+-- Window decorations (hidden titlebar, just resize handles)
+config.window_decorations = 'RESIZE'
+
+-- Initial window size
+config.initial_cols = {{ .ui.window_width }}
+config.initial_rows = {{ .ui.window_height }}
+
+-- ============================================================================
+-- FONT CONFIGURATION
+-- ============================================================================
+
+config.font = wezterm.font('{{ .ui.font_family }}')
+config.font_size = {{ .ui.font_size }}
+
+-- Enable font ligatures for programming symbols
+config.harfbuzz_features = { 'calt=1', 'clig=1', 'liga=1' }
+
+-- ============================================================================
+-- CURSOR
+-- ============================================================================
+
+{{ if eq .ui.cursor_style "block_hollow" -}}
+config.default_cursor_style = 'BlinkingBlock'
+{{ else if eq .ui.cursor_style "block" -}}
+config.default_cursor_style = 'SteadyBlock'
+{{ else if eq .ui.cursor_style "underline" -}}
+config.default_cursor_style = 'BlinkingUnderline'
+{{ else if eq .ui.cursor_style "bar" -}}
+config.default_cursor_style = 'BlinkingBar'
+{{ else -}}
+config.default_cursor_style = 'BlinkingBlock'
+{{ end }}
+
+{{ if .ui.cursor_blink -}}
+config.cursor_blink_rate = 800
+config.cursor_blink_ease_in = 'Constant'
+config.cursor_blink_ease_out = 'Constant'
+{{ else -}}
+config.cursor_blink_rate = 0
+{{ end }}
+
+-- Hide cursor when typing
+config.hide_mouse_cursor_when_typing = true
+
+-- ============================================================================
+-- SHELL & STARTUP
+-- ============================================================================
+
+-- Launch zsh which then starts Zellij via our init script
+config.default_prog = { '{{ .env_shared.shell_paths.zsh }}', '-l', '-c', os.getenv('HOME') .. '/.config/wezterm/wezterm-init.zsh' }
+
+-- ============================================================================
+-- TAB BAR (Disabled - using Zellij for tabs/panes)
+-- ============================================================================
+
+config.enable_tab_bar = false
+config.use_fancy_tab_bar = false
+
+-- ============================================================================
+-- SCROLLBACK
+-- ============================================================================
+
+config.scrollback_lines = 10000
+config.enable_scroll_bar = false
+
+-- ============================================================================
+-- macOS SPECIFIC
+-- ============================================================================
+
+-- Option key behavior: left option sends Alt, right option for compose
+config.send_composed_key_when_left_alt_is_pressed = false
+config.send_composed_key_when_right_alt_is_pressed = true
+
+-- Don't use native macOS fullscreen (allows for faster toggle)
+config.native_macos_fullscreen_mode = false
+
+-- Quit when all windows are closed
+config.quit_when_all_windows_are_closed = true
+
+-- ============================================================================
+-- PERFORMANCE
+-- ============================================================================
+
+-- Use WebGpu for best performance on modern macOS
+config.front_end = 'WebGpu'
+
+-- Frame rate settings
+config.max_fps = 120
+config.animation_fps = 60
+
+-- ============================================================================
+-- KEYBOARD & INPUT
+-- ============================================================================
+
+-- Copy on select (automatically copy selected text to clipboard)
+config.selection_word_boundary = ' \t\n{}[]()"\'`,;:@│'
+
+-- ============================================================================
+-- BELL
+-- ============================================================================
+
+config.audible_bell = 'Disabled'
+config.visual_bell = {
+  fade_in_function = 'EaseIn',
+  fade_in_duration_ms = 50,
+  fade_out_function = 'EaseOut',
+  fade_out_duration_ms = 50,
+}
+
+-- ============================================================================
+-- HYPERLINKS
+-- ============================================================================
+
+config.hyperlink_rules = wezterm.default_hyperlink_rules()
+
+-- ============================================================================
+-- KEY BINDINGS (minimal - Zellij handles most keybindings)
+-- ============================================================================
+
+config.keys = {
+  -- Cmd+T: Open new WezTerm window (since tabs are disabled)
+  {
+    key = 't',
+    mods = 'CMD',
+    action = wezterm.action.SpawnWindow,
+  },
+  -- Cmd+W: Close current window
+  {
+    key = 'w',
+    mods = 'CMD',
+    action = wezterm.action.CloseCurrentPane { confirm = true },
+  },
+  -- Cmd+K: Clear scrollback
+  {
+    key = 'k',
+    mods = 'CMD',
+    action = wezterm.action.ClearScrollback 'ScrollbackAndViewport',
+  },
+  -- Cmd+Plus: Increase font size
+  {
+    key = '=',
+    mods = 'CMD',
+    action = wezterm.action.IncreaseFontSize,
+  },
+  -- Cmd+Minus: Decrease font size
+  {
+    key = '-',
+    mods = 'CMD',
+    action = wezterm.action.DecreaseFontSize,
+  },
+  -- Cmd+0: Reset font size
+  {
+    key = '0',
+    mods = 'CMD',
+    action = wezterm.action.ResetFontSize,
+  },
+}
+
+-- ============================================================================
+-- MOUSE BINDINGS
+-- ============================================================================
+
+config.mouse_bindings = {
+  -- Right click paste
+  {
+    event = { Down = { streak = 1, button = 'Right' } },
+    mods = 'NONE',
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  -- Cmd+click to open hyperlinks
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'CMD',
+    action = wezterm.action.OpenLinkAtMouseCursor,
+  },
+  -- Copy on select (triple-click selects line)
+  {
+    event = { Up = { streak = 1, button = 'Left' } },
+    mods = 'NONE',
+    action = wezterm.action.CompleteSelection 'ClipboardAndPrimarySelection',
+  },
+}
+
+return config
