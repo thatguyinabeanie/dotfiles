@@ -24,9 +24,9 @@ env {
 // APPEARANCE
 // ============================================================================
 
-// Clean, minimal UI
+// Clean, minimal UI with visible pane borders
 simplified_ui true
-pane_frames false
+pane_frames true
 default_layout "compact"
 
 // Rounded corners when frames are shown
@@ -193,6 +193,65 @@ keybinds clear-defaults=true {
             };
             SwitchToMode "Normal"
         }
+
+        // ------------------------------
+        // FLOATING TOOLS (Quick Access)
+        // ------------------------------
+
+        // LazyGit - Git management
+        bind "g" {
+            Run "lazygit" {
+                floating true
+                x "10%"
+                y "10%"
+                width "80%"
+                height "80%"
+            };
+            SwitchToMode "Normal"
+        }
+
+        // Yazi - File browser/picker
+        bind "y" {
+            Run "yazi" {
+                floating true
+                x "10%"
+                y "10%"
+                width "80%"
+                height "80%"
+            };
+            SwitchToMode "Normal"
+        }
+
+        // LazyDocker - Container management (Ctrl+a Shift+D since d=detach)
+        bind "D" {
+            Run "lazydocker" {
+                floating true
+                x "10%"
+                y "10%"
+                width "80%"
+                height "80%"
+            };
+            SwitchToMode "Normal"
+        }
+
+        // btop - System monitor (Ctrl+a Shift+M since m=move mode)
+        bind "M" {
+            Run "btop" {
+                floating true
+                x "10%"
+                y "10%"
+                width "80%"
+                height "80%"
+            };
+            SwitchToMode "Normal"
+        }
+
+        // ------------------------------
+        // PANE MANAGEMENT HELPERS
+        // ------------------------------
+
+        // Toggle pane zoom (fullscreen) - alternative to 'z'
+        bind "_" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
     }
 
     // ========================================================================
@@ -387,5 +446,12 @@ plugins {
 
     filepicker location="zellij:strider" {
         cwd "/"
+    }
+
+    // Auto-lock when Neovim is focused (enables seamless Ctrl+h/j/k/l navigation)
+    autolock location="https://github.com/fresh2dev/zellij-autolock/releases/latest/download/zellij-autolock.wasm" {
+        triggers "nvim|vim|vi|nv"              // Lock when these programs open
+        watch_triggers "fzf|zoxide|atuin"      // Also lock for these
+        watch_interval "1.0"                   // Check every second
     }
 }
