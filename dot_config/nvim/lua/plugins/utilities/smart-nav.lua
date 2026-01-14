@@ -9,15 +9,11 @@
 local in_tmux = vim.env.TMUX ~= nil
 local in_zellij = vim.env.ZELLIJ ~= nil
 
--- If not in a multiplexer, return empty config (no plugin needed)
-if not in_tmux and not in_zellij then
-  return {}
-end
-
--- TMUX: Use vim-tmux-navigator
-if in_tmux then
-  return {
+return {
+  -- TMUX: vim-tmux-navigator
+  {
     "christoomey/vim-tmux-navigator",
+    enabled = in_tmux,
     lazy = false,
     cmd = {
       "TmuxNavigateLeft",
@@ -33,14 +29,13 @@ if in_tmux then
       { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>", desc = "Navigate right" },
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>", desc = "Navigate previous" },
     },
-  }
-end
+  },
 
--- ZELLIJ: Use zellij-nav.nvim
-if in_zellij then
-  return {
+  -- ZELLIJ: zellij-nav.nvim
+  {
     "swaits/zellij-nav.nvim",
-    lazy = true,
+    enabled = in_zellij,
+    lazy = false,
     event = "VeryLazy",
     keys = {
       { "<c-h>", "<cmd>ZellijNavigateLeft<cr>", { silent = true, desc = "Navigate left" } },
@@ -58,8 +53,5 @@ if in_zellij then
         command = "silent !zellij action switch-mode normal",
       })
     end,
-  }
-end
-
--- Fallback (shouldn't reach here, but just in case)
-return {}
+  },
+}
