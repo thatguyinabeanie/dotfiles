@@ -8,9 +8,12 @@ export-env { $env.STARSHIP_SHELL = "nu"; load-env {
         ^starship prompt --continuation
     )
 
-    # Does not play well with default character module.
-    # TODO: Also Use starship vi mode indicators?
+    # Starship vi mode indicators
+    # Uses the vimcmd_symbol from starship.toml for vi command mode
+    # When in insert mode, shows empty indicator; command mode shows ❮
     PROMPT_INDICATOR: ""
+    PROMPT_INDICATOR_VI_INSERT: ""
+    PROMPT_INDICATOR_VI_NORMAL: ""  # Starship's character module handles this
 
     PROMPT_COMMAND: {||
         # jobs are not supported

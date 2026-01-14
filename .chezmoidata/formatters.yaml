@@ -10,6 +10,22 @@ formatters:
     installer: [npm, mason]
     conflicts_with_lsp_formatting: true
 
+  # Prettier plugins for specialized formats
+  - name: prettier-plugin-go-template
+    languages: [gotemplate]
+    installer: [npm]
+    description: "Prettier plugin for Go templates"
+
+  - name: prettier-plugin-sh
+    languages: [shell, bash]
+    installer: [npm]
+    description: "Prettier plugin for shell scripts"
+
+  - name: prettier-plugin-toml
+    languages: [toml]
+    installer: [npm]
+    description: "Prettier plugin for TOML files"
+
   # Markdown
   - name: markdownlint-cli2
     languages: [markdown]
