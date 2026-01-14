@@ -130,15 +130,16 @@ env_shared:
       PASSWORD_STORE_DIR: "$XDG_DATA_HOME/pass"
 
   # PATH entries (common development paths)
+  # Priority order: local bins → mise (version managers) → homebrew → system
   env_paths:
     path:
+      - "$HOME/.cache/.bun/bin"
       - "$HOME/.local/bin"
       - "$HOME/.cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/opt/homebrew/bin"
       - "/opt/homebrew/sbin"
       - "/usr/local/bin"
-      - "$HOME/.cache/.bun/bin"
 
   # Command-based variables (computed at runtime)
   command_variables: {}
