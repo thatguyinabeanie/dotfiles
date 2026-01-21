@@ -11,6 +11,10 @@ local opt = vim.opt
 opt.shell = "/bin/zsh"
 opt.colorcolumn = "120" -- Show column guide at 120 characters
 
+-- Zellij-friendly UI settings
+opt.showtabline = 0 -- Never show tab line (Zellij handles tabs)
+opt.laststatus = 3 -- Global statusline (one for all windows)
+
 -- LazyVim auto format
 vim.g.autoformat = false
 

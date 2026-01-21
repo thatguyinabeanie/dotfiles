@@ -241,35 +241,6 @@ dev_tools:
   - name: zsh-syntax-highlighting
     installer: [brew]
 
-# AI Agents and Assistants
-agents:
-  - name: "opencode-ai"
-    installer: [npm]
-
-  - name: "@augmentcode/auggie"
-    installer: [npm]
-
-  - name: "@google/gemini-cli"
-    installer: [npm]
-
-  - name: "@openai/codex"
-    installer: [npm]
-    version: latest
-
-  - name: "@anthropic-ai/claude-code"
-    installer: [npm]
-
-  # Terminal-based AI tools
-  - name: charmbracelet/tap/mods
-    installer: [brew]
-
-  - name: "@github/copilot"
-    installer: [npm]
-
-# Model Context Protocol (MCP) Servers
-mcp_servers:
-  # Development and deployment MCP servers
-  - name: "vercel"
-    installer: [npm]
-  - name: mcp-hub
-    installer: [npm]
+# NOTE: AI agents and MCP servers are now managed in separate files:
+# - .chezmoidata/agents.yaml
+# - .chezmoidata/mcp.yaml

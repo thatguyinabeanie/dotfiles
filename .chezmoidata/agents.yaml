@@ -1,0 +1,57 @@
+# AI Agents and Assistants
+#
+# AI-powered coding agents, CLI tools, and assistants that enhance development workflows
+# with intelligent code suggestions, completions, and automated tasks.
+#
+# Installation Methods:
+# - npm: Node.js packages installed globally
+# - brew: Homebrew-managed tools
+#
+# Note: These are separate from AI provider configurations (anthropic.yaml, github-copilot.yaml, etc.)
+# which define API credentials and model settings.
+
+agents:
+  # Code-focused AI agents
+  - name: "opencode-ai"
+    installer: [npm]
+    description: "OpenCode AI coding assistant"
+    category: ai
+
+  - name: "@augmentcode/auggie"
+    installer: [npm]
+    description: "Augment Code AI assistant"
+    category: ai
+
+  - name: "@google/gemini-cli"
+    installer: [npm]
+    description: "Google Gemini CLI interface"
+    category: ai
+
+  - name: "@openai/codex"
+    installer: [npm]
+    version: latest
+    description: "OpenAI Codex coding assistant"
+    category: ai
+
+  - name: "@anthropic-ai/claude-code"
+    installer: [npm]
+    description: "Anthropic Claude Code assistant"
+    category: ai
+
+  - name: "@github/copilot"
+    installer: [npm]
+    description: "GitHub Copilot CLI"
+    category: ai
+
+  # Terminal-based AI tools
+  - name: charmbracelet/tap/mods
+    installer: [brew]
+    description: "AI for the command line"
+    category: ai
+
+  # Deployment and infrastructure tools
+  - name: vercel
+    installer: [npm]
+    version: latest
+    description: "Vercel deployment CLI"
+    category: deployment

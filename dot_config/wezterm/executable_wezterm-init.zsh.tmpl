@@ -1,0 +1,50 @@
+#!/bin/zsh
+# ============================================================================
+# WezTerm Zellij Initialization Script
+# ============================================================================
+# This script is called by WezTerm on startup to launch Zellij with
+# automatic session management.
+#
+# Features:
+# - Automatically attaches to existing 'wezterm' session or creates new one
+# - Prevents nested Zellij sessions
+# - Graceful fallback to plain zsh if Zellij not installed
+# - Can be bypassed with WEZTERM_NO_ZELLIJ=1
+# ============================================================================
+
+# Find zellij executable
+ZELLIJ_PATHS=(
+  "$HOME/.local/share/mise/shims/zellij"
+  "$HOME/.local/bin/zellij"
+  "/opt/homebrew/bin/zellij"
+  "/usr/local/bin/zellij"
+  "/usr/bin/zellij"
+  "/bin/zellij"
+  "$HOME/.cargo/bin/zellij"
+)
+
+zellij_path=""
+for path in "${ZELLIJ_PATHS[@]}"; do
+  if [ -x "$path" ]; then
+    zellij_path="$path"
+    break
+  fi
+done
+
+# Check if we should skip Zellij
+# - Already inside Zellij ($ZELLIJ is set)
+# - User explicitly disabled ($WEZTERM_NO_ZELLIJ is set)
+if [ -z "$ZELLIJ" ] && [ -z "$WEZTERM_NO_ZELLIJ" ]; then
+  if [ -n "$zellij_path" ]; then
+    # Launch Zellij and attach to/create 'wezterm' session
+    # -c flag creates the session if it doesn't exist
+    exec "$zellij_path" attach -c wezterm
+  else
+    # Zellij not found - fall back to regular zsh
+    echo "⚠️  Zellij not found. Starting zsh directly..."
+    exec {{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }} -l
+  fi
+else
+  # Already in Zellij or user disabled it - start zsh normally
+  exec {{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }} -l
+fi

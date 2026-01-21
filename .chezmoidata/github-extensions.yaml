@@ -1,19 +1,21 @@
-github_extensions:
-  - name: dlvhdr/gh-dash
-    description: "GitHub dashboard in the terminal"
+github_extensions: []
 
-  - name: seachicken/gh-poi
-    description: "GitHub pull request and issue management"
-
-  - name: meiji163/gh-notify
-    description: "GitHub notifications in the terminal"
-
-  - name: mislav/gh-branch
-    description: "GitHub branch management"
-
-  # Commented out extensions (can be enabled later)
-  # - name: github/gh-copilot
-  #   description: "GitHub Copilot CLI"
-  
-  # - name: Link-/gh-token
-  #   description: "GitHub token management"
+# All extensions removed - not in use
+# Commented out extensions (can be enabled later if needed)
+# - name: dlvhdr/gh-dash
+#   description: "GitHub dashboard in the terminal"
+#
+# - name: seachicken/gh-poi
+#   description: "GitHub pull request and issue management"
+#
+# - name: meiji163/gh-notify
+#   description: "GitHub notifications in the terminal"
+#
+# - name: mislav/gh-branch
+#   description: "GitHub branch management"
+#
+# - name: github/gh-copilot
+#   description: "GitHub Copilot CLI"
+#
+# - name: Link-/gh-token
+#   description: "GitHub token management"

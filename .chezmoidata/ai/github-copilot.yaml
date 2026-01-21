@@ -1,0 +1,97 @@
+# GitHub Copilot Models - API Wrapper with Token Restrictions
+#
+# IMPORTANT: GitHub Copilot enforces a 128,000 token context limit
+# across ALL models, regardless of the underlying model's native capabilities.
+#
+# This means:
+# - Claude Sonnet 4.5 (native 200K) -> capped at 128K via Copilot
+# - Gemini 3 Pro (native 400K+) -> capped at 128K via Copilot
+#
+# These limits are enforced at the API level by GitHub, not by the models.
+# Without accurate limits configured, OpenCode may request more tokens than
+# allowed, resulting in errors or truncated responses.
+#
+# Last updated: 2026-01-20
+# Source: https://docs.github.com/en/copilot/reference/ai-models/supported-models
+
+github-copilot:
+  models:
+    # Claude Models (via GitHub Copilot) - Latest generation
+    - name: claude-sonnet-4.5
+      limit:
+        context: 128000
+        output: 16000
+
+    - name: claude-haiku-4.5
+      limit:
+        context: 128000
+        output: 16000
+
+    - name: claude-opus-4.5
+      limit:
+        context: 128000
+        output: 16000
+
+    # Claude Models - Previous generation (still supported)
+    - name: claude-sonnet-4
+      limit:
+        context: 128000
+        output: 8192
+
+    # OpenAI GPT Models (via GitHub Copilot) - Latest generation
+    - name: gpt-5.2
+      limit:
+        context: 128000
+        output: 16000
+
+    - name: gpt-5.2-codex
+      limit:
+        context: 128000
+        output: 64000
+
+    - name: gpt-5.1
+      limit:
+        context: 128000
+        output: 16000
+
+    - name: gpt-5.1-codex
+      limit:
+        context: 128000
+        output: 64000
+
+    - name: gpt-5.1-codex-mini
+      limit:
+        context: 128000
+        output: 32000
+
+    - name: gpt-5.1-codex-max
+      limit:
+        context: 128000
+        output: 96000
+
+    - name: gpt-5-mini
+      limit:
+        context: 128000
+        output: 8192
+
+    - name: gpt-4.1
+      limit:
+        context: 128000
+        output: 16000
+
+    # Google Gemini Models (via GitHub Copilot) - Latest generation
+    - name: gemini-3-pro
+      limit:
+        context: 128000
+        output: 32000
+
+    - name: gemini-3-flash
+      limit:
+        context: 128000
+        output: 16000
+
+    # xAI Grok (via GitHub Copilot)
+    - name: grok-code-fast-1
+      limit:
+        context: 128000
+        output: 10000

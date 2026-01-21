@@ -36,3 +36,35 @@ jobs:
           version: 2.30.0
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+  CHEZMOI_TEMPLATES:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install chezmoi
+        uses: chezmoi/install-chezmoi-action@v1
+      - name: Validate Templates
+        run: |
+          # Set dummy values for template variables to enable dry-run validation
+          export SHELL_PREF="zsh"
+          export WORK_ENVIRONMENT="false"
+          export PERSONAL_ENVIRONMENT="true"
+          export INSTALL_SKETCHY_BAR="true"
+          export MANAGE_BREW_SERVICES="true"
+          export CATPPUCCIN_FLAVOR="mocha"
+          export UI_OPACITY="0.5"
+          export UI_BLUR="255"
+          export UI_FONT_SIZE="20"
+          export UI_FONT_FAMILY="Dank Mono"
+          export UI_WINDOW_HEIGHT="65"
+          export UI_WINDOW_WIDTH="160"
+          export UI_CURSOR_STYLE="block_hollow"
+          export UI_CURSOR_BLINK="true"
+          export GIT_NAME="Test User"
+          export GITHUB_USERNAME="testuser"
+          export GIT_EMAIL="test@example.com"
+          
+          # Run chezmoi apply in dry-run mode to validate templates
+          chezmoi init --source=. --dry-run --verbose
+          echo "✅ Template validation successful"
+

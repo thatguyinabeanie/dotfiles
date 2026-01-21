@@ -1,0 +1,14 @@
+# ~/.zprofile
+# Runs after /etc/zprofile (which runs path_helper that reorders PATH)
+# This file re-establishes our preferred PATH priority:
+# local bins → mise (version managers) → homebrew → system
+
+# Remove duplicate paths that path_helper may have added
+typeset -U path PATH
+
+# Re-prepend our custom paths in reverse priority order
+# (last prepended = highest priority)
+path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" $path)
+
+# Export the deduplicated path
+export PATH

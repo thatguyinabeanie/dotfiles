@@ -1,0 +1,20 @@
+# OpenCode Zen Models - OpenCode's Native AI Service
+#
+# These models are provided directly by OpenCode and have their own
+# specific token limits. They are optimized for coding tasks.
+#
+# Documentation: https://opencode.ai/docs
+
+opencode:
+  models:
+    # Code Supernova - High capacity model
+    - name: code-supernova
+      limit:
+        context: 1000000
+        output: 1000000
+
+    # Grok Code - xAI-based coding model
+    - name: grok-code
+      limit:
+        context: 256000
+        output: 256000

@@ -1,0 +1,46 @@
+# Google Gemini Models - Direct API Access
+#
+# Context Limit: 400,000 tokens (Gemini 2.x supports up to 2M with caching)
+# Strong multimodal capabilities with high context limits.
+#
+# Documentation: https://ai.google.dev/gemini-api/docs/models
+
+google:
+  models:
+    # Gemini 2.5 Series - Latest generation
+    - name: gemini-2.5-pro
+      limit:
+        context: 400000
+        output: 65536
+
+    - name: gemini-2.5-flash
+      limit:
+        context: 400000
+        output: 65536
+
+    # Gemini 2.0 Series
+    - name: gemini-2.0-flash
+      limit:
+        context: 400000
+        output: 8192
+
+    - name: gemini-2.0-flash-lite
+      limit:
+        context: 400000
+        output: 8192
+
+    # Gemini 1.5 Series
+    - name: gemini-1.5-pro
+      limit:
+        context: 400000
+        output: 8192
+
+    - name: gemini-1.5-flash
+      limit:
+        context: 400000
+        output: 8192
+
+    - name: gemini-1.5-flash-8b
+      limit:
+        context: 400000
+        output: 8192

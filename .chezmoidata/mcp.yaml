@@ -1,0 +1,26 @@
+# Model Context Protocol (MCP) Servers
+#
+# MCP servers provide standardized interfaces for AI models to interact with
+# external tools, databases, and services. These servers implement the Model
+# Context Protocol specification.
+#
+# Documentation: https://modelcontextprotocol.io
+#
+# Installation Methods:
+# - npm: Node.js packages installed globally
+# - mise: Managed by mise-en-place
+#
+# Each server provides specific capabilities that AI models can invoke during
+# conversations, such as database queries, API calls, or file operations.
+
+mcp_servers:
+  # Development and deployment MCP servers
+  - name: "vercel"
+    installer: [npm]
+    description: "Vercel deployment MCP server"
+    category: deployment
+
+  - name: mcp-hub
+    installer: [npm]
+    description: "Central hub for MCP server discovery"
+    category: infrastructure

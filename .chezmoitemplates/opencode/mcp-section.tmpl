@@ -1,0 +1,25 @@
+{{/*
+OpenCode MCP Section Template
+Generates the MCP (Model Context Protocol) server configuration
+
+Validation: Required fields 'type' and 'url' have defaults to prevent
+invalid JSON output if entries are incomplete.
+
+Usage:
+{{- template "opencode/mcp-section.tmpl" .opencode.mcp }}
+*/}}
+
+{{- $mcp := . -}}
+{{- $keys := keys $mcp | sortAlpha -}}
+{{- range $i, $key := $keys }}
+{{- $value := index $mcp $key }}
+{{- if $i }},{{ end }}
+    "{{ $key }}": {
+      "type": "{{ default "sse" $value.type }}",
+      "url": "{{ default "about:blank" $value.url }}",
+      "headers": {
+{{- template "utilities/json-object.tmpl" $value.headers }}
+      },
+      "enabled": {{ default false $value.enabled }}
+    }
+{{- end }}

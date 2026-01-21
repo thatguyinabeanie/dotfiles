@@ -40,7 +40,13 @@ export STARSHIP_CONFIG="{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
 {{- end }}
 
 {{- if lookPath "brew" }}
-eval "$(brew shellenv)"
+# Set Homebrew environment variables without modifying PATH
+# (PATH is managed in .zshenv for proper priority ordering)
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 {{- end }}
 
 {{- $dockerCompletions := printf "%s/.docker/completions/_docker" .chezmoi.homeDir }}

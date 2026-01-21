@@ -20,3 +20,4 @@ vendor/bundle/ruby
 .mcp.json
 mcp.json
 opencode.json*
+worktrees
