@@ -55,7 +55,11 @@ end
 # FZF theme is sourced automatically by fzf --fish
 {{- end }}
 
-# Source Fish aliases if they exist
+# Fish automatically sources files in conf.d/ directory
+# Abbreviations are loaded from conf.d/abbreviations.fish
+# Functions are loaded from functions/*.fish
+
+# Source additional Fish aliases if they exist (legacy support)
 {{- $fishAliases := printf "%s/.config/fish/aliases.fish" .chezmoi.homeDir }}
 {{- if stat $fishAliases }}
 source "{{ $fishAliases }}"
