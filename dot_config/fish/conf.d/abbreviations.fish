@@ -85,8 +85,12 @@ if status is-interactive
     # ─────────────────────────────────────────────────────────────────────────
     # Common tools abbreviations
     # ─────────────────────────────────────────────────────────────────────────
-    abbr -a v nvim
-    abbr -a vim nvim
+    # Editor abbreviations (if nvim installed)
+    if type -q nvim
+        abbr -a v nvim
+        abbr -a vim nvim
+    end
+
     abbr -a c clear
     abbr -a h history
     abbr -a j jobs
@@ -94,13 +98,18 @@ if status is-interactive
     abbr -a mk 'mkdir -p'
     abbr -a rd rmdir
 
-    # Modern CLI tool replacements (if installed)
-    abbr -a cat bat
-    abbr -a ls eza
-    abbr -a ll 'eza -l'
-    abbr -a la 'eza -la'
-    abbr -a lt 'eza --tree'
-    abbr -a tree 'eza --tree'
+    # Modern CLI tool replacements (only if installed)
+    if type -q bat
+        abbr -a cat bat
+    end
+
+    if type -q eza
+        abbr -a ls eza
+        abbr -a ll 'eza -l'
+        abbr -a la 'eza -la'
+        abbr -a lt 'eza --tree'
+        abbr -a tree 'eza --tree'
+    end
 
     # ─────────────────────────────────────────────────────────────────────────
     # Chezmoi abbreviations

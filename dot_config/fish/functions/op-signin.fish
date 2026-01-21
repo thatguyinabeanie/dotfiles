@@ -12,7 +12,9 @@ function op-signin --description "Sign in to 1Password and export session to tmu
 
         if test -n "$op_session_var"
             # 4. Tell tmux to set this variable for all future panes/windows
-            tmux set-environment -g $op_session_var
+            # Split "VAR=value" into separate arguments for tmux set-environment
+            set -l var_parts (string split -m1 '=' $op_session_var)
+            tmux set-environment -g $var_parts[1] $var_parts[2]
             echo "1Password session token exported to tmux environment."
         end
     end

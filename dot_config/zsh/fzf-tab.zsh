@@ -40,6 +40,31 @@ zstyle ':fzf-tab:*' show-group full
 zstyle ':fzf-tab:*' prefix '· '
 
 # =============================================================================
+# FZF APPEARANCE (Catppuccin Mocha theme integration)
+# =============================================================================
+
+# Apply Catppuccin colors and visual polish to fzf-tab completions
+zstyle ':fzf-tab:*' fzf-flags \
+    --color='bg:-1,bg+:#313244,fg:#cdd6f4,fg+:#cdd6f4' \
+    --color='hl:#f38ba8,hl+:#f38ba8,info:#cba6f7,marker:#b4befe' \
+    --color='prompt:#cba6f7,spinner:#f5e0dc,pointer:#f5e0dc,header:#94e2d5' \
+    --color='border:#7f849c,label:#cdd6f4,query:#cdd6f4' \
+    --border=rounded \
+    --border-label=' 󰮫 Completions ' \
+    --border-label-pos=3 \
+    --preview-window='right:50%:border-rounded' \
+    --preview-label=' 󰈔 Preview ' \
+    --prompt='  ' \
+    --pointer='▶' \
+    --marker='✓' \
+    --separator='─' \
+    --scrollbar='▌▐' \
+    --info=inline-right
+
+# Larger popup for better readability
+zstyle ':fzf-tab:*' popup-min-size 100 25
+
+# =============================================================================
 # KEYBINDINGS
 # =============================================================================
 
@@ -62,14 +87,14 @@ zstyle ':fzf-tab:*' fzf-bindings \
 # DIRECTORY PREVIEWS (cd, ls, z, etc.)
 # =============================================================================
 
-# Preview directories with eza (tree view with icons)
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always --icons=always $realpath 2>/dev/null || ls -la $realpath'
-zstyle ':fzf-tab:complete:cd:*' popup-min-size 80 20
+# Preview directories with eza (detailed view with icons)
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --color=always --icons=always --group-directories-first -la --no-permissions --no-user --no-time $realpath 2>/dev/null || ls -la $realpath'
+zstyle ':fzf-tab:complete:cd:*' popup-min-size 100 25
 
 # Same for pushd, z, zoxide
-zstyle ':fzf-tab:complete:pushd:*' fzf-preview 'eza -1 --color=always --icons=always $realpath 2>/dev/null || ls -la $realpath'
-zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --color=always --icons=always $realpath 2>/dev/null || ls -la $realpath'
-zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always --icons=always $realpath 2>/dev/null || ls -la $realpath'
+zstyle ':fzf-tab:complete:pushd:*' fzf-preview 'eza --color=always --icons=always --group-directories-first -la --no-permissions --no-user --no-time $realpath 2>/dev/null || ls -la $realpath'
+zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza --color=always --icons=always --group-directories-first -la --no-permissions --no-user --no-time $realpath 2>/dev/null || ls -la $realpath'
+zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always --icons=always --group-directories-first -la --no-permissions --no-user --no-time $realpath 2>/dev/null || ls -la $realpath'
 
 # =============================================================================
 # FILE PREVIEWS
@@ -79,7 +104,7 @@ zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza -1 --color=always --ico
 # Use for commands that work with files
 zstyle ':fzf-tab:complete:*:*' fzf-preview '
 if [[ -d $realpath ]]; then
-    eza -1 --color=always --icons=always $realpath 2>/dev/null || ls -la $realpath
+    eza --color=always --icons=always --group-directories-first -la --no-permissions --no-user --no-time $realpath 2>/dev/null || ls -la $realpath
 elif [[ -f $realpath ]]; then
     bat --color=always --style=numbers --line-range=:100 $realpath 2>/dev/null || cat $realpath
 else
