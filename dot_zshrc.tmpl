@@ -58,6 +58,28 @@ fpath=({{ $dockerCompletions }} $fpath)
 autoload -Uz compinit
 compinit
 
+{{- if lookPath "carapace" }}
+# Carapace multi-shell completion framework (669+ completers)
+# Load BEFORE fzf-tab so completions are available for fuzzy matching
+# CARAPACE_BRIDGES enables using completions from other shell frameworks
+export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+source <(carapace _carapace)
+{{- end }}
+
+# Native completions for tools not covered by carapace
+{{- if lookPath "chezmoi" }}
+source <(chezmoi completion zsh)
+{{- end }}
+
+{{- if lookPath "mise" }}
+source <(mise completion zsh)
+{{- end }}
+
+{{- if lookPath "atuin" }}
+source <(atuin gen-completions --shell zsh)
+{{- end }}
+
 {{- $zinitDir := printf "%s/.local/share/zinit/zinit.git" .chezmoi.homeDir }}
 {{- if stat $zinitDir }}
 # Initialize zinit plugin manager
@@ -66,17 +88,19 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # Load modern ZSH plugins with turbo mode for better performance
 # Note: Proper load order is critical:
-# 1. Completions (zsh-completions)
-# 2. FZF tab completion (fzf-tab) - must load AFTER compinit but BEFORE syntax highlighting
-# 3. Syntax highlighting (fast-syntax-highlighting)
-# 4. Autosuggestions (zsh-autosuggestions) - must load LAST
+# 1. Carapace + native completions (loaded above)
+# 2. Additional completions (zsh-completions)
+# 3. FZF tab completion (fzf-tab) - must load AFTER completions
+# 4. Syntax highlighting (fast-syntax-highlighting)
+# 5. Autosuggestions (zsh-autosuggestions) - must load LAST
 
 # Additional completion definitions
 zinit ice wait lucid atload"zicompinit; zicdreplay"
 zinit light zsh-users/zsh-completions
 
 # FZF-powered tab completion (replaces default completion menu)
-zinit ice wait lucid
+# Custom fzf-tab configuration is loaded via atload after plugin initializes
+zinit ice wait lucid atload'source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/fzf-tab.zsh"'
 zinit light Aloxaf/fzf-tab
 
 # Fast syntax highlighting (fork of zsh-syntax-highlighting with better performance)
@@ -111,12 +135,6 @@ eval "$(mise activate zsh)"
 
 {{- if lookPath "fzf" }}
 eval "$(fzf --zsh)"
-{{- end }}
-
-{{- if lookPath "carapace" }}
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense' # optional
-zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-source <(carapace _carapace)
 {{- end }}
 
 {{- if lookPath "jira" }}
