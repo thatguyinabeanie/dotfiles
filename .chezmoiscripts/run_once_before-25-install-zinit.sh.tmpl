@@ -1,0 +1,15 @@
+#!/bin/bash
+# Install zinit plugin manager for zsh
+# Hash: zinit-installation
+
+set -euo pipefail
+
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+if [ ! -d "$ZINIT_HOME" ]; then
+  echo "Installing zinit..."
+  mkdir -p "$(dirname "$ZINIT_HOME")"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+else
+  echo "Zinit already installed at $ZINIT_HOME"
+fi

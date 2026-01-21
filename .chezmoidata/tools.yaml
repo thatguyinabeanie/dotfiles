@@ -241,6 +241,17 @@ dev_tools:
   - name: zsh-syntax-highlighting
     installer: [brew]
 
+  # ZSH plugin manager and plugins
+  - name: zinit
+    installer: [curl]
+    
+  - name: atuin
+    installer: [brew]
+    
+  # Fish shell and plugins
+  - name: fish
+    installer: [brew]
+
 # NOTE: AI agents and MCP servers are now managed in separate files:
 # - .chezmoidata/agents.yaml
 # - .chezmoidata/mcp.yaml

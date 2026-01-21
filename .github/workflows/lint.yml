@@ -42,7 +42,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install chezmoi
-        uses: chezmoi/install-chezmoi-action@v1
+        run: sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
       - name: Validate Templates
         run: |
           # Set dummy values for template variables to enable dry-run validation
