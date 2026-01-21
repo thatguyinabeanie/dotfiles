@@ -58,6 +58,45 @@ fpath=({{ $dockerCompletions }} $fpath)
 autoload -Uz compinit
 compinit
 
+{{- $zinitDir := printf "%s/.local/share/zinit/zinit.git" .chezmoi.homeDir }}
+{{- if stat $zinitDir }}
+# Initialize zinit plugin manager
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Load modern ZSH plugins with turbo mode for better performance
+# Note: Proper load order is critical:
+# 1. Completions (zsh-completions)
+# 2. FZF tab completion (fzf-tab) - must load AFTER compinit but BEFORE syntax highlighting
+# 3. Syntax highlighting (fast-syntax-highlighting)
+# 4. Autosuggestions (zsh-autosuggestions) - must load LAST
+
+# Additional completion definitions
+zinit ice wait lucid atload"zicompinit; zicdreplay"
+zinit light zsh-users/zsh-completions
+
+# FZF-powered tab completion (replaces default completion menu)
+zinit ice wait lucid
+zinit light Aloxaf/fzf-tab
+
+# Fast syntax highlighting (fork of zsh-syntax-highlighting with better performance)
+zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
+zinit light zdharma-continuum/fast-syntax-highlighting
+
+# Fish-like autosuggestions
+zinit ice wait lucid atload"!_zsh_autosuggest_start"
+zinit light zsh-users/zsh-autosuggestions
+
+# Remind to use existing aliases
+zinit ice wait lucid
+zinit light MichaelAquilina/zsh-you-should-use
+{{- end }}
+
+{{- if lookPath "atuin" }}
+# Initialize atuin for enhanced shell history
+eval "$(atuin init zsh)"
+{{- end }}
+
 {{- if lookPath "zoxide" }}
 eval "$(zoxide init zsh)"
 {{- end }}

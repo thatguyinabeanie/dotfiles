@@ -1,6 +1,6 @@
 opencode:
   # OpenCode AI configuration - follows opencode.ai schema
-  model: "github-copilot/claude-sonnet-4.5"
+  model: "github-copilot/claude-opus-4.5"
   small_model: "opencode/code-supernova"
   autoupdate: true
   share: "manual"

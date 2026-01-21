@@ -1,4 +1,8 @@
+{{- if lookPath "fish" -}}
+shell /opt/homebrew/bin/fish
+{{- else -}}
 shell /bin/zsh
+{{- end }}
 shell-integration enabled
 font_size {{ .ui.font_size }}
 
@@ -11,41 +15,3 @@ window_padding_width 10
 include themes/catppuccin/themes/{{ .CATPPUCCIN_FLAVOR }}.conf
 
 hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-hide_cursor_when_typing yes
-
-hide_cursor_when_typing yes
-hide_cursor_when_typing yes
-

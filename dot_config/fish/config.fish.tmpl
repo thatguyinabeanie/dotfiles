@@ -1,0 +1,74 @@
+# Fish Shell Configuration
+# Managed by chezmoi - edit the template, not the generated file
+
+# Suppress Fish greeting
+set -g fish_greeting
+
+# Set up Homebrew PATH and environment (must be first!)
+{{- if eq .chezmoi.os "darwin" }}
+# Add Homebrew to PATH
+fish_add_path /opt/homebrew/bin /opt/homebrew/sbin
+
+# Set Homebrew environment variables
+set -gx HOMEBREW_PREFIX "/opt/homebrew"
+set -gx HOMEBREW_CELLAR "/opt/homebrew/Cellar"
+set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
+{{- end }}
+
+{{- $starshipConfig := printf "%s/.config/starship/starship.toml" .chezmoi.homeDir }}
+{{- if stat $starshipConfig }}
+# Starship prompt configuration
+set -gx STARSHIP_CONFIG "{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
+{{- end }}
+
+# Initialize tools (if available)
+# Mise must be initialized first as it manages other tool versions
+if type -q mise
+    mise activate fish | source
+end
+
+if type -q starship
+    starship init fish | source
+end
+
+if type -q zoxide
+    zoxide init fish | source
+end
+
+if type -q fzf
+    fzf --fish | source
+end
+
+if type -q atuin
+    atuin init fish | source
+end
+
+if type -q carapace
+    set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
+    mkdir -p ~/.config/fish/completions
+    carapace _carapace fish | source
+end
+
+# Source FZF theme if available
+{{- $fzfThemePath := printf "%s/.config/fzf/fzf-theme.sh" .chezmoi.homeDir }}
+{{- if stat $fzfThemePath }}
+# FZF theme is sourced automatically by fzf --fish
+{{- end }}
+
+# Source Fish aliases if they exist
+{{- $fishAliases := printf "%s/.config/fish/aliases.fish" .chezmoi.homeDir }}
+{{- if stat $fishAliases }}
+source "{{ $fishAliases }}"
+{{- end }}
+
+# Work-specific configurations
+{{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
+{{- if and (eq .WORK_ENVIRONMENT true) (stat $kubectl_functions) }}
+# Note: Bash functions need to be converted to Fish functions
+# Source work-specific kubectl configuration if converted to Fish
+{{- end }}
+
+if type -q pokeget; and type -q fastfetch
+    # Display system info with fastfetch
+    fastfetch
+end

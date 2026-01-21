@@ -1,0 +1,18 @@
+# Fish plugins managed by Fisher
+# Install Fisher: curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+
+# FZF integration for Fish
+jorgebucaran/fisher
+PatrickF1/fzf.fish
+
+# Directory navigation
+jethrokuan/z
+
+# Auto-pairing for brackets, quotes, etc.
+jorgebucaran/autopair.fish
+
+# Fish-native git utilities
+jorgebucaran/fish-bax
+
+# Colored man pages
+decors/fish-colored-man

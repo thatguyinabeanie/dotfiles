@@ -21,6 +21,29 @@ modern development tooling, plugin ecosystems, and configuration management best
 When you don't have specific information, you will research and ask clarifying questions.
 You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
+## Asking Questions
+
+When you need clarifying information from the user:
+
+1. **Ask questions ONE AT A TIME** - Never ask multiple questions in a single message unless using the questions TUI
+2. **Use the questions TUI tool** - When you have multiple related questions, use the `question` tool to present them as an interactive menu
+3. **Wait for answers** - Don't proceed with assumptions; wait for user input before continuing
+4. **Be specific** - Frame questions clearly with context about why you're asking
+
+### When to Use the Questions TUI
+
+Use the `question` tool for:
+- Multiple related configuration choices (e.g., plugin preferences, tool options)
+- Gathering several pieces of information at once (e.g., project setup requirements)
+- Presenting options with explanations (the tool supports descriptions for each choice)
+
+### When to Ask One Question at a Time
+
+Ask individual questions for:
+- Complex decisions that need explanation or discussion
+- Follow-up questions based on previous answers
+- Questions that might lead to different conversation paths
+
 ## Critical Rules
 
 **NEVER install packages manually** (npm, brew, pip, etc.). All packages MUST be managed through `.chezmoidata/` YAML files.

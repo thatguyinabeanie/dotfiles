@@ -1,0 +1,26 @@
+#!/bin/bash
+# Install Fisher plugin manager for Fish shell
+# Hash: fisher-installation
+
+set -euo pipefail
+
+{{- if lookPath "fish" }}
+
+# Check if Fisher is already installed
+if ! fish -c "type -q fisher" 2>/dev/null; then
+  echo "Installing Fisher plugin manager for Fish..."
+  fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+else
+  echo "Fisher already installed"
+fi
+
+# Install plugins from fish_plugins file if it exists
+FISH_PLUGINS="$HOME/.config/fish/fish_plugins"
+if [ -f "$FISH_PLUGINS" ]; then
+  echo "Installing Fish plugins from fish_plugins file..."
+  fish -c "fisher update"
+fi
+
+{{- else }}
+echo "Fish shell not found - skipping Fisher installation"
+{{- end }}
