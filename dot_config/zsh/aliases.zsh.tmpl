@@ -1,3 +1,24 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Modern CLI tool replacements
+# ─────────────────────────────────────────────────────────────────────────────
+
+# eza - modern replacement for ls
+if command -v eza &> /dev/null; then
+  alias ls='eza'
+  alias ll='eza -l'
+  alias la='eza -la'
+  alias lt='eza --tree'
+  alias tree='eza --tree'
+fi
+
+# bat - modern replacement for cat
+if command -v bat &> /dev/null; then
+  alias cat='bat'
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Shell functions
+# ─────────────────────────────────────────────────────────────────────────────
 
 # Function to sign in to 1Password and update the tmux environment
 op-signin() {
