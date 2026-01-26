@@ -1,0 +1,107 @@
+#!/bin/bash
+
+# Configure Raycast keyboard shortcut and disable Spotlight
+#
+# This script:
+# 1. Disables macOS Spotlight's Cmd+Space keyboard shortcut
+# 2. Configures Raycast to use Cmd+Space as its global hotkey
+#
+# The script only runs when applications.yaml changes (via hash trigger)
+# Hash: {{ include ".chezmoidata/applications.yaml" | sha256sum }}
+
+set -euo pipefail
+
+{{- if eq .chezmoi.os "darwin" }}
+
+# Check if Raycast is installed
+if ! [ -d "/Applications/Raycast.app" ]; then
+  echo "⏭️  Raycast not installed, skipping configuration"
+  exit 0
+fi
+
+echo "⚙️  Configuring Raycast keyboard shortcuts..."
+
+# Function to disable Spotlight keyboard shortcut (Cmd+Space)
+disable_spotlight_shortcut() {
+  # The symbolic hotkey for Spotlight is key 64
+  # We modify the com.apple.symbolichotkeys.plist to disable it
+
+  local plist_file="$HOME/Library/Preferences/com.apple.symbolichotkeys.plist"
+
+  # Check current state
+  local spotlight_enabled="true"
+  if [ -f "$plist_file" ]; then
+    spotlight_enabled=$(/usr/libexec/PlistBuddy -c "Print :AppleSymbolicHotKeys:64:enabled" "$plist_file" 2>/dev/null || echo "true")
+  fi
+
+  if [ "$spotlight_enabled" = "true" ]; then
+    echo "  🔕 Disabling Spotlight keyboard shortcut (Cmd+Space)..."
+
+    # Ensure the plist exists
+    if [ ! -f "$plist_file" ]; then
+      defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict
+    fi
+
+    # Disable Spotlight search (key 64)
+    /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" "$plist_file" 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null || {
+      # If the structure doesn't exist, use defaults to create it
+      defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
+    }
+
+    # Also disable "Show Finder search window" (key 65) to be thorough
+    /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" "$plist_file" 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null || {
+      defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/></dict>"
+    }
+
+    echo "  ✅ Spotlight keyboard shortcut disabled"
+  else
+    echo "  ✅ Spotlight keyboard shortcut already disabled"
+  fi
+}
+
+# Function to configure Raycast to use Cmd+Space
+configure_raycast_shortcut() {
+  # Raycast's hotkey is stored in its preferences
+  # The default is usually Cmd+Space, but let's ensure it's set
+
+  local raycast_plist="$HOME/Library/Preferences/com.raycast.macos.plist"
+
+  # Check if Raycast has been launched at least once (preferences exist)
+  if [ -f "$raycast_plist" ]; then
+    echo "  ⌨️  Configuring Raycast hotkey to Cmd+Space..."
+
+    # Set the raycastGlobalHotkey to Cmd+Space (keyCode 49, modifiers 1048576)
+    defaults write com.raycast.macos raycastGlobalHotkey -dict-add keyCode -int 49
+    defaults write com.raycast.macos raycastGlobalHotkey -dict-add modifiers -int 1048576
+
+    echo "  ✅ Raycast hotkey configured"
+  else
+    echo "  ℹ️  Raycast preferences not found (launch Raycast once to initialize)"
+    echo "     After first launch, run 'chezmoi apply' again to configure the hotkey"
+  fi
+}
+
+# Execute configuration
+disable_spotlight_shortcut
+configure_raycast_shortcut
+
+# Restart affected services for changes to take effect
+echo "  🔄 Restarting Spotlight to apply changes..."
+killall "Spotlight" 2>/dev/null || true
+
+# Check if Raycast is running and offer to restart it
+if pgrep -x "Raycast" > /dev/null; then
+  echo "  ℹ️  Raycast is running. Restart it to apply the new hotkey."
+  echo "     You can restart Raycast from: Raycast > Quit Raycast"
+fi
+
+echo ""
+echo "✅ Raycast configuration complete!"
+echo "   • Spotlight Cmd+Space: Disabled"
+echo "   • Raycast Cmd+Space: Configured"
+echo ""
+echo "   Note: You may need to log out and log back in for all changes to take effect."
+
+{{- end }}
