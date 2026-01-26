@@ -147,6 +147,12 @@ dev_tools:
   - name: go
     installer: [mise]
 
+  - name: lua
+    installer: [brew]
+
+  - name: luarocks
+    installer: [brew]
+
   - name: rust
     installer: [mise]
     version: nightly

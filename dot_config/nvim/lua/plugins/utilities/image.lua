@@ -1,11 +1,5 @@
 -- Core image.nvim configuration for general image display
 -- Used by various plugins like molten-nvim, quarto, etc.
--- Disabled: requires luarocks and kitty graphics protocol
--- Notebooks plugins are also disabled, so this is not needed
-if true then
-  return {}
-end
-
 return {
   "3rd/image.nvim",
   lazy = true,
