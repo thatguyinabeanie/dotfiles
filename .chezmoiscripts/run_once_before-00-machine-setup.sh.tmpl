@@ -335,9 +335,9 @@ fi
 
 # Check hostname
 if $HOSTNAME_NEEDS_SETTING; then
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
-  SUDO_COMMANDS="${SUDO_COMMANDS}scutil --set HostName '$TARGET_HOSTNAME'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
+  SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set HostName '$TARGET_HOSTNAME'"$'\n'
   CHANGES_NEEDED=true
 fi
 
