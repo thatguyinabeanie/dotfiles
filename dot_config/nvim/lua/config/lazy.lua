@@ -52,7 +52,7 @@ require("lazy").setup({
   },
   rocks = {
     enabled = true, -- Enable luarocks support
-    hererocks = false, -- Use system lua/luarocks instead of hererocks
+    hererocks = true, -- Let lazy.nvim manage Lua 5.1 for plugins that need it
   },
   performance = {
     rtp = {
