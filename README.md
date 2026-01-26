@@ -16,9 +16,9 @@ A cosmic journey through the development environment
 
 ![Demo Coming Soon](https://img.shields.io/badge/Demo_Coming_Soon-black?style=for-the-badge)
 
-**See it in action**: nushell, Neovim, Tmux, and more with Catppuccin theming
+**See it in action**: zsh, Neovim, Tmux, and more with Catppuccin theming
 
-![Shell](https://img.shields.io/badge/Shell-Nushell-blue?style=flat-square&logo=gnu-bash)
+![Shell](https://img.shields.io/badge/Shell-Zsh-blue?style=flat-square&logo=gnu-bash)
 ![Editor](https://img.shields.io/badge/Editor-Neovim-green?style=flat-square&logo=neovim)
 ![Theme](https://img.shields.io/badge/Theme-Catppuccin-pink?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
@@ -50,7 +50,7 @@ During installation, the system prompts for configuration values that shape your
 | Variable            | Description                                  | Default |
 | ------------------- | -------------------------------------------- | ------- |
 | `WORK_ENVIRONMENT`  | Enable work-specific configurations          | `false` |
-| `SHELL`             | Preferred shell (nu/zsh)                     | `nu`    |
+| `SHELL`             | Preferred shell (zsh/bash)                   | `zsh`   |
 | `CATPPUCCIN_FLAVOR` | Theme variant (mocha/macchiato/frappe/latte) | `mocha` |
 | `GIT_NAME`          | Git commit author name                       | -       |
 | `GIT_EMAIL`         | Git commit author email                      | -       |
@@ -96,7 +96,7 @@ defaults read ai.opencode.chezmoi
 #### Core Preferences
 
 - `hostname` - System hostname
-- `shell_pref` - Preferred shell (nu, zsh, bash)
+- `shell_pref` - Preferred shell (zsh, bash)
 - `work_environment` - Work environment flag
 - `personal_environment` - Personal environment flag
 - `catppuccin_flavor` - Catppuccin theme flavor
@@ -209,7 +209,7 @@ chezmoi init
 
 ![Pikachu](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png)
 
-- **Shells**: Choice of Nushell (default) or Zsh for an enhanced command-line experience.
+- **Shells**: Zsh for an enhanced command-line experience with modern features.
 - **Editors**: Neovim as the primary editor, with configurations for VS Code also available.
 - **Terminals**: Configurations for Kitty and Ghostty terminal emulators.
 - **Multiplexing**: Tmux for powerful terminal session management.
@@ -442,7 +442,7 @@ The configuration ensures a consistent scientific computing environment across a
 ## 🌍 Dependencies
 
 - [Chezmoi](https://www.chezmoi.io/) - Dotfile manager
-- [Nushell](https://www.nushell.sh/) - Modern shell
+- [Zsh](https://www.zsh.org/) - Modern shell
 - [Neovim](https://neovim.io/) - Text editor
 - [Homebrew](https://brew.sh/) - Package manager
 
@@ -868,7 +868,7 @@ Quick navigation to your dotfiles directory with convenient aliases and tmux key
 
 ### Shell aliases
 
-Both Nushell and Zsh include helpful aliases for working with your dotfiles:
+Zsh includes helpful aliases for working with your dotfiles:
 
 ```bash
 # Change directory to chezmoi source

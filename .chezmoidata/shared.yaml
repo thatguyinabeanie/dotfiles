@@ -21,7 +21,6 @@ env_shared:
   # Shell paths (platform-specific)
   shell_paths:
     zsh: '{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/zsh{{ else }}/bin/zsh{{ end }}'
-    nushell: '{{ if eq .chezmoi.os "darwin" }}/opt/homebrew/bin/nu{{ else }}/usr/bin/nu{{ end }}'
 
   # Path construction variables
   path_variables:
@@ -45,7 +44,6 @@ env_shared:
     xdg_config_apps:
       base: "$XDG_CONFIG_HOME"
       paths:
-        NU_CONFIG_DIR: "nushell"
         K9S_CONFIG_DIR: "k9s"
         STARSHIP_CONFIG: "starship/starship.toml"
         TMUX_CONFIG_DIR: "tmux"
@@ -130,16 +128,16 @@ env_shared:
       PASSWORD_STORE_DIR: "$XDG_DATA_HOME/pass"
 
   # PATH entries (common development paths)
-  # Priority order: local bins → mise (version managers) → homebrew → system
+  # Priority order: local bins → mise (version managers) → system → homebrew
   env_paths:
     path:
       - "$HOME/.cache/.bun/bin"
       - "$HOME/.local/bin"
       - "$HOME/.cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
+      - "/usr/local/bin"
       - "/opt/homebrew/bin"
       - "/opt/homebrew/sbin"
-      - "/usr/local/bin"
 
   # Command-based variables (computed at runtime)
   command_variables: {}

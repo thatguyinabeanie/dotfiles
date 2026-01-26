@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+# Ensure mise is in PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 # Check if mise is installed
 if ! command -v mise >/dev/null 2>&1; then
     echo "❌ mise is not installed. Please install mise first."

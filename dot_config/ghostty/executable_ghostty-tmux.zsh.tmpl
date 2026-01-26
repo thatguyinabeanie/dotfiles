@@ -4,9 +4,9 @@
 chezmoi_shell="{{ .SHELL }}"
 
 # Validate shell is one of the expected values
-if [[ "$chezmoi_shell" != "nu" && "$chezmoi_shell" != "zsh" && "$chezmoi_shell" != "bash" ]]; then
-	echo "Invalid shell specified in chezmoi: $chezmoi_shell. Defaulting to nu."
-  chezmoi_shell="nu"
+if [[ "$chezmoi_shell" != "zsh" && "$chezmoi_shell" != "bash" ]]; then
+	echo "Invalid shell specified in chezmoi: $chezmoi_shell. Defaulting to zsh."
+  chezmoi_shell="zsh"
 fi
 
 # Find the shell executable path
@@ -44,14 +44,14 @@ if [ -z "$TMUX" ] && [ -z "$GHOSTTY_NO_TMUX" ]; then
 	for tmux_path in "${TMUX_PATHS[@]}"; do
 		if [ -x "$tmux_path" ]; then
       echo "Found tmux at $tmux_path. Starting tmux session."
-			exec "$tmux_path" new-session -A -s 'ghostty' "$SHELL -l"
+			exec "$tmux_path" new-session -A -s 'ghostty' "$shell_path" -l
 		fi
 	done
-	
+
 	# If tmux not found, fall back to direct shell
 	echo "tmux not found. Starting shell directly..."
-	exec "$shell_path"
+	exec "$shell_path" -l
 else
-  echo "No tmux session found. Starting shell directly..."
-	exec "$shell_path"
+  echo "Already in tmux. Starting shell directly..."
+	exec "$shell_path" -l
 fi

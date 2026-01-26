@@ -119,24 +119,13 @@ Environment variables are generated in shell templates:
 # Work environment active
 export WORK_MODE=true
 {{ else -}}
-# Personal environment active  
+# Personal environment active
 export PERSONAL_MODE=true
 {{ end -}}
 
 # Shared settings
 export EDITOR="{{ .EDITOR }}"
 export XDG_CONFIG_HOME="{{ .XDG_CONFIG_HOME }}"
-```
-
-**`env.nu.tmpl`** - Nushell environment
-```nushell
-{{ if .WORK_ENVIRONMENT -}}
-$env.WORK_MODE = true
-{{ else -}}
-$env.PERSONAL_MODE = true  
-{{ end -}}
-
-$env.EDITOR = "{{ .EDITOR }}"
 ```
 
 ### Conditional Configuration

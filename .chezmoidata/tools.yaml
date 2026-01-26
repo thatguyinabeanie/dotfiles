@@ -104,8 +104,9 @@ dev_tools:
   - name: dive
     installer: [mise]
 
-  - name: docker-desktop
-    installer: [brew_cask]
+  # DISABLED: Huge apps (install manually if needed)
+  # - name: docker-desktop  # 1+ GB
+  #   installer: [brew_cask]
 
   # - name: docker-completion
   #   installer: [brew]
@@ -127,8 +128,9 @@ dev_tools:
   - name: pandoc
     installer: [brew]
 
-  - name: mactex-no-gui
-    installer: [brew_cask]
+  # DISABLED: Huge app (install manually if needed)
+  # - name: mactex-no-gui  # 4+ GB
+  #   installer: [brew_cask]
 
   # Programming language runtimes
   - name: node
@@ -207,7 +209,7 @@ dev_tools:
 
   # Terminal and shell tools
   - name: tmux
-    installer: [mise]
+    installer: [brew]
 
   - name: zellij
     installer: [mise]

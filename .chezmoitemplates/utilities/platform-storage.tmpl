@@ -1,9 +1,8 @@
 {{- /* Platform storage environment variables template
      Parameters:
-     - syntax: "export" for zsh/bash, "nushell" for nushell
+     - syntax: "export" for zsh/bash
      Usage:
      {{- template "utilities/platform-storage.tmpl" (dict "syntax" "export" "context" .) }}
-     {{- template "utilities/platform-storage.tmpl" (dict "syntax" "nushell" "context" .) }}
 */ -}}
 
 
@@ -13,8 +12,6 @@
 {{- range $key, $value := $platformVars }}
 {{- if eq $.syntax "export" }}
 export {{ $key }}="{{ $value }}"
-{{- else if eq $.syntax "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
 {{- end }}
 {{- end }}
 {{- else }}
