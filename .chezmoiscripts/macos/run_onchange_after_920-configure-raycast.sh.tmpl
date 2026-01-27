@@ -73,8 +73,8 @@ configure_raycast_shortcut() {
     echo "  ⌨️  Configuring Raycast hotkey to Cmd+Space..."
 
     # Set the raycastGlobalHotkey to Cmd+Space (keyCode 49, modifiers 1048576)
-    defaults write com.raycast.macos raycastGlobalHotkey -dict-add keyCode -int 49
-    defaults write com.raycast.macos raycastGlobalHotkey -dict-add modifiers -int 1048576
+    # Using -dict instead of -dict-add to set both keys in a single operation
+    defaults write com.raycast.macos raycastGlobalHotkey -dict keyCode -int 49 modifiers -int 1048576
 
     echo "  ✅ Raycast hotkey configured"
   else

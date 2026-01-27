@@ -335,6 +335,8 @@ fi
 
 # Check hostname
 if $HOSTNAME_NEEDS_SETTING; then
+  # Using absolute path for scutil in sudo context to ensure command is found
+  # when PATH may not include /usr/sbin
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set HostName '$TARGET_HOSTNAME'"$'\n'
