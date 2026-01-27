@@ -104,7 +104,11 @@ dev_tools:
   - name: dive
     installer: [mise]
 
-  # DISABLED: Huge apps (install manually if needed)
+  # DISABLED: Huge apps (install manually if needed).
+  # These GUI/OS-integrated tools are intentionally excluded from the core
+  # shell/dev-tools bootstrap to keep installs lightweight (especially in CI
+  # and ephemeral environments). Install them manually or via a separate
+  # profile if needed.
   # - name: docker-desktop  # 1+ GB
   #   installer: [brew_cask]
 
