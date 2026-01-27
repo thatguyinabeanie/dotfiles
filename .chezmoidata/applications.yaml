@@ -34,6 +34,8 @@ applications:
       installer: [brew_cask]
     - name: kitty
       installer: [brew_cask]
+    - name: linear-linear
+      installer: [brew_cask]
     - name: wezterm
       installer: [brew_cask]
     - name: nightfall
