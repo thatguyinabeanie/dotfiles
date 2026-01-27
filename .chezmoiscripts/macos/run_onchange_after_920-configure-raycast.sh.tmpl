@@ -43,18 +43,21 @@ disable_spotlight_shortcut() {
     fi
 
     # Disable Spotlight search (key 64)
-    # Try Set first, then Add if key doesn't exist, then defaults as final fallback
+    # Try Set first, then Add if key doesn't exist, then create structure with PlistBuddy
     if ! /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" "$plist_file" 2>/dev/null; then
       if ! /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null; then
-        # If the structure doesn't exist, use defaults to create it
-        defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
+        # If the structure doesn't exist, create it with PlistBuddy
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64 dict" "$plist_file" 2>/dev/null || true
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null
       fi
     fi
 
     # Also disable "Show Finder search window" (key 65) to be thorough
+    # Same pattern: Set, then Add, then create structure with PlistBuddy
     if ! /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" "$plist_file" 2>/dev/null; then
       if ! /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null; then
-        defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/></dict>"
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65 dict" "$plist_file" 2>/dev/null || true
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null
       fi
     fi
 
