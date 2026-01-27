@@ -1,24 +1,6 @@
 # Shared Homebrew setup and initialization
 # Ensures Homebrew is installed and properly configured
 
-# Check and accept Xcode license if needed (required for Homebrew casks)
-if command_exists "xcodebuild"; then
-    log_step "Checking Xcode license status"
-    if ! xcodebuild -checkFirstLaunchStatus 2>/dev/null; then
-        log_warning "Xcode license not accepted - this is required for Homebrew installations"
-        log_detail "Attempting to accept Xcode license (requires sudo)..."
-        if sudo xcodebuild -license accept; then
-            log_success "Xcode license accepted"
-        else
-            log_error "Failed to accept Xcode license"
-            log_detail "Please run manually: sudo xcodebuild -license accept"
-            exit 1
-        fi
-    else
-        log_debug "Xcode license already accepted"
-    fi
-fi
-
 # Check if Homebrew is installed, install if not
 if ! command_exists "brew"; then
     log_info "Installing Homebrew Package Manager for macOS"

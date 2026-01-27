@@ -7,6 +7,8 @@ applications:
       installer: [brew_cask]
     - name: lastpass
       installer: [brew_cask]
+    - name: linear-linear
+      installer: [brew_cask]
 
   shared:
     # Shared applications for all environments
