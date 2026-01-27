@@ -408,7 +408,7 @@ rotate_token() {
     echo "Token validated successfully!"
     echo ""
     echo "To complete the rotation, update your token in one of these locations:"
-    echo "  1. Environment variable in ~/.zshenv or ~/.config/nushell/env.local.nu:"
+    echo "  1. Environment variable in ~/.zshenv:"
     echo "     export OP_SERVICE_ACCOUNT_TOKEN='$new_token'"
     echo ""
     echo "  2. Or save to token file:"

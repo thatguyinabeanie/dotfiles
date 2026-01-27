@@ -7,6 +7,8 @@ applications:
       installer: [brew_cask]
     - name: lastpass
       installer: [brew_cask]
+    - name: linear-linear
+      installer: [brew_cask]
 
   shared:
     # Shared applications for all environments
@@ -14,6 +16,7 @@ applications:
       installer: [brew_cask]
     - name: cursor
       installer: [brew_cask]
+    # Shared optional apps that are still installed by default
     - name: cyberduck
       installer: [brew_cask]
     - name: disk-inventory-x
@@ -30,22 +33,22 @@ applications:
       installer: [brew_cask]
     - name: keka
       installer: [brew_cask]
-    - name: kindaVim
-      installer: [brew_cask]
+    # - name: kindaVim
+    #   installer: [brew_cask]
     - name: kitty
       installer: [brew_cask]
     - name: linear-linear
       installer: [brew_cask]
-    - name: wezterm
-      installer: [brew_cask]
-    - name: nightfall
-      installer: [brew_cask]
-    - name: obsidian
-      installer: [brew_cask]
-    - name: opera
-      installer: [brew_cask]
-    - name: postman
-      installer: [brew_cask]
+    # - name: wezterm
+    #   installer: [brew_cask]
+    # - name: nightfall
+    #   installer: [brew_cask]
+    # - name: obsidian
+    #   installer: [brew_cask]
+    # - name: opera
+    #   installer: [brew_cask]
+    # - name: postman
+    #   installer: [brew_cask]
     - name: raycast
       installer: [brew_cask]
     - name: slack
@@ -65,17 +68,17 @@ applications:
       installer: [brew_cask]
     - name: 1password-cli
       installer: [brew_cask]
-    - name: ableton-live-suite
+    - name: ableton-live-suite  # 70+ GB
       installer: [brew_cask]
-    - name: affinity
+    - name: affinity  # 2+ GB
       installer: [brew_cask]
-    - name: affinity-designer
+    - name: affinity-designer  # 2+ GB
       installer: [brew_cask]
-    - name: affinity-photo
+    - name: affinity-photo  # 2+ GB
       installer: [brew_cask]
-    - name: affinity-publisher
+    - name: affinity-publisher  # 2+ GB
       installer: [brew_cask]
-    - name: blender
+    - name: blender  # 2+ GB
       installer: [brew_cask]
     - name: betterdiscord-installer
       installer: [brew_cask]
@@ -88,28 +91,21 @@ applications:
     - name: obs
       installer: [brew_cask]
 
-    # Mac App Store apps - Personal
-    - name: "Final Cut Pro"
-      installer: [mas]
-      app_id: 424389933
-    - name: "Logic Pro"
-      installer: [mas]
-      app_id: 634148309
-    - name: "Motion"
-      installer: [mas]
-      app_id: 434290957
-    - name: "GarageBand"
-      installer: [mas]
-      app_id: 682658836
-    - name: "Rosetta Stone Learn Languages"
-      installer: [mas]
-      app_id: 1476088902
-    - name: "Xcode"
-      installer: [mas]
-      app_id: 497799835
-    - name: "Compressor"
-      installer: [mas]
-      app_id: 424390742
-    - name: "FileZilla Pro"
-      installer: [mas]
-      app_id: 1298486723
+    # REMOVED: Mac App Store apps (install manually via App Store if needed)
+    # mas CLI removed from dotfiles automation
+    # - name: "Final Cut Pro"  # 3+ GB
+    #   app_id: 424389933
+    # - name: "Logic Pro"  # 2+ GB
+    #   app_id: 634148309
+    # - name: "Motion"  # 2+ GB
+    #   app_id: 434290957
+    # - name: "GarageBand"
+    #   app_id: 682658836
+    # - name: "Rosetta Stone Learn Languages"
+    #   app_id: 1476088902
+    # - name: "Xcode"  # 10+ GB
+    #   app_id: 497799835
+    # - name: "Compressor"  # 2+ GB
+    #   app_id: 424390742
+    # - name: "FileZilla Pro"
+    #   app_id: 1298486723

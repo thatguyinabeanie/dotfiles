@@ -13,7 +13,7 @@ log_section "📦 Homebrew Casks (GUI Applications)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 
-# Function to install packages in batches
+# Function to install packages with progress
 install_brew_packages() {
     local package_type="$1"
     local packages="$2"
@@ -23,56 +23,70 @@ install_brew_packages() {
         return 0
     fi
 
-    log_step "Installing $package_type packages"
+    # Count packages
+    local total_count=$(echo -e "$packages" | grep -c "cask\|brew" || echo "0")
+    log_step "Installing $total_count $package_type packages"
 
     # Create temporary Brewfile
     local brewfile=$(mktemp)
     echo -e "$packages" > "$brewfile"
 
-    # Determine brew bundle arguments based on verbose mode
-    local brew_args="install --file=$brewfile"
-    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
-        brew_args="$brew_args --verbose"
-    fi
+    # Show package list
+    log_detail "Packages to install:"
+    echo -e "$packages" | grep -o '"[^"]*"' | tr -d '"' | while read pkg; do
+        log_substep "  - $pkg"
+    done
 
-    # Install packages - behavior depends on verbose mode
-    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
-        # Verbose mode: stream output directly for real-time visibility
-        log_detail "Running: brew bundle $brew_args"
-        log_detail "Streaming output (this may take a while for large apps)..."
-        brew bundle $brew_args
-        local exit_code=$?
-    else
-        # Normal mode: capture output and show summary
-        local output
-        output=$(brew bundle $brew_args 2>&1)
-        local exit_code=$?
-    fi
+    # Determine brew bundle arguments - always verbose for visibility
+    local brew_args="install --file=$brewfile --verbose"
 
+    # Install packages with full output streaming
+    # Using a temp file to capture exit code to avoid PIPESTATUS fragility
+    log_detail "Running: brew bundle $brew_args"
+    log_detail "⏳ Streaming full installation output..."
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # Run brew bundle and capture exit code using temp file
+    local exit_code_file=$(mktemp)
+    local current_package=""
+    
+    # Run brew bundle, save exit code to file, and stream output with formatting
+    (brew bundle $brew_args 2>&1; echo $? > "$exit_code_file") | \
+    while IFS= read -r line; do
+        local timestamp=$(date '+%H:%M:%S')
+
+        # Detect package being processed
+        if [[ "$line" =~ Installing\ ([^[:space:]]+) ]]; then
+            current_package="${BASH_REMATCH[1]}"
+            echo ""
+            echo "[$timestamp] 📥 INSTALLING: $current_package"
+            echo "[$timestamp] $line"
+        elif [[ "$line" =~ Downloading\ ([^[:space:]]+) ]]; then
+            echo "[$timestamp] ⬇️  $line"
+        elif [[ "$line" =~ Using\ ([^[:space:]]+) ]]; then
+            echo "[$timestamp] ✓ CACHED: $line"
+        elif [[ "$line" =~ "Pouring" ]]; then
+            echo "[$timestamp] 🍺 $line"
+        elif [[ "$line" =~ "==> " ]]; then
+            echo "[$timestamp] 🔧 $line"
+        elif [[ "$line" =~ "Error:" ]] || [[ "$line" =~ "error:" ]]; then
+            echo "[$timestamp] ❌ ERROR: $line"
+        elif [[ "$line" =~ "Warning:" ]] || [[ "$line" =~ "warning:" ]]; then
+            echo "[$timestamp] ⚠️  WARNING: $line"
+        elif [[ ! -z "$line" ]]; then
+            # Show all non-empty lines with timestamp
+            echo "[$timestamp] $line"
+        fi
+    done
+    
+    local exit_code=$(cat "$exit_code_file")
+    rm -f "$exit_code_file"
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     if [ $exit_code -eq 0 ]; then
-        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
-            # Success - show summary instead of full output (non-verbose only)
-            local new_count=$(echo "$output" | grep -c "Installing" 2>/dev/null || echo "0")
-            local cached_count=$(echo "$output" | grep -c "Using" 2>/dev/null || echo "0")
-
-            # Ensure we have integers (remove any whitespace/newlines)
-            new_count=$(echo "$new_count" | tr -d '\n' | tr -d ' ')
-            cached_count=$(echo "$cached_count" | tr -d '\n' | tr -d ' ')
-
-            if [ "$new_count" -gt 0 ] 2>/dev/null || [ "$cached_count" -gt 0 ] 2>/dev/null; then
-                log_success "$package_type: $new_count new, $cached_count cached"
-            else
-                log_success "$package_type packages installed successfully"
-            fi
-        else
-            log_success "$package_type packages installed successfully"
-        fi
+        log_success "$package_type packages installed successfully"
     else
-        # Error - show full output for debugging
-        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
-            echo "$output"
-        fi
-        log_error "Failed to install some $package_type packages"
+        log_error "Failed to install some $package_type packages (exit code: $exit_code)"
         rm -f "$brewfile"
         return 1
     fi

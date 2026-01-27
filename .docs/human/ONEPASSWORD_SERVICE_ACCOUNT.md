@@ -71,12 +71,6 @@ Add to your shell profile (outside of chezmoi-managed files):
 export OP_SERVICE_ACCOUNT_TOKEN='ops_your_token_here'
 ```
 
-**For Nushell** (`~/.config/nushell/env.local.nu`):
-
-```nushell
-$env.OP_SERVICE_ACCOUNT_TOKEN = 'ops_your_token_here'
-```
-
 **For Bash** (`~/.bashrc.local` or `~/.bash_profile.local`):
 
 ```bash
@@ -442,7 +436,6 @@ op-helper status
 All features work identically in:
 
 - **Zsh**: Primary shell with full support
-- **Nushell**: Complete parallel implementation
 - **Bash**: Compatible (if you add similar integration)
 
 ## Next Steps

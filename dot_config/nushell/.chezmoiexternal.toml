@@ -1,4 +1,0 @@
-[".catppuccin"]
-  type = "git-repo"
-  refreshPeriod = "168h"
-  url = "https://github.com/catppuccin/nushell.git"

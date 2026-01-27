@@ -104,8 +104,13 @@ dev_tools:
   - name: dive
     installer: [mise]
 
-  - name: docker-desktop
-    installer: [brew_cask]
+  # DISABLED: Huge apps (install manually if needed).
+  # These GUI/OS-integrated tools are intentionally excluded from the core
+  # shell/dev-tools bootstrap to keep installs lightweight (especially in CI
+  # and ephemeral environments). Install them manually or via a separate
+  # profile if needed.
+  # - name: docker-desktop  # 1+ GB
+  #   installer: [brew_cask]
 
   # - name: docker-completion
   #   installer: [brew]
@@ -127,8 +132,9 @@ dev_tools:
   - name: pandoc
     installer: [brew]
 
-  - name: mactex-no-gui
-    installer: [brew_cask]
+  # DISABLED: Huge app (install manually if needed)
+  # - name: mactex-no-gui  # 4+ GB
+  #   installer: [brew_cask]
 
   # Programming language runtimes
   - name: node
@@ -144,6 +150,12 @@ dev_tools:
 
   - name: go
     installer: [mise]
+
+  - name: lua
+    installer: [brew]
+
+  - name: luarocks
+    installer: [brew]
 
   - name: rust
     installer: [mise]
@@ -207,7 +219,7 @@ dev_tools:
 
   # Terminal and shell tools
   - name: tmux
-    installer: [mise]
+    installer: [brew]
 
   - name: zellij
     installer: [mise]
@@ -227,6 +239,9 @@ dev_tools:
 
   - name: helix
     installer: [mise]
+
+  - name: sinelaw/fresh/fresh-editor
+    installer: [brew]
 
   # - name: pokeget
   #   installer: [cargo]

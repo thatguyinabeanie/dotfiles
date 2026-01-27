@@ -12,46 +12,26 @@
 # SIMPLE VARIABLES
 #
 {{- range $key, $value := $shared.env_shared.variables }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 
 ##
 ## TEMPLATE VARIABLES
 ##
-{{- if eq $shell "nushell" }}
-$env.BAT_THEME = "Catppuccin {{ title $dot.CATPPUCCIN_FLAVOR }}"
-$env.WORK_ENVIRONMENT = "{{ $dot.WORK_ENVIRONMENT }}"
-$env.GIT_NAME = "{{ $dot.git.config.name }}"
-$env.GITHUB_USERNAME = "{{ $dot.git.config.username }}"
-$env.GIT_EMAIL = "{{ $dot.git.config.email }}"
-{{- else }}
 export BAT_THEME="Catppuccin {{ title $dot.CATPPUCCIN_FLAVOR }}"
 export WORK_ENVIRONMENT="{{ $dot.WORK_ENVIRONMENT }}"
 export GIT_NAME="{{ $dot.git.config.name }}"
 export GITHUB_USERNAME="{{ $dot.git.config.username }}"
 export GIT_EMAIL="{{ $dot.git.config.email }}"
-{{- end }}
 
 ##
 ## PATH-BASED VARIABLES
 ##
 {{- range $key, $config := $shared.env_shared.path_variables }}
-{{- if eq $shell "nushell" }}
-{{- if hasKey $config "path" }}
-$env.{{ $key }} = ($env.{{ trimPrefix "$" $config.base }} | path join "{{ $config.path }}")
-{{- else }}
-$env.{{ $key }} = $env.{{ trimPrefix "$" $config.base }}
-{{- end }}
-{{- else }}
 {{- if hasKey $config "path" }}
 export {{ $key }}="${{ trimPrefix "$" $config.base }}/{{ $config.path }}"
 {{- else }}
 export {{ $key }}="${{ trimPrefix "$" $config.base }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -61,11 +41,7 @@ export {{ $key }}="${{ trimPrefix "$" $config.base }}"
 ##
 {{- range $group_name, $group_config := $shared.env_shared.path_groups }}
 {{- range $var_name, $var_path := $group_config.paths }}
-{{- if eq $shell "nushell" }}
-$env.{{ $var_name }} = ($env.{{ trimPrefix "$" $group_config.base }} | path join "{{ $var_path }}")
-{{- else }}
 export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -73,34 +49,11 @@ export {{ $var_name }}="${{ trimPrefix "$" $group_config.base }}/{{ $var_path }}
 ##
 ## THEME VARIABLES
 ##
-{{- if eq $shell "nushell" }}
-$env.CATPPUCCIN_FLAVOR = "{{ $dot.CATPPUCCIN_FLAVOR }}"
-{{- else }}
 export CATPPUCCIN_FLAVOR="{{ $dot.CATPPUCCIN_FLAVOR }}"
-{{- end }}
 
 ##
 ## PATH
 ##
-{{- if eq $shell "nushell" }}
-$env.PATH = ($env.PATH | split row (char esep) | prepend [
-{{- range $shared.env_shared.env_paths.path }}
-{{- if contains "$XDG_HOME" . }}
-    ($env.XDG_HOME | path join "{{ trimPrefix "$XDG_HOME/" . }}")
-{{- else if contains "$HOME" . }}
-    ($env.HOME | path join "{{ trimPrefix "$HOME/" . }}")
-{{- else if contains "$XDG_CONFIG_HOME" . }}
-    ($env.XDG_CONFIG_HOME | path join "{{ trimPrefix "$XDG_CONFIG_HOME/" . }}")
-{{- else if contains "$XDG_DATA_HOME" . }}
-    ($env.XDG_DATA_HOME | path join "{{ trimPrefix "$XDG_DATA_HOME/" . }}")
-{{- else if contains "$GOPATH" . }}
-    ($env.GOPATH | path join "{{ trimPrefix "$GOPATH/" . }}")
-{{- else }}
-    "{{ . }}"
-{{- end }}
-{{- end }}
-] | uniq )
-{{- else }}
 {{- range $entry := $shared.env_shared.env_paths.path }}
 {{- if contains "$HOME" $entry }}
 export PATH="{{ $entry }}:$PATH"
@@ -112,25 +65,15 @@ export PATH="{{ $entry }}:$PATH"
 export PATH="{{ $entry }}:$PATH"
 {{- end }}
 {{- end }}
-{{- end }}
 
 
 # Shell-specific configuration
-{{- if eq $shell "nushell" }}
-{{- if eq $dot.chezmoi.os "darwin" }}
-$env.SHELL = "/opt/homebrew/bin/nu"
-{{- else }}
-$env.SHELL = "/usr/bin/nu"
-{{- end }}
-$env."config.buffer_editor" = "nvim"
-{{- else }}
 {{- if eq $dot.chezmoi.os "darwin" }}
 export SHELL="/opt/homebrew/bin/zsh"
 {{- else }}
 export SHELL="/bin/zsh"
 {{- end }}
 export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p -lman'"
-{{- end }}
 
 ##
 ## WORK ENVIRONMENT
@@ -141,17 +84,9 @@ export MANPAGER="sh -c 'sed -u -e \"s/\\x1B\[[0-9;]*m//g; s/.\\x08//g\" | bat -p
 # Work variables
 {{- range $key, $value := $work.env_work.variables }}
 {{- if eq $key "WORK_ENVIRONMENT" }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $dot.WORK_ENVIRONMENT | default false }}"
-{{- else }}
 export {{ $key }}="{{ $dot.WORK_ENVIRONMENT | default false }}"
-{{- end }}
 {{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -159,11 +94,7 @@ export {{ $key }}="{{ $value }}"
 # Work paths
 {{- if hasKey $work.env_work "paths" }}
 {{- range $key, $value := $work.env_work.paths }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -173,32 +104,20 @@ export {{ $key }}="{{ $value }}"
 {{- if hasKey $work.env_work.development "git" }}
 {{- range $key, $value := $work.env_work.development.git }}
 {{- if and $value (not (hasPrefix "{{" (toString $value))) }}
-{{- if eq $shell "nushell" }}
-$env.WORK_GIT_{{ upper $key }} = "{{ $value }}"
-{{- else }}
 export WORK_GIT_{{ upper $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
 {{- end }}
 {{- if hasKey $work.env_work.development "ssh" }}
 {{- range $key, $value := $work.env_work.development.ssh }}
-{{- if eq $shell "nushell" }}
-$env.WORK_SSH_{{ upper $key }} = "{{ $value }}"
-{{- else }}
 export WORK_SSH_{{ upper $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
 {{- if hasKey $work.env_work.development "security" }}
 {{- range $key, $value := $work.env_work.development.security }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -209,11 +128,7 @@ export {{ $key }}="{{ $value }}"
 {{- range $provider_name, $provider_config := $work.env_work.cloud }}
 {{- range $key, $value := $provider_config }}
 {{- if and $value (not (hasPrefix "{{" (toString $value))) }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -224,11 +139,7 @@ export {{ $key }}="{{ $value }}"
 # Work environment overrides
 {{- if hasKey $work.env_work "overrides" }}
 {{- range $key, $value := $work.env_work.overrides }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 
 {{- end }}
@@ -245,17 +156,9 @@ export {{ $key }}="{{ $value }}"
 # Personal variables
 {{- range $key, $value := $personal.env_personal.variables }}
 {{- if eq $key "PERSONAL_ENVIRONMENT" }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $dot.PERSONAL_ENVIRONMENT | default true }}"
-{{- else }}
 export {{ $key }}="{{ $dot.PERSONAL_ENVIRONMENT | default true }}"
-{{- end }}
 {{- else if and $value (not (hasPrefix "{{" (toString $value))) }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -263,11 +166,7 @@ export {{ $key }}="{{ $value }}"
 # Personal paths
 {{- if hasKey $personal.env_personal "paths" }}
 {{- range $key, $value := $personal.env_personal.paths }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -277,22 +176,14 @@ export {{ $key }}="{{ $value }}"
 {{- if hasKey $personal.env_personal.development "git" }}
 {{- range $key, $value := $personal.env_personal.development.git }}
 {{- if and $value (not (hasPrefix "{{" (toString $value))) }}
-{{- if eq $shell "nushell" }}
-$env.PERSONAL_GIT_{{ upper $key }} = "{{ $value }}"
-{{- else }}
 export PERSONAL_GIT_{{ upper $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
 {{- end }}
 {{- if hasKey $personal.env_personal.development "ssh" }}
 {{- range $key, $value := $personal.env_personal.development.ssh }}
-{{- if eq $shell "nushell" }}
-$env.PERSONAL_SSH_{{ upper $key }} = "{{ $value }}"
-{{- else }}
 export PERSONAL_SSH_{{ upper $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -302,11 +193,7 @@ export PERSONAL_SSH_{{ upper $key }}="{{ $value }}"
 {{- if hasKey $personal.env_personal "applications" }}
 {{- range $app_category, $app_config := $personal.env_personal.applications }}
 {{- range $key, $value := $app_config }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
-{{- end }}
 {{- end }}
 {{- end }}
 
@@ -316,21 +203,13 @@ export {{ $key }}="{{ $value }}"
 {{- if hasKey $personal.env_personal "cloud" }}
 {{- range $provider_name, $provider_config := $personal.env_personal.cloud }}
 {{- range $key, $value := $provider_config }}
-{{- if eq $shell "nushell" }}
-$env.{{ $key }} = "{{ $value }}"
-{{- else }}
 export {{ $key }}="{{ $value }}"
 {{- end }}
 {{- end }}
-{{- end }}
 
 {{- end }}
 
 {{- end }}
 {{- end }}
 
-{{- if eq $shell "nushell" }}
-{{ template "utilities/platform-storage.tmpl" (dict "syntax" "nushell" "context" $dot) }}
-{{- else }}
 {{ template "utilities/platform-storage.tmpl" (dict "syntax" "export" "context" $dot) }}
-{{- end }}
