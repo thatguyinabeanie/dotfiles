@@ -16,15 +16,15 @@ applications:
       installer: [brew_cask]
     - name: cursor
       installer: [brew_cask]
-    # DISABLED: Optional apps (install manually if needed)
-    # - name: cyberduck
-    #   installer: [brew_cask]
-    # - name: disk-inventory-x
-    #   installer: [brew_cask]
-    # - name: espanso
-    #   installer: [brew_cask]
-    # - name: firefox
-    #   installer: [brew_cask]
+    # Shared optional apps that are still installed by default
+    - name: cyberduck
+      installer: [brew_cask]
+    - name: disk-inventory-x
+      installer: [brew_cask]
+    - name: espanso
+      installer: [brew_cask]
+    - name: firefox
+      installer: [brew_cask]
     - name: ghostty
       installer: [brew_cask]
     - name: google-chrome
