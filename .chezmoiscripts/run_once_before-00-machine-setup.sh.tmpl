@@ -304,6 +304,13 @@ CURRENT_HOSTNAME="{{ $current_hostname }}"
 {{- if and $target_hostname (ne $target_hostname $current_hostname) }}
 HOSTNAME_NEEDS_SETTING=true
 TARGET_HOSTNAME="{{ $target_hostname }}"
+
+# Validate TARGET_HOSTNAME is a valid DNS hostname
+# Each label must start/end with alphanumeric, dots only separate labels, no consecutive dots
+if [[ ! "$TARGET_HOSTNAME" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*$ ]]; then
+  echo "❌ Error: Invalid hostname '$TARGET_HOSTNAME'. Hostnames must be valid DNS names."
+  HOSTNAME_NEEDS_SETTING=false
+fi
 {{- end }}
 
 # Combine ALL sudo operations into one command to minimize password prompts
@@ -335,6 +342,8 @@ fi
 
 # Check hostname
 if $HOSTNAME_NEEDS_SETTING; then
+  # Using absolute path for scutil in sudo context to ensure command is found
+  # when PATH may not include /usr/sbin
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set ComputerName '$TARGET_HOSTNAME'"$'\n'
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set LocalHostName '$TARGET_HOSTNAME'"$'\n'
   SUDO_COMMANDS="${SUDO_COMMANDS}/usr/sbin/scutil --set HostName '$TARGET_HOSTNAME'"$'\n'

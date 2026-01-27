@@ -5,8 +5,10 @@
 
 set -euo pipefail
 
-# Ensure mise is in PATH
-export PATH="$HOME/.local/bin:$PATH"
+# Ensure mise is in PATH (avoid duplication)
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Check if mise is installed
 if ! command -v mise >/dev/null 2>&1; then

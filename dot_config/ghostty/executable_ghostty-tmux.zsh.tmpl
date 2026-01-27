@@ -44,7 +44,7 @@ if [ -z "$TMUX" ] && [ -z "$GHOSTTY_NO_TMUX" ]; then
 	for tmux_path in "${TMUX_PATHS[@]}"; do
 		if [ -x "$tmux_path" ]; then
       echo "Found tmux at $tmux_path. Starting tmux session."
-			exec "$tmux_path" new-session -A -s 'ghostty' "$shell_path" -l
+			exec "$tmux_path" new-session -A -s 'ghostty' "$shell_path -l"
 		fi
 	done
 

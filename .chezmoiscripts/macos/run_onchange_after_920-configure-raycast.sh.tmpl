@@ -43,17 +43,23 @@ disable_spotlight_shortcut() {
     fi
 
     # Disable Spotlight search (key 64)
-    /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" "$plist_file" 2>/dev/null || \
-    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null || {
-      # If the structure doesn't exist, use defaults to create it
-      defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 "<dict><key>enabled</key><false/></dict>"
-    }
+    # Try Set first, then Add if key doesn't exist, then create structure with PlistBuddy
+    if ! /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:64:enabled false" "$plist_file" 2>/dev/null; then
+      if ! /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null; then
+        # If the structure doesn't exist, create it with PlistBuddy
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64 dict" "$plist_file" 2>/dev/null || true
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:64:enabled bool false" "$plist_file" 2>/dev/null
+      fi
+    fi
 
     # Also disable "Show Finder search window" (key 65) to be thorough
-    /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" "$plist_file" 2>/dev/null || \
-    /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null || {
-      defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 65 "<dict><key>enabled</key><false/></dict>"
-    }
+    # Same pattern: Set, then Add, then create structure with PlistBuddy
+    if ! /usr/libexec/PlistBuddy -c "Set :AppleSymbolicHotKeys:65:enabled false" "$plist_file" 2>/dev/null; then
+      if ! /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null; then
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65 dict" "$plist_file" 2>/dev/null || true
+        /usr/libexec/PlistBuddy -c "Add :AppleSymbolicHotKeys:65:enabled bool false" "$plist_file" 2>/dev/null
+      fi
+    fi
 
     echo "  ✅ Spotlight keyboard shortcut disabled"
   else
@@ -73,8 +79,8 @@ configure_raycast_shortcut() {
     echo "  ⌨️  Configuring Raycast hotkey to Cmd+Space..."
 
     # Set the raycastGlobalHotkey to Cmd+Space (keyCode 49, modifiers 1048576)
-    defaults write com.raycast.macos raycastGlobalHotkey -dict-add keyCode -int 49
-    defaults write com.raycast.macos raycastGlobalHotkey -dict-add modifiers -int 1048576
+    # Using -dict instead of -dict-add to set both keys in a single operation
+    defaults write com.raycast.macos raycastGlobalHotkey -dict keyCode -int 49 modifiers -int 1048576
 
     echo "  ✅ Raycast hotkey configured"
   else
