@@ -6,12 +6,12 @@ if command_exists "xcodebuild"; then
     log_step "Checking Xcode license status"
     if ! xcodebuild -checkFirstLaunchStatus 2>/dev/null; then
         log_warning "Xcode license not accepted - this is required for Homebrew installations"
-        log_detail "Attempting to accept Xcode license (requires sudo)..."
+        log_detail "Attempting to run 'sudo xcodebuild -license accept'. You may be prompted to review and accept the Xcode license terms interactively."
         if sudo xcodebuild -license accept; then
             log_success "Xcode license accepted"
         else
             log_error "Failed to accept Xcode license"
-            log_detail "Please run manually: sudo xcodebuild -license accept"
+            log_detail "Please review and accept the Xcode license terms by running manually: sudo xcodebuild -license accept"
             exit 1
         fi
     else
