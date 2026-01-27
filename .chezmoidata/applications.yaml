@@ -16,15 +16,14 @@ applications:
       installer: [brew_cask]
     - name: cursor
       installer: [brew_cask]
-    # DISABLED: Optional apps (install manually if needed)
-    # - name: cyberduck
-    #   installer: [brew_cask]
-    # - name: disk-inventory-x
-    #   installer: [brew_cask]
-    # - name: espanso
-    #   installer: [brew_cask]
-    # - name: firefox
-    #   installer: [brew_cask]
+    - name: cyberduck
+      installer: [brew_cask]
+    - name: disk-inventory-x
+      installer: [brew_cask]
+    - name: espanso
+      installer: [brew_cask]
+    - name: firefox
+      installer: [brew_cask]
     - name: ghostty
       installer: [brew_cask]
     - name: google-chrome
@@ -35,8 +34,8 @@ applications:
       installer: [brew_cask]
     # - name: kindaVim
     #   installer: [brew_cask]
-    # - name: kitty
-    #   installer: [brew_cask]
+    - name: kitty
+      installer: [brew_cask]
     - name: linear-linear
       installer: [brew_cask]
     # - name: wezterm
@@ -55,12 +54,12 @@ applications:
       installer: [brew_cask]
     - name: sf-symbols
       installer: [brew_cask]
-    # - name: tidal
-    #   installer: [brew_cask]
-    # - name: visual-studio-code@insiders
-    #   installer: [brew_cask]
-    # - name: zed
-    #   installer: [brew_cask]
+    - name: tidal
+      installer: [brew_cask]
+    - name: visual-studio-code@insiders
+      installer: [brew_cask]
+    - name: zed
+      installer: [brew_cask]
 
   personal:
     # Personal applications
@@ -68,19 +67,18 @@ applications:
       installer: [brew_cask]
     - name: 1password-cli
       installer: [brew_cask]
-    # DISABLED: Huge apps (install manually if needed)
-    # - name: ableton-live-suite  # 70+ GB
-    #   installer: [brew_cask]
-    # - name: affinity  # 2+ GB
-    #   installer: [brew_cask]
-    # - name: affinity-designer  # 2+ GB
-    #   installer: [brew_cask]
-    # - name: affinity-photo  # 2+ GB
-    #   installer: [brew_cask]
-    # - name: affinity-publisher  # 2+ GB
-    #   installer: [brew_cask]
-    # - name: blender  # 2+ GB
-    #   installer: [brew_cask]
+    - name: ableton-live-suite  # 70+ GB
+      installer: [brew_cask]
+    - name: affinity  # 2+ GB
+      installer: [brew_cask]
+    - name: affinity-designer  # 2+ GB
+      installer: [brew_cask]
+    - name: affinity-photo  # 2+ GB
+      installer: [brew_cask]
+    - name: affinity-publisher  # 2+ GB
+      installer: [brew_cask]
+    - name: blender  # 2+ GB
+      installer: [brew_cask]
     - name: betterdiscord-installer
       installer: [brew_cask]
     - name: darktable
