@@ -22,6 +22,12 @@ source "{{ $zshOnePasswordEnv }}"
 source "{{ $kubectl_functions }}"
 {{- end }}
 
+{{- $workShPath := printf "%s/.work.sh" .chezmoi.homeDir }}
+{{- if and (eq .WORK_ENVIRONMENT true) (stat $workShPath) }}
+# Source work-specific shell configuration if available
+source "{{ $workShPath }}"
+{{- end }}
+
 {{- $fzfThemePath := printf "%s/.config/fzf/fzf-theme.sh" .chezmoi.homeDir }}
 {{- if stat $fzfThemePath }}
 # Source FZF theme
