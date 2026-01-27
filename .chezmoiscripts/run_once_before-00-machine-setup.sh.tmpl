@@ -306,9 +306,14 @@ HOSTNAME_NEEDS_SETTING=true
 TARGET_HOSTNAME="{{ $target_hostname }}"
 
 # Validate TARGET_HOSTNAME is a valid DNS hostname
-# Each label must start/end with alphanumeric, dots only separate labels, no consecutive dots
+# Validates DNS hostname format:
+# - Each label starts/ends with alphanumeric characters (a-z, A-Z, 0-9)
+# - Hyphens allowed internally within labels
+# - Dots only separate labels (no consecutive dots, no leading/trailing dots)
+# - No shell metacharacters allowed (prevents command injection)
 if [[ ! "$TARGET_HOSTNAME" =~ ^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?)*$ ]]; then
   echo "❌ Error: Invalid hostname '$TARGET_HOSTNAME'. Hostnames must be valid DNS names."
+  echo "   Valid format: alphanumeric labels separated by dots, hyphens allowed internally"
   HOSTNAME_NEEDS_SETTING=false
 fi
 {{- end }}
