@@ -85,9 +85,6 @@ dev_tools:
   - name: tig
     installer: [brew]
 
-  - name: jira-cli
-    installer: [brew]
-
   # Infrastructure and cloud tools
   - name: terraform
     installer: [mise]
@@ -229,9 +226,6 @@ dev_tools:
 
   - name: starship
     installer: [brew]
-
-  - name: fzf
-    installer: [mise]
 
   - name: zoxide
     installer: [mise]

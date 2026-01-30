@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+{{- if lookPath "mise" }}
+
+# Create directory if it doesn't exist
+mkdir -p "$HOME/.local/state/mise"
+
+# Generate mise activation script
+mise activate zsh > "$HOME/.local/state/mise/mise-activation.zsh"
+
+echo "✓ Generated mise activation script"
+
+{{- else }}
+echo "mise not found, skipping activation script generation"
+exit 0
+{{- end }}
