@@ -247,7 +247,14 @@ dev_tools:
   - name: mise
     installer: [curl]
 
+  # Zsh plugins (Homebrew - faster than plugin managers)
   - name: zsh-syntax-highlighting
+    installer: [brew]
+
+  - name: zsh-autosuggestions
+    installer: [brew]
+
+  - name: zsh-completions
     installer: [brew]
 
   # ZSH plugin manager and plugins
