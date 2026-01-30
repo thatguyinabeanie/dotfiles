@@ -227,6 +227,9 @@ dev_tools:
   - name: starship
     installer: [brew]
 
+  - name: fzf
+    installer: [mise]
+
   - name: zoxide
     installer: [mise]
 
