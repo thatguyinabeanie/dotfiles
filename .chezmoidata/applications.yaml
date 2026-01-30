@@ -72,11 +72,7 @@ applications:
       installer: [brew_cask]
     - name: affinity  # 2+ GB
       installer: [brew_cask]
-    - name: affinity-designer  # 2+ GB
-      installer: [brew_cask]
-    - name: affinity-photo  # 2+ GB
-      installer: [brew_cask]
-    - name: affinity-publisher  # 2+ GB
+    - name: android-studio  # 1+ GB
       installer: [brew_cask]
     - name: blender  # 2+ GB
       installer: [brew_cask]
@@ -85,6 +81,8 @@ applications:
     - name: darktable
       installer: [brew_cask]
     - name: discord
+      installer: [brew_cask]
+    - name: expo-orbit
       installer: [brew_cask]
     - name: figma
       installer: [brew_cask]
