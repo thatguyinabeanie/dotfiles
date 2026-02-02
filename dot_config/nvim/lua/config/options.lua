@@ -8,7 +8,7 @@ local opt = vim.opt
 
 -- PERSONAL PREFERENCES AND CUSTOMIZATIONS
 
-opt.shell = "/bin/zsh"
+opt.shell = vim.env.SHELL or "/bin/zsh" -- Use environment shell, fallback to system zsh
 opt.colorcolumn = "120" -- Show column guide at 120 characters
 
 -- Zellij-friendly UI settings

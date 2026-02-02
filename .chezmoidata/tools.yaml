@@ -267,7 +267,10 @@ dev_tools:
   - name: atuin
     installer: [brew]
     
-  # Fish shell and plugins
+  # Shells
+  - name: zsh
+    installer: [brew]
+
   - name: fish
     installer: [brew]
 
