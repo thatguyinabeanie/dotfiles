@@ -39,12 +39,12 @@ fpath=({{ $zshCompletionsPath }} $fpath)
 autoload -Uz compinit
 setopt EXTENDEDGLOB
 for dump in ~/.zcompdump(N.mh+24); do
-  compinit
+  compinit -i
 done
 if [[ -s "$HOME/.zcompdump" ]]; then
   compinit -C
 else
-  compinit
+  compinit -i
 fi
 unsetopt EXTENDEDGLOB
 
