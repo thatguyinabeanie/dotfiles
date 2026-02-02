@@ -1,9 +1,10 @@
 # ============================================================================
-# MINIMAL ZSH CONFIG - Performance Testing Mode
-# Enable sections one by one to identify performance bottlenecks
+# OPTIMIZED ZSH CONFIG
+# Full-featured configuration with performance optimizations
 # ============================================================================
 
-# Enable profiling (comment out when done testing)
+# Performance profiling (enable when needed)
+# Uncomment to profile startup performance
 # zmodload zsh/zprof
 
 # ----------------------------------------------------------------------------
@@ -25,6 +26,14 @@ export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 {{- end }}
 
+# Add zsh-completions to fpath (must be before compinit)
+{{- if lookPath "brew" }}
+{{- $zshCompletionsPath := "/opt/homebrew/share/zsh-completions" }}
+{{- if stat $zshCompletionsPath }}
+fpath=({{ $zshCompletionsPath }} $fpath)
+{{- end }}
+{{- end }}
+
 # Optimized completion system with caching
 # Only run security check (compaudit) once per day for faster startup
 autoload -Uz compinit
@@ -43,13 +52,19 @@ unsetopt EXTENDEDGLOB
 # PS1='%F{blue}%~%f %# '
 
 # ----------------------------------------------------------------------------
-# SECTION 2: Additional Sources (DISABLED - Test individually)
+# SECTION 2: Additional Sources
 # ----------------------------------------------------------------------------
 
 {{- $zshHighlightPath := "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" }}
 {{- if stat $zshHighlightPath }}
 # zsh-syntax-highlighting (faster than zinit/fast-syntax-highlighting)
 source "{{ $zshHighlightPath }}"
+{{- end }}
+
+{{- $zshAutosuggPath := "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" }}
+{{- if stat $zshAutosuggPath }}
+# zsh-autosuggestions - Command suggestions as you type
+source "{{ $zshAutosuggPath }}"
 {{- end }}
 
 {{- $zshOnePasswordEnv := printf "%s/.config/zsh/onepassword-env.zsh" .chezmoi.homeDir }}
@@ -70,11 +85,11 @@ source "{{ $kubectl_functions }}"
 source "{{ $workShPath }}"
 {{- end }}
 
-# {{- $cargoEnvPath := printf "%s/.cargo/env" .chezmoi.homeDir }}
-# {{- if stat $cargoEnvPath }}
-# # Cargo environment
-# source "{{ $cargoEnvPath }}"
-# {{- end }}
+{{- $cargoEnvPath := printf "%s/.cargo/env" .chezmoi.homeDir }}
+{{- if stat $cargoEnvPath }}
+# Cargo environment (Rust toolchain)
+source "{{ $cargoEnvPath }}"
+{{- end }}
 
 # ----------------------------------------------------------------------------
 # SECTION 3: Completions
@@ -101,37 +116,34 @@ source <(carapace _carapace)
 {{- end }}
 
 # ----------------------------------------------------------------------------
-# SECTION 4: Zinit Plugins (DISABLED - zinit overhead too high)
+# SECTION 4: Plugin Manager (Not Currently Used)
 # ----------------------------------------------------------------------------
 
-# Zinit adds ~40ms overhead even for a single plugin
-# Homebrew versions are faster for our use case
-
+# Zinit disabled - adds ~40ms overhead
+#
+# Current approach: Use Homebrew for available plugins (faster, no overhead)
+# - zsh-syntax-highlighting (Homebrew) ✓
+# - zsh-autosuggestions (Homebrew) ✓
+# - zsh-completions (Homebrew) ✓
+#
+# For future plugins not in Homebrew, use Antidote instead of zinit:
+#   - Install: brew install antidote
+#   - Fast concurrent loading, static file generation
+#   - ~5ms overhead (much better than zinit's 40ms)
+#   - Alternative: Sheldon (Rust-based, even faster but external dep)
+#
 # {{- $zinitDir := printf "%s/.local/share/zinit/zinit.git" .chezmoi.homeDir }}
 # {{- if stat $zinitDir }}
-# # Initialize zinit plugin manager
+# # Old zinit configuration (disabled)
 # ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 # source "${ZINIT_HOME}/zinit.zsh"
-
-# # zsh-completions
-# zinit ice wait lucid atload"zicompinit; zicdreplay"
 # zinit light zsh-users/zsh-completions
-
-# # fast-syntax-highlighting
-# zinit ice wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay"
 # zinit light zdharma-continuum/fast-syntax-highlighting
-
-# # zsh-autosuggestions (KNOWN CULPRIT)
-# zinit ice wait lucid atload"!_zsh_autosuggest_start"
 # zinit light zsh-users/zsh-autosuggestions
-
-# # zsh-you-should-use (KNOWN CULPRIT)
-# zinit ice wait lucid
-# zinit light MichaelAquilana/zsh-you-should-use
 # {{- end }}
 
 # ----------------------------------------------------------------------------
-# SECTION 5: Tool Initializations (DISABLED - eval commands are expensive)
+# SECTION 5: Tool Initializations
 # ----------------------------------------------------------------------------
 
 # {{- if lookPath "atuin" }}
@@ -140,12 +152,12 @@ source <(carapace _carapace)
 # {{- end }}
 
 {{- if lookPath "zoxide" }}
-# zoxide - Smart cd replacement (TESTING 1/3)
+# zoxide - Smart cd replacement
 eval "$(zoxide init zsh)"
 {{- end }}
 
 {{- if lookPath "starship" }}
-# starship - Fancy prompt (ENABLED)
+# starship - Fancy prompt
 {{- $starshipConfig := printf "%s/.config/starship/starship.toml" .chezmoi.homeDir }}
 {{- if stat $starshipConfig }}
 export STARSHIP_CONFIG="{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
@@ -162,6 +174,11 @@ else
     # Fallback: generate if missing (first run)
     eval "$(mise activate zsh)"
 fi
+{{- end }}
+
+{{- if lookPath "fzf" }}
+# fzf - Fuzzy finder keybindings
+eval "$(fzf --zsh)"
 {{- end }}
 
 
@@ -188,8 +205,8 @@ fi
 # {{- end }}
 
 # ----------------------------------------------------------------------------
-# Performance Profiling (comment out when done testing)
+# Performance Profiling
 # ----------------------------------------------------------------------------
-# Display profiling results on shell startup
-# Run 'zprof' manually anytime to see updated stats
+# To profile startup, uncomment zmodload and zprof calls at top and bottom
+# Then run: exec zsh
 # zprof
