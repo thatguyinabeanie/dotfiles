@@ -38,6 +38,15 @@ dev_tools:
   - name: dust
     installer: [brew]
 
+  - name: navi
+    installer: [brew]
+
+  - name: sd
+    installer: [brew]
+
+  - name: tealdeer
+    installer: [brew]
+
   - name: ncdu
     installer: [brew]
 
