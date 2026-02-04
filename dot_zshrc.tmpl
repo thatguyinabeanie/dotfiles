@@ -3,9 +3,10 @@
 # Full-featured configuration with performance optimizations
 # ============================================================================
 
-# Performance profiling (enable when needed)
-# Uncomment to profile startup performance
-# zmodload zsh/zprof
+# Performance profiling (enable with: ZSH_PROFILE=1 zsh)
+if [[ -n "$ZSH_PROFILE" ]]; then
+  zmodload zsh/zprof
+fi
 
 # ----------------------------------------------------------------------------
 # SECTION 1: Essential Sources (ENABLED - Keep these)
@@ -34,17 +35,18 @@ fpath=({{ $zshCompletionsPath }} $fpath)
 {{- end }}
 {{- end }}
 
-# Optimized completion system with caching
-# Only run security check (compaudit) once per day for faster startup
+# Optimized completion system with aggressive caching
+# - Uses -C flag to skip compaudit security check entirely (saves ~33ms)
+# - Only regenerates dump file weekly instead of daily (saves additional overhead)
+# - To force regeneration: rm ~/.zcompdump && exec zsh
 autoload -Uz compinit
 setopt EXTENDEDGLOB
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit -i
-done
-if [[ -s "$HOME/.zcompdump" ]]; then
-  compinit -C
+if [[ -n ~/.zcompdump(#qN.mh+168) ]]; then
+  # Dump file is older than 1 week, regenerate (skip security check with -u)
+  compinit -u
 else
-  compinit -i
+  # Use cached dump without any checks
+  compinit -C
 fi
 unsetopt EXTENDEDGLOB
 
@@ -71,6 +73,12 @@ source "{{ $zshAutosuggPath }}"
 {{- if stat $zshOnePasswordEnv }}
 # 1Password environment configuration
 source "{{ $zshOnePasswordEnv }}"
+{{- end }}
+
+{{- $zshPlatformStorageEnv := printf "%s/.config/zsh/platform-storage-env.zsh" .chezmoi.homeDir }}
+{{- if stat $zshPlatformStorageEnv }}
+# Platform storage environment management (pssetenv, psgetenv, etc.)
+source "{{ $zshPlatformStorageEnv }}"
 {{- end }}
 
 {{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
@@ -205,8 +213,9 @@ eval "$(fzf --zsh)"
 # {{- end }}
 
 # ----------------------------------------------------------------------------
-# Performance Profiling
+# Performance Profiling Output
 # ----------------------------------------------------------------------------
-# To profile startup, uncomment zmodload and zprof calls at top and bottom
-# Then run: exec zsh
-# zprof
+# Print profiling results when ZSH_PROFILE is enabled
+if [[ -n "$ZSH_PROFILE" ]]; then
+  zprof
+fi
