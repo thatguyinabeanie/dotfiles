@@ -8,7 +8,7 @@ typeset -U path PATH
 
 # Re-prepend our custom paths in reverse priority order
 # (last prepended = highest priority)
-path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" $path)
+path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/sbin" $path)
 
 # Export the deduplicated path
 export PATH
