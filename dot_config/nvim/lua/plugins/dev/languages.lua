@@ -204,6 +204,17 @@ return {
     },
   },
 
+  -- CMake: disable cmakelint (use neocmakelsp from lazyvim extra instead)
+  {
+    "mfussenegger/nvim-lint",
+    optional = true,
+    opts = {
+      linters_by_ft = {
+        cmake = {},
+      },
+    },
+  },
+
   -- Markdown LSP server
   {
     "neovim/nvim-lspconfig",
