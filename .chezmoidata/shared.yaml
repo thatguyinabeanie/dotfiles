@@ -136,6 +136,7 @@ env_shared:
       - "$HOME/.cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/usr/local/bin"
+      - "/usr/sbin"
       - "/opt/homebrew/bin"
       - "/opt/homebrew/sbin"
 
