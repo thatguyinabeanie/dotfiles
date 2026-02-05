@@ -107,11 +107,11 @@ language_servers:
   # systemd-language-server removed - Linux-specific, not needed on macOS
 
   # Specialized tools
-  - name: cmake-language-server
-    lspconfig_name: cmake
+  - name: neocmakelsp
+    lspconfig_name: neocmakelsp
     languages: [cmake]
     installer: [mason]
-    provides_formatting: false
+    provides_formatting: true
 
   - name: vim-language-server
     lspconfig_name: vimls
