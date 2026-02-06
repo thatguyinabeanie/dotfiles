@@ -16,3 +16,18 @@ jorgebucaran/fish-bax
 
 # Colored man pages
 decors/fish-colored-man
+
+# Pure prompt - minimal, fast, pretty
+pure-fish/pure
+
+# Async prompt - non-blocking git status
+acomagu/fish-async-prompt
+
+# Eza integration - modern ls replacement
+gazorby/fish-exa
+
+# Sponge - clean failed commands from history
+meaningful-ooo/sponge
+
+# Bass - run bash utilities that modify environment
+edc/bass

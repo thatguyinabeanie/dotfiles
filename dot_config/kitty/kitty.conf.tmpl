@@ -1,5 +1,5 @@
 {{- if lookPath "fish" -}}
-shell fish
+shell {{ lookPath "fish" }}
 {{- else -}}
 shell /bin/zsh
 {{- end }}
