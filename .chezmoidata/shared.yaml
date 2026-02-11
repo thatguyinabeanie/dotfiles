@@ -133,6 +133,7 @@ env_shared:
     path:
       - "$HOME/.cache/.bun/bin"
       - "$HOME/.local/bin"
+      - "$HOME/.pnpm-global/bin"
       - "$HOME/.cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/usr/local/bin"
