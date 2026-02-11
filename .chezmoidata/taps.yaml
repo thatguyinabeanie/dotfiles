@@ -17,3 +17,5 @@ homebrew_taps:
     description: "Kubernetes tools"
   - name: nikitabobko/tap
     description: "AeroSpace window manager"
+  - name: atlassian/homebrew-acli
+    description: "Atlassian CLI tools"
