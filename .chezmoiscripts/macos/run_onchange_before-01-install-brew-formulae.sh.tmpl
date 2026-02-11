@@ -84,15 +84,10 @@ install_brew_packages() {
 log_step "Installing Homebrew taps"
 TAPS=""
 
-# Add required taps (manually curated list)
-TAPS="${TAPS}tap \"adoptopenjdk/openjdk\"\n"
-TAPS="${TAPS}tap \"charmbracelet/tap\"\n"
-TAPS="${TAPS}tap \"domt4/autoupdate\"\n"
-TAPS="${TAPS}tap \"felixkratz/formulae\"\n"
-TAPS="${TAPS}tap \"hashicorp/tap\"\n"
-TAPS="${TAPS}tap \"jesseduffield/lazydocker\"\n"
-TAPS="${TAPS}tap \"kubewall/tap\"\n"
-TAPS="${TAPS}tap \"nikitabobko/tap\"\n"
+# Add taps from taps.yaml
+{{- range .homebrew_taps }}
+TAPS="${TAPS}tap \"{{ .name }}\"\n"
+{{- end }}
 
 install_brew_packages "taps" "$TAPS"
 
