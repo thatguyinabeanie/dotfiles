@@ -4,7 +4,10 @@
 # Suppress Fish greeting
 set -g fish_greeting
 
-# Set up Homebrew PATH and environment (must be first!)
+# Set up core PATH entries (must be first!)
+# ~/.local/bin contains mise and other user-installed binaries
+fish_add_path ~/.local/bin
+
 {{- if eq .chezmoi.os "darwin" }}
 # Add Homebrew to PATH
 fish_add_path /opt/homebrew/bin /opt/homebrew/sbin
