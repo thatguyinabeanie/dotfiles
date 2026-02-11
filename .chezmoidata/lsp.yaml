@@ -108,7 +108,7 @@ language_servers:
 
   # Specialized tools
   - name: neocmakelsp
-    lspconfig_name: neocmakelsp
+    lspconfig_name: neocmake
     languages: [cmake]
     installer: [mason]
     provides_formatting: true

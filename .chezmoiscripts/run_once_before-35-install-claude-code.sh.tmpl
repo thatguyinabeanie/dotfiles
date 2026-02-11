@@ -1,0 +1,18 @@
+#!/bin/bash
+# Claude Code Installation via official script
+# https://docs.anthropic.com/en/docs/claude-code/getting-started
+
+set -euo pipefail
+
+{{ template "utilities/logging.sh.tmpl" }}
+
+log_section "Installing Claude Code"
+
+if command -v claude >/dev/null 2>&1; then
+    log_detail "Claude Code already installed"
+    log_summary "Claude Code already present"
+else
+    log_detail "Installing Claude Code via official script..."
+    curl -fsSL https://claude.ai/install.sh | bash
+    log_summary "Claude Code installation complete"
+fi

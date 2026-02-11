@@ -33,8 +33,8 @@ agents:
     description: "OpenAI Codex coding assistant"
     category: ai
 
-  - name: "@anthropic-ai/claude-code"
-    installer: [npm]
+  - name: "claude-code"
+    installer: [curl]
     description: "Anthropic Claude Code assistant"
     category: ai
 

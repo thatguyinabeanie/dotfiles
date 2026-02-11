@@ -283,6 +283,24 @@ dev_tools:
   - name: fish
     installer: [brew]
 
+  # Atlassian tools
+  - name: acli
+    installer: [brew]
+    description: "Atlassian CLI for Jira, Confluence, etc."
+
+  # Image/graphics tools
+  - name: resvg
+    installer: [brew]
+    description: "SVG rendering library for Mermaid diagrams in Neovim"
+
+  - name: imagemagick
+    installer: [brew]
+    description: "Image manipulation library required by image.nvim"
+
+  - name: "@mermaid-js/mermaid-cli"
+    installer: [npm]
+    description: "Mermaid CLI for rendering diagrams to images"
+
 # NOTE: AI agents and MCP servers are now managed in separate files:
 # - .chezmoidata/agents.yaml
 # - .chezmoidata/mcp.yaml
