@@ -43,9 +43,7 @@ return {
 
         -- Use unique filenames per invocation to avoid preview races
         local bufnr = vim.api.nvim_get_current_buf()
-        local hrtime = (vim.uv and vim.uv.hrtime and vim.uv.hrtime())
-          or (vim.loop and vim.loop.hrtime and vim.loop.hrtime())
-          or os.time()
+        local hrtime = (vim.uv and vim.uv.hrtime and vim.uv.hrtime()) or os.time()
         local base = string.format("%s/preview_%d_%d", tmp, bufnr, hrtime)
         local input, output = base .. ".mmd", base .. ".png"
         vim.fn.writefile(vim.split(content, "\n"), input)
@@ -75,6 +73,15 @@ return {
 
         -- Collect stderr so we can report failures clearly
         local stderr = {}
+
+        -- Ensure Mermaid CLI (mmdc) is available before starting the job
+        if vim.fn.executable("mmdc") ~= 1 then
+          vim.notify(
+            "Mermaid CLI 'mmdc' not found. Please install @mermaid-js/mermaid-cli and ensure 'mmdc' is on your PATH.",
+            vim.log.levels.ERROR
+          )
+          return
+        end
 
         vim.fn.jobstart({ "mmdc", "-i", input, "-o", output, "-b", "transparent", "-t", "dark" }, {
           stderr_buffered = true,

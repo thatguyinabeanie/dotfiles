@@ -15,6 +15,13 @@ else
     log_detail "Installing Claude Code via official script..."
     tmp_install_script="$(mktemp)"
     curl -fsSL https://claude.ai/install.sh -o "$tmp_install_script"
+    if [ "${CLAUDE_INSTALL_SHA256-}" != "" ]; then
+        log_detail "Verifying Claude Code installer checksum..."
+        echo "${CLAUDE_INSTALL_SHA256}  ${tmp_install_script}" | sha256sum -c -
+        log_detail "Checksum verification succeeded"
+    else
+        log_detail "WARNING: CLAUDE_INSTALL_SHA256 not set; skipping installer checksum verification"
+    fi
     bash "$tmp_install_script"
     rm -f "$tmp_install_script"
     log_summary "Claude Code installation complete"
