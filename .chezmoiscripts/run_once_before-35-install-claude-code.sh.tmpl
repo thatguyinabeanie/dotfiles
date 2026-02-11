@@ -13,6 +13,9 @@ if command -v claude >/dev/null 2>&1; then
     log_summary "Claude Code already present"
 else
     log_detail "Installing Claude Code via official script..."
-    curl -fsSL https://claude.ai/install.sh | bash
+    tmp_install_script="$(mktemp)"
+    curl -fsSL https://claude.ai/install.sh -o "$tmp_install_script"
+    bash "$tmp_install_script"
+    rm -f "$tmp_install_script"
     log_summary "Claude Code installation complete"
 fi
