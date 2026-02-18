@@ -26,13 +26,15 @@ You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 When you need clarifying information from the user:
 
 1. **Ask questions ONE AT A TIME** - Never ask multiple questions in a single message unless using the questions TUI
-2. **Use the questions TUI tool** - When you have multiple related questions, use the `question` tool to present them as an interactive menu
+2. **Use the questions TUI tool** - When you have multiple related questions, use the
+   `question` tool to present them as an interactive menu
 3. **Wait for answers** - Don't proceed with assumptions; wait for user input before continuing
 4. **Be specific** - Frame questions clearly with context about why you're asking
 
 ### When to Use the Questions TUI
 
 Use the `question` tool for:
+
 - Multiple related configuration choices (e.g., plugin preferences, tool options)
 - Gathering several pieces of information at once (e.g., project setup requirements)
 - Presenting options with explanations (the tool supports descriptions for each choice)
@@ -40,13 +42,16 @@ Use the `question` tool for:
 ### When to Ask One Question at a Time
 
 Ask individual questions for:
+
 - Complex decisions that need explanation or discussion
 - Follow-up questions based on previous answers
 - Questions that might lead to different conversation paths
 
 ## Critical Rules
 
-**NEVER install packages manually** (npm, brew, pip, etc.). All packages MUST be managed through `.chezmoidata/` YAML files.
+**NEVER install packages manually** (npm, brew, pip, etc.). All packages MUST be managed through
+`.chezmoidata/` YAML files. All packages are declared in YAML files, never installed manually.
+Configuration is template-driven and reproducible across machines.
 
 ### Package Installation Workflow
 
@@ -56,20 +61,145 @@ Ask individual questions for:
 4. **Validate with**: `chezmoi apply --dry-run`
 5. **Apply changes**: `chezmoi apply`
 
-### Quick Reference
+### Quick Reference: `.chezmoidata/` Files
 
-- **Formatters**: `.chezmoidata/formatters.yaml`
-- **Linters**: `.chezmoidata/linters.yaml`
-- **Tools**: `.chezmoidata/tools.yaml` (includes AI tools and MCP servers)
-- **LSP servers**: `.chezmoidata/lsp.yaml`
-- **MCP servers**: `.chezmoidata/mcp.yaml`
-- **Applications**: `.chezmoidata/applications.yaml` (macOS apps)
-- **AI providers**: `.chezmoidata/ai/` (per-provider configs)
-- **Homebrew taps**: `.chezmoidata/taps.yaml`
-- **GitHub extensions**: `.chezmoidata/github-extensions.yaml`
-- **Services**: `.chezmoidata/services.yaml`
+| File                      | Top-Level Key        | Purpose                                      |
+| ------------------------- | -------------------- | -------------------------------------------- |
+| `formatters.yaml`         | `formatters`         | Code formatters (prettier, stylua, etc.)     |
+| `linters.yaml`            | `linters`            | Linters (eslint, shellcheck, vale, etc.)     |
+| `tools.yaml`              | `dev_tools`          | CLI tools and utilities (ripgrep, fd, etc.)  |
+| `lsp.yaml`                | `lsp_servers`        | Language server configurations               |
+| `mcp.yaml`                | `mcp_servers`        | MCP server definitions                       |
+| `applications.yaml`       | `applications`       | macOS GUI apps (casks, Mac App Store)        |
+| `taps.yaml`               | `homebrew_taps`      | Homebrew tap repositories                    |
+| `github-extensions.yaml`  | `github_extensions`  | GitHub CLI extensions                        |
+| `services.yaml`           | `services`           | Background services (postgresql, etc.)       |
+| `shared.yaml`             | (multiple)           | Shared settings: theme, font, terminal, UI   |
+| `personal.yaml`           | (multiple)           | Personal identity and environment settings   |
+| `work.yaml`               | (multiple)           | Work-specific overrides                      |
+| `onepassword.yaml`        | (multiple)           | 1Password integration settings               |
+| `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
+| `agents.yaml`             | `agents`             | AI agent tool configurations                 |
+| `ai/`                     | (per-provider)       | AI provider configs (anthropic, google, etc.)|
 
-**Before installing anything, consult**: [.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)
+### Schema Patterns
+
+Most package YAML files follow this structure:
+
+```yaml
+top_level_key:
+  - name: package-name
+    installer: [mise]              # Installation method(s)
+    languages: [python, yaml]      # (formatters/linters) Languages supported
+    description: "Optional note"   # Human-readable description
+    conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
+```
+
+Common `installer` values:
+
+- `[mise]` - Preferred for CLI tools (version-managed)
+- `[brew]` - Homebrew formula
+- `[mason]` - Neovim Mason (LSP servers, formatters, linters)
+- `[npm]` - Node.js packages
+- `[pip]` - Python packages
+- `[cargo]` - Rust packages
+- Multiple allowed: `[mise, mason]` means "install via both"
+
+### Data Flow into Templates
+
+1. Chezmoi loads all `.chezmoidata/*.yaml` files automatically
+2. Template queries in `.chezmoitemplates/queries/` extract package lists by installer
+3. Installer scripts (`.chezmoiscripts/`) use these queries to determine what to install
+
+Key query templates:
+
+- `queries/packages.tmpl` - Filters packages by `PackageManager`
+- `queries/brew-formulae.tmpl` - Extracts Homebrew formula packages
+- `queries/brew-casks.tmpl` - Extracts Homebrew cask packages
+- `queries/append-packages.tmpl` - Appends additional packages to a list
+
+### Supported Installation Methods
+
+```yaml
+install_via: bun          # Node.js packages (preferred)
+install_via: npm          # Node.js packages (legacy)
+install_via: brew         # Homebrew packages
+install_via: mise         # Mise-managed tools (supports cargo: backend for Rust)
+install_via: pip          # Python packages
+install_via: cargo        # Rust packages (accelerated by cargo-binstall)
+install_via: gem          # Ruby packages
+install_via: go           # Go packages
+install_via: brew_cask    # macOS applications
+install_via: curl         # Direct downloads
+```
+
+### Package Addition Examples
+
+**Add a formatter** (`.chezmoidata/formatters.yaml`):
+
+```yaml
+- name: prettier-plugin-toml
+  languages: [toml]
+  install_via: bun
+  runtime: node
+  version: latest
+  description: "Prettier plugin for TOML files"
+  mason_ensure_installed: false
+  prettier_plugin: true
+```
+
+**Add a development tool** (`.chezmoidata/tools.yaml`):
+
+```yaml
+- name: tool-name
+  install_via: mise|brew|bun
+  runtime: native|node|python
+  version: latest|specific-version
+  description: "Tool description"
+  category: build|system|git|etc
+```
+
+**Add a linter** (`.chezmoidata/linters.yaml`):
+
+```yaml
+- name: linter-name
+  languages: [file, extensions]
+  install_via: bun|mise|brew
+  runtime: node|native|python
+  version: latest
+  description: "Linter description"
+  mason_ensure_installed: true|false
+```
+
+### Cargo and cargo-binstall
+
+- `cargo-binstall` is installed as a prerequisite (first in the cargo packages script)
+- Subsequent cargo installs automatically use cargo-binstall when precompiled binaries exist
+- Falls back to `cargo install` (compile from source) if binaries unavailable
+
+### Package Troubleshooting
+
+**Manual Installation Cleanup:**
+
+```bash
+# Remove manually installed npm packages
+npm uninstall -g prettier-plugin-sh prettier-plugin-toml
+
+# Let chezmoi manage installations
+chezmoi apply
+```
+
+**Version Conflicts:**
+
+- Check for duplicate entries across different YAML files
+- Ensure consistent version specifications
+- Use `mise list` to check installed versions
+
+**Missing Packages:**
+
+- Verify package name spelling in YAML files
+- Check if package exists in specified package manager
+- Review installation logs: `chezmoi apply -v`
 
 ## Build and Test Commands
 
@@ -179,6 +309,54 @@ Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage t
 
 **Never edit generated files directly** - always edit source templates or `.chezmoidata/*.yaml` files.
 
+### Never Edit Files in `~/.config/` Directly
+
+**NEVER modify files in `~/.config/` or other target directories directly.** This breaks the
+entire chezmoi workflow and creates conflicts.
+
+**Wrong:**
+
+```bash
+vim ~/.config/mise/config.toml          # breaks chezmoi workflow
+vim ~/.config/ghostty/config            # breaks chezmoi workflow
+mise use -g lefthook@1.12.3             # modifies ~/.config/mise/config.toml directly
+```
+
+**Correct:**
+
+```bash
+vim dot_config/mise/config.toml.tmpl    # edit source templates
+vim dot_config/ghostty/config.tmpl      # edit source templates
+vim .chezmoidata/tools.yaml             # update data that feeds into templates
+chezmoi apply --dry-run                 # validate first
+chezmoi apply --force                   # apply when validation passes
+```
+
+**Recovery if you accidentally edit `~/.config/`:**
+
+1. Choose 'diff' when chezmoi detects the conflict
+2. Update the source template to include your intended changes
+3. Choose 'overwrite' to let chezmoi apply the template
+4. Verify the configuration is correct after `chezmoi apply`
+
+### Personal/Work Split
+
+The `.chezmoidata/` directory uses a context-based split:
+
+- **`personal.yaml`** - Personal development environment settings
+- **`work.yaml`** - Work/corporate environment overrides
+- **`shared.yaml`** - Cross-context configuration (XDG dirs, editor, theme, UI)
+- **`ai/`** - AI provider configurations (anthropic, google, github-copilot, opencode)
+
+All YAML files provide data for chezmoi templates. Environment variables are generated in shell
+profiles. Conditional logic is handled based on work/personal context and macOS/Linux detection.
+
+### OpenCode Configuration
+
+- **`opencode.jsonc`** (root-level) - Direct OpenCode config for LSP servers, formatters, core settings
+- **`.chezmoidata/opencode.yaml`** - YAML data for templated OpenCode configurations
+- Root `opencode.jsonc` is used directly by OpenCode and doesn't require `chezmoi apply`
+
 ## macOS-Specific Files
 
 When adding cross-platform support, these files/directories are macOS-only and should use
@@ -188,14 +366,6 @@ When adding cross-platform support, these files/directories are macOS-only and s
 - **Homebrew Dependencies**: Profile/shell configs, tmux, zsh, ghostty configs reference `/opt/homebrew`
 - **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
 - **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
-
-## Context7 Integration Tools
-
-- **resolve-library-id**: Resolves a package/product name to a Context7-compatible library ID
-  and returns a list of matching libraries. Must be called before fetching documentation to obtain
-  valid library IDs.
-- **query-docs**: Fetches up-to-date documentation for a library using a Context7-compatible
-  library ID. Supports topic-focused retrieval and token limits for optimized context.
 
 ## Success Criteria
 
@@ -217,41 +387,23 @@ Before marking any task complete, verify:
 6. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files
 
-## Additional Documentation
+## Documentation Index
 
-For detailed information on specific areas of the repository, consult these supplementary documents
-in the `.docs/agent/` directory:
+Each config directory contains colocated documentation:
 
-### Project & Development Workflow
+- `AGENTS.md` - Agent instructions (auto-discovered by Claude Code)
+- `CLAUDE.md` - Symlink to AGENTS.md
+- `GUIDE.md` - Detailed human reference guide
 
-- **[.docs/agent/PROJECT_OVERVIEW.md](.docs/agent/PROJECT_OVERVIEW.md)**: A comprehensive overview
-  of the dotfiles repository, its goals, and key technologies.
-- **[.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)**: Complete guide to
-  package management workflow, installation methods, and troubleshooting.
+### Tool Configuration Docs
 
-### Tool-Specific Guides
+- `dot_config/nvim/` - Neovim (LazyVim)
+- `dot_config/tmux/` - Tmux
+- `dot_config/aerospace/` - Aerospace window manager
+- `dot_config/ghostty/` - Ghostty terminal
+- `dot_config/wezterm/` - WezTerm terminal
+- `dot_config/zellij/` - Zellij multiplexer
 
-- **[.docs/agent/GHOSTTY_AGENT.md](.docs/agent/GHOSTTY_AGENT.md)**: A guide to the Ghostty
-  terminal emulator configuration.
-- **[.docs/agent/WEZTERM_AGENT.md](.docs/agent/WEZTERM_AGENT.md)**: A guide to the WezTerm
-  terminal emulator configuration.
-- **[.docs/agent/ZELLIJ_AGENT.md](.docs/agent/ZELLIJ_AGENT.md)**: A guide to the Zellij
-  terminal multiplexer configuration.
+### Other Docs
 
-### Chezmoi Data
-
-- **[.docs/agent/CHEZMOIDATA_GUIDE.md](.docs/agent/CHEZMOIDATA_GUIDE.md)**: Schema, data flow,
-  and workflow for `.chezmoidata/` YAML files.
-
-### Nested Agent Docs (auto-discovered)
-
-These directories contain their own `AGENTS.md` (with `CLAUDE.md` symlink) for auto-discovery:
-
-- **`dot_config/nvim/AGENTS.md`** - Neovim (LazyVim) configuration
-- **`dot_config/tmux/AGENTS.md`** - Tmux configuration
-- **`dot_config/aerospace/AGENTS.md`** - Aerospace window manager
-
-### Workflow Guides
-
-- **[.docs/agent/CONTEXT7_WORKFLOW.md](.docs/agent/CONTEXT7_WORKFLOW.md)**: How to use Context7
-  for up-to-date library documentation lookups.
+- `docs/ONEPASSWORD_SETUP.md` - 1Password service account setup

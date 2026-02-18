@@ -9,10 +9,10 @@ In this configuration, it's integrated with WezTerm and uses a tmux-like keybind
 
 ## Configuration Files
 
-| File         | Location                       | Purpose                            |
-| ------------ | ------------------------------ | ---------------------------------- |
-| `config.kdl` | `~/.config/zellij/config.kdl`  | Main configuration (KDL format)    |
-| `themes/`    | `~/.config/zellij/themes/`     | Catppuccin themes (auto-fetched)   |
+| File         | Location                      | Purpose                          |
+| ------------ | ----------------------------- | -------------------------------- |
+| `config.kdl` | `~/.config/zellij/config.kdl` | Main configuration (KDL format)  |
+| `themes/`    | `~/.config/zellij/themes/`    | Catppuccin themes (auto-fetched) |
 
 ## Template Variables Used
 
@@ -25,70 +25,70 @@ This configuration uses **Ctrl+a** as the prefix key (like tmux), not Zellij's d
 
 ### Tab Management
 
-| Keybinding   | Action              |
-| ------------ | ------------------- |
-| `Ctrl+a c`   | Create new tab      |
-| `Ctrl+a n`   | Next tab            |
-| `Ctrl+a p`   | Previous tab        |
-| `Ctrl+a 1-9` | Go to tab by number |
-| `Ctrl+a ,`   | Rename current tab  |
-| `Ctrl+a &`   | Close current tab   |
+| Keybinding    | Action              |
+| ------------- | ------------------- |
+| `Ctrl+a c`    | Create new tab      |
+| `Ctrl+a n`    | Next tab            |
+| `Ctrl+a p`    | Previous tab        |
+| `Ctrl+a 1-9`  | Go to tab by number |
+| `Ctrl+a ,`    | Rename current tab  |
+| `Ctrl+a &`    | Close current tab   |
 
 ### Pane Management
 
-| Keybinding         | Action                           |
-| ------------------ | -------------------------------- |
-| `Ctrl+a \|` or `%` | Split vertically (left/right)    |
-| `Ctrl+a -` or `"`  | Split horizontally (top/bottom)  |
-| `Ctrl+a x`         | Close current pane               |
-| `Ctrl+a z`         | Toggle pane zoom (fullscreen)    |
-| `Ctrl+a o`         | Cycle through panes              |
-| `Ctrl+a h/j/k/l`   | Move focus (vim-style)           |
-| `Ctrl+a Space`     | Toggle floating panes            |
-| `Ctrl+a f`         | Toggle pane floating/embedded    |
+| Keybinding          | Action                          |
+| ------------------- | ------------------------------- |
+| `Ctrl+a \|` or `%`  | Split vertically (left/right)   |
+| `Ctrl+a -` or `"`   | Split horizontally (top/bottom) |
+| `Ctrl+a x`          | Close current pane              |
+| `Ctrl+a z`          | Toggle pane zoom (fullscreen)   |
+| `Ctrl+a o`          | Cycle through panes             |
+| `Ctrl+a h/j/k/l`    | Move focus (vim-style)          |
+| `Ctrl+a Space`      | Toggle floating panes           |
+| `Ctrl+a f`          | Toggle pane floating/embedded   |
 
 ### Resize Mode
 
-| Keybinding   | Action              |
-| ------------ | ------------------- |
-| `Ctrl+a r`   | Enter resize mode   |
-| `h/j/k/l`    | Resize in direction |
-| `H/J/K/L`    | Shrink in direction |
-| `Esc` or `q` | Exit resize mode    |
+| Keybinding    | Action              |
+| ------------- | ------------------- |
+| `Ctrl+a r`    | Enter resize mode   |
+| `h/j/k/l`     | Resize in direction |
+| `H/J/K/L`     | Shrink in direction |
+| `Esc` or `q`  | Exit resize mode    |
 
 ### Session Controls
 
-| Keybinding | Action              |
-| ---------- | ------------------- |
-| `Ctrl+a d` | Detach from session |
-| `Ctrl+a s` | Session manager     |
+| Keybinding  | Action              |
+| ----------- | ------------------- |
+| `Ctrl+a d`  | Detach from session |
+| `Ctrl+a s`  | Session manager     |
 
 ### Scroll/Copy Mode
 
-| Keybinding   | Action            |
-| ------------ | ----------------- |
-| `Ctrl+a [`   | Enter scroll mode |
-| `j/k`        | Scroll up/down    |
-| `Ctrl+d/u`   | Half page down/up |
-| `Ctrl+f/b`   | Full page down/up |
-| `/`          | Search            |
-| `Esc` or `q` | Exit scroll mode  |
+| Keybinding    | Action            |
+| ------------- | ----------------- |
+| `Ctrl+a [`    | Enter scroll mode |
+| `j/k`         | Scroll up/down    |
+| `Ctrl+d/u`    | Half page down/up |
+| `Ctrl+f/b`    | Full page down/up |
+| `/`           | Search            |
+| `Esc` or `q`  | Exit scroll mode  |
 
 ### Quick Actions (No Prefix)
 
-| Keybinding | Action                       |
-| ---------- | ---------------------------- |
-| `Alt+h/l`  | Move focus or tab left/right |
-| `Alt+j/k`  | Move focus up/down           |
-| `Alt+n`    | New pane                     |
+| Keybinding  | Action                       |
+| ----------- | ---------------------------- |
+| `Alt+h/l`   | Move focus or tab left/right |
+| `Alt+j/k`   | Move focus up/down           |
+| `Alt+n`     | New pane                     |
 
 ### Miscellaneous
 
-| Keybinding       | Action                       |
-| ---------------- | ---------------------------- |
-| `Ctrl+a Ctrl+a`  | Send literal Ctrl+a to shell |
-| `Ctrl+a :`       | Command/search mode          |
-| `Esc`            | Return to normal mode        |
+| Keybinding        | Action                       |
+| ----------------- | ---------------------------- |
+| `Ctrl+a Ctrl+a`   | Send literal Ctrl+a to shell |
+| `Ctrl+a :`        | Command/search mode          |
+| `Esc`             | Return to normal mode        |
 
 ## Sessions
 
@@ -127,13 +127,13 @@ zellij kill-session wezterm
 
 The keybindings are designed to match tmux muscle memory:
 
-| tmux               | Zellij (this config)         |
-| ------------------ | ---------------------------- |
-| `Ctrl+b` (default) | `Ctrl+a` (configured)        |
-| `Ctrl+b c`         | `Ctrl+a c` (new tab)         |
-| `Ctrl+b %`         | `Ctrl+a %` or `\|` (vsplit)  |
-| `Ctrl+b "`         | `Ctrl+a "` or `-` (hsplit)   |
-| `Ctrl+b d`         | `Ctrl+a d` (detach)          |
+| tmux                | Zellij (this config)        |
+| ------------------- | --------------------------- |
+| `Ctrl+b` (default)  | `Ctrl+a` (configured)       |
+| `Ctrl+b c`          | `Ctrl+a c` (new tab)        |
+| `Ctrl+b %`          | `Ctrl+a %` or `\|` (vsplit) |
+| `Ctrl+b "`          | `Ctrl+a "` or `-` (hsplit)  |
+| `Ctrl+b d`          | `Ctrl+a d` (detach)         |
 
 ### Copy on Select
 
@@ -224,6 +224,6 @@ Before committing changes:
 
 ## Related Documentation
 
-- [WezTerm Agent Guide](./WEZTERM_AGENT.md)
+- [WezTerm Agent Guide](../wezterm/AGENTS.md)
 - [Zellij Official Docs](https://zellij.dev/documentation/)
 - [Catppuccin Zellij Theme](https://github.com/catppuccin/zellij)

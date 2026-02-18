@@ -21,6 +21,7 @@
 ## What is WezTerm?
 
 WezTerm is a **GPU-accelerated terminal emulator** that provides:
+
 - 🎨 Beautiful rendering with font ligatures
 - ⚡ Fast performance using GPU acceleration
 - 🔧 Extensive Lua-based configuration
@@ -28,6 +29,7 @@ WezTerm is a **GPU-accelerated terminal emulator** that provides:
 - 🌈 Catppuccin theme with auto-switching
 
 **Key Features in This Setup:**
+
 - Automatic Catppuccin theme switching (follows macOS dark/light mode)
 - Zellij auto-launch for tab/pane management
 - Customizable opacity and blur effects
@@ -47,6 +49,7 @@ WezTerm is a **GPU-accelerated terminal emulator** that provides:
 ### First Launch Behavior
 
 When you open WezTerm, it automatically:
+
 1. Launches your configured shell (zsh)
 2. Starts Zellij with a shared session named "wezterm"
 3. All subsequent WezTerm windows attach to the same Zellij session
@@ -54,6 +57,7 @@ When you open WezTerm, it automatically:
 ### Bypassing Zellij
 
 If you want to use WezTerm without Zellij:
+
 ```bash
 # Set environment variable before launching
 WEZTERM_NO_ZELLIJ=1 wezterm
@@ -79,6 +83,7 @@ exec zsh  # Restart shell
 All WezTerm settings are managed through chezmoi templates and data files:
 
 **UI Settings** (`.chezmoidata/shared.yaml` or similar):
+
 ```yaml
 ui:
   font_family: "Dank Mono"        # Font name
@@ -93,6 +98,7 @@ ui:
 ```
 
 **Theme Settings**:
+
 ```yaml
 CATPPUCCIN_FLAVOR: "mocha"        # Theme variant
 THEME_MODE: "dark"                # system, dark, or light
@@ -113,6 +119,7 @@ ui:
 ```
 
 **Popular monospace fonts:**
+
 - JetBrains Mono
 - Fira Code
 - Cascadia Code
@@ -121,6 +128,7 @@ ui:
 - SF Mono (macOS system font)
 
 **Apply changes:**
+
 ```bash
 chezmoi apply
 # Restart WezTerm
@@ -139,6 +147,7 @@ ui:
 ```
 
 **Visual effect:**
+
 - **Higher opacity (0.9-1.0)**: Less transparent, more focus
 - **Lower opacity (0.3-0.6)**: More transparent, see desktop behind
 - **Higher blur**: Softer, more frosted glass effect
@@ -173,23 +182,27 @@ ui:
 ### Theme Selection
 
 **Auto-switching** (follows macOS appearance):
+
 ```yaml
 THEME_MODE: "system"
 ```
 
 **Always dark**:
+
 ```yaml
 THEME_MODE: "dark"
 CATPPUCCIN_FLAVOR: "mocha"      # or macchiato, frappe
 ```
 
 **Always light**:
+
 ```yaml
 THEME_MODE: "light"
 # Uses Catppuccin Latte automatically
 ```
 
 **Available Catppuccin flavors:**
+
 - `mocha` - Dark, warm (default)
 - `macchiato` - Dark, slightly lighter than mocha
 - `frappe` - Dark, cooler tones
@@ -230,11 +243,12 @@ THEME_MODE: "light"
 **WezTerm's tab bar is disabled** in this configuration because Zellij handles all tab and pane management.
 
 **Instead, use Zellij keybindings:**
+
 - New tab: `Ctrl+a c`
 - Next tab: `Ctrl+a n`
 - Previous tab: `Ctrl+a p`
 
-See the [Zellij Guide](.docs/human/ZELLIJ_GUIDE.md) for complete tab/pane management.
+See the [Zellij Guide](../zellij/GUIDE.md) for complete tab/pane management.
 
 ---
 
@@ -245,6 +259,7 @@ See the [Zellij Guide](.docs/human/ZELLIJ_GUIDE.md) for complete tab/pane manage
 WezTerm uses the Catppuccin color scheme, which provides:
 
 **Dark Themes:**
+
 - **Mocha**: Warmest dark theme (default)
   - Background: `#1e1e2e`
   - Foreground: `#cdd6f4`
@@ -261,6 +276,7 @@ WezTerm uses the Catppuccin color scheme, which provides:
   - Accent: `#8caaee` (blue)
 
 **Light Theme:**
+
 - **Latte**: Bright, easy on eyes in daylight
   - Background: `#eff1f5`
   - Foreground: `#4c4f69`
@@ -274,9 +290,11 @@ When `THEME_MODE: "system"` is set:
 2. **macOS Dark Mode** → Catppuccin Mocha/Macchiato/Frappé
 
 **How to change macOS appearance:**
+
 - System Settings → Appearance → Light/Dark/Auto
 
 **Testing theme switching:**
+
 ```bash
 # Toggle macOS appearance
 # WezTerm will automatically switch themes
@@ -287,7 +305,8 @@ When `THEME_MODE: "system"` is set:
 WezTerm supports programming ligatures (special character combinations):
 
 **Examples:**
-```
+
+```text
 != → ≠
 >= → ≥
 <= → ≤
@@ -297,6 +316,7 @@ WezTerm supports programming ligatures (special character combinations):
 ```
 
 **Fonts with great ligatures:**
+
 - Fira Code
 - JetBrains Mono
 - Cascadia Code
@@ -309,6 +329,7 @@ WezTerm supports programming ligatures (special character combinations):
 ### How Integration Works
 
 **Auto-Launch Flow:**
+
 1. You open WezTerm
 2. `wezterm-init.zsh` runs automatically
 3. Checks if Zellij is already running
@@ -316,6 +337,7 @@ WezTerm supports programming ligatures (special character combinations):
 5. All WezTerm windows share the same Zellij session
 
 **Session Persistence:**
+
 - Closing a WezTerm window doesn't kill the Zellij session
 - Your tabs and panes persist
 - Open a new WezTerm window → Auto-attaches to existing session
@@ -340,6 +362,7 @@ Ctrl+a c  # New tab for API server
 ### Disabling Zellij
 
 **Temporarily:**
+
 ```bash
 export WEZTERM_NO_ZELLIJ=1
 exec zsh
@@ -373,6 +396,7 @@ config.front_end = "WebGpu"             # Use modern graphics API
 ### Visual Enhancements
 
 **Increase opacity for focus:**
+
 ```yaml
 ui:
   opacity: 0.98
@@ -380,6 +404,7 @@ ui:
 ```
 
 **Dramatic blur effect:**
+
 ```yaml
 ui:
   opacity: 0.3
@@ -387,6 +412,7 @@ ui:
 ```
 
 **Clean, minimal look:**
+
 ```yaml
 ui:
   opacity: 1.0    # No transparency
@@ -396,12 +422,14 @@ ui:
 ### Font Rendering
 
 **Thicker fonts** (for better readability):
+
 ```yaml
 ui:
   font_thicken: true
 ```
 
 **Font variations:**
+
 ```lua
 -- In wezterm.lua.tmpl for advanced users
 config.font = wezterm.font_with_fallback {
@@ -422,6 +450,7 @@ config.font = wezterm.font_with_fallback {
 **Problem**: Double-clicking WezTerm does nothing
 
 **Solutions:**
+
 1. Check if WezTerm is already running (check Dock or `ps aux | grep wezterm`)
 2. Try launching from Terminal: `/Applications/WezTerm.app/Contents/MacOS/wezterm-gui`
 3. Check logs: `~/Library/Logs/wezterm/`
@@ -432,6 +461,7 @@ config.font = wezterm.font_with_fallback {
 **Problem**: WezTerm shows default font, not your configured font
 
 **Solutions:**
+
 1. Verify font is installed: Font Book.app
 2. Check exact font name: `fc-list | grep "YourFont"`
 3. Use fallback fonts in config
@@ -442,6 +472,7 @@ config.font = wezterm.font_with_fallback {
 **Problem**: Stays in dark mode even when macOS is in light mode
 
 **Solutions:**
+
 1. Verify `THEME_MODE: "system"` in chezmoi data
 2. Restart WezTerm completely (`Cmd+Q`, not just close window)
 3. Check WezTerm version: `wezterm --version` (update if old)
@@ -452,6 +483,7 @@ config.font = wezterm.font_with_fallback {
 **Problem**: WezTerm opens but Zellij doesn't start
 
 **Solutions:**
+
 1. Check if `wezterm-init.zsh` exists: `ls ~/.config/wezterm/`
 2. Verify it's executable: `chmod +x ~/.config/wezterm/wezterm-init.zsh`
 3. Check if Zellij is installed: `which zellij`
@@ -462,6 +494,7 @@ config.font = wezterm.font_with_fallback {
 **Problem**: Terminal is always opaque
 
 **Solutions:**
+
 1. **macOS only feature**: Opacity and blur only work on macOS
 2. Check if "Reduce transparency" is enabled in macOS System Settings
 3. Verify values in config: `opacity` should be < 1.0
@@ -472,16 +505,21 @@ config.font = wezterm.font_with_fallback {
 **Problem**: Terminal feels sluggish or laggy
 
 **Solutions:**
+
 1. **Reduce blur**: High blur values can impact performance
+
    ```yaml
    ui:
      blur: 50  # Lower value
    ```
+
 2. **Disable opacity**:
+
    ```yaml
    ui:
      opacity: 1.0
    ```
+
 3. **Lower font size**: Smaller fonts = less rendering
 4. **Check GPU**: Ensure GPU acceleration is enabled
 
@@ -490,15 +528,20 @@ config.font = wezterm.font_with_fallback {
 **Problem**: Edited config but nothing changed
 
 **Solutions:**
+
 1. **Apply chezmoi changes**:
+
    ```bash
    chezmoi apply
    ```
+
 2. **Restart WezTerm**: `Cmd+Q`, then reopen
 3. **Check for template errors**:
+
    ```bash
    chezmoi apply --dry-run
    ```
+
 4. **Verify file location**: Config should be at `~/.config/wezterm/wezterm.lua`
 
 ---
@@ -517,7 +560,7 @@ config.keys = {
     mods = 'CMD',
     action = wezterm.action.ToggleFullScreen,
   },
-  
+
   -- Example: Open new WezTerm window with Cmd+Shift+N
   {
     key = 'N',
@@ -549,13 +592,13 @@ config.color_scheme = 'Tokyo Night'
 -- Or: 'Dracula', 'Nord', 'Gruvbox', etc.
 ```
 
-See all available: https://wezfurlong.org/wezterm/colorschemes/
+See all available: <https://wezfurlong.org/wezterm/colorschemes/>
 
 ---
 
 ## Quick Reference Card
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │           WEZTERM QUICK REFERENCE                   │
 ├─────────────────────────────────────────────────────┤
@@ -574,7 +617,7 @@ See all available: https://wezfurlong.org/wezterm/colorschemes/
 │  Cmd+V      Paste                                   │
 │                                                     │
 │  NOTE: Use Zellij (Ctrl+a) for tabs and panes!     │
-│  See: .docs/human/ZELLIJ_GUIDE.md                  │
+│  See: ../zellij/GUIDE.md                            │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -583,14 +626,17 @@ See all available: https://wezfurlong.org/wezterm/colorschemes/
 ## Configuration Locations
 
 **Managed by chezmoi:**
+
 - Source: `~/.local/share/chezmoi/dot_config/wezterm/`
 - Deployed: `~/.config/wezterm/`
 
 **Data files:**
+
 - UI settings: `.chezmoidata/shared.yaml` (or personal/work)
 - Theme settings: `.chezmoidata/shared.yaml`
 
 **Apply configuration changes:**
+
 ```bash
 chezmoi apply
 # Then restart WezTerm (Cmd+Q and reopen)
@@ -601,19 +647,11 @@ chezmoi apply
 ## Additional Resources
 
 **Official Documentation:**
-- WezTerm Docs: https://wezfurlong.org/wezterm/
-- WezTerm GitHub: https://github.com/wez/wezterm
+
+- WezTerm Docs: <https://wezfurlong.org/wezterm/>
+- WezTerm GitHub: <https://github.com/wez/wezterm>
 
 **Related Configurations:**
-- Zellij Integration: `.docs/human/ZELLIJ_GUIDE.md`
-- Neovim Setup: `.docs/human/NEOVIM_GUIDE.md`
-- Shell Configuration: `.docs/human/SHELL_GUIDE.md`
 
-**Agent Docs (for AI assistants):**
-- `.docs/agent/WEZTERM_AGENT.md`
-
----
-
-**Last Updated**: January 2025  
-**Configuration Location**: `~/.config/wezterm/`  
-**Managed by**: chezmoi dotfiles
+- Zellij Integration: [../zellij/GUIDE.md](../zellij/GUIDE.md)
+- Neovim Setup: [../nvim/GUIDE.md](../nvim/GUIDE.md)

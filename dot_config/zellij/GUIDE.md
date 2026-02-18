@@ -22,12 +22,14 @@
 ## What is Zellij?
 
 Zellij is a **terminal multiplexer** (like tmux or screen) that lets you:
+
 - Split your terminal into multiple panes
 - Create tabs to organize different workflows
 - Detach and reattach sessions (your work persists)
 - Use floating overlays for quick tasks
 
 **Key Features in This Setup:**
+
 - 🎨 Catppuccin theme integration
 - ⌨️ Tmux-style keybindings (`Ctrl+a` prefix)
 - 🔄 Seamless navigation between Zellij panes and Neovim splits
@@ -174,7 +176,7 @@ This setup includes **smart navigation** that works seamlessly between Zellij pa
 
 ### Example Workflow
 
-```
+```text
 ┌─────────────────────────────────┬───────────────────┐
 │                                 │                   │
 │         Neovim                  │    Terminal       │
@@ -185,6 +187,7 @@ This setup includes **smart navigation** that works seamlessly between Zellij pa
 ```
 
 **Navigation Example:**
+
 - In Neovim, editing `main.ts`
 - Press `Ctrl+l` repeatedly → Moves through Neovim splits → Reaches edge → Switches to terminal pane
 - Press `Ctrl+h` → Returns to Neovim
@@ -204,14 +207,16 @@ Tabs are like different workspaces. Each tab can have its own pane layout.
 ### Common Tab Patterns
 
 **Pattern 1: Project-Based Tabs**
-```
+
+```text
 Tab 1: "backend"   → API server + logs + database
 Tab 2: "frontend"  → Neovim + dev server + browser sync
 Tab 3: "tests"     → Test runner + coverage viewer
 ```
 
 **Pattern 2: Tool-Based Tabs**
-```
+
+```text
 Tab 1: "code"      → Full-screen Neovim
 Tab 2: "git"       → LazyGit + git log
 Tab 3: "docker"    → LazyDocker + container logs
@@ -239,7 +244,8 @@ Panes let you split a single tab into multiple views.
 ### Common Pane Layouts
 
 **Layout 1: Code + Terminal**
-```
+
+```text
 ┌─────────────────────┬─────┐
 │                     │     │
 │      Neovim         │ zsh │
@@ -250,7 +256,8 @@ Commands: Ctrl+a | (or Ctrl+a %)
 ```
 
 **Layout 2: Code + Terminal + Logs**
-```
+
+```text
 ┌─────────────────────┬─────┐
 │                     │ zsh │
 │      Neovim         ├─────┤
@@ -264,7 +271,8 @@ Commands:
 ```
 
 **Layout 3: Editor + REPL + Docs**
-```
+
+```text
 ┌─────────┬─────┐
 │         │REPL │
 │ Neovim  ├─────┤
@@ -288,8 +296,10 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ### Available Floating Tools
 
 #### LazyGit (`Ctrl+a g`)
+
 **Use for**: Git operations (commit, push, pull, merge, rebase)
-```
+
+```text
 ┌─────────────────────────────────────┐
 │            LazyGit                  │
 │  Status | Files | Branches | Stash  │
@@ -301,8 +311,10 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ```
 
 #### Yazi (`Ctrl+a y`)
+
 **Use for**: File browsing, quick navigation, file operations
-```
+
+```text
 ┌─────────────────────────────────────┐
 │              Yazi                   │
 │  📁 src/                            │
@@ -315,8 +327,10 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ```
 
 #### LazyDocker (`Ctrl+a D` - Shift+D)
+
 **Use for**: Docker container management
-```
+
+```text
 ┌─────────────────────────────────────┐
 │           LazyDocker                │
 │  Containers | Images | Volumes      │
@@ -328,8 +342,10 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ```
 
 #### btop (`Ctrl+a M` - Shift+M)
+
 **Use for**: System monitoring (CPU, RAM, processes)
-```
+
+```text
 ┌─────────────────────────────────────┐
 │              btop                   │
 │  CPU: 45%  RAM: 8.2GB / 16GB       │
@@ -344,11 +360,13 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ### Floating vs. Split Panes
 
 **Use Floating For:**
+
 - Quick tasks (check git status, browse files)
 - Temporary actions (monitor system, manage containers)
 - Tools you don't need to see constantly
 
 **Use Split Panes For:**
+
 - Persistent terminals (dev servers, watchers)
 - Side-by-side workflows (editor + logs)
 - Long-running processes
@@ -360,11 +378,13 @@ Floating tools appear as overlays on top of your current work. Press `Esc` or `q
 ### Understanding Sessions
 
 **What is a session?**
+
 - A session contains all your tabs and panes
 - Sessions persist even after you close your terminal
 - You can detach from a session and reattach later
 
 **Your Default Session:**
+
 - WezTerm automatically creates a session named `"wezterm"`
 - All WezTerm windows attach to this shared session
 - The session ends when the last window is closed
@@ -391,7 +411,8 @@ zellij kill-session wezterm
 ### Example Workflows
 
 #### Workflow 1: Web Development
-```
+
+```text
 Session: "webapp"
 ├─ Tab 1: "backend"
 │  ├─ Neovim (editing API code)
@@ -405,7 +426,8 @@ Session: "webapp"
 ```
 
 #### Workflow 2: DevOps
-```
+
+```text
 Session: "infrastructure"
 ├─ Tab 1: "code"
 │  └─ Neovim (editing Terraform/K8s configs)
@@ -418,7 +440,8 @@ Session: "infrastructure"
 ```
 
 #### Workflow 3: Learning/Exploration
-```
+
+```text
 Session: "learning"
 ├─ Tab 1: "code"
 │  ├─ Neovim (writing code)
@@ -445,13 +468,16 @@ Session: "learning"
 ### Visual Customization
 
 **Pane Borders:**
+
 - Borders are subtle (Catppuccin surface colors)
 - Active pane has a blue border
 - Inactive panes have gray borders
 
 **Theme:**
+
 - Currently using Catppuccin {{ .CATPPUCCIN_FLAVOR | default "Mocha" }}
 - Change flavor in `.chezmoidata/shared.yaml`:
+
   ```yaml
   CATPPUCCIN_FLAVOR: "macchiato"  # or frappe, latte, mocha
   ```
@@ -486,6 +512,7 @@ Ctrl+a |     # Split for terminal
 **Problem**: Navigation keys not switching panes
 
 **Solutions**:
+
 1. Check if Neovim is running: `ps aux | grep nvim`
 2. Ensure `autolock` plugin is loaded: Check `~/.config/zellij/config.kdl`
 3. Try exiting and re-entering Neovim
@@ -496,6 +523,7 @@ Ctrl+a |     # Split for terminal
 **Problem**: All panes blend together
 
 **Solution**:
+
 - Toggle pane frames: `Ctrl+a e`
 - Check config: `pane_frames true` in `~/.config/zellij/config.kdl`
 
@@ -504,6 +532,7 @@ Ctrl+a |     # Split for terminal
 **Problem**: Old tabs/panes keep coming back
 
 **Solution**:
+
 ```bash
 # List sessions
 zellij list-sessions
@@ -519,10 +548,13 @@ zellij kill-session wezterm
 **Problem**: `Ctrl+a g` (or y/D/M) does nothing
 
 **Solutions**:
+
 1. Ensure tools are installed:
+
    ```bash
    which lazygit yazi lazydocker btop
    ```
+
 2. Run `chezmoi apply` to update Zellij config
 3. Restart Zellij session
 
@@ -531,6 +563,7 @@ zellij kill-session wezterm
 **Problem**: `Ctrl+a d` not working
 
 **Solution**:
+
 - Ensure you're in "tmux" mode: Press `Ctrl+a` first, then `d`
 - Alternatively: `Ctrl+a s` to open session manager, then select "detach"
 
@@ -539,22 +572,21 @@ zellij kill-session wezterm
 ## Additional Resources
 
 **Official Documentation:**
-- Zellij Docs: https://zellij.dev/documentation/
-- Zellij GitHub: https://github.com/zellij-org/zellij
+
+- Zellij Docs: <https://zellij.dev/documentation/>
+- Zellij GitHub: <https://github.com/zellij-org/zellij>
 
 **Related Configurations:**
-- Neovim Integration: `.docs/human/NEOVIM_GUIDE.md`
-- WezTerm Setup: `.docs/human/WEZTERM_GUIDE.md`
-- Tmux Comparison: `.docs/human/TMUX_GUIDE.md`
 
-**Agent Docs (for AI assistants):**
-- `.docs/agent/ZELLIJ_AGENT.md`
+- Neovim Integration: [../nvim/GUIDE.md](../nvim/GUIDE.md)
+- WezTerm Setup: [../wezterm/GUIDE.md](../wezterm/GUIDE.md)
+- Tmux Comparison: [../tmux/GUIDE.md](../tmux/GUIDE.md)
 
 ---
 
 ## Quick Reference Card
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │              ZELLIJ QUICK REFERENCE                     │
 ├─────────────────────────────────────────────────────────┤
@@ -571,9 +603,3 @@ zellij kill-session wezterm
 │  Ctrl+h/j/k/l  →  Works in Zellij AND Neovim!          │
 └─────────────────────────────────────────────────────────┘
 ```
-
----
-
-**Last Updated**: January 2025  
-**Configuration Location**: `~/.config/zellij/`  
-**Managed by**: chezmoi dotfiles

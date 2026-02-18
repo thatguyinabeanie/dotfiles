@@ -104,7 +104,7 @@ Add to the `config.keys` table in `wezterm.lua.tmpl`:
 
 1. Check for Lua syntax errors: `wezterm --config-file ~/.config/wezterm/wezterm.lua`
 2. Verify template rendered correctly: `chezmoi diff`
-3. Check WezTerm logs: View → Show Debug Overlay (or Ctrl+Shift+L)
+3. Check WezTerm logs: View -> Show Debug Overlay (or Ctrl+Shift+L)
 
 ### Zellij doesn't launch
 
@@ -137,6 +137,6 @@ Before committing changes:
 
 ## Related Documentation
 
-- [Zellij Agent Guide](./ZELLIJ_AGENT.md)
+- [Zellij Agent Guide](../zellij/AGENTS.md)
 - [WezTerm Official Docs](https://wezfurlong.org/wezterm/)
 - [Catppuccin Theme](https://github.com/catppuccin/wezterm)
