@@ -6,6 +6,13 @@ language_servers:
     installer: [npm, mason]
     provides_formatting: false
 
+  - name: "@prisma/language-server"
+    mason_name: prisma-language-server
+    lspconfig_name: prismals
+    languages: [prisma]
+    installer: [npm, mason]
+    provides_formatting: true
+
   # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
 
   # Systems languages

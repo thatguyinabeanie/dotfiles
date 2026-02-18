@@ -16,6 +16,7 @@ return {
       -- Add additional parsers to LazyVim's ensure_installed
       ensure_installed = {
         "ruby",
+        "prisma",
       },
     },
     init = function()

@@ -39,7 +39,7 @@ return {
     lsp_servers = {
 {{- range $lsp_data.language_servers }}
   {{- if has "mason" .installer }}
-      "{{ .name }}",
+      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
   {{- end }}
 {{- end }}
     },
