@@ -87,7 +87,7 @@ source "{{ $zshPlatformStorageEnv }}"
 source "{{ $kubectl_functions }}"
 {{- end }}
 
-{{- $workShPath := printf "%s/.work.sh" .chezmoi.homeDir }}
+{{- $workShPath := printf "%s/.config/work/work.sh" .chezmoi.homeDir }}
 {{- if and (eq .WORK_ENVIRONMENT true) (stat $workShPath) }}
 # Work-specific shell configuration
 source "{{ $workShPath }}"
@@ -160,8 +160,8 @@ source <(carapace _carapace)
 # {{- end }}
 
 {{- if lookPath "zoxide" }}
-# zoxide - Smart cd replacement
-eval "$(zoxide init zsh)"
+# zoxide - Smart cd replacement (replaces cd with zoxide)
+eval "$(zoxide init zsh --cmd cd)"
 {{- end }}
 
 {{- if lookPath "starship" }}

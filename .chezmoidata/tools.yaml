@@ -113,6 +113,11 @@ dev_tools:
   - name: okta-aws-cli
     installer: [brew]
 
+  # Database tools
+  - name: postgres
+    installer: [mise]
+    description: "PostgreSQL database with psql client"
+
   # DISABLED: Huge apps (install manually if needed).
   # These GUI/OS-integrated tools are intentionally excluded from the core
   # shell/dev-tools bootstrap to keep installs lightweight (especially in CI
@@ -221,6 +226,10 @@ dev_tools:
 
   - name: make
     installer: [brew]
+
+  - name: pkg-config
+    installer: [brew]
+    description: "Required for building PostgreSQL and other packages"
 
   # Security and secrets management
   - name: 1password-cli
