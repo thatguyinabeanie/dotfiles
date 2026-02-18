@@ -2,7 +2,8 @@
 
 ## Overview
 
-The tmux configuration uses a modular architecture with the main config file sourcing specialized configuration modules for better maintainability.
+The tmux configuration uses a modular architecture with the main config file sourcing
+specialized configuration modules for better maintainability.
 
 ## File Structure
 
@@ -57,27 +58,14 @@ Main config sources specialized modules:
 - **tmux.conf** sources `tmux.theme.catppuccin.conf` for theming
 - Plugins managed via TPM (Tmux Plugin Manager)
 
-**Discovery commands:**
-
-- View all tmux files: `find dot_config/tmux -name "*.conf*" -type f`
-- Check sourcing pattern: `cat dot_config/tmux/tmux.conf | grep "source-file"`
-- See keybinding organization: `grep -n "^bind" dot_config/tmux/tmux.keybindings.conf`
-
 ### Plugin Management
 
 Plugins managed via chezmoi external dependencies and TPM:
 
-**Source configuration:**
-
 - View plugin dependencies: `cat dot_config/tmux/plugins/.chezmoiexternal.toml`
-- View plugin config: `grep "@plugin\|@.*=" dot_config/tmux/tmux.conf`
-
-**Runtime management:**
-
-- Check TPM installation: `ls ~/.config/tmux/plugins/tpm/`
 - Install/update plugins: `Prefix + I` (install) | `Prefix + U` (update) | `Prefix + alt+u` (uninstall)
 
-### Troubleshooting Common Issues
+### Troubleshooting
 
 **Configuration testing:**
 
@@ -100,7 +88,7 @@ Plugins managed via chezmoi external dependencies and TPM:
 - Navigate panes (works seamlessly with Neovim) - `C-h/j/k/l`
 - Send literal C-a to application - `C-a C-a`
 
-### Configuration Validation Checklist
+### Validation Checklist
 
 - [ ] Main config sources all module files without errors
 - [ ] TPM plugin manager installed and functional

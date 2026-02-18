@@ -61,6 +61,13 @@ Ask individual questions for:
 - **Formatters**: `.chezmoidata/formatters.yaml`
 - **Linters**: `.chezmoidata/linters.yaml`
 - **Tools**: `.chezmoidata/tools.yaml` (includes AI tools and MCP servers)
+- **LSP servers**: `.chezmoidata/lsp.yaml`
+- **MCP servers**: `.chezmoidata/mcp.yaml`
+- **Applications**: `.chezmoidata/applications.yaml` (macOS apps)
+- **AI providers**: `.chezmoidata/ai/` (per-provider configs)
+- **Homebrew taps**: `.chezmoidata/taps.yaml`
+- **GitHub extensions**: `.chezmoidata/github-extensions.yaml`
+- **Services**: `.chezmoidata/services.yaml`
 
 **Before installing anything, consult**: [.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)
 
@@ -109,8 +116,8 @@ If the dry run does not run successfully, report the errors, fix them, and run t
 - **Avoid duplication**: Use shared query templates in `.chezmoitemplates/queries/` to extract
   package lists for different managers
 - **Targeted hashing**: Package installer scripts use specific hash triggers
-  (e.g., `{{ template "queries/cargo-packages.tmpl" . }}`) instead of hashing entire
-  configuration files
+  (e.g., `{{ template "queries/packages.tmpl" (dict "PackageManager" "cargo" "root" .) }}`)
+  instead of hashing entire configuration files
 - **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch
   template syntax errors before applying changes
 
@@ -184,12 +191,11 @@ When adding cross-platform support, these files/directories are macOS-only and s
 
 ## Context7 Integration Tools
 
-- **context7_resolve_library_id**: Resolves a package/product name to a Context7-compatible library ID
+- **resolve-library-id**: Resolves a package/product name to a Context7-compatible library ID
   and returns a list of matching libraries. Must be called before fetching documentation to obtain
   valid library IDs.
-- **context7_get_library_docs**: Fetches up-to-date documentation for a library using a
-  Context7-compatible library ID. Supports topic-focused retrieval and token limits for optimized
-  context.
+- **query-docs**: Fetches up-to-date documentation for a library using a Context7-compatible
+  library ID. Supports topic-focused retrieval and token limits for optimized context.
 
 ## Success Criteria
 
@@ -220,24 +226,32 @@ in the `.docs/agent/` directory:
 
 - **[.docs/agent/PROJECT_OVERVIEW.md](.docs/agent/PROJECT_OVERVIEW.md)**: A comprehensive overview
   of the dotfiles repository, its goals, and key technologies.
-- **[.docs/agent/BUILD_AND_TEST.md](.docs/agent/BUILD_AND_TEST.md)**: Details on build/test commands,
-  quality checks, and running tests.
-- **[.docs/agent/TEMPLATE_BEST_PRACTICES.md](.docs/agent/TEMPLATE_BEST_PRACTICES.md)**: Best practices
-  for chezmoi template development.
-- **[.docs/agent/CONFIGURATION_MANAGEMENT.md](.docs/agent/CONFIGURATION_MANAGEMENT.md)**: How
-  configuration data is managed and the critical rule of never editing generated files directly.
 - **[.docs/agent/PACKAGE_MANAGEMENT.md](.docs/agent/PACKAGE_MANAGEMENT.md)**: Complete guide to
   package management workflow, installation methods, and troubleshooting.
-- **[.docs/agent/MACOS_SPECIFIC_FILES.md](.docs/agent/MACOS_SPECIFIC_FILES.md)**: A list of
-  macOS-specific files requiring conditional logic.
 
 ### Tool-Specific Guides
 
-- **[.docs/agent/NEOVIM_AGENT.md](.docs/agent/NEOVIM_AGENT.md)**: A detailed guide to the Neovim
-  (LazyVim) configuration, including plugins, keymaps, and architecture.
-- **[.docs/agent/AEROSPACE_AGENT.md](.docs/agent/AEROSPACE_AGENT.md)**: A guide to the Aerospace
-  tiling window manager configuration.
 - **[.docs/agent/GHOSTTY_AGENT.md](.docs/agent/GHOSTTY_AGENT.md)**: A guide to the Ghostty
   terminal emulator configuration.
-- **[.docs/agent/TMUX_AGENT.md](.docs/agent/TMUX_AGENT.md)**: A guide to the tmux configuration,
-  including keybindings and plugins.
+- **[.docs/agent/WEZTERM_AGENT.md](.docs/agent/WEZTERM_AGENT.md)**: A guide to the WezTerm
+  terminal emulator configuration.
+- **[.docs/agent/ZELLIJ_AGENT.md](.docs/agent/ZELLIJ_AGENT.md)**: A guide to the Zellij
+  terminal multiplexer configuration.
+
+### Chezmoi Data
+
+- **[.docs/agent/CHEZMOIDATA_GUIDE.md](.docs/agent/CHEZMOIDATA_GUIDE.md)**: Schema, data flow,
+  and workflow for `.chezmoidata/` YAML files.
+
+### Nested Agent Docs (auto-discovered)
+
+These directories contain their own `AGENTS.md` (with `CLAUDE.md` symlink) for auto-discovery:
+
+- **`dot_config/nvim/AGENTS.md`** - Neovim (LazyVim) configuration
+- **`dot_config/tmux/AGENTS.md`** - Tmux configuration
+- **`dot_config/aerospace/AGENTS.md`** - Aerospace window manager
+
+### Workflow Guides
+
+- **[.docs/agent/CONTEXT7_WORKFLOW.md](.docs/agent/CONTEXT7_WORKFLOW.md)**: How to use Context7
+  for up-to-date library documentation lookups.
