@@ -15,6 +15,7 @@
 if command -v {{ $data.requires }} &> /dev/null; then
 {{- end }}
 {{- range $data.items }}
+{{- if not (hasKey . "fish_only") }}
 {{- $indent := "" }}
 {{- if $hasRequires }}
 {{- $indent = "  " }}
@@ -25,6 +26,7 @@ if command -v {{ $data.requires }} &> /dev/null; then
 {{ $indent }}fi
 {{- else }}
 {{ $indent }}alias {{ .name }}='{{ .command }}'
+{{- end }}
 {{- end }}
 {{- end }}
 {{- if $hasRequires }}

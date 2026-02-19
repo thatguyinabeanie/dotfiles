@@ -209,7 +209,7 @@ aliases:
       - { name: "...", command: "cd ../.." }
       - { name: "....", command: "cd ../../.." }
       - { name: ".....", command: "cd ../../../.." }
-      - { name: "-", command: "cd -" }
+      - { name: "-", command: "cd -", fish_only: true }
 
   common:
     description: "Common utilities"
