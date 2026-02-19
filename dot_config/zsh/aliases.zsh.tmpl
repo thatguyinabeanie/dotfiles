@@ -1,20 +1,6 @@
-# ─────────────────────────────────────────────────────────────────────────────
-# Modern CLI tool replacements
-# ─────────────────────────────────────────────────────────────────────────────
-
-# eza - modern replacement for ls
-if command -v eza &> /dev/null; then
-  alias ls='eza'
-  alias ll='eza -l'
-  alias la='eza -la'
-  alias lt='eza --tree'
-  alias tree='eza --tree'
-fi
-
-# bat - modern replacement for cat
-if command -v bat &> /dev/null; then
-  alias cat='bat'
-fi
+# Zsh aliases
+# Managed by chezmoi - edit .chezmoidata/aliases.yaml, not this file
+{{ template "shell/aliases-zsh.tmpl" . }}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Shell functions

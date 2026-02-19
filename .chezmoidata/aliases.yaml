@@ -1,0 +1,285 @@
+# Shell aliases/abbreviations - single source of truth
+# Used by both Fish (abbreviations) and Zsh (aliases) templates
+#
+# Structure:
+#   aliases:
+#     category_name:
+#       description: "Category description"
+#       requires: "command"  # Optional: only include if command exists
+#       items:
+#         - name: alias_name
+#           command: "the command"
+#           description: "what it does"  # Optional
+
+aliases:
+  git:
+    description: "Git version control"
+    items:
+      # Base
+      - { name: g, command: "git" }
+      # Add
+      - { name: ga, command: "git add" }
+      - { name: gaa, command: "git add --all" }
+      - { name: gap, command: "git add --patch" }
+      - { name: gau, command: "git add --update" }
+      # Branch
+      - { name: gb, command: "git branch" }
+      - { name: gba, command: "git branch --all" }
+      - { name: gbd, command: "git branch --delete" }
+      - { name: gbD, command: "git branch --delete --force" }
+      # Commit
+      - { name: gc, command: "git commit" }
+      - { name: gcm, command: "git commit --message" }
+      - { name: gca, command: "git commit --amend" }
+      - { name: gcan, command: "git commit --amend --no-edit" }
+      - { name: gcam, command: "git commit -am" }
+      - { name: gcsm, command: "git commit -S -m" }
+      - { name: gwip, command: 'git add -A && git commit --no-verify -m "--wip--"' }
+      # Clone
+      - { name: gcl, command: "git clone" }
+      - { name: gclr, command: "git clone --recurse-submodules" }
+      # Checkout/Switch
+      - { name: gco, command: "git checkout" }
+      - { name: gcob, command: "git checkout -b" }
+      - { name: gsw, command: "git switch" }
+      - { name: gswc, command: "git switch --create" }
+      # Cherry-pick
+      - { name: gcp, command: "git cherry-pick" }
+      - { name: gcpa, command: "git cherry-pick --abort" }
+      - { name: gcpc, command: "git cherry-pick --continue" }
+      # Diff
+      - { name: gd, command: "git diff" }
+      - { name: gds, command: "git diff --staged" }
+      - { name: gdc, command: "git diff --cached" }
+      - { name: gdw, command: "git diff --word-diff" }
+      # Fetch
+      - { name: gf, command: "git fetch" }
+      - { name: gfa, command: "git fetch --all --prune" }
+      - { name: gfo, command: "git fetch origin" }
+      # Log
+      - { name: gl, command: "git log --oneline" }
+      - { name: gla, command: "git log --oneline --all --graph" }
+      - { name: glog, command: "git log --oneline --graph" }
+      - { name: gloga, command: "git log --oneline --graph --all" }
+      - { name: glg, command: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"' }
+      - { name: glgp, command: "git log --stat --patch" }
+      # Merge
+      - { name: gm, command: "git merge" }
+      - { name: gma, command: "git merge --abort" }
+      - { name: gmc, command: "git merge --continue" }
+      # Push
+      - { name: gp, command: "git push" }
+      - { name: gpf, command: "git push --force-with-lease" }
+      - { name: gpff, command: "git push --force" }
+      - { name: gpsup, command: "git push --set-upstream origin HEAD" }
+      # Pull
+      - { name: gpl, command: "git pull" }
+      - { name: gplr, command: "git pull --rebase" }
+      - { name: gplra, command: "git pull --rebase --autostash" }
+      # Remote
+      - { name: gr, command: "git remote" }
+      - { name: grv, command: "git remote -v" }
+      - { name: gra, command: "git remote add" }
+      - { name: grrm, command: "git remote remove" }
+      # Rebase
+      - { name: grb, command: "git rebase" }
+      - { name: grbc, command: "git rebase --continue" }
+      - { name: grba, command: "git rebase --abort" }
+      - { name: grbs, command: "git rebase --skip" }
+      - { name: grbi, command: "git rebase --interactive" }
+      # Reset
+      - { name: grs, command: "git reset" }
+      - { name: grsh, command: "git reset --hard" }
+      - { name: grss, command: "git reset --soft" }
+      - { name: grhh, command: "git reset HEAD --hard" }
+      - { name: groh, command: "git reset origin/HEAD --hard" }
+      # Restore
+      - { name: grt, command: "git restore" }
+      - { name: grts, command: "git restore --staged" }
+      # Revert
+      - { name: grev, command: "git revert" }
+      - { name: greva, command: "git revert --abort" }
+      - { name: grevc, command: "git revert --continue" }
+      # Stash
+      - { name: gst, command: "git stash" }
+      - { name: gsta, command: "git stash push" }
+      - { name: gstaa, command: "git stash apply" }
+      - { name: gstp, command: "git stash pop" }
+      - { name: gstl, command: "git stash list" }
+      - { name: gstd, command: "git stash drop" }
+      - { name: gstc, command: "git stash clear" }
+      - { name: gsts, command: "git stash show --patch" }
+      # Status
+      - { name: gs, command: "git status" }
+      - { name: gss, command: "git status --short" }
+      - { name: gsb, command: "git status --short --branch" }
+      # Show/Blame
+      - { name: gsh, command: "git show" }
+      - { name: gbl, command: "git blame" }
+      # Tags
+      - { name: gt, command: "git tag" }
+      - { name: gta, command: "git tag -a" }
+      - { name: gtd, command: "git tag -d" }
+      # Clean
+      - { name: gclean, command: "git clean -fd" }
+      - { name: gpristine, command: "git reset --hard && git clean -fdx" }
+
+  github:
+    description: "GitHub CLI"
+    requires: gh
+    items:
+      # Pull requests
+      - { name: ghpr, command: "gh pr list" }
+      - { name: ghprc, command: "gh pr create" }
+      - { name: ghprv, command: "gh pr view" }
+      - { name: ghprco, command: "gh pr checkout" }
+      - { name: ghprm, command: "gh pr merge" }
+      - { name: ghprd, command: "gh pr diff" }
+      # Issues
+      - { name: ghi, command: "gh issue list" }
+      - { name: ghic, command: "gh issue create" }
+      - { name: ghiv, command: "gh issue view" }
+      # Repository
+      - { name: ghr, command: "gh repo view --web" }
+      - { name: ghrc, command: "gh repo clone" }
+      - { name: ghrf, command: "gh repo fork" }
+      # Status & workflows
+      - { name: ghs, command: "gh status" }
+      - { name: ghw, command: "gh workflow list" }
+      - { name: ghwr, command: "gh workflow run" }
+      - { name: ghrl, command: "gh release list" }
+
+  docker:
+    description: "Docker containers"
+    requires: docker
+    items:
+      # Base
+      - { name: d, command: "docker" }
+      # Compose
+      - { name: dc, command: "docker compose" }
+      - { name: dcu, command: "docker compose up" }
+      - { name: dcud, command: "docker compose up -d" }
+      - { name: dcd, command: "docker compose down" }
+      - { name: dcb, command: "docker compose build" }
+      - { name: dcl, command: "docker compose logs" }
+      - { name: dclf, command: "docker compose logs -f" }
+      - { name: dce, command: "docker compose exec" }
+      - { name: dcr, command: "docker compose restart" }
+      - { name: dcps, command: "docker compose ps" }
+      # Containers
+      - { name: dps, command: "docker ps" }
+      - { name: dpsa, command: "docker ps -a" }
+      - { name: dr, command: "docker run" }
+      - { name: drit, command: "docker run -it" }
+      - { name: drm, command: "docker rm" }
+      - { name: drmf, command: "docker rm -f" }
+      - { name: dst, command: "docker start" }
+      - { name: dstp, command: "docker stop" }
+      - { name: drs, command: "docker restart" }
+      - { name: dex, command: "docker exec" }
+      - { name: deit, command: "docker exec -it" }
+      - { name: dlo, command: "docker logs" }
+      - { name: dlof, command: "docker logs -f" }
+      - { name: dins, command: "docker inspect" }
+      - { name: dsts, command: "docker stats" }
+      # Images
+      - { name: di, command: "docker images" }
+      - { name: dpl, command: "docker pull" }
+      - { name: dph, command: "docker push" }
+      - { name: drmi, command: "docker rmi" }
+      - { name: dtag, command: "docker tag" }
+      - { name: dbld, command: "docker build" }
+      - { name: dipr, command: "docker image prune -a" }
+      # Volumes
+      - { name: dvls, command: "docker volume ls" }
+      - { name: dvrm, command: "docker volume rm" }
+      - { name: dvpr, command: "docker volume prune" }
+      # Networks
+      - { name: dnls, command: "docker network ls" }
+      - { name: dnc, command: "docker network create" }
+      - { name: dnrm, command: "docker network rm" }
+      # System
+      - { name: dsp, command: "docker system prune" }
+      - { name: dspa, command: "docker system prune --all --volumes" }
+
+  navigation:
+    description: "Directory navigation"
+    items:
+      - { name: "..", command: "cd .." }
+      - { name: "...", command: "cd ../.." }
+      - { name: "....", command: "cd ../../.." }
+      - { name: ".....", command: "cd ../../../.." }
+      - { name: "-", command: "cd -" }
+
+  common:
+    description: "Common utilities"
+    items:
+      - { name: c, command: "clear" }
+      - { name: h, command: "history" }
+      - { name: j, command: "jobs" }
+      - { name: q, command: "exit" }
+      - { name: mk, command: "mkdir -p" }
+      - { name: rd, command: "rmdir" }
+
+  editor:
+    description: "Editor shortcuts"
+    requires: nvim
+    items:
+      - { name: v, command: "nvim" }
+      - { name: vim, command: "nvim" }
+
+  modern_cli:
+    description: "Modern CLI replacements"
+    items:
+      - { name: cat, command: "bat", requires: bat }
+      - { name: ls, command: "eza", requires: eza }
+      - { name: ll, command: "eza -l", requires: eza }
+      - { name: la, command: "eza -la", requires: eza }
+      - { name: lt, command: "eza --tree", requires: eza }
+      - { name: tree, command: "eza --tree", requires: eza }
+
+  chezmoi:
+    description: "Chezmoi dotfile manager"
+    items:
+      - { name: cz, command: "chezmoi" }
+      - { name: cza, command: "chezmoi apply" }
+      - { name: czaf, command: "chezmoi apply --force" }
+      - { name: czd, command: "chezmoi diff" }
+      - { name: cze, command: "chezmoi edit" }
+      - { name: czcd, command: "chezmoi cd" }
+      - { name: czu, command: "chezmoi update" }
+      - { name: czs, command: "chezmoi status" }
+      - { name: czdr, command: "chezmoi apply --dry-run" }
+
+  mise:
+    description: "Mise version manager"
+    items:
+      - { name: mx, command: "mise" }
+      - { name: mxi, command: "mise install" }
+      - { name: mxu, command: "mise use" }
+      - { name: mxr, command: "mise run" }
+      - { name: mxl, command: "mise ls" }
+      - { name: mxt, command: "mise trust" }
+
+  homebrew:
+    description: "Homebrew package manager"
+    requires: brew
+    items:
+      - { name: bi, command: "brew install" }
+      - { name: bic, command: "brew install --cask" }
+      - { name: bu, command: "brew upgrade" }
+      - { name: bs, command: "brew search" }
+      - { name: bl, command: "brew list" }
+      - { name: binfo, command: "brew info" }
+      - { name: bdr, command: "brew doctor" }
+      - { name: bcu, command: "brew cleanup" }
+
+  tmux:
+    description: "Tmux terminal multiplexer"
+    items:
+      - { name: t, command: "tmux" }
+      - { name: ta, command: "tmux attach" }
+      - { name: tat, command: "tmux attach -t" }
+      - { name: tns, command: "tmux new-session -s" }
+      - { name: tls, command: "tmux list-sessions" }
+      - { name: tks, command: "tmux kill-session -t" }

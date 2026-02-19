@@ -80,6 +80,7 @@ Configuration is template-driven and reproducible across machines.
 | `onepassword.yaml`        | (multiple)           | 1Password integration settings               |
 | `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
 | `agents.yaml`             | `agents`             | AI agent tool configurations                 |
+| `aliases.yaml`            | `aliases`            | Shell aliases/abbreviations (Fish & Zsh)     |
 | `ai/`                     | (per-provider)       | AI provider configs (anthropic, google, etc.)|
 
 ### Schema Patterns

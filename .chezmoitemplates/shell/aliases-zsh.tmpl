@@ -1,0 +1,33 @@
+{{- /*
+  Zsh aliases generator
+  Reads from .chezmoidata/aliases.yaml and generates Zsh alias syntax
+
+  Usage in a .tmpl file:
+    {{ template "shell/aliases-zsh.tmpl" . }}
+*/ -}}
+{{- range $category, $data := .aliases }}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# {{ $data.description }}
+# ─────────────────────────────────────────────────────────────────────────────
+{{- $hasRequires := hasKey $data "requires" }}
+{{- if $hasRequires }}
+if command -v {{ $data.requires }} &> /dev/null; then
+{{- end }}
+{{- range $data.items }}
+{{- $indent := "" }}
+{{- if $hasRequires }}
+{{- $indent = "  " }}
+{{- end }}
+{{- if hasKey . "requires" }}
+{{ $indent }}if command -v {{ .requires }} &> /dev/null; then
+{{ $indent }}  alias {{ .name }}='{{ .command }}'
+{{ $indent }}fi
+{{- else }}
+{{ $indent }}alias {{ .name }}='{{ .command }}'
+{{- end }}
+{{- end }}
+{{- if $hasRequires }}
+fi
+{{- end }}
+{{- end }}

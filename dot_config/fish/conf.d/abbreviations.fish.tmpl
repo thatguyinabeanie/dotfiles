@@ -1,0 +1,9 @@
+# Fish abbreviations
+# Managed by chezmoi - edit .chezmoidata/aliases.yaml, not this file
+#
+# Abbreviations expand inline as you type, unlike aliases which are functions.
+# This gives you command history with the full expanded command.
+
+if status is-interactive
+{{ template "shell/aliases-fish.tmpl" . }}
+end

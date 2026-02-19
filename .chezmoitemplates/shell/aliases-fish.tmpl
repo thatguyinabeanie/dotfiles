@@ -1,0 +1,33 @@
+{{- /*
+  Fish abbreviations generator
+  Reads from .chezmoidata/aliases.yaml and generates Fish abbreviation syntax
+
+  Usage in a .tmpl file:
+    {{ template "shell/aliases-fish.tmpl" . }}
+*/ -}}
+{{- range $category, $data := .aliases }}
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # {{ $data.description }}
+    # ─────────────────────────────────────────────────────────────────────────
+{{- $hasRequires := hasKey $data "requires" }}
+{{- if $hasRequires }}
+    if type -q {{ $data.requires }}
+{{- end }}
+{{- range $data.items }}
+{{- $indent := "    " }}
+{{- if $hasRequires }}
+{{- $indent = "        " }}
+{{- end }}
+{{- if hasKey . "requires" }}
+{{ $indent }}if type -q {{ .requires }}
+{{ $indent }}    abbr -a {{ .name }} '{{ .command }}'
+{{ $indent }}end
+{{- else }}
+{{ $indent }}abbr -a {{ .name }} '{{ .command }}'
+{{- end }}
+{{- end }}
+{{- if $hasRequires }}
+    end
+{{- end }}
+{{- end }}
