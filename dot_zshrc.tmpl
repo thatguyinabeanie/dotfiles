@@ -159,11 +159,6 @@ source <(carapace _carapace)
 # eval "$(atuin init zsh)"
 # {{- end }}
 
-{{- if lookPath "zoxide" }}
-# zoxide - Smart cd replacement (replaces cd with zoxide)
-eval "$(zoxide init zsh --cmd cd)"
-{{- end }}
-
 {{- if lookPath "starship" }}
 # starship - Fancy prompt
 {{- $starshipConfig := printf "%s/.config/starship/starship.toml" .chezmoi.homeDir }}
@@ -187,6 +182,14 @@ fi
 {{- if lookPath "fzf" }}
 # fzf - Fuzzy finder keybindings
 eval "$(fzf --zsh)"
+{{- end }}
+
+{{- if lookPath "zoxide" }}
+# zoxide - Smart cd replacement (must be last to avoid hook conflicts)
+# Skip in Claude Code — its shell snapshots break function dependencies (anthropics/claude-code#2632)
+if [[ "$CLAUDECODE" != "1" ]]; then
+    eval "$(zoxide init zsh --cmd cd)"
+fi
 {{- end }}
 
 
