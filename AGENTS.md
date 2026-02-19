@@ -23,29 +23,8 @@ You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
 ## Asking Questions
 
-When you need clarifying information from the user:
-
-1. **Ask questions ONE AT A TIME** - Never ask multiple questions in a single message unless using the questions TUI
-2. **Use the questions TUI tool** - When you have multiple related questions, use the
-   `question` tool to present them as an interactive menu
-3. **Wait for answers** - Don't proceed with assumptions; wait for user input before continuing
-4. **Be specific** - Frame questions clearly with context about why you're asking
-
-### When to Use the Questions TUI
-
-Use the `question` tool for:
-
-- Multiple related configuration choices (e.g., plugin preferences, tool options)
-- Gathering several pieces of information at once (e.g., project setup requirements)
-- Presenting options with explanations (the tool supports descriptions for each choice)
-
-### When to Ask One Question at a Time
-
-Ask individual questions for:
-
-- Complex decisions that need explanation or discussion
-- Follow-up questions based on previous answers
-- Questions that might lead to different conversation paths
+- Ask questions **one at a time** unless using a questions TUI tool for multiple related choices.
+- Wait for answers before proceeding — don't assume.
 
 ## Critical Rules
 
@@ -119,19 +98,22 @@ Key query templates:
 - `queries/brew-casks.tmpl` - Extracts Homebrew cask packages
 - `queries/append-packages.tmpl` - Appends additional packages to a list
 
-### Supported Installation Methods
+### Supported Installer Values
+
+The `installer` field is an **array** — multiple values mean "install via all listed methods":
 
 ```yaml
-install_via: bun          # Node.js packages (preferred)
-install_via: npm          # Node.js packages (legacy)
-install_via: brew         # Homebrew packages
-install_via: mise         # Mise-managed tools (supports cargo: backend for Rust)
-install_via: pip          # Python packages
-install_via: cargo        # Rust packages (accelerated by cargo-binstall)
-install_via: gem          # Ruby packages
-install_via: go           # Go packages
-install_via: brew_cask    # macOS applications
-install_via: curl         # Direct downloads
+installer: [bun]          # Node.js packages (preferred)
+installer: [npm]          # Node.js packages (legacy)
+installer: [brew]         # Homebrew packages
+installer: [mise]         # Mise-managed tools (supports cargo: backend for Rust)
+installer: [pip]          # Python packages
+installer: [cargo]        # Rust packages (accelerated by cargo-binstall)
+installer: [gem]          # Ruby packages
+installer: [go]           # Go packages
+installer: [brew_cask]    # macOS applications
+installer: [curl]         # Direct downloads
+installer: [mise, mason]  # Install via both mise and Neovim Mason
 ```
 
 ### Package Addition Examples
@@ -141,23 +123,16 @@ install_via: curl         # Direct downloads
 ```yaml
 - name: prettier-plugin-toml
   languages: [toml]
-  install_via: bun
-  runtime: node
-  version: latest
+  installer: [npm]
   description: "Prettier plugin for TOML files"
-  mason_ensure_installed: false
-  prettier_plugin: true
 ```
 
 **Add a development tool** (`.chezmoidata/tools.yaml`):
 
 ```yaml
 - name: tool-name
-  install_via: mise|brew|bun
-  runtime: native|node|python
-  version: latest|specific-version
+  installer: [mise]           # or [brew], [npm], etc.
   description: "Tool description"
-  category: build|system|git|etc
 ```
 
 **Add a linter** (`.chezmoidata/linters.yaml`):
@@ -165,11 +140,8 @@ install_via: curl         # Direct downloads
 ```yaml
 - name: linter-name
   languages: [file, extensions]
-  install_via: bun|mise|brew
-  runtime: node|native|python
-  version: latest
+  installer: [mise]           # or [brew], [npm], [mason], etc.
   description: "Linter description"
-  mason_ensure_installed: true|false
 ```
 
 ### Cargo and cargo-binstall
@@ -380,12 +352,11 @@ Before marking any task complete, verify:
 
 ## Common Pitfalls
 
-1. **Never edit generated files directly** - Always edit source templates or `.chezmoidata/*.yaml` files
-2. **Template syntax errors** - Always run `chezmoi apply --dry-run` before `chezmoi apply --force`
-3. **Platform-specific code** - Use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only features
-4. **Duplicate package entries** - Check existing entries before adding new packages
-5. **Missing validation** - Don't skip dry-run validation step during template development
-6. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
+1. **Template syntax errors** - Always run `chezmoi apply --dry-run` before `chezmoi apply --force`
+2. **Platform-specific code** - Use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only features
+3. **Duplicate package entries** - Check existing entries before adding new packages
+4. **Missing validation** - Don't skip dry-run validation step during template development
+5. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files
 
 ## Documentation Index

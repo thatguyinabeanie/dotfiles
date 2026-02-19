@@ -2,34 +2,44 @@
 
 ## Overview
 
-Aerospace is a tiling window manager for macOS. It works with Ghostty and other GUI applications.
+Aerospace is a tiling window manager for **macOS only**. It manages window placement
+across workspaces using keyboard-driven commands.
 
 ## Configuration Discovery
 
-- **Primary file**: `aerospace.toml`
-- **Search patterns**: `rg "key" dot_config/aerospace/aerospace.toml`
-- **No template variables or data sources** - this is a static TOML config
+- **Primary file**: `aerospace.toml`, a static TOML config (no chezmoi templates)
+- **Keybindings**: Defined inline in `aerospace.toml` under `[mode.main.binding]` and `[mode.service.binding]`
+- **Workspaces**: Workspace-to-monitor assignments and app-to-workspace rules are in the same file
+- **Search patterns**: `rg "bind|workspace" dot_config/aerospace/aerospace.toml`
+
+## Key Concepts
+
+- **Alt (Option) is the primary modifier**: read `aerospace.toml` for the full binding map
+- **Two modes**: `main` (default) and `service` (toggled for less-common actions)
+- **Workspace IDs** correspond to app categories (for example, workspace 1 = browsers, workspace 2 = terminals)
+- **No template variables**: this is a plain TOML file, not chezmoi-templated
 
 ## Common Tasks
 
 ### Change a keybinding
 
-- **File**: `aerospace.toml`
-- **Validation**: Restart Aerospace to apply changes
-- **Conflicts**: Check for conflicts with other application shortcuts
+- **File**: `aerospace.toml`, look for `[mode.main.binding]` or `[mode.service.binding]`
+- **Validation**: `aerospace reload-config` or restart Aerospace
+- **Conflicts**: Check for overlaps with Ghostty and system shortcuts
 
-### Change layout settings
+### Change workspace assignments
 
-- **File**: `aerospace.toml`
-- **Validation**: Restart Aerospace to apply changes
+- **File**: `aerospace.toml`, look for `[[on-window-detected]]` rules
+- **Validation**: Restart Aerospace to apply
 
 ## Validation Checklist
 
-- [ ] Restart Aerospace to apply any changes
-- [ ] Test all changes to ensure they work as expected
+- [ ] `aerospace reload-config` succeeds (or restart the app)
+- [ ] No TOML syntax errors (Aerospace logs errors to stdout)
+- [ ] Keybindings don't conflict with Ghostty or system shortcuts
 
 ## Troubleshooting
 
-- **Common errors**: Incorrect TOML syntax
-- **Conflict resolution**: Change conflicting keybindings
-- **Rollback**: Revert changes in git
+- **Config errors**: `aerospace reload-config` outputs errors to the terminal
+- **Keybinding conflicts**: macOS system shortcuts take priority. Check System Settings > Keyboard > Shortcuts.
+- **Rollback**: Revert changes in git and reload

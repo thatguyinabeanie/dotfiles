@@ -8,17 +8,18 @@
 ## Configuration Discovery
 
 - **Primary files**:
-  - `dot_config/ghostty/config.tmpl` - Main configuration template
+  - `config.tmpl` - Main configuration template (keybindings, appearance, behavior)
+  - `executable_ghostty-tmux.zsh.tmpl` - Tmux auto-launcher script (runs on shell startup)
+  - `executable_ghostty-init.zsh.tmpl` - Shell initialization hook
 - **Data sources**:
-  - `.chezmoidata/shared.yaml` - UI settings (opacity, blur, etc.)
-  - `.chezmoidata/personal.yaml` - Keybindings and font settings
+  - `.chezmoidata/shared.yaml` - UI settings (opacity, blur, font, cursor, theme)
+  - `.chezmoidata/personal.yaml` - Keybindings and personal settings
 - **Search patterns**:
-  - Keybindings: `rg "key|bind" dot_config/ghostty/`
-  - Appearance: `rg "theme|color|font" dot_config/ghostty/`
+  - Keybindings: `rg "keybind" dot_config/ghostty/config.tmpl`
+  - Appearance: `rg "theme|color|font" dot_config/ghostty/config.tmpl`
 - **Template variables**:
-  - `{{ .ui.* }}` for appearance
-  - `{{ .theme.* }}` for colors
-  - `{{ .keybinds.ghostty.* }}` for shortcuts
+  - `{{ .ui.* }}` for appearance (font, opacity, blur, cursor, window size)
+  - `{{ .CATPPUCCIN_FLAVOR }}` for Catppuccin theme selection
 
 ## Common Tasks
 
@@ -31,10 +32,9 @@
 ### Modify Appearance
 
 - **Files**:
-  - `dot_config/ghostty/config.tmpl` for structure
-  - `.chezmoidata/shared.yaml` for UI values (opacity, padding)
-  - `.chezmoidata/themes.yaml` for Catppuccin theme colors
-- **Dependencies**: Theme changes affect Neovim, tmux, and shell appearance.
+  - `config.tmpl` for structure
+  - `.chezmoidata/shared.yaml` for UI values (opacity, blur, font) and theme (`CATPPUCCIN_FLAVOR`)
+- **Dependencies**: Theme changes in `shared.yaml` affect Neovim, tmux, and other tools.
 - **Testing**: Visually inspect terminal after `chezmoi apply`.
 
 ## Validation Checklist

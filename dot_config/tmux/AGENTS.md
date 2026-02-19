@@ -7,14 +7,20 @@ specialized configuration modules for better maintainability.
 
 ## File Structure
 
-- **`tmux.conf`** - Main configuration entry point
-- **`tmux.keybindings.conf`** - All custom keybindings
+- **`tmux.conf`** - Main configuration entry point (sources all modules below)
+- **`tmux.keybindings.conf`** - All custom keybindings (read this for the full binding map)
 - **`tmux.cursor.conf`** - Cursor shape/behavior settings
 - **`tmux.status.conf`** - Status bar configuration
 - **`tmux.pomodoro.conf`** - Pomodoro timer settings
-- **`tmux.theme.catppuccin.conf.tmpl`** - Catppuccin theme (templated)
+- **`tmux.theme.catppuccin.conf.tmpl`** - Catppuccin theme (chezmoi template)
 - **`plugins/.chezmoiexternal.toml`** - Plugin dependencies (TPM, etc.)
 - **`.chezmoiexternal.toml`** - External dependencies
+
+## Template Variables
+
+Only `tmux.theme.catppuccin.conf.tmpl` uses chezmoi templates:
+
+- `{{ .CATPPUCCIN_FLAVOR }}` - Theme flavor (mocha, macchiato, frappe, latte) from `.chezmoidata/shared.yaml`
 
 ## Key Features
 
