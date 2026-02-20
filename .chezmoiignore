@@ -13,6 +13,8 @@ dot_config/private_karabiner
 
 ./*.md
 ./*.sh
+dot_config/**/AGENTS.md
+dot_config/**/CLAUDE.md
 opencode.jsonc
 physics_simulations
 mise.toml
