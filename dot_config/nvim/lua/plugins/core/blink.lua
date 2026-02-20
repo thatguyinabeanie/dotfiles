@@ -8,7 +8,7 @@ return {
     build = false,
     opts = {
       fuzzy = {
-        implementation = "prefer_rust",
+        implementation = "lua",
       },
     },
   },
