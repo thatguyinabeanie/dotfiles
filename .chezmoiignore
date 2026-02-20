@@ -13,8 +13,18 @@ dot_config/private_karabiner
 
 ./*.md
 ./*.sh
-dot_config/**/AGENTS.md
-dot_config/**/CLAUDE.md
+.config/aerospace/AGENTS.md
+.config/aerospace/CLAUDE.md
+.config/ghostty/AGENTS.md
+.config/ghostty/CLAUDE.md
+.config/nvim/AGENTS.md
+.config/nvim/CLAUDE.md
+.config/tmux/AGENTS.md
+.config/tmux/CLAUDE.md
+.config/wezterm/AGENTS.md
+.config/wezterm/CLAUDE.md
+.config/zellij/AGENTS.md
+.config/zellij/CLAUDE.md
 opencode.jsonc
 physics_simulations
 mise.toml
