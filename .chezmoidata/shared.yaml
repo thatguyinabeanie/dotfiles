@@ -11,6 +11,7 @@ env_shared:
     CARAPACE_BRIDGES: "zsh,bash,inshellisense"
     XDG_DATA_DIRS: ""
     XDG_CONFIG_DIRS: ""
+    PKG_CONFIG_PATH: "/opt/homebrew/opt/icu4c/lib/pkgconfig:/opt/homebrew/opt/openssl@3/lib/pkgconfig"
 
   # Template variables (evaluated at chezmoi time)
   template_variables:
