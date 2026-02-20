@@ -365,7 +365,6 @@ Each config directory contains colocated documentation:
 
 - `AGENTS.md` - Agent instructions (auto-discovered by Claude Code)
 - `CLAUDE.md` - Symlink to AGENTS.md
-- `GUIDE.md` - Detailed human reference guide
 
 ### Tool Configuration Docs
 
