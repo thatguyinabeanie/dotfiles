@@ -6,9 +6,9 @@
 {{- if ne .chezmoi.os "darwin" }}
 Library
 Pictures
-dot_config/aerospace
-dot_config/borders
-dot_config/private_karabiner
+.config/aerospace
+.config/borders
+.config/private_karabiner
 {{- end }}
 
 ./*.md
