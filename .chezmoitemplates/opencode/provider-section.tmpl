@@ -1,21 +1,18 @@
 {{/*
 OpenCode Provider Section Template
-Generates the provider configuration with model limits from .chezmoidata/ai/
+Generates the provider configuration block for opencode.jsonc.
 
-Each provider's model limits are loaded from their respective YAML files in
-.chezmoidata/ai/<provider>.yaml. This eliminates hardcoded provider names
-and provides a single source of truth for model configurations.
+OpenCode auto-discovers model metadata (context limits, capabilities, etc.)
+from models.dev via the AI SDK for standard providers. No manual model
+definitions are needed — just declare the provider with an empty object.
 
 Usage:
-{{- template "opencode/provider-section.tmpl" (dict "provider" .opencode.provider "global" .) }}
+{{- template "opencode/provider-section.tmpl" (dict "provider" .opencode.provider) }}
 */}}
 
 {{- $provider := .provider -}}
-{{- $global := .global -}}
 {{- $keys := keys $provider | sortAlpha -}}
 {{- range $i, $key := $keys }}
 {{- if $i }},{{ end }}
-    "{{ $key }}": {
-      "models": {{ template "utilities/_generate-provider-models.tmpl" (dict "Provider" $key "SourceDir" $global.chezmoi.sourceDir "Indent" 6) }}
-    }
+    "{{ $key }}": {}
 {{- end }}

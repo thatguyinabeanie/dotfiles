@@ -75,7 +75,7 @@ linters:
   # Ruby linters
   - name: rubocop
     languages: [ruby]
-    installer: [gem, mason]
+    installer: [gem]  # gem (not mason): Mason's ruby symlink breaks on mise Ruby updates, causing exit code 126
 
   - name: haml-lint
     languages: [haml]

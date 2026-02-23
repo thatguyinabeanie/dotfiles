@@ -47,7 +47,7 @@ formatters:
   # Ruby
   - name: standardrb
     languages: [ruby]
-    installer: [gem, mason]
+    installer: [gem]  # gem (not mason): same Mason/mise symlink fragility as rubocop above
 
   # Shell
   - name: shfmt

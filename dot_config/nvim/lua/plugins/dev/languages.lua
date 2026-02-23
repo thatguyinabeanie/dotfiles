@@ -59,11 +59,13 @@ return {
   },
 
   -- Ruby LSP server
+  -- mason = false: ruby-lsp is managed via `gem install`, not Mason.
+  -- Mason wraps ruby via a $bindir/ruby symlink that breaks when mise updates Ruby (exit 126).
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        ruby_lsp = {},
+        ruby_lsp = { mason = false },
       },
     },
   },

@@ -1,7 +1,7 @@
 opencode:
   # OpenCode AI configuration - follows opencode.ai schema
-  model: "github-copilot/claude-opus-4.5"
-  small_model: "opencode/code-supernova"
+  model: "github-copilot/claude-opus-4-6"
+  small_model: "github-copilot/claude-haiku-4-5"
   autoupdate: true
   share: "manual"
   theme: "system"
@@ -24,13 +24,3 @@ opencode:
   # MCP server configuration
   mcp:
 
-# Provider-specific model configurations are now managed in .chezmoidata/ai/
-# See .chezmoidata/ai/README.md for details
-#
-# Provider files:
-#   - anthropic.yaml      (8 models, 200K context)
-#   - google.yaml         (7 models, 400K context)
-#   - github-copilot.yaml (11 models, 128K GitHub API limit)
-#   - opencode.yaml       (2 models, custom limits)
-#
-# Models are automatically injected into the generated config via templates.

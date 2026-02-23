@@ -118,6 +118,10 @@ dev_tools:
     installer: [mise]
     description: "PostgreSQL database with psql client"
 
+  - name: mysql
+    installer: [mise]
+    description: "MySql database"
+
   # DISABLED: Huge apps (install manually if needed).
   # These GUI/OS-integrated tools are intentionally excluded from the core
   # shell/dev-tools bootstrap to keep installs lightweight (especially in CI
