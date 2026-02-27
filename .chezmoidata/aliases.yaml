@@ -282,4 +282,4 @@ aliases:
       - { name: tat, command: "tmux attach -t" }
       - { name: tns, command: "tmux new-session -s" }
       - { name: tls, command: "tmux list-sessions" }
-      - { name: tks, command: "tmux kill-session -t" }
+      - { name: tks, command: "tmux kill-session" }

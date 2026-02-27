@@ -31,6 +31,11 @@ type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/tmux-plugins/tmux-resurrect.git"
 
+["tmux-continuum"]
+type = "git-repo"
+refreshPeriod = "168h"
+url  = "https://github.com/tmux-plugins/tmux-continuum.git"
+
 ["tmux-sensible"]
 type = "git-repo"
 refreshPeriod = "168h"
@@ -55,11 +60,6 @@ url  = "https://github.com/omerxx/tmux-sessionx.git"
 type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/christoomey/vim-tmux-navigator.git"
-
-["tmux-which-key"]
-type = "git-repo"
-refreshPeriod = "168h"
-url  = "https://github.com/alexwforsythe/tmux-which-key.git"
 
 ["tmux-fzf-url"]
 type = "git-repo"

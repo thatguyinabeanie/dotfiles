@@ -23,7 +23,6 @@ THEME_DARK                 = "Catppuccin Mocha"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
-INSTALL_GH_EXTENSIONS     = {{ (env "INSTALL_GH_EXTENSIONS") | default (output "bash" "-c" (printf "%s read install_gh_extensions" ($config_helper | quote)) | trim) | default "false" | quote }}
 INTERACTIVE                = false
 
 {{- $opencode_file := joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml" }}
@@ -98,6 +97,5 @@ Available YAML files:
 - formatters.yaml
 - linters.yaml
 - tools.yaml
-- github-extensions.yaml
 - opencode.yaml
 */ -}}

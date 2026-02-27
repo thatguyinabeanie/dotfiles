@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#
+# tmux-cheatsheet - Fuzzy search tmux keybindings
+#
+# Usage:
+#   tmux-cheatsheet
+#
+# Select a keybinding and press Enter to copy it to clipboard.
+#
+
+set -euo pipefail
+
+CHEATSHEET="${HOME}/.config/tmux/CHEATSHEET.md"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+# Format a single line with colors and alignment
+format_line() {
+    local line="$1"
+    local action keybinding
+    
+    # Split on | and trim
+    action=$(echo "$line" | awk -F'|' '{print $1}' | sed 's/^ *//;s/ *$//' | sed 's/\*\*//g')
+    keybinding=$(echo "$line" | awk -F'|' '{print $2}' | sed 's/^ *//;s/ *$//' | sed 's/`//g')
+    
+    # Print with colors: cyan action, yellow keybinding, aligned
+    printf "\033[0;36m%-38s \033[0;33m%s\033[0m\n" "$action" "$keybinding"
+}
+
+# Extract table rows and format with colors
+selected=$(grep -E '^\| .+ \| .+ \|$' "$CHEATSHEET" | \
+    grep -v '^| Action' | \
+    grep -v '^|---' | \
+    sed 's/^| //' | \
+    sed 's/ |$//' | \
+    while IFS= read -r line; do
+        format_line "$line"
+    done | \
+    fzf --ansi \
+        --header=$'  \033[1;36mAction\033[0m                                  \033[1;33mKeybinding\033[0m' \
+        --reverse \
+        --no-info \
+        --pointer="▶" \
+        --prompt="🔍 " \
+        --margin=1 \
+        --padding=1 \
+        --border=rounded \
+        --border-label=" Tmux Cheat Sheet " \
+        --preview-window=hidden) || exit 0
+
+if [[ -n "$selected" ]]; then
+    # Extract just the keybinding part (strip ANSI codes, get last column)
+    keybinding=$(echo "$selected" | sed 's/\x1b\[[0-9;]*m//g' | awk '{print $NF}')
+    
+    # Copy to clipboard
+    if command -v pbcopy &>/dev/null; then
+        echo -n "$keybinding" | pbcopy
+        echo -e "${GREEN}✓ Copied to clipboard:${NC} $keybinding"
+    elif command -v xclip &>/dev/null; then
+        echo -n "$keybinding" | xclip -selection clipboard
+        echo -e "${GREEN}✓ Copied to clipboard:${NC} $keybinding"
+    else
+        echo -e "${YELLOW}Keybinding:${NC} $keybinding"
+    fi
+    
+    sleep 0.8
+fi
