@@ -23,7 +23,6 @@ THEME_DARK                 = "Catppuccin Mocha"
 
 YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
-INSTALL_GH_EXTENSIONS     = {{ (env "INSTALL_GH_EXTENSIONS") | default (output "bash" "-c" (printf "%s read install_gh_extensions" ($config_helper | quote)) | trim) | default "false" | quote }}
 INTERACTIVE                = false
 
 {{- $opencode_file := joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml" }}
@@ -53,6 +52,7 @@ name                       = {{ (env "GIT_NAME") | default (output "bash" "-c" (
 username                   = {{ (env "GITHUB_USERNAME") | default (output "bash" "-c" (printf "%s read github_username" ($config_helper | quote)) | trim) | default "thatguyinabeanie" | quote }}
 email                      = {{ (env "GIT_EMAIL") | default (output "bash" "-c" (printf "%s read git_email" ($config_helper | quote)) | trim) | default "thatguyin@beanie.gg" | quote }}
 defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default (output "bash" "-c" (printf "%s read git_refresh_period" ($config_helper | quote)) | trim) | default "168h" | quote }}
+signing_key                = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxfnYZGk9sVpabkMlNgvX487e3M7iOnFDB98iIPocbI"
 work_org                   = {{ (env "WORK_ORG") | default (output "bash" "-c" (printf "%s read work_org" ($config_helper | quote)) | trim) | default "" | quote }}
 work_environment           = {{ eq "true" ((env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read git_work_environment" ($config_helper | quote)) | trim) | default "false") }}
 
@@ -98,6 +98,5 @@ Available YAML files:
 - formatters.yaml
 - linters.yaml
 - tools.yaml
-- github-extensions.yaml
 - opencode.yaml
 */ -}}

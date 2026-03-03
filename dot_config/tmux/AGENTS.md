@@ -13,6 +13,7 @@ specialized configuration modules for better maintainability.
 - **`tmux.status.conf`** - Status bar configuration
 - **`tmux.pomodoro.conf`** - Pomodoro timer settings
 - **`tmux.theme.catppuccin.conf.tmpl`** - Catppuccin theme (chezmoi template)
+- **`scripts/tmux-cheatsheet`** - Interactive cheat sheet script (fzf/glow/bat)
 - **`plugins/.chezmoiexternal.toml`** - Plugin dependencies (TPM, etc.)
 - **`.chezmoiexternal.toml`** - External dependencies
 
@@ -37,20 +38,53 @@ Only `tmux.theme.catppuccin.conf.tmpl` uses chezmoi templates:
 
 Major plugins managed via TPM:
 
-- **tmux-sessionx** - Advanced session manager (Prefix + o)
+- **sesh** - Smart session manager with zoxide integration (Prefix + T)
+- **tmux-resurrect** - Save/restore sessions manually (Prefix + Ctrl-s/r)
+- **tmux-continuum** - Auto-save sessions every 15 minutes
 - **vim-tmux-navigator** - Seamless Vim/tmux navigation
 - **catppuccin/tmux** - Modern theming framework
-- **tmux-which-key** - Visual keybinding help
 - **tmux-battery/cpu** - System monitoring
 
-### SessionX Integration
+### Interactive Cheat Sheet (Prefix + ?)
 
-Advanced session management with fuzzy finding:
+Fuzzy-searchable keybinding reference accessible via `Prefix + ?`:
 
-- `Prefix + o` - Launch SessionX
-- Zoxide integration for smart directory switching
-- Custom paths: `~/source`, `~/.config`, `~/.local/share/chezmoi`
-- Preview mode with 55% ratio, reverse layout
+- Search through all tmux commands with fzf
+- Colored columns: cyan actions, yellow keybindings
+- Press Enter to copy keybinding to clipboard
+
+The cheat sheet script is located at `~/.config/tmux/scripts/tmux-cheatsheet`.
+
+### Session Management
+
+Complete session management workflow with sesh + resurrect + continuum:
+
+#### Sesh (Prefix + T) - Smart Session Switching
+
+- **Zoxide integration**: Frecency-based directory suggestions
+- **Tmuxinator support**: Reads tmuxinator YAML configs for complex layouts
+- **Session preview**: Preview session contents before switching
+- **Config location**: `~/.config/sesh/sesh.toml`
+
+**Keybindings in sesh picker:**
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Switch to session or create new |
+| `Ctrl-a` | Show all sessions |
+| `Ctrl-t` | Show tmux sessions only |
+| `Ctrl-g` | Show configured sessions only |
+| `Ctrl-x` | Show zoxide directories |
+| `Ctrl-d` | Kill selected session |
+| `Tab/Shift-Tab` | Navigate list |
+
+#### Session Persistence (Resurrect + Continuum)
+
+- **Auto-save**: Every 15 minutes (configurable)
+- **Auto-restore**: On tmux server start
+- **Manual save**: `Prefix + Ctrl-s`
+- **Manual restore**: `Prefix + Ctrl-r`
+- **Saves**: Windows, panes, pane contents, Neovim sessions
 
 ## Discovery Patterns
 
@@ -87,18 +121,22 @@ Plugins managed via chezmoi external dependencies and TPM:
 
 ### Essential Keybindings
 
+- **Open cheat sheet** - `Prefix + ?`
 - Reload configuration - `Prefix + r`
-- SessionX fuzzy session manager - `Prefix + o`
+- Sesh session manager - `Prefix + T`
 - Choose session interactively - `Prefix + S`
 - Choose window interactively - `Prefix + "`
 - Navigate panes (works seamlessly with Neovim) - `C-h/j/k/l`
 - Send literal C-a to application - `C-a C-a`
+- Save session manually - `Prefix + Ctrl-s`
+- Restore session manually - `Prefix + Ctrl-r`
 
 ### Validation Checklist
 
 - [ ] Main config sources all module files without errors
 - [ ] TPM plugin manager installed and functional
-- [ ] SessionX launches and shows configured paths
+- [ ] Sesh launches in tmux popup with zoxide directories
+- [ ] Session persistence works (save, kill tmux, restore)
 - [ ] Vim-tmux-navigator works bidirectionally with Neovim
 - [ ] Status bar displays and updates correctly
 - [ ] Catppuccin theme renders properly

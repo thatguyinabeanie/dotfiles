@@ -8,14 +8,11 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
 {{- $packages := list -}}
 
 {{- if eq $manager "mise" -}}
-  {{- /* Special case for mise: collect dev_tools and github_extensions */ -}}
+  {{- /* Special case for mise: collect dev_tools */ -}}
   {{- range $root.dev_tools -}}
     {{- if has "mise" .installer -}}
       {{- $packages = append $packages .name -}}
     {{- end -}}
-  {{- end -}}
-  {{- range $root.github_extensions -}}
-    {{- $packages = append $packages .name -}}
   {{- end -}}
 {{- else -}}
   {{- /* Standard package managers: collect from all relevant sources */ -}}

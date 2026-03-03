@@ -2,7 +2,6 @@
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": false,
   "share": "auto",
-  "theme": "system",
   "permission": {
     "bash": {
       "*": "allow",

@@ -67,13 +67,13 @@ dev_tools:
     installer: [mise]
 
   # Git tools
+  - name: gh
+    installer: [brew]
+
   - name: delta
     installer: [mise]
 
   - name: lefthook
-    installer: [mise]
-
-  - name: github-cli
     installer: [mise]
 
   - name: gitsign
@@ -143,6 +143,10 @@ dev_tools:
   #   runtime: native
   #   description: "Modern Docker building"
   #   category: infrastructure
+
+  - name: glow
+    installer: [brew]
+    description: "Render markdown beautifully in the terminal"
 
   - name: mdbook
     installer: [mise]
@@ -254,6 +258,10 @@ dev_tools:
 
   - name: zoxide
     installer: [mise]
+
+  - name: sesh
+    installer: [brew]
+    description: "Smart session manager for tmux with zoxide integration"
 
   # Editors and IDEs
   - name: neovim

@@ -1,0 +1,37 @@
+##
+## SESH CONFIGURATION
+##
+## Smart session manager with zoxide integration
+## Keybinding: Prefix + T (in tmux)
+##
+
+## Default session settings
+[default_session]
+startup_command = ""  # Command to run when creating a new session
+
+## Session configurations
+## These define specific projects/workspaces with custom settings
+
+[[session]]
+name = "dotfiles"
+path = "~/.local/share/chezmoi"
+startup_command = "nvim"
+
+[[session]]
+name = "config"
+path = "~/.config"
+
+## Zoxide integration
+## When enabled, sesh uses zoxide's frecency algorithm for directory suggestions
+[zoxide]
+enabled = true
+
+## Tmuxinator compatibility
+## sesh can read tmuxinator YAML configs for complex project layouts
+[tmuxinator]
+enabled = true
+# config_dir = "~/.config/tmuxinator"  # Default location
+
+## Preview settings
+[preview]
+enabled = true
