@@ -31,12 +31,23 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Auto-update plugins silently after startup
+-- Auto-update plugins silently after startup (throttled to once per 24h)
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("lazy_auto_update", { clear = true }),
   callback = function()
     vim.defer_fn(function()
-      require("lazy").update({ show = false })
+      local stamp_file = vim.fn.stdpath("state") .. "/lazy_last_update"
+      local last_update = 0
+      if vim.fn.filereadable(stamp_file) == 1 then
+        local content = vim.fn.readfile(stamp_file)
+        last_update = tonumber(content[1]) or 0
+      end
+      local now = os.time()
+      -- Only update if more than 24 hours have passed
+      if now - last_update > 86400 then
+        vim.fn.writefile({ tostring(now) }, stamp_file)
+        require("lazy").update({ show = false })
+      end
     end, 5000)
   end,
 })

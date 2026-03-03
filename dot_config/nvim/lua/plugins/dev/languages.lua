@@ -94,13 +94,18 @@ return {
     opts = function(_, opts)
       opts.formatters = opts.formatters or {}
 
+      -- Helper: check once whether a Gemfile exists above the given directory
+      local function has_gemfile(ctx)
+        return vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= ""
+      end
+
       opts.formatters.rubocop = {
         command = function(_, ctx)
-          return vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" and "bundle" or "rubocop"
+          return has_gemfile(ctx) and "bundle" or "rubocop"
         end,
         args = function(_, ctx)
           local base = { "--server", "-a", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
-          if vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" then
+          if has_gemfile(ctx) then
             return vim.list_extend({ "exec", "rubocop" }, base)
           end
           return base
@@ -110,11 +115,11 @@ return {
 
       opts.formatters.standardrb = {
         command = function(_, ctx)
-          return vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" and "bundle" or "standardrb"
+          return has_gemfile(ctx) and "bundle" or "standardrb"
         end,
         args = function(_, ctx)
           local base = { "--fix", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
-          if vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" then
+          if has_gemfile(ctx) then
             return vim.list_extend({ "exec", "standardrb" }, base)
           end
           return base
