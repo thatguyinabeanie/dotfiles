@@ -67,6 +67,7 @@ Complete session management workflow with sesh + resurrect + continuum:
 - **Config location**: `~/.config/sesh/sesh.toml`
 
 **Keybindings in sesh picker:**
+
 | Key | Action |
 |-----|--------|
 | `Enter` | Switch to session or create new |

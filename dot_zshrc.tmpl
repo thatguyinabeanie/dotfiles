@@ -216,6 +216,56 @@ fi
 # {{- end }}
 
 # ----------------------------------------------------------------------------
+# SECTION 8: Long-Running Command Notifications (Ghostty OSC 9)
+# ----------------------------------------------------------------------------
+
+# Threshold in seconds before a notification fires
+LONG_RUNNING_THRESHOLD=10
+
+# Commands to skip (editors, pagers, shells, interactive tools)
+LONG_RUNNING_IGNORE_CMDS=(vim nvim nano less more man top htop btop ssh tmux zellij watch tail)
+
+__cmd_preexec() {
+  __cmd_start=$EPOCHSECONDS
+  __cmd_name="${1%% *}"
+}
+
+__cmd_precmd() {
+  local elapsed=$(( EPOCHSECONDS - ${__cmd_start:-$EPOCHSECONDS} ))
+  if (( elapsed >= LONG_RUNNING_THRESHOLD )) && [[ -n "$__cmd_name" ]]; then
+    # Skip ignored commands
+    local cmd
+    for cmd in "${LONG_RUNNING_IGNORE_CMDS[@]}"; do
+      [[ "$__cmd_name" == "$cmd" ]] && { unset __cmd_start __cmd_name; return; }
+    done
+    # Send OSC 9 desktop notification (native Ghostty support)
+    printf '\e]9;%s\e\\' "Done (${elapsed}s): $__cmd_name"
+  fi
+  unset __cmd_start __cmd_name
+}
+
+if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
+  # Prepend notification hooks so zoxide's hooks stay last (required for zoxide)
+  autoload -Uz add-zsh-hook
+  typeset -ga preexec_functions
+  typeset -ga precmd_functions
+  preexec_functions=(__cmd_preexec "${preexec_functions[@]}")
+  precmd_functions=(__cmd_precmd "${precmd_functions[@]}")
+fi
+
+# ----------------------------------------------------------------------------
+# SECTION 9: Custom Functions
+# ----------------------------------------------------------------------------
+
+{{- if lookPath "claude" }}
+# 🧠 brain - Obsidian AI Second Brain
+# Type `brain` from anywhere to cd into the vault and launch Claude Code
+brain() {
+  cd "$HOME/source/obsidian-brain" && claude "$@"
+}
+{{- end }}
+
+# ----------------------------------------------------------------------------
 # Performance Profiling Output
 # ----------------------------------------------------------------------------
 # Print profiling results when ZSH_PROFILE is enabled
