@@ -5,16 +5,13 @@
     name = {{ .git.config.name }}
     email = {{ .git.config.email }}
 {{- if and (eq .chezmoi.os "darwin") (eq .PERSONAL_ENVIRONMENT true) }}
-    signingkey = {{ onepasswordRead "op://Tech - Dev/Github Signing Key/public key" }}
+    signingkey = {{ .git.config.signing_key }}
 
 [commit]
     gpgsign = true
 
 [gpg]
   format = ssh
-
-[gpg "ssh"]
-  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 {{- else }}
 
 [commit]
