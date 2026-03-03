@@ -61,6 +61,8 @@ return {
   -- Ruby LSP server
   -- mason = false: ruby-lsp is managed via `gem install`, not Mason.
   -- Mason wraps ruby via a $bindir/ruby symlink that breaks when mise updates Ruby (exit 126).
+  -- ruby-lsp is already bundle-aware: the global binary auto-delegates to the project's bundled
+  -- version when ruby-lsp is in the Gemfile. No cmd override needed.
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -68,6 +70,58 @@ return {
         ruby_lsp = { mason = false },
       },
     },
+  },
+
+  -- rubocop as a standalone LSP server is disabled.
+  -- ruby-lsp integrates rubocop natively when rubocop is in the project Gemfile, providing
+  -- the same inline diagnostics without a separate server. Running both causes duplicate
+  -- diagnostics and the Mason-managed rubocop binary has symlink fragility (exit 126).
+  -- Formatting is handled by conform.nvim below (with bundle exec support).
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        rubocop = { enabled = false },
+      },
+    },
+  },
+
+  -- Ruby formatters: use project-bundled versions when a Gemfile is present.
+  -- Searches upward (";") so nested files (app/models/foo.rb) still find the root Gemfile.
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.formatters = opts.formatters or {}
+
+      opts.formatters.rubocop = {
+        command = function(_, ctx)
+          return vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" and "bundle" or "rubocop"
+        end,
+        args = function(_, ctx)
+          local base = { "--server", "-a", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
+          if vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" then
+            return vim.list_extend({ "exec", "rubocop" }, base)
+          end
+          return base
+        end,
+        exit_codes = { 0, 1 },
+      }
+
+      opts.formatters.standardrb = {
+        command = function(_, ctx)
+          return vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" and "bundle" or "standardrb"
+        end,
+        args = function(_, ctx)
+          local base = { "--fix", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
+          if vim.fn.findfile("Gemfile", ctx.dirname .. ";") ~= "" then
+            return vim.list_extend({ "exec", "standardrb" }, base)
+          end
+          return base
+        end,
+        exit_codes = { 0, 1 },
+      }
+    end,
   },
 
   -- TypeScript/JavaScript LSP servers

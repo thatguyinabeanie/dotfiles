@@ -30,3 +30,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "yaml.jinja2"
   end,
 })
+
+-- Auto-update plugins silently after startup
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = vim.api.nvim_create_augroup("lazy_auto_update", { clear = true }),
+  callback = function()
+    vim.defer_fn(function()
+      require("lazy").update({ show = false })
+    end, 5000)
+  end,
+})
