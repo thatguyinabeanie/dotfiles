@@ -84,6 +84,19 @@ applications:
       installer: [brew_cask]
     - name: blender  # 2+ GB
       installer: [brew_cask]
+
+    # 3D Printing
+    - name: bambu-studio  # ~1 GB
+      installer: [brew_cask]
+    - name: freecad  # ~500 MB
+      installer: [brew_cask]
+    - name: meshlab
+      installer: [brew_cask]
+    - name: openscad
+      installer: [brew_cask]
+    - name: orcaslicer
+      installer: [brew_cask]
+
     - name: betterdiscord-installer
       installer: [brew_cask]
     - name: darktable
