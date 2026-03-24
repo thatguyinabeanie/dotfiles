@@ -44,6 +44,10 @@ dev_tools:
   - name: sd
     installer: [brew]
 
+  - name: yazi
+    installer: [mise]
+    description: "Terminal file manager"
+
   - name: tealdeer
     installer: [brew]
 
