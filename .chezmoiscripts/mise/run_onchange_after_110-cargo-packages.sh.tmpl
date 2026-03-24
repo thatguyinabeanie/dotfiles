@@ -122,14 +122,17 @@ for package_spec in "${CARGO_PACKAGES[@]}"; do
             failed=$((failed + 1))
         fi
     else
-        # Standard cargo install
+        # Standard cargo install (prefer cargo-binstall for precompiled binaries)
         show_progress "$current" "$total" "$package_spec"
 
         if cargo install --list | grep -q "^$package_spec "; then
             log_detail "$package_spec already installed"
             installed=$((installed + 1))
+        elif command -v cargo-binstall >/dev/null 2>&1 && cargo binstall --no-confirm "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_detail "$package_spec installed successfully (via binstall)"
+            installed=$((installed + 1))
         elif cargo install "$package_spec" >> "$LOG_FILE" 2>&1; then
-            log_detail "$package_spec installed successfully"
+            log_detail "$package_spec installed successfully (compiled from source)"
             installed=$((installed + 1))
         else
             log_to_file "ERROR: Failed to install $package_spec via cargo"

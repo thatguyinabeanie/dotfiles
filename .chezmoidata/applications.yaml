@@ -14,6 +14,14 @@ applications:
     # Shared applications for all environments
     - name: aerospace
       installer: [brew_cask]
+    - name: claude
+      installer: [brew_cask]
+    - name: claude-devtools
+      installer: [brew_cask]
+    - name: claude-island
+      installer: [brew_cask]
+    - name: claudebar
+      installer: [brew_cask]
     - name: cursor
       installer: [brew_cask]
     # Shared optional apps that are still installed by default
@@ -39,12 +47,12 @@ applications:
       installer: [brew_cask]
     - name: linear-linear
       installer: [brew_cask]
-    # - name: wezterm
-    #   installer: [brew_cask]
-    # - name: nightfall
-    #   installer: [brew_cask]
-    # - name: obsidian
-    #   installer: [brew_cask]
+    - name: mactex-no-gui  # 4+ GB
+      installer: [brew_cask]
+    - name: ngrok
+      installer: [brew_cask]
+    - name: obsidian
+      installer: [brew_cask]
     # - name: opera
     #   installer: [brew_cask]
     # - name: postman
@@ -88,6 +96,9 @@ applications:
       installer: [brew_cask]
     - name: obs
       installer: [brew_cask]
+    - name: temurin@8
+      installer: [brew_cask]
+      description: "Eclipse Temurin JDK 8"
 
     # REMOVED: Mac App Store apps (install manually via App Store if needed)
     # mas CLI removed from dotfiles automation

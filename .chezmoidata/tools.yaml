@@ -95,6 +95,12 @@ dev_tools:
     installer: [brew]
 
   # Infrastructure and cloud tools
+  - name: awscli
+    installer: [brew]
+
+  - name: circleci
+    installer: [brew]
+
   - name: terraform
     installer: [mise]
 
@@ -154,21 +160,17 @@ dev_tools:
   - name: pandoc
     installer: [brew]
 
-  # DISABLED: Huge app (install manually if needed)
-  # - name: mactex-no-gui  # 4+ GB
-  #   installer: [brew_cask]
-
   # Programming language runtimes
   - name: node
     installer: [mise]
-    version: "22"
+    version: "24"
 
   - name: python
     installer: [mise]
 
   - name: ruby
     installer: [mise]
-    version: "3.2.7"
+    version: "3.3.10"
 
   - name: go
     installer: [mise]
@@ -198,7 +200,7 @@ dev_tools:
 
   - name: julia
     installer: [mise]
-    version: "1.11.6"
+    version: "1.12.5"
 
   # Package managers
   - name: pnpm
@@ -256,6 +258,10 @@ dev_tools:
   - name: fzf
     installer: [mise]
 
+  - name: television
+    installer: [brew]
+    description: "TUI fuzzy finder"
+
   - name: zoxide
     installer: [mise]
 
@@ -270,11 +276,13 @@ dev_tools:
   - name: helix
     installer: [mise]
 
-  # - name: pokeget
-  #   installer: [cargo]
-  #   version: latest
-  #   description: "Pokeget"
-  #   category: terminal
+  - name: pokeget
+    installer: [cargo]
+    description: "Pokeget"
+
+  # Dotfiles management
+  - name: chezmoi
+    installer: [brew]
 
     # Curl-based installations
   - name: mise
