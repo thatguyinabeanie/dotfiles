@@ -72,8 +72,15 @@ top_level_key:
     installer: [mise]              # Installation method(s)
     languages: [python, yaml]      # (formatters/linters) Languages supported
     description: "Optional note"   # Human-readable description
+    profiles: [python-dev]         # (optional) Only install when profile is active
     conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
 ```
+
+**Profile filtering:** Packages with a `profiles` field are only installed when at least one
+matching profile is active. Packages without `profiles` are always installed (backward compatible).
+The `"default"` profile is always active and cannot be deactivated. Active profiles are stored
+as a comma-separated string in persistent config (`active_profiles` key) and can be overridden
+via the `ACTIVE_PROFILES` environment variable.
 
 Common `installer` values:
 

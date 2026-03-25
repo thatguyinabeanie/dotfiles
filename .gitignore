@@ -11,6 +11,7 @@
 !**/AGENTS-*.md
 !**/GUIDE.md
 !docs/*.md
+!docs/**/*.md
 !dot_config/opencode/*/*.md
 !.opencode/**
 ./*.sh

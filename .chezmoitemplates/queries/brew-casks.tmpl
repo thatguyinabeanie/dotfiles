@@ -1,17 +1,41 @@
 {{- /* Query template for Homebrew casks (GUI applications) */ -}}
 {{- $packages := list -}}
 
+{{- /* Parse active profiles; "default" is always active */ -}}
+{{- $active_profiles := splitList "," (index . "ACTIVE_PROFILES" | default "default") -}}
+{{- if not (has "default" $active_profiles) -}}
+  {{- $active_profiles = append $active_profiles "default" -}}
+{{- end -}}
+
 {{- /* Collect from dev_tools */ -}}
 {{- range .dev_tools -}}
   {{- if has "brew_cask" .installer -}}
-    {{- $packages = append $packages .name -}}
+    {{- $profileMatch := true -}}
+    {{- if hasKey . "profiles" -}}
+      {{- $profileMatch = false -}}
+      {{- range .profiles -}}
+        {{- if has . $active_profiles -}}{{- $profileMatch = true -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $profileMatch -}}
+      {{- $packages = append $packages .name -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
 {{- /* Collect from agents */ -}}
 {{- range .agents -}}
   {{- if has "brew_cask" .installer -}}
-    {{- $packages = append $packages .name -}}
+    {{- $profileMatch := true -}}
+    {{- if hasKey . "profiles" -}}
+      {{- $profileMatch = false -}}
+      {{- range .profiles -}}
+        {{- if has . $active_profiles -}}{{- $profileMatch = true -}}{{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- if $profileMatch -}}
+      {{- $packages = append $packages .name -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
@@ -19,7 +43,16 @@
 {{- if .applications.shared -}}
   {{- range .applications.shared -}}
     {{- if has "brew_cask" .installer -}}
-      {{- $packages = append $packages .name -}}
+      {{- $profileMatch := true -}}
+      {{- if hasKey . "profiles" -}}
+        {{- $profileMatch = false -}}
+        {{- range .profiles -}}
+          {{- if has . $active_profiles -}}{{- $profileMatch = true -}}{{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $profileMatch -}}
+        {{- $packages = append $packages .name -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -28,7 +61,16 @@
 {{- if .applications.personal -}}
   {{- range .applications.personal -}}
     {{- if has "brew_cask" .installer -}}
-      {{- $packages = append $packages .name -}}
+      {{- $profileMatch := true -}}
+      {{- if hasKey . "profiles" -}}
+        {{- $profileMatch = false -}}
+        {{- range .profiles -}}
+          {{- if has . $active_profiles -}}{{- $profileMatch = true -}}{{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $profileMatch -}}
+        {{- $packages = append $packages .name -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -37,7 +79,16 @@
 {{- if .applications.work -}}
   {{- range .applications.work -}}
     {{- if has "brew_cask" .installer -}}
-      {{- $packages = append $packages .name -}}
+      {{- $profileMatch := true -}}
+      {{- if hasKey . "profiles" -}}
+        {{- $profileMatch = false -}}
+        {{- range .profiles -}}
+          {{- if has . $active_profiles -}}{{- $profileMatch = true -}}{{- end -}}
+        {{- end -}}
+      {{- end -}}
+      {{- if $profileMatch -}}
+        {{- $packages = append $packages .name -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}

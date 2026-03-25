@@ -13,6 +13,7 @@ hostname                   = {{ $current_hostname | quote }}
 SHELL                      = {{ (env "SHELL_PREF") | default (output "bash" "-c" (printf "%s read shell_pref" ($config_helper | quote)) | trim) | default "zsh" | quote }}
 WORK_ENVIRONMENT           = {{ eq "true" ((env "WORK_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read work_environment" ($config_helper | quote)) | trim) | default "false") }}
 PERSONAL_ENVIRONMENT       = {{ eq "true" ((env "PERSONAL_ENVIRONMENT") | default (output "bash" "-c" (printf "%s read personal_environment" ($config_helper | quote)) | trim) | default "false") }}
+ACTIVE_PROFILES            = {{ (env "ACTIVE_PROFILES") | default (output "bash" "-c" (printf "%s read active_profiles" ($config_helper | quote)) | trim) | default "default" | quote }}
 INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (output "bash" "-c" (printf "%s read install_sketchy_bar" ($config_helper | quote)) | trim) | default "true" | quote }}
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (output "bash" "-c" (printf "%s read manage_brew_services" ($config_helper | quote)) | trim) | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (output "bash" "-c" (printf "%s read catppuccin_flavor" ($config_helper | quote)) | trim) | default "mocha" | quote }}
