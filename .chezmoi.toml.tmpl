@@ -22,7 +22,6 @@ THEME_MODE                 = "dark"
 THEME_LIGHT                = "Catppuccin Latte"
 THEME_DARK                 = "Catppuccin Mocha"
 
-YAZI_CATPPUCCIN_COLOR      = {{ (env "YAZI_CATPPUCCIN_COLOR") | default (output "bash" "-c" (printf "%s read yazi_catppuccin_color" ($config_helper | quote)) | trim) | default "blue" | quote }}
 SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default (output "bash" "-c" (printf "%s read sudo_touchid" ($config_helper | quote)) | trim) | default "true" | quote }}
 INTERACTIVE                = false
 

@@ -108,7 +108,6 @@ backup_config() {
 		"THEME_DARK:theme_dark"
 
 		# Application settings
-		"YAZI_CATPPUCCIN_COLOR:yazi_catppuccin_color"
 		"SUDO_TOUCHID:sudo_touchid"
 
 		# UI configuration (from data.ui section)
