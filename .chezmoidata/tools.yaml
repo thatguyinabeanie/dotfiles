@@ -275,7 +275,7 @@ dev_tools:
 
   # Editors and IDEs
   - name: neovim
-    installer: [mise]
+    installer: [brew]
 
   - name: helix
     installer: [mise]
