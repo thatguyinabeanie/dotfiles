@@ -80,7 +80,6 @@ restore_config() {
         "theme_dark:THEME_DARK"
         
         # Application settings
-        "yazi_catppuccin_color:YAZI_CATPPUCCIN_COLOR"
         "sudo_touchid:SUDO_TOUCHID"
         
         # UI configuration (data.ui section)

@@ -1,5 +1,8 @@
 # Aerospace Agent Guide
 
+> **Scope:** This file covers Aerospace window manager configuration only (macOS).
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
+
 ## Overview
 
 Aerospace is a tiling window manager for **macOS only**. It manages window placement
@@ -43,3 +46,7 @@ across workspaces using keyboard-driven commands.
 - **Config errors**: `aerospace reload-config` outputs errors to the terminal
 - **Keybinding conflicts**: macOS system shortcuts take priority. Check System Settings > Keyboard > Shortcuts.
 - **Rollback**: Revert changes in git and reload
+
+## Related Documentation
+
+- [Ghostty Agent Guide](../ghostty/AGENTS.md)—potential keybinding conflicts

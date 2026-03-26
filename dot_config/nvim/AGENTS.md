@@ -1,5 +1,8 @@
 # AGENTS.md
 
+> **Scope:** This file covers Neovim/LazyVim configuration only.
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
+
 ## Project Overview
 
 This is a Neovim configuration directory within a chezmoi dotfiles repository.
@@ -351,3 +354,7 @@ Seamless navigation between Neovim windows and tmux panes using `Ctrl+h/j/k/l`.
 - `lua/plugins/`: Plugin configurations organized by category
 - `init.lua`: Bootstrap file that loads LazyVim and custom configurations
 - `.lazyvim.json`: LazyVim extras and version tracking
+
+## Related Documentation
+
+- [Tmux Agent Guide](../tmux/AGENTS.md)—vim-tmux-navigator for seamless pane navigation

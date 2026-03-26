@@ -1,20 +1,22 @@
 #!/bin/bash
 
-# Global Package Installation (Hybrid Approach)
-# Installs packages globally for system-wide use. Mason may also install some for Neovim.
+# Global go Package Installation
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "go" "root" .) }}
+
+{{ template "utilities/logging.sh.tmpl" }}
 
 set -euo pipefail
 
-# Ensure Go is available via mise
 if ! mise which go >/dev/null 2>&1; then
     echo "❌ Go not found. Please run mise installation first."
     exit 1
 fi
 
-echo "📦 Collecting packages for global installation..."
+export GOPATH="${GOPATH:-$HOME/go}"
+export PATH="$GOPATH/bin:$PATH"
 
-# Collect go packages and install commands
+log_section "🐹 Go Packages"
+
 GO_PACKAGES=()
 
 # Language servers with go install
@@ -51,19 +53,32 @@ GO_PACKAGES+=("{{ .name }}@latest")
 {{- end }}
 
 if [[ ${#GO_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No go packages to install"
+    log_summary "✓ No go packages configured"
     exit 0
 fi
 
-echo "📦 Installing ${#GO_PACKAGES[@]} go packages..."
+# Pre-check: extract binary name as last component of module path (before @)
+go_binary_name() {
+    local pkg="$1"
+    basename "${pkg%@*}"
+}
 
-for package in "${GO_PACKAGES[@]}"; do
-    echo "📦 Installing $package..."
-    if go install "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package installed successfully"
-    else
-        echo "  ❌ Failed to install $package"
-    fi
+MISSING=()
+for pkg in "${GO_PACKAGES[@]}"; do
+    binary=$(go_binary_name "$pkg")
+    command -v "$binary" >/dev/null 2>&1 || MISSING+=("$pkg")
 done
 
-echo "✅ Go package installation completed"
+if [[ ${#MISSING[@]} -eq 0 ]]; then
+    log_summary "✓ All ${#GO_PACKAGES[@]} go packages up to date"
+    exit 0
+fi
+
+for pkg in "${MISSING[@]}"; do
+    binary=$(go_binary_name "$pkg")
+    if go install "$pkg" >> "$LOG_FILE" 2>&1; then
+        log_install_result "ok" "$binary"
+    else
+        log_install_result "fail" "$binary"
+    fi
+done

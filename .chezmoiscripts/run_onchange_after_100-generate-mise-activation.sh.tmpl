@@ -3,6 +3,8 @@ set -euo pipefail
 
 {{- if lookPath "mise" }}
 
+# mise version: {{ output "mise" "--version" | trim }}
+
 # Create directory if it doesn't exist
 mkdir -p "$HOME/.local/state/mise"
 

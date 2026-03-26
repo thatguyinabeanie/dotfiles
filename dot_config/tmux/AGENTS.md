@@ -1,5 +1,8 @@
 # Tmux Configuration Guide
 
+> **Scope:** This file covers tmux configuration only.
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
+
 ## Overview
 
 The tmux configuration uses a modular architecture with the main config file sourcing
@@ -140,3 +143,8 @@ Plugins managed via chezmoi external dependencies and TPM:
 - [ ] Vim-tmux-navigator works bidirectionally with Neovim
 - [ ] Status bar displays and updates correctly
 - [ ] Catppuccin theme renders properly
+
+## Related Documentation
+
+- [Ghostty Agent Guide](../ghostty/AGENTS.md)—tmux auto-launcher integration
+- [Neovim Agent Guide](../nvim/AGENTS.md)—vim-tmux-navigator for seamless pane navigation

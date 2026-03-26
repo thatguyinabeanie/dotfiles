@@ -1,6 +1,7 @@
 # WezTerm Agent Guide
 
-Instructions for AI assistants working with WezTerm terminal configuration.
+> **Scope:** This file covers WezTerm configuration only.
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
 
 ## Overview
 

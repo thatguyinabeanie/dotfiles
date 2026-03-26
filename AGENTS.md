@@ -5,6 +5,14 @@ Instructions for AI assistants working with this dotfiles repository.
 > **Note**: This file is symlinked as `CLAUDE.md` for Claude Code and is available to all AI agents
 > (Claude, GitHub Copilot, etc.).
 
+## TL;DR
+
+1. **All packages via `.chezmoidata/*.yaml`** — never install manually
+2. **Always dry-run before apply** — `chezmoi apply --dry-run` then `chezmoi apply --force`
+3. **Never edit `~/.config/` directly** — edit chezmoi source (`dot_config/`) instead
+4. **Use `installer` (array) schema** — `install_via` (string) is legacy
+5. **Use profiles for optional packages** — `profiles: [python-dev]` to scope to a workflow
+
 ## Your Role
 
 You are an expert dotfiles and system configuration manager specializing in chezmoi,
@@ -36,7 +44,7 @@ Configuration is template-driven and reproducible across machines.
 
 1. **Identify package type**: formatters, linters, tools, etc.
 2. **Edit appropriate `.chezmoidata/*.yaml` file**
-3. **Follow established patterns**: `install_via`, `runtime`, `version`, etc.
+3. **Follow established patterns**: `installer`, `name`, `description`, `profiles`, etc.
 4. **Validate with**: `chezmoi apply --dry-run`
 5. **Apply changes**: `chezmoi apply`
 
@@ -51,7 +59,6 @@ Configuration is template-driven and reproducible across machines.
 | `mcp.yaml`                | `mcp_servers`        | MCP server definitions                       |
 | `applications.yaml`       | `applications`       | macOS GUI apps (casks, Mac App Store)        |
 | `taps.yaml`               | `homebrew_taps`      | Homebrew tap repositories                    |
-| `github-extensions.yaml`  | `github_extensions`  | GitHub CLI extensions                        |
 | `services.yaml`           | `services`           | Background services (postgresql, etc.)       |
 | `shared.yaml`             | (multiple)           | Shared settings: theme, font, terminal, UI   |
 | `personal.yaml`           | (multiple)           | Personal identity and environment settings   |
@@ -60,7 +67,6 @@ Configuration is template-driven and reproducible across machines.
 | `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
 | `agents.yaml`             | `agents`             | AI agent tool configurations                 |
 | `aliases.yaml`            | `aliases`            | Shell aliases/abbreviations (Fish & Zsh)     |
-| `ai/`                     | (per-provider)       | AI provider configs (anthropic, google, etc.)|
 
 ### Schema Patterns
 
@@ -82,15 +88,26 @@ The `"default"` profile is always active and cannot be deactivated. Active profi
 as a comma-separated string in persistent config (`active_profiles` key) and can be overridden
 via the `ACTIVE_PROFILES` environment variable.
 
-Common `installer` values:
+### Supported Installer Values
 
-- `[mise]` - Preferred for CLI tools (version-managed)
-- `[brew]` - Homebrew formula
-- `[mason]` - Neovim Mason (LSP servers, formatters, linters)
-- `[npm]` - Node.js packages
-- `[pip]` - Python packages
-- `[cargo]` - Rust packages
-- Multiple allowed: `[mise, mason]` means "install via both"
+The `installer` field is an **array** — multiple values mean "install via all listed methods":
+
+- `[mise]` — Preferred for CLI tools (version-managed)
+- `[brew]` — Homebrew formula
+- `[brew_cask]` — macOS GUI applications
+- `[mason]` — Neovim Mason (LSP servers, formatters, linters)
+- `[npm]` or `[bun]` — Node.js packages
+- `[pip]` — Python packages
+- `[cargo]` — Rust packages (accelerated by `cargo-binstall` when binaries available)
+- `[gem]` — Ruby packages
+- `[go]` — Go packages
+- `[curl]` — Direct downloads
+- Multiple: `[mise, mason]` means "install via both"
+
+> **Legacy note:** Some older templates still use `install_via` (string). New entries must
+> use `installer` (array). Files using the old schema: `shared.yaml` (applications section),
+> `append-packages.tmpl`, `brew-installer.sh.tmpl`, `collect-cargo-packages.tmpl`,
+> `collect-gem-packages.tmpl`.
 
 ### Data Flow into Templates
 
@@ -104,24 +121,6 @@ Key query templates:
 - `queries/brew-formulae.tmpl` - Extracts Homebrew formula packages
 - `queries/brew-casks.tmpl` - Extracts Homebrew cask packages
 - `queries/append-packages.tmpl` - Appends additional packages to a list
-
-### Supported Installer Values
-
-The `installer` field is an **array** — multiple values mean "install via all listed methods":
-
-```yaml
-installer: [bun]          # Node.js packages (preferred)
-installer: [npm]          # Node.js packages (legacy)
-installer: [brew]         # Homebrew packages
-installer: [mise]         # Mise-managed tools (supports cargo: backend for Rust)
-installer: [pip]          # Python packages
-installer: [cargo]        # Rust packages (accelerated by cargo-binstall)
-installer: [gem]          # Ruby packages
-installer: [go]           # Go packages
-installer: [brew_cask]    # macOS applications
-installer: [curl]         # Direct downloads
-installer: [mise, mason]  # Install via both mise and Neovim Mason
-```
 
 ### Package Addition Examples
 
@@ -150,12 +149,6 @@ installer: [mise, mason]  # Install via both mise and Neovim Mason
   installer: [mise]           # or [brew], [npm], [mason], etc.
   description: "Linter description"
 ```
-
-### Cargo and cargo-binstall
-
-- `cargo-binstall` is installed as a prerequisite (first in the cargo packages script)
-- Subsequent cargo installs automatically use cargo-binstall when precompiled binaries exist
-- Falls back to `cargo install` (compile from source) if binaries unavailable
 
 ### Package Troubleshooting
 
@@ -231,9 +224,9 @@ If the dry run does not run successfully, report the errors, fix them, and run t
 - **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch
   template syntax errors before applying changes
 
-### JSON Template Debugging
+### JSON Template Gotchas
 
-When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of common syntax issues:
+When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
 
 #### Go Map vs JSON Object Syntax
 
@@ -326,7 +319,6 @@ The `.chezmoidata/` directory uses a context-based split:
 - **`personal.yaml`** - Personal development environment settings
 - **`work.yaml`** - Work/corporate environment overrides
 - **`shared.yaml`** - Cross-context configuration (XDG dirs, editor, theme, UI)
-- **`ai/`** - AI provider configurations (anthropic, google, github-copilot, opencode)
 
 All YAML files provide data for chezmoi templates. Environment variables are generated in shell
 profiles. Conditional logic is handled based on work/personal context and macOS/Linux detection.
@@ -366,22 +358,38 @@ Before marking any task complete, verify:
 5. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files
 
+## Custom Skills (Slash Commands)
+
+Project-level skills are available as slash commands:
+
+| Command | Purpose |
+|---------|---------|
+| `/project:chezmoi-package` | Guided workflow to add a package to the correct YAML file |
+| `/project:chezmoi-profile` | Manage profile-based package installation (list, enable, disable) |
+| `/project:chezmoi-validate` | Run validation checks (dry-run, duplicates, stale schemas, pre-commit) |
+
+## Automation Hooks
+
+Hookify rules prevent common mistakes:
+
+| Hook | Event | Action |
+|------|-------|--------|
+| `prevent-manual-install` | bash | Blocks `brew install`, `npm install -g`, etc. |
+| `prevent-config-edits` | file | Blocks direct edits to `~/.config/` |
+| `package-profile-reminder` | file | Warns about `profiles:` field when adding packages |
+
+Hook files are in `.claude/hookify.*.local.md`.
+
 ## Documentation Index
 
-Each config directory contains colocated documentation:
-
-- `AGENTS.md` - Agent instructions (auto-discovered by Claude Code)
-- `CLAUDE.md` - Symlink to AGENTS.md
-
-### Tool Configuration Docs
-
-- `dot_config/nvim/` - Neovim (LazyVim)
-- `dot_config/tmux/` - Tmux
-- `dot_config/aerospace/` - Aerospace window manager
-- `dot_config/ghostty/` - Ghostty terminal
-- `dot_config/wezterm/` - WezTerm terminal
-- `dot_config/zellij/` - Zellij multiplexer
-
-### Other Docs
-
-- `docs/ONEPASSWORD_SETUP.md` - 1Password service account setup
+| Documentation | Location | Covers |
+|---|---|---|
+| Root (this file) | `AGENTS.md` | Package management, chezmoi, profiles, templates |
+| Neovim/LazyVim | `dot_config/nvim/AGENTS.md` | Plugins, keymaps, LSP, 50+ keybindings |
+| Tmux | `dot_config/tmux/AGENTS.md` | Session management, plugins, keybindings |
+| Zellij | `dot_config/zellij/AGENTS.md` | Tmux-compatible multiplexer, keybindings |
+| WezTerm | `dot_config/wezterm/AGENTS.md` | Terminal emulator, Zellij integration, theming |
+| Ghostty | `dot_config/ghostty/AGENTS.md` | Terminal emulator, tmux integration |
+| Aerospace | `dot_config/aerospace/AGENTS.md` | macOS tiling window manager |
+| 1Password | `docs/ONEPASSWORD_SETUP.md` | 1Password service account setup |
+| Profiles Design | `docs/plans/2026-03-24-profile-based-packages-design.md` | Profile system design record |

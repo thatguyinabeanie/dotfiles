@@ -1,6 +1,7 @@
 # Zellij Agent Guide
 
-Instructions for AI assistants working with Zellij terminal multiplexer configuration.
+> **Scope:** This file covers Zellij configuration only.
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
 
 ## Overview
 
