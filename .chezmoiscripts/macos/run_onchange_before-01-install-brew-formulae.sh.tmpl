@@ -43,7 +43,13 @@ install_brew_packages() {
     local exit_code=$?
 
     for name in "${MISSING[@]}"; do
-        if brew list "$name" >/dev/null 2>&1 || brew tap | grep -q "^$name$"; then
+        local is_installed=false
+        if [[ "$entry_type" == "tap" ]]; then
+            brew tap 2>/dev/null | grep -q "^${name}$" && is_installed=true
+        else
+            brew list "$name" >/dev/null 2>&1 && is_installed=true
+        fi
+        if [[ "$is_installed" == "true" ]]; then
             log_install_result "ok" "$name"
         else
             log_install_result "fail" "$name"
