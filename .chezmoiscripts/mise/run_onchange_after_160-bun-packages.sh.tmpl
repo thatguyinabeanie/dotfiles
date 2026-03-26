@@ -1,25 +1,24 @@
 #!/bin/bash
 
-# This script installs bun packages (global packages)
+# Global bun Package Installation
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "bun" "root" .) }}
+
+{{ template "utilities/logging.sh.tmpl" }}
 
 set -euo pipefail
 
-# Ensure bun is available
 if ! command -v bun >/dev/null 2>&1; then
     echo "❌ bun not found. Installing bun..."
     curl -fsSL https://bun.sh/install | bash
     export PATH="$HOME/.bun/bin:$PATH"
-    
     if ! command -v bun >/dev/null 2>&1; then
         echo "❌ Failed to install bun. Please install manually."
         exit 1
     fi
 fi
 
-echo "📦 Collecting bun packages..."
+log_section "🍞 Bun Packages"
 
-# Collect bun packages not managed by Mason
 BUN_PACKAGES=()
 
 # AI agents
@@ -36,43 +35,47 @@ BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# Language servers not managed by Mason
+# Language servers
 {{- range .language_servers }}
-{{- if and (has "bun" .installer) }}
+{{- if has "bun" .installer }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# Formatters not managed by Mason
+# Formatters
 {{- range .formatters }}
-{{- if and (has "bun" .installer) }}
+{{- if has "bun" .installer }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# Linters not managed by Mason
+# Linters
 {{- range .linters }}
-{{- if and (has "bun" .installer) }}
+{{- if has "bun" .installer }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 if [[ ${#BUN_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No bun packages to install (all handled by Mason)"
+    log_summary "✓ No bun packages configured"
     exit 0
 fi
 
-echo "📦 Installing ${#BUN_PACKAGES[@]} bun packages globally..."
-
-for package in "${BUN_PACKAGES[@]}"; do
-    echo "📦 Installing $package..."
-    if bun pm ls -g | grep -q "$package"; then
-        echo "  ✅ $package already installed"
-    elif bun install -g "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package installed successfully"
-    else
-        echo "  ❌ Failed to install $package via bun"
-    fi
+# Pre-check
+MISSING=()
+for pkg in "${BUN_PACKAGES[@]}"; do
+    bun pm ls -g 2>/dev/null | grep -q "$pkg" || MISSING+=("$pkg")
 done
 
-echo "✅ Bun package installation completed"
+if [[ ${#MISSING[@]} -eq 0 ]]; then
+    log_summary "✓ All ${#BUN_PACKAGES[@]} bun packages up to date"
+    exit 0
+fi
+
+for pkg in "${MISSING[@]}"; do
+    if bun install -g "$pkg" >> "$LOG_FILE" 2>&1; then
+        log_install_result "ok" "$pkg"
+    else
+        log_install_result "fail" "$pkg"
+    fi
+done
