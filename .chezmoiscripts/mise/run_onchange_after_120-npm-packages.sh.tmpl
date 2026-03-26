@@ -86,7 +86,7 @@ done
 
 # Report status and install only missing packages
 if [[ ${#PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
-    log_summary "✅ All npm packages already installed ($ALREADY_INSTALLED packages)"
+    log_summary "✓ All ${#NPM_PACKAGES[@]} npm packages up to date"
     exit 0
 fi
 
@@ -94,34 +94,16 @@ log_detail "Installing ${#PACKAGES_TO_INSTALL[@]} packages (${ALREADY_INSTALLED}
 
 # Try bulk install for missing packages
 if npm install -g "${PACKAGES_TO_INSTALL[@]}" >> "$LOG_FILE" 2>&1; then
-    log_summary "✅ NPM packages: ${#PACKAGES_TO_INSTALL[@]} installed, $ALREADY_INSTALLED already present"
+    for package in "${PACKAGES_TO_INSTALL[@]}"; do
+        log_install_result "ok" "$package"
+    done
 else
     log_detail "Bulk install failed, installing individually..."
-
-    # Install packages individually with progress
-    installed=0
-    failed=0
-    total=${#PACKAGES_TO_INSTALL[@]}
-    current=0
-
     for package in "${PACKAGES_TO_INSTALL[@]}"; do
-        current=$((current + 1))
-        show_progress "$current" "$total" "$package"
-
         if npm install -g "$package" >> "$LOG_FILE" 2>&1; then
-            log_detail "$package installed successfully"
-            installed=$((installed + 1))
+            log_install_result "ok" "$package"
         else
-            log_to_file "ERROR: Failed to install $package"
-            failed=$((failed + 1))
+            log_install_result "fail" "$package"
         fi
     done
-
-    clear_progress
-
-    if [[ $failed -eq 0 ]]; then
-        log_summary "✅ NPM packages: $installed installed, $ALREADY_INSTALLED already present"
-    else
-        log_summary "⚠️  NPM packages: $installed installed, $failed failed, $ALREADY_INSTALLED already present (see $LOG_FILE)"
-    fi
 fi
