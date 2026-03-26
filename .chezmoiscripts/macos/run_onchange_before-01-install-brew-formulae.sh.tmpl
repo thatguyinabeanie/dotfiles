@@ -12,128 +12,91 @@ log_section "🍺 Homebrew Formulae (CLI Tools)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 
-# Function to install packages in batches
+# Install brew packages using pre-check + quiet install pattern
+# Args: $1 = label (e.g. "taps", "formulae"), $2 = brewfile path, $3 = entry_type (tap|brew)
 install_brew_packages() {
-    local package_type="$1"
-    local packages="$2"
+    local label="$1"
+    local brewfile="$2"
+    local entry_type="${3:-brew}"
 
-    if [[ -z "$packages" ]]; then
-        log_debug "No $package_type packages to install"
+    local total
+    total=$(grep -c "^${entry_type}" "$brewfile" 2>/dev/null || echo "0")
+
+    # Pre-check
+    local MISSING=()
+    local check_output
+    check_output=$(brew bundle check --verbose --file="$brewfile" 2>&1 || true)
+    while IFS= read -r line; do
+        if [[ "$line" == *"is not installed"* ]] || [[ "$line" == *"is not tapped"* ]]; then
+            local name
+            name=$(echo "$line" | sed "s/.*'\([^']*\)'.*/\1/")
+            [[ -n "$name" ]] && MISSING+=("$name")
+        fi
+    done <<< "$check_output"
+
+    if [[ ${#MISSING[@]} -eq 0 ]]; then
+        log_summary "✓ All $total $label up to date"
         return 0
     fi
 
-    log_step "Installing $package_type packages"
+    brew bundle install --quiet --file="$brewfile" >> "$LOG_FILE" 2>&1
+    local exit_code=$?
 
-    # Create temporary Brewfile
-    local brewfile=$(mktemp)
-    echo -e "$packages" > "$brewfile"
-
-    # Determine brew bundle arguments based on verbose mode
-    local brew_args="install --file=$brewfile"
-    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
-        brew_args="$brew_args --verbose"
-    fi
-
-    # Install packages - behavior depends on verbose mode
-    if [[ "${CHEZMOI_VERBOSE}" == "1" ]]; then
-        # Verbose mode: stream output directly for real-time visibility
-        log_detail "Running: brew bundle $brew_args"
-        log_detail "Streaming output (this may take a while for large apps)..."
-        brew bundle $brew_args
-        local exit_code=$?
-    else
-        # Normal mode: capture output and show summary
-        local output
-        output=$(brew bundle $brew_args 2>&1)
-        local exit_code=$?
-    fi
-
-    if [ $exit_code -eq 0 ]; then
-        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
-            # Success - show summary instead of full output (non-verbose only)
-            local new_count=$(echo "$output" | grep -c "Installing" 2>/dev/null || echo "0")
-            local cached_count=$(echo "$output" | grep -c "Using" 2>/dev/null || echo "0")
-
-            # Ensure we have integers (remove any whitespace/newlines)
-            new_count=$(echo "$new_count" | tr -d '\n' | tr -d ' ')
-            cached_count=$(echo "$cached_count" | tr -d '\n' | tr -d ' ')
-
-            if [ "$new_count" -gt 0 ] 2>/dev/null || [ "$cached_count" -gt 0 ] 2>/dev/null; then
-                log_success "$package_type: $new_count new, $cached_count cached"
-            else
-                log_success "$package_type packages installed successfully"
-            fi
+    for name in "${MISSING[@]}"; do
+        if brew list "$name" >/dev/null 2>&1 || brew tap | grep -q "^$name$"; then
+            log_install_result "ok" "$name"
         else
-            log_success "$package_type packages installed successfully"
+            log_install_result "fail" "$name"
         fi
-    else
-        # Error - show full output for debugging
-        if [[ "${CHEZMOI_VERBOSE}" != "1" ]]; then
-            echo "$output"
-        fi
-        log_error "Failed to install some $package_type packages"
-        rm -f "$brewfile"
-        return 1
-    fi
+    done
 
-    # Clean up
-    rm -f "$brewfile"
+    if [[ $exit_code -ne 0 ]]; then
+        log_error "Some $label failed to install. See $LOG_FILE for details."
+    fi
 }
 
 # Install taps first
-log_step "Installing Homebrew taps"
-TAPS=""
-
-# Add taps from taps.yaml
+taps_file=$(mktemp)
+brews_file=$(mktemp)
+trap 'rm -f "$taps_file" "$brews_file"' EXIT
 {{- range .homebrew_taps }}
-TAPS="${TAPS}tap \"{{ .name }}\"\n"
+echo "tap \"{{ .name }}\"" >> "$taps_file"
 {{- end }}
-
-install_brew_packages "taps" "$TAPS"
-
-# Collect all brew formulae from different sources
-log_step "Collecting brew formulae from all sources"
-BREWS=""
+install_brew_packages "taps" "$taps_file" "tap"
 
 # Language servers that install via brew
 {{- range .language_servers }}
   {{- if has "brew" .installer }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
+echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
-
 # Formatters that install via brew
 {{- range .formatters }}
   {{- if has "brew" .installer }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
+echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
-
 # Linters that install via brew
 {{- range .linters }}
   {{- if has "brew" .installer }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
+echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
-
 # Development tools that install via brew
 {{- range .dev_tools }}
   {{- if has "brew" .installer }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
+echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
-
 # AI agents that install via brew
 {{- range .agents }}
   {{- if has "brew" .installer }}
-BREWS="${BREWS}brew \"{{ .name }}\"\n"
+echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
-
-install_brew_packages "brews" "$BREWS"
+install_brew_packages "formulae" "$brews_file" "brew"
 
 # Setup automatic updates
-log_step "Setting up Homebrew automatic upgrades"
 if brew autoupdate status 2>&1 | grep -q "not configured"; then
     if brew autoupdate start --upgrade --cleanup --immediate{{- if not .WORK_ENVIRONMENT }} --sudo{{- end }}; then
         log_success "Homebrew automatic upgrades configured"
@@ -143,16 +106,6 @@ if brew autoupdate status 2>&1 | grep -q "not configured"; then
 else
     log_debug "Homebrew automatic upgrades already configured"
 fi
-
-# Summary
-log_header "Homebrew Formulae Installation Summary"
-log_detail "Installed packages by category:"
-log_substep "Language servers: $(echo -e "$BREWS" | grep -E '(language-server|lsp|analyzer)' | wc -l | tr -d ' ')"
-log_substep "Formatters: $(echo -e "$BREWS" | grep -E '(fmt|format|yamlfix|yamlfmt)' | wc -l | tr -d ' ')"
-log_substep "Linters: $(echo -e "$BREWS" | grep -E '(lint|check|vale|hadolint|tflint|cspell)' | wc -l | tr -d ' ')"
-log_substep "Development tools: $(echo -e "$BREWS" | grep -v -E '(language-server|lsp|analyzer|fmt|format|yamlfix|yamlfmt|lint|check|vale|hadolint|tflint|cspell)' | wc -l | tr -d ' ')"
-
-log_success "Homebrew formulae installation completed"
 
 {{- else }}
 log_warning "This script is designed for macOS only"
