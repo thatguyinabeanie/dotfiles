@@ -37,6 +37,8 @@ applications:
       installer: [brew_cask]
     - name: google-chrome
       installer: [brew_cask]
+    - name: grandperspective
+      installer: [brew_cask]
     - name: karabiner-elements
       installer: [brew_cask]
     - name: keka
@@ -47,7 +49,7 @@ applications:
       installer: [brew_cask]
     - name: linear-linear
       installer: [brew_cask]
-    - name: mactex-no-gui  # 4+ GB
+    - name: mactex-no-gui # 4+ GB
       installer: [brew_cask]
     - name: ngrok
       installer: [brew_cask]
@@ -76,19 +78,19 @@ applications:
       installer: [brew_cask]
     - name: 1password-cli
       installer: [brew_cask]
-    - name: ableton-live-suite  # 70+ GB
+    - name: ableton-live-suite # 70+ GB
       installer: [brew_cask]
-    - name: affinity  # 2+ GB
+    - name: affinity # 2+ GB
       installer: [brew_cask]
-    - name: android-studio  # 1+ GB
+    - name: android-studio # 1+ GB
       installer: [brew_cask]
-    - name: blender  # 2+ GB
+    - name: blender # 2+ GB
       installer: [brew_cask]
 
     # 3D Printing
-    - name: bambu-studio  # ~1 GB
+    - name: bambu-studio # ~1 GB
       installer: [brew_cask]
-    - name: freecad  # ~500 MB
+    - name: freecad # ~500 MB
       installer: [brew_cask]
     - name: meshlab
       installer: [brew_cask]
