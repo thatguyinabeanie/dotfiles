@@ -1,5 +1,8 @@
 # Ghostty Agent Guide
 
+> **Scope:** This file covers Ghostty terminal configuration only.
+> For package management, chezmoi workflow, and project-wide rules, see the root `AGENTS.md`.
+
 ## Quick Overview
 
 - **Purpose**: Ghostty is a high-performance, GPU-accelerated terminal emulator.
@@ -49,3 +52,8 @@
 - **Common errors**: Mismatched template variables in `.chezmoidata/`.
 - **Conflict resolution**: Ensure keybinds are namespaced or unique across tools.
 - **Rollback**: Revert changes in git and run `chezmoi apply`.
+
+## Related Documentation
+
+- [Tmux Agent Guide](../tmux/AGENTS.md) — tmux auto-launcher integration via `ghostty-tmux.zsh`
+- [Aerospace Agent Guide](../aerospace/AGENTS.md) — potential keybinding conflicts
