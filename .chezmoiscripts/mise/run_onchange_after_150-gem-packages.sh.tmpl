@@ -1,54 +1,59 @@
 #!/bin/bash
 
-# Global Package Installation (Hybrid Approach)
-# Installs packages globally for system-wide use. Mason may also install some for Neovim.
+# Global gem Package Installation
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "gem" "root" .) }}
 
-{{- define "collect_gem_packages" -}}
-{{- range .packages }}
-{{- if and (has "gem" .installer) }}
-GEM_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-{{- end -}}
-
-{{- define "install_gem_packages" -}}
-for package in "${GEM_PACKAGES[@]}"; do
-    echo "📦 Installing $package..."
-    if gem list -i "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package already installed"
-    elif gem install "$package" >/dev/null 2>&1; then
-        echo "  ✅ $package installed successfully"
-    else
-        echo "  ❌ Failed to install $package"
-    fi
-done
-{{- end -}}
+{{ template "utilities/logging.sh.tmpl" }}
 
 set -euo pipefail
 
-# Ensure Ruby is available via mise
 if ! mise which ruby >/dev/null 2>&1; then
     echo "❌ Ruby not found. Please run mise installation first."
     exit 1
 fi
 
-echo "📦 Collecting packages for global installation..."
+log_section "💎 Ruby Gem Packages"
 
-# Collect gem packages with installer array containing this manager
 GEM_PACKAGES=()
 
-{{ template "collect_gem_packages" (dict "packages" .language_servers) }}
-{{ template "collect_gem_packages" (dict "packages" .formatters) }}
-{{ template "collect_gem_packages" (dict "packages" .linters) }}
+{{- range .language_servers }}
+{{- if has "gem" .installer }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+{{- range .formatters }}
+{{- if has "gem" .installer }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
+
+{{- range .linters }}
+{{- if has "gem" .installer }}
+GEM_PACKAGES+=("{{ .name }}")
+{{- end }}
+{{- end }}
 
 if [[ ${#GEM_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No gem packages to install (all handled by Mason or mise)"
+    log_summary "✓ No gem packages configured"
     exit 0
 fi
 
-echo "📦 Installing ${#GEM_PACKAGES[@]} gem packages..."
+# Pre-check
+MISSING=()
+for pkg in "${GEM_PACKAGES[@]}"; do
+    gem list -i "$pkg" >/dev/null 2>&1 || MISSING+=("$pkg")
+done
 
-{{ template "install_gem_packages" }}
+if [[ ${#MISSING[@]} -eq 0 ]]; then
+    log_summary "✓ All ${#GEM_PACKAGES[@]} gem packages up to date"
+    exit 0
+fi
 
-echo "✅ Ruby gem package installation completed"
+for pkg in "${MISSING[@]}"; do
+    if gem install "$pkg" >> "$LOG_FILE" 2>&1; then
+        log_install_result "ok" "$pkg"
+    else
+        log_install_result "fail" "$pkg"
+    fi
+done
