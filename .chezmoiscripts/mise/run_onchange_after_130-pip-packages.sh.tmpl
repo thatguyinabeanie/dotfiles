@@ -1,46 +1,48 @@
 #!/bin/bash
 
-# Global Package Installation (Hybrid Approach)
-# Installs packages globally for system-wide use. Mason may also install some for Neovim.
+# Global pip Package Installation
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }}
+
+{{ template "utilities/logging.sh.tmpl" }}
 
 set -euo pipefail
 
-# Ensure Python is available via mise
 if ! mise which python >/dev/null 2>&1; then
     echo "❌ Python not found. Please run mise installation first."
     exit 1
 fi
 
-echo "📦 Collecting packages for global installation..."
+log_section "🐍 Python pip Packages"
 
-# Collect pip packages with installer array containing this manager
 PIP_PACKAGES=({{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }})
 
 if [[ ${#PIP_PACKAGES[@]} -eq 0 ]]; then
-    echo "✅ No pip packages to install (all handled by Mason or mise)"
+    log_summary "✓ No pip packages configured"
     exit 0
 fi
 
-echo "📦 Installing ${#PIP_PACKAGES[@]} pip packages..."
-echo "📋 Packages: ${PIP_PACKAGES[*]}"
+# Pre-check
+MISSING=()
+for pkg in "${PIP_PACKAGES[@]}"; do
+    pip show "$pkg" >/dev/null 2>&1 || MISSING+=("$pkg")
+done
 
-# Install all packages at once for better performance
-if pip install "${PIP_PACKAGES[@]}"; then
-    echo "✅ All pip packages installed successfully"
-else
-    echo "⚠️ Some pip packages failed, trying individually..."
-    
-    # Try installing packages individually to identify failures
-    for package in "${PIP_PACKAGES[@]}"; do
-        if pip show "$package" >/dev/null 2>&1; then
-            echo "  ✅ $package already installed"
-        elif pip install "$package" >/dev/null 2>&1; then
-            echo "  ✅ $package installed successfully"
-        else
-            echo "  ❌ Failed to install $package"
-        fi
-    done
+if [[ ${#MISSING[@]} -eq 0 ]]; then
+    log_summary "✓ All ${#PIP_PACKAGES[@]} pip packages up to date"
+    exit 0
 fi
 
-echo "✅ Python pip package installation completed"
+if pip install "${MISSING[@]}" >> "$LOG_FILE" 2>&1; then
+    for pkg in "${MISSING[@]}"; do
+        log_install_result "ok" "$pkg"
+    done
+else
+    for pkg in "${MISSING[@]}"; do
+        if pip show "$pkg" >/dev/null 2>&1; then
+            log_install_result "ok" "$pkg"
+        else
+            log_install_result "fail" "$pkg"
+        fi
+    done
+    log_error "Some pip packages failed. See $LOG_FILE for details."
+fi
