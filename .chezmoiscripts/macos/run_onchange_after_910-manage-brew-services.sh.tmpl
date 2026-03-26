@@ -5,7 +5,6 @@
 
 {{- define "process_service" -}}
 {{- $service := .service }}
-{{- $running_services := .running_services }}
 {{- $excluded := false }}
 {{- range .excluded_services }}
 {{- if eq . $service.name }}{{ $excluded = true }}{{ end }}
@@ -13,7 +12,7 @@
 {{- if not $excluded }}
 
 # Process {{ $service.name }}
-if echo "$running_services" | grep -q "^{{ $service.name }}$"; then
+if echo "$RUNNING_SERVICES" | grep -q "^{{ $service.name }}$"; then
     SERVICE_RUNNING=true
 else
     SERVICE_RUNNING=false
@@ -77,11 +76,11 @@ set +e
 
 echo "🔧 Initial brew services setup..."
 
-# Get currently running services once
-{{- $RUNNING_SERVICES := output "bash" "-c" "brew services list --json | jq -r '.[] | select(.status == \"started\") | .name'" | trim -}}
+# Get currently running services once (detected at runtime, not template evaluation)
+RUNNING_SERVICES=$(brew services list --json | jq -r '.[] | select(.status == "started") | .name')
 
 {{- range $brewServices.macos_services }}
-{{ template "process_service" (dict "service" . "running_services" $RUNNING_SERVICES "excluded_services" $brewServices.excluded_services) }}
+{{ template "process_service" (dict "service" . "excluded_services" $brewServices.excluded_services) }}
 {{- end }}
 
 echo "📊 Final brew services status:"

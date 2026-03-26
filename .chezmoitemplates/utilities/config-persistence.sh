@@ -200,6 +200,63 @@ clear_persistent_config() {
   esac
 }
 
+# List all stored configuration values as JSON (cross-platform)
+list_persistent_config_json() {
+  local storage_method="${1:-$(detect_storage_method)}"
+
+  case "${storage_method}" in
+  defaults)
+    defaults export com.chezmoi.config - 2>/dev/null | plutil -convert json -o - - 2>/dev/null || echo "{}"
+    ;;
+  dconf)
+    # Convert dconf dump to JSON
+    local dump
+    dump=$(dconf dump /com/chezmoi/config/ 2>/dev/null || echo "")
+    if [[ -z "$dump" ]]; then
+      echo "{}"
+      return
+    fi
+    # Parse key=value pairs (dconf uses 'key=value' under [/] section)
+    echo "$dump" | awk '
+      BEGIN { printf "{"; first=1 }
+      /^[^[]/ && /=/ {
+        key=$1; gsub(/-/, "_", key)
+        val=$0; sub(/^[^=]*=/, "", val)
+        gsub(/^'\''|'\''$/, "", val)
+        if (!first) printf ","
+        printf "\"%s\":\"%s\"", key, val
+        first=0
+      }
+      END { printf "}" }
+    '
+    ;;
+  gsettings)
+    echo "{}"
+    ;;
+  xdg_config)
+    local config_file="${XDG_CONFIG_HOME:-$HOME/.config}/chezmoi/persistent-config"
+    if [[ -f "${config_file}" ]]; then
+      # Convert key="value" lines to JSON
+      awk '
+        BEGIN { printf "{"; first=1 }
+        /^[^#]/ && /=/ {
+          split($0, parts, "=")
+          key=parts[1]
+          val=$0; sub(/^[^=]*=/, "", val)
+          gsub(/^"|"$/, "", val)
+          if (!first) printf ","
+          printf "\"%s\":\"%s\"", key, val
+          first=0
+        }
+        END { printf "}" }
+      ' "${config_file}"
+    else
+      echo "{}"
+    fi
+    ;;
+  esac
+}
+
 # Main function for command-line usage
 main() {
   case "${1:-}" in
@@ -220,6 +277,9 @@ main() {
   list)
     list_persistent_config "${2:-}"
     ;;
+  list-json)
+    list_persistent_config_json "${2:-}"
+    ;;
   clear)
     clear_persistent_config "${2:-}"
     ;;
@@ -227,8 +287,8 @@ main() {
     detect_storage_method
     ;;
   *)
-    echo "Usage: $0 {read|write|list|clear|detect} [args...]" >&2
-    echo "Functions available when sourced: read_persistent_config, write_persistent_config, detect_storage_method, extract_toml_value" >&2
+    echo "Usage: $0 {read|write|list|list-json|clear|detect} [args...]" >&2
+    echo "Functions available when sourced: read_persistent_config, write_persistent_config, detect_storage_method, extract_toml_value, list_persistent_config_json" >&2
     exit 1
     ;;
   esac
