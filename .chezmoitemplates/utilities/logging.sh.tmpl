@@ -71,6 +71,18 @@ clear_progress() {
     printf "\r\033[K"
 }
 
+# Emit ✓ or ✗ for a single package install result
+log_install_result() {
+    local status="$1"   # "ok" or "fail"
+    local name="$2"
+    if [[ "$status" == "ok" ]]; then
+        echo "  ✓ $name"
+    else
+        echo "  ✗ $name"
+    fi
+    log_to_file "${status}: $name"
+}
+
 # Export functions for use in other scripts
 export -f log_to_file
 export -f log_detail
@@ -78,3 +90,4 @@ export -f log_summary
 export -f log_section
 export -f show_progress
 export -f clear_progress
+export -f log_install_result
