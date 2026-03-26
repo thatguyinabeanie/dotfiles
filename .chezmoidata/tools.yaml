@@ -1,338 +1,303 @@
 dev_tools:
-  # System monitoring and performance
-  - name: bottom
-    installer: [mise]
+  # ============================================================
+  # DEFAULT PROFILE — Core tools, always installed
+  # ============================================================
 
-  - name: btop
-    # installer: [mise]
+  # Shell essentials
+  - name: zsh
     installer: [brew]
-
-  - name: fastfetch
-    installer: [mise]
-
-  - name: glances
+  - name: starship
     installer: [brew]
-
-  - name: procs
+  - name: fzf
+    installer: [mise]
+  - name: zoxide
+    installer: [mise]
+  - name: carapace
+    installer: [brew]
+  - name: zsh-syntax-highlighting
+    installer: [brew]
+  - name: zsh-autosuggestions
+    installer: [brew]
+  - name: zsh-completions
+    installer: [brew]
+  - name: atuin
     installer: [brew]
 
   # File and directory tools
   - name: eza
     installer: [mise]
-
-  - name: carapace
-    installer: [brew]
-
   - name: fd
     installer: [mise]
-
   - name: ripgrep
     installer: [mise]
-
   - name: bat
     installer: [mise]
-
   - name: tree
     installer: [brew]
-
   - name: dust
     installer: [brew]
-
-  - name: navi
-    installer: [brew]
-
-  - name: sd
-    installer: [brew]
-
   - name: yazi
     installer: [mise]
     description: "Terminal file manager"
 
-  - name: tealdeer
-    installer: [brew]
-
-  - name: ncdu
-    installer: [brew]
-
-  - name: gdu
-    installer: [brew]
-
-  # Data processing tools
+  # Data processing
   - name: jq
     installer: [mise]
-
   - name: yq
-    installer: [mise]
-
-  - name: jaq
-    installer: [brew]
-
-  - name: hyperfine
     installer: [mise]
 
   # Git tools
   - name: gh
     installer: [brew]
-
   - name: delta
     installer: [mise]
-
   - name: lefthook
     installer: [mise]
-
-  - name: gitsign
-    installer: [mise]
-
-  - name: gitui
-    installer: [mise]
-
-  - name: lazydocker
-    installer: [mise]
-
   - name: lazygit
     installer: [mise]
 
-  - name: lazyjournal
+  # Editors
+  - name: neovim
     installer: [mise]
 
-  - name: tig
-    installer: [brew]
-
-  # Infrastructure and cloud tools
-  - name: awscli
-    installer: [brew]
-
-  - name: circleci
-    installer: [brew]
-
-  - name: terraform
-    installer: [mise]
-
-  - name: kubectl
-    installer: [mise]
-
-  - name: helm
-    installer: [mise]
-
-  - name: k9s
-    installer: [mise]
-
-  - name: dive
-    installer: [mise]
-
-  - name: okta-aws-cli
-    installer: [brew]
-
-  # Database tools
-  - name: postgres
-    installer: [mise]
-    description: "PostgreSQL database with psql client"
-
-  - name: mysql
-    installer: [mise]
-    description: "MySql database"
-
-  # DISABLED: Huge apps (install manually if needed).
-  # These GUI/OS-integrated tools are intentionally excluded from the core
-  # shell/dev-tools bootstrap to keep installs lightweight (especially in CI
-  # and ephemeral environments). Install them manually or via a separate
-  # profile if needed.
-  # - name: docker-desktop  # 1+ GB
-  #   installer: [brew_cask]
-
-  # - name: docker-completion
-  #   installer: [brew]
-  #   runtime: native
-  #   version: latest
-  #   description: "Docker completions"
-  #   category: infrastructure
-  #
-  # - name: docker-buildx
-  #   installer: [brew]
-  #   version: latest
-  #   runtime: native
-  #   description: "Modern Docker building"
-  #   category: infrastructure
-
-  - name: glow
-    installer: [brew]
-    description: "Render markdown beautifully in the terminal"
-
-  - name: mdbook
-    installer: [mise]
-
-  - name: pandoc
-    installer: [brew]
-
-  # Programming language runtimes
-  - name: node
-    installer: [mise]
-    version: "24"
-
-  - name: python
-    installer: [mise]
-
-  - name: ruby
-    installer: [mise]
-    version: "3.3.10"
-
-  - name: go
-    installer: [mise]
-
-  - name: lua
-    installer: [brew]
-
-  - name: luarocks
-    installer: [brew]
-
-  - name: rust
-    installer: [mise]
-    version: nightly
-
-  - name: zig
-    installer: [mise]
-
-  - name: java
-    installer: [mise]
-    version: "zulu-8"
-
-  - name: elixir
-    installer: [mise]
-
-  - name: erlang
-    installer: [mise]
-
-  - name: julia
-    installer: [mise]
-    version: "1.12.5"
-
-  # Package managers
-  - name: pnpm
-    installer: [mise]
-
-  - name: yarn
-    installer: [mise]
-
-  - name: npm
-    installer: [mise]
-
-  - name: deno
-    installer: [mise]
-
-  - name: pipx
-    installer: [brew]
-
-  - name: uv
-    installer: [brew]
-
-  - name: cargo-binstall
-    installer: [cargo]
-
-  # Build tools
-  - name: gradle
-    installer: [mise]
-
-  - name: maven
-    installer: [mise]
-
-  - name: cmake
-    installer: [brew]
-
-  - name: make
-    installer: [brew]
-
-  - name: pkg-config
-    installer: [brew]
-    description: "Required for building PostgreSQL and other packages"
-
-  # Security and secrets management
-  - name: 1password-cli
-    installer: [mise]
-
-  # Terminal and shell tools
+  # Terminal multiplexer
   - name: tmux
     installer: [brew]
-
-  - name: zellij
-    installer: [mise]
-
-  - name: starship
-    installer: [brew]
-
-  - name: fzf
-    installer: [mise]
-
-  - name: television
-    installer: [brew]
-    description: "TUI fuzzy finder"
-
-  - name: zoxide
-    installer: [mise]
-
   - name: sesh
     installer: [brew]
     description: "Smart session manager for tmux with zoxide integration"
 
-  # Editors and IDEs
-  - name: neovim
+  # System monitoring
+  - name: btop
+    installer: [brew]
+  - name: fastfetch
     installer: [mise]
 
-  - name: helix
+  # Core language runtimes
+  - name: node
     installer: [mise]
+    version: "24"
+  - name: python
+    installer: [mise]
+  - name: go
+    installer: [mise]
+  - name: rust
+    installer: [mise]
+    version: nightly
 
-  - name: pokeget
+  # Core package managers
+  - name: pnpm
+    installer: [mise]
+  - name: npm
+    installer: [mise]
+  - name: pipx
+    installer: [brew]
+  - name: uv
+    installer: [brew]
+  - name: cargo-binstall
     installer: [cargo]
-    description: "Pokeget"
 
-  # Dotfiles management
+  # Build essentials
+  - name: cmake
+    installer: [brew]
+  - name: make
+    installer: [brew]
+  - name: pkg-config
+    installer: [brew]
+    description: "Required for building PostgreSQL and other packages"
+  - name: lua
+    installer: [brew]
+  - name: luarocks
+    installer: [brew]
+
+  # Dotfiles and tooling management
   - name: chezmoi
     installer: [brew]
-
-    # Curl-based installations
   - name: mise
     installer: [curl]
-
-  # Zsh plugins (Homebrew - faster than plugin managers)
-  - name: zsh-syntax-highlighting
-    installer: [brew]
-
-  - name: zsh-autosuggestions
-    installer: [brew]
-
-  - name: zsh-completions
-    installer: [brew]
-
-  # ZSH plugin manager and plugins
   - name: zinit
     installer: [curl]
-    
-  - name: atuin
-    installer: [brew]
-    
-  # Shells
-  - name: zsh
-    installer: [brew]
 
-  - name: fish
+  # Markdown/docs
+  - name: glow
     installer: [brew]
+    description: "Render markdown beautifully in the terminal"
 
-  # Atlassian tools
-  - name: acli
-    installer: [brew]
-    description: "Atlassian CLI for Jira, Confluence, etc."
-
-  # Image/graphics tools
+  # Image/graphics (required by neovim plugins)
   - name: resvg
     installer: [brew]
     description: "SVG rendering library for Mermaid diagrams in Neovim"
-
   - name: imagemagick
     installer: [brew]
     description: "Image manipulation library required by image.nvim"
-
   - name: "@mermaid-js/mermaid-cli"
     installer: [npm]
     description: "Mermaid CLI for rendering diagrams to images"
+
+  # Security
+  - name: 1password-cli
+    installer: [mise]
+
+  # ============================================================
+  # EDITORS PROFILE — Extra editors, terminals, and shell tools
+  # ============================================================
+  - name: helix
+    installer: [mise]
+    profiles: [editors]
+  - name: zellij
+    installer: [mise]
+    profiles: [editors]
+  - name: fish
+    installer: [brew]
+    profiles: [editors]
+  - name: television
+    installer: [brew]
+    description: "TUI fuzzy finder"
+    profiles: [editors]
+
+  # ============================================================
+  # INFRA PROFILE — Cloud, containers, and infrastructure
+  # ============================================================
+  - name: awscli
+    installer: [brew]
+    profiles: [infra]
+  - name: circleci
+    installer: [brew]
+    profiles: [infra]
+  - name: terraform
+    installer: [mise]
+    profiles: [infra]
+  - name: kubectl
+    installer: [mise]
+    profiles: [infra]
+  - name: helm
+    installer: [mise]
+    profiles: [infra]
+  - name: k9s
+    installer: [mise]
+    profiles: [infra]
+  - name: dive
+    installer: [mise]
+    profiles: [infra]
+  - name: okta-aws-cli
+    installer: [brew]
+    profiles: [infra]
+  - name: lazydocker
+    installer: [mise]
+    profiles: [infra]
+  - name: acli
+    installer: [brew]
+    description: "Atlassian CLI for Jira, Confluence, etc."
+    profiles: [infra]
+
+  # ============================================================
+  # DATABASES PROFILE — Database runtimes
+  # ============================================================
+  - name: postgres
+    installer: [mise]
+    description: "PostgreSQL database with psql client"
+    profiles: [databases]
+  - name: mysql
+    installer: [mise]
+    description: "MySql database"
+    profiles: [databases]
+
+  # ============================================================
+  # LANGUAGES PROFILE — Additional language runtimes
+  # ============================================================
+  - name: ruby
+    installer: [mise]
+    version: "3.3.10"
+    profiles: [languages]
+  - name: zig
+    installer: [mise]
+    profiles: [languages]
+  - name: java
+    installer: [mise]
+    version: "zulu-8"
+    profiles: [languages]
+  - name: elixir
+    installer: [mise]
+    profiles: [languages]
+  - name: erlang
+    installer: [mise]
+    profiles: [languages]
+  - name: julia
+    installer: [mise]
+    version: "1.12.5"
+    profiles: [languages]
+  - name: deno
+    installer: [mise]
+    profiles: [languages]
+  - name: yarn
+    installer: [mise]
+    profiles: [languages]
+  - name: gradle
+    installer: [mise]
+    profiles: [languages]
+  - name: maven
+    installer: [mise]
+    profiles: [languages]
+
+  # ============================================================
+  # PUBLISHING PROFILE — Document and book publishing
+  # ============================================================
+  - name: mdbook
+    installer: [mise]
+    profiles: [publishing]
+  - name: pandoc
+    installer: [brew]
+    profiles: [publishing]
+
+  # ============================================================
+  # EXTRAS PROFILE — Nice-to-have CLI tools
+  # ============================================================
+  - name: bottom
+    installer: [mise]
+    profiles: [extras]
+  - name: glances
+    installer: [brew]
+    profiles: [extras]
+  - name: procs
+    installer: [brew]
+    profiles: [extras]
+  - name: navi
+    installer: [brew]
+    profiles: [extras]
+  - name: sd
+    installer: [brew]
+    profiles: [extras]
+  - name: tealdeer
+    installer: [brew]
+    profiles: [extras]
+  - name: ncdu
+    installer: [brew]
+    profiles: [extras]
+  - name: gdu
+    installer: [brew]
+    profiles: [extras]
+  - name: jaq
+    installer: [brew]
+    profiles: [extras]
+  - name: hyperfine
+    installer: [mise]
+    profiles: [extras]
+  - name: gitsign
+    installer: [mise]
+    profiles: [extras]
+  - name: gitui
+    installer: [mise]
+    profiles: [extras]
+  - name: lazyjournal
+    installer: [mise]
+    profiles: [extras]
+  - name: tig
+    installer: [brew]
+    profiles: [extras]
+  - name: pokeget
+    installer: [cargo]
+    description: "Pokeget"
+    profiles: [extras]
 
 # NOTE: AI agents and MCP servers are now managed in separate files:
 # - .chezmoidata/agents.yaml

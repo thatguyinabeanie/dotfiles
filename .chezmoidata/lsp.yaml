@@ -1,27 +1,16 @@
 language_servers:
-  # JavaScript/TypeScript ecosystem
+  # ============================================================
+  # DEFAULT PROFILE — Core LSP servers for everyday languages
+  # ============================================================
+
+  # JavaScript/TypeScript
   - name: typescript-language-server
     lspconfig_name: ts_ls
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     installer: [npm, mason]
     provides_formatting: false
 
-  - name: "@prisma/language-server"
-    mason_name: prisma-language-server
-    lspconfig_name: prismals
-    languages: [prisma]
-    installer: [npm, mason]
-    provides_formatting: true
-
-  # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this functionality
-
-  # Systems languages
-  - name: rust-analyzer
-    lspconfig_name: rust_analyzer
-    languages: [rust]
-    installer: [mise, mason]
-    provides_formatting: true
-
+  # Go
   - name: gopls
     lspconfig_name: gopls
     languages: [go]
@@ -29,50 +18,42 @@ language_servers:
     provides_formatting: true
     install_command: "golang.org/x/tools/gopls@latest"
 
-  - name: zls
-    lspconfig_name: zls
-    languages: [zig]
-    installer: [brew, mason]
-    provides_formatting: true
-
-  # Scripting languages
-  - name: bash-language-server
-    lspconfig_name: bashls
-    languages: [bash, sh, zsh]
-    installer: [npm, mason]
+  - name: golangci-lint-langserver
+    lspconfig_name: golangci_lint_ls
+    languages: [go]
+    installer: [go, mason]
     provides_formatting: false
+    install_command: "github.com/nametake/golangci-lint-langserver@latest"
 
-  - name: lua-language-server
-    lspconfig_name: lua_ls
-    languages: [lua]
+  # Rust
+  - name: rust-analyzer
+    lspconfig_name: rust_analyzer
+    languages: [rust]
     installer: [mise, mason]
     provides_formatting: true
 
-  - name: ruby-lsp
-    lspconfig_name: ruby_lsp
-    languages: [ruby]
-    installer: [gem]  # gem (not mason): Mason wraps ruby via a $bindir/ruby symlink that breaks when mise updates Ruby
-    provides_formatting: false
-
+  # Python
   - name: pyright
     lspconfig_name: pyright
     languages: [python]
     installer: [brew, mason]
     provides_formatting: false
 
-  # Web technologies
-  - name: css-lsp
-    lspconfig_name: cssls
-    languages: [css, scss, sass]
-    installer: [mason]
+  # Shell
+  - name: bash-language-server
+    lspconfig_name: bashls
+    languages: [bash, sh, zsh]
+    installer: [npm, mason]
     provides_formatting: false
 
-  - name: html-lsp
-    lspconfig_name: html
-    languages: [html]
-    installer: [mason]
-    provides_formatting: false
+  # Lua (needed for neovim config)
+  - name: lua-language-server
+    lspconfig_name: lua_ls
+    languages: [lua]
+    installer: [mise, mason]
+    provides_formatting: true
 
+  # Markup and data
   - name: json-lsp
     lspconfig_name: jsonls
     languages: [json, jsonc]
@@ -86,7 +67,6 @@ language_servers:
     installer: [mason]
     provides_formatting: false
 
-  # Documentation and markup
   - name: marksman
     lspconfig_name: marksman
     languages: [markdown]
@@ -100,55 +80,7 @@ language_servers:
     provides_formatting: false
     install_command: "cargo install --locked --git https://github.com/Feel-ix-343/markdown-oxide.git markdown-oxide"
 
-  # vale-ls removed - doesn't support go install, vale already available via brew
-
-  # Infrastructure and DevOps
-  - name: dockerfile-language-server
-    lspconfig_name: dockerls
-    languages: [dockerfile]
-    installer: [mason]
-    provides_formatting: false
-
-  # nginx-language-server removed - doesn't exist on npm
-
-  # systemd-language-server removed - Linux-specific, not needed on macOS
-
-  # Specialized tools
-  - name: neocmakelsp
-    lspconfig_name: neocmake
-    languages: [cmake]
-    installer: [mason]
-    provides_formatting: true
-
-  - name: vim-language-server
-    lspconfig_name: vimls
-    languages: [vim]
-    installer: [npm, mason]
-    provides_formatting: false
-
-  # CI/CD and GitHub
-  - name: gh-actions-language-server
-    lspconfig_name: gh_actions_ls
-    languages: [yaml]
-    installer: [npm, mason]
-    provides_formatting: false
-
-  - name: copilot-language-server
-    lspconfig_name: copilot
-    languages: [text]
-    installer: [mason]
-    provides_formatting: false
-
-  # circleci-yaml-language-server removed - doesn't exist on npm
-
-  # Linter language servers
-  - name: golangci-lint-langserver
-    lspconfig_name: golangci_lint_ls
-    languages: [go]
-    installer: [go, mason]
-    provides_formatting: false
-    install_command: "github.com/nametake/golangci-lint-langserver@latest"
-
+  # Spelling/typos
   - name: typos-lsp
     lspconfig_name: typos_lsp
     languages: [text, markdown]
@@ -156,18 +88,106 @@ language_servers:
     provides_formatting: false
     install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
 
-  # Shell and fish
-  - name: fish-lsp
-    lspconfig_name: fish_lsp
-    languages: [fish]
+  # CI/CD
+  - name: gh-actions-language-server
+    lspconfig_name: gh_actions_ls
+    languages: [yaml]
+    installer: [npm, mason]
+    provides_formatting: false
+
+  # Containers
+  - name: dockerfile-language-server
+    lspconfig_name: dockerls
+    languages: [dockerfile]
     installer: [mason]
     provides_formatting: false
 
-  # Generic diagnostic server
+  # AI copilot
+  - name: copilot-language-server
+    lspconfig_name: copilot
+    languages: [text]
+    installer: [mason]
+    provides_formatting: false
+
+  # Generic diagnostic
   - name: diagnostic-languageserver
     lspconfig_name: diagnosticls
     languages: [text]
     installer: [npm, mason]
     provides_formatting: false
-# Updated Thu Sep 18 23:00:04 CDT 2025
-# Last updated: $(date)
+
+  # ============================================================
+  # LANGUAGES PROFILE — LSPs for additional languages
+  # ============================================================
+
+  # Ruby
+  - name: ruby-lsp
+    lspconfig_name: ruby_lsp
+    languages: [ruby]
+    installer: [gem]
+    provides_formatting: false
+    profiles: [languages]
+
+  # Zig
+  - name: zls
+    lspconfig_name: zls
+    languages: [zig]
+    installer: [brew, mason]
+    provides_formatting: true
+    profiles: [languages]
+
+  # Prisma (ORM)
+  - name: "@prisma/language-server"
+    mason_name: prisma-language-server
+    lspconfig_name: prismals
+    languages: [prisma]
+    installer: [npm, mason]
+    provides_formatting: true
+    profiles: [languages]
+
+  # Vim
+  - name: vim-language-server
+    lspconfig_name: vimls
+    languages: [vim]
+    installer: [npm, mason]
+    provides_formatting: false
+    profiles: [languages]
+
+  # ============================================================
+  # EDITORS PROFILE — LSPs for alternative shells/editors
+  # ============================================================
+
+  # Fish shell
+  - name: fish-lsp
+    lspconfig_name: fish_lsp
+    languages: [fish]
+    installer: [mason]
+    provides_formatting: false
+    profiles: [editors]
+
+  # ============================================================
+  # EXTRAS PROFILE — Specialty LSPs
+  # ============================================================
+
+  # Web (HTML/CSS)
+  - name: css-lsp
+    lspconfig_name: cssls
+    languages: [css, scss, sass]
+    installer: [mason]
+    provides_formatting: false
+    profiles: [extras]
+
+  - name: html-lsp
+    lspconfig_name: html
+    languages: [html]
+    installer: [mason]
+    provides_formatting: false
+    profiles: [extras]
+
+  # CMake
+  - name: neocmakelsp
+    lspconfig_name: neocmake
+    languages: [cmake]
+    installer: [mason]
+    provides_formatting: true
+    profiles: [extras]

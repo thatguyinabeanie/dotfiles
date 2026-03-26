@@ -6,19 +6,6 @@ macos_services:
     description: "Aerospace window manager service"
     condition: always
 
-  - name: borders
-    type: brew_service
-    action: stop
-    description: "Window border service (jankyborders)"
-    condition: always
-
-  # System services
-  - name: yabai
-    type: brew_service
-    action: stop
-    description: "Alternative window manager (disabled)"
-    condition: never
-
 # Development services (excluded from auto-management)
 excluded_services:
   - postgresql

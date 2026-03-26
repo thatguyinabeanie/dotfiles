@@ -1,21 +1,24 @@
 linters:
-  # Shell linters
+  # ============================================================
+  # DEFAULT PROFILE — Core linters for everyday work
+  # ============================================================
+
+  # Shell
   - name: shellcheck
     languages: [bash, sh, zsh]
     installer: [brew, mason]
 
+  # Lua (needed for neovim config)
   - name: luacheck
     languages: [lua]
     installer: [brew, mason]
 
-  # Web development linters
+  # Web development
   - name: eslint_d
     languages: [typescript, javascript, javascriptreact, typescriptreact]
     installer: [npm, mason]
 
-  # vscode-eslint-language-server removed - doesn't exist on npm, eslint_d covers this
-
-  # Markup and documentation linters
+  # Markdown and documentation
   - name: vale
     languages: [markdown, text]
     installer: [brew, mason]
@@ -28,25 +31,7 @@ linters:
     languages: [markdown]
     installer: [npm]
 
-  # Container and infrastructure linters
-  - name: hadolint
-    languages: [dockerfile]
-    installer: [brew, mason]
-
-  - name: kube-linter
-    languages: [yaml]
-    installer: [mise, mason]
-
-  - name: tflint
-    languages: [terraform]
-    installer: [brew, mason]
-
-  # YAML linters
-  - name: yamllint
-    languages: [yaml]
-    installer: [mise, mason]
-
-  # Go linters
+  # Go
   - name: golangci-lint
     languages: [go]
     installer: [mise, mason]
@@ -55,52 +40,28 @@ linters:
     languages: [go]
     installer: [mise, mason]
 
-  # Python linters
+  # Python
   - name: ruff
     languages: [python]
     installer: [mise, mason]
 
-  - name: flake8
-    languages: [python]
-    installer: [mason]
-
-  - name: pylint
-    languages: [python]
-    installer: [mason]
-
-  - name: mypy
-    languages: [python]
-    installer: [mason]
-
-  # Ruby linters
-  - name: rubocop
-    languages: [ruby]
-    installer: [gem]  # gem (not mason): Mason's ruby symlink breaks on mise Ruby updates, causing exit code 126
-
-  - name: haml-lint
-    languages: [haml]
-    installer: [mason]
-
-  # Environment and configuration linters
-  - name: dotenv-linter
-    languages: [env]
+  # YAML
+  - name: yamllint
+    languages: [yaml]
     installer: [mise, mason]
 
-  # Security linters
+  # Rust (bundled with toolchain)
+  - name: clippy
+    languages: [rust]
+    installer: [rustup]
+    install_command: "rustup component add clippy"
+
+  # Security
   - name: gitleaks
     languages: [git]
     installer: [mise, mason]
 
-  - name: semgrep
-    languages: [python, javascript, typescript, go, java, ruby]
-    installer: [mise, mason]
-
-  - name: bandit
-    languages: [python]
-    installer: [mason]
-
-  # Spelling and typo linters
-  # Note: typos-lsp is in lsp.yaml (it's a language server, not just a linter)
+  # Spelling
   - name: typos
     languages: [text, markdown]
     installer: [mise, mason]
@@ -109,27 +70,84 @@ linters:
     languages: [text, markdown, code]
     installer: [brew, mason]
 
-  # JSON linters
+  # JSON
   - name: jsonlint
     languages: [json]
     installer: [npm, mason]
 
-  # SQL linters
+  # Containers
+  - name: hadolint
+    languages: [dockerfile]
+    installer: [brew, mason]
+
+  # Environment files
+  - name: dotenv-linter
+    languages: [env]
+    installer: [mise, mason]
+
+  # ============================================================
+  # INFRA PROFILE — Infrastructure-specific linters
+  # ============================================================
+  - name: kube-linter
+    languages: [yaml]
+    installer: [mise, mason]
+    profiles: [infra]
+
+  - name: tflint
+    languages: [terraform]
+    installer: [brew, mason]
+    profiles: [infra]
+
+  # ============================================================
+  # LANGUAGES PROFILE — Additional language linters
+  # ============================================================
+
+  # Python (extras beyond ruff)
+  - name: flake8
+    languages: [python]
+    installer: [mason]
+    profiles: [languages]
+
+  - name: pylint
+    languages: [python]
+    installer: [mason]
+    profiles: [languages]
+
+  - name: mypy
+    languages: [python]
+    installer: [mason]
+    profiles: [languages]
+
+  # Ruby
+  - name: rubocop
+    languages: [ruby]
+    installer: [gem]
+    profiles: [languages]
+
+  - name: haml-lint
+    languages: [haml]
+    installer: [mason]
+    profiles: [languages]
+
+  # ============================================================
+  # EXTRAS PROFILE — Specialty linters
+  # ============================================================
+  - name: semgrep
+    languages: [python, javascript, typescript, go, java, ruby]
+    installer: [mise, mason]
+    profiles: [extras]
+
+  - name: bandit
+    languages: [python]
+    installer: [mason]
+    profiles: [extras]
+
   - name: sqlfluff
     languages: [sql]
     installer: [mason]
+    profiles: [databases]
 
-  # Rust linters (built into toolchain)
-  - name: clippy
-    languages: [rust]
-    installer: [rustup]
-    install_command: "rustup component add clippy"
-    # Note: clippy is not available in Mason registry, managed via rustup
-
-  # Protocol buffer linters
   - name: buf
     languages: [proto]
     installer: [mise, mason]
-
-  # Nginx configuration linter
-  # nginx-linter removed - doesn't exist on npm
+    profiles: [extras]

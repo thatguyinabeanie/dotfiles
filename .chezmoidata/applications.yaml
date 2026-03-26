@@ -1,8 +1,19 @@
 # .chezmoidata/applications.yaml
-# A comprehensive list of GUI applications, categorized by context.
+# GUI applications, organized by context and profile.
+#
+# Profiles:
+#   (no profiles)  = default, always installed
+#   creative       = music, design, video, photo editing
+#   3d-printing    = slicers, CAD, mesh tools
+#   editors        = extra code editors and terminals
+#   productivity   = daily productivity and communication apps
+#   mobile-dev     = mobile app development
+#   publishing     = document/LaTeX publishing
+#   social         = chat and social apps
+
 applications:
   work:
-    # Work-specific applications
+    # Work-specific — always installed when WORK_ENVIRONMENT=true
     - name: aws-vpn-client
       installer: [brew_cask]
     - name: lastpass
@@ -11,27 +22,16 @@ applications:
       installer: [brew_cask]
 
   shared:
-    # Shared applications for all environments
+    # ============================================================
+    # DEFAULT — Core apps, always installed
+    # ============================================================
     - name: aerospace
       installer: [brew_cask]
     - name: claude
       installer: [brew_cask]
-    - name: claude-devtools
-      installer: [brew_cask]
     - name: claude-island
       installer: [brew_cask]
-    - name: claudebar
-      installer: [brew_cask]
-    - name: cursor
-      installer: [brew_cask]
-    # Shared optional apps that are still installed by default
-    - name: cyberduck
-      installer: [brew_cask]
-    - name: disk-inventory-x
-      installer: [brew_cask]
     - name: espanso
-      installer: [brew_cask]
-    - name: firefox
       installer: [brew_cask]
     - name: ghostty
       installer: [brew_cask]
@@ -41,93 +41,128 @@ applications:
       installer: [brew_cask]
     - name: keka
       installer: [brew_cask]
-    # - name: kindaVim
-    #   installer: [brew_cask]
-    - name: kitty
-      installer: [brew_cask]
     - name: linear-linear
-      installer: [brew_cask]
-    - name: mactex-no-gui  # 4+ GB
       installer: [brew_cask]
     - name: ngrok
       installer: [brew_cask]
-    - name: obsidian
-      installer: [brew_cask]
-    # - name: opera
-    #   installer: [brew_cask]
-    # - name: postman
-    #   installer: [brew_cask]
     - name: raycast
-      installer: [brew_cask]
-    - name: slack
       installer: [brew_cask]
     - name: sf-symbols
       installer: [brew_cask]
-    - name: tidal
+
+    # ============================================================
+    # EDITORS — Extra code editors and terminals
+    # ============================================================
+    - name: cursor
       installer: [brew_cask]
+      profiles: [editors]
+    - name: kitty
+      installer: [brew_cask]
+      profiles: [editors]
     - name: visual-studio-code@insiders
       installer: [brew_cask]
+      profiles: [editors]
     - name: zed
       installer: [brew_cask]
+      profiles: [editors]
+
+    # ============================================================
+    # PRODUCTIVITY — Daily productivity and communication
+    # ============================================================
+    - name: claude-devtools
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: cyberduck
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: disk-inventory-x
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: firefox
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: obsidian
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: slack
+      installer: [brew_cask]
+      profiles: [productivity]
+    - name: tidal
+      installer: [brew_cask]
+      profiles: [productivity]
+
+    # ============================================================
+    # PUBLISHING — LaTeX and document tools
+    # ============================================================
+    - name: mactex-no-gui  # 4+ GB
+      installer: [brew_cask]
+      profiles: [publishing]
 
   personal:
-    # Personal applications
+    # ============================================================
+    # DEFAULT — Core personal apps, always installed
+    # ============================================================
     - name: 1password
       installer: [brew_cask]
     - name: 1password-cli
       installer: [brew_cask]
-    - name: ableton-live-suite  # 70+ GB
-      installer: [brew_cask]
-    - name: affinity  # 2+ GB
-      installer: [brew_cask]
-    - name: android-studio  # 1+ GB
-      installer: [brew_cask]
-    - name: blender  # 2+ GB
-      installer: [brew_cask]
-
-    # 3D Printing
-    - name: bambu-studio  # ~1 GB
-      installer: [brew_cask]
-    - name: freecad  # ~500 MB
-      installer: [brew_cask]
-    - name: meshlab
-      installer: [brew_cask]
-    - name: openscad
-      installer: [brew_cask]
-    - name: orcaslicer
-      installer: [brew_cask]
-
-    - name: betterdiscord-installer
-      installer: [brew_cask]
-    - name: darktable
-      installer: [brew_cask]
-    - name: discord
-      installer: [brew_cask]
-    - name: expo-orbit
-      installer: [brew_cask]
     - name: figma
-      installer: [brew_cask]
-    - name: obs
       installer: [brew_cask]
     - name: temurin@8
       installer: [brew_cask]
       description: "Eclipse Temurin JDK 8"
 
-    # REMOVED: Mac App Store apps (install manually via App Store if needed)
-    # mas CLI removed from dotfiles automation
-    # - name: "Final Cut Pro"  # 3+ GB
-    #   app_id: 424389933
-    # - name: "Logic Pro"  # 2+ GB
-    #   app_id: 634148309
-    # - name: "Motion"  # 2+ GB
-    #   app_id: 434290957
-    # - name: "GarageBand"
-    #   app_id: 682658836
-    # - name: "Rosetta Stone Learn Languages"
-    #   app_id: 1476088902
-    # - name: "Xcode"  # 10+ GB
-    #   app_id: 497799835
-    # - name: "Compressor"  # 2+ GB
-    #   app_id: 424390742
-    # - name: "FileZilla Pro"
-    #   app_id: 1298486723
+    # ============================================================
+    # CREATIVE — Music, design, video, photo
+    # ============================================================
+    - name: ableton-live-suite  # 70+ GB
+      installer: [brew_cask]
+      profiles: [creative]
+    - name: affinity  # 2+ GB
+      installer: [brew_cask]
+      profiles: [creative]
+    - name: blender  # 2+ GB
+      installer: [brew_cask]
+      profiles: [creative]
+    - name: darktable
+      installer: [brew_cask]
+      profiles: [creative]
+    - name: obs
+      installer: [brew_cask]
+      profiles: [creative]
+
+    # ============================================================
+    # 3D-PRINTING — Slicers, CAD, mesh tools
+    # ============================================================
+    - name: freecad  # ~500 MB
+      installer: [brew_cask]
+      profiles: [3d-printing]
+    - name: meshlab
+      installer: [brew_cask]
+      profiles: [3d-printing]
+    - name: openscad
+      installer: [brew_cask]
+      profiles: [3d-printing]
+    - name: orcaslicer
+      installer: [brew_cask]
+      profiles: [3d-printing]
+
+    # ============================================================
+    # MOBILE-DEV — Mobile app development
+    # ============================================================
+    - name: android-studio  # 1+ GB
+      installer: [brew_cask]
+      profiles: [mobile-dev]
+    - name: expo-orbit
+      installer: [brew_cask]
+      profiles: [mobile-dev]
+
+    # ============================================================
+    # SOCIAL — Chat and social apps
+    # ============================================================
+    - name: discord
+      installer: [brew_cask]
+      profiles: [social]
+    - name: betterdiscord-installer
+      installer: [brew_cask]
+      profiles: [social]
