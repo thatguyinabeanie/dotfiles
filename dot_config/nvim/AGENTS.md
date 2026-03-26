@@ -357,4 +357,4 @@ Seamless navigation between Neovim windows and tmux panes using `Ctrl+h/j/k/l`.
 
 ## Related Documentation
 
-- [Tmux Agent Guide](../tmux/AGENTS.md) — vim-tmux-navigator for seamless pane navigation
+- [Tmux Agent Guide](../tmux/AGENTS.md)—vim-tmux-navigator for seamless pane navigation

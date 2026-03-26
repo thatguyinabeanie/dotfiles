@@ -7,8 +7,8 @@
 
 chezmoi is the dominant dotfile manager in 2025-2026, with 18.7k GitHub stars, active development,
 and the strongest feature set for multi-machine templating, encryption, and password manager
-integration. This repository's setup — data-driven YAML package management, profile-based
-conditional installation, 1Password integration, and `run_onchange_` scripts — aligns with
+integration. This repository's setup—data-driven YAML package management, profile-based
+conditional installation, 1Password integration, and `run_onchange_` scripts—aligns with
 current best practices and is more sophisticated than the vast majority of public dotfiles repos.
 Nix/Home Manager is the only tool representing a fundamentally different paradigm (packages AND
 config in one declarative system with atomic rollbacks), but it comes with a steep learning curve,
@@ -56,7 +56,7 @@ Linux becomes a primary platform.
 
 ### Quick Recommendation by Use Case
 
-| Use Case | Best Tool(s) |
+| Use Case | Best Tools |
 |----------|-------------|
 | General-purpose, multi-machine | **chezmoi** |
 | Minimalist, no dependencies | **bare git repo** |
@@ -156,13 +156,13 @@ go, zig, elixir, erlang, julia, gradle, maven, deno, pnpm, uv, pipx, cmake, make
 
 **Likely missing or requiring special handling:**
 
-- `okta-aws-cli` — enterprise tool, probably not in nixpkgs
-- `acli` (Atlassian CLI) — from custom Homebrew tap, almost certainly not in nixpkgs
-- `rust nightly` — requires fenix or oxalica overlay, not just `pkgs.rustc`
-- `java zulu-8` — specific JDK distribution needs custom packaging
-- `lazyjournal` — newer tool, may not be packaged yet
-- `sesh`, `television`, `carapace` — niche tools, availability uncertain
-- `pokeget` — niche Rust crate, unlikely in nixpkgs
+- `okta-aws-cli`—enterprise tool, probably not in nixpkgs
+- `acli` (Atlassian CLI)—from custom Homebrew tap, almost certainly not in nixpkgs
+- `rust nightly`—requires fenix or oxalica overlay, not just `pkgs.rustc`
+- `java zulu-8`—specific JDK distribution needs custom packaging
+- `lazyjournal`—newer tool, may not be packaged yet
+- `sesh`, `television`, `carapace`—niche tools, availability uncertain
+- `pokeget`—niche Rust crate, unlikely in nixpkgs
 
 **GUI apps (brew casks): ~0% native coverage**
 
@@ -223,7 +223,7 @@ working setup -> note macOS is second-class.
   undervalued, Home Manager generated configs felt "not theirs," dotfiles in Nix expressions
   aren't usable outside Nix
 
-**Hybrid approach**: Many experienced users run both — Home Manager for Nix-native config,
+**Hybrid approach**: Many experienced users run both—Home Manager for Nix-native config,
 chezmoi for cross-platform dotfiles that need to work on non-Nix machines.
 
 ### Verdict
@@ -248,13 +248,13 @@ With well-organized `run_once_before_` scripts, this bootstraps an entire dev en
 
 ### Script Execution Order
 
-1. `run_once_before_` scripts (alphabetical) — run once per content version, before file updates
-2. `run_onchange_before_` scripts — run when content changes, before file updates
+1. `run_once_before_` scripts (alphabetical)—run once per content version, before file updates
+2. `run_onchange_before_` scripts—run when content changes, before file updates
 3. File, directory, and symlink updates
-4. `run_once_after_` / `run_onchange_after_` scripts — after file updates
+4. `run_once_after_` / `run_onchange_after_` scripts—after file updates
 
 The `run_onchange_` variant with template hashing (hashing `.chezmoidata/*.yaml` content) means
-install scripts only re-run when the package list changes — not on every `chezmoi apply`. This
+install scripts only re-run when the package list changes—not on every `chezmoi apply`. This
 repository already uses this pattern.
 
 ### Cloud-init / VPS Bootstrap
@@ -278,11 +278,13 @@ GitHub Codespaces has native dotfiles support. Key requirements:
 
 - Install script must be fully non-interactive
 - Detect `$CODESPACES` env var in templates to skip GUI apps and heavy installs:
-  ```
+
+  ```text
   {{ if env "CODESPACES" }}
   # skip Mac-specific tools, GUI apps, heavy installs
   {{ end }}
   ```
+
 - Set `sourceDir` in `chezmoi.toml.tmpl` (Codespaces clones to non-standard path)
 
 ### Dev Containers
@@ -307,7 +309,7 @@ Generates dotfiles for a config profile and pushes via SSH. Limitation: `chezmoi
 for the local machine's template context; a dedicated server config can work around this.
 
 **`chezmoi ssh` command**: On the roadmap
-([GitHub issue #3676](https://github.com/twpayne/chezmoi/issues/3676)) — would SSH into a machine
+([GitHub issue #3676](https://github.com/twpayne/chezmoi/issues/3676))—would SSH into a machine
 and temporarily apply dotfiles for that session. Not yet shipped as of early 2026.
 
 ### Nix Flake Bootstrapping (for comparison)
@@ -332,7 +334,7 @@ handles user dotfiles and personal tool configuration. A dedicated Ansible role
 ### Tier 1: 1Password CLI (Zero-Disk-Exposure)
 
 The most popular approach for power users with a 1Password subscription. Secrets are fetched at
-`chezmoi apply` time via Go template functions — never written to disk unencrypted.
+`chezmoi apply` time via Go template functions—never written to disk unencrypted.
 
 **Template functions:**
 
@@ -346,15 +348,15 @@ The most popular approach for power users with a 1Password subscription. Secrets
 
 **Operational modes:**
 
-- **Account Mode** (default) — uses desktop app or biometric auth. With Touch ID, no prompts.
-- **Service Account Mode** — for restricted servers; requires `OP_SERVICE_ACCOUNT_TOKEN`. Single
+- **Account Mode** (default)—uses desktop app or biometric auth. With Touch ID, no prompts.
+- **Service Account Mode**—for restricted servers; requires `OP_SERVICE_ACCOUNT_TOKEN`. Single
   account only.
-- **Connect Mode** — self-hosted 1Password Connect server; requires `OP_CONNECT_HOST` +
+- **Connect Mode**—self-hosted 1Password Connect server; requires `OP_CONNECT_HOST` +
   `OP_CONNECT_TOKEN`.
 
 ### Tier 2: age Encryption (Local-First, Offline-Capable)
 
-Modern successor to GPG — simple, audited, no key expiry complexity.
+Modern successor to GPG—simple, audited, no key expiry complexity.
 
 ```bash
 # Generate key (once)
@@ -371,7 +373,7 @@ age-keygen -o ~/.config/chezmoi/key.txt
 chezmoi add --encrypt ~/.ssh/id_ed25519
 ```
 
-age supports encryption to SSH public keys (`-R ~/.ssh/id_ed25519.pub`) — useful for
+age supports encryption to SSH public keys (`-R ~/.ssh/id_ed25519.pub`)—useful for
 bootstrapping since you only need SSH access to decrypt the age key.
 
 ### Tier 3: SOPS (Structured Secret Files)
@@ -414,7 +416,7 @@ deliberate refresh step when secrets rotate.
 
 ### Security Non-Negotiables
 
-- Never commit plaintext secrets — use pre-commit hooks (gitleaks, truffleHog, git-secrets)
+- Never commit plaintext secrets—use pre-commit hooks (gitleaks, truffleHog, git-secrets)
 - `.chezmoiignore` key files: `.ssh/id_*`, `.gnupg/`, `key.txt`
 - Separate vaults by sensitivity (dev vs production)
 - For SSH keys: store in 1Password (has SSH agent support), or encrypt with age
@@ -430,17 +432,17 @@ deliberate refresh step when secrets rotate.
 | [mathiasbynens/dotfiles](https://github.com/mathiasbynens/dotfiles) | ~31k | macOS defaults script; the gold standard reference |
 | [thoughtbot/dotfiles](https://github.com/thoughtbot/dotfiles) | ~8k | rcm-based; well-organized for teams |
 | [holman/dotfiles](https://github.com/holman/dotfiles) | ~7k+ | Topical organization pattern; auto-sourcing zsh |
-| [twpayne/dotfiles](https://github.com/twpayne/dotfiles) | — | chezmoi author's own dotfiles; reference implementation |
+| [twpayne/dotfiles](https://github.com/twpayne/dotfiles) |—| chezmoi author's own dotfiles; reference implementation |
 
 ### Architecturally Interesting (2024-2025)
 
-- [basnijholt/dotfiles](https://github.com/basnijholt/dotfiles) — Combines NixOS, nix-darwin,
+- [basnijholt/dotfiles](https://github.com/basnijholt/dotfiles)—Combines NixOS, nix-darwin,
   Homebrew, dotbot, dotbins across macOS and Linux. Comprehensive multi-tool setup with detailed
   blog post.
-- [martinemde/dotfiles](https://github.com/martinemde/dotfiles) — AI-first dotfiles with chezmoi.
+- [martinemde/dotfiles](https://github.com/martinemde/dotfiles)—AI-first dotfiles with chezmoi.
   Early example of AI tooling baked into dotfiles architecture.
-- [fufexan/dotfiles](https://github.com/fufexan/dotfiles) — NixOS + Home Manager, highly modular.
-- [sebastienrousseau/dotfiles](https://github.com/sebastienrousseau/dotfiles) — chezmoi +
+- [fufexan/dotfiles](https://github.com/fufexan/dotfiles)—NixOS + Home Manager, highly modular.
+- [sebastienrousseau/dotfiles](https://github.com/sebastienrousseau/dotfiles)—chezmoi +
   enterprise security focus; macOS + Linux.
 
 ### Patterns Worth Studying
@@ -452,13 +454,13 @@ directory. Files are auto-loaded by convention rather than explicit inclusion. S
 providing cross-platform binary management independent of the OS package manager.
 
 **Config monorepo** (Nix community): A single repo contains home-manager config, nix-darwin/NixOS
-system config, Terraform/cloud infrastructure, and Kubernetes configs — treating all personal
+system config, Terraform/cloud infrastructure, and Kubernetes configs—treating all personal
 infrastructure as code.
 
 **XDG Base Directory compliance**: A clear 2025 trend. Tools like xdg-ninja audit your home
 directory for non-compliant dotfiles. Standard directories:
 
-```
+```text
 ~/.config/       ($XDG_CONFIG_HOME) — configuration files
 ~/.cache/        ($XDG_CACHE_HOME)  — regeneratable cache
 ~/.local/share/  ($XDG_DATA_HOME)   — application data
@@ -477,8 +479,8 @@ mine shell history for automation opportunities.
 
 - **Dotfiles Coach**: CLI tool that mines shell history for repeated patterns and uses AI to
   suggest aliases, functions, and improvements. Includes privacy filters before sending to API.
-- **AI agent configs as dotfiles**: `CLAUDE.md`, `AGENTS.md`, MCP server configs, Cursor rules —
-  all managed alongside traditional dotfiles. This is a growing practice.
+- **AI agent configs as dotfiles**: `CLAUDE.md`, `AGENTS.md`, MCP server configs, Cursor rules—all
+  managed alongside traditional dotfiles. This is a growing practice.
 - **Agentic DevOps**: GitHub Copilot Agent Mode can handle infrastructure config tasks, suggest
   terminal commands, and self-heal errors.
 
@@ -490,7 +492,7 @@ The "Development Environment as Code" (DEaaC) paradigm is mainstream:
 - **Dotfiles** = user scope (shell, editor, aliases)
 
 GitHub Codespaces, JetBrains Remote Development, and VS Code Remote all support this. Dotfiles
-complement dev containers — they don't replace them.
+complement dev containers—they don't replace them.
 
 ### Nix Momentum
 
@@ -508,7 +510,7 @@ Emerging patterns:
 - **Profile system** (which this repository already has) is the right model for this.
 - Some companies maintain internal dotfiles templates via scaffolding tools.
 
-### Rust-Based Alternatives
+### Rust-Based Alternatives (Emerging)
 
 The Rust ecosystem is producing interesting tools (Tuckr, rotz, dotter, comtrya) but none have
 reached chezmoi's maturity or community size. Worth watching Tuckr specifically as a modern
@@ -529,26 +531,26 @@ Concrete improvements identified during research, cataloged for future considera
 
 ### Low Effort, High Value
 
-- **`chezmoi archive` for remote servers** — Push dotfiles to any SSH-accessible machine without
+- **`chezmoi archive` for remote servers**—Push dotfiles to any SSH-accessible machine without
   installing chezmoi on it
-- **`$CODESPACES` guard** — Add conditional in templates to skip heavy installs in container
+- **`$CODESPACES` guard**—Add conditional in templates to skip heavy installs in container
   environments
-- **Pre-commit secret leak detection** — Already in place via lefthook + gitleaks; verify
+- **Pre-commit secret leak detection**—Already in place via lefthook + gitleaks; verify
   configuration is current
 
 ### Medium Effort, High Value
 
-- **age encryption layer** — For sensitive files not managed by 1Password (useful for headless
+- **age encryption layer**—For sensitive files not managed by 1Password (useful for headless
   servers where 1Password isn't available)
-- **Cached secrets pattern** — Pre-fetch 1Password secrets to a gitignored YAML file for
+- **Cached secrets pattern**—Pre-fetch 1Password secrets to a gitignored YAML file for
   friction-free `chezmoi apply` on headless machines
-- **cloud-init template** — A cloud-config YAML template for bootstrapping VPS instances
+- **cloud-init template**—A cloud-config YAML template for bootstrapping VPS instances
 
 ### Medium Effort, Medium Value
 
-- **xdg-ninja audit** — Run xdg-ninja to identify non-XDG-compliant configs and clean up the
+- **xdg-ninja audit**—Run xdg-ninja to identify non-XDG-compliant configs and clean up the
   home directory
-- **Dev container dotfiles integration** — Add `install.sh` and `$CODESPACES` detection for
+- **Dev container dotfiles integration**—Add `install.sh` and `$CODESPACES` detection for
   GitHub Codespaces / dev container support
 
 ---

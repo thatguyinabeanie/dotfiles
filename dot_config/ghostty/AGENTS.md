@@ -55,5 +55,5 @@
 
 ## Related Documentation
 
-- [Tmux Agent Guide](../tmux/AGENTS.md) — tmux auto-launcher integration via `ghostty-tmux.zsh`
-- [Aerospace Agent Guide](../aerospace/AGENTS.md) — potential keybinding conflicts
+- [Tmux Agent Guide](../tmux/AGENTS.md)—tmux auto-launcher integration via `ghostty-tmux.zsh`
+- [Aerospace Agent Guide](../aerospace/AGENTS.md)—potential keybinding conflicts

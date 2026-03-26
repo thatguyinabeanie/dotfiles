@@ -12,41 +12,14 @@
 
 agents:
   # Code-focused AI agents
-  - name: "opencode-ai"
-    installer: [npm]
-    description: "OpenCode AI coding assistant"
-    category: ai
-
-  - name: "@augmentcode/auggie"
-    installer: [npm]
-    description: "Augment Code AI assistant"
-    category: ai
-
-  - name: "@google/gemini-cli"
-    installer: [npm]
-    description: "Google Gemini CLI interface"
-    category: ai
-
-  - name: "@openai/codex"
-    installer: [npm]
-    version: latest
-    description: "OpenAI Codex coding assistant"
-    category: ai
-
   - name: "claude-code"
     installer: [curl]
     description: "Anthropic Claude Code assistant"
     category: ai
 
-  - name: "@github/copilot"
+  - name: "opencode-ai"
     installer: [npm]
-    description: "GitHub Copilot CLI"
-    category: ai
-
-  # Terminal-based AI tools
-  - name: charmbracelet/tap/mods
-    installer: [brew]
-    description: "AI for the command line"
+    description: "OpenCode AI coding assistant"
     category: ai
 
   # Deployment and infrastructure tools

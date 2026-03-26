@@ -1,12 +1,24 @@
 # Simplified Installation Output Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use
+> superpowers:subagent-driven-development (recommended) or
+> superpowers:executing-plans to implement this plan task-by-task.
+> Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace verbose, streaming installation output across all `.chezmoiscripts/` installer scripts with a consistent minimal pattern: ━━━ section header always, `✓ pkg` / `✗ pkg` for new installs only, nothing for already-installed packages.
+**Goal:** Replace verbose, streaming installation output across all
+`.chezmoiscripts/` installer scripts with a consistent minimal pattern:
+━━━ section header always, `✓ pkg` / `✗ pkg` for new installs only,
+nothing for already-installed packages.
 
-**Architecture:** Add a shared `log_install_result` helper to the logging utility, then update each script to (1) pre-check what needs installing, (2) exit early with "up to date" if nothing, (3) run installer quietly, (4) emit per-package ✓/✗ result. Scripts lacking the logging utility get it added.
+**Architecture:** Add a shared `log_install_result` helper to the
+logging utility, then update each script to (1) pre-check what needs
+installing, (2) exit early with "up to date" if nothing, (3) run
+installer quietly, (4) emit per-package ✓/✗ result. Scripts lacking
+the logging utility get it added.
 
-**Tech Stack:** Bash, chezmoi templates (Go template syntax), `brew bundle`, `mise`, `cargo`, `npm`, `pip`, `go install`, `gem`, `bun`
+**Tech Stack:** Bash, chezmoi templates (Go template syntax),
+`brew bundle`, `mise`, `cargo`, `npm`, `pip`, `go install`, `gem`,
+`bun`
 
 ---
 
@@ -30,11 +42,14 @@
 ## Task 1: Add `log_install_result` to shared logging utility
 
 **Files:**
+
 - Modify: `.chezmoitemplates/utilities/logging.sh.tmpl`
 
 - [ ] **Step 1: Read the current logging utility**
 
-  Open `.chezmoitemplates/utilities/logging.sh.tmpl` and locate the end of the exported functions block (the `export -f` lines at the bottom).
+  Open `.chezmoitemplates/utilities/logging.sh.tmpl` and locate the
+  end of the exported functions block (the `export -f` lines at the
+  bottom).
 
 - [ ] **Step 2: Add the helper function and export**
 
@@ -76,6 +91,7 @@
 ## Task 2: Rewrite brew-casks script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/macos/run_onchange_before-02-install-brew-casks.sh.tmpl`
 
 - [ ] **Step 1: Replace the script with the simplified version**
@@ -193,7 +209,8 @@
   ```
 
   Expected output (all installed):
-  ```
+
+  ```text
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   📦 Homebrew Casks (GUI Applications)
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -214,11 +231,13 @@
 ## Task 3: Simplify brew-formulae script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/macos/run_onchange_before-01-install-brew-formulae.sh.tmpl`
 
 - [ ] **Step 1: Replace the `install_brew_packages` function**
 
-  The function currently either streams (verbose) or shows aggregate counts. Replace it with the pre-check + quiet install pattern:
+  The function currently either streams (verbose) or shows aggregate
+  counts. Replace it with the pre-check + quiet install pattern:
 
   ```bash
   # Install brew packages using pre-check + quiet install pattern
@@ -268,6 +287,7 @@
 - [ ] **Step 2: Update the taps section**
 
   Replace:
+
   ```bash
   # Install taps first
   log_step "Installing Homebrew taps"
@@ -280,6 +300,7 @@
   ```
 
   With:
+
   ```bash
   # Install taps first
   taps_file=$(mktemp)
@@ -294,6 +315,7 @@
 - [ ] **Step 3: Update the formulae section**
 
   Replace:
+
   ```bash
   # Collect all brew formulae from different sources
   log_step "Collecting brew formulae from all sources"
@@ -303,8 +325,9 @@
   ```
 
   With:
+
   ```bash
-  brews_file=$(mktemp)  # already declared above — skip this line, just populate it
+  brews_file=$(mktemp)  # already declared above—skip this line, just populate it
   # Language servers that install via brew
   {{- range .language_servers }}
     {{- if has "brew" .installer }}
@@ -341,6 +364,7 @@
 - [ ] **Step 4: Remove the summary block and clean up autoupdate step**
 
   Remove the entire summary block:
+
   ```bash
   # Summary
   log_header "Homebrew Formulae Installation Summary"
@@ -352,7 +376,9 @@
   log_success "Homebrew formulae installation completed"
   ```
 
-  Simplify the autoupdate section — remove the `log_step "Setting up..."` wrapper, keep only the conditional logic (which already uses `log_success`/`log_warning`/`log_debug`).
+  Simplify the autoupdate section—remove the
+  `log_step "Setting up..."` wrapper, keep only the conditional logic
+  (which already uses `log_success`/`log_warning`/`log_debug`).
 
 - [ ] **Step 5: Validate and apply**
 
@@ -361,7 +387,8 @@
   ```
 
   Expected:
-  ```
+
+  ```text
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   🍺 Homebrew Formulae (CLI Tools)
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -381,6 +408,7 @@
 ## Task 4: Update mise script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_100-mise-install-packages.sh.tmpl`
 
 - [ ] **Step 1: Replace the entire file**
@@ -443,7 +471,8 @@
   ```
 
   Expected:
-  ```
+
+  ```text
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   🔧 Mise Tools
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -462,9 +491,14 @@
 ## Task 5: Update cargo script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_110-cargo-packages.sh.tmpl`
 
-The cargo script already has `log_section`, per-package pre-check (`cargo install --list`), and routes output to `$LOG_FILE`. Changes: replace `show_progress` with per-package ✓/✗ emitted only for newly-installed packages; restructure to collect MISSING first, then install and report.
+The cargo script already has `log_section`, per-package pre-check
+(`cargo install --list`), and routes output to `$LOG_FILE`. Changes:
+replace `show_progress` with per-package ✓/✗ emitted only for newly
+installed packages; restructure to collect MISSING first, then install
+and report.
 
 - [ ] **Step 1: Add an early "all up to date" path**
 
@@ -492,7 +526,9 @@ The cargo script already has `log_section`, per-package pre-check (`cargo instal
 
 - [ ] **Step 2: Replace the install loop**
 
-  Replace the existing `for package_spec in "${CARGO_PACKAGES[@]}"` loop (which iterates all packages and calls `show_progress`) with one that only iterates `MISSING_PACKAGES` and emits ✓/✗:
+  Replace the existing `for package_spec in "${CARGO_PACKAGES[@]}"`
+  loop (which iterates all packages and calls `show_progress`) with
+  one that only iterates `MISSING_PACKAGES` and emits ✓/✗:
 
   ```bash
   for package_spec in "${MISSING_PACKAGES[@]}"; do
@@ -517,7 +553,9 @@ The cargo script already has `log_section`, per-package pre-check (`cargo instal
   done
   ```
 
-  Remove: `show_progress`, `clear_progress`, `installed`/`failed`/`total`/`current` counters, the final `log_summary "✅ Cargo packages: ..."` line.
+  Remove: `show_progress`, `clear_progress`,
+  `installed`/`failed`/`total`/`current` counters, the final
+  `log_summary "✅ Cargo packages: ..."` line.
 
 - [ ] **Step 3: Validate and apply**
 
@@ -526,7 +564,8 @@ The cargo script already has `log_section`, per-package pre-check (`cargo instal
   ```
 
   Expected (all installed):
-  ```
+
+  ```text
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   🦀 Global Cargo Installation (N packages)
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -545,13 +584,17 @@ The cargo script already has `log_section`, per-package pre-check (`cargo instal
 ## Task 6: Update npm script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_120-npm-packages.sh.tmpl`
 
-The npm script already has `log_section` and a pre-check loop. Changes: emit ✓/✗ per package instead of aggregate `log_summary`; remove `show_progress` from the fallback individual-install loop.
+The npm script already has `log_section` and a pre-check loop. Changes:
+emit ✓/✗ per package instead of aggregate `log_summary`; remove
+`show_progress` from the fallback individual-install loop.
 
 - [ ] **Step 1: Update the "nothing to install" path**
 
   Replace:
+
   ```bash
   if [[ ${#PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
       log_summary "✅ All npm packages already installed ($ALREADY_INSTALLED packages)"
@@ -560,6 +603,7 @@ The npm script already has `log_section` and a pre-check loop. Changes: emit ✓
   ```
 
   With:
+
   ```bash
   if [[ ${#PACKAGES_TO_INSTALL[@]} -eq 0 ]]; then
       log_summary "✓ All ${#NPM_PACKAGES[@]} npm packages up to date"
@@ -570,12 +614,14 @@ The npm script already has `log_section` and a pre-check loop. Changes: emit ✓
 - [ ] **Step 2: Update the bulk install success path**
 
   Replace:
+
   ```bash
   if npm install -g "${PACKAGES_TO_INSTALL[@]}" >> "$LOG_FILE" 2>&1; then
       log_summary "✅ NPM packages: ${#PACKAGES_TO_INSTALL[@]} installed, $ALREADY_INSTALLED already present"
   ```
 
   With:
+
   ```bash
   if npm install -g "${PACKAGES_TO_INSTALL[@]}" >> "$LOG_FILE" 2>&1; then
       for package in "${PACKAGES_TO_INSTALL[@]}"; do
@@ -585,7 +631,9 @@ The npm script already has `log_section` and a pre-check loop. Changes: emit ✓
 
 - [ ] **Step 3: Update the fallback individual install loop**
 
-  Replace the fallback loop's `show_progress` + `log_detail` + final `log_summary` block with:
+  Replace the fallback loop's `show_progress` + `log_detail` + final
+  `log_summary` block with:
+
   ```bash
   for package in "${PACKAGES_TO_INSTALL[@]}"; do
       if npm install -g "$package" >> "$LOG_FILE" 2>&1; then
@@ -596,7 +644,9 @@ The npm script already has `log_section` and a pre-check loop. Changes: emit ✓
   done
   ```
 
-  Remove: `installed`/`failed`/`total`/`current` counters, `show_progress`, `clear_progress`, both `log_summary` lines at the end.
+  Remove: `installed`/`failed`/`total`/`current` counters,
+  `show_progress`, `clear_progress`, both `log_summary` lines at the
+  end.
 
 - [ ] **Step 4: Validate and apply**
 
@@ -616,6 +666,7 @@ The npm script already has `log_section` and a pre-check loop. Changes: emit ✓
 ## Task 7: Update pip script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_130-pip-packages.sh.tmpl`
 
 This script lacks the logging utility and has no pre-check.
@@ -691,9 +742,13 @@ This script lacks the logging utility and has no pre-check.
 ## Task 8: Update go script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_140-go-packages.sh.tmpl`
 
-Go has no "check if installed" built-in. Pre-check by extracting the expected binary name from the package path and testing with `command -v`. The binary name is always the last path component before `@version`.
+Go has no "check if installed" built-in. Pre-check by extracting the
+expected binary name from the package path and testing with
+`command -v`. The binary name is always the last path component before
+`@version`.
 
 - [ ] **Step 1: Replace the entire file**
 
@@ -802,9 +857,12 @@ Go has no "check if installed" built-in. Pre-check by extracting the expected bi
 ## Task 9: Update gem script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_150-gem-packages.sh.tmpl`
 
-This script has per-package `gem list -i` check and raw `echo`. The Go template `define` blocks at the top stay; just replace the echo-based output.
+This script has per-package `gem list -i` check and raw `echo`. The Go
+template `define` blocks at the top stay; just replace the echo-based
+output.
 
 - [ ] **Step 1: Replace the entire file**
 
@@ -870,7 +928,10 @@ This script has per-package `gem list -i` check and raw `echo`. The Go template 
   done
   ```
 
-  Note: the original script used template `define` blocks for `collect_gem_packages` and `install_gem_packages`. These can be removed since the new script inlines the package collection and installation directly.
+  Note: the original script used template `define` blocks for
+  `collect_gem_packages` and `install_gem_packages`. These can be
+  removed since the new script inlines the package collection and
+  installation directly.
 
 - [ ] **Step 2: Validate and apply**
 
@@ -890,6 +951,7 @@ This script has per-package `gem list -i` check and raw `echo`. The Go template 
 ## Task 10: Update bun script
 
 **Files:**
+
 - Modify: `.chezmoiscripts/mise/run_onchange_after_160-bun-packages.sh.tmpl`
 
 Same pattern as gem. Has per-package `bun pm ls -g` check and raw `echo`.

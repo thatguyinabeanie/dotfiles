@@ -1,5 +1,9 @@
 formatters:
-  # JavaScript/TypeScript ecosystem
+  # ============================================================
+  # DEFAULT PROFILE — Core formatters for everyday languages
+  # ============================================================
+
+  # JavaScript/TypeScript (used by most web projects)
   - name: prettier
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     installer: [mise, mason]
@@ -10,87 +14,99 @@ formatters:
     installer: [npm, mason]
     conflicts_with_lsp_formatting: true
 
-  # Prettier plugins for specialized formats
-  - name: prettier-plugin-go-template
-    languages: [gotemplate]
-    installer: [npm]
-    description: "Prettier plugin for Go templates"
-
-  - name: prettier-plugin-sh
-    languages: [shell, bash]
-    installer: [npm]
-    description: "Prettier plugin for shell scripts"
-
-  - name: prettier-plugin-toml
-    languages: [toml]
-    installer: [npm]
-    description: "Prettier plugin for TOML files"
-
   # Markdown
   - name: markdownlint-cli2
     languages: [markdown]
     installer: [mise, mason]
-
-  # Systems languages
-  - name: rustfmt
-    languages: [rust]
-    installer: [rustup]
-    install_command: "rustup component add rustfmt"
-
-  # Python
-  - name: black
-    languages: [python]
-    installer: [mason]
-
-  # blackd-client removed - blackd daemon included with black package
-
-  # Ruby
-  - name: standardrb
-    languages: [ruby]
-    installer: [gem]  # gem (not mason): same Mason/mise symlink fragility as rubocop above
 
   # Shell
   - name: shfmt
     languages: [bash, sh, zsh]
     installer: [mise, mason]
 
-  # YAML
-  - name: yamlfix
-    languages: [yaml]
-    installer: [brew, mason]
-
-  - name: yamlfmt
-    languages: [yaml]
-    installer: [brew, mason]
-
-  # Go (gofmt is built into Go toolchain - no separate installation needed)
-
+  # Go
   - name: goimports
     languages: [go]
     installer: [go, mason]
     install_command: "golang.org/x/tools/cmd/goimports@latest"
 
-  # HTTP/REST
-  # kulala-fmt removed - available via Mason, not cargo
-
-  # SQL
-  - name: sql-formatter
-    languages: [sql]
-    installer: [npm, mason]
-
-  # XML/HTML
-  - name: xmlformatter
-    languages: [xml]
-    installer: [mason]
-
-  # CSS/SCSS
-  - name: stylelint
-    languages: [css, scss, sass]
-    installer: [npm, mason]
+  # Rust (bundled with toolchain)
+  - name: rustfmt
+    languages: [rust]
+    installer: [rustup]
+    install_command: "rustup component add rustfmt"
 
   # TOML
   - name: taplo
     languages: [toml]
     installer: [mise, mason]
+
+  # ============================================================
+  # LANGUAGES PROFILE — Formatters for additional languages
+  # ============================================================
+
+  # Ruby
+  - name: standardrb
+    languages: [ruby]
+    installer: [gem]
+    profiles: [languages]
+
+  # ============================================================
+  # EXTRAS PROFILE — Additional formatter variants
+  # ============================================================
+
+  # Prettier plugins for specialized formats
+  - name: prettier-plugin-go-template
+    languages: [gotemplate]
+    installer: [npm]
+    description: "Prettier plugin for Go templates"
+    profiles: [extras]
+
+  - name: prettier-plugin-sh
+    languages: [shell, bash]
+    installer: [npm]
+    description: "Prettier plugin for shell scripts"
+    profiles: [extras]
+
+  - name: prettier-plugin-toml
+    languages: [toml]
+    installer: [npm]
+    description: "Prettier plugin for TOML files"
+    profiles: [extras]
+
+  # Python
+  - name: black
+    languages: [python]
+    installer: [mason]
+    profiles: [extras]
+
+  # YAML
+  - name: yamlfix
+    languages: [yaml]
+    installer: [brew, mason]
+    profiles: [extras]
+
+  - name: yamlfmt
+    languages: [yaml]
+    installer: [brew, mason]
+    profiles: [extras]
+
+  # SQL
+  - name: sql-formatter
+    languages: [sql]
+    installer: [npm, mason]
+    profiles: [databases]
+
+  # XML
+  - name: xmlformatter
+    languages: [xml]
+    installer: [mason]
+    profiles: [extras]
+
+  # CSS/SCSS
+  - name: stylelint
+    languages: [css, scss, sass]
+    installer: [npm, mason]
+    profiles: [extras]
 
 # Trigger npm reinstall

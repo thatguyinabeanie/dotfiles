@@ -146,5 +146,5 @@ Plugins managed via chezmoi external dependencies and TPM:
 
 ## Related Documentation
 
-- [Ghostty Agent Guide](../ghostty/AGENTS.md) — tmux auto-launcher integration
-- [Neovim Agent Guide](../nvim/AGENTS.md) — vim-tmux-navigator for seamless pane navigation
+- [Ghostty Agent Guide](../ghostty/AGENTS.md)—tmux auto-launcher integration
+- [Neovim Agent Guide](../nvim/AGENTS.md)—vim-tmux-navigator for seamless pane navigation

@@ -49,4 +49,4 @@ across workspaces using keyboard-driven commands.
 
 ## Related Documentation
 
-- [Ghostty Agent Guide](../ghostty/AGENTS.md) — potential keybinding conflicts
+- [Ghostty Agent Guide](../ghostty/AGENTS.md)—potential keybinding conflicts

@@ -56,6 +56,45 @@ During installation, the system prompts for configuration values that shape your
 | `GIT_EMAIL`         | Git commit author email                      | -       |
 | `GITHUB_USERNAME`   | GitHub username                              | -       |
 
+## 📦 Installation profiles
+
+Tools and apps are organized into **profiles** that describe different parts of the setup. Profile-based selective installation is a **work in progress**: current install scripts may still install most tools regardless of profile activation until the installers are fully profile-aware.
+
+### Available profiles
+
+| Profile | What it includes |
+| ------- | ---------------- |
+| `default` | Always active. Core shell tools, neovim, tmux, git, Node/Python/Go/Rust, essential GUI apps (Ghostty, Chrome, Raycast, Aerospace, Claude, 1Password) |
+| `creative` | Ableton Live, Affinity, Blender, DaVinci Resolve, darktable, OBS |
+| `3d-printing` | OrcaSlicer, FreeCAD, OpenSCAD, MeshLab |
+| `editors` | Cursor, VS Code Insiders, Zed, Kitty, Helix, Zellij, Fish shell |
+| `productivity` | Obsidian, Slack, Firefox, Tidal, Cyberduck, disk-inventory-x, Claude DevTools |
+| `mobile-dev` | Android Studio, Expo Orbit |
+| `infra` | AWS CLI, Terraform, kubectl, Helm, k9s, dive, CircleCI, Okta, lazydocker, Atlassian CLI, kube-linter, tflint |
+| `databases` | PostgreSQL, MySQL, sql-formatter, sqlfluff |
+| `languages` | Ruby, Zig, Java, Elixir, Erlang, Julia, Deno, Yarn, Gradle, Maven, and their LSPs/linters/formatters |
+| `publishing` | MacTeX, Pandoc, mdbook |
+| `social` | Discord, BetterDiscord installer |
+| `extras` | Nice-to-have CLI tools (bottom, glances, procs, hyperfine, ncdu, gdu, etc.), extra formatters, specialty linters |
+
+### Usage
+
+```bash
+# Fast initial install (default profile only)
+chezmoi init --apply
+
+# Activate specific profiles
+ACTIVE_PROFILES=default,creative,editors chezmoi apply
+
+# Full workstation (everything)
+ACTIVE_PROFILES=default,creative,3d-printing,editors,productivity,mobile-dev,infra,databases,languages,publishing,social,extras chezmoi apply
+
+# Persist your profile selection (survives reinstalls)
+defaults write com.chezmoi.config active_profiles "default,creative,editors,productivity"
+```
+
+Profiles are additive — `default` is always active. A package matches if **any** of its profiles is active. Packages without a `profiles` field are always installed (part of `default`).
+
 ## 💾 Persistent configuration
 
 ![Porygon](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png)
