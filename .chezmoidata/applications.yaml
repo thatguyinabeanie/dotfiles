@@ -20,8 +20,6 @@ applications:
       installer: [brew_cask]
     - name: claude-island
       installer: [brew_cask]
-    - name: claudebar
-      installer: [brew_cask]
     - name: cursor
       installer: [brew_cask]
     # Shared optional apps that are still installed by default
