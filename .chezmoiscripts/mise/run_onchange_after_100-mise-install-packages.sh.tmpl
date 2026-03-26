@@ -3,48 +3,46 @@
 # This script installs mise tools
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "mise" "root" .) }}
 
+{{ template "utilities/logging.sh.tmpl" }}
+
 set -euo pipefail
 
-# Ensure mise is in PATH (avoid duplication)
+# Ensure mise is in PATH
 if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
-# Check if mise is installed
 if ! command -v mise >/dev/null 2>&1; then
     echo "❌ mise is not installed. Please install mise first."
     exit 1
 fi
 
-echo "📦 Installing mise tools from config..."
-if mise install; then
-    echo "✅ All mise tools installed successfully"
-else
-    echo "⚠️  Some mise tools may have failed to install"
+log_section "🔧 Mise Tools"
+
+# Pre-check: find tools needing installation
+MISSING_TOOLS=()
+while IFS= read -r line; do
+    tool=$(echo "$line" | awk '{print $1}')
+    [[ -n "$tool" ]] && MISSING_TOOLS+=("$tool")
+done < <(mise ls --missing 2>/dev/null || true)
+
+if [[ ${#MISSING_TOOLS[@]} -eq 0 ]]; then
+    total=$(mise ls 2>/dev/null | wc -l | tr -d ' ')
+    log_summary "✓ All $total mise tools up to date"
+    exit 0
 fi
 
-# Verify critical runtimes are available
-echo "🔍 Verifying critical runtimes..."
-CRITICAL_RUNTIMES=("node" "python" "go" "rust")
+mise install >> "$LOG_FILE" 2>&1
+install_exit=$?
 
-check_runtime_status() {
-    local runtime="$1"
-
-    # Check if runtime is actually installed and working
-    if mise which "${runtime}" >/dev/null 2>&1; then
-        local version=$(mise current "${runtime}" 2>/dev/null)
-        echo "  ✅ ${runtime} (${version})"
-    # Check if runtime is configured in mise (will be installed)
-    elif grep -q "\"${runtime}\"" ~/.config/mise/config.toml 2>/dev/null || \
-         mise config ls 2>/dev/null | grep -q "${runtime}"; then
-        echo "  ⏳ ${runtime} (installing...)"
+for tool in "${MISSING_TOOLS[@]}"; do
+    if mise which "$tool" >/dev/null 2>&1; then
+        log_install_result "ok" "$tool"
     else
-        echo "  ⚠️ ${runtime} not configured"
+        log_install_result "fail" "$tool"
     fi
-}
-
-for runtime in "${CRITICAL_RUNTIMES[@]}"; do
-    check_runtime_status "${runtime}"
 done
 
-echo "✅ Mise installation completed"
+if [[ $install_exit -ne 0 ]]; then
+    log_error "Some mise tools failed to install. See $LOG_FILE for details."
+fi
