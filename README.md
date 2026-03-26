@@ -58,7 +58,7 @@ During installation, the system prompts for configuration values that shape your
 
 ## 📦 Installation profiles
 
-By default, only essential tools and apps are installed for a fast initial setup. Additional packages are organized into **profiles** that you can activate as needed.
+Tools and apps are organized into **profiles** that describe different parts of the setup. Profile-based selective installation is a **work in progress**: current install scripts may still install most tools regardless of profile activation until the installers are fully profile-aware.
 
 ### Available profiles
 

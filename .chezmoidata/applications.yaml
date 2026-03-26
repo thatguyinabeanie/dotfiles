@@ -37,6 +37,8 @@ applications:
       installer: [brew_cask]
     - name: google-chrome
       installer: [brew_cask]
+    - name: grandperspective
+      installer: [brew_cask]
     - name: karabiner-elements
       installer: [brew_cask]
     - name: keka

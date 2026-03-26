@@ -6,6 +6,9 @@ macos_services:
     description: "Aerospace window manager service"
     condition: always
 
+  # borders (jankyborders) — removed from service management; config in dot_config/borders/
+  # is retained for manual use. Launch via `borders` command when needed.
+
 # Development services (excluded from auto-management)
 excluded_services:
   - postgresql

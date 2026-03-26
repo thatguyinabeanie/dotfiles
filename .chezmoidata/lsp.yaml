@@ -86,7 +86,7 @@ language_servers:
     languages: [text, markdown]
     installer: [cargo, mason]
     provides_formatting: false
-    install_command: "cargo install --git https://github.com/tekumara/typos-lsp typos-lsp"
+    install_command: "cargo install --locked --git https://github.com/tekumara/typos-lsp typos-lsp"
 
   # CI/CD
   - name: gh-actions-language-server
@@ -102,12 +102,13 @@ language_servers:
     installer: [mason]
     provides_formatting: false
 
-  # AI copilot
+  # AI copilot (opt-in via editors profile)
   - name: copilot-language-server
     lspconfig_name: copilot
     languages: [text]
     installer: [mason]
     provides_formatting: false
+    profiles: [editors]
 
   # Generic diagnostic
   - name: diagnostic-languageserver

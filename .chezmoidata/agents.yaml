@@ -11,7 +11,7 @@
 # which define API credentials and model settings.
 
 agents:
-  # Code-focused AI agents — prefer official installers over npm packages
+  # Code-focused AI agents
   - name: "claude-code"
     installer: [curl]
     description: "Anthropic Claude Code assistant"

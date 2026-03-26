@@ -199,7 +199,7 @@ dev_tools:
     profiles: [databases]
   - name: mysql
     installer: [mise]
-    description: "MySql database"
+    description: "MySQL database"
     profiles: [databases]
 
   # ============================================================
@@ -207,7 +207,7 @@ dev_tools:
   # ============================================================
   - name: ruby
     installer: [mise]
-    version: "3.3.10"
+    version: "3.4.9"
     profiles: [languages]
   - name: zig
     installer: [mise]
