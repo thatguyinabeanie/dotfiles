@@ -83,68 +83,42 @@ if [[ ${#CARGO_PACKAGES[@]} -eq 0 ]]; then
 fi
 
 log_section "🦀 Global Cargo Installation (${#CARGO_PACKAGES[@]} packages)"
-log_detail "Installing globally for system-wide availability"
-{{- $masonCount := 0 }}
-{{- range .language_servers }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
-{{- range .formatters }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
-{{- range .linters }}{{- if and (has "cargo" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
-{{- if gt $masonCount 0 }}
-log_detail "Note: {{ $masonCount }} packages also managed by Mason for Neovim"
-{{- end }}
 
-installed=0
-failed=0
-total=${#CARGO_PACKAGES[@]}
-current=0
-
+# Pre-check: capture installed list once, then identify what's missing
+INSTALLED_LIST=$(cargo install --list 2>/dev/null)
+MISSING_PACKAGES=()
 for package_spec in "${CARGO_PACKAGES[@]}"; do
-    current=$((current + 1))
-
-    # Check if this is a custom install command
     if [[ "$package_spec" == *"cargo install"* ]]; then
-        # Extract tool name from the command for checking if already installed
         tool_name=$(echo "$package_spec" | sed -n 's/.*--git.*\/\([^/]*\)\.git \([^ ]*\).*/\2/p')
-        if [[ -z "$tool_name" ]]; then
-            # Fallback: extract last argument as tool name
-            tool_name=$(echo "$package_spec" | awk '{print $NF}')
-        fi
-
-        show_progress "$current" "$total" "$tool_name"
-
-        if cargo install --list | grep -q "^$tool_name "; then
-            log_detail "$tool_name already installed"
-            installed=$((installed + 1))
-        elif eval "$package_spec" >> "$LOG_FILE" 2>&1; then
-            log_detail "$tool_name installed successfully"
-            installed=$((installed + 1))
-        else
-            log_to_file "ERROR: Failed to install $tool_name via cargo"
-            failed=$((failed + 1))
-        fi
+        [[ -z "$tool_name" ]] && tool_name=$(echo "$package_spec" | awk '{print $NF}')
+        echo "$INSTALLED_LIST" | grep -q "^$tool_name " || MISSING_PACKAGES+=("$package_spec")
     else
-        # Standard cargo install (prefer cargo-binstall for precompiled binaries)
-        show_progress "$current" "$total" "$package_spec"
-
-        if cargo install --list | grep -q "^$package_spec "; then
-            log_detail "$package_spec already installed"
-            installed=$((installed + 1))
-        elif command -v cargo-binstall >/dev/null 2>&1 && cargo binstall --no-confirm "$package_spec" >> "$LOG_FILE" 2>&1; then
-            log_detail "$package_spec installed successfully (via binstall)"
-            installed=$((installed + 1))
-        elif cargo install "$package_spec" >> "$LOG_FILE" 2>&1; then
-            log_detail "$package_spec installed successfully (compiled from source)"
-            installed=$((installed + 1))
-        else
-            log_to_file "ERROR: Failed to install $package_spec via cargo"
-            failed=$((failed + 1))
-        fi
+        echo "$INSTALLED_LIST" | grep -q "^$package_spec " || MISSING_PACKAGES+=("$package_spec")
     fi
 done
 
-clear_progress
-
-if [[ $failed -eq 0 ]]; then
-    log_summary "✅ Cargo packages: $installed installed, 0 failed"
-else
-    log_summary "⚠️  Cargo packages: $installed installed, $failed failed (see $LOG_FILE)"
+if [[ ${#MISSING_PACKAGES[@]} -eq 0 ]]; then
+    log_summary "✓ All ${#CARGO_PACKAGES[@]} cargo packages up to date"
+    exit 0
 fi
+
+for package_spec in "${MISSING_PACKAGES[@]}"; do
+    if [[ "$package_spec" == *"cargo install"* ]]; then
+        tool_name=$(echo "$package_spec" | sed -n 's/.*--git.*\/\([^/]*\)\.git \([^ ]*\).*/\2/p')
+        [[ -z "$tool_name" ]] && tool_name=$(echo "$package_spec" | awk '{print $NF}')
+        if eval "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_install_result "ok" "$tool_name"
+        else
+            log_install_result "fail" "$tool_name"
+        fi
+    else
+        if command -v cargo-binstall >/dev/null 2>&1 && \
+           cargo binstall --no-confirm "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_install_result "ok" "$package_spec"
+        elif cargo install "$package_spec" >> "$LOG_FILE" 2>&1; then
+            log_install_result "ok" "$package_spec"
+        else
+            log_install_result "fail" "$package_spec"
+        fi
+    fi
+done
