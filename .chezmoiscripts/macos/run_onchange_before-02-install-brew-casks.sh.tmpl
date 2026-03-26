@@ -13,103 +13,21 @@ log_section "📦 Homebrew Casks (GUI Applications)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 
-# Function to install packages with progress
-install_brew_packages() {
-    local package_type="$1"
-    local packages="$2"
-
-    if [[ -z "$packages" ]]; then
-        log_debug "No $package_type packages to install"
-        return 0
-    fi
-
-    # Count packages
-    local total_count=$(echo -e "$packages" | grep -c "cask\|brew" || echo "0")
-    log_step "Installing $total_count $package_type packages"
-
-    # Create temporary Brewfile
-    local brewfile=$(mktemp)
-    echo -e "$packages" > "$brewfile"
-
-    # Show package list
-    log_detail "Packages to install:"
-    echo -e "$packages" | grep -o '"[^"]*"' | tr -d '"' | while read pkg; do
-        log_substep "  - $pkg"
-    done
-
-    # Determine brew bundle arguments - always verbose for visibility
-    local brew_args="install --file=$brewfile --verbose"
-
-    # Install packages with full output streaming
-    # Using a temp file to capture exit code to avoid PIPESTATUS fragility
-    log_detail "Running: brew bundle $brew_args"
-    log_detail "⏳ Streaming full installation output..."
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-
-    # Run brew bundle and capture exit code using temp file
-    local exit_code_file=$(mktemp)
-    local current_package=""
-    
-    # Run brew bundle, save exit code to file, and stream output with formatting
-    (brew bundle $brew_args 2>&1; echo $? > "$exit_code_file") | \
-    while IFS= read -r line; do
-        local timestamp=$(date '+%H:%M:%S')
-
-        # Detect package being processed
-        if [[ "$line" =~ Installing\ ([^[:space:]]+) ]]; then
-            current_package="${BASH_REMATCH[1]}"
-            echo ""
-            echo "[$timestamp] 📥 INSTALLING: $current_package"
-            echo "[$timestamp] $line"
-        elif [[ "$line" =~ Downloading\ ([^[:space:]]+) ]]; then
-            echo "[$timestamp] ⬇️  $line"
-        elif [[ "$line" =~ Using\ ([^[:space:]]+) ]]; then
-            echo "[$timestamp] ✓ CACHED: $line"
-        elif [[ "$line" =~ "Pouring" ]]; then
-            echo "[$timestamp] 🍺 $line"
-        elif [[ "$line" =~ "==> " ]]; then
-            echo "[$timestamp] 🔧 $line"
-        elif [[ "$line" =~ "Error:" ]] || [[ "$line" =~ "error:" ]]; then
-            echo "[$timestamp] ❌ ERROR: $line"
-        elif [[ "$line" =~ "Warning:" ]] || [[ "$line" =~ "warning:" ]]; then
-            echo "[$timestamp] ⚠️  WARNING: $line"
-        elif [[ ! -z "$line" ]]; then
-            # Show all non-empty lines with timestamp
-            echo "[$timestamp] $line"
-        fi
-    done
-    
-    local exit_code=$(cat "$exit_code_file")
-    rm -f "$exit_code_file"
-
-    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-    if [ $exit_code -eq 0 ]; then
-        log_success "$package_type packages installed successfully"
-    else
-        log_error "Failed to install some $package_type packages (exit code: $exit_code)"
-        rm -f "$brewfile"
-        return 1
-    fi
-
-    # Clean up
-    rm -f "$brewfile"
-}
-
-# Install casks
-log_step "Collecting cask packages"
-CASKS=""
+# Build Brewfile
+brewfile=$(mktemp)
+trap 'rm -f "$brewfile"' EXIT
 
 # Development tools that install via brew_cask
 {{- range .dev_tools }}
   {{- if has "brew_cask" .installer }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
+echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew_cask
 {{- range .agents }}
   {{- if has "brew_cask" .installer }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
+echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
 
@@ -117,7 +35,7 @@ CASKS="${CASKS}cask \"{{ .name }}\"\n"
 {{- if .applications.shared }}
   {{- range .applications.shared }}
     {{- if has "brew_cask" .installer }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
+echo "cask \"{{ .name }}\"" >> "$brewfile"
     {{- end }}
   {{- end }}
 {{- end }}
@@ -126,7 +44,7 @@ if is_personal_environment; then
   {{- if .applications.personal }}
     {{- range .applications.personal }}
       {{- if has "brew_cask" .installer }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
+echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
   {{- end }}
@@ -136,20 +54,43 @@ if is_work_environment; then
   {{- if .applications.work }}
     {{- range .applications.work }}
       {{- if has "brew_cask" .installer }}
-CASKS="${CASKS}cask \"{{ .name }}\"\n"
+echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
   {{- end }}
 fi
 
-install_brew_packages "casks" "$CASKS"
+total=$(grep -c "^cask" "$brewfile" 2>/dev/null || echo "0")
 
-# Summary
-log_header "Homebrew Casks Installation Summary"
-log_detail "Installed packages:"
-log_substep "GUI applications: $(echo -e "$CASKS" | wc -l | tr -d ' ')"
+# Pre-check: identify missing casks
+MISSING_CASKS=()
+check_output=$(brew bundle check --verbose --file="$brewfile" 2>&1 || true)
+while IFS= read -r line; do
+    if [[ "$line" == *"is not installed"* ]]; then
+        cask_name=$(echo "$line" | sed "s/.*'\([^']*\)'.*/\1/")
+        [[ -n "$cask_name" ]] && MISSING_CASKS+=("$cask_name")
+    fi
+done <<< "$check_output"
 
-log_success "Homebrew casks installation completed"
+if [[ ${#MISSING_CASKS[@]} -eq 0 ]]; then
+    log_summary "✓ All $total casks up to date"
+else
+    brew bundle install --quiet --file="$brewfile" >> "$LOG_FILE" 2>&1
+    install_exit=$?
+
+    for cask in "${MISSING_CASKS[@]}"; do
+        if brew list --cask "$cask" >/dev/null 2>&1; then
+            log_install_result "ok" "$cask"
+        else
+            log_install_result "fail" "$cask"
+        fi
+    done
+
+    if [[ $install_exit -ne 0 ]]; then
+        log_error "Some casks failed to install. See $LOG_FILE for details."
+        cat "$LOG_FILE" >&2
+    fi
+fi
 
 {{- else }}
 log_warning "This script is designed for macOS only"
