@@ -24,32 +24,47 @@ set -gx HOMEBREW_REPOSITORY "/opt/homebrew"
 set -gx STARSHIP_CONFIG "{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
 {{- end }}
 
-# Initialize tools (if available)
+# ---------------------------------------------------------------------------
+# Tool Initializations
+# Pre-generated at chezmoi apply time to avoid ~2s+ of subprocess forks
+# Regenerate with: chezmoi apply --force
+# ---------------------------------------------------------------------------
+
+# Helper: source pre-generated cache file, fall back to live command
+function _source_cached
+    set -l cache "$HOME/.local/state/shell-init/$argv[1].fish"
+    if test -f "$cache"
+        source "$cache"
+    else
+        eval $argv[2..]
+    end
+end
+
 # Mise must be initialized first as it manages other tool versions
 if type -q mise
-    mise activate fish | source
+    _source_cached "mise-activate" "mise activate fish | source"
 end
 
 if type -q starship
-    starship init fish | source
+    _source_cached "starship-init" "starship init fish | source"
 end
 
 if type -q zoxide
-    zoxide init fish --cmd cd | source
+    _source_cached "zoxide-init" "zoxide init fish --cmd cd | source"
 end
 
 if type -q fzf
-    fzf --fish | source
+    _source_cached "fzf-init" "fzf --fish | source"
 end
 
 if type -q atuin
-    atuin init fish | source
+    _source_cached "atuin-init" "atuin init fish | source"
 end
 
 if type -q carapace
     set -gx CARAPACE_BRIDGES 'zsh,fish,bash,inshellisense'
     mkdir -p ~/.config/fish/completions
-    carapace _carapace fish | source
+    _source_cached "carapace-init" "carapace _carapace fish | source"
 end
 
 # Source FZF theme if available
@@ -74,8 +89,3 @@ source "{{ $fishAliases }}"
 # Note: Bash functions need to be converted to Fish functions
 # Source work-specific kubectl configuration if converted to Fish
 {{- end }}
-
-if type -q pokeget; and type -q fastfetch
-    # Display system info with fastfetch
-    fastfetch
-end

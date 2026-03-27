@@ -6,7 +6,7 @@ continuation_prompt = "[▸▹ ](dimmed white)"
 
 # Performance: Reduce scan times to minimize prompt lag
 scan_timeout = 10        # milliseconds (down from 30ms default)
-command_timeout = 500    # milliseconds for external commands
+command_timeout = 1000   # milliseconds for external commands
 
 format = """\
 $hostname\
@@ -24,8 +24,6 @@ $character"""
 right_format = """
 $git_branch\
 $git_status\
-$docker_context\
-$kubernetes\
 $nodejs\
 $python\
 $ruby\
@@ -231,18 +229,21 @@ format = " [py](italic) [${symbol}${version}]($style)"
 symbol = "[⌉](bold bright-blue)⌊ "
 version_format = "${raw}"
 style = "bold bright-yellow"
+detect_extensions = []
 
 [ruby]
 format = " [${symbol}${version}]($style)"
 symbol = "◆ "
 version_format = "${raw}"
 style = "bold red"
+detect_extensions = []
 
 [rust]
 format = " [rs](italic) [$symbol$version]($style)"
 symbol = "⊃ "
 version_format = "${raw}"
 style = "bold red"
+detect_extensions = []
 
 [package]
 format = " [pkg](italic dimmed) [$symbol$version]($style)"
@@ -286,7 +287,11 @@ format = " pixi [$symbol$version ($environment )]($style)"
 symbol = "◁◅ "
 format = " dart [$symbol($version )]($style)"
 
+[kubernetes]
+disabled = true
+
 [docker_context]
+disabled = true
 symbol = "◧ "
 format = " docker [$symbol$context]($style)"
 
@@ -301,6 +306,7 @@ format = " elm [$symbol($version )]($style)"
 [golang]
 symbol = "∩ "
 format = " go [$symbol($version )]($style)"
+detect_extensions = []
 
 [haskell]
 symbol = "❯λ "
@@ -309,6 +315,7 @@ format = " hs [$symbol($version )]($style)"
 [java]
 symbol = "∪ "
 format = " java [${symbol}(${version} )]($style)"
+detect_extensions = []
 
 [julia]
 symbol = "◎ "

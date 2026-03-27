@@ -16,11 +16,6 @@ type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/tmux-plugins/tmux-cpu.git" 
 
-["tmux-logging"]
-type = "git-repo"
-refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-logging.git" 
-
 ["tmux-pain-control"]
 type = "git-repo"
 refreshPeriod = "168h"
@@ -51,11 +46,6 @@ type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/tmux-plugins/tpm.git"
 
-["tmux-sessionx"]
-type = "git-repo"
-refreshPeriod = "168h"
-url  = "https://github.com/omerxx/tmux-sessionx.git"
-
 ["vim-tmux-navigator"]
 type = "git-repo"
 refreshPeriod = "168h"
@@ -66,8 +56,4 @@ type = "git-repo"
 refreshPeriod = "168h"
 url  = "https://github.com/wfxr/tmux-fzf-url.git"
 
-["tmux-open"]
-type = "git-repo"
-refreshPeriod = "168h"
-url  = "https://github.com/tmux-plugins/tmux-open.git"
 

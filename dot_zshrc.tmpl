@@ -3,11 +3,6 @@
 # Full-featured configuration with performance optimizations
 # ============================================================================
 
-# Performance profiling (enable with: ZSH_PROFILE=1 zsh)
-if [[ -n "$ZSH_PROFILE" ]]; then
-  zmodload zsh/zprof
-fi
-
 # ----------------------------------------------------------------------------
 # SECTION 1: Essential Sources (ENABLED - Keep these)
 # ----------------------------------------------------------------------------
@@ -101,7 +96,20 @@ source "{{ $cargoEnvPath }}"
 
 # ----------------------------------------------------------------------------
 # SECTION 3: Completions
+# Pre-generated at chezmoi apply time to avoid ~1.1s of subprocess forks
+# Regenerate with: chezmoi apply --force
 # ----------------------------------------------------------------------------
+
+# Helper: source pre-generated cache file, fall back to live command
+_source_cached() {
+  local cache="$HOME/.local/state/shell-init/$1.zsh"
+  if [[ -f "$cache" ]]; then
+    source "$cache"
+  else
+    shift
+    eval "$@"
+  fi
+}
 
 {{- $dockerCompletions := printf "%s/.docker/completions/_docker" .chezmoi.homeDir }}
 {{- if stat $dockerCompletions }}
@@ -109,18 +117,18 @@ fpath=({{ $dockerCompletions }} $fpath)
 {{- end }}
 
 {{- if lookPath "chezmoi" }}
-source <(chezmoi completion zsh)
+_source_cached "chezmoi-completion" 'source <(chezmoi completion zsh)'
 {{- end }}
 
 {{- if lookPath "mise" }}
-source <(mise completion zsh)
+_source_cached "mise-completion" 'source <(mise completion zsh)'
 {{- end }}
 
 {{- if lookPath "carapace" }}
 # Carapace - Multi-shell completion framework (669+ completers)
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-source <(carapace _carapace)
+_source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 {{- end }}
 
 # ----------------------------------------------------------------------------
@@ -152,6 +160,8 @@ source <(carapace _carapace)
 
 # ----------------------------------------------------------------------------
 # SECTION 5: Tool Initializations
+# Pre-generated at chezmoi apply time to avoid ~1.9s of subprocess forks
+# Regenerate with: chezmoi apply --force
 # ----------------------------------------------------------------------------
 
 # {{- if lookPath "atuin" }}
@@ -165,30 +175,24 @@ source <(carapace _carapace)
 {{- if stat $starshipConfig }}
 export STARSHIP_CONFIG="{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
 {{- end }}
-eval "$(starship init zsh)"
+_source_cached "starship-init" 'eval "$(starship init zsh)"'
 {{- end }}
 
 {{- if lookPath "mise" }}
-# mise - Version manager (pre-generated activation for performance)
-_MISE_ACTIVATION="$HOME/.local/state/mise/mise-activation.zsh"
-if [[ -f "$_MISE_ACTIVATION" ]]; then
-    source "$_MISE_ACTIVATION"
-else
-    # Fallback: generate if missing (first run)
-    eval "$(mise activate zsh)"
-fi
+# mise - Version manager
+_source_cached "mise-activate" 'eval "$(mise activate zsh)"'
 {{- end }}
 
 {{- if lookPath "fzf" }}
 # fzf - Fuzzy finder keybindings
-eval "$(fzf --zsh)"
+_source_cached "fzf-init" 'eval "$(fzf --zsh)"'
 {{- end }}
 
 {{- if lookPath "zoxide" }}
 # zoxide - Smart cd replacement (must be last to avoid hook conflicts)
 # Skip in Claude Code — its shell snapshots break function dependencies (anthropics/claude-code#2632)
 if [[ "$CLAUDECODE" != "1" ]]; then
-    eval "$(zoxide init zsh --cmd cd)"
+    _source_cached "zoxide-init" 'eval "$(zoxide init zsh --cmd cd)"'
 fi
 {{- end }}
 
@@ -264,11 +268,3 @@ brain() {
   cd "$HOME/source/obsidian-brain" && claude "$@"
 }
 {{- end }}
-
-# ----------------------------------------------------------------------------
-# Performance Profiling Output
-# ----------------------------------------------------------------------------
-# Print profiling results when ZSH_PROFILE is enabled
-if [[ -n "$ZSH_PROFILE" ]]; then
-  zprof
-fi

@@ -5,9 +5,6 @@
 jorgebucaran/fisher
 PatrickF1/fzf.fish
 
-# Directory navigation
-jethrokuan/z
-
 # Auto-pairing for brackets, quotes, etc.
 jorgebucaran/autopair.fish
 
@@ -16,9 +13,6 @@ jorgebucaran/fish-bax
 
 # Colored man pages
 decors/fish-colored-man
-
-# Pure prompt - minimal, fast, pretty
-pure-fish/pure
 
 # Async prompt - non-blocking git status
 acomagu/fish-async-prompt

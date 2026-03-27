@@ -1,8 +1,17 @@
 #!/bin/zsh
+# Ghostty startup script — attaches to tmux session or starts shell directly
+# Paths resolved at chezmoi apply time (no runtime loops)
 
-if [ -f "$HOME/.config/ghostty/ghostty-tmux.zsh" ]; then
-	. "$HOME/.config/ghostty/ghostty-tmux.zsh"
+{{- $shellPath := lookPath "zsh" | default "/bin/zsh" }}
+{{- $tmuxPath := lookPath "tmux" | default "" }}
+
+if [[ -z "$TMUX" && -z "$GHOSTTY_NO_TMUX" ]]; then
+{{- if $tmuxPath }}
+  export SHELL="{{ $shellPath }}"
+  exec {{ $tmuxPath }} new-session -A -s 'ghostty' "{{ $shellPath }}" -l
+{{- else }}
+  exec {{ $shellPath }} -l
+{{- end }}
 else
-  echo "ghostty-tmux.sh not found. Falling back to default shell (zsh)."
-	/bin/zsh
+  exec {{ $shellPath }} -l
 fi

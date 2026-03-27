@@ -1,0 +1,101 @@
+#!/bin/bash
+set -euo pipefail
+
+# =============================================================================
+# Pre-generate shell initialization scripts for zsh and fish
+#
+# Instead of forking subprocesses on every new shell (costing ~3s total),
+# we generate static init scripts at chezmoi apply time and source them.
+#
+# Change trigger — single subprocess collects all tool versions.
+# chezmoi re-runs this script only when the hash below changes.
+# versions: {{ output "sh" "-c" "mise --version 2>/dev/null; chezmoi --version 2>/dev/null; carapace --version 2>/dev/null; starship --version 2>/dev/null; fzf --version 2>/dev/null; zoxide --version 2>/dev/null; atuin --version 2>/dev/null" | sha256sum }}
+# =============================================================================
+
+CACHE_DIR="$HOME/.local/state/shell-init"
+mkdir -p "$CACHE_DIR"
+
+generate() {
+  local name="$1" shell="$2" cmd="$3"
+  local outfile="$CACHE_DIR/${name}.${shell}"
+  if eval "$cmd" > "$outfile" 2>/dev/null; then
+    echo "  generated $name ($shell)"
+  else
+    echo "  WARN: failed to generate $name ($shell), removing cache"
+    rm -f "$outfile"
+  fi
+}
+
+echo "Pre-generating shell init scripts..."
+
+# ---------------------------------------------------------------------------
+# ZSH
+# ---------------------------------------------------------------------------
+
+{{- if lookPath "mise" }}
+generate "mise-activate" "zsh" "mise activate zsh"
+# Remove the bare _mise_hook call at the end of mise's activation script.
+# It forks `mise hook-env` immediately (~350ms). This is redundant because
+# _mise_hook_precmd is already registered and fires before the first prompt.
+_mise_cache="$CACHE_DIR/mise-activate.zsh"
+if [[ -f "$_mise_cache" ]]; then
+  sed -i '' '/^_mise_hook$/d' "$_mise_cache"
+fi
+generate "mise-completion" "zsh" "mise completion zsh"
+{{- end }}
+
+{{- if lookPath "chezmoi" }}
+generate "chezmoi-completion" "zsh" "chezmoi completion zsh"
+{{- end }}
+
+{{- if lookPath "carapace" }}
+generate "carapace-init" "zsh" "carapace _carapace zsh"
+{{- end }}
+
+{{- if lookPath "starship" }}
+generate "starship-init" "zsh" "starship init zsh"
+# Starship's PROMPT2 uses "$(...)" (immediate fork, ~290ms) while PROMPT and
+# RPROMPT use '$()' (deferred via promptsubst). Patch PROMPT2 to match.
+_star_cache="$CACHE_DIR/starship-init.zsh"
+if [[ -f "$_star_cache" ]]; then
+  sed -i '' "s|^PROMPT2=\"\(.*\)\"$|PROMPT2='\1'|" "$_star_cache"
+fi
+{{- end }}
+
+{{- if lookPath "fzf" }}
+generate "fzf-init" "zsh" "fzf --zsh"
+{{- end }}
+
+{{- if lookPath "zoxide" }}
+generate "zoxide-init" "zsh" "zoxide init zsh --cmd cd"
+{{- end }}
+
+# ---------------------------------------------------------------------------
+# FISH
+# ---------------------------------------------------------------------------
+
+{{- if lookPath "mise" }}
+generate "mise-activate" "fish" "mise activate fish"
+{{- end }}
+
+{{- if lookPath "starship" }}
+generate "starship-init" "fish" "starship init fish"
+{{- end }}
+
+{{- if lookPath "zoxide" }}
+generate "zoxide-init" "fish" "zoxide init fish --cmd cd"
+{{- end }}
+
+{{- if lookPath "fzf" }}
+generate "fzf-init" "fish" "fzf --fish"
+{{- end }}
+
+{{- if lookPath "carapace" }}
+generate "carapace-init" "fish" "carapace _carapace fish"
+{{- end }}
+
+{{- if lookPath "atuin" }}
+generate "atuin-init" "fish" "atuin init fish"
+{{- end }}
+
+echo "Shell init cache updated in $CACHE_DIR"
