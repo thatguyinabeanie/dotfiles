@@ -268,3 +268,10 @@ brain() {
   cd "$HOME/source/obsidian-brain" && claude "$@"
 }
 {{- end }}
+
+{{- $openclawCompletions := printf "%s/.openclaw/completions/openclaw.zsh" .chezmoi.homeDir }}
+{{- if stat $openclawCompletions }}
+
+# OpenClaw Completion
+source "{{ $openclawCompletions }}"
+{{- end }}

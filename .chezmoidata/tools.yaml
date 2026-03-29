@@ -58,7 +58,7 @@ dev_tools:
 
   # Editors
   - name: neovim
-    installer: [brew]
+    installer: [mise]
 
   # Terminal multiplexer
   - name: tmux
