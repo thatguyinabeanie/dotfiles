@@ -10,9 +10,21 @@
 | Alias/Key | Action |
 |-----------|--------|
 | `Prefix + ?` | 🔍 Fuzzy-search this cheat sheet (fzf) |
-| `Prefix + M` | 📖 Open this cheat sheet in nvim |
-| `Prefix + G` | 📖 Git aliases cheat sheet |
-| `Prefix + C` | 📂 All cheat sheets (nvim) |
+| `Prefix + M` | 📖 Tmux keybindings cheat sheet (nvim) |
+| `Prefix + G` | 🌿 Git aliases cheat sheet (nvim) |
+| `Prefix + C` | 📂 All cheat sheets directory (nvim) |
+
+### 📚 Available Cheat Sheets (`Prefix + C`)
+
+| File | Covers |
+|------|--------|
+| `tmux.md` | This file — tmux keybindings |
+| `git.md` | Git aliases and worktree workflow |
+| `neovim.md` | All Neovim / LazyVim keybindings |
+| `shell-aliases.md` | All shell aliases (git, docker, mise, etc.) |
+| `docker.md` | Docker aliases + lazydocker TUI |
+| `mise.md` | Mise version manager commands |
+| `chezmoi.md` | Chezmoi dotfiles workflow |
 | `Prefix + r` | 🔄 Reload tmux config |
 | `Prefix + :` | 💬 tmux command prompt |
 | `Prefix + t` | 👁️ Toggle status bar |
