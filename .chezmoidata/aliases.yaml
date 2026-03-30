@@ -236,6 +236,7 @@ aliases:
     items:
       - { name: v, command: "nvim" }
       - { name: vim, command: "nvim" }
+      - { name: nvim12, command: "mise exec neovim@0.12 -- nvim" }
 
   modern_cli:
     description: "Modern CLI replacements"
