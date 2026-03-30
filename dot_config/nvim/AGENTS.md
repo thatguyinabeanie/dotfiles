@@ -27,7 +27,7 @@ LazyVim with custom plugins, settings, and chezmoi template support.
   - `dev/`: Language support, LSP/Mason, treesitter, notebooks
   - `git/`: Git integrations (blame, diffview, lazygit, fugitive)
   - `ui/`: Interface enhancements (statusline, notifications)
-  - `utilities/`: System integrations (chezmoi, docker, images, MCP, REST)
+  - `utilities/`: System integrations (chezmoi, docker, images, MCP, REST, overseer)
 
 **Plugin Management:**
 
@@ -214,6 +214,8 @@ debugging, testing, formatting, and utilities.
 - `<leader>oo` - Run task
 - `<leader>ot` - Task action
 - `<leader>ow` - Task list
+- `<leader>ob` - Run background task in tmux window (persists after Neovim exit)
+- `<leader>og` - Go to tmux window of running task
 
 ### Custom Configuration Keymaps
 
@@ -352,6 +354,7 @@ Seamless navigation between Neovim windows and tmux panes using `Ctrl+h/j/k/l`.
 
 - `lua/config/`: Core LazyVim configuration (options, keymaps, autocmds)
 - `lua/plugins/`: Plugin configurations organized by category
+- `lua/overseer/strategy/`: Custom Overseer task strategies (e.g., `tmux_window.lua`)
 - `init.lua`: Bootstrap file that loads LazyVim and custom configurations
 - `.lazyvim.json`: LazyVim extras and version tracking
 

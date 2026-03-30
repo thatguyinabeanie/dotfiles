@@ -123,6 +123,15 @@ aliases:
       # Clean
       - { name: gclean, command: "git clean -fd" }
       - { name: gpristine, command: "git reset --hard && git clean -fdx" }
+      # Worktree
+      - { name: gwt, command: "git worktree" }
+      - { name: gwtl, command: "git worktree list" }
+      - { name: gwta, command: "git worktree add" }
+      - { name: gwtab, command: "git worktree add -b" }
+      - { name: gwtrm, command: "git worktree remove" }
+      - { name: gwtpr, command: "git worktree prune" }
+      - { name: gwtmv, command: "git worktree move" }
+      - { name: gwtlv, command: "git worktree list --verbose" }
 
   github:
     description: "GitHub CLI"

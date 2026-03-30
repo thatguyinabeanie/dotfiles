@@ -251,6 +251,31 @@
 
 ---
 
+## 🌲 Worktree
+
+> Worktrees let you check out multiple branches at once in separate directories.
+
+| Alias | Command |
+|-------|---------|
+| `gwt` | `git worktree` |
+| `gwtl` | `git worktree list` |
+| `gwtlv` | `git worktree list --verbose` |
+| `gwta` | `git worktree add <path> [<branch>]` |
+| `gwtab` | `git worktree add -b <branch> <path>` (create + checkout) |
+| `gwtrm` | `git worktree remove <path>` |
+| `gwtmv` | `git worktree move <path> <new-path>` |
+| `gwtpr` | `git worktree prune` (clean up stale metadata) |
+
+**Typical worktree workflow:**
+```bash
+gwtab ../my-feature feature/my-feature   # create worktree + new branch
+# work in ../my-feature independently
+gwtrm ../my-feature                       # remove when done
+gwtpr                                     # prune stale refs
+```
+
+---
+
 ## 🐙 GitHub CLI
 
 > Requires `gh` CLI

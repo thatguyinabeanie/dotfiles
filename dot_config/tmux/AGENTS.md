@@ -17,6 +17,7 @@ specialized configuration modules for better maintainability.
 - **`tmux.pomodoro.conf`** - Pomodoro timer settings
 - **`tmux.theme.catppuccin.conf.tmpl`** - Catppuccin theme (chezmoi template)
 - **`scripts/tmux-cheatsheet`** - Interactive cheat sheet script (fzf/glow/bat)
+- **`CHEATSHEET.md`** - Comprehensive tmux keybindings reference (opens via `Prefix + M`)
 - **`plugins/.chezmoiexternal.toml`** - Plugin dependencies (TPM, etc.)
 - **`.chezmoiexternal.toml`** - External dependencies
 
@@ -57,6 +58,13 @@ Fuzzy-searchable keybinding reference accessible via `Prefix + ?`:
 - Press Enter to copy keybinding to clipboard
 
 The cheat sheet script is located at `~/.config/tmux/scripts/tmux-cheatsheet`.
+
+### Cheatsheet Popups
+
+Two additional cheatsheet openers launch Neovim in a tmux popup:
+
+- **`Prefix + M`** - Opens `~/.config/tmux/CHEATSHEET.md` (comprehensive keybindings reference)
+- **`Prefix + C`** - Opens `~/docs/cheatsheets/` directory in Neovim (all cheatsheets: git, tmux, etc.)
 
 ### Session Management
 
@@ -124,7 +132,9 @@ Plugins managed via chezmoi external dependencies and TPM:
 
 ### Essential Keybindings
 
-- **Open cheat sheet** - `Prefix + ?`
+- **Open cheat sheet (fzf)** - `Prefix + ?`
+- **Open tmux keybindings (nvim popup)** - `Prefix + M`
+- **Open all cheatsheets dir (nvim popup)** - `Prefix + C`
 - Reload configuration - `Prefix + r`
 - Sesh session manager - `Prefix + T`
 - Choose session interactively - `Prefix + S`
