@@ -1,0 +1,26 @@
+##
+## GHOSTTY DASHBOARD SESSION
+##
+## Launched automatically when Ghostty opens (no active tmux session).
+## Subsequent Ghostty opens attach to this running session.
+##
+## Layout: main-vertical
+##   Left (large): btop — live system monitor
+##   Right top:    fastfetch + pokeget — system info with random Pokémon
+##   Right middle: wttr.in — weather
+##   Right bottom: tty-clock — digital clock
+##
+
+name: ghostty
+root: ~/
+
+startup_window: home
+
+windows:
+  - home:
+      layout: main-vertical
+      panes:
+        - btop
+        - pokeget random --hide-name | fastfetch --file-raw - 2>/dev/null || fastfetch
+        - curl -s wttr.in
+        - tty-clock -s -c -C 4
