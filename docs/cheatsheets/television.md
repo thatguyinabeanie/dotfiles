@@ -1,16 +1,18 @@
-# Television Cheatsheet
+# television
 
-**TUI fuzzy finder**—fast, modern terminal UI fuzzy finder with preview capabilities.
+**TUI fuzzy finder**—fast, modern terminal UI fuzzy finder with live preview.
 
-## Basic Usage
+## 🚀 CLI Commands
 
-| Command | Description |
-|---------|-------------|
-| `tv` | Open television picker for files |
-| `tv search-term` | Search for term immediately |
-| `command \| tv` | Pipe output to television |
+| Command | Action |
+|---------|--------|
+| `tv` | Open file picker in current directory |
+| `tv git` | Browse git-related information |
+| `tv sesh` | Browse tmux sessions via sesh |
+| `tv processes` | Browse running processes |
+| `command \| tv` | Pipe output into television |
 
-## Keyboard Navigation
+## ⌨️ Navigation
 
 | Key | Action |
 |-----|--------|
@@ -21,74 +23,30 @@
 | `d` | Page down |
 | `u` | Page up |
 | `/` | Start search |
-| `Esc` | Exit search / Cancel |
+| `Esc` | Exit search / cancel |
 | `Enter` | Select item |
-| `Ctrl+C` | Quit |
+| `Ctrl + C` | Quit |
 
-## Television Channels
-
-Television includes built-in "channels" for common tasks:
-
-### File browsing
-
-```bash
-tv  # Browse files in current directory
-```
-
-### Git integration
-
-```bash
-tv git  # Browse git-related information
-```
-
-### Sesh integration (tmux sessions)
-
-```bash
-tv sesh  # Browse tmux sessions with sesh
-```
-
-### Process management
-
-```bash
-tv processes  # Browse running processes
-```
-
-## Preview Window
+## 🔭 Preview Controls
 
 | Shortcut | Action |
 |----------|--------|
-| `Ctrl+O` | Toggle preview panel |
-| `Ctrl+F` | Cycle preview position |
-| `Ctrl+L` | Toggle layout |
-| `Page Down/Up` | Scroll preview half page |
+| `Ctrl + O` | Toggle preview panel |
+| `Ctrl + F` | Cycle preview position |
+| `Ctrl + L` | Toggle layout |
+| `Page Down` / `Page Up` | Scroll preview half page |
 
-## Search Modifiers
+## 🔍 Search Syntax
 
 | Syntax | Behavior |
 |--------|----------|
-| `term` | Fuzzy search for term |
-| `'term` | Exact match for term |
-| `!term` | Exclude term from results |
+| `term` | Fuzzy search |
+| `'term` | Exact match |
+| `!term` | Exclude term |
 | `^term` | Match at start of line |
 | `term$` | Match at end of line |
 
-## Integration with Tools
-
-### With tmux (session picker)
-
-```bash
-bind-key "t" display-popup -E -w 85% -h 85% "tv sesh"
-```
-
-### With fzf-compatible tools
-
-Television can be used as an fzf replacement in many workflows:
-
-```bash
-command | tv  # Instead of: command | fzf
-```
-
-## Options
+## 🔧 Flags
 
 | Flag | Description |
 |------|-------------|
@@ -97,37 +55,3 @@ command | tv  # Instead of: command | fzf
 | `-m` / `--multi` | Multi-select mode |
 | `--border` | Show border around picker |
 | `--height N` | Set height in lines |
-
-## Tips
-
-- **Preview by default**: Preview window shows context for selected item
-- **Fast filtering**: Type to filter results in real-time
-- **Mouse support**: Click to navigate (terminal-dependent)
-- **Color support**: Preserves colors from piped input
-- **Performance**: Handles large lists efficiently with streaming preview
-
-## Common Use Cases
-
-### Select file to edit
-
-```bash
-nvim $(tv)
-```
-
-### Kill process
-
-```bash
-ps aux | tv | awk '{print $2}' | xargs kill
-```
-
-### Checkout git branch
-
-```bash
-git checkout $(git branch | tv)
-```
-
-### Docker container selection
-
-```bash
-docker ps -a | tv
-```

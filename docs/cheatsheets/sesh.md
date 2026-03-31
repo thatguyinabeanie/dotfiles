@@ -1,91 +1,32 @@
-# Sesh Cheatsheet
+# sesh
 
-**Smart tmux session manager**—create and manage tmux sessions quickly with zoxide integration.
+**Smart tmux session manager**—create and switch tmux sessions with zoxide integration.
 
-## Basic Usage
+## 🚀 Core Commands
 
-| Command | Description |
-|---------|-------------|
-| `sesh list` | List all sessions (tmux, config, zoxide) |
-| `sesh connect SESSION` | Create or connect to session |
+| Command | Action |
+|---------|--------|
+| `sesh list` | List all sessions (tmux + config + zoxide) |
+| `sesh connect SESSION` | Create or connect to a session |
 | `sesh connect --switch SESSION` | Connect and switch to session |
 | `sesh root` | Get root of current git project |
 | `sesh last` | Switch to second-most-recent session |
+| `sesh preview SESSION` | Preview session contents |
 
-## Session Types
+## 🪟 Window Commands
 
-| Type | Source | Example |
-|------|--------|---------|
-| `tmux` | Active tmux sessions | `myproject` |
-| `config` | Configured in `sesh.toml` | `Downloads 📥` |
-| `zoxide` | Frequently visited directories | `~/projects/app` |
+| Command | Action |
+|---------|--------|
+| `sesh window` | List windows in current session |
+| `sesh window WINDOW_NAME` | Switch to or create window |
+| `sesh window ~/path` | Create window at directory |
+| `sesh window -s SESSION` | Target a specific session |
 
-## Integration with fzf
-
-### Basic fzf picker
-
-```bash
-sesh connect $(sesh list | fzf)
-```
-
-### With fzf-tmux (in tmux)
-
-```bash
-sesh connect $(sesh list -t -c -z | fzf-tmux -p 80%,70%)
-```
-
-### Advanced tmux keybind (fzf)
-
-```bash
-bind-key "t" run-shell "sesh connect \\"$(
-  sesh list --icons | fzf-tmux -p 80%,70% \\
-    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \\
-    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d kill' \\
-    --bind 'ctrl-a:reload(sesh list --icons)' \\
-    --bind 'ctrl-t:reload(sesh list -t --icons)' \\
-    --bind 'ctrl-g:reload(sesh list -c --icons)' \\
-    --bind 'ctrl-x:reload(sesh list -z --icons)' \\
-    --preview 'sesh preview {}'
-)\\""
-```
-
-## Television Integration
-
-Television cables replace fzf for a cleaner, declarative picker.
-
-### Tmux keybind (current setup)
-
-```bash
-bind-key "t" display-popup -E -w 85% -h 85% "tv sesh"
-```
-
-### Custom cable (`~/.config/television/cable/sesh.toml`)
-
-The sesh cable aggregates all session sources into one picker:
-
-- Active tmux sessions
-- Configured sessions from `sesh.toml`
-- Zoxide frecency directories
-- `~/source` project discovery via `fd`
-
-```toml
-[source]
-command = [
-  "sesh list --icons",
-  "sesh list -z --icons",
-  "fd -H -d 2 -t d -E .Trash . ~/source"
-]
-
-[keybindings]
-enter = "actions:connect"
-ctrl-d = ["actions:kill_session", "reload_source"]
-```
-
-## List Options
+## 📋 List Flags
 
 | Flag | Description |
 |------|-------------|
-| `-t` / `--tmux` | Show only tmux sessions |
+| `-t` / `--tmux` | Show only active tmux sessions |
 | `-c` / `--config` | Show only configured sessions |
 | `-z` / `--zoxide` | Show only zoxide directories |
 | `-i` / `--icons` | Display Nerd Font icons |
@@ -93,134 +34,28 @@ ctrl-d = ["actions:kill_session", "reload_source"]
 | `-d` / `--dir` | Show directory paths |
 | `-T` | Show session type |
 
-## Connect Options
+## 🔗 Connect Flags
 
 | Flag | Description |
 |------|-------------|
-| `--switch` / `-s` | Switch to session (useful for nested tmux) |
+| `--switch` / `-s` | Switch to session (for nested tmux) |
 | `--root` | Connect to root of git worktree |
 | `--command` / `-c` | Run command instead of startup script |
+| `--clone URL` | Clone repo and connect |
 
-## Configuration (sesh.toml)
+## 🖥️ Tmux Integration
 
-### Basic setup
+| Keybind | Action |
+|---------|--------|
+| `Prefix + t` | Open sesh session picker (television) |
 
-```toml
-# ~/.config/sesh/sesh.toml
+### Inside the sesh picker
 
-blacklist = ["scratch", "temp"]
-dir_length = 2  # Use last 2 directories in session names
-
-[[session]]
-name = "Downloads 📥"
-path = "~/Downloads"
-startup_command = "ls"
-
-[[wildcard]]
-pattern = "~/projects/*"
-startup_command = "nvim"
-```
-
-### Multiple windows
-
-```toml
-[[session]]
-name = "dev"
-path = "~/projects/myapp"
-windows = ["editor", "server", "git"]
-
-[[window]]
-name = "editor"
-startup_script = "nvim"
-
-[[window]]
-name = "server"
-startup_script = "npm run dev"
-```
-
-### Wildcard patterns
-
-```toml
-[[wildcard]]
-pattern = "~/projects/*"
-startup_command = "nvim"
-preview_command = "ls -la {}"
-
-[[wildcard]]
-pattern = "~/repos/**"  # Matches nested directories
-startup_command = "git status"
-```
-
-## Window Management
-
-| Command | Description |
-|---------|-------------|
-| `sesh window` | List windows in current session |
-| `sesh window WINDOW_NAME` | Switch to or create window |
-| `sesh window ~/path` | Create window at directory |
-| `sesh window -s SESSION` | Target specific session |
-
-### With fzf
-
-```bash
-sesh window $(sesh window | fzf)
-```
-
-## Tips & Tricks
-
-### Auto-start dev server
-
-```toml
-[default_session]
-startup_command = "npm run dev"
-preview_command = "eza --all --git --icons {}"
-```
-
-### Kill session from picker
-
-In your fzf keybind, use:
-
-```bash
---bind 'ctrl-d:execute(tmux kill-session -t {2..})'
-```
-
-### Clone and connect
-
-```bash
-sesh connect --clone https://github.com/user/repo
-```
-
-### Last session switching
-
-```bash
-bind-key "L" run-shell "sesh last"
-```
-
-### Preview command
-
-See directory contents in picker:
-
-```bash
-sesh list --icons | fzf --preview 'sesh preview {}'
-```
-
-## Recommended tmux Settings
-
-```bash
-# ~/.config/tmux/tmux.conf
-bind x kill-pane
-set -g detach-on-destroy off  # Don't exit tmux when closing session
-```
-
-## Integration with Zosh/Fish
-
-### Zsh keybind
-
-```bash
-function sesh-sessions() {
-  exec </dev/tty
-  sesh connect $(sesh list | fzf)
-}
-zle -N sesh-sessions
-bindkey '\es' sesh-sessions  # Alt+S
-```
+| Key | Action |
+|-----|--------|
+| `Enter` | Connect to / create session |
+| `Ctrl + d` | Kill selected session + reload list |
+| `j` / `k` | Navigate up / down |
+| `/` | Search |
+| `Ctrl + O` | Toggle preview panel |
+| `Ctrl + S` | Cycle sources |

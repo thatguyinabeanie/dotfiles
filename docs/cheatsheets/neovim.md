@@ -1,23 +1,18 @@
-# ⌨️ Neovim Keybindings Cheat Sheet
+# Neovim
 
-> **Leader**: `<Space>` · **Localleader**: `\`
-> Press `q` to close · `j/k` to scroll · `/` to search
-
----
+**Modal text editor**—LazyVim-based config. Leader: `Space` · Localleader: `\`
 
 ## 🧭 Navigation & Windows
 
 | Key | Action |
 |-----|--------|
-| `<C-h/j/k/l>` | Navigate windows / tmux panes |
-| `<C-↑/↓/←/→>` | Resize windows |
-| `<S-h>` / `<S-l>` | Previous / Next buffer |
-| `<leader>-` | Split window below |
-| `<leader>\|` | Split window right |
+| `Ctrl + h/j/k/l` | Navigate windows / tmux panes |
+| `Ctrl + ↑/↓/←/→` | Resize windows |
+| `Shift + h` / `Shift + l` | Previous / next buffer |
+| `<leader> -` | Split window below |
+| `<leader> \|` | Split window right |
 | `<leader>wd` | Delete window |
 | `<leader>wm` | Toggle zoom (maximize) mode |
-
----
 
 ## 📁 Files & Search (Snacks Picker)
 
@@ -26,7 +21,7 @@
 | `<leader><space>` | Find files (root dir) |
 | `<leader>ff` | Find files (root dir) |
 | `<leader>fF` | Find files (cwd) |
-| `<leader>fg` | Find files (git-tracked) |
+| `<leader>fg` | Find git-tracked files |
 | `<leader>fr` | Recent files |
 | `<leader>fb` | Find buffers |
 | `<leader>fc` | Find config file |
@@ -38,8 +33,6 @@
 | `<leader>s"` | Registers |
 | `<leader>sm` | Marks |
 | `<leader>sk` | Keymaps |
-
----
 
 ## 🔵 LSP & Code
 
@@ -57,8 +50,6 @@
 | `<leader>cm` | Mason (tool installer) |
 | `<leader>cs` | Symbols (Trouble) |
 
----
-
 ## 🔴 Diagnostics & Trouble
 
 | Key | Action |
@@ -67,10 +58,8 @@
 | `<leader>xX` | Buffer diagnostics (Trouble) |
 | `<leader>xl` | Location list |
 | `<leader>xq` | Quickfix list |
-| `]d` / `[d` | Next / Prev diagnostic |
-| `]e` / `[e` | Next / Prev error |
-
----
+| `]d` / `[d` | Next / prev diagnostic |
+| `]e` / `[e` | Next / prev error |
 
 ## 🌿 Git
 
@@ -84,8 +73,6 @@
 | `<leader>gp` | GitHub PRs list (Octo) |
 | `<leader>gr` | GitHub repos list (Octo) |
 
----
-
 ## 📋 Buffers
 
 | Key | Action |
@@ -97,8 +84,6 @@
 | `<leader>bb` | Switch to other buffer |
 | `<leader>bx` | Close all buffers |
 
----
-
 ## 📄 File Path Operations
 
 | Key | Action |
@@ -107,8 +92,6 @@
 | `<leader>fY` | Copy buffer absolute path |
 | `<leader>fd` | Copy parent dir relative path |
 | `<leader>fD` | Copy parent dir absolute path |
-
----
 
 ## 🤖 AI & Sidekick
 
@@ -121,10 +104,8 @@
 | `<leader>ap` | Select prompt |
 | `<leader>ac` | Toggle Claude directly |
 | `<leader>am` | MCP Hub |
-| `<C-.>` | Switch focus (CLI ↔ editor) |
-| `<Tab>` | Apply Next Edit Suggestion (NES) |
-
----
+| `Ctrl + .` | Switch focus (CLI ↔ editor) |
+| `Tab` | Apply Next Edit Suggestion (NES) |
 
 ## 🧪 Testing (Neotest)
 
@@ -135,8 +116,6 @@
 | `<leader>tl` | Run last test |
 | `<leader>ts` | Toggle test summary |
 | `<leader>to` | Show test output |
-
----
 
 ## 🐛 Debugging (DAP)
 
@@ -150,8 +129,6 @@
 | `<leader>dPt` | Debug Python method |
 | `<leader>dPc` | Debug Python class |
 
----
-
 ## 🔧 Refactoring
 
 | Key | Action |
@@ -159,8 +136,6 @@
 | `<leader>rf` | Extract function |
 | `<leader>rv` | Extract variable |
 | `<leader>ri` | Inline variable |
-
----
 
 ## 🌐 REST API (Kulala)
 
@@ -170,10 +145,8 @@
 | `<leader>Rr` | Replay last request |
 | `<leader>Rc` | Copy as cURL |
 | `<leader>Ri` | Inspect request |
-| `<leader>Rn` / `<leader>Rp` | Next / Prev request |
+| `<leader>Rn` / `<leader>Rp` | Next / prev request |
 | `<leader>Rt` | Toggle headers/body |
-
----
 
 ## ⚙️ Overseer (Task Runner)
 
@@ -184,8 +157,6 @@
 | `<leader>ow` | Task list |
 | `<leader>ob` | Run background task in tmux window |
 | `<leader>og` | Go to tmux window of running task |
-
----
 
 ## 🎨 UI Toggles
 
@@ -200,20 +171,16 @@
 | `<leader>ud` | Toggle diagnostics |
 | `<leader>uh` | Toggle inlay hints |
 
----
-
 ## 🌲 Syntax Tree Navigation (Treewalker)
 
 | Key | Action |
 |-----|--------|
-| `<Alt-h/j/k/l>` | Move through syntax tree nodes |
-| `<Alt-Shift-h/l>` | Swap nodes left / right |
-| `<Alt-Ctrl-j/k>` | Move line up / down |
-| `<Alt-Ctrl-h/l>` | Indent / dedent line |
+| `Alt + h/j/k/l` | Move through syntax tree nodes |
+| `Alt + Shift + h/l` | Swap nodes left / right |
+| `Alt + Ctrl + j/k` | Move line up / down |
+| `Alt + Ctrl + h/l` | Indent / dedent line |
 
----
-
-## ✂️ Text Objects
+## ✂️ Text Objects & Motions
 
 | Key | Action |
 |-----|--------|
@@ -225,8 +192,6 @@
 | `S` | Flash jump backward |
 | `r` | Remote flash (operator mode) |
 
----
-
 ## 📋 Yank (Yanky)
 
 | Key | Action |
@@ -234,8 +199,6 @@
 | `<leader>p` | Open yank history |
 | `]y` / `[y` | Cycle yank history forward / back |
 | `p` / `P` | Enhanced put operations |
-
----
 
 ## 📓 Notebooks (Molten)
 
@@ -245,19 +208,10 @@
 | `<localleader>r` | Run cell |
 | `<localleader>d` | Delete cell output |
 
----
-
-## 🗄️ Database (DBUI)
-
-| Key | Action |
-|-----|--------|
-| `<leader>D` | Toggle DBUI |
-
----
-
-## 📝 Language-Specific
+## 🗄️ Database & Language-Specific
 
 | Key | Language | Action |
 |-----|----------|--------|
+| `<leader>D` | Any | Toggle DBUI |
 | `<leader>cp` | Markdown | Preview |
 | `<localleader>l` | LaTeX | VimTeX menu |

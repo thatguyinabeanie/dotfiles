@@ -1,9 +1,6 @@
-# 🏠 Chezmoi Cheat Sheet
+# chezmoi
 
-> Dotfiles manager — source lives in `~/.local/share/chezmoi/`
-> Press `q` to close · `j/k` to scroll · `/` to search
-
----
+**Dotfiles manager**—source lives in `~/.local/share/chezmoi/`.
 
 ## 🐚 Shell Aliases
 
@@ -19,56 +16,44 @@
 | `czs` | `chezmoi status` |
 | `czdr` | `chezmoi apply --dry-run` |
 
----
-
 ## 🔄 Core Workflow
 
-| Command | Description |
-|---------|-------------|
-| `chezmoi apply --dry-run` | **Preview** changes without applying |
+| Command | Action |
+|---------|--------|
+| `chezmoi apply --dry-run` | Preview changes without applying |
 | `chezmoi apply --force` | Apply all changes |
 | `chezmoi diff` | Show what would change |
 | `chezmoi status` | Show managed file status |
-| `chezmoi update` | Pull latest + apply |
+| `chezmoi update` | Pull latest and apply |
 | `chezmoi cd` | `cd` into the source directory |
-
-> **Rule:** Always `--dry-run` before `--force`.
-
----
 
 ## ✏️ Editing Files
 
-| Command | Description |
-|---------|-------------|
-| `chezmoi edit <file>` | Edit a managed file in the source |
-| `chezmoi edit ~/.zshrc` | Edit zshrc source |
-| `chezmoi edit --apply <file>` | Edit and immediately apply |
-| `chezmoi add <file>` | Start managing an untracked file |
-| `chezmoi re-add <file>` | Re-sync managed file from target |
-| `chezmoi forget <file>` | Stop managing a file (keeps target) |
-| `chezmoi destroy <file>` | Stop managing and delete target |
-
----
+| Command | Action |
+|---------|--------|
+| `chezmoi edit FILE` | Edit a managed file in the source |
+| `chezmoi edit --apply FILE` | Edit and immediately apply |
+| `chezmoi add FILE` | Start managing an untracked file |
+| `chezmoi re-add FILE` | Re-sync managed file from target |
+| `chezmoi forget FILE` | Stop managing a file (keeps target) |
+| `chezmoi destroy FILE` | Stop managing and delete target |
 
 ## 📊 Inspecting State
 
-| Command | Description |
-|---------|-------------|
-| `chezmoi status` | Show changed / new / removed files |
-| `chezmoi diff` | Full diff of pending changes |
+| Command | Action |
+|---------|--------|
 | `chezmoi managed` | List all managed files |
 | `chezmoi unmanaged` | List unmanaged files in home |
-| `chezmoi cat <file>` | Show generated content for a file |
+| `chezmoi cat FILE` | Show generated content for a file |
 | `chezmoi execute-template` | Evaluate a template interactively |
 | `chezmoi data` | Dump all template data as JSON |
-
----
+| `chezmoi source-path FILE` | Show source path for a target file |
 
 ## 🗂️ Source Directory Conventions
 
 | Prefix / Suffix | Meaning |
 |-----------------|---------|
-| `dot_` | Maps to `.` (e.g., `dot_zshrc` → `~/.zshrc`) |
+| `dot_` | Maps to `.` (for example, `dot_zshrc` → `~/.zshrc`) |
 | `private_` | File is encrypted |
 | `.tmpl` | Processed as a Go template |
 | `.chezmoitemplates/` | Shared template partials |
@@ -79,12 +64,24 @@
 | `run_once_` | Script that runs only once |
 | `run_onchange_` | Script that runs when content changes |
 
----
+## 🔧 Init & Bootstrap
 
-## 📦 Package Management (This Repo)
+| Command | Action |
+|---------|--------|
+| `chezmoi init` | Initialize from remote repo |
+| `chezmoi init --apply` | Init and apply in one step |
+| `chezmoi init https://github.com/USER/dotfiles` | Init from GitHub |
+| `chezmoi upgrade` | Upgrade chezmoi binary |
 
-> **Never** run `brew install`, `npm install -g`, etc. manually.
-> All packages are declared in `.chezmoidata/*.yaml`.
+## 🛠️ Troubleshooting
+
+| Command | Action |
+|---------|--------|
+| `chezmoi apply -v` | Verbose output for debugging |
+| `chezmoi apply --dry-run 2>&1` | Check for template errors |
+| `chezmoi state delete-bucket --bucket=scriptState` | Re-run a `run_once_` script |
+
+## 📦 `.chezmoidata/` Files
 
 | File | Purpose |
 |------|---------|
@@ -94,68 +91,3 @@
 | `lsp.yaml` | LSP server configurations |
 | `applications.yaml` | macOS GUI apps |
 | `aliases.yaml` | Shell aliases (Fish + Zsh) |
-
-**Add a tool:**
-
-```yaml
-# .chezmoidata/tools.yaml
-dev_tools:
-  - name: my-tool
-    installer: [mise]
-    description: "Does something useful"
-```
-
-Then: `chezmoi apply --dry-run` → `chezmoi apply --force`
-
----
-
-## 🧪 Templates
-
-```bash
-# Test template rendering
-chezmoi execute-template < dot_zshrc.tmpl
-
-# Dump all data available in templates
-chezmoi data
-
-# Preview generated content for a specific file
-chezmoi cat ~/.zshrc
-```
-
-**Common template variables:**
-
-```
-{{ .chezmoi.os }}          # "darwin" or "linux"
-{{ .chezmoi.hostname }}    # machine hostname
-{{ .nvim.colorscheme }}    # from shared.yaml
-{{ .CATPPUCCIN_FLAVOR }}   # from shared.yaml
-```
-
----
-
-## 🔧 Init & Bootstrap
-
-| Command | Description |
-|---------|-------------|
-| `chezmoi init` | Initialize from remote repo |
-| `chezmoi init --apply` | Init + apply in one step |
-| `chezmoi init https://github.com/user/dotfiles` | Init from GitHub |
-| `chezmoi upgrade` | Upgrade chezmoi binary |
-
----
-
-## 🛠️ Troubleshooting
-
-```bash
-# Verbose output for debugging
-chezmoi apply -v
-
-# See exact source state
-chezmoi source-path ~/.zshrc
-
-# Re-run a run_once_ script (delete its hash)
-chezmoi state delete-bucket --bucket=scriptState
-
-# Check for template errors
-chezmoi apply --dry-run 2>&1
-```
