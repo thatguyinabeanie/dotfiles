@@ -57,9 +57,10 @@ tv processes  # Browse running processes
 
 | Shortcut | Action |
 |----------|--------|
-| `Tab` | Toggle preview panel |
-| `Ctrl+/` | Cycle preview position (top/right/bottom) |
-| `Ctrl+P` | Toggle preview |
+| `Ctrl+O` | Toggle preview panel |
+| `Ctrl+F` | Cycle preview position |
+| `Ctrl+L` | Toggle layout |
+| `Page Down/Up` | Scroll preview half page |
 
 ## Search Modifiers
 
@@ -76,7 +77,7 @@ tv processes  # Browse running processes
 ### With tmux (session picker)
 
 ```bash
-bind-key "T" display-popup -E -w 80% -h 70% -T 'Sesh' tv sesh
+bind-key "t" display-popup -E -w 85% -h 85% "tv sesh"
 ```
 
 ### With fzf-compatible tools

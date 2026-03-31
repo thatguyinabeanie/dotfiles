@@ -34,10 +34,10 @@ sesh connect $(sesh list | fzf)
 sesh connect $(sesh list -t -c -z | fzf-tmux -p 80%,70%)
 ```
 
-### Advanced tmux keybind
+### Advanced tmux keybind (fzf)
 
 ```bash
-bind-key "T" run-shell "sesh connect \\"$(
+bind-key "t" run-shell "sesh connect \\"$(
   sesh list --icons | fzf-tmux -p 80%,70% \\
     --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \\
     --header '  ^a all ^t tmux ^g configs ^x zoxide ^d kill' \\
@@ -51,10 +51,34 @@ bind-key "T" run-shell "sesh connect \\"$(
 
 ## Television Integration
 
-### Simple picker
+Television cables replace fzf for a cleaner, declarative picker.
+
+### Tmux keybind (current setup)
 
 ```bash
-bind-key "T" display-popup -E -w 80% -h 70% tv sesh
+bind-key "t" display-popup -E -w 85% -h 85% "tv sesh"
+```
+
+### Custom cable (`~/.config/television/cable/sesh.toml`)
+
+The sesh cable aggregates all session sources into one picker:
+
+- Active tmux sessions
+- Configured sessions from `sesh.toml`
+- Zoxide frecency directories
+- `~/source` project discovery via `fd`
+
+```toml
+[source]
+command = [
+  "sesh list --icons",
+  "sesh list -z --icons",
+  "fd -H -d 2 -t d -E .Trash . ~/source"
+]
+
+[keybindings]
+enter = "actions:connect"
+ctrl-d = ["actions:kill_session", "reload_source"]
 ```
 
 ## List Options
