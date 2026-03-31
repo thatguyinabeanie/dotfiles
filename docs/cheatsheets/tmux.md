@@ -88,15 +88,13 @@
 
 | Key | Action |
 |-----|--------|
-| `Prefix + {` | Swap current pane with the one before it |
-| `Prefix + }` | Swap current pane with the one after it |
-| `Prefix + C-o` | Rotate all panes forward (cycle positions) |
+| `Prefix + Alt + h/j/k/l` | Move pane in that direction (pane travels with you) |
+| `Prefix + @` | Send current pane to another window (prompts for window number) |
+| `Prefix + !` | Break pane out into its own new window |
+| `Prefix + {` | Swap with previous pane |
+| `Prefix + }` | Swap with next pane |
+| `Prefix + C-o` | Rotate all panes forward |
 | `Prefix + M-o` | Rotate all panes backward |
-| `Prefix + !` | Break current pane out into its own window |
-| `Prefix + :join-pane -t :N` | Move current pane into window N |
-| `Prefix + :join-pane -s :N.P` | Pull pane P from window N into current window |
-| `Prefix + :swap-pane -s N -t M` | Swap pane N with pane M (by index) |
-| Mouse drag | Drag pane border to resize (mouse mode is on) |
 
 ## 📐 Panes—Resize
 
