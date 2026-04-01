@@ -1,0 +1,58 @@
+##
+## SESH CONFIGURATION
+##
+## Smart session manager with zoxide and tmuxinator integration
+## Keybinding: Prefix + s (opens television sesh picker in tmux popup)
+##
+
+## Default session settings
+[default_session]
+startup_command = ""
+
+## ============================================================
+## ALWAYS-ON SESSIONS (both machines)
+## ============================================================
+
+[[session]]
+name = "dotfiles"
+path = "~/.local/share/chezmoi"
+startup_command = "nvim"
+
+[[session]]
+name = "config"
+path = "~/.config"
+
+## ============================================================
+## WORK-ONLY SESSIONS
+## ============================================================
+{{ if .WORK_ENVIRONMENT }}
+[[session]]
+name = "popsicle"
+path = "~/source/popsicle"
+startup_command = "nvim"
+
+[[session]]
+name = "console"
+path = "~/source/console"
+startup_command = "nvim"
+
+[[session]]
+name = "ai-list-cutter"
+path = "~/source/ai-list-cutter"
+startup_command = "nvim"
+{{ end }}
+## ============================================================
+## INTEGRATIONS
+## ============================================================
+
+## Zoxide — frecency-based directory suggestions
+[zoxide]
+enabled = true
+
+## Tmuxinator — reads YAML session templates from ~/.config/tmuxinator/
+[tmuxinator]
+enabled = true
+
+## Preview — show session contents before switching
+[preview]
+enabled = true

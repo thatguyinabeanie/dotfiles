@@ -1,80 +1,78 @@
-# 🐳 Docker & Lazydocker Cheat Sheet
+# Docker & Lazydocker
 
-> Press `q` to close · `j/k` to scroll · `/` to search
+**Container platform**—run, manage, and orchestrate containers.
 
----
+## 🐚 Shell Aliases—Compose
 
-## 🐚 Shell Aliases (Quick Reference)
+| Alias | Command |
+|-------|---------|
+| `d` | `docker` |
+| `dc` | `docker compose` |
+| `dcu` | `docker compose up` |
+| `dcud` | `docker compose up -d` |
+| `dcd` | `docker compose down` |
+| `dcb` | `docker compose build` |
+| `dcl` | `docker compose logs` |
+| `dclf` | `docker compose logs -f` |
+| `dce` | `docker compose exec` |
+| `dcr` | `docker compose restart` |
+| `dcps` | `docker compose ps` |
 
-| Alias | Command | Description |
-|-------|---------|-------------|
-| `d` | `docker` | Base command |
-| **Compose** | | |
-| `dc` | `docker compose` | Base compose |
-| `dcu` | `docker compose up` | Start services |
-| `dcud` | `docker compose up -d` | Start detached |
-| `dcd` | `docker compose down` | Stop & remove containers |
-| `dcb` | `docker compose build` | Build images |
-| `dcl` | `docker compose logs` | View logs |
-| `dclf` | `docker compose logs -f` | Follow logs |
-| `dce` | `docker compose exec` | Exec into service |
-| `dcr` | `docker compose restart` | Restart services |
-| `dcps` | `docker compose ps` | List running services |
-| **Containers** | | |
-| `dps` | `docker ps` | List running containers |
-| `dpsa` | `docker ps -a` | List all containers |
-| `dr` | `docker run` | Run container |
-| `drit` | `docker run -it` | Run interactive |
-| `drm` | `docker rm` | Remove container |
-| `drmf` | `docker rm -f` | Force remove |
-| `dst` | `docker start` | Start container |
-| `dstp` | `docker stop` | Stop container |
-| `drs` | `docker restart` | Restart container |
-| `dex` | `docker exec` | Exec in running container |
-| `deit` | `docker exec -it` | Interactive exec |
-| `dlo` | `docker logs` | Container logs |
-| `dlof` | `docker logs -f` | Follow container logs |
-| `dins` | `docker inspect` | Inspect container |
-| `dsts` | `docker stats` | Live resource stats |
-| **Images** | | |
-| `di` | `docker images` | List images |
-| `dpl` | `docker pull` | Pull image |
-| `dph` | `docker push` | Push image |
-| `drmi` | `docker rmi` | Remove image |
-| `dtag` | `docker tag` | Tag image |
-| `dbld` | `docker build` | Build image |
-| `dipr` | `docker image prune -a` | Prune unused images |
-| **Volumes** | | |
-| `dvls` | `docker volume ls` | List volumes |
-| `dvrm` | `docker volume rm` | Remove volume |
-| `dvpr` | `docker volume prune` | Prune unused volumes |
-| **Networks** | | |
-| `dnls` | `docker network ls` | List networks |
-| `dnc` | `docker network create` | Create network |
-| `dnrm` | `docker network rm` | Remove network |
-| **System** | | |
-| `dsp` | `docker system prune` | Clean stopped containers + dangling images |
-| `dspa` | `docker system prune --all --volumes` | Full nuclear clean |
+## 🐚 Shell Aliases—Containers
 
----
+| Alias | Command |
+|-------|---------|
+| `dps` | `docker ps` |
+| `dpsa` | `docker ps -a` |
+| `dr` | `docker run` |
+| `drit` | `docker run -it` |
+| `drm` | `docker rm` |
+| `drmf` | `docker rm -f` |
+| `dst` | `docker start` |
+| `dstp` | `docker stop` |
+| `drs` | `docker restart` |
+| `dex` | `docker exec` |
+| `deit` | `docker exec -it` |
+| `dlo` | `docker logs` |
+| `dlof` | `docker logs -f` |
+| `dins` | `docker inspect` |
+| `dsts` | `docker stats` |
 
-## 🖥️ Lazydocker TUI
+## 🐚 Shell Aliases—Images, Volumes, Networks, System
 
-> Launch with: `lazydocker` · Opens a full TUI dashboard
+| Alias | Command |
+|-------|---------|
+| `di` | `docker images` |
+| `dpl` | `docker pull` |
+| `dph` | `docker push` |
+| `drmi` | `docker rmi` |
+| `dtag` | `docker tag` |
+| `dbld` | `docker build` |
+| `dipr` | `docker image prune -a` |
+| `dvls` | `docker volume ls` |
+| `dvrm` | `docker volume rm` |
+| `dvpr` | `docker volume prune` |
+| `dnls` | `docker network ls` |
+| `dnc` | `docker network create` |
+| `dnrm` | `docker network rm` |
+| `dsp` | `docker system prune` |
+| `dspa` | `docker system prune --all --volumes` |
 
-### Global Navigation
+## 🖥️ Lazydocker—Global Navigation
+
+Launch with: `lazydocker`
 
 | Key | Action |
 |-----|--------|
 | `h` / `l` or `←` / `→` | Switch between panels |
 | `j` / `k` or `↑` / `↓` | Navigate list |
-| `[` / `]` | Switch between tabs within a panel |
-| `q` | Quit lazydocker |
+| `[` / `]` | Switch tabs within panel |
+| `q` | Quit |
 | `?` | Open help / keybindings |
 | `/` | Filter list |
 | `x` | Open command menu |
 
-### 🐋 Containers Panel
+## 🐋 Lazydocker—Containers Panel
 
 | Key | Action |
 |-----|--------|
@@ -87,33 +85,21 @@
 | `l` | View logs |
 | `m` | View mounts |
 | `c` | View container config |
-| `p` | Pause / Unpause |
+| `p` | Pause / unpause |
 | `a` | Attach to container |
 
-### 🖼️ Images Panel
+## 🖼️ Lazydocker—Images / Volumes / Networks
 
-| Key | Action |
-|-----|--------|
-| `d` | Remove image |
-| `p` | Pull latest version |
-| `u` | Push image |
-| `Enter` | View image details |
+| Panel | Key | Action |
+|-------|-----|--------|
+| Images | `d` | Remove image |
+| Images | `p` | Pull latest version |
+| Images | `u` | Push image |
+| Volumes | `d` | Remove volume |
+| Volumes | `Enter` | Browse volume contents |
+| Networks | `d` | Remove network |
 
-### 📦 Volumes Panel
-
-| Key | Action |
-|-----|--------|
-| `d` | Remove volume |
-| `Enter` | Browse volume contents |
-
-### 🌐 Networks Panel
-
-| Key | Action |
-|-----|--------|
-| `d` | Remove network |
-| `Enter` | View network details |
-
-### 📜 Logs View
+## 📜 Lazydocker—Logs View
 
 | Key | Action |
 |-----|--------|
@@ -122,46 +108,3 @@
 | `w` | Toggle wrap |
 | `/` | Search in logs |
 | `Esc` | Return to list |
-
----
-
-## 🧹 Common Cleanup Workflows
-
-```bash
-# Stop all running containers
-docker stop $(docker ps -q)
-
-# Remove all stopped containers
-docker rm $(docker ps -aq)
-
-# Remove all unused images
-docker image prune -a
-
-# Remove unused volumes
-docker volume prune
-
-# Nuclear option: remove everything unused
-docker system prune --all --volumes
-# alias: dspa
-```
-
----
-
-## 🔍 Useful One-Liners
-
-```bash
-# Follow logs for a specific service
-dclf <service>
-
-# Open a shell in a running container
-deit <container> sh
-
-# Copy a file from a container
-docker cp <container>:/path/to/file ./local-file
-
-# View resource usage
-dsts
-
-# Inspect container's IP address
-docker inspect <container> | grep IPAddress
-```

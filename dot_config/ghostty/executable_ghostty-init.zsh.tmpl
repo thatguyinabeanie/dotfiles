@@ -1,14 +1,25 @@
 #!/bin/zsh
-# Ghostty startup script — attaches to tmux session or starts shell directly
+# Ghostty startup script — attaches to or creates the ghostty dashboard session
+# - If ghostty session exists: attach to it
+# - If not: build dashboard layout via tmuxinator (or plain tmux if tmuxinator absent at chezmoi-apply time)
 # Paths resolved at chezmoi apply time (no runtime loops)
 
 {{- $shellPath := lookPath "zsh" | default "/bin/zsh" }}
 {{- $tmuxPath := lookPath "tmux" | default "" }}
+{{- $tmuxinatorPath := lookPath "tmuxinator" | default "" }}
 
 if [[ -z "$TMUX" && -z "$GHOSTTY_NO_TMUX" ]]; then
 {{- if $tmuxPath }}
   export SHELL="{{ $shellPath }}"
-  exec {{ $tmuxPath }} new-session -A -s 'ghostty' "{{ $shellPath }}" -l
+  if {{ $tmuxPath }} has-session -t ghostty 2>/dev/null; then
+    exec {{ $tmuxPath }} attach-session -t ghostty
+  else
+{{- if $tmuxinatorPath }}
+    exec {{ $tmuxinatorPath }} start ghostty
+{{- else }}
+    exec {{ $tmuxPath }} new-session -s ghostty "{{ $shellPath }}" -l
+{{- end }}
+  fi
 {{- else }}
   exec {{ $shellPath }} -l
 {{- end }}

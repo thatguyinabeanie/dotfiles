@@ -8,9 +8,9 @@ set -g @catppuccin_status_background "none"
 set -g @catppuccin_window_status_style "none"
 set -g @catppuccin_menu_selected_style "fg=#{@thm_surface_0},bg=#{@thm_yellow}"
 
-## POPUP STYLING (transparent background with Catppuccin-themed rounded borders)
-set -g popup-style 'bg=default'
-set -g popup-border-style 'fg=#{@thm_lavender}'
+## POPUP STYLING
+## NOTE: All popup styles (popup-style, popup-border-style) are set AFTER TPM
+## initialization in tmux.conf to override Catppuccin's opaque defaults.
 set -g popup-border-lines rounded
 
 ##
@@ -30,6 +30,7 @@ set -g status-right-length 100
 set -g status-right ""
 
 set -ga status-right "#[fg=#{@thm_blue}]󰅐 %a %b %d %H:%M "
+set -ga status-right "#(~/.local/bin/taskwarrior-status)"
 
 set -g @fzf-url-bind 'u'
 set -g @fzf-url-history-limit '3000'

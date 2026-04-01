@@ -1,0 +1,110 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# taskwarrior-backup
+# Exports all Taskwarrior tasks as JSON and commits/pushes to a private GitHub repo.
+# Called by the Taskwarrior on-exit hook after every task command, and weekly by launchd.
+#
+# State machine via flag file:
+#   ~/.task/.backup_pending  — written with timestamp on push failure, cleared on success
+#
+# Notifications:
+#   macOS notification on push failure (and recovery)
+#
+# Log: ~/.local/log/taskwarrior-backup.log
+
+BACKUP_REPO_NAME="taskwarrior-backup"
+BACKUP_DIR="${HOME}/.task/backup"
+PENDING_FLAG="${HOME}/.task/.backup_pending"
+LOG_DIR="${HOME}/.local/log"
+LOG_FILE="${LOG_DIR}/taskwarrior-backup.log"
+
+log() {
+  local timestamp
+  timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+  echo "[$timestamp] $*" >> "$LOG_FILE"
+}
+
+notify() {
+  local title="$1"
+  local message="$2"
+  osascript -e "display notification \"${message}\" with title \"${title}\"" 2>/dev/null || true
+}
+
+# Ensure log dir exists
+mkdir -p "$LOG_DIR"
+
+# Bail silently if task is not installed
+if ! command -v task &>/dev/null; then
+  exit 0
+fi
+
+# Ensure backup dir exists
+mkdir -p "$BACKUP_DIR"
+
+# ── Repo bootstrap ────────────────────────────────────────────────────────────
+if [ ! -d "$BACKUP_DIR/.git" ]; then
+  log "Initializing backup repo at $BACKUP_DIR"
+  cd "$BACKUP_DIR"
+  git init -b main
+
+  # Check GitHub for existing repo; create if missing
+  if ! gh repo view "$BACKUP_REPO_NAME" &>/dev/null 2>&1; then
+    log "Creating private GitHub repo: $BACKUP_REPO_NAME"
+    gh repo create "$BACKUP_REPO_NAME" --private 2>&1 | tee -a "$LOG_FILE"
+    GITHUB_USER=$(gh api user --jq '.login')
+    git remote add origin "https://github.com/${GITHUB_USER}/${BACKUP_REPO_NAME}.git"
+  else
+    GITHUB_USER=$(gh api user --jq '.login')
+    git remote add origin "https://github.com/${GITHUB_USER}/${BACKUP_REPO_NAME}.git"
+    log "Pulling existing backup repo"
+    git pull origin main --allow-unrelated-histories 2>&1 | tee -a "$LOG_FILE" || true
+  fi
+fi
+
+cd "$BACKUP_DIR"
+
+# ── Export ────────────────────────────────────────────────────────────────────
+task export > tasks.json
+git add tasks.json
+
+# Determine whether there are new uncommitted changes
+HAS_STAGED_CHANGES=false
+if ! git diff --cached --quiet; then
+  HAS_STAGED_CHANGES=true
+fi
+
+# Determine whether a previous push failed (commit exists locally but not on remote)
+WAS_PENDING=false
+if [ -f "$PENDING_FLAG" ]; then
+  WAS_PENDING=true
+fi
+
+# Nothing to do: no new changes AND no pending retry needed
+if [ "$HAS_STAGED_CHANGES" = false ] && [ "$WAS_PENDING" = false ]; then
+  exit 0
+fi
+
+# ── Commit (only if there are new changes) ────────────────────────────────────
+if [ "$HAS_STAGED_CHANGES" = true ]; then
+  COMMIT_MSG="backup: $(date '+%Y-%m-%d %H:%M')"
+  git commit -m "$COMMIT_MSG" 2>&1 | tee -a "$LOG_FILE"
+else
+  log "Retrying push for previously committed changes"
+fi
+
+# ── Push ──────────────────────────────────────────────────────────────────────
+if git push origin main 2>&1 | tee -a "$LOG_FILE"; then
+  log "Backup pushed successfully"
+  if [ "$WAS_PENDING" = true ]; then
+    rm -f "$PENDING_FLAG"
+    notify "Taskwarrior Backup" "Backup recovered and pushed successfully"
+    log "Cleared pending flag after successful push"
+  fi
+else
+  # Push failed — write pending flag with current timestamp
+  date '+%s' > "$PENDING_FLAG"
+  log "Push failed — wrote pending flag at $PENDING_FLAG"
+  notify "Taskwarrior Backup Failed" "Could not push to GitHub. Will retry on next task command."
+fi

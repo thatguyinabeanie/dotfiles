@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# taskwarrior-status
+# Outputs a tmux status bar indicator for the Taskwarrior backup state.
+# Called via tmux #() — must be fast and non-blocking.
+#
+# Output:
+#   (nothing)         — backup is current
+#   yellow indicator  — backup pending < 24h
+#   red indicator     — backup pending ≥ 24h (overdue)
+
+PENDING="${HOME}/.task/.backup_pending"
+
+[ -f "$PENDING" ] || exit 0
+
+WRITTEN=$(cat "$PENDING" 2>/dev/null) || exit 0
+NOW=$(date '+%s')
+AGE=$(( NOW - WRITTEN ))
+
+if [ "$AGE" -ge 86400 ]; then
+  echo "#[fg=red]󰄸 overdue "
+else
+  echo "#[fg=yellow]󰄸 pending "
+fi

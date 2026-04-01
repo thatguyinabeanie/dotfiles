@@ -68,12 +68,26 @@ dev_tools:
   - name: sesh
     installer: [brew]
     description: "Smart session manager for tmux with zoxide integration"
+  - name: tmuxinator
+    installer: [brew]
+    description: "Manage complex tmux session layouts via YAML templates"
 
   # System monitoring
   - name: btop
     installer: [brew]
   - name: fastfetch
     installer: [mise]
+  - name: tty-clock
+    installer: [brew]
+    description: "Digital clock for the terminal"
+
+  # Task management
+  - name: task
+    installer: [brew]
+    description: "Taskwarrior - feature-rich console todo list manager"
+  - name: taskwarrior-tui
+    installer: [brew]
+    description: "Interactive TUI frontend for Taskwarrior"
 
   # Core language runtimes
   - name: node
@@ -122,7 +136,7 @@ dev_tools:
 
   # Markdown/docs
   - name: glow
-    installer: [brew]
+    installer: [mise]
     description: "Render markdown beautifully in the terminal"
 
   # Image/graphics (required by neovim plugins)

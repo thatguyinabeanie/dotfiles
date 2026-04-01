@@ -24,3 +24,9 @@ mcp_servers:
     installer: [npm]
     description: "Central hub for MCP server discovery"
     category: infrastructure
+
+  # Productivity MCP servers
+  - name: mcp-server-taskwarrior
+    installer: [npm]
+    description: "MCP server for Taskwarrior task management"
+    category: productivity

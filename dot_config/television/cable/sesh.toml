@@ -1,0 +1,49 @@
+##
+## TELEVISION CABLE: sesh
+##
+## Custom channel for sesh session management.
+## Aggregates tmux sessions, configured sessions, zoxide directories,
+## and ~/source project discovery into a single picker.
+##
+## Usage: tv sesh
+## Tmux binding: Prefix + s
+##
+## Keybindings:
+##   Enter    — connect to session (create if new)
+##   Ctrl-d   — kill selected tmux session + reload list
+##   j/k      — navigate
+##   /        — search
+##
+
+[metadata]
+name = "sesh"
+description = "Session manager — tmux sessions, zoxide dirs, and ~/source projects"
+requirements = ["sesh", "fd", "tmux"]
+
+[source]
+command = [
+  "sesh list --icons",
+  "sesh list -t --icons",
+  "sesh list -c --icons",
+  "sesh list -z --icons",
+  "fd -H -d 2 -t d -E .Trash . ~/source"
+]
+ansi = true
+output = "{strip_ansi|split: :1..|join: }"
+
+[preview]
+command = "sesh preview '{strip_ansi|split: :1..|join: }'"
+
+[keybindings]
+enter = "actions:connect"
+ctrl-d = ["actions:kill_session", "reload_source"]
+
+[actions.connect]
+description = "Connect to selected session"
+command = "sesh connect '{strip_ansi|split: :1..|join: }'"
+mode = "execute"
+
+[actions.kill_session]
+description = "Kill selected tmux session"
+command = "tmux kill-session -t '{strip_ansi|split: :1..|join: }'"
+mode = "fork"
