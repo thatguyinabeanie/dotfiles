@@ -18,7 +18,7 @@
 [metadata]
 name = "sesh"
 description = "Session manager — tmux sessions, zoxide dirs, and ~/source projects"
-requirements = ["sesh", "fd"]
+requirements = ["sesh", "fd", "tmux"]
 
 [source]
 command = [
