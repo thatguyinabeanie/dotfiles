@@ -6,7 +6,7 @@
 ## and ~/source project discovery into a single picker.
 ##
 ## Usage: tv sesh
-## Tmux binding: Prefix + t
+## Tmux binding: Prefix + s
 ##
 ## Keybindings:
 ##   Enter    — connect to session (create if new)

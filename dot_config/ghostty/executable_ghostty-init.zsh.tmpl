@@ -1,7 +1,7 @@
 #!/bin/zsh
 # Ghostty startup script — attaches to or creates the ghostty dashboard session
 # - If ghostty session exists: attach to it
-# - If not: build dashboard layout via tmuxinator (falls back to plain tmux)
+# - If not: build dashboard layout via tmuxinator (or plain tmux if tmuxinator absent at chezmoi-apply time)
 # Paths resolved at chezmoi apply time (no runtime loops)
 
 {{- $shellPath := lookPath "zsh" | default "/bin/zsh" }}
