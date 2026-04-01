@@ -53,7 +53,6 @@
 | `Prefix + C-e` | New window (chezmoi dir + nvim) |
 | `Prefix + w` | List windows |
 | `Prefix + C-w` | List all windows |
-| `Prefix + "` | Choose window interactively |
 | `Prefix + C-a` | Switch to last window |
 | `Prefix + R` | Rename current window |
 | `C-S-p` | Move window left (no prefix) |
@@ -63,10 +62,12 @@
 
 | Key | Action |
 |-----|--------|
-| `Prefix + \|` | Vertical split |
-| `Prefix + -` | Horizontal split |
-| `Prefix + \` | Vertical split (current dir) |
-| `Prefix + _` | Horizontal split (current dir) |
+| `Prefix + \|` | Vertical split (left/right) |
+| `Prefix + %` | Vertical split (left/right) |
+| `Prefix + -` | Horizontal split (top/bottom) |
+| `Prefix + "` | Horizontal split (top/bottom) |
+| `Prefix + \` | Full-height vertical split |
+| `Prefix + _` | Full-width horizontal split |
 
 ## 📐 Panes—Navigation
 
