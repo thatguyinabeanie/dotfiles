@@ -22,5 +22,5 @@ mcp.json
 opencode.json*
 .worktrees
 worktrees
-superpowers
-.superpowers
+# superpowers
+# .superpowers
