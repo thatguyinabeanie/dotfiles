@@ -1,4 +1,11 @@
 {
+  "permissions": {
+    "allow": [
+      "Read(~/.local/share/chezmoi)",
+      "Read(//tmp/**)",
+
+    ]
+  },
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,

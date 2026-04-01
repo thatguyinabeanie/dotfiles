@@ -81,6 +81,14 @@ dev_tools:
     installer: [brew]
     description: "Digital clock for the terminal"
 
+  # Task management
+  - name: task
+    installer: [brew]
+    description: "Taskwarrior - feature-rich console todo list manager"
+  - name: taskwarrior-tui
+    installer: [brew]
+    description: "Interactive TUI frontend for Taskwarrior"
+
   # Core language runtimes
   - name: node
     installer: [mise]

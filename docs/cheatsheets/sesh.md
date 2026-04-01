@@ -47,7 +47,7 @@
 
 | Keybind | Action |
 |---------|--------|
-| `Prefix + t` | Open sesh session picker (television) |
+| `Prefix + s` | Open sesh session picker (television) |
 
 ### Inside the sesh picker
 

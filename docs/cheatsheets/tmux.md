@@ -15,11 +15,17 @@
 | `Prefix + T` | Toggle status bar |
 | `C-S-k` | Clear terminal (no prefix) |
 
+## 🗂️ TUI Tools
+
+| Key | Action |
+|-----|--------|
+| `Prefix + t` | Taskwarrior TUI (todo list) |
+
 ## 📁 Sessions
 
 | Key | Action |
 |-----|--------|
-| `Prefix + t` | Open sesh session picker (television) |
+| `Prefix + s` | Open sesh session picker (television) |
 | `Prefix + S` | Choose session (native picker) |
 | `Prefix + C-s` | Save session (resurrect) |
 | `Prefix + C-r` | Restore session (resurrect) |
@@ -95,6 +101,17 @@
 | `Prefix + }` | Swap with next pane |
 | `Prefix + C-o` | Rotate all panes forward |
 | `Prefix + M-o` | Rotate all panes backward |
+
+## 📐 Panes—Layout
+
+| Key | Action |
+|-----|--------|
+| `Prefix + Space` | Cycle to next layout |
+| `Prefix + M-1` | Even horizontal layout |
+| `Prefix + M-2` | Even vertical layout |
+| `Prefix + M-3` | Main horizontal (one large top, others below) |
+| `Prefix + M-4` | Main vertical (one large left, others right) |
+| `Prefix + M-5` | Tiled layout |
 
 ## 📐 Panes—Resize
 

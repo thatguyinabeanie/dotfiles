@@ -42,7 +42,8 @@ Only `tmux.theme.catppuccin.conf.tmpl` uses chezmoi templates:
 
 Major plugins managed via TPM:
 
-- **sesh** - Smart session manager with zoxide integration (Prefix + T)
+- **sesh** - Smart session manager with zoxide integration (Prefix + s)
+- **taskwarrior-tui** - Interactive Taskwarrior TUI (Prefix + t)
 - **tmux-resurrect** - Save/restore sessions manually (Prefix + Ctrl-s/r)
 - **tmux-continuum** - Auto-save sessions every 15 minutes
 - **vim-tmux-navigator** - Seamless Vim/tmux navigation
@@ -70,7 +71,7 @@ Two additional cheatsheet openers launch Neovim in a tmux popup:
 
 Complete session management workflow with sesh + resurrect + continuum:
 
-#### Sesh (Prefix + T) - Smart Session Switching
+#### Sesh (Prefix + s) - Smart Session Switching
 
 - **Zoxide integration**: Frecency-based directory suggestions
 - **Tmuxinator support**: Reads tmuxinator YAML configs for complex layouts
@@ -136,7 +137,8 @@ Plugins managed via chezmoi external dependencies and TPM:
 - **Open tmux keybindings (nvim popup)** - `Prefix + M`
 - **Open all cheatsheets dir (nvim popup)** - `Prefix + C`
 - Reload configuration - `Prefix + r`
-- Sesh session manager - `Prefix + T`
+- Taskwarrior TUI - `Prefix + t`
+- Sesh session manager - `Prefix + s`
 - Choose session interactively - `Prefix + S`
 - Choose window interactively - `Prefix + "`
 - Navigate panes (works seamlessly with Neovim) - `C-h/j/k/l`

@@ -1,0 +1,50 @@
+{{- if eq .chezmoi.os "darwin" -}}
+#!/bin/bash
+
+set -euo pipefail
+
+# run_once_before-26-setup-taskwarrior
+# One-time Taskwarrior setup:
+#   - Creates required data directories
+#   - Installs the on-exit hook that triggers automatic backups
+#   - Registers the weekly backup LaunchAgent
+
+echo "Setting up Taskwarrior..."
+
+# ── Directories ───────────────────────────────────────────────────────────────
+mkdir -p "${HOME}/.task/hooks"
+mkdir -p "${HOME}/.task/backup"
+mkdir -p "${HOME}/.local/log"
+
+echo "  Created ~/.task/hooks, ~/.task/backup, ~/.local/log"
+
+# ── on-exit hook ──────────────────────────────────────────────────────────────
+HOOK_FILE="${HOME}/.task/hooks/on-exit"
+BACKUP_SCRIPT="${HOME}/.local/bin/taskwarrior-backup"
+
+cat > "$HOOK_FILE" <<'HOOK'
+#!/bin/bash
+# Taskwarrior on-exit hook — triggers backup after every task command
+# Runs asynchronously to avoid slowing down task commands
+"${HOME}/.local/bin/taskwarrior-backup" &>/dev/null &
+disown
+HOOK
+
+chmod +x "$HOOK_FILE"
+echo "  Installed on-exit hook at $HOOK_FILE"
+
+# ── LaunchAgent ───────────────────────────────────────────────────────────────
+PLIST_SRC="{{ .chezmoi.homeDir }}/Library/LaunchAgents/com.user.taskwarrior-backup.plist"
+PLIST_LABEL="com.user.taskwarrior-backup"
+
+if [ -f "$PLIST_SRC" ]; then
+  # Unload if already loaded (handles re-runs)
+  launchctl unload -w "$PLIST_SRC" 2>/dev/null || true
+  launchctl load -w "$PLIST_SRC"
+  echo "  Registered LaunchAgent: $PLIST_LABEL"
+else
+  echo "  WARNING: LaunchAgent plist not found at $PLIST_SRC — skipping registration"
+fi
+
+echo "Taskwarrior setup complete."
+{{- end }}
