@@ -99,17 +99,3 @@ vim.keymap.set("n", "<leader>bx", function()
   vim.cmd("bufdo bd")
 end, { desc = "Close All Buffers" })
 
---
--- NOTEBOOK KEYMAPS
---
-vim.keymap.set("n", "<localleader>i", function()
-  require("molten-nvim").init_kernel()
-end, { desc = "Initialize Kernel" })
-
-vim.keymap.set("n", "<localleader>r", function()
-  require("molten-nvim").run_cell()
-end, { desc = "Run Cell" })
-
-vim.keymap.set("n", "<localleader>d", function()
-  require("molten-nvim").delete_output()
-end, { desc = "Delete Output" })

@@ -39,6 +39,7 @@ vim.g.root_spec = {
 opt.backup = false
 opt.swapfile = false
 opt.undodir = vim.env.HOME .. "/.local/state/nvim/undodir"
+opt.undofile = true
 opt.hlsearch = true
 opt.incsearch = true
 opt.autoread = true -- Auto-reload files changed outside of Neovim

@@ -1,129 +1,17 @@
--- Get work environment from env var
-local work_env = os.getenv("WORK_ENVIRONMENT")
+-- Load scratchpad content from external file based on environment
+local function load_scratchpad()
+  local scratchpads_dir = vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":h:h:h:h") .. "/scratchpads"
+  local work_env = os.getenv("WORK_ENVIRONMENT")
+  local filename = work_env and "work.md" or "default.md"
+  local filepath = scratchpads_dir .. "/" .. filename
 
--- Set default scratchpad contents based on environment
-local default_contents = [[# API Requests
+  local ok, lines = pcall(vim.fn.readfile, filepath)
+  if ok and lines then
+    return lines
+  end
 
-## Quick Test
-
-```http
-GET https://httpbin.org/get
-```
-]]
-
-if work_env then
-  default_contents = [[# Civis Analytics API Requests
-
-## Notes
-
-- Use the appropriate environment section
-- Update @path and @id variables as needed
-- Copy the HTTP block content to a .http file if kulala doesn't execute directly from markdown
-
-## Production
-
-```http
-@baseUrl=https://api.civisanalytics.com
-@civisApiKey = {{CIVIS_API_KEY_PRODUCTION}}
-@path=code_clouds
-@id=48
-
-### POST
-POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-{ }
-
-### LIST
-GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### GET
-GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### PATCH
-PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-{ }
-
-```
-
-## Staging
-
-```http
-@baseUrl=https://api-staging.civisanalytics.com
-@civisApiKey={{CIVIS_API_KEY_STAGING}}
-@path=code_clouds
-@id=43
-
-### POST
-POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-{ }
-
-### LIST
-GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### GET
-GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### PATCH
-PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-{ }
-```
-
-## Local Development
-
-```http
-@baseUrl=https://platform.civis.test:3000
-@civisApiKey={{CIVIS_API_KEY_LOCAL_CONSOLE}}
-@path=code_clouds
-@id=43
-
-### POST
-POST {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-{ }
-
-### LIST
-GET {{baseUrl}}/{{path}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### GET
-GET {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-
-### PATCH
-PATCH {{baseUrl}}/{{path}}/{{id}}
-Authorization: Bearer {{civisApiKey}}
-Content-Type: application/json
-Accept: application/json
-]]
+  -- Fallback if file is missing
+  return { "# API Requests", "", "```http", "GET https://httpbin.org/get", "```" }
 end
 
 return {
@@ -149,7 +37,7 @@ return {
   },
 
   opts = {
-    scratchpad_default_contents = vim.split(default_contents, "\n"),
+    scratchpad_default_contents = load_scratchpad(),
     default_view = "body",
     debug = false,
     global_keymaps = true,
