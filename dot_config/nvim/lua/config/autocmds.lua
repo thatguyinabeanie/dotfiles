@@ -31,6 +31,10 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
+-- Built-in undotree (Neovim 0.12+, replaces mbbill/undotree plugin)
+vim.cmd.packadd("nvim.undotree")
+vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
+
 -- Auto-update plugins silently after startup (throttled to once per 24h)
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("lazy_auto_update", { clear = true }),
