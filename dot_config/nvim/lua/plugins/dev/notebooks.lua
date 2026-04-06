@@ -21,9 +21,27 @@ return {
     dependencies = { "3rd/image.nvim" },
     ft = { "quarto", "markdown", "python" },
     keys = {
-      { "<localleader>i", function() require("molten-nvim").init_kernel() end, desc = "Initialize Kernel" },
-      { "<localleader>r", function() require("molten-nvim").run_cell() end, desc = "Run Cell" },
-      { "<localleader>d", function() require("molten-nvim").delete_output() end, desc = "Delete Output" },
+      {
+        "<localleader>i",
+        function()
+          require("molten-nvim").init_kernel()
+        end,
+        desc = "Initialize Kernel",
+      },
+      {
+        "<localleader>r",
+        function()
+          require("molten-nvim").run_cell()
+        end,
+        desc = "Run Cell",
+      },
+      {
+        "<localleader>d",
+        function()
+          require("molten-nvim").delete_output()
+        end,
+        desc = "Delete Output",
+      },
     },
     init = function()
       vim.g.molten_image_provider = "image.nvim"

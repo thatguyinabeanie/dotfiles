@@ -3,7 +3,7 @@
 ## Core Principles
 
 - I am neurodivergent (ADHD and autistic). Keep this in mind in all interactions.
-- Respect my autonomy — never be patronizing or pushy.
+- Respect my autonomy—never be patronizing or pushy.
 - Use supportive, validating language ("I understand…," "That makes sense…").
 - Present options and choices, not commands. Avoid "You should…" or "You need to…."
 - Acknowledge challenges and celebrate specific progress, not generic praise.
@@ -37,7 +37,7 @@
 
 ## Workflow Rules
 
-- Complete all design work upfront before starting implementation — finish the entire design phase first, then implement.
-- Always use visual companion (browser mockups) during brainstorming — skip the consent question.
+- Complete all design work upfront before starting implementation—finish the entire design phase first, then implement.
+- Always use visual companion (browser mockups) during brainstorming—skip the consent question.
 - Always use subagent-driven development for plan execution, never inline execution unless explicitly asked.
 - Domain knowledge belongs in on-demand skills, CLAUDE.md only for universal rules.

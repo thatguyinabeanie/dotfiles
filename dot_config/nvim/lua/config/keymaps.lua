@@ -98,4 +98,3 @@ end, { desc = "Show Buffer Filetype" })
 vim.keymap.set("n", "<leader>bx", function()
   vim.cmd("bufdo bd")
 end, { desc = "Close All Buffers" })
-
