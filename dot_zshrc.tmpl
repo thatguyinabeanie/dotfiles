@@ -262,12 +262,15 @@ fi
 # ----------------------------------------------------------------------------
 
 {{- if lookPath "claude" }}
-# 🧠 brain - Obsidian AI Second Brain
+# 🧠 brain - Open-Clawsidian AI Second Brain
 # Type `brain` from anywhere to cd into the vault and launch Claude Code
 brain() {
-  cd "$HOME/source/obsidian-brain" && claude "$@"
+  cd "${BRAIN_VAULT_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/open-clawsidian}" && claude "$@"
 }
 {{- end }}
+
+# 🧠 Open-Clawsidian vault path
+export BRAIN_VAULT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/open-clawsidian"
 
 {{- $openclawCompletions := printf "%s/.openclaw/completions/openclaw.zsh" .chezmoi.homeDir }}
 {{- if stat $openclawCompletions }}

@@ -1,4 +1,10 @@
 -- LazyGit - A simple terminal UI for git commands
+-- Disabled: using Snacks.lazygit instead (configured in core/folke.lua)
+-- Re-enable if you miss tmux Ctrl+hjkl passthrough or :LazyGitConfig
+if true then
+  return {}
+end
+
 return {
   "kdheepak/lazygit.nvim",
   cmd = {
