@@ -267,6 +267,22 @@ chezmoi init
 - **Kubernetes**: K9s for streamlined Kubernetes cluster management.
 - **Git Hooks**: Automated code quality, linting, and security checks managed by Lefthook (detailed in its own section below).
 
+### 🧩 Per-project Neovim configuration
+
+LazyVim extras can be loaded on a per-project basis using lazy.nvim's built-in `.lazy.lua` support. Place a `.lazy.lua` file in your project root that returns a plugin spec:
+
+```lua
+-- .lazy.lua (in your project root)
+return {
+  { import = "lazyvim.plugins.extras.lang.zig" },
+  { import = "lazyvim.plugins.extras.lang.docker" },
+}
+```
+
+Neovim will prompt you to trust the file on first open. Once trusted, those extras load only when editing in that directory. This keeps your global config lean — only universal extras (json, yaml, markdown, etc.) in `.lazyvim.json`, language-specific ones scoped to projects.
+
+> **Reference**: [LazyVim/LazyVim#2115](https://github.com/LazyVim/LazyVim/pull/2115) — now a default feature in lazy.nvim
+
 [![Explore All Features](https://img.shields.io/badge/Explore_All_Features-4A55A5?style=for-the-badge)](#-features)
 
 ## 🌌 Configuration Structure
