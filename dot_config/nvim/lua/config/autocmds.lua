@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Built-in undotree (Neovim 0.12+, replaces mbbill/undotree plugin)
+-- Built-in Neovim 0.12+ packages
 vim.cmd.packadd("nvim.undotree")
 vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
 
