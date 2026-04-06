@@ -59,8 +59,7 @@ dev_tools:
   # Editors
   - name: neovim
     installer: [mise]
-    version: "0.11"
-    extra_versions: ["0.12"]
+    version: "0.12"
 
   # Terminal multiplexer
   - name: tmux
