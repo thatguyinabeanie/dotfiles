@@ -31,9 +31,10 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
--- Built-in Neovim 0.12+ packages
-vim.cmd.packadd("nvim.undotree")
-vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
+-- Built-in Neovim 0.12+ packages (pcall guards against minimal/popup envs)
+if pcall(vim.cmd.packadd, "nvim.undotree") then
+  vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
+end
 
 -- Auto-update plugins silently after startup (throttled to once per 24h)
 vim.api.nvim_create_autocmd("VimEnter", {

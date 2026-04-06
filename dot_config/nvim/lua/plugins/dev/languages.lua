@@ -141,9 +141,7 @@ return {
         tsserver = { enabled = true },
         vtsls = { enabled = true },
 
-        -- ESLint — simplified; LazyVim eslint extra handles root detection.
-        -- Custom root_dir and on_attach commented out for now.
-        -- Re-enable if ESLint misbehaves in edge-case projects.
+        -- ESLint — LazyVim eslint extra handles root detection.
         eslint = {
           autostart = true,
           settings = {
@@ -152,85 +150,6 @@ return {
               useFlatConfig = true,
             },
           },
-          -- root_dir = function(fname)
-          --   -- Ensure fname is valid
-          --   if not fname or type(fname) ~= "string" or fname == "" then
-          --     return nil
-          --   end
-          --
-          --   local util = require("lspconfig.util")
-          --
-          --   -- Check for ESLint config files first
-          --   local config_patterns = {
-          --     ".eslintrc",
-          --     ".eslintrc.js",
-          --     ".eslintrc.json",
-          --     ".eslintrc.yaml",
-          --     ".eslintrc.yml",
-          --     "eslint.config.js",
-          --     "eslint.config.mjs",
-          --     "eslint.config.cjs",
-          --   }
-          --
-          --   local config_root = util.root_pattern(table.unpack(config_patterns))(fname)
-          --   if config_root and type(config_root) == "string" then
-          --     return config_root
-          --   end
-          --
-          --   -- Check package.json for ESLint dependency
-          --   local package_root = util.root_pattern("package.json")(fname)
-          --   if package_root and type(package_root) == "string" then
-          --     local package_json = package_root .. "/package.json"
-          --     local success, content = pcall(vim.fn.readfile, package_json)
-          --     if success and content and #content > 0 then
-          --       local package_str = table.concat(content, "\n")
-          --       local ok_decode, package_data = pcall(vim.fn.json_decode, package_str)
-          --       if ok_decode and package_data and type(package_data) == "table" then
-          --         local deps = package_data.dependencies or {}
-          --         local dev_deps = package_data.devDependencies or {}
-          --
-          --         if deps.eslint or dev_deps.eslint then
-          --           return package_root
-          --         end
-          --       end
-          --     end
-          --   end
-          --
-          --   return nil
-          -- end,
-          -- on_attach = function(client, bufnr)
-          --   local root_dir = client.config.root_dir
-          --   if not root_dir then
-          --     client.stop()
-          --     return
-          --   end
-          --
-          --   -- Check if ESLint is executable
-          --   local eslint_cmd = "eslint"
-          --   local local_eslint = root_dir .. "/node_modules/.bin/eslint"
-          --
-          --   if vim.fn.executable(local_eslint) == 1 then
-          --     eslint_cmd = local_eslint
-          --   elseif vim.fn.executable("eslint") == 0 then
-          --     vim.notify("ESLint not found. Install with: npm install eslint --save-dev", vim.log.levels.INFO)
-          --     client.stop()
-          --     return
-          --   end
-          --
-          --   -- Verify ESLint can run without errors (async)
-          --   vim.system(
-          --     { eslint_cmd, "--print-config", vim.api.nvim_buf_get_name(bufnr) },
-          --     { text = true },
-          --     function(result)
-          --       if result.code ~= 0 then
-          --         vim.schedule(function()
-          --           vim.notify("ESLint configuration error. Check your ESLint config.", vim.log.levels.WARN)
-          --           client.stop()
-          --         end)
-          --       end
-          --     end
-          --   )
-          -- end,
         },
       },
     },
