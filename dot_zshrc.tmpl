@@ -111,9 +111,9 @@ _source_cached() {
   fi
 }
 
-{{- $dockerCompletions := printf "%s/.docker/completions/_docker" .chezmoi.homeDir }}
-{{- if stat $dockerCompletions }}
-fpath=({{ $dockerCompletions }} $fpath)
+{{- $dockerCompletionsDir := printf "%s/.docker/completions" .chezmoi.homeDir }}
+{{- if stat $dockerCompletionsDir }}
+fpath=({{ $dockerCompletionsDir }} $fpath)
 {{- end }}
 
 {{- if lookPath "chezmoi" }}

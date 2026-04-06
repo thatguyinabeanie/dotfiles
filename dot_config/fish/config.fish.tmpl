@@ -89,6 +89,12 @@ source "{{ $fishAliases }}"
 source "{{ $openclawFishCompletions }}"
 {{- end }}
 
+# Docker completions
+{{- $dockerCompletionsDir := printf "%s/.docker/completions" .chezmoi.homeDir }}
+{{- if stat $dockerCompletionsDir }}
+set -a fish_complete_path "{{ $dockerCompletionsDir }}"
+{{- end }}
+
 # Work-specific configurations
 {{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
 {{- if and (eq .WORK_ENVIRONMENT true) (stat $kubectl_functions) }}
