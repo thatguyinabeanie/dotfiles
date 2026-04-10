@@ -14,27 +14,23 @@ set -g @catppuccin_menu_selected_style "fg=#{@thm_surface_0},bg=#{@thm_yellow}"
 set -g popup-border-lines rounded
 
 ##
-## LEFT SIDE: Session list
-## Active session color set here (red/peach for prefix), script sets bold + inactive colors
+##  TMUX LEFT SIDE
 ##
 set -g status-left-length 100
 set -g status-left ""
-set -ga status-left "#{?client_prefix,#[fg=#{@thm_peach}],#[fg=#{@thm_red}]}#(~/.config/tmux/scripts/tmux-session-list)"
+set -ga status-left "#{?client_prefix,#{#[fg=#{@thm_red},bold] 👨🏽‍💻 #S},#{#[fg=#{@thm_blue}] 👨🏽‍💻 #S}} "
+set -g window-status-separator "#[fg=#{@thm_blue},none] "
+set -g window-status-format "#[fg=#{@thm_overlay_0}, none]#I:#W"
+set -g window-status-current-format "#{?window_zoomed_flag,#{#[fg=#{@thm_flamingo},bold]=> #I:#W},#{#[fg=#{@thm_blue},bold]=> #I:#W}}"
 
 ##
-## CENTER: Date/time (repurposed window list area, centered via absolute-centre)
-##
-set -g window-status-separator ""
-set -g window-status-format ""
-set -g window-status-current-format "#[fg=#{@thm_overlay_1}]%a %b %d %H:%M"
-
-##
-## RIGHT SIDE: Window list (built via #{W:} loop, updates immediately)
-## Active window in blue/bold, inactive in muted color
+## TMUX RIGHT SIDE
 ##
 set -g status-right-length 100
 set -g status-right ""
-set -ga status-right "#{W:#{?window_active,#[fg=#{@thm_blue}]#[bold]#{window_index}:#{window_name} ,#[fg=#{@thm_overlay_0}]#[nobold]#{window_index}:#{window_name} }}"
+
+set -ga status-right "#[fg=#{@thm_blue}]󰅐 %a %b %d %H:%M "
+set -ga status-right "#(~/.local/bin/taskwarrior-status)"
 
 set -g @fzf-url-bind 'u'
 set -g @fzf-url-history-limit '3000'
