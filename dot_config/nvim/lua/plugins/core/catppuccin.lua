@@ -23,6 +23,15 @@ return {
         comments = { "italic" },
         conditionals = { "italic" },
       },
+      -- Improve contrast for dimmed/ignored files in Snacks Explorer
+      -- Default overlay0 is too hard to read with transparent backgrounds
+      custom_highlights = function(colors)
+        return {
+          SnacksPickerPathIgnored = { fg = colors.overlay2 },
+          SnacksPickerPathHidden = { fg = colors.overlay2 },
+          SnacksPickerGitStatusIgnored = { fg = colors.overlay2 },
+        }
+      end,
       default_integrations = true,
       integrations = {
         -- Essential integrations

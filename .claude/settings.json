@@ -72,7 +72,14 @@
       "Bash(test:*)",
       "Bash(wc:*)",
       "Bash(xargs:*)",
-      "Bash(/Users/beanie/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh:*)"
+      "Bash(/Users/beanie/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh:*)",
+      "Bash(tmux:*)",
+      "Bash(/opt/homebrew/bin/tmux display-message:*)",
+      "Bash(git:*)",
+      "Bash(bash:*)",
+      "Bash(shellcheck:*)",
+      "Bash(/opt/homebrew/bin/tmux source-file:*)",
+      "Bash(/opt/homebrew/bin/tmux set:*)"
     ]
   },
   "model": "sonnet",
