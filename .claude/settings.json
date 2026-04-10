@@ -1,10 +1,8 @@
 {
-  "model": "sonnet",
   "permissions": {
     "allow": [
       "Read(~/.local/share/chezmoi/**)",
       "Read(/tmp/**)",
-
       "WebSearch",
       "WebFetch(domain:api.github.com)",
       "WebFetch(domain:dotfiles.substack.com)",
@@ -14,10 +12,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:starship.rs)",
       "WebFetch(domain:yazi-rs.github.io)",
-
       "Skill(update-config)",
       "mcp__plugin_context7_context7__query-docs",
-
       "Bash(chezmoi apply:*)",
       "Bash(chezmoi data:*)",
       "Bash(chezmoi diff:*)",
@@ -26,7 +22,6 @@
       "Bash(chezmoi managed:*)",
       "Bash(chezmoi status:*)",
       "Bash(~/.local/share/chezmoi/.chezmoitemplates/utilities/config-persistence.sh read:*)",
-
       "Bash(git add:*)",
       "Bash(git checkout:*)",
       "Bash(git commit:*)",
@@ -37,32 +32,26 @@
       "Bash(git rm:*)",
       "Bash(git stash:*)",
       "Bash(git stash push:*)",
-
       "Bash(gh --version)",
       "Bash(gh issue view:*)",
       "Bash(gh pr create:*)",
       "Bash(gh pr view:*)",
-
       "Bash(brew autoremove:*)",
       "Bash(brew info:*)",
       "Bash(brew leaves:*)",
       "Bash(brew list:*)",
       "Bash(brew search:*)",
-
       "Bash(mise activate:*)",
       "Bash(mise registry:*)",
       "Bash(mise where:*)",
-
       "Bash(lefthook run:*)",
       "Bash(npx markdownlint-cli:*)",
       "Bash(npx markdownlint-cli2:*)",
       "Bash(vale sync:*)",
       "Bash(cargo:*)",
-
       "Bash(zsh -c 'source ~/.zshrc && which fzf && fzf --version')",
       "Bash(zsh -c 'zmodload zsh/zprof && source ~/.zshrc && zprof')",
       "Bash(zsh -n ~/.local/state/shell-init/mise-activate.zsh)",
-
       "Bash(carapace:*)",
       "Bash(starship:*)",
       "Bash(tmux list-keys:*)",
@@ -71,7 +60,6 @@
       "Bash(find ~/.config/yazi/.catppuccin -name *.yazi -o -name flavor*)",
       "Bash(nvim --version)",
       "Bash(taskwarrior-tui --version)",
-
       "Bash(awk:*)",
       "Bash(cd:*)",
       "Bash(compaudit:*)",
@@ -83,9 +71,11 @@
       "Bash(plutil -convert json -o - -)",
       "Bash(test:*)",
       "Bash(wc:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(/Users/beanie/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh:*)"
     ]
   },
+  "model": "sonnet",
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
     "claude-code-setup@claude-plugins-official": true,
