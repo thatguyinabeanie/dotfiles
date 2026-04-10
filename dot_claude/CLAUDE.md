@@ -41,3 +41,13 @@
 - Always use visual companion (browser mockups) during brainstorming—skip the consent question.
 - Always use subagent-driven development for plan execution, never inline execution unless explicitly asked.
 - Domain knowledge belongs in on-demand skills, CLAUDE.md only for universal rules.
+
+## Output Management (Long Sessions)
+
+Large bash outputs accumulate in context for the entire session. Keep them small:
+
+- Builds/tests: pipe through `| tail -50` or `| head -50`
+- Compilations: `| grep -iE "error|warning|failed"`
+- When full output matters but is large: redirect to a temp file, read only what's needed
+  - `some-command > /tmp/claude-output.txt && tail -30 /tmp/claude-output.txt`
+- Never dump full directory listings, full build logs, or full test suite output — truncate or filter first

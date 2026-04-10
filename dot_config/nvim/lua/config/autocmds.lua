@@ -36,6 +36,14 @@ if pcall(vim.cmd.packadd, "nvim.undotree") then
   vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
 end
 
+-- Stop LSP clients gracefully on quit to prevent NO_RESULT_CALLBACK_FOUND errors
+-- (taplo and others log this when Neovim exits with pending LSP requests)
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    vim.lsp.stop_client(vim.lsp.get_clients(), true)
+  end,
+})
+
 -- Auto-update plugins silently after startup (throttled to once per 24h)
 vim.api.nvim_create_autocmd("VimEnter", {
   group = vim.api.nvim_create_augroup("lazy_auto_update", { clear = true }),
