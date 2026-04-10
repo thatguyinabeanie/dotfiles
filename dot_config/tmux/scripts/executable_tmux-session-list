@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# tmux-session-list: formatted session list for status-left
+# Active session inherits fg color from parent (prefix-responsive)
+# Inactive sessions get explicit muted color
+
+current=$(tmux display-message -p '#S')
+overlay_0=$(tmux show -gqv @thm_overlay_0)
+surface_1=$(tmux show -gqv @thm_surface_1)
+
+result=""
+first=true
+while IFS= read -r session; do
+  if [ "$first" = true ]; then
+    first=false
+  else
+    result+="#[fg=$surface_1]#[nobold] · "
+  fi
+  if [ "$session" = "$current" ]; then
+    result+="#[bold]$session"
+  else
+    result+="#[fg=$overlay_0]#[nobold]$session"
+  fi
+done < <(tmux list-sessions -F '#{session_name}' | sort)
+printf '%s' "$result"
