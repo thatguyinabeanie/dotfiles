@@ -192,6 +192,11 @@ run = 'layout floating'
 if.app-id = 'io.kandji.Self-Service'
 run = 'layout floating'
 
+# Force Docker Desktop to always be floating for better dashboard/utility workflow
+[[on-window-detected]]
+if.app-id = 'com.docker.docker'
+run = 'layout floating'
+
 # Force Claude Desktop to automatically move to workspace A when opened
 # Claude Desktop for AI assistant workflow
 [[on-window-detected]]

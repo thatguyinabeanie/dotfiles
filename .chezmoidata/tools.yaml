@@ -145,6 +145,9 @@ dev_tools:
   - name: imagemagick
     installer: [brew]
     description: "Image manipulation library required by image.nvim"
+  - name: ghostscript
+    installer: [brew]
+    description: "Type1 fonts and PS/PDF rendering used by ImageMagick for font support"
   - name: "@mermaid-js/mermaid-cli"
     installer: [npm]
     description: "Mermaid CLI for rendering diagrams to images"
