@@ -1,6 +1,0 @@
-*secret**
-helpers/*
-!helpers/aliases.zsh
-!helpers/functions.zsh
-!helpers/pnpm.zsh
-!helpers/source.zsh
