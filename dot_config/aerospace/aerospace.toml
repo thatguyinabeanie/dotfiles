@@ -214,6 +214,11 @@ run = 'move-node-to-workspace C'
 if.app-id = 'com.hnc.Discord'
 run = 'move-node-to-workspace D'
 
+# Force Docker Desktop to automatically move to workspace D when opened
+[[on-window-detected]]
+if.app-id = 'com.docker.docker'
+run = 'move-node-to-workspace D'
+
 # Force Slack to automatically move to workspace S when opened
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'

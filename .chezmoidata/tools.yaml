@@ -32,17 +32,24 @@ dev_tools:
     installer: [mise]
   - name: bat
     installer: [mise]
-  - name: tree
-    installer: [brew]
   - name: dust
     installer: [brew]
   - name: yazi
     installer: [mise]
     description: "Terminal file manager"
+  - name: ouch
+    installer: [brew]
+    description: "Painless compression/decompression - handles tar, gzip, zip, etc."
+  - name: watchexec
+    installer: [brew]
+    description: "Execute commands on file changes - Rust alternative to entr/fswatch"
 
   # Data processing
   - name: jq
     installer: [mise]
+  - name: jaq
+    installer: [brew]
+    description: "Rust drop-in replacement for jq with improved performance"
   - name: yq
     installer: [mise]
 
@@ -111,8 +118,17 @@ dev_tools:
     installer: [brew]
   - name: cargo-binstall
     installer: [cargo]
+  - name: sccache
+    installer: [cargo]
+    description: "Shared compilation cache for Rust/C/C++ - speeds up rebuilds"
+  - name: cargo-nextest
+    installer: [cargo]
+    description: "Next-generation Rust test runner - faster than cargo test"
 
   # Build essentials
+  - name: just
+    installer: [mise]
+    description: "Rust command runner - simpler alternative to make"
   - name: cmake
     installer: [brew]
   - name: make
@@ -288,13 +304,7 @@ dev_tools:
   - name: tealdeer
     installer: [brew]
     profiles: [extras]
-  - name: ncdu
-    installer: [brew]
-    profiles: [extras]
   - name: gdu
-    installer: [brew]
-    profiles: [extras]
-  - name: jaq
     installer: [brew]
     profiles: [extras]
   - name: hyperfine
@@ -315,6 +325,34 @@ dev_tools:
   - name: pokeget
     installer: [cargo]
     description: "Pokeget"
+    profiles: [extras]
+  - name: difftastic
+    installer: [brew]
+    description: "Syntax-aware structural diff that understands code"
+    profiles: [extras]
+  - name: topgrade
+    installer: [brew]
+    description: "Upgrade all tools across package managers in one command"
+    profiles: [extras]
+  - name: choose
+    installer: [brew]
+    description: "Human-friendly cut/awk alternative for column extraction"
+    profiles: [extras]
+  - name: xh
+    installer: [brew]
+    description: "Rust HTTP client with colorized output - faster httpie"
+    profiles: [extras]
+  - name: fend
+    installer: [brew]
+    description: "Arbitrary-precision unit-aware calculator"
+    profiles: [extras]
+  - name: tokei
+    installer: [brew]
+    description: "Count lines of code by language - fast Rust alternative to cloc"
+    profiles: [extras]
+  - name: tailspin
+    installer: [brew]
+    description: "Log file highlighter for streaming logs"
     profiles: [extras]
 
 # NOTE: AI agents and MCP servers are now managed in separate files:

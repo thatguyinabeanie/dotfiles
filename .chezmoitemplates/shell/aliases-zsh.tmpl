@@ -2,34 +2,33 @@
   Zsh aliases generator
   Reads from .chezmoidata/aliases.yaml and generates Zsh alias syntax
 
+  Tool availability is checked at template-time via lookPath (during
+  chezmoi apply) rather than at shell startup via command -v. This
+  eliminates ~6ms of subprocess forks per interactive shell.
+
   Usage in a .tmpl file:
     {{ template "shell/aliases-zsh.tmpl" . }}
 */ -}}
 {{- range $category, $data := .aliases }}
+{{- $categoryAvailable := true }}
+{{- if hasKey $data "requires" }}
+{{- $categoryAvailable = lookPath $data.requires }}
+{{- end }}
+{{- if $categoryAvailable }}
 
 # ─────────────────────────────────────────────────────────────────────────────
 # {{ $data.description }}
 # ─────────────────────────────────────────────────────────────────────────────
-{{- $hasRequires := hasKey $data "requires" }}
-{{- if $hasRequires }}
-if command -v {{ $data.requires }} &> /dev/null; then
-{{- end }}
 {{- range $data.items }}
 {{- if not (hasKey . "fish_only") }}
-{{- $indent := "" }}
-{{- if $hasRequires }}
-{{- $indent = "  " }}
-{{- end }}
 {{- if hasKey . "requires" }}
-{{ $indent }}if command -v {{ .requires }} &> /dev/null; then
-{{ $indent }}  alias {{ .name }}='{{ .command }}'
-{{ $indent }}fi
+{{- if lookPath .requires }}
+alias {{ .name }}='{{ .command }}'
+{{- end }}
 {{- else }}
-{{ $indent }}alias {{ .name }}='{{ .command }}'
+alias {{ .name }}='{{ .command }}'
 {{- end }}
 {{- end }}
 {{- end }}
-{{- if $hasRequires }}
-fi
 {{- end }}
 {{- end }}

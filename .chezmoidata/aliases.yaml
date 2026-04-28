@@ -50,7 +50,6 @@ aliases:
       # Diff
       - { name: gd, command: "git diff" }
       - { name: gds, command: "git diff --staged" }
-      - { name: gdc, command: "git diff --cached" }
       - { name: gdw, command: "git diff --word-diff" }
       # Fetch
       - { name: gf, command: "git fetch" }
@@ -60,7 +59,6 @@ aliases:
       - { name: gl, command: "git log --oneline" }
       - { name: gla, command: "git log --oneline --all --graph" }
       - { name: glog, command: "git log --oneline --graph" }
-      - { name: gloga, command: "git log --oneline --graph --all" }
       - { name: glg, command: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"' }
       - { name: glgp, command: "git log --stat --patch" }
       # Merge
@@ -132,6 +130,8 @@ aliases:
       - { name: gwtpr, command: "git worktree prune" }
       - { name: gwtmv, command: "git worktree move" }
       - { name: gwtlv, command: "git worktree list --verbose" }
+      # Lazygit
+      - { name: lg, command: "lazygit", requires: lazygit }
 
   github:
     description: "GitHub CLI"
@@ -246,6 +246,7 @@ aliases:
       - { name: la, command: "eza -la", requires: eza }
       - { name: lt, command: "eza --tree", requires: eza }
       - { name: tree, command: "eza --tree", requires: eza }
+      - { name: jq, command: "jaq", requires: jaq }
 
   chezmoi:
     description: "Chezmoi dotfile manager"

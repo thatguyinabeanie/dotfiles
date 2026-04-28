@@ -18,8 +18,6 @@ applications:
       installer: [brew_cask]
     - name: lastpass
       installer: [brew_cask]
-    - name: linear-linear
-      installer: [brew_cask]
 
   shared:
     # ============================================================
@@ -42,8 +40,6 @@ applications:
     - name: karabiner-elements
       installer: [brew_cask]
     - name: keka
-      installer: [brew_cask]
-    - name: linear-linear
       installer: [brew_cask]
     - name: nightfall
       installer: [brew_cask]
