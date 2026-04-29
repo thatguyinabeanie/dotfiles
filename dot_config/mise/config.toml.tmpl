@@ -12,10 +12,11 @@
 {{- range $tool := .dev_tools }}
 {{- if has "mise" $tool.installer }}
 {{- if and $tool.name (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
+{{- $key := $tool.name }}{{ if hasKey $tool "mise_name" }}{{ $key = $tool.mise_name }}{{ end }}
 {{- if hasKey $tool "extra_versions" }}
-{{ $tool.name | quote }} = [{{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}{{ range $tool.extra_versions }}, {{ . | quote }}{{ end }}]
+{{ $key | quote }} = [{{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}{{ range $tool.extra_versions }}, {{ . | quote }}{{ end }}]
 {{- else }}
-{{ $tool.name | quote }} = {{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}
+{{ $key | quote }} = {{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}
 {{- end }}
 {{- end }}
 {{- end }}

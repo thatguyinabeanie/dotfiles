@@ -109,6 +109,7 @@ dev_tools:
 
   # Core package managers
   - name: pnpm
+    mise_name: "github:pnpm/pnpm"
     installer: [mise]
   - name: npm
     installer: [mise]
@@ -248,7 +249,7 @@ dev_tools:
     profiles: [languages]
   - name: java
     installer: [mise]
-    version: "zulu-8"
+    version: "zulu-8.92.0.21"
     profiles: [languages]
   - name: elixir
     installer: [mise]

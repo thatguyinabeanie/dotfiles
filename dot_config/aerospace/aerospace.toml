@@ -224,6 +224,11 @@ run = 'move-node-to-workspace D'
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace S'
 
+# Force Elgato Studio to automatically move to workspace E when opened
+[[on-window-detected]]
+if.app-id = 'com.elgato.studio'
+run = 'move-node-to-workspace E'
+
 # Force Tidal to automatically move to workspace T when opened
 [[on-window-detected]]
 if.app-id = 'com.tidal.desktop'

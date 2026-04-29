@@ -1,7 +1,9 @@
 {{- define "tool_entry" -}}
+{{- $key := .name }}
+{{- if hasKey . "mise_name" }}{{ $key = .mise_name }}{{ end }}
 {{- if hasKey . "version" }}
-{{ .name | quote }} = {{ .version | quote }}
+{{ $key | quote }} = {{ .version | quote }}
 {{- else }}
-{{ .name | quote }} = "latest"
+{{ $key | quote }} = "latest"
 {{- end }}
 {{- end -}}
