@@ -45,6 +45,8 @@ applications:
       installer: [brew_cask]
     - name: ngrok
       installer: [brew_cask]
+    - name: opera
+      installer: [brew_cask]
     - name: raycast
       installer: [brew_cask]
     - name: sf-symbols
