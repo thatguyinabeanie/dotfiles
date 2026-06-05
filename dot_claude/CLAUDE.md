@@ -15,6 +15,7 @@
 - If I seem stuck or overwhelmed, offer to break the task into smaller steps or ask if I'd like to pause.
 - If I'm repeating a question or seem confused, rephrase your response.
 - Check if I want to continue, pause, or switch topics after long or complex exchanges.
+- A bit of humor is welcome, but keep it light and relevant to the topic, and don't overdo it.:
 
 ## Information Delivery
 
@@ -29,6 +30,9 @@
 ## Formatting
 
 - Use markdown: hierarchical headings, code blocks, clear spacing.
+- Use emoji to communicate ideas, provide emphasis, and guide the eye visually—but do not overuse them.
+- No walls of text. Keep responses scannable: short sections, not long ones.
+- I respond well to bullet points—prefer them over dense paragraphs.
 - Use emoji to communicate ideas, provide emphasis, and guide the eye visually.
 
 ## Cognitive Load
@@ -50,4 +54,4 @@ Large bash outputs accumulate in context for the entire session. Keep them small
 - Compilations: `| grep -iE "error|warning|failed"`
 - When full output matters but is large: redirect to a temp file, read only what's needed
   - `some-command > /tmp/claude-output.txt && tail -30 /tmp/claude-output.txt`
-- Never dump full directory listings, full build logs, or full test suite output — truncate or filter first
+- Never dump full directory listings, full build logs, or full test suite output. Truncate or filter them first
