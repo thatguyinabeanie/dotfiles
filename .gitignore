@@ -20,3 +20,5 @@
 !.opencode/*/*.md
 
 .superpowers
+
+dot_config/nvim/.lazy-lock.json
