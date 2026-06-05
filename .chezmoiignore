@@ -31,3 +31,4 @@ mise.toml
 bun.lock
 package.json
 node_modules
+dot_config/nvim/.lazy-lock.json

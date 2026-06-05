@@ -230,6 +230,7 @@ dev_tools:
   # ============================================================
   - name: postgres
     installer: [mise]
+    version: "16"
     description: "PostgreSQL database with psql client"
     profiles: [databases]
   - name: mysql
@@ -253,9 +254,11 @@ dev_tools:
     profiles: [languages]
   - name: elixir
     installer: [mise]
+    version: "1.19.5-otp-28"
     profiles: [languages]
   - name: erlang
     installer: [mise]
+    version: "28"
     profiles: [languages]
   - name: julia
     installer: [mise]
