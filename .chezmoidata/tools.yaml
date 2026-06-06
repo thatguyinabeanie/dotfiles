@@ -4,6 +4,8 @@ dev_tools:
   # ============================================================
 
   # Shell essentials
+  - name:  coreutils
+    installer: [brew]
   - name: zsh
     installer: [brew]
   - name: starship
@@ -254,11 +256,9 @@ dev_tools:
     profiles: [languages]
   - name: elixir
     installer: [mise]
-    version: "1.19.5-otp-28"
     profiles: [languages]
   - name: erlang
     installer: [mise]
-    version: "28"
     profiles: [languages]
   - name: julia
     installer: [mise]
@@ -267,6 +267,9 @@ dev_tools:
   - name: deno
     installer: [mise]
     profiles: [languages]
+  - name: bun
+    installer: [mise]
+    description: "Fast JavaScript runtime and package manager"
   - name: yarn
     installer: [mise]
     profiles: [languages]
