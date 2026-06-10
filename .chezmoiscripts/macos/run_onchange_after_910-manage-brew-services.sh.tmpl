@@ -83,4 +83,5 @@ RUNNING_SERVICES=$(brew services list --json | jq -r '.[] | select(.status == "s
 {{ template "process_service" (dict "service" . "excluded_services" $brewServices.excluded_services) }}
 {{- end }}
 
+exit 0
 {{- end }}
