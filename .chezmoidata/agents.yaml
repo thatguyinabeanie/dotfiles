@@ -17,11 +17,6 @@ agents:
     description: "Anthropic Claude Code assistant"
     category: ai
 
-  - name: "opencode-ai"
-    installer: [npm]
-    description: "OpenCode AI coding assistant"
-    category: ai
-
   # Deployment and infrastructure tools
   - name: vercel
     installer: [npm]
