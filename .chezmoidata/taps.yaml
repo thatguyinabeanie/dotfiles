@@ -15,3 +15,5 @@ homebrew_taps:
     description: "AeroSpace window manager"
   - name: atlassian/homebrew-acli
     description: "Atlassian CLI tools"
+  - name: charmbracelet/tap
+    description: "Charmbracelet CLI tools (mods, glow, etc.)"

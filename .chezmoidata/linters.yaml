@@ -95,7 +95,7 @@ linters:
 
   - name: tflint
     languages: [terraform]
-    installer: [brew, mason]
+    installer: [mise, mason]
     profiles: [infra]
 
   # ============================================================

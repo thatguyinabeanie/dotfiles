@@ -159,6 +159,9 @@ dev_tools:
   - name: glow
     installer: [mise]
     description: "Render markdown beautifully in the terminal"
+  - name: mods
+    installer: [brew]
+    description: "AI-powered terminal LLM client (charmbracelet)"
 
   # Image/graphics (required by neovim plugins)
   - name: resvg
