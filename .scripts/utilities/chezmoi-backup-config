@@ -85,10 +85,24 @@ backup_config() {
 		exit 1
 	fi
 
+	# Detect storage method once (reused for all write_persistent_config calls below)
+	local storage_method
+	storage_method=$(detect_storage_method)
+
+	# Skip backup if TOML hasn't changed since last backup
+	# Hash lives in same persistent store — if store is wiped, hash is gone → backup re-runs (correct)
+	local current_hash
+	current_hash=$(md5 -q "$chezmoi_config" 2>/dev/null || md5sum "$chezmoi_config" | cut -d' ' -f1)
+	local stored_hash
+	stored_hash=$(read_persistent_config "toml_backup_hash" "$storage_method")
+	if [[ -n "$stored_hash" && "$current_hash" == "$stored_hash" ]]; then
+		exit 0
+	fi
+
 	# Only show status messages if not in silent mode
 	if [[ "$silent" != "true" ]]; then
 		print_status "Backing up chezmoi configuration to persistent storage..."
-		print_status "Storage method: $(detect_storage_method)"
+		print_status "Storage method: $storage_method"
 	fi
 
 	# Define all configuration keys to back up
@@ -145,7 +159,7 @@ backup_config() {
 		fi
 
 		if [[ -n "$value" ]]; then
-			write_persistent_config "$persistent_key" "$value"
+			write_persistent_config "$persistent_key" "$value" "$storage_method"
 			if [[ "$silent" != "true" ]]; then
 				print_status "Backed up $persistent_key = $value"
 			fi
@@ -157,8 +171,11 @@ backup_config() {
 	done
 
 	# Add backup metadata
-	write_persistent_config "backup_date" "$(date -Iseconds)"
-	write_persistent_config "backup_source" "$chezmoi_config"
+	write_persistent_config "backup_date" "$(date -Iseconds)" "$storage_method"
+	write_persistent_config "backup_source" "$chezmoi_config" "$storage_method"
+
+	# Persist the hash so the next apply can skip backup if TOML unchanged
+	write_persistent_config "toml_backup_hash" "$current_hash" "$storage_method"
 
 	# Only show success messages if not in silent mode
 	if [[ "$silent" != "true" ]]; then
