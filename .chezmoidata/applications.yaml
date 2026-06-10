@@ -77,9 +77,6 @@ applications:
     - name: cyberduck
       installer: [brew_cask]
       profiles: [productivity]
-    - name: grandperspective
-      installer: [brew_cask]
-      profiles: [productivity]
     - name: firefox
       installer: [brew_cask]
       profiles: [productivity]
