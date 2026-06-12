@@ -55,17 +55,7 @@ export CATPPUCCIN_FLAVOR="{{ $dot.CATPPUCCIN_FLAVOR }}"
 ##
 ## PATH
 ##
-{{- range $entry := $shared.env_shared.env_paths.path }}
-{{- if contains "$HOME" $entry }}
-export PATH="{{ $entry }}:$PATH"
-{{- else if contains "$XDG_CONFIG_HOME" $entry }}
-export PATH="{{ $entry }}:$PATH"
-{{- else if contains "$XDG_DATA_HOME" $entry }}
-export PATH="{{ $entry }}:$PATH"
-{{- else }}
-export PATH="{{ $entry }}:$PATH"
-{{- end }}
-{{- end }}
+export PATH="{{ $shared.env_shared.env_paths.path | join ":" }}:$PATH"
 
 
 # Shell-specific configuration
