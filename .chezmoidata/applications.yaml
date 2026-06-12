@@ -29,6 +29,8 @@ applications:
       installer: [brew_cask]
     - name: claude-island
       installer: [brew_cask]
+    - name: cmux
+      installer: [brew_cask]
     - name: espanso
       installer: [brew_cask]
     - name: ghostty

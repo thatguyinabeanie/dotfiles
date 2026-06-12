@@ -4,6 +4,12 @@
 # ============================================================================
 
 # ----------------------------------------------------------------------------
+# PROFILING (commented out — uncomment both blocks to enable, then re-comment)
+# DO NOT DELETE — toggle these to profile zsh startup performance
+# ----------------------------------------------------------------------------
+# zmodload zsh/zprof
+
+# ----------------------------------------------------------------------------
 # SECTION 1: Essential Sources (ENABLED - Keep these)
 # ----------------------------------------------------------------------------
 
@@ -30,20 +36,29 @@ fpath=({{ $zshCompletionsPath }} $fpath)
 {{- end }}
 {{- end }}
 
-# Optimized completion system with aggressive caching
-# - Uses -C flag to skip compaudit security check entirely (saves ~33ms)
-# - Only regenerates dump file weekly instead of daily (saves additional overhead)
-# - To force regeneration: rm ~/.zcompdump && exec zsh
-autoload -Uz compinit
-setopt EXTENDEDGLOB
-if [[ -n ~/.zcompdump(#qN.mh+168) ]]; then
-  # Dump file is older than 1 week, regenerate (skip security check with -u)
-  compinit -u
+# zsh-defer (romkatv/zsh-defer) — cloned via chezmoi external to ~/.config/zsh/zsh-defer/
+# Deferred items run after the first prompt is drawn (zle-line-init), not before.
+# Falls back to immediate loading until the repo is cloned on first chezmoi apply.
+if [[ -f "$HOME/.config/zsh/zsh-defer/zsh-defer.plugin.zsh" ]]; then
+  source "$HOME/.config/zsh/zsh-defer/zsh-defer.plugin.zsh"
+  _maybe_defer() { zsh-defer "$@" }
 else
-  # Use cached dump without any checks
-  compinit -C
+  _maybe_defer() { "$@" }
 fi
-unsetopt EXTENDEDGLOB
+
+# Completion setup — deferred when zsh-defer is available (saves ~9ms on startup)
+# Regenerate dump: rm ~/.zcompdump && exec zsh
+_compinit_setup() {
+  autoload -Uz compinit
+  setopt EXTENDEDGLOB
+  if [[ -n ~/.zcompdump(#qN.mh+168) ]]; then
+    compinit -u
+  else
+    compinit -C
+  fi
+  unsetopt EXTENDEDGLOB
+}
+_maybe_defer _compinit_setup
 
 # Simple prompt (disabled - using starship instead)
 # PS1='%F{blue}%~%f %# '
@@ -54,8 +69,8 @@ unsetopt EXTENDEDGLOB
 
 {{- $zshHighlightPath := "/opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" }}
 {{- if stat $zshHighlightPath }}
-# zsh-syntax-highlighting (faster than zinit/fast-syntax-highlighting)
-source "{{ $zshHighlightPath }}"
+# zsh-syntax-highlighting — deferred (must load after completions/widgets)
+_maybe_defer source "{{ $zshHighlightPath }}"
 {{- end }}
 
 {{- $zshAutosuggPath := "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" }}
@@ -117,18 +132,18 @@ fpath=({{ $dockerCompletionsDir }} $fpath)
 {{- end }}
 
 {{- if lookPath "chezmoi" }}
-_source_cached "chezmoi-completion" 'source <(chezmoi completion zsh)'
+_maybe_defer _source_cached "chezmoi-completion" 'source <(chezmoi completion zsh)'
 {{- end }}
 
 {{- if lookPath "mise" }}
-_source_cached "mise-completion" 'source <(mise completion zsh)'
+_maybe_defer _source_cached "mise-completion" 'source <(mise completion zsh)'
 {{- end }}
 
 {{- if lookPath "carapace" }}
-# Carapace - Multi-shell completion framework (669+ completers)
+# Carapace env/style — set immediately so they're ready when init loads
 export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-_source_cached "carapace-init" 'source <(carapace _carapace zsh)'
+_maybe_defer _source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 {{- end }}
 
 # ----------------------------------------------------------------------------
@@ -278,3 +293,8 @@ export BRAIN_VAULT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/open-clawsidian"
 # OpenClaw Completion
 source "{{ $openclawCompletions }}"
 {{- end }}
+
+# ----------------------------------------------------------------------------
+# PROFILING — bottom marker (DO NOT DELETE — pair with zmodload zsh/zprof above)
+# ----------------------------------------------------------------------------
+# zprof
