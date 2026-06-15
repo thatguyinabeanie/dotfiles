@@ -28,6 +28,11 @@ export HOMEBREW_REPOSITORY="/opt/homebrew"
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
 {{- end }}
 
+{{- if lookPath "bat" }}
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANROFFOPT="-c"
+{{- end }}
+
 # Add zsh-completions to fpath (must be before compinit)
 {{- if lookPath "brew" }}
 {{- $zshCompletionsPath := "/opt/homebrew/share/zsh-completions" }}
