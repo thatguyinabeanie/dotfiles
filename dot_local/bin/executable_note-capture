@@ -1,7 +1,45 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-# Wrapper script for instant-capture.sh
-# Routes note capture to the user's Obsidian vault
-# Falls back to ~/.local/share/obsidian if OBSIDIAN_VAULT is not set
+VAULT="${OBSIDIAN_VAULT:-${XDG_DATA_HOME:-$HOME/.local/share}/obsidian}"
+INBOX_DIR="${VAULT}/00-inbox"
 
-exec "$HOME/.local/bin/instant-capture.sh" "${OBSIDIAN_VAULT:-$HOME/.local/share/obsidian}" "$@"
+mkdir -p "${INBOX_DIR}"
+
+TIMESTAMP=$(date +%Y-%m-%dT%H:%M:%S)
+DATE_SLUG=$(date +%Y%m%d-%H%M%S)
+TEMP_FILE=$(mktemp /tmp/capture-XXXXXX.md)
+
+cat > "${TEMP_FILE}" << 'EOF'
+---
+title: ""
+created: "TIMESTAMP_PLACEHOLDER"
+modified: "TIMESTAMP_PLACEHOLDER"
+tags: []
+type: note
+source: capture
+status: inbox
+---
+
+EOF
+
+sed -i '' "s/TIMESTAMP_PLACEHOLDER/${TIMESTAMP}/g" "${TEMP_FILE}"
+
+${EDITOR:-nvim} "+2" "+normal f\"a" "${TEMP_FILE}"
+
+CONTENT=$(sed '/^---$/,/^---$/d' "${TEMP_FILE}" | tr -d '[:space:]')
+TITLE=$(grep '^title:' "${TEMP_FILE}" | sed 's/^title: *"\(.*\)"/\1/')
+
+if [ -z "${CONTENT}" ] && [ -z "${TITLE}" ]; then
+  rm "${TEMP_FILE}"
+  exit 0
+fi
+
+if [ -n "${TITLE}" ]; then
+  FILENAME=$(echo "${TITLE}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//')
+  FILENAME="${FILENAME}.md"
+else
+  FILENAME="capture-${DATE_SLUG}.md"
+fi
+
+mv "${TEMP_FILE}" "${INBOX_DIR}/${FILENAME}"
