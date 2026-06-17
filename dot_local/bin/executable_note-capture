@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Wrapper script for instant-capture.sh
+# Routes note capture to the user's Obsidian vault
+# Falls back to ~/.local/share/obsidian if OBSIDIAN_VAULT is not set
+
+exec "$HOME/.local/bin/instant-capture.sh" "${OBSIDIAN_VAULT:-$HOME/.local/share/obsidian}" "$@"
