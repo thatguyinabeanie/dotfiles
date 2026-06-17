@@ -289,15 +289,6 @@ brain() {
 }
 {{- end }}
 
-# 🧠 Open-Clawsidian vault path
-export BRAIN_VAULT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/open-clawsidian"
-
-{{- $openclawCompletions := printf "%s/.openclaw/completions/openclaw.zsh" .chezmoi.homeDir }}
-{{- if stat $openclawCompletions }}
-
-# OpenClaw Completion
-source "{{ $openclawCompletions }}"
-{{- end }}
 
 # ----------------------------------------------------------------------------
 # PROFILING — bottom marker (DO NOT DELETE — pair with zmodload zsh/zprof above)
