@@ -30,3 +30,8 @@ mcp_servers:
     installer: [npm]
     description: "MCP server for Taskwarrior task management"
     category: productivity
+
+  - name: "@modelcontextprotocol/server-filesystem"
+    installer: [npm]
+    description: "Filesystem MCP — gives Claude/OpenCode read/write access to the Obsidian vault"
+    category: productivity
