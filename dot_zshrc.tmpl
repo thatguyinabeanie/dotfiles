@@ -282,10 +282,10 @@ fi
 # ----------------------------------------------------------------------------
 
 {{- if lookPath "claude" }}
-# 🧠 brain - Open-Clawsidian AI Second Brain
+# 🧠 brain - Open Obsidian vault in Claude Code
 # Type `brain` from anywhere to cd into the vault and launch Claude Code
 brain() {
-  cd "${BRAIN_VAULT_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/open-clawsidian}" && claude "$@"
+  cd "${OBSIDIAN_VAULT:-${XDG_DATA_HOME:-$HOME/.local/share}/obsidian}" && claude "$@"
 }
 {{- end }}
 
