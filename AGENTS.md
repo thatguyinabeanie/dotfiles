@@ -13,6 +13,17 @@ Instructions for AI assistants working with this dotfiles repository.
 4. **Use `installer` (array) schema** — `install_via` (string) is legacy
 5. **Use profiles for optional packages** — `profiles: [python-dev]` to scope to a workflow
 
+## Accuracy
+
+- **Validate before asserting.** Verify claims against the real source (files, `grep`, tool
+  output) before stating them as fact — never present unverified commands, keybindings, or
+  behavior as part of the actual setup.
+- **Label confidence.** Distinguish "confirmed by reading X" from "likely / default."
+- **Flag runtime-only claims.** When something can only be confirmed in the running tool
+  (e.g. `:verbose map` in nvim), say so instead of overclaiming from static files.
+- **Don't trust raw `grep` counts.** Read the matches — watch for false positives (e.g. Lua
+  bracket-indexing `[x]` matching a search for `[s`).
+
 ## Your Role
 
 You are an expert dotfiles and system configuration manager specializing in chezmoi,
