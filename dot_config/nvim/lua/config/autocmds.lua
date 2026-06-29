@@ -80,3 +80,35 @@ vim.api.nvim_create_autocmd("VimEnter", {
     end, 5000)
   end,
 })
+
+-- Obsidian vault LSP arbitration:
+--   * Inside an Obsidian vault (.obsidian marker) → obsidian-ls owns LSP; detach
+--     markdown-oxide and marksman from the buffer.
+--   * Outside vaults → markdown-oxide / marksman own LSP; detach obsidian-ls (which
+--     always starts on markdown buffers and cannot be disabled via config).
+local function buf_in_vault(buf)
+  local name = vim.api.nvim_buf_get_name(buf)
+  if name == "" then
+    return false
+  end
+  local dir = vim.fn.fnamemodify(name, ":p:h")
+  return vim.fs.find(".obsidian", { path = dir, upward = true, type = "directory" })[1] ~= nil
+end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("obsidian_lsp_arbitration", { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then
+      return
+    end
+    local in_vault = buf_in_vault(args.buf)
+    local detach = (in_vault and (client.name == "markdown_oxide" or client.name == "marksman"))
+      or (not in_vault and client.name == "obsidian-ls")
+    if detach then
+      vim.schedule(function()
+        vim.lsp.buf_detach_client(args.buf, client.id)
+      end)
+    end
+  end,
+})

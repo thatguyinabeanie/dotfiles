@@ -1,0 +1,6 @@
+["obsidian"]
+  type = "git-repo"
+  url = "git@github.com:thatguyinabeanie/obsidian-vault.git"
+  refreshPeriod = "168h"
+  [obsidian.pull]
+    args = ["--ff-only"]

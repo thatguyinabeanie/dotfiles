@@ -29,7 +29,7 @@ env_personal:
 
     # Personal productivity
     productivity:
-      OBSIDIAN_VAULT: "$HOME/Documents/Obsidian"
+      OBSIDIAN_VAULT: "$XDG_DATA_HOME/obsidian"
       NOTES_DIR: "$HOME/Documents/Notes"
 
   # Personal cloud and backup settings
