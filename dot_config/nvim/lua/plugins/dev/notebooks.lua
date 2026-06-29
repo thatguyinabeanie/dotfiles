@@ -1,6 +1,9 @@
+-- Notebook stack disabled: not in active use, and molten depends on image.nvim
+-- (now disabled in favor of snacks.image). Re-enable all three to restore notebooks.
 return {
   {
     "GCBallesteros/jupytext.nvim",
+    enabled = false,
     lazy = false,
     init = function()
       vim.g.jupytext_fmt = "qmd"
@@ -14,6 +17,7 @@ return {
   },
   {
     "benlubas/molten-nvim",
+    enabled = false,
     dependencies = { "3rd/image.nvim" },
     ft = { "quarto", "markdown", "python" },
     keys = {
@@ -51,6 +55,7 @@ return {
   },
   {
     "quarto-dev/quarto-nvim",
+    enabled = false,
     dependencies = { "jmbuhr/otter.nvim" },
     ft = { "quarto", "markdown" },
     config = function()

@@ -2,6 +2,9 @@
 -- Uses Kitty graphics protocol (supported by Ghostty) via tmux passthrough
 return {
   "3rd/image.nvim",
+  -- Disabled: conflicts with snacks.image over Kitty graphics in markdown buffers.
+  -- snacks.image now owns all markdown/mermaid rendering. Re-enable if molten notebooks return.
+  enabled = false,
   ft = { "markdown", "quarto", "norg" },
   dependencies = {
     "nvim-treesitter/nvim-treesitter",
