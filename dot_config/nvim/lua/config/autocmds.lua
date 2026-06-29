@@ -33,7 +33,23 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 -- Built-in Neovim 0.12+ packages (pcall guards against minimal/popup envs)
 if pcall(vim.cmd.packadd, "nvim.undotree") then
-  vim.keymap.set("n", "<leader>uu", "<cmd>Undotree<cr>", { desc = "Toggle Undotree" })
+  local function undotree_open()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      if vim.bo[vim.api.nvim_win_get_buf(win)].filetype == "undotree" then
+        return true
+      end
+    end
+    return false
+  end
+  Snacks.toggle({
+    name = "Undotree",
+    get = undotree_open,
+    set = function(state)
+      if state ~= undotree_open() then
+        vim.cmd("Undotree")
+      end
+    end,
+  }):map("<leader>uu")
 end
 
 -- Stop LSP clients gracefully on quit to prevent NO_RESULT_CALLBACK_FOUND errors
