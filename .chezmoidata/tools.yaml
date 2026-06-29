@@ -173,6 +173,9 @@ dev_tools:
   - name: ghostscript
     installer: [brew]
     description: "Type1 fonts and PS/PDF rendering used by ImageMagick for font support"
+  - name: poppler
+    installer: [brew]
+    description: "PDF utilities (pdfinfo, pdftotext, pdftohtml) required by pdfreader.nvim"
   - name: "@mermaid-js/mermaid-cli"
     installer: [npm]
     description: "Mermaid CLI for rendering diagrams to images"
