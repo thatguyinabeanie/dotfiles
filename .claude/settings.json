@@ -59,7 +59,6 @@
       "Bash(yazi:*)",
       "Bash(find ~/.config/yazi/.catppuccin -name *.yazi -o -name flavor*)",
       "Bash(nvim --version)",
-      "Bash(taskwarrior-tui --version)",
       "Bash(awk:*)",
       "Bash(cd:*)",
       "Bash(compaudit:*)",
