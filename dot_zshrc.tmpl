@@ -200,7 +200,7 @@ _source_cached "starship-init" 'eval "$(starship init zsh)"'
 
 {{- if lookPath "mise" }}
 # mise - Version manager
-_source_cached "mise-activate" 'eval "$(mise activate zsh)"'
+_maybe_defer _source_cached "mise-activate" 'eval "$(mise activate zsh)"'
 {{- end }}
 
 {{- if lookPath "fzf" }}
