@@ -12,8 +12,8 @@
 
 - **Primary files**:
   - `config.tmpl` - Main configuration template (keybindings, appearance, behavior)
-  - `executable_ghostty-tmux.zsh.tmpl` - Tmux auto-launcher script (runs on shell startup)
-  - `executable_ghostty-init.zsh.tmpl` - Shell initialization hook
+  - `executable_ghostty-init.zsh.tmpl` - Shell init hook + tmux auto-launcher (attaches to
+    or creates the `ghostty` tmux session on startup)
 - **Data sources**:
   - `.chezmoidata/shared.yaml` - UI settings (opacity, blur, font, cursor, theme)
   - `.chezmoidata/personal.yaml` - Keybindings and personal settings
@@ -55,5 +55,5 @@
 
 ## Related Documentation
 
-- [Tmux Agent Guide](../tmux/AGENTS.md)—tmux auto-launcher integration via `ghostty-tmux.zsh`
+- [Tmux Agent Guide](../tmux/AGENTS.md)—tmux auto-launcher integration via `ghostty-init.zsh`
 - [Aerospace Agent Guide](../aerospace/AGENTS.md)—potential keybinding conflicts

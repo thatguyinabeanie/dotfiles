@@ -20,16 +20,9 @@ auto-update = download
 ## STARTUP OPTIONS
 ##
 
-# Runs only on the first time Ghostty is opened,
-# Attaches to TMUX session 'ghostty' if it exists, otherwise creates a new session, then attaches
-# COMMENTED OUT: tmux logic moved to shell configs for per-window attachment
-
-{{ if and (hasKey . "SHELL") (eq .SHELL "nu") -}}
-initial-command = ~/.config/ghostty/ghostty-init.nu
-{{ else -}}
+# On every new Ghostty window, attaches to the TMUX session 'ghostty' if it exists,
+# otherwise creates it (set GHOSTTY_NO_TMUX to opt out; see ghostty-init.zsh)
 initial-command = ~/.config/ghostty/ghostty-init.zsh
-{{ end -}}
-
 
 ##
 ## MACOS SPECIFIC SETTINGS
