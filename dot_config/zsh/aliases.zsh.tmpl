@@ -63,3 +63,74 @@ killport() {
     echo "   ✅ Port $port freed"
   done
 }
+
+
+# Create a git worktree under .claude/worktrees at the repo root, then cd into it
+# Usage: gwtac <path> [branch]   (branch defaults to <path> if omitted)
+gwtac() {
+  if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo "❌ Usage: gwtac <path> [branch]"
+    return 1
+  fi
+
+  local wt_path="$1"
+  local branch="${2:-$1}"
+
+  local repo_root
+  repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [ -z "$repo_root" ]; then
+    echo "❌ Not inside a git repository"
+    return 1
+  fi
+
+  local full_path="$repo_root/.claude/worktrees/$wt_path"
+
+  if git show-ref --verify --quiet "refs/heads/$branch"; then
+    echo "🌲 Adding worktree at $full_path (branch: $branch)..."
+    git worktree add "$full_path" "$branch" || return $?
+  else
+    echo "🌱 Branch '$branch' doesn't exist yet — creating it at $full_path..."
+    git worktree add -b "$branch" "$full_path" || return $?
+  fi
+
+
+      # If a mise.toml is present at the repo root, run `mise trust` in the worktree
+  if [ -f "$repo_root/mise.toml" ]; then
+    if command -v mise >/dev/null 2>&1; then
+      echo "🔒 Running mise trust..."
+        mise trust "$full_path" || echo "⚠️ mise trust failed"
+    else
+      echo "⚠️ 'mise' not found in PATH; cannot run mise trust"
+    fi
+  fi
+
+
+  cd "$full_path" || return $?
+
+  # Symlink any .env* files from the repo root into the new worktree (if they exist)
+  for env in "$repo_root"/.env*; do
+    [ -e "$env" ] || continue
+    local fname
+    fname=$(basename "$env")
+    local dest="$full_path/$fname"
+
+    if [ -L "$dest" ]; then
+      local target
+      target=$(readlink "$dest")
+      if [ "$target" = "$env" ]; then
+        echo "🔗 Symlink already exists: $dest -> $env"
+        continue
+      else
+        echo "⚠️ $dest exists as symlink to $target; skipping"
+        continue
+      fi
+    elif [ -e "$dest" ]; then
+      echo "⚠️ $dest already exists and is not a symlink; skipping"
+      continue
+    else
+      ln -s "$env" "$dest" && echo "🔗 Created symlink: $dest -> $env" || echo "❌ Failed to create symlink $dest"
+    fi
+  done
+
+}
+

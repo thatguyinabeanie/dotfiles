@@ -210,6 +210,7 @@
 | `gwtl` | `git worktree list` |
 | `gwtlv` | `git worktree list --verbose` |
 | `gwta` | `git worktree add PATH [BRANCH]` |
+| `gwtac` | `git worktree add PATH [BRANCH]` under `.claude/worktrees/`, then `cd`s in (BRANCH defaults to PATH, created with `-b` if it doesn't exist) |
 | `gwtab` | `git worktree add -b BRANCH PATH` (create + checkout) |
 | `gwtrm` | `git worktree remove PATH` |
 | `gwtmv` | `git worktree move PATH NEW-PATH` |

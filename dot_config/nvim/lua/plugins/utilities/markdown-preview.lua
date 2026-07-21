@@ -2,9 +2,10 @@
 -- Opens in Chrome via a local web server; updates on save.
 return {
   "iamcco/markdown-preview.nvim",
+  enabled = false,
   cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
   ft = { "markdown" },
-  build = "cd app && npm install",
+  build = "cd app && npm install && git restore .",
   init = function()
     vim.g.mkdp_browser = "chrome"
   end,

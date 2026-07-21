@@ -42,6 +42,18 @@ if [[ -f "$_mise_cache" ]]; then
   sed -i '' '/^_mise_hook$/d' "$_mise_cache"
 fi
 generate "mise-completion" "zsh" "mise completion zsh"
+
+# Pre-resolve mise's env diff (~40 tools) so the first real `mise hook-env`
+# call short-circuits instead of paying ~0.35s inside the zsh-defer window.
+# Must run from $HOME with __MISE_DIFF/__MISE_SESSION unset and a fixed base
+# PATH — if generated from a shell where mise's env is already applied,
+# hook-env sees nothing left to do and emits a near-empty (useless) diff.
+# $HOME/.local/bin is included because that's where mise's own installer
+# puts the binary (it isn't on the stripped-down base PATH otherwise).
+generate "mise-hook-env" "zsh" \
+  "cd \"\$HOME\" && env -u __MISE_DIFF -u __MISE_SESSION \
+   PATH=\"\$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin\" \
+   mise hook-env -s zsh"
 {{- end }}
 
 {{- if lookPath "chezmoi" }}
@@ -97,5 +109,9 @@ generate "carapace-init" "fish" "carapace _carapace fish"
 {{- if lookPath "atuin" }}
 generate "atuin-init" "fish" "atuin init fish"
 {{- end }}
+
+# hook-env output (and possibly other tool init output) can contain secret
+# env values — lock down cache file permissions. Empty glob is non-fatal.
+chmod 600 "$CACHE_DIR"/* 2>/dev/null || true
 
 echo "Shell init cache updated in $CACHE_DIR"

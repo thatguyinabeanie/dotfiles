@@ -55,11 +55,14 @@ fi
 # Regenerate dump: rm ~/.zcompdump && exec zsh
 _compinit_setup() {
   autoload -Uz compinit
+  # Always take the fast path for the interactive shell — never let the
+  # weekly staleness check block typing. If the dump is stale, rebuild it
+  # in a detached background subshell: write to a temp dump, then swap it
+  # in atomically, so this session (and the next one) just keeps typing.
+  compinit -C
   setopt EXTENDEDGLOB
   if [[ -n ~/.zcompdump(#qN.mh+168) ]]; then
-    compinit -u
-  else
-    compinit -C
+    (autoload -Uz compinit; compinit -u -d ~/.zcompdump.new.$$ && mv ~/.zcompdump.new.$$ ~/.zcompdump) &!
   fi
   unsetopt EXTENDEDGLOB
 }
@@ -200,6 +203,14 @@ _source_cached "starship-init" 'eval "$(starship init zsh)"'
 
 {{- if lookPath "mise" }}
 # mise - Version manager
+# Seed pre-resolved env so the first hook-env short-circuits (~0.35s -> ~0.03s)
+_mise_seed() {
+  local _pre_path="$PATH"
+  _source_cached "mise-hook-env" 'eval "$(mise hook-env -s zsh)"'
+  PATH="$PATH:$_pre_path"
+  typeset -gU path   # dedupe, keeping mise entries first
+}
+_maybe_defer _mise_seed
 _maybe_defer _source_cached "mise-activate" 'eval "$(mise activate zsh)"'
 {{- end }}
 

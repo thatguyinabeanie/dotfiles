@@ -41,15 +41,21 @@ if pcall(vim.cmd.packadd, "nvim.undotree") then
     end
     return false
   end
-  Snacks.toggle({
-    name = "Undotree",
-    get = undotree_open,
-    set = function(state)
-      if state ~= undotree_open() then
-        vim.cmd("Undotree")
-      end
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "VeryLazy",
+    once = true,
+    callback = function()
+      Snacks.toggle({
+        name = "Undotree",
+        get = undotree_open,
+        set = function(state)
+          if state ~= undotree_open() then
+            vim.cmd("Undotree")
+          end
+        end,
+      }):map("<leader>uu")
     end,
-  }):map("<leader>uu")
+  })
 end
 
 -- Stop LSP clients gracefully on quit to prevent NO_RESULT_CALLBACK_FOUND errors

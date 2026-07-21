@@ -95,6 +95,7 @@
 | `gwtl` | `git worktree list` |
 | `gwtlv` | `git worktree list --verbose` |
 | `gwta` | `git worktree add` |
+| `gwtac` | `git worktree add` (workspace under `.claude/worktrees`, auto-`cd`, branch defaults to path, auto-created if missing) |
 | `gwtab` | `git worktree add -b` |
 | `gwtrm` | `git worktree remove` |
 | `gwtmv` | `git worktree move` |
