@@ -15,18 +15,3 @@
 
 mcp_servers:
   # Development and deployment MCP servers
-  - name: "vercel"
-    installer: [npm]
-    description: "Vercel deployment MCP server"
-    category: deployment
-
-  - name: mcp-hub
-    installer: [npm]
-    description: "Central hub for MCP server discovery"
-    category: infrastructure
-
-
-  - name: "@modelcontextprotocol/server-filesystem"
-    installer: [npm]
-    description: "Filesystem MCP — gives Claude/OpenCode read/write access to the Obsidian vault"
-    category: productivity
