@@ -115,10 +115,9 @@ The `installer` field is an **array** — multiple values mean "install via all 
 - `[curl]` — Direct downloads
 - Multiple: `[mise, mason]` means "install via both"
 
-> **Legacy note:** Some older templates still use `install_via` (string). New entries must
-> use `installer` (array). Files using the old schema: `shared.yaml` (applications section),
-> `append-packages.tmpl`, `brew-installer.sh.tmpl`, `collect-cargo-packages.tmpl`,
-> `collect-gem-packages.tmpl`.
+> **Migration complete:** The legacy `install_via` (string) schema has been fully retired.
+> `installer` (array) is now the only supported form across every `.chezmoidata/*.yaml` file
+> and `.chezmoitemplates/` template.
 
 ### Data Flow into Templates
 
@@ -131,7 +130,6 @@ Key query templates:
 - `queries/packages.tmpl` - Filters packages by `PackageManager`
 - `queries/brew-formulae.tmpl` - Extracts Homebrew formula packages
 - `queries/brew-casks.tmpl` - Extracts Homebrew cask packages
-- `queries/append-packages.tmpl` - Appends additional packages to a list
 
 ### Package Addition Examples
 

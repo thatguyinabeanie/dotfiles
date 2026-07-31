@@ -189,7 +189,7 @@ format = '([▴$added]($added_style))([▿$deleted]($deleted_style))'
 added_style = 'italic dimmed green'
 deleted_style = 'italic dimmed red'
 ignore_submodules = true
-disabled = false
+disabled = true
 
 [git_branch]
 format = "[$branch(:$remote_branch)]($style)"
@@ -205,7 +205,7 @@ format = ' ([\[$all_status$ahead_behind\]]($style))'
 style = "italic dimmed blue"
 # Performance: Skip expensive submodule checks
 ignore_submodules = true
-disabled = true
+disabled = false
 
 [deno]
 format = " [deno](italic) [∫ $version](green bold)"
