@@ -209,8 +209,7 @@
 | `gwt` | `git worktree` |
 | `gwtl` | `git worktree list` |
 | `gwtlv` | `git worktree list --verbose` |
-| `gwta` | `git worktree add PATH [BRANCH]` |
-| `gwtac` | `git worktree add PATH [BRANCH]` under `.claude/worktrees/`, then `cd`s in (BRANCH defaults to PATH, created with `-b` if it doesn't exist) |
+| `gwta` | `git worktree add` under `.claude/worktrees/` (or `.worktrees/` if no `.claude/` dir), auto-adds it to `.gitignore`, runs `mise trust` + symlinks `.env*` if present, then `cd`s in. Accepts real `git worktree add` flags (`-b`, `-B`, `-f`, `--detach`, etc.) |
 | `gwtab` | `git worktree add -b BRANCH PATH` (create + checkout) |
 | `gwtrm` | `git worktree remove PATH` |
 | `gwtmv` | `git worktree move PATH NEW-PATH` |

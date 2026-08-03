@@ -65,17 +65,27 @@ killport() {
 }
 
 
-# Create a git worktree under .claude/worktrees at the repo root, then cd into it
-# Usage: gwtac <path> [branch]   (branch defaults to <path> if omitted)
-gwtac() {
-  if [ $# -lt 1 ] || [ $# -gt 2 ]; then
-    echo "❌ Usage: gwtac <path> [branch]"
-    return 1
+# Ensure the repo's committed .gitignore excludes the worktrees dir (idempotent)
+_gwt_ensure_gitignore() {
+  local repo_root="$1" subdir="$2"
+  local gi="$repo_root/.gitignore"
+  local entry="${subdir}/"
+
+  [ -f "$gi" ] || : > "$gi"
+
+  if grep -qxF "$entry" "$gi" 2>/dev/null; then
+    return 0
   fi
 
-  local wt_path="$1"
-  local branch="${2:-$1}"
+  printf '%s\n' "$entry" >> "$gi"
+  echo "📝 Added '$entry' to .gitignore"
+}
 
+# Create a git worktree, mirroring `git worktree add`'s flags, under .claude/worktrees
+# (if .claude/ exists at the repo root) or .worktrees/ otherwise. Auto-runs mise trust
+# if mise.toml is present, auto-symlinks .env* files, and cd's into the new worktree.
+# Usage: gwta [git-worktree-add flags] <path> [<commit-ish>]
+gwta() {
   local repo_root
   repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
   if [ -z "$repo_root" ]; then
@@ -83,32 +93,56 @@ gwtac() {
     return 1
   fi
 
-  local full_path="$repo_root/.claude/worktrees/$wt_path"
+  local -a passthrough newbranch resetbranch
+  zparseopts -D -E -a passthrough -- \
+    f -force -no-force \
+    d -detach -no-detach \
+    -checkout -no-checkout \
+    -orphan -no-orphan \
+    -lock -no-lock \
+    -reason: \
+    q -quiet -no-quiet \
+    -track -no-track \
+    -guess-remote -no-guess-remote \
+    -relative-paths -no-relative-paths \
+    b:=newbranch \
+    B:=resetbranch \
+    || { echo "❌ Failed to parse options"; return 1; }
 
-  if git show-ref --verify --quiet "refs/heads/$branch"; then
-    echo "🌲 Adding worktree at $full_path (branch: $branch)..."
-    git worktree add "$full_path" "$branch" || return $?
-  else
-    echo "🌱 Branch '$branch' doesn't exist yet — creating it at $full_path..."
-    git worktree add -b "$branch" "$full_path" || return $?
+  if [ -n "$newbranch" ] && [ -n "$resetbranch" ]; then
+    echo "❌ Cannot combine -b and -B"
+    return 1
   fi
 
+  if [ $# -lt 1 ]; then
+    echo "❌ Usage: gwta [flags] <path> [<commit-ish>]"
+    return 1
+  fi
+  local wt_path="$1"
+  local commit_ish="$2"
 
-      # If a mise.toml is present at the repo root, run `mise trust` in the worktree
+  local worktrees_subdir=".worktrees"
+  [ -d "$repo_root/.claude" ] && worktrees_subdir=".claude/worktrees"
+  local full_path="$repo_root/$worktrees_subdir/$wt_path"
+
+  _gwt_ensure_gitignore "$repo_root" "$worktrees_subdir"
+
+  echo "🌲 Adding worktree at $full_path..."
+  git worktree add "${passthrough[@]}" "${newbranch[@]}" "${resetbranch[@]}" \
+    "$full_path" ${commit_ish:+"$commit_ish"} || return $?
+
+  # If a mise.toml is present at the repo root, run `mise trust` in the worktree
   if [ -f "$repo_root/mise.toml" ]; then
     if command -v mise >/dev/null 2>&1; then
       echo "🔒 Running mise trust..."
-        mise trust "$full_path" || echo "⚠️ mise trust failed"
+      mise trust "$full_path" || echo "⚠️ mise trust failed"
     else
       echo "⚠️ 'mise' not found in PATH; cannot run mise trust"
     fi
   fi
 
-
-  cd "$full_path" || return $?
-
   # Symlink any .env* files from the repo root into the new worktree (if they exist)
-  for env in "$repo_root"/.env*; do
+  for env in "$repo_root"/.env*(N); do
     [ -e "$env" ] || continue
     local fname
     fname=$(basename "$env")
@@ -132,5 +166,6 @@ gwtac() {
     fi
   done
 
+  cd "$full_path" || return $?
 }
 

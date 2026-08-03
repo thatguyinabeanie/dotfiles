@@ -124,7 +124,6 @@ aliases:
       # Worktree
       - { name: gwt, command: "git worktree" }
       - { name: gwtl, command: "git worktree list" }
-      - { name: gwta, command: "git worktree add" }
       - { name: gwtab, command: "git worktree add -b" }
       - { name: gwtrm, command: "git worktree remove" }
       - { name: gwtpr, command: "git worktree prune" }
