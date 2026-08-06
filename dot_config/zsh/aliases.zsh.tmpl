@@ -68,15 +68,24 @@ killport() {
 # Ensure the repo's committed .gitignore excludes the worktrees dir (idempotent)
 _gwt_ensure_gitignore() {
   local repo_root="$1" subdir="$2"
-  local gi="$repo_root/.gitignore"
   local entry="${subdir}/"
 
-  [ -f "$gi" ] || : > "$gi"
-
-  if grep -qxF "$entry" "$gi" 2>/dev/null; then
+  # Use git's own ignore resolution (not a literal grep) so an existing
+  # broader pattern already committed to the repo (e.g. ".claude/") is
+  # recognized and we don't add a redundant duplicate entry. The global
+  # excludes file is deliberately disabled for this check — it's
+  # machine-local, so relying on it would skip writing the repo's own
+  # .gitignore and leave teammates without that global file unprotected.
+  # Trailing slash matters: check-ignore only matches a directory-only
+  # pattern (e.g. ".worktrees/") against a queried path that itself ends
+  # in "/", since the target directory doesn't exist on disk yet for
+  # git to stat and infer that itself.
+  if git -C "$repo_root" -c core.excludesFile= check-ignore -q "$entry" 2>/dev/null; then
     return 0
   fi
 
+  local gi="$repo_root/.gitignore"
+  [ -f "$gi" ] || : > "$gi"
   printf '%s\n' "$entry" >> "$gi"
   echo "📝 Added '$entry' to .gitignore"
 }
