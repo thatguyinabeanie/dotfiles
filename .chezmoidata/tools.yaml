@@ -99,6 +99,7 @@ dev_tools:
     version: "24"
   - name: python
     installer: [mise]
+    version: "3.12"
   - name: go
     installer: [mise]
   - name: rust
@@ -144,8 +145,6 @@ dev_tools:
   - name: chezmoi
     installer: [brew]
   - name: mise
-    installer: [curl]
-  - name: zinit
     installer: [curl]
 
   # Markdown/docs

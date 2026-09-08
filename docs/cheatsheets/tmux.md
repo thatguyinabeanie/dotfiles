@@ -15,12 +15,6 @@
 | `Prefix + T` | Toggle status bar |
 | `C-S-k` | Clear terminal (no prefix) |
 
-## 🗂️ TUI Tools
-
-| Key | Action |
-|-----|--------|
-| `Prefix + t` | Taskwarrior TUI (todo list) |
-
 ## 📁 Sessions
 
 | Key | Action |

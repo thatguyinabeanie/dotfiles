@@ -293,17 +293,16 @@ This data is consumed by a **Template Factory System** located in `.chezmoitempl
 
 ```shell
 dotfiles/
-├── 🔭 .chezmoidata/             # Flat, granular YAML data files
-│   ├── ai/                     # AI-specific configurations
-│   │   ├── agents.yaml
-│   │   ├── mcp.yaml
-│   │   └── ...
+├── 🔭 .chezmoidata/             # Flat, granular YAML data files (15 files, no subdirectories)
+│   ├── agents.yaml
+│   ├── mcp.yaml
 │   ├── lsp.yaml
 │   ├── formatters.yaml
 │   ├── tools.yaml
-│   └── ... (20+ other specific data files)
+│   └── ... (10 more)
 ├── 🏭 .chezmoitemplates/         # Template factory for generating configs
-│   ├── nvim/
+│   ├── opencode/
+│   ├── queries/
 │   ├── mise/
 │   ├── brew/
 │   └── ...
@@ -312,24 +311,29 @@ dotfiles/
 │   ├── tmux/
 │   └── ...
 ├── 💾 .scripts/                   # Utility and installation scripts
-├── 📚 .docs/                      # In-depth documentation
+├── 📚 docs/                       # In-depth documentation (cheatsheets, plans)
 └── 🌠 .chezmoi.toml.tmpl         # Main chezmoi configuration
 ```
 
 ### 📋 **Detailed .chezmoidata Organization**
 
-The configuration data is organized into **27 ultra-specific files**. This flat structure allows for clear, direct access in templates (e.g., `.lsp.language_servers`, `.formatters.formatters`).
+The configuration data is organized into **15 flat YAML files** — see the file table in
+`AGENTS.md` for the authoritative list. This flat structure allows for clear, direct access in
+templates (e.g., `.dev_tools`, `.language_servers`).
 
-- **`lsp.yaml`**: All language servers with metadata.
-- **`formatters.yaml`**: All code formatters and their language mappings.
-- **`linters.yaml`**: All linters with language/runtime info.
-- **`parsers.yaml`**: All TreeSitter parsers for syntax highlighting.
-- **`tools.yaml`**: All general development tools, CLIs, and utilities (including AI agents and MCP servers).
-- **`ai/agents.yaml`**: All AI agents and their installation details.
-- **`ai/mcp.yaml`**: All Model Context Protocol (MCP) servers.
-- **`github-extensions.yaml`**: All GitHub CLI extensions.
-- **`services.yaml`**: System services and application configurations.
-- **`opencode.yaml`**: OpenCode AI-specific settings.
+- **`lsp.yaml`**: Language server configurations.
+- **`formatters.yaml`**: Code formatters (prettier, stylua, etc.).
+- **`linters.yaml`**: Linters (eslint, shellcheck, vale, etc.).
+- **`tools.yaml`**: CLI tools and utilities (ripgrep, fd, etc.).
+- **`agents.yaml`**: AI agent tool configurations.
+- **`mcp.yaml`**: MCP server definitions. Currently declares an empty `mcp_servers` list — no MCP
+  servers are chezmoi-managed yet.
+- **`applications.yaml`**: macOS GUI apps (casks, Mac App Store).
+- **`taps.yaml`**: Homebrew tap repositories.
+- **`services.yaml`**: Background services (postgresql, etc.).
+- **`opencode.yaml`**: OpenCode editor configuration.
+- **`onepassword.yaml`**: 1Password integration settings.
+- **`aliases.yaml`**: Shell aliases/abbreviations (Fish & Zsh).
 - **`shared.yaml`**, **`personal.yaml`**, **`work.yaml`**: Environment variables for different contexts.
 
 ### 🔧 **Template Integration Patterns**
@@ -340,11 +344,23 @@ Templates now access this data directly and efficiently, without complex `includ
 
 ```go
 {{/* Access all linters to be installed via brew */}}
-{{- $brew_linters := (where .linters.linters "install_via" "brew") }}
+{{- range .linters }}
+  {{- if has "brew" .installer }}
+    {{- /* ... */}}
+  {{- end }}
+{{- end }}
 
 {{/* Access all formatters to be installed via mise */}}
-{{- $mise_formatters := (where .formatters.formatters "install_via" "mise") }}
+{{- range .formatters }}
+  {{- if has "mise" .installer }}
+    {{- /* ... */}}
+  {{- end }}
+{{- end }}
 ```
+
+Because `installer` is an array, membership is checked with the `has` function rather than
+`where` (which cannot match inside an array). This mirrors the real query logic in
+`.chezmoitemplates/queries/packages.tmpl`.
 
 #### Loading Environment Data
 
@@ -361,7 +377,6 @@ Templates now access this data directly and efficiently, without complex `includ
 ```go
 {{/* Access the OpenCode provider settings */}}
 {{- .opencode.ai_opencode.providers.google.enabled }}
->>>>>>> origin/main
 
 {{/* Loop through all AI agents */}}
 {{- range .agents }}
@@ -507,7 +522,7 @@ Comprehensive runtime and dependency management using Mise, providing consistent
 
 #### 🏗️ **Architecture Overview**
 
-The Mise configuration is dynamically generated from the granular data files in `.chezmoidata/`. A dedicated template, `dot_config/mise/config.toml.tmpl`, gathers all tools that specify `install_via: mise` from `tools.yaml`, `linters.yaml`, `formatters.yaml`, etc., and compiles them into a single `config.toml` for Mise to consume.
+The Mise configuration is dynamically generated from the granular data files in `.chezmoidata/`. A dedicated template, `dot_config/mise/config.toml.tmpl`, gathers all tools whose `installer` array includes `mise` from `tools.yaml`, `linters.yaml`, `formatters.yaml`, etc., and compiles them into a single `config.toml` for Mise to consume.
 
 ```text
 Dotfiles Mise Integration:
@@ -515,7 +530,7 @@ Dotfiles Mise Integration:
 │   ├── tools.yaml
 │   ├── linters.yaml
 │   ├── formatters.yaml
-│   └── ... (all files with `install_via: mise`)
+│   └── ... (all files with `installer: [mise]` entries)
 ├── Generated Configuration
 │   └── dot_config/mise/config.toml.tmpl  # Main mise configuration generator
 ├── Installation Scripts
@@ -527,21 +542,18 @@ Dotfiles Mise Integration:
 
 #### ⚙️ **Configuration Data Structure**
 
-Tools are defined in their respective granular data files with an `install_via` key.
+Tools are defined in their respective granular data files with an `installer` array.
 
 **Example from `.chezmoidata/tools.yaml`**:
 
 ```yaml
 dev_tools:
   - name: age
-    install_via: mise
-    version: latest
+    installer: [mise]
   - name: act
-    install_via: mise
-    version: latest
+    installer: [mise]
   - name: ast-grep
-    install_via: mise
-    version: latest
+    installer: [mise]
   # ... other development utilities
 ```
 
@@ -946,7 +958,7 @@ These keybindings make it easy to jump into your dotfiles configuration from any
 
 ### 🤖 **Development Environment for AI**
 
-Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through the new granular data files (`ai/agents.yaml`, `ai/mcp.yaml`, `opencode.yaml`) for a consistent and maintainable setup.
+Comprehensive AI toolchain with multiple providers and seamless integration. All configurations are managed through `.chezmoidata/agents.yaml`, `.chezmoidata/mcp.yaml`, and `.chezmoidata/opencode.yaml`.
 
 #### 🎯 **Quick Setup Guide**
 
@@ -968,24 +980,20 @@ The primary AI development environment uses OpenCode with flexible provider swit
 
 #### 🤖 **Provider-Specific Setup**
 
-Provider details and model configurations are now managed in their respective template files within `.chezmoitemplates/ai/`.
+Providers are declared under the `provider` key in `.chezmoidata/opencode.yaml` and rendered into
+`opencode.jsonc` by `.chezmoitemplates/opencode/provider-section.tmpl`. OpenCode auto-discovers
+model metadata (context limits, capabilities) from models.dev, so no per-provider model list files
+are needed.
 
-- **GitHub Copilot**: Models available via the Copilot integration.
-- **Google Gemini**: Models defined in `provider-google.yaml`.
+- **Anthropic** and **GitHub Copilot** are the providers currently declared.
 
 #### 🛠️ **Development Tools Integration**
 
 ##### **Model Context Protocol (MCP) Servers**
 
-MCP servers are defined in `.chezmoidata/ai/mcp.yaml` and installed via Mise.
-
-```bash
-# Install MCP servers for enhanced AI capabilities
-mise run install-mcp-servers
-
-# Available servers:
-mcphub list-servers
-```
+`.chezmoidata/mcp.yaml` defines the `mcp_servers` list, rendered into `opencode.jsonc` by
+`.chezmoitemplates/opencode/mcp-section.tmpl`. The list is currently empty — no MCP servers are
+chezmoi-managed yet.
 
 ##### **Neovim AI Integration**
 
@@ -1002,8 +1010,7 @@ Neovim plugins like Avante, CodeCompanion, and Copilot provide a rich, integrate
 Switching providers or models is as simple as editing the relevant YAML file in `.chezmoidata/` and running `chezmoi apply`.
 
 - **`.chezmoidata/opencode.yaml`**: Change the default provider and model for OpenCode.
-- **`.chezmoidata/ai/agents.yaml`**: Add or remove AI agents.
-- **`.chezmoitemplates/ai/provider-*.yaml`**: Adjust model lists and parameters.
+- **`.chezmoidata/agents.yaml`**: Add or remove AI agents.
 
 ## 🛠️ Shell Productivity Features
 

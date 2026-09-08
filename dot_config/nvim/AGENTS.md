@@ -65,7 +65,7 @@ stylua .
 ```
 
 **Note:** The complete list of installed LazyVim extras can be found in
-`.lazyvim.json`. This config includes 51 extras covering AI, language support,
+`.lazyvim.json`. This config includes 36 extras covering AI, language support,
 debugging, testing, formatting, and utilities.
 
 ## Keymap Reference
@@ -354,7 +354,7 @@ Seamless navigation between Neovim windows and tmux panes using `Ctrl+h/j/k/l`.
 
 - `lua/config/`: Core LazyVim configuration (options, keymaps, autocmds)
 - `lua/plugins/`: Plugin configurations organized by category
-- `lua/overseer/strategy/`: Custom Overseer task strategies (e.g., `tmux_window.lua`)
+- `lua/overseer/strategy/`: Custom Overseer task strategies (for example, `tmux_window.lua`)
 - `init.lua`: Bootstrap file that loads LazyVim and custom configurations
 - `.lazyvim.json`: LazyVim extras and version tracking
 

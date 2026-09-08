@@ -6,8 +6,10 @@
 # 1. Disables macOS Spotlight's Cmd+Space keyboard shortcut
 # 2. Configures Raycast to use Cmd+Space as its global hotkey
 #
-# The script only runs when applications.yaml changes (via hash trigger)
-# Hash: {{ include ".chezmoidata/applications.yaml" | sha256sum }}
+# The script only runs when the raycast declaration in applications.yaml changes
+# (via hash trigger) — scoped to just that entry so unrelated app edits don't
+# re-trigger this script (it does `defaults write` + `killall SystemUIServer`).
+# Hash: {{ $raycastEntry := dict }}{{ range list .applications.shared .applications.personal .applications.work }}{{ if . }}{{ range . }}{{ if eq .name "raycast" }}{{ $raycastEntry = . }}{{ end }}{{ end }}{{ end }}{{ end }}{{ $raycastEntry | toJson | sha256sum }}
 
 set -euo pipefail
 

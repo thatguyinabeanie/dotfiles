@@ -367,28 +367,6 @@ Before marking any task complete, verify:
 5. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files
 
-## Custom Skills (Slash Commands)
-
-Project-level skills are available as slash commands:
-
-| Command | Purpose |
-|---------|---------|
-| `/project:chezmoi-package` | Guided workflow to add a package to the correct YAML file |
-| `/project:chezmoi-profile` | Manage profile-based package installation (list, enable, disable) |
-| `/project:chezmoi-validate` | Run validation checks (dry-run, duplicates, stale schemas, pre-commit) |
-
-## Automation Hooks
-
-Hookify rules prevent common mistakes:
-
-| Hook | Event | Action |
-|------|-------|--------|
-| `prevent-manual-install` | bash | Blocks `brew install`, `npm install -g`, etc. |
-| `prevent-config-edits` | file | Blocks direct edits to `~/.config/` |
-| `package-profile-reminder` | file | Warns about `profiles:` field when adding packages |
-
-Hook files are in `.claude/hookify.*.local.md`.
-
 ## Documentation Index
 
 | Documentation | Location | Covers |

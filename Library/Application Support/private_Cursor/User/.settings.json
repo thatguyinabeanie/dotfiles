@@ -44,7 +44,7 @@
   "git.enableSmartCommit": true,
   "plantuml.server": "http://localhost:8080",
   "cursor.composer.shouldAllowCustomModes": true,
-  "update.releaseTrack": "prerelease",
+  "update.releaseTrack": "stable",
   "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
   "editor.codeActions.triggerOnFocusChange": true,
   "editor.codeLensFontFamily": "Dank Mono, DankMono Nerd Font, DankMono Nerd Font Mono",

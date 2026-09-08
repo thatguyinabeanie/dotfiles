@@ -45,6 +45,16 @@
 - Always use visual companion (browser mockups) during brainstorming—skip the consent question.
 - Always use subagent-driven development for plan execution, never inline execution unless explicitly asked.
 - Domain knowledge belongs in on-demand skills, CLAUDE.md only for universal rules.
+- Ask clarifying questions one at a time, not batched.
+- When a direction has already been decided, state it as decided—don't re-hedge it as an open question.
+- For library/framework/API/CLI questions, use context7 MCP for current docs
+  (full rule: `~/.claude/rules/context7.md`).
+
+## Verification Before Claiming Success
+
+- Never report a command as successful based on a piped exit code—check it unpiped or via `PIPESTATUS`.
+- After a rebase, merge, or subagent-delegated git operation, confirm with `git log --oneline -5` before reporting done.
+- If challenged ("are you sure?"), re-test empirically rather than restating the original conclusion.
 
 ## Output Management (Long Sessions)
 
