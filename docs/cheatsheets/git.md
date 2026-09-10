@@ -202,6 +202,33 @@
 | `gclean` | `git clean -fd` |
 | `gpristine` | Hard reset + `git clean -fdx` ⚠️ |
 
+## 🧹 git-cleanup
+
+Tidies up after PRs land: removes worktrees, prunes stale remote refs, deletes
+branches whose remote branch is gone. Dry run unless you pass `-f`.
+
+| Command | What it does |
+|---------|--------------|
+| `git-cleanup` | Show what would be removed. Deletes nothing |
+| `git-cleanup -f` | Apply it |
+| `git-cleanup -a` | Also branches merged by ancestry (true merges, not squashes) |
+| `git-cleanup -w` | Also prune stale worktree metadata |
+| `git-cleanup -W` | Also remove **all** linked worktrees. Implies `-w` |
+| `git-cleanup -f -a -W` | Everything, for real. Flags combine |
+
+Notes:
+
+- Every run does a `git fetch --all --prune` first, because that is what makes a
+  deleted upstream show up as gone. Even the dry run therefore refreshes your
+  remote-tracking refs. No branch, worktree or commit is touched without `-f`.
+- Worktrees are removed before branches, so a branch held by a worktree gets
+  deleted in the same run.
+- A worktree with uncommitted changes is reported `SKIPPED` and left alone. It
+  tells you the `git worktree remove --force` command if you want it gone.
+- The worktree you are standing in, and the main worktree, are never removed.
+- Deleted a branch you wanted? `git reflog | grep <branch>` then
+  `git branch <branch> <sha>`.
+
 ## 🌲 Worktree
 
 | Alias | Command |

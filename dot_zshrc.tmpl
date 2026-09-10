@@ -24,6 +24,12 @@ setopt interactivecomments  # allow # comments in interactive shell (pasting com
 source "{{ $zshaliases }}"
 {{- end }}
 
+{{- $gitcleanup := printf "%s/.config/zsh/git-cleanup.zsh" .chezmoi.homeDir }}
+{{- if stat $gitcleanup }}
+# git-cleanup: prune worktrees, stale remote refs and merged branches
+source "{{ $gitcleanup }}"
+{{- end }}
+
 {{- if lookPath "brew" }}
 # Homebrew environment variables (essential)
 export HOMEBREW_PREFIX="/opt/homebrew"

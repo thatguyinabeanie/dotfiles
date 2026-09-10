@@ -99,6 +99,7 @@
 | `gwtrm` | `git worktree remove` |
 | `gwtmv` | `git worktree move` |
 | `gwtpr` | `git worktree prune` |
+| `git-cleanup` | Dry run: worktrees, stale remote refs, branches whose remote is gone. `-f` applies, `-a` adds ancestry-merged, `-W` removes all linked worktrees |
 
 ## 🐙 GitHub CLI
 
