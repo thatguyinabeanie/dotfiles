@@ -44,11 +44,14 @@
 - Complete all design work upfront before starting implementation—finish the entire design phase first, then implement.
 - Always use visual companion (browser mockups) during brainstorming—skip the consent question.
 - Always use subagent-driven development for plan execution, never inline execution unless explicitly asked.
+- When naming subagents, prepend the model name in square brackets, for example `[Sonnet 5] agent-name`.
 - Domain knowledge belongs in on-demand skills, CLAUDE.md only for universal rules.
 - Ask clarifying questions one at a time, not batched.
 - When a direction has already been decided, state it as decided—don't re-hedge it as an open question.
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
+- When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted it,
+  not the user directly. A simple sign-off like "posted by Claude Code" suffices.
 
 ## Verification Before Claiming Success
 
