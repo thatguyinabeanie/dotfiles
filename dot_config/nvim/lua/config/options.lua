@@ -10,6 +10,7 @@ local opt = vim.opt
 
 opt.shell = vim.env.SHELL or "/bin/zsh" -- Use environment shell, fallback to system zsh
 opt.colorcolumn = "120" -- Show column guide at 120 characters
+opt.exrc = true -- Load per-directory .nvim.lua / .exrc for local project overrides
 
 -- Zellij-friendly UI settings
 opt.showtabline = 0 -- Never show tab line (Zellij handles tabs)

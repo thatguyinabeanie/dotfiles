@@ -27,7 +27,7 @@ applications:
       installer: [brew_cask]
     - name: claude
       installer: [brew_cask]
-    - name: claude-island
+    - name: claude-status-bar
       installer: [brew_cask]
     - name: cmux
       installer: [brew_cask]

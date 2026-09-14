@@ -25,3 +25,5 @@ worktrees
 # superpowers
 # .superpowers
 CLAUDE.local.md
+OAUTH_MCP_STATUS.md
+.nvim.lua
