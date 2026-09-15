@@ -42,6 +42,9 @@
 ## Workflow Rules
 
 - Complete all design work upfront before starting implementation—finish the entire design phase first, then implement.
+- Before writing new code, search the codebase for an existing function or utility that already does
+  it—reuse it instead of duplicating it. If the same logic shows up as an inline snippet in more than
+  one place, extract it into a reusable function rather than copying it again.
 - Always use visual companion (browser mockups) during brainstorming—skip the consent question.
 - Always use subagent-driven development for plan execution, never inline execution unless explicitly asked.
 - When naming subagents, prepend the model name in square brackets, for example `[Sonnet 5] agent-name`.
