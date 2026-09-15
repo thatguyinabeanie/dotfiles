@@ -62,7 +62,8 @@
 - When an inline PR review comment suggests a specific code change, include it as a GitHub
   suggestion snippet (a ```suggestion fenced block with the replacement code) so it can be
   applied with one click, not just described in prose.
-- Keep PR comments brief—state the issue and the fix, skip lengthy prose and rationale.
+- Keep PR comments brief and in plain, simple wording—state the issue and the fix, skip lengthy
+  prose and rationale.
 
 ## Verification Before Claiming Success
 
