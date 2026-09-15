@@ -13,6 +13,7 @@
 !docs/*.md
 !docs/**/*.md
 !dot_config/opencode/*/*.md
+!dot_claude/rules/*.md
 !.opencode/**
 ./*.sh
 *.sh
