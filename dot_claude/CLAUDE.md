@@ -52,6 +52,10 @@
   (full rule: `~/.claude/rules/context7.md`).
 - When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted it,
   not the user directly. A simple sign-off like "posted by Claude Code" suffices.
+- When posting comments on a PR, never post them individually one by one—each one fires a
+  notification and bombards the PR author. Batch them into a single GitHub review instead, and
+  submit that review as pending/draft (not submitted), so I can inspect the comments before
+  submitting it myself.
 
 ## Verification Before Claiming Success
 

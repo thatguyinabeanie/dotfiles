@@ -134,6 +134,12 @@ gwta() {
   [ -d "$repo_root/.claude" ] && worktrees_subdir=".claude/worktrees"
   local full_path="$repo_root/$worktrees_subdir/$wt_path"
 
+  if [ -d "$full_path" ]; then
+    echo "🌲 Worktree already exists at $full_path, switching to it..."
+    cd "$full_path" || return $?
+    return 0
+  fi
+
   _gwt_ensure_gitignore "$repo_root" "$worktrees_subdir"
 
   echo "🌲 Adding worktree at $full_path..."
