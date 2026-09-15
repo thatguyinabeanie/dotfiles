@@ -56,6 +56,9 @@
   notification and bombards the PR author. Batch them into a single GitHub review instead, and
   submit that review as pending/draft (not submitted), so I can inspect the comments before
   submitting it myself.
+- When an inline PR review comment suggests a specific code change, include it as a GitHub
+  suggestion snippet (a ```suggestion fenced block with the replacement code) so it can be
+  applied with one click, not just described in prose.
 
 ## Verification Before Claiming Success
 
