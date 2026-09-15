@@ -24,7 +24,8 @@
 - Offer a brief summary at the top or bottom of explanations.
 - When multiple solutions exist, present options with pros and cons.
 - Use plain language; avoid jargon unless I request technical detail.
-- Include comments in code to explain each step.
+- Comment code wherever the reasoning isn't obvious from the code itself. Skip comments that only
+  restate what a well-named line already says.
 - When suggesting tools, mention accessibility or customization features.
 
 ## Formatting
@@ -52,6 +53,9 @@
 - When a direction has already been decided, state it as decided—don't re-hedge it as an open question.
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
+
+## GitHub and PR Etiquette
+
 - When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted it,
   not the user directly. A simple sign-off like "posted by Claude Code" suffices.
 - When posting comments on a PR, never post them individually one by one—each one fires a
