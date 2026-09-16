@@ -1,0 +1,123 @@
+{{- $paths := dict
+  "navigation" (joinPath .chezmoi.homeDir ".local/share/herdr/vim-herdr-navigation/navigate.sh")
+  "git" (joinPath .chezmoi.sourceDir "docs/cheatsheets/git.md")
+  "cheatsheets" (joinPath .chezmoi.sourceDir "docs/cheatsheets")
+  "herdr" (joinPath .chezmoi.sourceDir "docs/cheatsheets/herdr.md")
+  "notes" (joinPath .chezmoi.homeDir ".local/bin/note-capture") -}}
+{{- /* POSIX shell quoting for chezmoi versions predating shellQuote. */ -}}
+{{- range $name, $path := $paths -}}
+{{- $_ := set $paths $name (printf "'%s'" (replace "'" "'\"'\"'" $path)) -}}
+{{- end -}}
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+help = "prefix+?"
+settings = "prefix+comma"
+detach = "prefix+ctrl+d"
+reload_config = "prefix+r"
+workspace_picker = ["prefix+s", "prefix+shift+s"]
+goto = "prefix+w"
+
+# Keep built-in actions available after assigning their old keys to popups.
+new_worktree = "prefix+alt+g"
+new_workspace = "prefix+alt+n"
+edit_scrollback = "prefix+alt+e"
+
+new_tab = "prefix+c"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+switch_tab = "prefix+1..9"
+rename_tab = "prefix+shift+r"
+close_tab = "prefix+ampersand"
+move_tab_previous = "ctrl+shift+p"
+move_tab_next = "ctrl+shift+n"
+
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
+# Both right-split keys split the current pane; full-height splitting is unsupported.
+split_vertical = ['prefix+\', 'prefix+|']
+split_horizontal = 'prefix+"'
+close_pane = "prefix+shift+x"
+swap_pane_left = "prefix+alt+h"
+swap_pane_down = ["prefix+x", "prefix+alt+j"]
+swap_pane_up = "prefix+alt+k"
+swap_pane_right = "prefix+alt+l"
+resize_mode = "prefix+alt+r"
+zoom = "prefix+z"
+copy_mode = "prefix+["
+
+# Detached commands receive HERDR_ACTIVE_PANE_ID and HERDR_BIN_PATH from Herdr.
+# Adapt the pane ID for the upstream router, which also uses HERDR_BIN_PATH.
+{{ range $key, $direction := dict "h" "left" "j" "down" "k" "up" "l" "right" }}
+[[keys.command]]
+key = "ctrl+{{ $key }}"
+type = "shell"
+command = {{ printf "env HERDR_PANE_ID=\"$HERDR_ACTIVE_PANE_ID\" HERDR_NAV_PASSTHROUGH_RE='^(fzf|nu)$' bash %s %s" $paths.navigation $direction | quote }}
+description = "Navigate {{ $direction }} (Neovim/Herdr)"
+{{ end }}
+[[keys.command]]
+key = "prefix+g"
+type = "popup"
+command = "lazygit"
+description = "LazyGit"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "prefix+d"
+type = "popup"
+command = "lazydocker"
+description = "LazyDocker"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "prefix+shift+g"
+type = "popup"
+command = {{ printf "nvim %s" $paths.git | quote }}
+description = "Git cheatsheet"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "popup"
+command = {{ printf "nvim %s" $paths.cheatsheets | quote }}
+description = "All cheatsheets"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "prefix+e"
+type = "popup"
+command = 'nvim "$HOME/mise.toml" && chmod 600 "$HOME/mise.toml"'
+description = "Edit mise.toml"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "prefix+shift+n"
+type = "popup"
+command = {{ $paths.notes | quote }}
+description = "Capture a note"
+width = "80%"
+height = "80%"
+
+[[keys.command]]
+key = "prefix+shift+m"
+type = "popup"
+command = {{ printf "nvim %s" $paths.herdr | quote }}
+description = "Herdr cheatsheet"
+width = "85%"
+height = "85%"

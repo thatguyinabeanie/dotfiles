@@ -1,19 +1,42 @@
 -- Smart navigation that adapts to your terminal multiplexer
--- Detects TMUX or ZELLIJ environment and loads the appropriate plugin
+-- Detects Herdr, TMUX or ZELLIJ environment and loads the appropriate plugin
 --
 -- Behavior:
+--   - In Herdr: Loads vim-herdr-navigation, taking priority over tmux and Zellij
 --   - In tmux: Loads vim-tmux-navigator for seamless tmux+nvim navigation
 --   - In Zellij: Loads zellij-nav.nvim for seamless zellij+nvim navigation
---   - In neither: No plugin loaded, Ctrl+h/j/k/l work for nvim splits only
+--   - In none: No plugin loaded, Ctrl+h/j/k/l work for nvim splits only
 
+local in_herdr = vim.env.HERDR_PANE_ID ~= nil and vim.env.HERDR_PANE_ID ~= ""
 local in_tmux = vim.env.TMUX ~= nil
 local in_zellij = vim.env.ZELLIJ ~= nil
 
 return {
+  -- HERDR: pinned upstream files provisioned by chezmoi
+  {
+    dir = vim.fn.expand("~/.local/share/herdr/vim-herdr-navigation"),
+    name = "vim-herdr-navigation",
+    enabled = in_herdr,
+    lazy = false,
+    -- Reserve ownership against LazyVim defaults; upstream supplies the mappings.
+    keys = {
+      { "<c-h>", mode = "n" },
+      { "<c-j>", mode = "n" },
+      { "<c-k>", mode = "n" },
+      { "<c-l>", mode = "n" },
+    },
+    config = function(plugin)
+      local ok, err = pcall(dofile, plugin.dir .. "/editor/nvim.lua")
+      if not ok then
+        vim.notify("Failed to load vim-herdr-navigation: " .. tostring(err), vim.log.levels.ERROR)
+      end
+    end,
+  },
+
   -- TMUX: vim-tmux-navigator
   {
     "christoomey/vim-tmux-navigator",
-    enabled = in_tmux,
+    enabled = in_tmux and not in_herdr,
     lazy = false,
     cmd = {
       "TmuxNavigateLeft",
@@ -34,7 +57,7 @@ return {
   -- ZELLIJ: zellij-nav.nvim
   {
     "swaits/zellij-nav.nvim",
-    enabled = in_zellij,
+    enabled = in_zellij and not in_herdr,
     lazy = false,
     event = "VeryLazy",
     keys = {
