@@ -1,3 +1,8 @@
+# Verbatim Docker Desktop block: it re-injects this on launch if absent. Do not reword.
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:{{ .chezmoi.homeDir }}/.docker/bin"
+# End of Docker Desktop section.
+
 # ~/.zprofile
 # Runs after /etc/zprofile (which runs path_helper that reorders PATH)
 # This file re-establishes our preferred PATH priority:
