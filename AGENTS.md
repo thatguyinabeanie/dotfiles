@@ -272,8 +272,27 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
   Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
 - **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
 - **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
-- **YAML**: Max 120 chars, no document-start markers (`---`), newline at EOF required.
+- **YAML**: See `.yamllint.yml` for style rules.
 - **Markdown**: Use Vale for prose linting, follow markdownlint rules.
+
+### Shell Functions: Always Write Both Shells
+
+Every shell function MUST exist in **both** zsh and fish. Never leave one shell behind.
+
+| Shell | Location |
+| ----- | -------- |
+| zsh   | `dot_config/zsh/aliases.zsh.tmpl` (sourced from `dot_zshrc.tmpl`) |
+| fish  | `dot_config/fish/functions/<name>.fish` (autoloaded, one file per function) |
+
+- Keep the two at parity: identical user-facing messages, identical emoji, identical
+  behavior. `killport` is the reference example.
+- Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`. In fish, a helper
+  used by only one function may live in that function's file.
+- Simple one-line aliases go in `.chezmoidata/aliases.yaml` instead, which already
+  generates both shells.
+- Keep the two as separate native implementations. Do not refactor them into a shared
+  POSIX `sh` core with thin per-shell `cd` wrappers. The duplication is deliberate;
+  parity is maintained by review, not by abstraction.
 
 ## File Naming Conventions
 
@@ -360,12 +379,31 @@ Before marking any task complete, verify:
 
 ## Common Pitfalls
 
-1. **Template syntax errors** - Always run `chezmoi apply --dry-run` before `chezmoi apply --force`
-2. **Platform-specific code** - Use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only features
-3. **Duplicate package entries** - Check existing entries before adding new packages
-4. **Missing validation** - Don't skip dry-run validation step during template development
-5. **Direct package installation** - Never run `brew install`, `npm install -g`, etc.
-   Use `.chezmoidata/*.yaml` files
+1. **Template syntax errors**: always run `chezmoi apply --dry-run` before
+   `chezmoi apply --force`.
+2. **Platform-specific code**: use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only
+   features.
+3. **Duplicate package entries**: check existing entries before adding new packages.
+4. **Missing validation**: don't skip the dry-run step during template development.
+5. **Direct package installation**: never run `brew install`, `npm install -g`, etc.
+   Use `.chezmoidata/*.yaml` files.
+6. **Shell function drift**: editing one shell's implementation without its counterpart.
+   See "Shell Functions: Always Write Both Shells" above.
+7. **Parse checks are not runtime checks**: `fish --no-execute` and `zsh -n` only
+   validate syntax. An unquoted glob in a fish `case` arm, for example
+   `case --reason --reason=*`, parses cleanly and then aborts at runtime with a
+   "No matches for wildcard" error. Always invoke a changed function, don't just
+   parse it.
+8. **`git rev-parse --show-toplevel` inside a worktree**: returns the LINKED worktree's
+   root, not the main checkout. Use `git worktree list --porcelain | head -1` when you
+   need the main checkout. Prefer it over `--git-common-dir`, whose dirname is wrong
+   inside a submodule.
+9. **`git check-ignore` exit codes**: it exits 0 when ANY pattern matches, including a
+   negation (`!`) pattern, so the exit code alone does not tell you whether a file is
+   ignored. Use `git status` or `git add --dry-run` instead.
+10. **Sweeping commits**: this repo often has several unrelated work streams in the
+    working tree at once. Stage explicit paths; `git add -A` collects other people's
+    in-progress work.
 
 ## Documentation Index
 

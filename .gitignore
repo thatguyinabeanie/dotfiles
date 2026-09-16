@@ -15,6 +15,7 @@
 !dot_config/opencode/*/*.md
 !dot_claude/rules/*.md
 !dot_claude/skills/*/*.md
+!.claude/hookify.*.local.md
 !.opencode/**
 ./*.sh
 *.sh
