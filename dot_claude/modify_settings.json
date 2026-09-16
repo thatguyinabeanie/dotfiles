@@ -1,0 +1,32 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /*
+  Merges ONLY the `permissions` key from .chezmoidata/claude.yaml into
+  ~/.claude/settings.json, preserving every other key.
+
+  Claude Code writes this file itself at runtime (theme, model, effortLevel,
+  enabledPlugins, outputStyle, ...). A normal managed file would make `chezmoi apply`
+  revert those in-app changes, so this is a `modify_` script instead: chezmoi pipes the
+  current target contents in via .chezmoi.stdin and takes our stdout as the new state.
+
+  Must NOT be named *.tmpl -- the chezmoi:modify-template directive above is what makes
+  chezmoi treat it as a template.
+*/ -}}
+{{- $settings := dict -}}
+{{- /* .chezmoi.stdin is empty on a fresh machine where the file does not exist yet. */ -}}
+{{- with .chezmoi.stdin | trim -}}
+{{-   $settings = . | fromJson -}}
+{{- end -}}
+{{- /*
+  Merge into the EXISTING permissions object rather than replacing it. Sibling keys
+  (defaultMode, disableAutoMode, disableBypassPermissionsMode, ask) are deliberate
+  security posture and must survive; replacing the whole object would silently reset them.
+  Only allow and deny are sourced from the repo.
+*/ -}}
+{{- $permissions := dict -}}
+{{- with $settings.permissions -}}
+{{-   $permissions = . -}}
+{{- end -}}
+{{- $_ := set $permissions "allow" $.claude_permissions.allow -}}
+{{- $_ = set $permissions "deny" $.claude_permissions.deny -}}
+{{- $_ = set $settings "permissions" $permissions -}}
+{{ $settings | toPrettyJson }}

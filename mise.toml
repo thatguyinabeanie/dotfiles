@@ -31,4 +31,37 @@ format = "stylua --config-path .stylua.toml --glob '**/*.lua' ."
 [tasks.install-npm-packages]
 run = "bun install"
 
+# Claude Code records newly-approved permission rules straight into
+# ~/.claude/settings.json at runtime. dot_claude/modify_settings.json replaces the whole
+# `permissions` key from source, so anything recorded live is lost on the next
+# `chezmoi apply`. This reports that drift so worthwhile rules can be promoted into
+# .chezmoidata/claude.yaml by hand. Deliberately does NOT auto-merge: auto-recorded rules
+# are mostly single-use exact-match noise, which is how the list previously reached 159
+# entries.
+[tasks.claude-perms-drift]
+description = "Report permission rules in ~/.claude/settings.json missing from source"
+run = '''
+set -eu
+live=$(mktemp)
+src=$(mktemp)
+trap 'rm -f "$live" "$src"' EXIT
+data=$(chezmoi data --format json)
+status=0
+for key in allow deny; do
+  jq -r --arg k "$key" '.permissions[$k] // [] | .[]' "$HOME/.claude/settings.json" \
+    | sort -u > "$live"
+  printf '%s' "$data" | jq -r --arg k "$key" '.claude_permissions[$k] // [] | .[]' \
+    | sort -u > "$src"
+  drift=$(comm -13 "$src" "$live")
+  if [ -n "$drift" ]; then
+    status=1
+    printf '\n== %s: live but NOT in .chezmoidata/claude.yaml (lost on next apply) ==\n' "$key"
+    printf '%s\n' "$drift"
+  else
+    printf '\n== %s: in sync ==\n' "$key"
+  fi
+done
+exit "$status"
+'''
+
 
