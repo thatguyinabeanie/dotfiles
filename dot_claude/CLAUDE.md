@@ -53,6 +53,8 @@
 - When a direction has already been decided, state it as decided—don't re-hedge it as an open question.
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
+- For CircleCI questions or CI troubleshooting, use the CircleCI MCP tools instead of the `circleci`
+  CLI. No `CIRCLECI_TOKEN` needed, the MCP server handles auth.
 
 ## Git Workflow
 
