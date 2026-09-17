@@ -54,6 +54,23 @@
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
 
+## Git Workflow
+
+- Commit often, in small logical chunks. Commit messages should be brief but detailed: precise
+  and direct, no fluff, explaining why not just what.
+- Push less often than you commit, but still somewhat regularly—don't let a branch sit unpushed
+  for an entire task.
+- Open a PR early, as soon as a branch exists remotely and there's something to review, if one
+  doesn't already exist. Draft/WIP PRs are fine.
+- Prefer letting CI run lint/tests in the cloud over re-running them locally every time. After
+  pushing, check CI status periodically instead of blocking synchronously on it—use the freed-up
+  time to keep working on other parts of the task.
+- Guideline, not a hard rule: monitor an in-flight CI run and let it finish before pushing again to
+  the same branch/PR. Many CI systems cancel the current run when a new push lands on the same
+  ref, so pushing mid-run usually wastes that run rather than saving time. Skip this when the
+  in-flight run's result no longer matters and you need a new run started—for example, you already
+  know it's stale or about a change you're superseding—then push right away.
+
 ## GitHub and PR Etiquette
 
 - When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted it,
@@ -67,6 +84,13 @@
   applied with one click, not just described in prose.
 - Keep PR comments brief and in plain, simple wording—state the issue and the fix, skip lengthy
   prose and rationale.
+- Keep the PR description accurate and up to date—if the branch changes after the description was
+  written, update it to match before asking for review.
+- Write PR descriptions with clean hierarchical structure (headings, bullet points) instead of
+  heavy paragraph prose. Use emoji to label/categorize sections—for example, 🐛 for a bug fix, ✨
+  for a feature, ⚠️ for a breaking change.
+- If the repo's PR template uses `>` blockquotes, those are the template's own instructional notes,
+  not a formatting style to carry into the filled-in content.
 
 ## Verification Before Claiming Success
 
