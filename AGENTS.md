@@ -77,7 +77,7 @@ Configuration is template-driven and reproducible across machines.
 | `onepassword.yaml`        | (multiple)           | 1Password integration settings               |
 | `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
 | `agents.yaml`             | `agents`             | AI agent tool configurations                 |
-| `aliases.yaml`            | `aliases`            | Shell aliases/abbreviations (Fish & Zsh)     |
+| `aliases.yaml`            | `aliases`            | Shell aliases (Zsh)                          |
 
 ### Schema Patterns
 
@@ -275,24 +275,13 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
 - **YAML**: See `.yamllint.yml` for style rules.
 - **Markdown**: Use Vale for prose linting, follow markdownlint rules.
 
-### Shell Functions: Always Write Both Shells
+### Shell Functions
 
-Every shell function MUST exist in **both** zsh and fish. Never leave one shell behind.
+This repo is **zsh only**. Fish was removed; do not reintroduce it.
 
-| Shell | Location |
-| ----- | -------- |
-| zsh   | `dot_config/zsh/aliases.zsh.tmpl` (sourced from `dot_zshrc.tmpl`) |
-| fish  | `dot_config/fish/functions/<name>.fish` (autoloaded, one file per function) |
-
-- Keep the two at parity: identical user-facing messages, identical emoji, identical
-  behavior. `killport` is the reference example.
-- Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`. In fish, a helper
-  used by only one function may live in that function's file.
-- Simple one-line aliases go in `.chezmoidata/aliases.yaml` instead, which already
-  generates both shells.
-- Keep the two as separate native implementations. Do not refactor them into a shared
-  POSIX `sh` core with thin per-shell `cd` wrappers. The duplication is deliberate;
-  parity is maintained by review, not by abstraction.
+- Shell functions go in `dot_config/zsh/aliases.zsh.tmpl`, sourced from `dot_zshrc.tmpl`.
+- Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`.
+- Simple one-line aliases go in `.chezmoidata/aliases.yaml` instead.
 
 ## File Naming Conventions
 
@@ -351,6 +340,55 @@ The `.chezmoidata/` directory uses a context-based split:
 All YAML files provide data for chezmoi templates. Environment variables are generated in shell
 profiles. Conditional logic is handled based on work/personal context and macOS/Linux detection.
 
+### Work Secrets Live in `~/mise.toml`
+
+Work tokens are **not** managed by chezmoi and **not** stored in this repo. They live in
+`~/mise.toml`, an untracked home-directory mise config, plus nested per-project `mise.toml`
+files that mise layers on top when you `cd` into a project.
+
+- Currently defined there: `NPM_AUTH_TOKEN`, `CIVIS_API_KEY`
+- `~/.config/mise/config.toml` **is** chezmoi-managed (`dot_config/mise/config.toml.tmpl`) and
+  holds tool versions, not secrets. Do not confuse the two.
+- Never read, print, or commit the values. Referring to a variable by name is fine.
+- Adding a secret means editing `~/mise.toml` by hand. There is no chezmoi template for it,
+  deliberately.
+
+civisrc's own `setup/install.sh` wants to generate a plaintext `~/.civis_profile` for the same
+purpose. We do not use it. If a civisrc tool reports a missing token, add it to `~/mise.toml`
+rather than running civisrc's installer.
+
+### civisrc Integration
+
+[`civisrc`](https://github.com/civisanalytics/civisrc) is Civis's internal AWS/Okta/Kubernetes
+shell toolkit. It is cloned to `~/source/civisrc` and wired in **natively**, never via its own
+`make install`.
+
+Why: `make install` appends `source ~/.civisrc` into `~/.zshrc`, which chezmoi owns and
+overwrites on the next apply. Its `dot_civisrc` also re-runs `brew shellenv`, `direnv hook`,
+and a blind `compinit` that would defeat the deferred cached `compinit` in `dot_zshrc.tmpl`.
+
+| Piece | How it is wired |
+| ----- | --------------- |
+| Clone | `.chezmoiexternal.toml.tmpl` (root), `type = "git-repo"` with `pull.args = ["--ff-only"]` |
+| `src/*.sh`, `bin/`, env vars | `dot_zshrc.tmpl` SECTION 2, gated on `WORK_ENVIRONMENT` + directory exists |
+| zsh completions | `dot_zshrc.tmpl` SECTION 3, added to `fpath` |
+| Brew dependencies | `.chezmoidata/tools.yaml` under `profiles: [infra]` |
+
+Notes for future changes:
+
+- The `infra` profile must be active or none of the AWS/k8s tools install.
+- The clone uses chezmoi's native `git-repo` external, not a script. `--ff-only` means a
+  refresh can never rewrite or merge over local commits in `~/source/civisrc`; it just fails
+  if the branch has diverged. Note this makes chezmoi manage `~/source` as a directory, which
+  leaves its other unmanaged repos alone.
+- civisrc's README declares `bin/` as "Bash 4+". As of 2026-09-21 no script actually uses
+  bash-4-only syntax, so they run on macOS's 3.2, but `bash` is declared in `tools.yaml` to
+  match upstream's Brewfile and stay ahead of that changing.
+- civisrc replaced `civis-kubectl-configs`. The old repo may still be on disk but is no longer
+  sourced. They define 8 of the same names, so never source both.
+- When upstream changes `dot_civisrc`, re-check it against our cherry-picked subset rather
+  than adopting it wholesale.
+
 ### OpenCode Configuration
 
 - **`opencode.jsonc`** (root-level) - Direct OpenCode config for LSP servers, formatters, core settings
@@ -387,23 +425,19 @@ Before marking any task complete, verify:
 4. **Missing validation**: don't skip the dry-run step during template development.
 5. **Direct package installation**: never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files.
-6. **Shell function drift**: editing one shell's implementation without its counterpart.
-   See "Shell Functions: Always Write Both Shells" above.
-7. **Parse checks are not runtime checks**: `fish --no-execute` and `zsh -n` only
-   validate syntax. An unquoted glob in a fish `case` arm, for example
-   `case --reason --reason=*`, parses cleanly and then aborts at runtime with a
-   "No matches for wildcard" error. Always invoke a changed function, don't just
-   parse it.
-8. **`git rev-parse --show-toplevel` inside a worktree**: returns the LINKED worktree's
+6. **Parse checks are not runtime checks**: `zsh -n` only validates syntax. Logic that
+   parses cleanly can still abort at runtime. Always invoke a changed function, don't
+   just parse it.
+7. **`git rev-parse --show-toplevel` inside a worktree**: returns the LINKED worktree's
    root, not the main checkout. Use `git worktree list --porcelain | head -1` when you
    need the main checkout. Prefer it over `--git-common-dir`, whose dirname is wrong
    inside a submodule.
-9. **`git check-ignore` exit codes**: it exits 0 when ANY pattern matches, including a
+8. **`git check-ignore` exit codes**: it exits 0 when ANY pattern matches, including a
    negation (`!`) pattern, so the exit code alone does not tell you whether a file is
    ignored. Use `git status` or `git add --dry-run` instead.
-10. **Sweeping commits**: this repo often has several unrelated work streams in the
-    working tree at once. Stage explicit paths; `git add -A` collects other people's
-    in-progress work.
+9. **Sweeping commits**: this repo often has several unrelated work streams in the
+   working tree at once. Stage explicit paths; `git add -A` collects other people's
+   in-progress work.
 
 ## Documentation Index
 

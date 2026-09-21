@@ -1,0 +1,11 @@
+{{- if eq .WORK_ENVIRONMENT true }}
+# civisrc — Civis AWS/Okta/Kubernetes shell toolkit.
+# --ff-only so a pull can never rewrite or merge over local commits; it just
+# fails if the branch has diverged.
+["source/civisrc"]
+    type = "git-repo"
+    url = "https://github.com/civisanalytics/civisrc.git"
+    refreshPeriod = "168h"
+    ["source/civisrc".pull]
+        args = ["--ff-only"]
+{{- end }}

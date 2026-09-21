@@ -103,10 +103,18 @@ source "{{ $zshAutosuggPath }}"
 source "{{ $zshOnePasswordEnv }}"
 {{- end }}
 
-{{- $kubectl_functions := printf "%s/source/civis-kubectl-configs/functions.sh" .chezmoi.homeDir }}
-{{- if and (eq .WORK_ENVIRONMENT true) (stat $kubectl_functions) }}
-# Work-specific kubectl functions
-source "{{ $kubectl_functions }}"
+{{- $civisrcDir := printf "%s/source/civisrc" .chezmoi.homeDir }}
+{{- if and (eq .WORK_ENVIRONMENT true) (stat $civisrcDir) }}
+# civisrc: AWS/Okta/Kubernetes access tooling
+export _civisrc_dir="{{ $civisrcDir }}"
+for src in ${_civisrc_dir}/src/*.sh(N); do
+  source "$src"
+done
+export PATH="${_civisrc_dir}/bin:${PATH}"
+export ANSIBLE_VAULT_PASSWORD_FILE='~/.vault_pass'
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY='YES'
+export PULUMI_BACKEND_URL='s3://civis-pulumi-state-bucket'
+export AWS_DEFAULT_REGION='us-east-1'
 {{- end }}
 
 {{- $workShPath := printf "%s/.config/work/work.sh" .chezmoi.homeDir }}
@@ -143,6 +151,10 @@ _source_cached() {
 fpath=({{ $dockerCompletionsDir }} $fpath)
 {{- end }}
 
+{{- if and (eq .WORK_ENVIRONMENT true) (stat $civisrcDir) }}
+fpath=({{ $civisrcDir }}/completions/zsh $fpath)
+{{- end }}
+
 {{- if lookPath "chezmoi" }}
 _maybe_defer _source_cached "chezmoi-completion" 'source <(chezmoi completion zsh)'
 {{- end }}
@@ -153,7 +165,7 @@ _maybe_defer _source_cached "mise-completion" 'source <(mise completion zsh)'
 
 {{- if lookPath "carapace" }}
 # Carapace env/style — set immediately so they're ready when init loads
-export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+export CARAPACE_BRIDGES='zsh,bash,inshellisense'
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 _maybe_defer _source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 {{- end }}

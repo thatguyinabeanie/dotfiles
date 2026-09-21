@@ -182,9 +182,6 @@ dev_tools:
   - name: zellij
     installer: [mise]
     profiles: [editors]
-  - name: fish
-    installer: [brew]
-    profiles: [editors]
   - name: television
     installer: [brew]
     description: "TUI fuzzy finder"
@@ -196,6 +193,16 @@ dev_tools:
   - name: awscli
     installer: [brew]
     profiles: [infra]
+  - name: bash
+    installer: [brew]
+    description: "Bash 4+; civisrc targets it for bin/ scripts, macOS ships 3.2"
+    profiles: [infra]
+  - name: direnv
+    installer: [brew]
+    profiles: [infra]
+  - name: ansible
+    installer: [brew]
+    profiles: [infra]
   - name: circleci
     installer: [brew]
     profiles: [infra]
@@ -204,6 +211,7 @@ dev_tools:
     profiles: [infra]
   - name: kubectl
     installer: [mise]
+    version: "1.36"
     profiles: [infra]
   - name: helm
     installer: [mise]
