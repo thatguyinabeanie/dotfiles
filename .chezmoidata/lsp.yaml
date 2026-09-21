@@ -158,14 +158,6 @@ language_servers:
   # EDITORS PROFILE — LSPs for alternative shells/editors
   # ============================================================
 
-  # Fish shell
-  - name: fish-lsp
-    lspconfig_name: fish_lsp
-    languages: [fish]
-    installer: [mason]
-    provides_formatting: false
-    profiles: [editors]
-
   # ============================================================
   # EXTRAS PROFILE — Specialty LSPs
   # ============================================================

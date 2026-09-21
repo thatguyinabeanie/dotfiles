@@ -55,7 +55,7 @@ Prefix rules do **no flag-level analysis**, so `Bash(foo *)` must be safe for *a
 **Safe to allowlist:** report-only invocations. `chezmoi diff/verify/doctor/data/managed`,
 `mise ls/current/tasks/where`, `gh pr view/list`, `gh run view`, `gh issue list`,
 `shellcheck *`, `vale *`, `yamllint *`, `stylua --check *`, `gofmt -l *`, `go vet *`,
-`zsh -n *`, `fish --no-execute *`, `command -v <tool>`.
+`zsh -n *`, `command -v <tool>`.
 
 **Never allowlist:**
 
@@ -68,7 +68,7 @@ Prefix rules do **no flag-level analysis**, so `Bash(foo *)` must be safe for *a
 | `npm run *`, `make *` | Runs whatever the repo's scripts define |
 | `Bash(* --version)`, `Bash(* --help*)` | The `*` stands in for the *program*, so anything matches |
 | `curl *`, `wget *` | Can POST and exfiltrate; prefer `WebFetch(domain:...)` |
-| `python3 *`, `zsh -c ' *`, `fish -c ' *`, `ruby *` | Arbitrary code execution |
+| `python3 *`, `zsh -c ' *`, `ruby *` | Arbitrary code execution |
 
 Bare read-only commands (`ls`, `cat`, `grep`, `find`, `git status`, `git log`) are
 auto-allowed and never prompt, so they need no entry.

@@ -20,14 +20,12 @@
 # {{ $data.description }}
 # ─────────────────────────────────────────────────────────────────────────────
 {{- range $data.items }}
-{{- if not (hasKey . "fish_only") }}
 {{- if hasKey . "requires" }}
 {{- if lookPath .requires }}
 alias {{ .name }}='{{ .command }}'
 {{- end }}
 {{- else }}
 alias {{ .name }}='{{ .command }}'
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

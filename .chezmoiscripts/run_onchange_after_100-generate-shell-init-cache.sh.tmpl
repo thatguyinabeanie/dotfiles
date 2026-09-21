@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # =============================================================================
-# Pre-generate shell initialization scripts for zsh and fish
+# Pre-generate shell initialization scripts for zsh
 #
 # Instead of forking subprocesses on every new shell (costing ~3s total),
 # we generate static init scripts at chezmoi apply time and source them.
@@ -80,34 +80,6 @@ generate "fzf-init" "zsh" "fzf --zsh"
 
 {{- if lookPath "zoxide" }}
 generate "zoxide-init" "zsh" "zoxide init zsh --cmd cd"
-{{- end }}
-
-# ---------------------------------------------------------------------------
-# FISH
-# ---------------------------------------------------------------------------
-
-{{- if lookPath "mise" }}
-generate "mise-activate" "fish" "mise activate fish"
-{{- end }}
-
-{{- if lookPath "starship" }}
-generate "starship-init" "fish" "starship init fish"
-{{- end }}
-
-{{- if lookPath "zoxide" }}
-generate "zoxide-init" "fish" "zoxide init fish --cmd cd"
-{{- end }}
-
-{{- if lookPath "fzf" }}
-generate "fzf-init" "fish" "fzf --fish"
-{{- end }}
-
-{{- if lookPath "carapace" }}
-generate "carapace-init" "fish" "carapace _carapace fish"
-{{- end }}
-
-{{- if lookPath "atuin" }}
-generate "atuin-init" "fish" "atuin init fish"
 {{- end }}
 
 # hook-env output (and possibly other tool init output) can contain secret

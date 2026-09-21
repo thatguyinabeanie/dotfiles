@@ -1,5 +1,5 @@
 # Shell aliases/abbreviations - single source of truth
-# Used by both Fish (abbreviations) and Zsh (aliases) templates
+# Used by the Zsh aliases template
 #
 # Structure:
 #   aliases:
@@ -217,7 +217,6 @@ aliases:
       - { name: "...", command: "cd ../.." }
       - { name: "....", command: "cd ../../.." }
       - { name: ".....", command: "cd ../../../.." }
-      - { name: "-", command: "cd -", fish_only: true }
 
   common:
     description: "Common utilities"

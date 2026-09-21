@@ -131,7 +131,6 @@ claude_permissions:
     - "Bash(env)"
     - "Bash(find *)"
     - "Bash(find:*)"
-    - "Bash(fish --no-execute *)"
     - "Bash(flake8:*)"
     - "Bash(gem contents *)"
     - "Bash(gem list *)"

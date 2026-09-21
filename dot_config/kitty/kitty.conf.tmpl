@@ -1,8 +1,4 @@
-{{- if lookPath "fish" -}}
-shell {{ lookPath "fish" }}
-{{- else -}}
 shell /bin/zsh
-{{- end }}
 shell-integration enabled
 font_size {{ .ui.font_size }}
 
