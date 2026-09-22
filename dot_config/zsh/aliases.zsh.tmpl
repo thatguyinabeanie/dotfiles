@@ -197,8 +197,24 @@ gwts() {
   _gwt_ensure_gitignore "$main_root" "$worktrees_subdir"
 
   echo "🌱 Planting a worktree at $full_path..."
-  git worktree add "${passthrough[@]}" "${newbranch[@]}" "${resetbranch[@]}" \
-    "$full_path" ${commit_ish:+"$commit_ish"} || return $?
+  local add_output
+  add_output=$(LC_ALL=C git worktree add "${passthrough[@]}" "${newbranch[@]}" "${resetbranch[@]}" \
+    "$full_path" ${commit_ish:+"$commit_ish"} 2>&1)
+  local add_status=$?
+  print -r -- "$add_output"
+
+  if [ "$add_status" -ne 0 ]; then
+    # git already has this branch checked out elsewhere; hop there instead of
+    # just relaying the fatal error, mirroring the already-a-directory case above.
+    local existing_path
+    existing_path=$(print -r -- "$add_output" | sed -n "s/.*already used by worktree at '\(.*\)'.*/\1/p")
+    if [ -n "$existing_path" ] && [ -d "$existing_path" ]; then
+      echo "🌲 Already grown elsewhere — hopping over to $existing_path"
+      cd "$existing_path" || return $?
+      return 0
+    fi
+    return $add_status
+  fi
 
   # If a mise.toml is present at the repo root, run `mise trust` in the worktree
   if [ -f "$main_root/mise.toml" ]; then
