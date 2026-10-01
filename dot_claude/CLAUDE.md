@@ -56,6 +56,17 @@
 - For CircleCI questions or CI troubleshooting, use the CircleCI MCP tools instead of the `circleci`
   CLI. No `CIRCLECI_TOKEN` needed, the MCP server handles auth.
 
+## Tool Calls
+
+- Before taking any action, explore broadly with tool calls.
+- After about five tool calls without a message to me, say what you're doing.
+- Finish your tool calls first. Write the final answer last.
+- Before asking me a question, write the context behind it as a message first, then ask the
+  question. Context written between tool calls gets buried and I can't find it.
+- Before a complex Bash call that needs my approval, write a short plain-language summary of what
+  it does and why as a message first, so I can judge the permission prompt without decoding the
+  command.
+
 ## Git Workflow
 
 - Commit often, in small logical chunks. Commit messages should be brief but detailed: precise
