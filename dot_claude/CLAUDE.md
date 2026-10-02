@@ -105,6 +105,20 @@
 - If the repo's PR template uses `>` blockquotes, those are the template's own instructional notes,
   not a formatting style to carry into the filled-in content.
 
+## Code Review
+
+- Before reviewing a PR, read its Jira ticket to learn what the change is meant to do. Find the
+  ticket key in the branch name, PR title, or PR description. If there is no ticket, ask me for
+  the intent instead of guessing it from the diff.
+- Judge findings against that intent. Flag it when the PR misses part of the ticket or goes
+  beyond its scope.
+- Group findings into these categories, most important first. Skip empty categories:
+  - 🎯 **Blocks the ticket's intent**: bugs or gaps that stop the PR from doing what the ticket asks
+  - 🐛 **Other bugs or risks**: real problems not tied to the ticket (security, data loss, regressions)
+  - ✨ **Nice to have**: improvements worth making, but not required to merge
+  - 🧹 **Nitpicks**: style, naming, small readability tweaks
+  - ❓ **Questions**: things I need to clarify with the author before judging
+
 ## Verification Before Claiming Success
 
 - Never report a command as successful based on a piped exit code—check it unpiped or via
