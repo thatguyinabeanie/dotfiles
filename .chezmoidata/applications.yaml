@@ -88,9 +88,13 @@ applications:
     - name: slack
       installer: [brew_cask]
       profiles: [productivity]
+    - name: spotify
+      installer: [brew_cask]
+      profiles: [productivity]
     - name: tidal
       installer: [brew_cask]
       profiles: [productivity]
+      disabled: true
 
     # ============================================================
     # PUBLISHING — LaTeX and document tools
