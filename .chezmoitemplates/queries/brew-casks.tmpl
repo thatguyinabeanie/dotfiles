@@ -18,7 +18,7 @@
       {{- end -}}
     {{- end -}}
     {{- if $profileMatch -}}
-      {{- $packages = append $packages .name -}}
+      {{- if (index . "disabled") -}}{{- $packages = append $packages (printf "disabled:%s" .name) -}}{{- else -}}{{- $packages = append $packages .name -}}{{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -34,7 +34,7 @@
       {{- end -}}
     {{- end -}}
     {{- if $profileMatch -}}
-      {{- $packages = append $packages .name -}}
+      {{- if (index . "disabled") -}}{{- $packages = append $packages (printf "disabled:%s" .name) -}}{{- else -}}{{- $packages = append $packages .name -}}{{- end -}}
     {{- end -}}
   {{- end -}}
 {{- end -}}
@@ -51,7 +51,7 @@
         {{- end -}}
       {{- end -}}
       {{- if $profileMatch -}}
-        {{- $packages = append $packages .name -}}
+        {{- if (index . "disabled") -}}{{- $packages = append $packages (printf "disabled:%s" .name) -}}{{- else -}}{{- $packages = append $packages .name -}}{{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -69,7 +69,7 @@
         {{- end -}}
       {{- end -}}
       {{- if $profileMatch -}}
-        {{- $packages = append $packages .name -}}
+        {{- if (index . "disabled") -}}{{- $packages = append $packages (printf "disabled:%s" .name) -}}{{- else -}}{{- $packages = append $packages .name -}}{{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}
@@ -87,7 +87,7 @@
         {{- end -}}
       {{- end -}}
       {{- if $profileMatch -}}
-        {{- $packages = append $packages .name -}}
+        {{- if (index . "disabled") -}}{{- $packages = append $packages (printf "disabled:%s" .name) -}}{{- else -}}{{- $packages = append $packages .name -}}{{- end -}}
       {{- end -}}
     {{- end -}}
   {{- end -}}

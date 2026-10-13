@@ -72,35 +72,52 @@ install_brew_packages "taps" "$taps_file" "tap"
 
 # Language servers that install via brew
 {{- range .language_servers }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (not (index . "disabled")) }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Formatters that install via brew
 {{- range .formatters }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (not (index . "disabled")) }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Linters that install via brew
 {{- range .linters }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (not (index . "disabled")) }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Development tools that install via brew
 {{- range .dev_tools }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (not (index . "disabled")) }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # AI agents that install via brew
 {{- range .agents }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (not (index . "disabled")) }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 install_brew_packages "formulae" "$brews_file" "brew"
+
+# Uninstall formulae flagged `disabled: true` (only if present)
+disabled_brews=()
+{{- range (concat .language_servers .formatters .linters .dev_tools .agents) }}
+  {{- if and (has "brew" .installer) (index . "disabled") }}
+disabled_brews+=("{{ .name }}")
+  {{- end }}
+{{- end }}
+for name in ${disabled_brews[@]+"${disabled_brews[@]}"}; do
+    if brew list "$name" >/dev/null 2>&1; then
+        if brew uninstall "$name" >> "$LOG_FILE" 2>&1; then
+            log_install_result "ok" "removed $name"
+        else
+            log_install_result "fail" "remove $name"
+        fi
+    fi
+done
 
 # Setup automatic updates
 if brew autoupdate status 2>&1 | grep -q "not configured"; then
