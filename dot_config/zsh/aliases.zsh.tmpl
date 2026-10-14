@@ -255,3 +255,18 @@ gwts() {
   echo "🌲 Landed in $full_path"
 }
 
+# `git worktree remove`, but the last argument may also be a branch name: when it
+# isn't an existing directory, remove whichever worktree has that branch checked out.
+# Usage: gwtrm [-f] <path|branch>
+gwtrm() {
+  local target="${@[-1]}" wt_path
+  if [ -n "$target" ] && [ ! -d "$target" ]; then
+    # porcelain prints "worktree <path>" before that worktree's "branch refs/heads/<name>"
+    wt_path=$(git worktree list --porcelain 2>/dev/null | awk -v b="branch refs/heads/$target" '
+      /^worktree / { p = substr($0, 10) }
+      $0 == b { print p; exit }')
+    [ -n "$wt_path" ] && set -- "${@[1,-2]}" "$wt_path"
+  fi
+  git worktree remove "$@"
+}
+
