@@ -91,11 +91,7 @@ top_level_key:
     description: "Optional note"   # Human-readable description
     profiles: [python-dev]         # (optional) Only install when profile is active
     conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
-    disabled: true                 # (brew/brew_cask only) Skip install; uninstall if present
 ```
-
-Retire packages with `disabled: true` instead of deleting them. Currently honored only by the brew
-formulae and cask scripts; other installers still install disabled entries.
 
 **Profile filtering:** Packages with a `profiles` field are only installed when at least one
 matching profile is active. Packages without `profiles` are always installed (backward compatible).

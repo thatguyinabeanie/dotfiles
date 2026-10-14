@@ -19,14 +19,14 @@ trap 'rm -f "$brewfile"' EXIT
 
 # Development tools that install via brew_cask
 {{- range .dev_tools }}
-  {{- if and (has "brew_cask" .installer) (not (index . "disabled")) }}
+  {{- if has "brew_cask" .installer }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew_cask
 {{- range .agents }}
-  {{- if and (has "brew_cask" .installer) (not (index . "disabled")) }}
+  {{- if has "brew_cask" .installer }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
@@ -34,7 +34,7 @@ echo "cask \"{{ .name }}\"" >> "$brewfile"
 # General applications that install via brew_cask
 {{- if .applications.shared }}
   {{- range .applications.shared }}
-    {{- if and (has "brew_cask" .installer) (not (index . "disabled")) }}
+    {{- if has "brew_cask" .installer }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
     {{- end }}
   {{- end }}
@@ -43,7 +43,7 @@ echo "cask \"{{ .name }}\"" >> "$brewfile"
 if is_personal_environment; then
   {{- if .applications.personal }}
     {{- range .applications.personal }}
-      {{- if and (has "brew_cask" .installer) (not (index . "disabled")) }}
+      {{- if has "brew_cask" .installer }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
@@ -53,7 +53,7 @@ fi
 if is_work_environment; then
   {{- if .applications.work }}
     {{- range .applications.work }}
-      {{- if and (has "brew_cask" .installer) (not (index . "disabled")) }}
+      {{- if has "brew_cask" .installer }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
@@ -64,21 +64,27 @@ total=$(grep -c "^cask" "$brewfile" 2>/dev/null || echo "0")
 
 # Pre-check: identify missing casks
 MISSING_CASKS=()
-check_output=$(brew bundle check --verbose --file="$brewfile" 2>&1 || true)
+check_output=$(brew bundle check --verbose --no-upgrade --file="$brewfile" 2>&1 || true)
 while IFS= read -r line; do
-    if [[ "$line" == *"is not installed"* ]]; then
+    # ponytail: brew's "bundle check --verbose" wording has changed across
+    # versions ("Cask X needs to be installed or updated" vs. older "'X' is
+    # not installed"); match both so a future wording change doesn't silently
+    # make this pre-check a no-op again.
+    if [[ "$line" == *"needs to be installed"* ]]; then
+        cask_name=$(echo "$line" | sed -E 's/.*Cask ([^ ]+) needs to be installed.*/\1/')
+    elif [[ "$line" == *"is not installed"* ]]; then
         cask_name=$(echo "$line" | sed "s/.*'\([^']*\)'.*/\1/")
-        [[ -n "$cask_name" ]] && MISSING_CASKS+=("$cask_name")
+    else
+        cask_name=""
     fi
+    [[ -n "$cask_name" ]] && MISSING_CASKS+=("$cask_name")
 done <<< "$check_output"
 
-install_exit=0
 if [[ ${#MISSING_CASKS[@]} -eq 0 ]]; then
     log_summary "✓ All $total casks up to date"
 else
-    # `|| capture` instead of a bare `$?`: under `set -e` a failed bundle would
-    # abort here, skipping the per-cask report and the disabled-cask uninstall.
-    brew bundle install --quiet --file="$brewfile" >> "$LOG_FILE" 2>&1 || install_exit=$?
+    brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1
+    install_exit=$?
 
     for cask in "${MISSING_CASKS[@]}"; do
         if brew list --cask "$cask" >/dev/null 2>&1; then
@@ -93,53 +99,6 @@ else
         cat "$LOG_FILE" >&2
     fi
 fi
-
-# Uninstall casks flagged `disabled: true` (only if present)
-disabled_casks=()
-{{- range .dev_tools }}
-  {{- if and (has "brew_cask" .installer) (index . "disabled") }}
-disabled_casks+=("{{ .name }}")
-  {{- end }}
-{{- end }}
-{{- range .agents }}
-  {{- if and (has "brew_cask" .installer) (index . "disabled") }}
-disabled_casks+=("{{ .name }}")
-  {{- end }}
-{{- end }}
-{{- range .applications.shared }}
-  {{- if and (has "brew_cask" .installer) (index . "disabled") }}
-disabled_casks+=("{{ .name }}")
-  {{- end }}
-{{- end }}
-if is_personal_environment; then
-  :  # keeps the block valid when nothing is disabled
-  {{- range .applications.personal }}
-    {{- if and (has "brew_cask" .installer) (index . "disabled") }}
-disabled_casks+=("{{ .name }}")
-    {{- end }}
-  {{- end }}
-fi
-if is_work_environment; then
-  :  # keeps the block valid when nothing is disabled
-  {{- range .applications.work }}
-    {{- if and (has "brew_cask" .installer) (index . "disabled") }}
-disabled_casks+=("{{ .name }}")
-    {{- end }}
-  {{- end }}
-fi
-
-for cask in ${disabled_casks[@]+"${disabled_casks[@]}"}; do
-    if brew list --cask "$cask" >/dev/null 2>&1; then
-        if brew uninstall --cask "$cask" >> "$LOG_FILE" 2>&1; then
-            log_install_result "ok" "removed $cask"
-        else
-            log_install_result "fail" "remove $cask"
-        fi
-    fi
-done
-
-# Still fail on install errors so chezmoi re-runs this script next apply
-exit "$install_exit"
 
 {{- else }}
 log_warning "This script is designed for macOS only"
