@@ -31,6 +31,8 @@ applications:
       installer: [brew_cask]
     - name: cmux
       installer: [brew_cask]
+    - name: cursor
+      installer: [brew_cask]
     - name: espanso
       installer: [brew_cask]
     - name: ghostty
@@ -53,13 +55,12 @@ applications:
       installer: [brew_cask]
     - name: sf-symbols
       installer: [brew_cask]
+    - name: visual-studio-code
+      installer: [brew_cask]
 
     # ============================================================
     # EDITORS — Extra code editors and terminals
     # ============================================================
-    - name: cursor
-      installer: [brew_cask]
-      profiles: [editors]
     - name: kitty
       installer: [brew_cask]
       profiles: [editors]

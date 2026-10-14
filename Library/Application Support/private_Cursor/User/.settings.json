@@ -129,5 +129,12 @@
     "siteId": "c93ebbc0-c846-480a-b1dc-2911b76c7cc8",
     "projectKey": "CIVIS"
   },
-  "diffEditor.ignoreTrimWhitespace": false
+	"diffEditor.ignoreTrimWhitespace": false,
+	"mcp": {
+		"servers": {
+			"civis-staging": {
+				"url": "https://mcp-staging.civisanalytics.com"
+			}
+		}
+	}
 }
