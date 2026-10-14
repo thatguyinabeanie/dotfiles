@@ -99,6 +99,11 @@
   prose and rationale.
 - Keep the PR description accurate and up to date—if the branch changes after the description was
   written, update it to match before asking for review.
+- When creating a PR where the AI agent did most of the implementation, apply the label
+  `> 90% ai generated` (`gh pr create --label "> 90% ai generated"`). If the repo has no such
+  label, tell me instead of creating it.
+- Before editing an existing PR description, fetch its current body (`gh pr view --json body`)
+  and keep every screenshot, image, and video in it. Edit around them, never drop them.
 - Write PR descriptions with clean hierarchical structure (headings, bullet points) instead of
   heavy paragraph prose. Use emoji to label/categorize sections—for example, 🐛 for a bug fix, ✨
   for a feature, ⚠️ for a breaking change.
