@@ -1,15 +1,23 @@
 {{- /*
-  Zsh aliases generator
-  Reads from .chezmoidata/aliases.yaml and generates Zsh alias syntax
+  Zsh aliases generator (one category per call)
+  Reads one category from .chezmoidata/aliases-<category>.yaml (merged into
+  .aliases by chezmoi) and generates Zsh alias syntax.
 
   Tool availability is checked at template-time via lookPath (during
   chezmoi apply) rather than at shell startup via command -v. This
   eliminates ~6ms of subprocess forks per interactive shell.
 
+  A missing category key fails the render, so a typo cannot silently drop
+  aliases. The key is the YAML spelling (modern_cli), not the file name.
+
   Usage in a .tmpl file:
-    {{ template "shell/aliases-zsh.tmpl" . }}
+    {{ template "shell/aliases-zsh.tmpl" (dict "root" . "category" "git") }}
 */ -}}
-{{- range $category, $data := .aliases }}
+{{- $root := .root }}
+{{- if not (hasKey $root.aliases .category) }}
+{{- fail (printf "shell/aliases-zsh.tmpl: unknown alias category %q (check .chezmoidata/aliases-*.yaml)" .category) }}
+{{- end }}
+{{- $data := index $root.aliases .category }}
 {{- $categoryAvailable := true }}
 {{- if hasKey $data "requires" }}
 {{- $categoryAvailable = lookPath $data.requires }}
@@ -26,7 +34,6 @@ alias {{ .name }}='{{ .command }}'
 {{- end }}
 {{- else }}
 alias {{ .name }}='{{ .command }}'
-{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

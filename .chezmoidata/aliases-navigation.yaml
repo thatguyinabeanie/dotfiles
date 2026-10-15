@@ -1,0 +1,13 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  navigation:
+    description: "Directory navigation"
+    items:
+      - { name: "..", command: "cd .." }
+      - { name: "...", command: "cd ../.." }
+      - { name: "....", command: "cd ../../.." }
+      - { name: ".....", command: "cd ../../../.." }

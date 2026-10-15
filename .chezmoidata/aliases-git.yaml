@@ -1,0 +1,124 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  git:
+    description: "Git version control"
+    items:
+      # Base
+      - { name: g, command: "git" }
+      # Add
+      - { name: ga, command: "git add" }
+      - { name: gaa, command: "git add --all" }
+      - { name: gap, command: "git add --patch" }
+      - { name: gau, command: "git add --update" }
+      # Branch
+      - { name: gb, command: "git branch" }
+      - { name: gba, command: "git branch --all" }
+      - { name: gbd, command: "git branch --delete" }
+      - { name: gbD, command: "git branch --delete --force" }
+      # Commit
+      - { name: gc, command: "git commit" }
+      - { name: gcm, command: "git commit --message" }
+      - { name: gca, command: "git commit --amend" }
+      - { name: gcan, command: "git commit --amend --no-edit" }
+      - { name: gcam, command: "git commit -am" }
+      - { name: gcsm, command: "git commit -S -m" }
+      - { name: gwip, command: 'git add -A && git commit --no-verify -m "--wip--"' }
+      # Clone
+      - { name: gcl, command: "git clone" }
+      - { name: gclr, command: "git clone --recurse-submodules" }
+      # Checkout/Switch
+      - { name: gco, command: "git checkout" }
+      - { name: gcob, command: "git checkout -b" }
+      - { name: gsw, command: "git switch" }
+      - { name: gswc, command: "git switch --create" }
+      # Cherry-pick
+      - { name: gcp, command: "git cherry-pick" }
+      - { name: gcpa, command: "git cherry-pick --abort" }
+      - { name: gcpc, command: "git cherry-pick --continue" }
+      # Diff
+      - { name: gd, command: "git diff" }
+      - { name: gds, command: "git diff --staged" }
+      - { name: gdw, command: "git diff --word-diff" }
+      # Fetch
+      - { name: gf, command: "git fetch" }
+      - { name: gfa, command: "git fetch --all --prune" }
+      - { name: gfo, command: "git fetch origin" }
+      # Log
+      - { name: gl, command: "git log --oneline" }
+      - { name: gla, command: "git log --oneline --all --graph" }
+      - { name: glog, command: "git log --oneline --graph" }
+      - { name: glg, command: 'git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"' }
+      - { name: glgp, command: "git log --stat --patch" }
+      # Merge
+      - { name: gm, command: "git merge" }
+      - { name: gma, command: "git merge --abort" }
+      - { name: gmc, command: "git merge --continue" }
+      # Push
+      - { name: gp, command: "git push" }
+      - { name: gpf, command: "git push --force-with-lease" }
+      - { name: gpff, command: "git push --force" }
+      - { name: gpsup, command: "git push --set-upstream origin HEAD" }
+      # Pull
+      - { name: gpl, command: "git pull" }
+      - { name: gplr, command: "git pull --rebase" }
+      - { name: gplra, command: "git pull --rebase --autostash" }
+      # Remote
+      - { name: gr, command: "git remote" }
+      - { name: grv, command: "git remote -v" }
+      - { name: gra, command: "git remote add" }
+      - { name: grrm, command: "git remote remove" }
+      # Rebase
+      - { name: grb, command: "git rebase" }
+      - { name: grbc, command: "git rebase --continue" }
+      - { name: grba, command: "git rebase --abort" }
+      - { name: grbs, command: "git rebase --skip" }
+      - { name: grbi, command: "git rebase --interactive" }
+      # Reset
+      - { name: grs, command: "git reset" }
+      - { name: grsh, command: "git reset --hard" }
+      - { name: grss, command: "git reset --soft" }
+      - { name: grhh, command: "git reset HEAD --hard" }
+      - { name: groh, command: "git reset origin/HEAD --hard" }
+      # Restore
+      - { name: grt, command: "git restore" }
+      - { name: grts, command: "git restore --staged" }
+      # Revert
+      - { name: grev, command: "git revert" }
+      - { name: greva, command: "git revert --abort" }
+      - { name: grevc, command: "git revert --continue" }
+      # Stash
+      - { name: gst, command: "git stash" }
+      - { name: gsta, command: "git stash push" }
+      - { name: gstaa, command: "git stash apply" }
+      - { name: gstp, command: "git stash pop" }
+      - { name: gstl, command: "git stash list" }
+      - { name: gstd, command: "git stash drop" }
+      - { name: gstc, command: "git stash clear" }
+      - { name: gsts, command: "git stash show --patch" }
+      # Status
+      - { name: gs, command: "git status" }
+      - { name: gss, command: "git status --short" }
+      - { name: gsb, command: "git status --short --branch" }
+      # Show/Blame
+      - { name: gsh, command: "git show" }
+      - { name: gbl, command: "git blame" }
+      # Tags
+      - { name: gt, command: "git tag" }
+      - { name: gta, command: "git tag -a" }
+      - { name: gtd, command: "git tag -d" }
+      # Clean
+      - { name: gclean, command: "git clean -fd" }
+      - { name: gpristine, command: "git reset --hard && git clean -fdx" }
+      # Worktree
+      - { name: gwt, command: "git worktree" }
+      - { name: gwtl, command: "git worktree list" }
+      - { name: gwtab, command: "git worktree add -b" }
+      - { name: gwtpr, command: "git worktree prune" }
+      - { name: gwtmv, command: "git worktree move" }
+      - { name: gwtlv, command: "git worktree list --verbose" }
+      # Lazygit
+      - { name: lg, command: "lazygit", requires: lazygit }

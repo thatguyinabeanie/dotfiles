@@ -1,0 +1,20 @@
+# 1Password: op-signin signs in and exports the session token to tmux.
+
+# Function to sign in to 1Password and update the tmux environment
+op-signin() {
+  # 1. Perform the standard sign-in and get the session token
+  eval $(op signin)
+
+  # 2. Check if we are inside a tmux session
+  if [ -n "$TMUX" ]; then
+    # 3. Extract the session variable name and value
+    #    (e.g., OP_SESSION_my_account and its token)
+    op_session_var=$(env | grep OP_SESSION)
+
+    if [ -n "$op_session_var" ]; then
+      # 4. Tell tmux to set this variable for all future panes/windows
+      tmux set-environment -g "$op_session_var"
+      echo "1Password session token exported to tmux environment."
+    fi
+  fi
+}

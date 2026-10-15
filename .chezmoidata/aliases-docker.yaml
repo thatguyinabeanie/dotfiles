@@ -1,0 +1,58 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  docker:
+    description: "Docker containers"
+    requires: docker
+    items:
+      # Base
+      - { name: d, command: "docker" }
+      # Compose
+      - { name: dc, command: "docker compose" }
+      - { name: dcu, command: "docker compose up" }
+      - { name: dcud, command: "docker compose up -d" }
+      - { name: dcd, command: "docker compose down" }
+      - { name: dcb, command: "docker compose build" }
+      - { name: dcl, command: "docker compose logs" }
+      - { name: dclf, command: "docker compose logs -f" }
+      - { name: dce, command: "docker compose exec" }
+      - { name: dcr, command: "docker compose restart" }
+      - { name: dcps, command: "docker compose ps" }
+      # Containers
+      - { name: dps, command: "docker ps" }
+      - { name: dpsa, command: "docker ps -a" }
+      - { name: dr, command: "docker run" }
+      - { name: drit, command: "docker run -it" }
+      - { name: drm, command: "docker rm" }
+      - { name: drmf, command: "docker rm -f" }
+      - { name: dst, command: "docker start" }
+      - { name: dstp, command: "docker stop" }
+      - { name: drs, command: "docker restart" }
+      - { name: dex, command: "docker exec" }
+      - { name: deit, command: "docker exec -it" }
+      - { name: dlo, command: "docker logs" }
+      - { name: dlof, command: "docker logs -f" }
+      - { name: dins, command: "docker inspect" }
+      - { name: dsts, command: "docker stats" }
+      # Images
+      - { name: di, command: "docker images" }
+      - { name: dpl, command: "docker pull" }
+      - { name: dph, command: "docker push" }
+      - { name: drmi, command: "docker rmi" }
+      - { name: dtag, command: "docker tag" }
+      - { name: dbld, command: "docker build" }
+      - { name: dipr, command: "docker image prune -a" }
+      # Volumes
+      - { name: dvls, command: "docker volume ls" }
+      - { name: dvrm, command: "docker volume rm" }
+      - { name: dvpr, command: "docker volume prune" }
+      # Networks
+      - { name: dnls, command: "docker network ls" }
+      - { name: dnc, command: "docker network create" }
+      - { name: dnrm, command: "docker network rm" }
+      # System
+      - { name: dsp, command: "docker system prune" }
+      - { name: dspa, command: "docker system prune --all --volumes" }

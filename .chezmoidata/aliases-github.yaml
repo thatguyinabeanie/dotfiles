@@ -1,0 +1,30 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  github:
+    description: "GitHub CLI"
+    requires: gh
+    items:
+      # Pull requests
+      - { name: ghpr, command: "gh pr list" }
+      - { name: ghprc, command: "gh pr create" }
+      - { name: ghprv, command: "gh pr view" }
+      - { name: ghprco, command: "gh pr checkout" }
+      - { name: ghprm, command: "gh pr merge" }
+      - { name: ghprd, command: "gh pr diff" }
+      # Issues
+      - { name: ghi, command: "gh issue list" }
+      - { name: ghic, command: "gh issue create" }
+      - { name: ghiv, command: "gh issue view" }
+      # Repository
+      - { name: ghr, command: "gh repo view --web" }
+      - { name: ghrc, command: "gh repo clone" }
+      - { name: ghrf, command: "gh repo fork" }
+      # Status & workflows
+      - { name: ghs, command: "gh status" }
+      - { name: ghw, command: "gh workflow list" }
+      - { name: ghwr, command: "gh workflow run" }
+      - { name: ghrl, command: "gh release list" }

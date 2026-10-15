@@ -18,17 +18,11 @@ setopt interactivecomments  # allow # comments in interactive shell (pasting com
 # SECTION 1: Essential Sources (ENABLED - Keep these)
 # ----------------------------------------------------------------------------
 
-{{- $zshaliases := printf "%s/.config/zsh/aliases.zsh" .chezmoi.homeDir }}
-{{- if stat $zshaliases }}
-# Aliases (essential for workflow)
-source "{{ $zshaliases }}"
-{{- end }}
-
-{{- $gitcleanup := printf "%s/.config/zsh/git-cleanup.zsh" .chezmoi.homeDir }}
-{{- if stat $gitcleanup }}
-# git-cleanup: prune worktrees, stale remote refs and merged branches
-source "{{ $gitcleanup }}"
-{{- end }}
+# Aliases first (function bodies expand aliases when defined), then functions.
+for _zsh_f in "{{ .chezmoi.homeDir }}"/.config/zsh/aliases/*.zsh(N) "{{ .chezmoi.homeDir }}"/.config/zsh/functions/*.zsh(N); do
+  source "$_zsh_f"
+done
+unset _zsh_f
 
 {{- if lookPath "brew" }}
 # Homebrew environment variables (essential)
@@ -291,19 +285,6 @@ if [[ -n "$GHOSTTY_RESOURCES_DIR" ]]; then
   preexec_functions=(__cmd_preexec "${preexec_functions[@]}")
   precmd_functions=(__cmd_precmd "${precmd_functions[@]}")
 fi
-
-# ----------------------------------------------------------------------------
-# SECTION 9: Custom Functions
-# ----------------------------------------------------------------------------
-
-{{- if lookPath "claude" }}
-# 🧠 brain - Open Obsidian vault in Claude Code
-# Type `brain` from anywhere to cd into the vault and launch Claude Code
-brain() {
-  cd "${OBSIDIAN_VAULT:-${XDG_DATA_HOME:-$HOME/.local/share}/obsidian}" && claude "$@"
-}
-{{- end }}
-
 
 # ----------------------------------------------------------------------------
 # PROFILING — bottom marker (DO NOT DELETE — pair with zmodload zsh/zprof above)

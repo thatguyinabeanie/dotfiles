@@ -1,0 +1,15 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  tmux:
+    description: "Tmux terminal multiplexer"
+    items:
+      - { name: t, command: "tmux" }
+      - { name: ta, command: "tmux attach" }
+      - { name: tat, command: "tmux attach -t" }
+      - { name: tns, command: "tmux new-session -s" }
+      - { name: tls, command: "tmux list-sessions" }
+      - { name: tks, command: "tmux kill-session" }

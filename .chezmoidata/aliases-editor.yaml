@@ -1,0 +1,12 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  editor:
+    description: "Editor shortcuts"
+    requires: nvim
+    items:
+      - { name: v, command: "nvim" }
+      - { name: vim, command: "nvim" }

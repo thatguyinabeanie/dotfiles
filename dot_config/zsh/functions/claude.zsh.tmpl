@@ -1,0 +1,96 @@
+# Claude Code helpers: brain (open the Obsidian vault in Claude) and ccr (PR code review in a worktree).
+{{- if lookPath "claude" }}
+# 🧠 brain - Open Obsidian vault in Claude Code
+# Type `brain` from anywhere to cd into the vault and launch Claude Code
+brain() {
+  cd "${OBSIDIAN_VAULT:-${XDG_DATA_HOME:-$HOME/.local/share}/obsidian}" && claude "$@"
+}
+{{- end }}
+
+# Code review a PR's branch: hop to (or create) its worktree, then start Claude with a
+# prompt that reviews the PR and leaves ONE pending (unsubmitted) GitHub review.
+# Usage: ccr <branch> [low|medium|high|xhigh|max]   (effort defaults to medium)
+ccr() {
+  local branch="${1-}" effort="${2:-medium}"
+  if [ -z "$branch" ]; then
+    echo "❌ Usage: ccr <branch> [low|medium|high|xhigh|max]"
+    return 1
+  fi
+  case "$effort" in
+    low|medium|high|xhigh|max) ;;
+    *)
+      echo "❌ Unknown effort '$effort' (use low, medium, high, xhigh, or max)"
+      return 1
+      ;;
+  esac
+  command -v gh >/dev/null 2>&1 || { echo "❌ 'gh' not found in PATH"; return 1; }
+  command -v claude >/dev/null 2>&1 || { echo "❌ 'claude' not found in PATH"; return 1; }
+
+  local main_root
+  main_root=$(git worktree list --porcelain 2>/dev/null | head -1 | sed 's/^worktree //')
+  if [ -z "$main_root" ] || [ ! -d "$main_root" ]; then
+    echo "❌ Not inside a git repository"
+    return 1
+  fi
+
+  # Look up the PR before touching any worktree so a branch with no PR creates nothing.
+  local pr_info pr_number pr_url pr_head
+  pr_info=$(cd "$main_root" && gh pr view "$branch" --json number,url,headRefName \
+    --jq '[.number, .url, .headRefName] | @tsv' 2>/dev/null)
+  if [ -z "$pr_info" ]; then
+    echo "❌ No pull request found for '$branch'"
+    return 1
+  fi
+  pr_number=${pr_info%%$'\t'*}
+  pr_url=${${pr_info#*$'\t'}%%$'\t'*}
+  pr_head=${pr_info##*$'\t'}
+  branch="$pr_head"
+
+  # Fetch first so a branch that only exists on origin, or a stale local copy, is current.
+  if ! _gwt_fetch_branch "$main_root" "$branch"; then
+    # Without this, gwts would plant a fresh branch off HEAD and we'd review the wrong code.
+    echo "❌ Could not fetch '$branch' from origin (PR from a fork?)"
+    return 1
+  fi
+
+  local wt_path
+  wt_path=$(cd "$main_root" && _gwt_path_for_branch "$branch")
+  if [ -n "$wt_path" ] && [ -d "$wt_path" ]; then
+    echo "🌲 Already grown — hopping over to $wt_path"
+    cd "$wt_path" || return $?
+  else
+    # Slashes are flattened because gwts places worktrees by path and would nest them.
+    gwts "${branch//\//-}" "$branch" || return $?
+  fi
+
+  # Review code that matches the PR head, or inline comment anchors will not line up.
+  if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    echo "⚠️ This worktree has uncommitted changes; commit or stash them, then run ccr again"
+    return 1
+  fi
+  if git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+    if ! git merge --ff-only --quiet "origin/$branch" 2>/dev/null; then
+      echo "⚠️ Local '$branch' has diverged from origin/$branch; not reviewing stale code"
+      return 1
+    fi
+  fi
+
+  local prompt
+  prompt=$(cat <<EOF
+Run /code-review on PR #$pr_number ($pr_url) at effort $effort. Use the built-in code-review skill that takes low, medium, high, xhigh, or max effort levels, not engineering:code-review or code-review:code-review. Do not pass --comment.
+
+When the review is done, post ALL findings as ONE GitHub review:
+1. First check for an existing pending review by me on the PR: get the reviews from gh api repos/{owner}/{repo}/pulls/$pr_number/reviews, and my login from gh api user --jq .login. If one of my reviews has state PENDING, stop and tell me instead of posting.
+2. Get the PR head SHA with gh pr view $pr_number --json headRefOid.
+3. Check that each comment's path and line are inside the PR diff (gh pr diff $pr_number).
+4. Write the review JSON to a temp file with commit_id set to the head SHA, a summary body, and a comments array where each entry has path, line, side RIGHT, and body. Then run: gh api repos/{owner}/{repo}/pulls/$pr_number/reviews --method POST --input <file>
+5. Omit the event field so the review stays PENDING. Never submit it, never use gh pr review, and never post individual comments.
+6. If GitHub answers 422, fix the bad anchors or drop them (fold them into the summary body) and re-POST the whole review. Never fall back to posting comments one by one.
+
+Use \`\`\`suggestion blocks for concrete code changes. End the review body with "🤖 Generated with Claude Code".
+
+Finish by printing the PR URL ($pr_url) so I can open it and submit the review myself.
+EOF
+)
+  claude "$prompt"
+}

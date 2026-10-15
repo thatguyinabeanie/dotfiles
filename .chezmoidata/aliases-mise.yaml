@@ -1,0 +1,15 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  mise:
+    description: "Mise version manager"
+    items:
+      - { name: mx, command: "mise" }
+      - { name: mxi, command: "mise install" }
+      - { name: mxu, command: "mise use" }
+      - { name: mxr, command: "mise run" }
+      - { name: mxl, command: "mise ls" }
+      - { name: mxt, command: "mise trust" }

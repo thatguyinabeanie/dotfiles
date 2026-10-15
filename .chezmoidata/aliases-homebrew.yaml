@@ -1,0 +1,18 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  homebrew:
+    description: "Homebrew package manager"
+    requires: brew
+    items:
+      - { name: bi, command: "brew install" }
+      - { name: bic, command: "brew install --cask" }
+      - { name: bu, command: "brew upgrade" }
+      - { name: bs, command: "brew search" }
+      - { name: bl, command: "brew list" }
+      - { name: binfo, command: "brew info" }
+      - { name: bdr, command: "brew doctor" }
+      - { name: bcu, command: "brew cleanup" }

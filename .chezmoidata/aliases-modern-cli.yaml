@@ -1,0 +1,16 @@
+# Shell aliases for one category. Schema (read by shell/aliases-zsh.tmpl):
+#   aliases.<category>: description (string), optional requires (command that
+#   must exist at apply time), items (list of { name, command, requires? }).
+# Chezmoi deep-merges maps across .chezmoidata files, one file per category.
+
+aliases:
+  modern_cli:
+    description: "Modern CLI replacements"
+    items:
+      - { name: cat, command: "bat", requires: bat }
+      - { name: ls, command: "eza", requires: eza }
+      - { name: ll, command: "eza -l", requires: eza }
+      - { name: la, command: "eza -la", requires: eza }
+      - { name: lt, command: "eza --tree", requires: eza }
+      - { name: tree, command: "eza --tree", requires: eza }
+      - { name: jq, command: "jaq", requires: jaq }
