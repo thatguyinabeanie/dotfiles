@@ -94,7 +94,8 @@
 | `gwt` | `git worktree` |
 | `gwtl` | `git worktree list` |
 | `gwtlv` | `git worktree list --verbose` |
-| `gwts` | `git worktree add` under `.claude/worktrees` (or `.worktrees` if no `.claude/`), auto-`.gitignore`, auto-`mise trust`, auto-`.env` symlink, auto-`cd` |
+| `gwts` | `git worktree add` under `.claude/worktrees` (or `.worktrees` if no `.claude/`), auto-`.gitignore`, auto-`mise trust`, auto-`.env` symlink, auto-`cd`. Fetches the branch from origin first, so remote-only branches work |
+| `ccr <branch> [effort]` | Claude code review: open or create the PR branch's worktree, run `/code-review` at effort low, medium, high, xhigh, or max (default medium), and post findings as one pending GitHub review you submit yourself in the browser |
 | `gwtab` | `git worktree add -b` |
 | `gwtrm` | `git worktree remove` |
 | `gwtmv` | `git worktree move` |

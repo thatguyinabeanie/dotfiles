@@ -236,7 +236,8 @@ Notes:
 | `gwt` | `git worktree` |
 | `gwtl` | `git worktree list` |
 | `gwtlv` | `git worktree list --verbose` |
-| `gwts` | `git worktree add` under `.claude/worktrees/` (or `.worktrees/` if no `.claude/` dir), auto-adds it to `.gitignore`, runs `mise trust` + symlinks `.env*` if present, then `cd`s in. Accepts real `git worktree add` flags (`-b`, `-B`, `-f`, `--detach`, etc.). Always anchored at the main checkout, even when run from inside another worktree |
+| `gwts` | `git worktree add` under `.claude/worktrees/` (or `.worktrees/` if no `.claude/` dir), auto-adds it to `.gitignore`, runs `mise trust` + symlinks `.env*` if present, then `cd`s in. Accepts real `git worktree add` flags (`-b`, `-B`, `-f`, `--detach`, etc.). Always anchored at the main checkout, even when run from inside another worktree. Fetches the branch from origin first, so remote-only branches work |
+| `ccr <branch> [effort]` | Claude code review: open or create the PR branch's worktree, run `/code-review` at effort low, medium, high, xhigh, or max (default medium), and post findings as one pending GitHub review you submit yourself in the browser |
 | `gwtab` | `git worktree add -b BRANCH PATH` (create + checkout) |
 | `gwtrm` | `git worktree remove PATH` |
 | `gwtmv` | `git worktree move PATH NEW-PATH` |
