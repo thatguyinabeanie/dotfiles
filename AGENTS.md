@@ -77,7 +77,7 @@ Configuration is template-driven and reproducible across machines.
 | `onepassword.yaml`        | (multiple)           | 1Password integration settings               |
 | `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
 | `agents.yaml`             | `agents`             | AI agent tool configurations                 |
-| `aliases.yaml`            | `aliases`            | Shell aliases (Zsh)                          |
+| `aliases-*.yaml`          | `aliases`            | Shell aliases, one file per category (Zsh)   |
 
 ### Schema Patterns
 
@@ -279,9 +279,12 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
 
 This repo is **zsh only**. Fish was removed; do not reintroduce it.
 
-- Shell functions go in `dot_config/zsh/aliases.zsh.tmpl`, sourced from `dot_zshrc.tmpl`.
+- Functions live in `dot_config/zsh/functions/`, one topic per file (for example `git-worktree.zsh`, `ports.zsh`). They render to `~/.config/zsh/functions/`.
+- Aliases live in `.chezmoidata/aliases-<cat>.yaml`, one file per category. Each renders through `dot_config/zsh/aliases/<cat>.zsh.tmpl` to `~/.config/zsh/aliases/<cat>.zsh`.
+- `dot_zshrc.tmpl` sources all `aliases/*.zsh` first, then `functions/*.zsh`, in one loop.
+- Do not grow catch-all files. Put a new function in the file for its topic. Create a new topic file when no topic fits.
+- Put a new alias in the matching `aliases-<cat>.yaml`. For a new category, add a new data file and a new stub template.
 - Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`.
-- Simple one-line aliases go in `.chezmoidata/aliases.yaml` instead.
 
 ## File Naming Conventions
 

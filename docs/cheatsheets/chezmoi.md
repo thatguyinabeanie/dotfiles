@@ -90,4 +90,4 @@
 | `tools.yaml` | CLI tools (`dev_tools` key) |
 | `lsp.yaml` | LSP server configurations |
 | `applications.yaml` | macOS GUI apps |
-| `aliases.yaml` | Shell aliases (Fish + Zsh) |
+| `aliases-<cat>.yaml` | Shell aliases, one file per category (Zsh) |

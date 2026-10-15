@@ -1,6 +1,6 @@
 # Git Aliases
 
-**Shell aliases for git**—defined in `.chezmoidata/aliases.yaml`.
+**Shell aliases for git**, defined in `.chezmoidata/aliases-git.yaml`.
 
 ## ⚡ Base
 

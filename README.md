@@ -333,7 +333,7 @@ templates (e.g., `.dev_tools`, `.language_servers`).
 - **`services.yaml`**: Background services (postgresql, etc.).
 - **`opencode.yaml`**: OpenCode editor configuration.
 - **`onepassword.yaml`**: 1Password integration settings.
-- **`aliases.yaml`**: Shell aliases/abbreviations (Fish & Zsh).
+- **`aliases-<cat>.yaml`**: Shell aliases, one file per category (Zsh only).
 - **`shared.yaml`**, **`personal.yaml`**, **`work.yaml`**: Environment variables for different contexts.
 
 ### 🔧 **Template Integration Patterns**

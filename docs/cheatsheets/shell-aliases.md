@@ -1,6 +1,6 @@
 # Shell Aliases
 
-**Quick-reference for all shell aliases**—active in Fish (as abbreviations) and Zsh.
+**Quick-reference for all shell aliases**, active in Zsh. Source files are `.chezmoidata/aliases-<cat>.yaml`, one per category.
 
 ## 🌿 Git
 
