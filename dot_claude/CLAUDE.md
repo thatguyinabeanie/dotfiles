@@ -53,8 +53,6 @@
 - When a direction has already been decided, state it as decided—don't re-hedge it as an open question.
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
-- For CircleCI questions or CI troubleshooting, use the CircleCI MCP tools instead of the `circleci`
-  CLI. No `CIRCLECI_TOKEN` needed, the MCP server handles auth.
 
 ## Tool Calls
 
@@ -67,48 +65,14 @@
   it does and why as a message first, so I can judge the permission prompt without decoding the
   command.
 
-## Git Workflow
+## Task Skills
 
-- Commit often, in small logical chunks. Commit messages should be brief but detailed: precise
-  and direct, no fluff, explaining why not just what.
-- Push less often than you commit, but still somewhat regularly—don't let a branch sit unpushed
-  for an entire task.
-- Open a PR early, as soon as a branch exists remotely and there's something to review, if one
-  doesn't already exist. Draft/WIP PRs are fine.
-- Prefer letting CI run lint/tests in the cloud over re-running them locally every time. After
-  pushing, check CI status periodically instead of blocking synchronously on it—use the freed-up
-  time to keep working on other parts of the task.
-- Guideline, not a hard rule: monitor an in-flight CI run and let it finish before pushing again to
-  the same branch/PR. Many CI systems cancel the current run when a new push lands on the same
-  ref, so pushing mid-run usually wastes that run rather than saving time. Skip this when the
-  in-flight run's result no longer matters and you need a new run started—for example, you already
-  know it's stale or about a change you're superseding—then push right away.
+Load the matching skill before starting these tasks:
 
-## GitHub and PR Etiquette
-
-- When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted it,
-  not the user directly. A simple sign-off like "posted by Claude Code" suffices.
-- When posting comments on a PR, never post them individually one by one—each one fires a
-  notification and bombards the PR author. Batch them into a single GitHub review instead, and
-  submit that review as pending/draft (not submitted), so I can inspect the comments before
-  submitting it myself.
-- When an inline PR review comment suggests a specific code change, include it as a GitHub
-  suggestion snippet (a ```suggestion fenced block with the replacement code) so it can be
-  applied with one click, not just described in prose.
-- Keep PR comments brief and in plain, simple wording—state the issue and the fix, skip lengthy
-  prose and rationale.
-- Keep the PR description accurate and up to date—if the branch changes after the description was
-  written, update it to match before asking for review.
-- When creating a PR where the AI agent did most of the implementation, apply the label
-  `> 90% ai generated` (`gh pr create --label "> 90% ai generated"`). If the repo has no such
-  label, tell me instead of creating it.
-- Before editing an existing PR description, fetch its current body (`gh pr view --json body`)
-  and keep every screenshot, image, and video in it. Edit around them, never drop them.
-- Write PR descriptions with clean hierarchical structure (headings, bullet points) instead of
-  heavy paragraph prose. Use emoji to label/categorize sections—for example, 🐛 for a bug fix, ✨
-  for a feature, ⚠️ for a breaking change.
-- If the repo's PR template uses `>` blockquotes, those are the template's own instructional notes,
-  not a formatting style to carry into the filled-in content.
+- Committing, pushing, branching, checking CI, or troubleshooting CI (including CircleCI):
+  `git-workflow`
+- Creating a PR, editing a PR description, or posting GitHub comments or reviews: `github-prs`
+- Drafting, creating, editing, commenting on, or transitioning a Jira ticket: `jira-tickets`
 
 ## Code Review
 

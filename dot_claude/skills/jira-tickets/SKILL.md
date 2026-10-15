@@ -1,0 +1,59 @@
+---
+name: jira-tickets
+description: Use when drafting, creating, editing, commenting on, or transitioning a Jira ticket (issue, story, bug, task, epic), including turning an investigation, bug report, or Slack thread into a ticket.
+---
+
+# Jira Tickets
+
+Jira tickets are read by people, not agents. Write them so a teammate can skim the ticket and
+know what it is, why it matters, and what "done" looks like.
+
+## Before touching Jira
+
+- Show me the full draft (title, fields, description) and wait for my OK before creating or
+  editing anything in Jira.
+- Ask me for issue type, priority, epic, labels, and assignee when I haven't given them.
+  Don't guess.
+
+## Writing the ticket
+
+- Optimize for a teammate skimming the ticket: clear headings, short sections, bullet points.
+  Technical terms are fine when they don't hurt readability; define or link anything a reader
+  outside the immediate work might not know.
+- Title: short, specific, and searchable. Start with a verb for tasks ("Add retry to export
+  job"); describe the observable behavior for bugs ("Export job fails on empty tables").
+- Structure the description in this order, skipping sections that don't apply:
+  - **Summary**: one or two sentences on what the ticket is about. A reader should get the gist
+    from this alone.
+  - **Background**: context needed to understand the work: why it matters now, who it
+    affects, how we got here.
+  - **Problem / Goal**: what is wrong or what needs to happen. Be concrete ("do A, B, and C"),
+    not vague ("improve X"). For bugs, include numbered steps to reproduce plus expected vs
+    actual behavior.
+  - **Acceptance criteria**: a checklist of specific, testable conditions that mark the ticket
+    as done. Each item should be verifiable as true or false.
+  - **Open questions**: decisions still pending or facts not yet confirmed, with who can answer
+    them if known.
+  - **Out of scope** (optional): related work this ticket deliberately does not cover.
+  - **Links**: related tickets, PRs, Slack threads, docs.
+- Describe what and why, not how. Include an implementation approach only when it has already
+  been decided, and say so.
+- Label anything unverified (for example `likely` or `about 2 clients, unconfirmed`) instead of
+  stating it as fact.
+- Keep it tight: no filler, and don't repeat the Summary in later sections.
+- Include code snippets, error messages, or log excerpts in code blocks when they make the
+  problem or fix clearer. Keep them short and trim to the relevant lines. Never include
+  secrets or PII.
+- Keep one ticket to one deliverable. If it grows multiple independent goals, propose
+  splitting it.
+
+## Updating an existing ticket
+
+- Fetch it first and keep every attachment, image, and link.
+- When changing status (especially to Blocked), add a comment saying why.
+- When closing, add a short comment summarizing what was done.
+
+## Final check
+
+Before posting: could a teammate tell what this is, why it matters, and what "done" looks like
+within a quick read?
