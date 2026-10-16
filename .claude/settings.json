@@ -79,17 +79,7 @@
       "Bash(shellcheck:*)",
       "Bash(/opt/homebrew/bin/tmux source-file:*)",
       "Bash(/opt/homebrew/bin/tmux set:*)",
-      "mcp__plugin_playwright_playwright__browser_resize",
-      "mcp__plugin_playwright_playwright__browser_navigate",
-      "mcp__plugin_playwright_playwright__browser_snapshot",
-      "mcp__plugin_playwright_playwright__browser_fill_form",
-      "mcp__plugin_playwright_playwright__browser_click",
       "Bash(curl *)",
-      "mcp__plugin_playwright_playwright__browser_close",
-      "mcp__plugin_playwright_playwright__browser_take_screenshot",
-      "mcp__plugin_playwright_playwright__browser_console_messages",
-      "mcp__plugin_playwright_playwright__browser_wait_for",
-      "mcp__plugin_playwright_playwright__browser_evaluate",
       "WebFetch(domain:jdhao.github.io)",
       "Bash(magick -list font)",
       "Bash(magick -list type)",
@@ -111,12 +101,5 @@
     ]
   },
   "model": "opus",
-  "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
-    "claude-code-setup@claude-plugins-official": true,
-    "claude-md-management@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
-    "skill-creator@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
-  }
+  "enabledPlugins": {}
 }
