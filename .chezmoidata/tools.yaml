@@ -76,6 +76,12 @@ dev_tools:
   - name: sesh
     installer: [brew]
     description: "Smart session manager for tmux with zoxide integration"
+  - name: herdr
+    installer: [brew]
+    description: "Agent multiplexer that lives in your terminal"
+  - name: claude-squad
+    installer: [brew]
+    description: "Run multiple AI agents in tmux, one git worktree per task"
   - name: tmuxinator
     installer: [brew]
     description: "Manage complex tmux session layouts via YAML templates"
@@ -347,7 +353,7 @@ dev_tools:
     installer: [brew]
     description: "Upgrade all tools across package managers in one command"
     profiles: [extras]
-  - name: choose
+  - name: choose-rust
     installer: [brew]
     description: "Human-friendly cut/awk alternative for column extraction"
     profiles: [extras]
