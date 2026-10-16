@@ -27,11 +27,18 @@ install_brew_packages() {
     local check_output
     check_output=$(brew bundle check --verbose --no-upgrade --file="$brewfile" 2>&1 || true)
     while IFS= read -r line; do
-        if [[ "$line" == *"is not installed"* ]] || [[ "$line" == *"is not tapped"* ]]; then
-            local name
+        # ponytail: brew's "bundle check --verbose" wording has changed across
+        # versions ("Formula X needs to be installed" / "Tap X needs to be
+        # tapped" vs. older "'X' is not installed" / "'X' is not tapped");
+        # match both so a future wording change doesn't silently make this
+        # pre-check a no-op again.
+        local name=""
+        if [[ "$line" == *"needs to be installed"* ]] || [[ "$line" == *"needs to be tapped"* ]]; then
+            name=$(echo "$line" | sed -E 's/.*(Formula|Tap) ([^ ]+) needs to be (installed|tapped).*/\2/')
+        elif [[ "$line" == *"is not installed"* ]] || [[ "$line" == *"is not tapped"* ]]; then
             name=$(echo "$line" | sed "s/.*'\([^']*\)'.*/\1/")
-            [[ -n "$name" ]] && MISSING+=("$name")
         fi
+        [[ -n "$name" ]] && MISSING+=("$name")
     done <<< "$check_output"
 
     if [[ ${#MISSING[@]} -eq 0 ]]; then
@@ -39,8 +46,9 @@ install_brew_packages() {
         return 0
     fi
 
-    brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1
-    local exit_code=$?
+    # Capture failure instead of letting set -e / the ERR trap abort before the per-package report
+    local exit_code=0
+    brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1 || exit_code=$?
 
     for name in "${MISSING[@]}"; do
         local is_installed=false

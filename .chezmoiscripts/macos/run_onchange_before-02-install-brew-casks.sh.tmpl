@@ -83,8 +83,9 @@ done <<< "$check_output"
 if [[ ${#MISSING_CASKS[@]} -eq 0 ]]; then
     log_summary "✓ All $total casks up to date"
 else
-    brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1
-    install_exit=$?
+    # Capture failure instead of letting set -e / the ERR trap abort before the per-cask report
+    install_exit=0
+    brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1 || install_exit=$?
 
     for cask in "${MISSING_CASKS[@]}"; do
         if brew list --cask "$cask" >/dev/null 2>&1; then
