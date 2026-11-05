@@ -110,6 +110,8 @@ applications:
       installer: [brew_cask]
     - name: figma
       installer: [brew_cask]
+    - name: whatsapp
+      installer: [brew_cask]
     - name: temurin@8
       installer: [brew_cask]
       description: "Eclipse Temurin JDK 8"
