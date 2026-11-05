@@ -63,7 +63,6 @@ jobs                                = 2                     # limit parallel job
 {{ else -}}
 jobs                                = 10                    # number of plugins or runtimes to install in parallel
 {{ end -}}
-always_keep_download                = false         # deleted after install by default
 http_timeout                        = "30s"         # set the timeout for http requests as duration string
 python.uv_venv_auto                 = true          # automatically create virtual environments with uv
 trusted_config_paths                = ['~/.config']  # trusted paths for config files
