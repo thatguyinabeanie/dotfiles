@@ -17,11 +17,6 @@ agents:
     description: "Anthropic Claude Code assistant"
     category: ai
 
-  - name: opencode
-    installer: [mise]
-    description: "AI coding agent for the terminal"
-    category: ai
-
   - name: "@openai/codex"
     installer: [npm]
     description: "OpenAI Codex CLI coding agent"

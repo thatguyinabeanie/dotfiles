@@ -25,6 +25,11 @@ dev_tools:
   - name: atuin
     installer: [brew]
 
+  # AI coding agent, installed globally through mise
+  - name: opencode
+    installer: [mise]
+    description: "AI coding agent for the terminal"
+
   # File and directory tools
   - name: eza
     installer: [mise]
