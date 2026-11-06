@@ -1,50 +1,70 @@
 ---
 name: claude-permission-sync
-description: Use when adding, auditing, pruning, or syncing Claude Code permission rules, or when permission rules disappear after a chezmoi apply. Covers the chezmoi-managed permissions pipeline, the drift workflow, and which rule patterns are unsafe to allowlist.
+description: Use when adding, auditing, pruning, or syncing Claude Code permission rules, hooks, or autoMode settings, or when permission rules, hooks, or autoMode edits disappear after a chezmoi apply. Covers the chezmoi-managed settings pipeline, the drift workflow, and which rule patterns are unsafe to allowlist.
 ---
 
 # Claude Code Permission Sync
 
-`permissions.allow` and `permissions.deny` in `~/.claude/settings.json` are generated from
-the chezmoi source tree. Editing the live file directly works only until the next
-`chezmoi apply`, which overwrites both lists.
+`permissions.allow`, `permissions.deny`, `permissions.ask`, `hooks`, and `autoMode` in
+`~/.claude/settings.json` are generated from the chezmoi source tree. Editing the live file
+directly works only until the next `chezmoi apply`, which overwrites all five.
 
 ## The pipeline
 
 | Piece | Path | Role |
 |---|---|---|
-| Source of truth | `.chezmoidata/claude.yaml` (`claude_permissions.allow` / `.deny`) | The only place edits persist |
-| Merge script | `dot_claude/modify_settings.json` | chezmoi `modify_` script; rewrites only these two keys |
-| Drift report | `mise run claude-perms-drift` | Lists live rules missing from source |
+| Source of truth | `.chezmoidata/claude.yaml` (`claude_permissions.allow` / `.deny` / `.ask`, `claude_settings.hooks` / `.autoMode`) | The only place edits persist |
+| Merge script | `dot_claude/modify_settings.json` | chezmoi `modify_` script; rewrites only the managed keys |
+| Drift check | One-liner under "Recovering drift" below | Shows every live change the next apply would drop |
 
-**Only `allow` and `deny` are managed.** These pass through untouched, so Claude Code stays
-free to write them at runtime:
+**Managed keys:** `permissions.allow`, `permissions.deny`, `permissions.ask`, `hooks`, and
+`autoMode`. The permissions lists are merged into the existing `permissions` object. `hooks`
+and `autoMode` come from `claude_settings` in the same YAML file and are **replaced
+wholesale** on apply, so a hook or autoMode line added only to the live file is lost.
 
-- Permission siblings: `defaultMode`, `disableAutoMode`, `disableBypassPermissionsMode`, `ask`
+These pass through untouched, so Claude Code stays free to write them at runtime:
+
+- Permission siblings: `defaultMode`, `disableAutoMode`, `disableBypassPermissionsMode`,
+  `additionalDirectories`
 - Everything else top-level: `theme`, `model`, `modelSettings`, `effortLevel`, `editorMode`,
-  `outputStyle`, `enabledPlugins`, `extraKnownMarketplaces`, `hooks`, `mcpServers`,
-  `statusLine`, `worktree`, and the notification/toggle keys
+  `outputStyle`, `enabledPlugins`, `extraKnownMarketplaces`, `mcpServers`, `statusLine`,
+  `worktree`, and the notification/toggle keys
 
 The script is a `modify_` script, so chezmoi pipes the current target in via
 `.chezmoi.stdin` and takes stdout as the new state. Its filename must **not** end in
 `.tmpl`. The `chezmoi:modify-template` directive on line 1 is what makes it a template.
+All five source keys (`claude_permissions.allow` / `.deny` / `.ask`, `claude_settings.hooks` /
+`.autoMode`) are required: deleting one makes apply fail with `map has no entry`.
 
 ## Adding a rule
 
 1. Add it to `claude_permissions.allow` in `.chezmoidata/claude.yaml` (keep sorted).
 2. `chezmoi diff ~/.claude/settings.json` to review.
-3. `chezmoi apply`.
+3. `chezmoi apply ~/.claude/settings.json`.
+
+## Changing hooks or autoMode
+
+1. Edit `claude_settings` (`hooks` or `autoMode`) in `.chezmoidata/claude.yaml`. Do not use
+   `/hooks` or the `update-config` skill on the live file: the next apply reverts it.
+2. `chezmoi diff ~/.claude/settings.json` to review.
+3. `chezmoi apply ~/.claude/settings.json`.
 
 ## Recovering drift
 
 Claude Code appends newly approved rules straight into the live file, and `chezmoi apply`
-drops anything absent from source. To reconcile:
+drops anything absent from source. To see what would be lost, diff the live file against
+what apply would write:
 
 ```sh
-mise run claude-perms-drift          # rules live but not in source (lost on next apply)
+diff <(jq -S . ~/.claude/settings.json) <(chezmoi cat ~/.claude/settings.json | jq -S .)
 ```
 
-Promote the worthwhile ones into `.chezmoidata/claude.yaml` **by hand**. Do not bulk-import:
+Empty output means the next apply changes nothing. Lines starting with `<` exist only in the
+live file and will be lost on apply. Lines starting with `>` are what apply will write. The
+check compares every key, so it covers hooks and autoMode as well as allow, deny, and ask,
+and `jq -S` removes key-order noise.
+
+Promote the worthwhile `<` lines into `.chezmoidata/claude.yaml` **by hand**. Do not bulk-import:
 auto-recorded rules are mostly single-use exact matches (one-off scratchpad paths, abandoned
 test harnesses), which is how the list previously reached 159 entries in one project alone.
 
@@ -52,10 +72,10 @@ test harnesses), which is how the list previously reached 159 entries in one pro
 
 Prefix rules do **no flag-level analysis**, so `Bash(foo *)` must be safe for *any* arguments.
 
-**Safe to allowlist:** report-only invocations. `chezmoi diff/verify/doctor/data/managed`,
+**Safe to allowlist:** report-only invocations. Exact no-argument `chezmoi diff/verify/doctor/data/managed`
+(plus `chezmoi diff|cat ~/.claude/settings.json`, with no trailing glob),
 `mise ls/current/tasks/where`, `gh pr view/list`, `gh run view`, `gh issue list`,
-`shellcheck *`, `vale *`, `yamllint *`, `stylua --check *`, `gofmt -l *`, `go vet *`,
-`zsh -n *`, `command -v <tool>`.
+`shellcheck *`, `vale *`, `yamllint *`, `stylua --check *`, `command -v <tool>`.
 
 **Never allowlist:**
 
@@ -69,6 +89,12 @@ Prefix rules do **no flag-level analysis**, so `Bash(foo *)` must be safe for *a
 | `Bash(* --version)`, `Bash(* --help*)` | The `*` stands in for the *program*, so anything matches |
 | `curl *`, `wget *` | Can POST and exfiltrate; prefer `WebFetch(domain:...)` |
 | `python3 *`, `zsh -c ' *`, `ruby *` | Arbitrary code execution |
+| `env`, `mise env`, `mise hook-env` | Print every secret in the environment |
+| `cat *`, `xxd`, `gofmt` | Read past the `Read` deny rules |
+| `git grep` | `-O<cmd>` runs a program |
+| `zsh -n *` | `-n` then `+n` re-enables execution |
+| `go vet *`, `diffstat` | `-vettool=<prog>` runs a program; `-o FILE` writes any file |
+| `chezmoi <cmd> *` | `--config` (hooks), `--pager`, and `--source` (templates) execute programs |
 
 Bare read-only commands (`ls`, `cat`, `grep`, `find`, `git status`, `git log`) are
 auto-allowed and never prompt, so they need no entry.

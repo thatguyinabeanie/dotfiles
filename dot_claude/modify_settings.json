@@ -1,7 +1,10 @@
 {{- /* chezmoi:modify-template */ -}}
 {{- /*
-  Merges ONLY the `permissions` key from .chezmoidata/claude.yaml into
-  ~/.claude/settings.json, preserving every other key.
+  Sets ONLY these keys from .chezmoidata/claude.yaml in ~/.claude/settings.json:
+    - permissions.allow, permissions.deny, permissions.ask (merged into the existing object)
+    - hooks, autoMode (replaced wholesale, so stale entries are dropped)
+  Passes through untouched: permissions.defaultMode, disableAutoMode,
+  disableBypassPermissionsMode, additionalDirectories, and every other top-level key.
 
   Claude Code writes this file itself at runtime (theme, model, effortLevel,
   enabledPlugins, outputStyle, ...). A normal managed file would make `chezmoi apply`
@@ -12,21 +15,27 @@
   chezmoi treat it as a template.
 */ -}}
 {{- $settings := dict -}}
-{{- /* .chezmoi.stdin is empty on a fresh machine where the file does not exist yet. */ -}}
+{{- /* .chezmoi.stdin is empty on a fresh machine where the file does not exist yet.
+       Templates run with missingkey=error, so every lookup on $settings below uses
+       `index`, which returns empty instead of erroring when a key is absent. */ -}}
 {{- with .chezmoi.stdin | trim -}}
 {{-   $settings = . | fromJson -}}
 {{- end -}}
 {{- /*
   Merge into the EXISTING permissions object rather than replacing it. Sibling keys
-  (defaultMode, disableAutoMode, disableBypassPermissionsMode, ask) are deliberate
+  (defaultMode, disableAutoMode, disableBypassPermissionsMode, additionalDirectories) are deliberate
   security posture and must survive; replacing the whole object would silently reset them.
-  Only allow and deny are sourced from the repo.
+  Only allow, deny, and ask are sourced from the repo.
 */ -}}
 {{- $permissions := dict -}}
-{{- with $settings.permissions -}}
+{{- with index $settings "permissions" -}}
 {{-   $permissions = . -}}
 {{- end -}}
 {{- $_ := set $permissions "allow" $.claude_permissions.allow -}}
 {{- $_ = set $permissions "deny" $.claude_permissions.deny -}}
+{{- $_ = set $permissions "ask" $.claude_permissions.ask -}}
 {{- $_ = set $settings "permissions" $permissions -}}
+{{- /* hooks and autoMode are replaced, not merged: this is how removed hooks stay removed. */ -}}
+{{- $_ = set $settings "hooks" $.claude_settings.hooks -}}
+{{- $_ = set $settings "autoMode" $.claude_settings.autoMode -}}
 {{ $settings | toPrettyJson }}

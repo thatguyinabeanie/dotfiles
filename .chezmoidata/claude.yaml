@@ -1,10 +1,11 @@
 # Claude Code Permission Rules (personal, all projects)
 #
-# Source of truth for `permissions.allow` and `permissions.deny` in
-# ~/.claude/settings.json. Rendered by dot_claude/modify_settings.json, a chezmoi
-# `modify_` script that merges ONLY those two keys; every other key (theme, model,
-# enabledPlugins, hooks, statusLine, mcpServers, and the permissions siblings
-# defaultMode / disableAutoMode / ask) passes through untouched.
+# Source of truth for `permissions.allow`, `permissions.deny`, `permissions.ask`, `hooks`,
+# and `autoMode` in ~/.claude/settings.json. Rendered by dot_claude/modify_settings.json,
+# a chezmoi `modify_` script. The permissions lists merge into the existing permissions
+# object; `hooks` and `autoMode` (under `claude_settings` below) are replaced wholesale.
+# Every other key (theme, model, enabledPlugins, mcpServers, and the permissions siblings
+# defaultMode / disableAutoMode) passes through untouched.
 #
 # THREE TIERS -- know which one a rule belongs in:
 #   1. Org (wins over everything): claude-code-marketplace/managed-settings/managed-settings.json
@@ -12,15 +13,17 @@
 #      Already allows `Read`, `Edit`, `Bash(* --version)`, `Bash(* --help*)` and sets
 #      disableAutoMode/disableBypassPermissionsMode. Adding a rule HERE cannot override it.
 #   2. This file: generalizes across all of Gabe's projects but is personal to his
-#      toolchain (chezmoi, mise, his doc domains, his home-dir Read wildcards).
+#      toolchain (chezmoi, mise, his doc domains).
 #   3. Per-repo `.claude/settings.json` (checked in, team-shared) or
 #      `.claude/settings.local.json` (personal, gitignored): stack-coupled rules such as
 #      `npx prisma generate`, `npm run lint`, `docker-compose *`.
 #
 # DRIFT: Claude Code appends newly-approved rules straight into the live file, and the
-# next `chezmoi apply` drops anything absent here. Run `mise run claude-perms-drift`,
-# then promote what is worth keeping BY HAND -- auto-recorded rules are mostly
-# single-use exact matches, which is how this list once reached 424 entries.
+# next `chezmoi apply` drops anything absent here. Check with
+# `diff <(jq -S . ~/.claude/settings.json) <(chezmoi cat ~/.claude/settings.json | jq -S .)`
+# (`<` lines are lost on apply), then promote what is worth keeping BY HAND --
+# auto-recorded rules are mostly single-use exact matches, which is how this list once
+# reached 424 entries.
 #
 # INCLUSION STANDARD: prefix rules do NO flag-level analysis, so `Bash(foo *)` must be
 # safe for ANY arguments. Do not add:
@@ -31,6 +34,9 @@
 #   - program-position wildcards: `* --version` (the * IS the program)
 #   - interpreters and shell-outs: python3 *, node -e, zsh -c, fish -c, ruby, xargs,
 #     sed (-i writes), awk (system()), osascript, psql, bash <script>
+#   - secret printers: env, mise env, mise hook-env
+#   - flag-driven execution: zsh -n (+n re-enables exec), chezmoi <cmd> * (--config,
+#     --pager, --source), git grep (-O<cmd>), go vet (-vettool), diffstat (-o writes)
 #   - unrestricted destruction: rm:*, chmod:*, killall:*, pip install:*
 #   - mcp__*__browser_evaluate and similar (executes arbitrary JavaScript)
 #
@@ -48,17 +54,21 @@ claude_permissions:
     - "Read(~/.kube/config)"
     - "Read(~/.ssh/**)"
 
+  ask:
+    - "Bash(rm -rf *)"
+    - "Bash(find *-delete*)"
+    - "Bash(find *-exec*)"
+    - "Bash(rg *--pre*)"
+
   allow:
     - "Bash(acli confluence --help:*)"
     - "Bash(acli confluence get-content:*)"
     - "Bash(acli confluence space --help:*)"
-    - "Bash(acli confluence:*)"
-    - "Bash(aws sts *)"
-    - "Bash(bandit -r audience_builder -c pyproject.toml)"
+    - "Bash(aws sts get-caller-identity *)"
     - "Bash(brew --prefix *)"
     - "Bash(brew --prefix)"
     - "Bash(brew autoremove --dry-run)"
-    - "Bash(brew cleanup *)"
+    - "Bash(brew cleanup --dry-run *)"
     - "Bash(brew config)"
     - "Bash(brew deps *)"
     - "Bash(brew doctor)"
@@ -70,67 +80,29 @@ claude_permissions:
     - "Bash(brew outdated *)"
     - "Bash(brew outdated)"
     - "Bash(brew search *)"
-    - "Bash(bun pm *)"
     - "Bash(bun pm ls *)"
     - "Bash(bun pm ls)"
     - "Bash(cargo install --list)"
-    - "Bash(cat *)"
-    - "Bash(cat:*)"
-    - "Bash(chezmoi apply --dry-run *)"
     - "Bash(chezmoi apply --dry-run)"
-    - "Bash(chezmoi cat *)"
-    - "Bash(chezmoi data *)"
+    - "Bash(chezmoi cat ~/.claude/settings.json)"
     - "Bash(chezmoi data)"
-    - "Bash(chezmoi diff *)"
+    - "Bash(chezmoi diff ~/.claude/settings.json)"
     - "Bash(chezmoi diff)"
-    - "Bash(chezmoi doctor *)"
     - "Bash(chezmoi doctor)"
-    - "Bash(chezmoi execute-template *)"
-    - "Bash(chezmoi managed *)"
     - "Bash(chezmoi managed)"
-    - "Bash(chezmoi source-path *)"
     - "Bash(chezmoi source-path)"
-    - "Bash(chezmoi status *)"
     - "Bash(chezmoi status)"
-    - "Bash(chezmoi target-path *)"
-    - "Bash(chezmoi unmanaged *)"
     - "Bash(chezmoi unmanaged)"
-    - "Bash(chezmoi verify *)"
     - "Bash(chezmoi verify)"
-    - "Bash(command -v ccusage)"
-    - "Bash(command -v hyperfine)"
-    - "Bash(command -v mise)"
-    - "Bash(command -v shellcheck)"
-    - "Bash(command -v starship)"
-    - "Bash(command -v vale)"
-    - "Bash(curl -s -o /dev/null http://localhost:3838/)"
     - "Bash(defaults read *)"
-    - "Bash(diffstat:*)"
-    - "Bash(docker compose:*)"
-    - "Bash(docker container prune:*)"
+    - "Bash(docker compose logs *)"
+    - "Bash(docker compose ps *)"
     - "Bash(docker info:*)"
-    - "Bash(docker network prune:*)"
     - "Bash(docker port *)"
     - "Bash(docker ps:*)"
-    - "Bash(docker rm:*)"
-    - "Bash(docker stop:*)"
     - "Bash(docker system info:*)"
-    - "Bash(docker system:*)"
-    - "Bash(docker volume:*)"
-    - "Bash(docker-compose build:*)"
-    - "Bash(docker-compose down:*)"
     - "Bash(docker-compose logs *)"
-    - "Bash(docker-compose logs:*)"
     - "Bash(docker-compose ps:*)"
-    - "Bash(docker-compose restart *)"
-    - "Bash(docker-compose restart:*)"
-    - "Bash(docker-compose up:*)"
-    - "Bash(docker-compose:*)"
-    - "Bash(echo *)"
-    - "Bash(echo:*)"
-    - "Bash(env)"
-    - "Bash(find *)"
-    - "Bash(find:*)"
     - "Bash(flake8:*)"
     - "Bash(gem contents *)"
     - "Bash(gem list *)"
@@ -138,97 +110,34 @@ claude_permissions:
     - "Bash(gem which *)"
     - "Bash(gh issue list *)"
     - "Bash(gh pr checks:*)"
-    - "Bash(gh pr close:*)"
-    - "Bash(gh pr comment:*)"
-    - "Bash(gh pr create:*)"
     - "Bash(gh pr diff:*)"
-    - "Bash(gh pr edit:*)"
     - "Bash(gh pr list *)"
-    - "Bash(gh pr list:*)"
     - "Bash(gh pr view *)"
-    - "Bash(gh pr view:*)"
-    - "Bash(gh pr:*)"
-    - "Bash(gh repo:*)"
+    - "Bash(gh repo view *)"
+    - "Bash(gh run list *)"
     - "Bash(gh run view *)"
-    - "Bash(gh run:*)"
     - "Bash(gh search *)"
     - "Bash(git --no-pager diff --stat)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter add CLAUDE.md)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter diff --name-only --diff-filter=U)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter diff)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter log --oneline -5)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter push)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter rm:*)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter status:*)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter-2 diff --stat)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter-2 log --oneline -5)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter-2 push)"
-    - "Bash(git -C /Users/gmendoza/source/ai-list-cutter-2 status)"
-    - "Bash(git -C:*)"
-    - "Bash(git add:*)"
-    - "Bash(git branch:*)"
-    - "Bash(git branch*)"
     - "Bash(git check-ignore:*)"
-    - "Bash(git checkout:*)"
-    - "Bash(git cherry-pick:*)"
-    - "Bash(git commit:*)"
-    - "Bash(git diff:*)"
-    - "Bash(git diff*)"
-    - "Bash(git grep:*)"
-    - "Bash(git log:*)"
-    - "Bash(git log*)"
     - "Bash(git ls-tree:*)"
-    - "Bash(git merge:*)"
-    - "Bash(git mv:*)"
-    - "Bash(git push:*)"
-    - "Bash(git rebase:*)"
-    - "Bash(git reset:*)"
-    - "Bash(git restore:*)"
     - "Bash(git rev-list *)"
     - "Bash(git rev-parse *)"
-    - "Bash(git revert:*)"
-    - "Bash(git rm:*)"
-    - "Bash(git show *)"
-    - "Bash(git show:*)"
-    - "Bash(git stash:*)"
-    - "Bash(git status:*)"
-    - "Bash(git status*)"
-    - "Bash(git worktree *)"
-    - "Bash(git worktree add:*)"
-    - "Bash(git worktree:*)"
-    - "Bash(go vet *)"
-    - "Bash(gofmt -l *)"
-    - "Bash(grep *)"
-    - "Bash(grep:*)"
-    - "Bash(head *)"
-    - "Bash(head:*)"
-    - "Bash(jq .content -r)"
+    - "Bash(git worktree list *)"
     - "Bash(launchctl list *)"
     - "Bash(launchctl list)"
-    - "Bash(launchctl unload *)"
-    - "Bash(lefthook version)"
-    - "Bash(liccheck -r requirements.txt)"
-    - "Bash(ls *)"
-    - "Bash(ls:*)"
-    - "Bash(lsof -ti:9876)"
-    - "Bash(magick -list policy)"
     - "Bash(mise config ls *)"
     - "Bash(mise config ls)"
     - "Bash(mise current *)"
     - "Bash(mise current)"
     - "Bash(mise doctor *)"
     - "Bash(mise doctor)"
-    - "Bash(mise env *)"
-    - "Bash(mise env)"
-    - "Bash(mise hook-env *)"
     - "Bash(mise list *)"
     - "Bash(mise list)"
     - "Bash(mise ls *)"
     - "Bash(mise ls)"
-    - "Bash(mise settings *)"
     - "Bash(mise settings get *)"
     - "Bash(mise settings)"
-    - "Bash(mise tasks *)"
+    - "Bash(mise tasks ls *)"
     - "Bash(mise tasks)"
     - "Bash(mise version *)"
     - "Bash(mise where *)"
@@ -236,55 +145,30 @@ claude_permissions:
     - "Bash(mypy:*)"
     - "Bash(npm --version)"
     - "Bash(npm -v)"
-    - "Bash(npm audit:*)"
+    - "Bash(npm audit)"
     - "Bash(npm ls *)"
-    - "Bash(npm ls:*)"
     - "Bash(npm ls)"
     - "Bash(npm outdated:*)"
-    - "Bash(npm run format:*)"
-    - "Bash(npm run format:check:*)"
-    - "Bash(npm run lint:fix:*)"
-    - "Bash(npm run lint)"
-    - "Bash(npm run tsc:check:*)"
-    - "Bash(npm run type-check:*)"
     - "Bash(npm show:*)"
-    - "Bash(npm test:*)"
     - "Bash(npm view *)"
     - "Bash(npx eslint *)"
-    - "Bash(npx jest --passWithNoTests)"
     - "Bash(npx prettier --check *)"
     - "Bash(npx prisma generate:*)"
-    - "Bash(npx prisma migrate dev:*)"
     - "Bash(npx tsc --noEmit)"
-    - "Bash(npx vitest run *)"
-    - "Bash(npx vitest run)"
-    - "Bash(pip-audit -r requirements.txt)"
     - "Bash(pip3 list:*)"
     - "Bash(pip3 show *)"
-    - "Bash(pipx list:*)"
     - "Bash(pipx list)"
-    - "Bash(pwd *)"
-    - "Bash(python -m black *)"
+    - "Bash(pipx list:*)"
+    - "Bash(python -m black --check *)"
     - "Bash(python -m flake8 *)"
-    - "Bash(python -m flake8:*)"
     - "Bash(python -m mypy *)"
-    - "Bash(python -m mypy:*)"
-    - "Bash(python -m pytest *)"
-    - "Bash(rg *)"
     - "Bash(shellcheck *)"
-    - "Bash(sort -k2)"
     - "Bash(stylua --check *)"
-    - "Bash(tail *)"
     - "Bash(type *)"
-    - "Bash(uv tool *)"
     - "Bash(uv tool list)"
     - "Bash(vale *)"
-    - "Bash(wc *)"
     - "Bash(which *)"
-    - "Bash(xxd:*)"
     - "Bash(yamllint *)"
-    - "Bash(zsh -n *)"
-    - "mcp__claude-in-chrome__computer"
     - "mcp__claude_ai_Atlassian__atlassianUserInfo"
     - "mcp__claude_ai_Atlassian__fetch"
     - "mcp__claude_ai_Atlassian__getAccessibleAtlassianResources"
@@ -324,74 +208,95 @@ claude_permissions:
     - "mcp__context7__query-docs"
     - "mcp__context7__resolve-library-id"
     - "mcp__mcp-sumologic__search_sumologic"
-    - "mcp__plugin_atlassian_atlassian__getAccessibleAtlassianResources"
-    - "mcp__plugin_atlassian_atlassian__getJiraIssue"
-    - "mcp__plugin_datadog_mcp__aggregate_events"
-    - "mcp__plugin_datadog_mcp__aggregate_spans"
-    - "mcp__plugin_datadog_mcp__analyze_datadog_logs"
-    - "mcp__plugin_datadog_mcp__get_datadog_dashboard"
-    - "mcp__plugin_datadog_mcp__get_datadog_incident"
-    - "mcp__plugin_datadog_mcp__get_datadog_metric"
-    - "mcp__plugin_datadog_mcp__get_datadog_metric_context"
-    - "mcp__plugin_datadog_mcp__get_datadog_trace"
-    - "mcp__plugin_datadog_mcp__list_datadog_skills"
-    - "mcp__plugin_datadog_mcp__load_datadog_skill"
-    - "mcp__plugin_datadog_mcp__search_datadog_dashboards"
-    - "mcp__plugin_datadog_mcp__search_datadog_events"
-    - "mcp__plugin_datadog_mcp__search_datadog_hosts"
-    - "mcp__plugin_datadog_mcp__search_datadog_incidents"
-    - "mcp__plugin_datadog_mcp__search_datadog_logs"
-    - "mcp__plugin_datadog_mcp__search_datadog_metrics"
-    - "mcp__plugin_datadog_mcp__search_datadog_monitors"
-    - "mcp__plugin_datadog_mcp__search_datadog_services"
-    - "mcp__plugin_datadog_mcp__search_datadog_spans"
     - "Read"
-    - "Read(//Applications/**)"
-    - "Read(//Applications/Cursor.app/**)"
-    - "Read(//tmp/**)"
-    - "Read(//Users/gmendoza/.claude/**)"
-    - "Read(//Users/gmendoza/.local/share/**)"
-    - "Read(//Users/gmendoza/.local/share/nvim/lazy/LazyVim/**)"
-    - "Read(//Users/gmendoza/.local/share/nvim/lazy/LazyVim/lua/lazyvim/plugins/extras/**)"
-    - "Read(//Users/gmendoza/.task/**)"
-    - "Read(//Users/gmendoza/**)"
-    - "Read(//Users/gmendoza/Library/LaunchAgents/**)"
-    - "Read(//usr/local/**)"
     - "Skill(code-review)"
-    - "Skill(deep-research)"
     - "Skill(fewer-permission-prompts)"
-    - "Skill(pr-review-toolkit:review-pr)"
     - "Skill(update-config)"
     - "WebFetch(domain:circleci.com)"
     - "WebFetch(domain:civis-python.readthedocs.io)"
     - "WebFetch(domain:civisanalytics.atlassian.net)"
     - "WebFetch(domain:deepwiki.com)"
-    - "WebFetch(domain:developers.facebook.com)"
     - "WebFetch(domain:docs.anthropic.com)"
     - "WebFetch(domain:docs.claude.com)"
     - "WebFetch(domain:docs.datadoghq.com)"
-    - "WebFetch(domain:docs.nocodb.com)"
-    - "WebFetch(domain:downloads.claude.ai)"
     - "WebFetch(domain:github.com)"
     - "WebFetch(domain:hub.docker.com)"
-    - "WebFetch(domain:linear.app)"
-    - "WebFetch(domain:linkarzu.com)"
     - "WebFetch(domain:mise.jdx.dev)"
-    - "WebFetch(domain:neovimcraft.com)"
-    - "WebFetch(domain:nocodb.com)"
-    - "WebFetch(domain:oxide.md)"
-    - "WebFetch(domain:pavolkutaj.medium.com)"
-    - "WebFetch(domain:publish.obsidian.md)"
     - "WebFetch(domain:raw.githubusercontent.com)"
-    - "WebFetch(domain:studio.outerbase.com)"
     - "WebFetch(domain:support.civisanalytics.com)"
-    - "WebFetch(domain:www.assistant-ui.com)"
-    - "WebFetch(domain:www.buildwithmatija.com)"
-    - "WebFetch(domain:www.geeky-gadgets.com)"
-    - "WebFetch(domain:www.libhunt.com)"
-    - "WebFetch(domain:www.markpitblado.me)"
     - "WebFetch(domain:www.npmjs.com)"
     - "WebFetch(domain:www.prisma.io)"
-    - "WebFetch(domain:zk-org.github.io)"
     - "WebSearch"
-    - "Workflow(deep-research)"
+
+# Replaced wholesale on apply (not merged), so removing an entry here removes it from the
+# live file. Hook entries keep the matcher each one had in the live file.
+claude_settings:
+  hooks:
+    SessionStart:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: &claudebar_hook |-
+              __claudebar_hook() { [ "$CLAUDEBAR_PROBE" = "1" ] && return 0; PORT=$(cat "$HOME/.claude/claudebar-hook-port" 2>/dev/null || echo 19847); cat | curl -s -X POST "http://localhost:${PORT}/hook" -H 'Content-Type: application/json' -d @- > /dev/null 2>&1 & }; __claudebar_hook
+    SessionEnd:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+    Stop:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+    SubagentStart:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+    SubagentStop:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+    TaskCompleted:
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+    UserPromptSubmit:
+      - hooks:
+          - type: command
+            command: |-
+              bash ~/.claude/hooks/style-reminder.sh
+      - matcher: ".*"
+        hooks:
+          - type: command
+            command: *claudebar_hook
+
+  autoMode:
+    environment:
+      - "### Org-wide"
+      - "**Organization**: Civis Analytics "
+      - "**Cloud provider(s)**: AWS (civis-secure account via Okta, ECR registry)"
+      - "**Repository visibility**: civisanalytics GitHub org, private"
+      - "**Internal sharing / snippet hosting**: None configured; treat public paste/gist services as outside the trust boundary"
+      - "**Secrets management**: None configured"
+      - "**Default / protected branches**: main, assume protected"
+      - "**CI/CD deploy targets**: None configured"
+      - "**Network posture**: None configured"
+      - "**Host containment**: None configured; assume Claude Code runs on an ordinary developer machine or CI runner with open internet"
+      - "**Source control**: civisanalytics GitHub org, private"
+      - "**Trusted internal domains**: civisanalytics.atlassian.net (Confluence); registry.nes.herodevs.com (package registry host)"
+      - "**Trusted cloud buckets**: None configured"
+      - "**Key internal services**: ECR registries in the civis-secure AWS account; `*.civis.test` local dev endpoints"
+      - "**Internal package registry**: GitHub Packages (private packages); registry.nes.herodevs.com"
+      - "**Sensitive data locations & audiences**: credential, secret, and Kubernetes deployment code in any repo (files named `*credential*` or `*secret*`, `lib/kubernetes/`): share only with audiences cleared for credential/secrets handling"
+      - "**Data retention / declassification**: None configured"
+      - "**Sensitive remote targets**: any namespace, host, or container whose name carries prod or production as a whole word or name segment"
+      - "**Protected deployment namespaces / environments**: None configured; fall back to the Sensitive remote targets heuristic"
+      - "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment"
+      - "### User-specific"
+      - "**Primary use of Claude Code**: software development"
+      - "**Trusted repo**: any git repo under `~/source/` with a civisanalytics remote, including worktrees in `.claude/worktrees/` or `.worktrees/`"
+      - "**Org-specific CLIs**: civis-secure (AWS/Okta credential helper); chezmoi (dotfile manager, not org-specific but routine); mise; acli; herdr; ccr"
+      - "**Routine under user prefix**: git workflow aliases (gs, gd, gpl, gco, gp, gwts, gwtrm, gcob) are routine"
