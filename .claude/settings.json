@@ -21,7 +21,6 @@
       "Bash(chezmoi init:*)",
       "Bash(chezmoi managed:*)",
       "Bash(chezmoi status:*)",
-      "Bash(~/.local/share/chezmoi/.chezmoitemplates/utilities/config-persistence.sh read:*)",
       "Bash(git add:*)",
       "Bash(git checkout:*)",
       "Bash(git commit:*)",

@@ -6,16 +6,13 @@
 
 set -euo pipefail
 
-# Source chezmoi config helper for environment detection
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CHEZMOI_ROOT="${SCRIPT_DIR}/../.."
-CONFIG_HELPER="${CHEZMOI_ROOT}/.chezmoitemplates/utilities/config-persistence.sh"
-
-# Detect environment
-if [ -f "$CONFIG_HELPER" ]; then
-    WORK_ENV=$(bash -c "$CONFIG_HELPER read work_environment" 2>/dev/null || echo "false")
+# Detect environment: explicit env var first, then chezmoi's saved data
+if [ -n "${WORK_ENVIRONMENT:-}" ]; then
+    WORK_ENV="$WORK_ENVIRONMENT"
+elif command -v chezmoi >/dev/null 2>&1 && command -v jq >/dev/null 2>&1; then
+    WORK_ENV=$(chezmoi data --format json 2>/dev/null | jq -r '.WORK_ENVIRONMENT // false' 2>/dev/null || echo "false")
 else
-    WORK_ENV="${WORK_ENVIRONMENT:-false}"
+    WORK_ENV="false"
 fi
 
 # Colors for output

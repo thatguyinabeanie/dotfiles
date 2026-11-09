@@ -366,8 +366,9 @@ This repo is **zsh only**. Fish was removed; do not reintroduce it.
 Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform
 (macOS, cross-platform) and context (shared, personal, work).
 
-A persistent configuration system is in place to store and restore settings across system reinstalls.
-Use the `chezmoi-backup-config` and `chezmoi-restore-config` scripts to manage this.
+The work/personal answer persists in the macOS `defaults` domain `com.chezmoi.config`
+(precedence: env `WORK_ENVIRONMENT`, then defaults, then `promptBoolOnce`) in `.chezmoi.toml.tmpl`.
+All other values are literal defaults with env overrides.
 
 **Never edit generated files directly** - always edit source templates or `.chezmoidata/*.yaml` files.
 
@@ -418,7 +419,7 @@ Work tokens are **not** managed by chezmoi and **not** stored in this repo. They
 `~/mise.toml`, an untracked home-directory mise config, plus nested per-project `mise.toml`
 files that mise layers on top when you `cd` into a project.
 
-- Currently defined there: `NPM_AUTH_TOKEN`, `CIVIS_API_KEY`
+- Currently defined there: `NPM_AUTH_TOKEN`, `CIVIS_API_KEY`, `JIRA_API_KEY_TOKEN`
 - `~/.config/mise/config.toml` **is** chezmoi-managed (`dot_config/mise/config.toml.tmpl`) and
   holds tool versions, not secrets. Do not confuse the two.
 - Never read, print, or commit the values. Referring to a variable by name is fine.

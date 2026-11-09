@@ -56,152 +56,19 @@ During installation, the system prompts for configuration values that shape your
 | `GIT_EMAIL`         | Git commit author email                      | -       |
 | `GITHUB_USERNAME`   | GitHub username                              | -       |
 
-## 💾 Persistent configuration
+## 💾 Machine configuration
 
-![Porygon](https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/137.png)
-
-This dotfiles system includes a **persistent configuration system** that ensures your preferences survive across system reinstalls and config deletions.
-
-### 🏗️ **Architecture Overview**
-
-The system provides three-tier configuration precedence:
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│ Environment     │───▶│ Persistent       │───▶│ Template        │
-│ Variables       │    │ Storage          │    │ Defaults        │
-│ (SHELL_PREF)    │    │ (macOS defaults) │    │ ("nu")          │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```
-
-1. **Environment Variables** (highest) - `export SHELL_PREF=zsh`
-2. **Persistent Storage** (middle) - macOS defaults, Linux dconf/gsettings
-3. **Template Defaults** (fallback) - hardcoded sensible defaults
-
-### 🛠️ Management commands
+The only per-machine answer is whether this is a work machine. `chezmoi init` resolves it in this order:
+the `WORK_ENVIRONMENT` environment variable, then the macOS `defaults` domain `com.chezmoi.config`
+(key `work_environment`), then a one-time prompt. The result is written back to `defaults` when it changes,
+so deleting `~/.config/chezmoi` and re-running `chezmoi init` needs no answers. `PERSONAL_ENVIRONMENT` is
+its inverse. Every other value is a literal default in `.chezmoi.toml.tmpl` that an environment variable
+can override.
 
 ```bash
-# Backup current configuration to persistent storage
-chezmoi-backup-config
-
-# Restore configuration from persistent storage
-chezmoi-restore-config
-
-# View stored configuration (macOS example)
-defaults read ai.opencode.chezmoi
+# Temporarily override a default
+CATPPUCCIN_FLAVOR=latte chezmoi apply
 ```
-
-### ⚙️ **Core Configuration Values**
-
-#### Core Preferences
-
-- `hostname` - System hostname
-- `shell_pref` - Preferred shell (zsh, bash)
-- `work_environment` - Work environment flag
-- `personal_environment` - Personal environment flag
-- `catppuccin_flavor` - Catppuccin theme flavor
-
-#### Theme System
-
-- `theme_mode` - Current theme mode (dark/light)
-- `theme_light` - Light theme name
-- `theme_dark` - Dark theme name
-
-#### UI Configuration
-
-- `ui_opacity` - Terminal opacity
-- `ui_blur` - Blur amount
-- `ui_font_size` - Font size
-- `ui_font_family` - Font family
-- `ui_window_height` - Window height
-- `ui_window_width` - Window width
-
-#### Git Configuration
-
-- `git_name` - Git user name
-- `github_username` - GitHub username
-- `git_email` - Git email
-- `work_org` - Work organization
-
-### 💾 **Storage Methods**
-
-#### macOS (Primary)
-
-- **Method**: `defaults` command
-- **Domain**: `com.chezmoi.config`
-- **Location**: `~/Library/Preferences/com.chezmoi.config.plist`
-- **Features**: Type-aware (string, boolean, integer)
-
-#### Linux (Cross-platform ready)
-
-- **dconf**: `/com/chezmoi/config/` keys
-- **gsettings**: `com.chezmoi.config` schema
-- **XDG config**: `~/.config/chezmoi/persistent-config` file
-
-### 🔄 **Usage Workflows**
-
-#### Normal Configuration Editing
-
-1. Edit `~/.config/chezmoi/chezmoi.toml` directly
-2. Run `chezmoi apply` to apply changes
-3. Run `chezmoi-backup-config` to save to persistent storage
-
-#### Recovery After Config Loss
-
-1. Run `chezmoi-restore-config` to restore from persistent storage
-2. Run `chezmoi apply` to apply restored configuration
-3. Edit restored config as needed
-
-#### Fresh System Setup
-
-1. Run `chezmoi init` - template uses persistent values if available
-2. Values automatically restored from previous machine's defaults
-3. Missing values use sensible template defaults
-
-#### Environment Override
-
-```bash
-# Temporarily override stored preference
-SHELL_PREF=zsh chezmoi apply
-
-# Permanently change preference
-export SHELL_PREF=zsh
-chezmoi apply
-chezmoi-backup-config  # Save the change
-```
-
-### 🔧 **Troubleshooting**
-
-#### View Current Configuration
-
-```bash
-# Check what template will generate
-chezmoi execute-template < .chezmoi.toml.tmpl
-
-# View stored values
-config-persistence-helpers.sh list
-
-# Check storage method
-config-persistence-helpers.sh detect
-```
-
-#### Reset Configuration
-
-```bash
-# Clear all persistent storage
-config-persistence-helpers.sh clear
-
-# Will use template defaults on next chezmoi init
-chezmoi init
-```
-
-### ✨ Key benefits
-
-- **Durable storage** - Config survives `~/.config/chezmoi/chezmoi.toml` deletion
-- **Cross-machine sync** - Restore preferences on new machines
-- **Safe recovery** - Always backs up existing config before restoration
-- **Platform native** - Uses macOS defaults, Linux dconf/gsettings
-- **Backward compatible** - Existing workflows continue unchanged
 
 ## ⚡ Features
 
