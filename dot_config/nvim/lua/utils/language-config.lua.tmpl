@@ -27,7 +27,7 @@ return {
     },
     lsp_servers = {
 {{- range $server := $lsp_data.language_servers }}
-  {{- if has "mason" $server.installer }}
+  {{- if and (has "mason" $server.installer) (ne (toString (get $server "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey $server "profiles" }}
       {{- $profileMatch = false }}
@@ -51,9 +51,17 @@ return {
     },
   },
   mason = {
+    -- Packages flagged "install: false"; mason.lua uninstalls these on launch
+    remove = {
+{{- range $name := splitList " " (includeTemplate "queries/removed-packages.tmpl" (dict "PackageManager" "mason" "root" .)) }}
+  {{- if $name }}
+      "{{ $name }}",
+  {{- end }}
+{{- end }}
+    },
     lsp_servers = {
 {{- range $lsp_data.language_servers }}
-  {{- if has "mason" .installer }}
+  {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey . "profiles" }}
       {{- $profileMatch = false }}
@@ -69,7 +77,7 @@ return {
     },
     lspconfig_servers = {
 {{- range $lsp_data.language_servers }}
-  {{- if has "mason" .installer }}
+  {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey . "profiles" }}
       {{- $profileMatch = false }}
@@ -85,7 +93,7 @@ return {
     },
     formatters = {
 {{- range $formatters_data.formatters }}
-  {{- if has "mason" .installer }}
+  {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey . "profiles" }}
       {{- $profileMatch = false }}
@@ -101,7 +109,7 @@ return {
     },
     linters = {
 {{- range $linters_data.linters }}
-  {{- if has "mason" .installer }}
+  {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey . "profiles" }}
       {{- $profileMatch = false }}
@@ -117,7 +125,7 @@ return {
     },
     exploration_tools = {
 {{- range $tools_data.dev_tools }}
-  {{- if has "mason" .installer }}
+  {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
     {{- $profileMatch := true }}
     {{- if hasKey . "profiles" }}
       {{- $profileMatch = false }}
