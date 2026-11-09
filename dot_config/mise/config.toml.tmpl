@@ -50,13 +50,6 @@
 {{- end }}
 {{- end }}
 
-# MCP servers managed via mise
-{{- range $mcp := .mcp_servers }}
-{{- if and (has "mise" $mcp.installer) (ne (toString (get $mcp "install")) "false") }}
-{{ template "mise/tool-entry.tmpl" $mcp }}
-{{- end }}
-{{- end }}
-
 [settings]
 {{ if env "CODESPACES" | not | not -}}
 jobs                                = 2                     # limit parallel jobs in Codespaces

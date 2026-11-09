@@ -3,7 +3,8 @@
 # Homebrew Formulae (CLI Tools) Installation Script
 # run_onchange: {{ template "queries/brew-formulae.tmpl" . }}
 
-{{ template "utilities/error-handling.sh" }}
+set -euo pipefail
+
 {{ template "utilities/logging.sh.tmpl" }}
 {{ template "utilities/uninstall.sh.tmpl" }}
 
@@ -55,7 +56,7 @@ install_brew_packages() {
         return 0
     fi
 
-    # Capture failure instead of letting set -e / the ERR trap abort before the per-package report
+    # Capture failure instead of letting set -e abort before the per-package report
     local exit_code=0
     brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1 || exit_code=$?
 

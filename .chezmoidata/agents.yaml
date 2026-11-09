@@ -15,26 +15,21 @@ agents:
   - name: "claude-code"
     installer: [curl]
     description: "Anthropic Claude Code assistant"
-    category: ai
 
   - name: "@openai/codex"
     installer: [npm]
     description: "OpenAI Codex CLI coding agent"
-    category: ai
 
   - name: aider-chat
     installer: [pip]
     description: "AI pair programming in your terminal"
-    category: ai
 
   - name: "@mariozechner/pi-coding-agent"
     installer: [npm]
     description: "Pi — minimal terminal coding agent (earendil-works/pi)"
-    category: ai
 
   # Deployment and infrastructure tools
   - name: vercel
     installer: [npm]
     version: latest
     description: "Vercel deployment CLI"
-    category: deployment

@@ -16,7 +16,7 @@ the same name for the same manager, so apply never uninstalls then reinstalls a 
 {{- /* index (unlike field access) tolerates absent keys, so partial roots work */ -}}
 {{- $apps := index $root "applications" | default dict -}}
 {{- $sources := list -}}
-{{- range $key := list "dev_tools" "agents" "mcp_servers" "language_servers" "formatters" "linters" -}}
+{{- range $key := list "dev_tools" "agents" "language_servers" "formatters" "linters" -}}
   {{- $sources = append $sources (index $root $key) -}}
 {{- end -}}
 {{- range $key := list "shared" "personal" "work" -}}

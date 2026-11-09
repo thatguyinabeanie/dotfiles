@@ -135,7 +135,6 @@ Coverage:
 | `linters.yaml`            | `linters`            | Linters (eslint, shellcheck, vale, etc.)     |
 | `tools.yaml`              | `dev_tools`          | CLI tools and utilities (ripgrep, fd, etc.)  |
 | `lsp.yaml`                | `language_servers`   | Language server configurations               |
-| `mcp.yaml`                | `mcp_servers`        | MCP server definitions                       |
 | `applications.yaml`       | `applications`       | macOS GUI apps (casks, Mac App Store)        |
 | `taps.yaml`               | `homebrew_taps`      | Homebrew tap repositories                    |
 | `services.yaml`           | `services`           | Background services (postgresql, etc.)       |
@@ -157,7 +156,6 @@ top_level_key:
     installer: [mise]              # Installation method(s)
     languages: [python, yaml]      # (formatters/linters) Languages supported
     description: "Optional note"   # Human-readable description
-    conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
     install: false                 # (optional) remove on next apply; default is to install
 ```
 

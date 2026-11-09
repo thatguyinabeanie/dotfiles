@@ -1,7 +1,6 @@
 macos_services:
   # Window management services
   - name: aerospace
-    type: brew_service
     action: start
     description: "Aerospace window manager service"
     condition: always
@@ -33,25 +32,3 @@ app_configs:
     blur_radius: 5.0
     order: "above"
     ax_focus: true
-
-  font_management:
-    # Font management configuration
-    auto_install: true
-    preferred_fonts:
-      - "JetBrains Mono Nerd Font"
-      - "Fira Code Nerd Font"
-      - "Hack Nerd Font"
-      - "Source Code Pro"
-
-    # Font categories
-    categories:
-      programming:
-        - "JetBrains Mono Nerd Font"
-        - "Fira Code Nerd Font"
-        - "Hack Nerd Font"
-      system:
-        - "SF Pro Display"
-        - "SF Pro Text"
-      design:
-        - "Inter"
-        - "Roboto"

@@ -7,12 +7,10 @@ formatters:
   - name: prettier
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     installer: [mise, mason]
-    conflicts_with_lsp_formatting: true
 
   - name: "@fsouza/prettierd"
     languages: [typescript, javascript, json, yaml, html, css, markdown, scss, vue, svelte]
     installer: [npm, mason]
-    conflicts_with_lsp_formatting: true
 
   # Markdown
   - name: markdownlint-cli2

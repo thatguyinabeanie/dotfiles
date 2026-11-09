@@ -154,8 +154,6 @@ templates (e.g., `.dev_tools`, `.language_servers`).
 - **`linters.yaml`**: Linters (eslint, shellcheck, vale, etc.).
 - **`tools.yaml`**: CLI tools and utilities (ripgrep, fd, etc.).
 - **`agents.yaml`**: AI agent tool configurations.
-- **`mcp.yaml`**: MCP server definitions. Currently declares an empty `mcp_servers` list — no MCP
-  servers are chezmoi-managed yet.
 - **`applications.yaml`**: macOS GUI apps (casks, Mac App Store).
 - **`taps.yaml`**: Homebrew tap repositories.
 - **`services.yaml`**: Background services (postgresql, etc.).
@@ -631,7 +629,6 @@ mise run setup-hooks
 - **Stylua** - Lua code formatting (auto-fixes staging)
 - **Luacheck** - Lua static analysis and linting
 - **ShellCheck** - Shell script analysis and best practices
-- **Go Lint** - golangci-lint for Go code quality
 - **Prettier with Go Template Support** - Formats Chezmoi template files (.tmpl) using prettier-plugin-go-template
 
 #### **Documentation & Writing**
@@ -672,7 +669,6 @@ Individual hook scripts are organized in `.scripts/hooks/`:
 ```
 .scripts/hooks/
 ├── pre-commit-shellcheck.sh      # Shell script validation
-├── pre-commit-golangci-lint.sh   # Go code quality
 ├── pre-commit-stylua.sh          # Lua formatting
 ├── pre-commit-luacheck.sh        # Lua linting
 └── pre-commit-sort-spell.sh      # Spell dictionary management
@@ -753,7 +749,6 @@ The hooks enforce these quality standards:
 - **Consistent formatting** - Stylua auto-formats Lua code
 - **Shell best practices** - ShellCheck enforces POSIX compliance
 - **Clear prose** - Vale ensures readable documentation
-- **Go code quality** - golangci-lint enforces Go best practices
 
 This comprehensive quality system ensures every commit maintains high standards while providing fast, actionable feedback to developers.
 
@@ -816,12 +811,6 @@ are needed.
 - **Anthropic** and **GitHub Copilot** are the providers currently declared.
 
 #### 🛠️ **Development Tools Integration**
-
-##### **Model Context Protocol (MCP) Servers**
-
-`.chezmoidata/mcp.yaml` defines the `mcp_servers` list, rendered into `opencode.jsonc` by
-`.chezmoitemplates/opencode/mcp-section.tmpl`. The list is currently empty — no MCP servers are
-chezmoi-managed yet.
 
 ##### **Neovim AI Integration**
 

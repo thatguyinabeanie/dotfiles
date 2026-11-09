@@ -6,9 +6,6 @@ opencode:
   share: "manual"
   theme: "system"
 
-  # Instructions - AGENTS.md files for context
-  instructions:
-
   # Keybindings using valid OpenCode keybind names
   keybinds:
     leader: "ctrl+x"
@@ -20,7 +17,3 @@ opencode:
     github-copilot: {}
     google: {}
     opencode: {}
-
-  # MCP server configuration
-  mcp:
-

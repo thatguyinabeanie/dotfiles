@@ -10,7 +10,7 @@ gitleaks = "latest"            # Secret scanning
 vale = "latest"                # Prose linter for markdown
 shellcheck = "latest"          # Shell script linter
 stylua = "latest"              # Lua formatter
-# luacheck = "latest"            # Lua linter
+# luacheck comes from Homebrew (.chezmoidata/linters.yaml), not mise
 markdownlint-cli2 = "latest"   # Markdown linter
 
 # Optional development tools

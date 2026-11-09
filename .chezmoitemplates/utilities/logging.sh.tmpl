@@ -46,31 +46,6 @@ log_section() {
     echo "$separator"
 }
 
-# Progress indicator - updates same line
-show_progress() {
-    local current="$1"
-    local total="$2"
-    local item="$3"
-    local percent=$((current * 100 / total))
-
-    # Create progress bar
-    local filled=$((percent / 2))
-    local empty=$((50 - filled))
-    local bar=$(printf '█%.0s' $(seq 1 $filled))
-    local spaces=$(printf '░%.0s' $(seq 1 $empty))
-
-    printf "\r⏳ [%3d%%] [%s%s] %s (%d/%d)" \
-        "$percent" "$bar" "$spaces" "$item" "$current" "$total"
-
-    log_to_file "PROGRESS: $percent% - $item ($current/$total)"
-}
-
-# Clear progress line and move to next
-clear_progress() {
-    # Use ANSI escape code to clear entire line
-    printf "\r\033[K"
-}
-
 # Emit ✓ or ✗ for a single package install result
 log_install_result() {
     local status="$1"   # "ok" or "fail"
@@ -95,12 +70,43 @@ log_uninstall_result() {
     log_to_file "uninstall ${status}: $name"
 }
 
+# Colored status messages and small helpers used by the brew scripts and ensure-brew.sh.tmpl
+log_info() {
+    echo -e "\033[0;34m[INFO]\033[0m $1"
+}
+
+log_success() {
+    echo -e "\033[0;32m[SUCCESS]\033[0m $1"
+}
+
+log_warning() {
+    echo -e "\033[1;33m[WARNING]\033[0m $1"
+}
+
+log_error() {
+    echo -e "\033[0;31m[ERROR]\033[0m $1" >&2
+}
+
+log_debug() {
+    if [[ "${DEBUG:-false}" == "true" ]]; then
+        echo -e "\033[0;90m[DEBUG]\033[0m $1" >&2
+    fi
+}
+
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 # Export functions for use in other scripts
 export -f log_to_file
 export -f log_detail
 export -f log_summary
 export -f log_section
-export -f show_progress
-export -f clear_progress
 export -f log_install_result
 export -f log_uninstall_result
+export -f log_info
+export -f log_success
+export -f log_warning
+export -f log_error
+export -f log_debug
+export -f command_exists

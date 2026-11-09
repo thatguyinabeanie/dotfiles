@@ -65,14 +65,9 @@ Supported managers: cargo, npm, pip, go, gem, mise, mas
     {{- end -}}
   {{- end -}}
 
-  {{- /* AI agents and MCP servers (npm/pip only) */ -}}
+  {{- /* AI agents (npm/pip only) */ -}}
   {{- if or (eq $manager "npm") (eq $manager "pip") -}}
     {{- range $root.agents -}}
-      {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
-        {{- $packages = append $packages .name -}}
-      {{- end -}}
-    {{- end -}}
-    {{- range $root.mcp_servers -}}
       {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
         {{- $packages = append $packages .name -}}
       {{- end -}}

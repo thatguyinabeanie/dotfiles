@@ -1,9 +1,6 @@
 pre-commit:
   parallel: true
   commands:
-    # pokemon-art:
-    #   run: .scripts/hooks/pre-commit-pokemon.sh
-    #   stage_fixed: false
     vale:
       glob: "**/*.md"
       run: vale --config .vale.ini {staged_files}

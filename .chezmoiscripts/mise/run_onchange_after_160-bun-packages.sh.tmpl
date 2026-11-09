@@ -37,13 +37,6 @@ BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# MCP servers
-{{- range .mcp_servers }}
-{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
-BUN_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
 # Language servers
 {{- range .language_servers }}
 {{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}

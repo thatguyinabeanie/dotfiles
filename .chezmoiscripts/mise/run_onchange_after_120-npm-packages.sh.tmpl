@@ -58,13 +58,6 @@ NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
-# MCP servers
-{{- range .mcp_servers }}
-{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
-NPM_PACKAGES+=("{{ .name }}")
-{{- end }}
-{{- end }}
-
 if [[ ${#NPM_PACKAGES[@]} -eq 0 ]]; then
     log_summary "✅ No npm packages to install"
     exit 0

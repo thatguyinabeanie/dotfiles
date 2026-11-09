@@ -72,9 +72,6 @@ _compinit_setup() {
 }
 _maybe_defer _compinit_setup
 
-# Simple prompt (disabled - using starship instead)
-# PS1='%F{blue}%~%f %# '
-
 # ----------------------------------------------------------------------------
 # SECTION 2: Additional Sources
 # ----------------------------------------------------------------------------
@@ -168,39 +165,13 @@ _maybe_defer _source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 # SECTION 4: Plugin Manager (Not Currently Used)
 # ----------------------------------------------------------------------------
 
-# Zinit disabled - adds ~40ms overhead
-#
-# Current approach: Use Homebrew for available plugins (faster, no overhead)
-# - zsh-syntax-highlighting (Homebrew) ✓
-# - zsh-autosuggestions (Homebrew) ✓
-# - zsh-completions (Homebrew) ✓
-#
-# For future plugins not in Homebrew, use Antidote instead of zinit:
-#   - Install: brew install antidote
-#   - Fast concurrent loading, static file generation
-#   - ~5ms overhead (much better than zinit's 40ms)
-#   - Alternative: Sheldon (Rust-based, even faster but external dep)
-#
-# {{- $zinitDir := printf "%s/.local/share/zinit/zinit.git" .chezmoi.homeDir }}
-# {{- if stat $zinitDir }}
-# # Old zinit configuration (disabled)
-# ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-# source "${ZINIT_HOME}/zinit.zsh"
-# zinit light zsh-users/zsh-completions
-# zinit light zdharma-continuum/fast-syntax-highlighting
-# zinit light zsh-users/zsh-autosuggestions
-# {{- end }}
+# Plugins come from Homebrew (zsh-syntax-highlighting, zsh-autosuggestions, zsh-completions); no plugin manager.
 
 # ----------------------------------------------------------------------------
 # SECTION 5: Tool Initializations
 # Pre-generated at chezmoi apply time to avoid ~1.9s of subprocess forks
 # Regenerate with: chezmoi apply --force
 # ----------------------------------------------------------------------------
-
-# {{- if lookPath "atuin" }}
-# # atuin - Enhanced shell history
-# eval "$(atuin init zsh)"
-# {{- end }}
 
 {{- if lookPath "starship" }}
 # starship - Fancy prompt
@@ -237,16 +208,6 @@ if [[ "$CLAUDECODE" != "1" ]]; then
 fi
 {{- end }}
 
-
-# ----------------------------------------------------------------------------
-# SECTION 6: Fancy Startup (DISABLED)
-# ----------------------------------------------------------------------------
-
-# {{- if and (lookPath "pokeget") (lookPath "fastfetch")}}
-# # Display system info with Pokemon and fastfetch
-# # pokeget random --hide-name |
-# fastfetch --file-raw -
-# {{- end }}
 
 # ----------------------------------------------------------------------------
 # SECTION 8: Long-Running Command Notifications (Ghostty OSC 9)

@@ -3,7 +3,8 @@
 # Homebrew Casks (GUI Applications) Installation Script
 # run_onchange: {{ template "queries/brew-casks.tmpl" . }}
 
-{{ template "utilities/error-handling.sh" }}
+set -euo pipefail
+
 {{ template "utilities/logging.sh.tmpl" }}
 {{ template "utilities/uninstall.sh.tmpl" }}
 {{ template "utilities/env-helpers.sh.tmpl" }}
@@ -92,7 +93,7 @@ done <<< "$check_output"
 if [[ ${#MISSING_CASKS[@]} -eq 0 ]]; then
     log_summary "✓ All $total casks up to date"
 else
-    # Capture failure instead of letting set -e / the ERR trap abort before the per-cask report
+    # Capture failure instead of letting set -e abort before the per-cask report
     install_exit=0
     brew bundle install --quiet --no-upgrade --file="$brewfile" >> "$LOG_FILE" 2>&1 || install_exit=$?
 

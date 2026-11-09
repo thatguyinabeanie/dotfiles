@@ -8,10 +8,6 @@
   "theme": "{{ $opencode.theme }}",
   
   "instructions": [
-{{- range $i, $instruction := $opencode.instructions }}
-{{- if $i }},{{ end }}
-    "{{ $instruction }}"
-{{- end }}
   ],
 
   "keybinds": {
@@ -23,6 +19,6 @@
   },
 
   "mcp": {
-{{- template "opencode/mcp-section.tmpl" $opencode.mcp }}
+
   }
 }
