@@ -4,6 +4,7 @@
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "mise" "root" .) }}
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 set -euo pipefail
 
@@ -18,6 +19,13 @@ if ! command -v mise >/dev/null 2>&1; then
 fi
 
 log_section "🔧 Mise Tools"
+
+_mise_is_installed() { [[ -n "$(mise ls --installed "$1" 2>/dev/null)" ]]; }
+_mise_remove() { mise uninstall --all "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "mise" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _mise_is_installed _mise_remove "${REMOVE_PACKAGES[@]}"
+fi
 
 # Pre-check: find tools needing installation
 MISSING_TOOLS=()

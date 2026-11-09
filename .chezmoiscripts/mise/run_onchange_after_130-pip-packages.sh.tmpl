@@ -4,6 +4,7 @@
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }}
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 set -euo pipefail
 
@@ -13,6 +14,13 @@ if ! mise which python >/dev/null 2>&1; then
 fi
 
 log_section "🐍 Python pip Packages"
+
+_pip_is_installed() { pip show "$1"; }
+_pip_remove() { pip uninstall -y "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "pip" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _pip_is_installed _pip_remove "${REMOVE_PACKAGES[@]}"
+fi
 
 PIP_PACKAGES=({{ template "queries/packages.tmpl" (dict "PackageManager" "pip" "root" .) }})
 

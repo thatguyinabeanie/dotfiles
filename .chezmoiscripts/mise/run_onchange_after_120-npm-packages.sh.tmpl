@@ -7,12 +7,20 @@
 set -euo pipefail
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 # Ensure Node.js is available via mise
 if ! mise which node >/dev/null 2>&1; then
     echo "❌ Node.js not found. Please run mise installation first."
     log_to_file "ERROR: Node.js not found"
     exit 1
+fi
+
+_npm_is_installed() { npm ls -g --depth=0 "$1"; }
+_npm_remove() { npm uninstall -g "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "npm" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _npm_is_installed _npm_remove "${REMOVE_PACKAGES[@]}"
 fi
 
 log_detail "Collecting npm packages for global installation..."
@@ -22,35 +30,35 @@ NPM_PACKAGES=()
 
 # Language servers not managed by Mason
 {{- range .language_servers }}
-{{- if and (has "npm" .installer) }}
+{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Formatters not managed by Mason
 {{- range .formatters }}
-{{- if and (has "npm" .installer) }}
+{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Linters not managed by Mason
 {{- range .linters }}
-{{- if and (has "npm" .installer) }}
+{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # AI agents
 {{- range .agents }}
-{{- if has "npm" .installer }}
+{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # MCP servers
 {{- range .mcp_servers }}
-{{- if has "npm" .installer }}
+{{- if and (has "npm" .installer) (ne (toString (get . "install")) "false") }}
 NPM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
@@ -63,9 +71,9 @@ fi
 log_section "📦 Global NPM Installation (${#NPM_PACKAGES[@]} packages)"
 log_detail "Installing globally for system-wide availability"
 {{- $masonCount := 0 }}
-{{- range .language_servers }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
-{{- range .formatters }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
-{{- range .linters }}{{- if and (has "npm" .installer) (has "mason" .installer) }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .language_servers }}{{- if and (has "npm" .installer) (has "mason" .installer) (ne (toString (get . "install")) "false") }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .formatters }}{{- if and (has "npm" .installer) (has "mason" .installer) (ne (toString (get . "install")) "false") }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
+{{- range .linters }}{{- if and (has "npm" .installer) (has "mason" .installer) (ne (toString (get . "install")) "false") }}{{- $masonCount = add $masonCount 1 }}{{- end }}{{- end }}
 {{- if gt $masonCount 0 }}
 log_detail "Note: {{ $masonCount }} packages also managed by Mason for Neovim"
 {{- end }}

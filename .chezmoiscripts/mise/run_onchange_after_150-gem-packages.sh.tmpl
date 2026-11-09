@@ -4,6 +4,7 @@
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "gem" "root" .) }}
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 set -euo pipefail
 
@@ -14,22 +15,29 @@ fi
 
 log_section "💎 Ruby Gem Packages"
 
+_gem_is_installed() { gem list -i -e "$1"; }
+_gem_remove() { gem uninstall -a -x "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "gem" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _gem_is_installed _gem_remove "${REMOVE_PACKAGES[@]}"
+fi
+
 GEM_PACKAGES=()
 
 {{- range .language_servers }}
-{{- if has "gem" .installer }}
+{{- if and (has "gem" .installer) (ne (toString (get . "install")) "false") }}
 GEM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 {{- range .formatters }}
-{{- if has "gem" .installer }}
+{{- if and (has "gem" .installer) (ne (toString (get . "install")) "false") }}
 GEM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 {{- range .linters }}
-{{- if has "gem" .installer }}
+{{- if and (has "gem" .installer) (ne (toString (get . "install")) "false") }}
 GEM_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}

@@ -1,7 +1,7 @@
 [tools]
 # Core development runtimes (with specified versions from tools.yaml)
 {{- range $tool := .dev_tools }}
-{{- if has "mise" $tool.installer }}
+{{- if and (has "mise" $tool.installer) (ne (toString (get $tool "install")) "false") }}
 {{- if or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust") }}
 {{ $tool.name | quote }} = {{ if hasKey $tool "version" }}{{ $tool.version | quote }}{{ else }}"latest"{{ end }}
 {{- end }}
@@ -10,7 +10,7 @@
 
 # Development tools that install via mise (excluding core runtimes)
 {{- range $tool := .dev_tools }}
-{{- if has "mise" $tool.installer }}
+{{- if and (has "mise" $tool.installer) (ne (toString (get $tool "install")) "false") }}
 {{- if and $tool.name (not (or (eq $tool.name "node") (eq $tool.name "python") (eq $tool.name "go") (eq $tool.name "rust"))) }}
 {{- $key := $tool.name }}{{ if hasKey $tool "mise_name" }}{{ $key = $tool.mise_name }}{{ end }}
 {{- if hasKey $tool "extra_versions" }}
@@ -24,35 +24,35 @@
 
 # Language servers managed via mise (not Mason)
 {{- range $lsp := .language_servers }}
-{{- if and (has "mise" $lsp.installer) (not (has "mason" $lsp.installer)) }}
+{{- if and (has "mise" $lsp.installer) (not (has "mason" $lsp.installer)) (ne (toString (get $lsp "install")) "false") }}
 {{ template "mise/tool-entry.tmpl" $lsp }}
 {{- end }}
 {{- end }}
 
 # Formatters managed via mise (not Mason)
 {{- range $formatter := .formatters }}
-{{- if and (has "mise" $formatter.installer) (not (has "mason" $formatter.installer)) }}
+{{- if and (has "mise" $formatter.installer) (not (has "mason" $formatter.installer)) (ne (toString (get $formatter "install")) "false") }}
 {{ template "mise/tool-entry.tmpl" $formatter }}
 {{- end }}
 {{- end }}
 
 # Linters managed via mise (not Mason)
 {{- range $linter := .linters }}
-{{- if and (has "mise" $linter.installer) (not (has "mason" $linter.installer)) }}
+{{- if and (has "mise" $linter.installer) (not (has "mason" $linter.installer)) (ne (toString (get $linter "install")) "false") }}
 {{ template "mise/tool-entry.tmpl" $linter }}
 {{- end }}
 {{- end }}
 
 # AI agents managed via mise
 {{- range $agent := .agents }}
-{{- if has "mise" $agent.installer }}
+{{- if and (has "mise" $agent.installer) (ne (toString (get $agent "install")) "false") }}
 {{ template "mise/tool-entry.tmpl" $agent }}
 {{- end }}
 {{- end }}
 
 # MCP servers managed via mise
 {{- range $mcp := .mcp_servers }}
-{{- if has "mise" $mcp.installer }}
+{{- if and (has "mise" $mcp.installer) (ne (toString (get $mcp "install")) "false") }}
 {{ template "mise/tool-entry.tmpl" $mcp }}
 {{- end }}
 {{- end }}

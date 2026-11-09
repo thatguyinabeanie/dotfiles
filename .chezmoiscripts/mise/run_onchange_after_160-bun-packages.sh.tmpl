@@ -4,6 +4,7 @@
 # run_onchange: {{ template "queries/packages.tmpl" (dict "PackageManager" "bun" "root" .) }}
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 set -euo pipefail
 
@@ -19,39 +20,46 @@ fi
 
 log_section "🍞 Bun Packages"
 
+_bun_is_installed() { grep -qF -- " $1@" <<< "$(bun pm ls -g 2>/dev/null)"; }
+_bun_remove() { bun remove -g "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "bun" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _bun_is_installed _bun_remove "${REMOVE_PACKAGES[@]}"
+fi
+
 BUN_PACKAGES=()
 
 # AI agents
 {{- range .agents }}
-{{- if has "bun" .installer }}
+{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # MCP servers
 {{- range .mcp_servers }}
-{{- if has "bun" .installer }}
+{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Language servers
 {{- range .language_servers }}
-{{- if has "bun" .installer }}
+{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Formatters
 {{- range .formatters }}
-{{- if has "bun" .installer }}
+{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}
 
 # Linters
 {{- range .linters }}
-{{- if has "bun" .installer }}
+{{- if and (has "bun" .installer) (ne (toString (get . "install")) "false") }}
 BUN_PACKAGES+=("{{ .name }}")
 {{- end }}
 {{- end }}

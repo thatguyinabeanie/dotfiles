@@ -7,6 +7,7 @@
 set -euo pipefail
 
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 # Ensure Rust is available via mise
 if ! mise which cargo >/dev/null 2>&1; then
@@ -28,6 +29,13 @@ else
     log_detail "cargo-binstall already available"
 fi
 
+_cargo_is_installed() { grep -q "^$1 " <<< "$(cargo install --list 2>/dev/null)"; }
+_cargo_remove() { cargo uninstall "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "cargo" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _cargo_is_installed _cargo_remove "${REMOVE_PACKAGES[@]}"
+fi
+
 log_detail "Collecting cargo packages for global installation..."
 
 # Collect all packages with 'cargo' in installer array
@@ -35,7 +43,7 @@ CARGO_PACKAGES=()
 
 # Language servers not managed by Mason
 {{- range .language_servers }}
-{{- if and (has "cargo" .installer) }}
+{{- if and (has "cargo" .installer) (ne (toString (get . "install")) "false") }}
 {{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
@@ -46,7 +54,7 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Formatters not managed by Mason
 {{- range .formatters }}
-{{- if and (has "cargo" .installer) }}
+{{- if and (has "cargo" .installer) (ne (toString (get . "install")) "false") }}
 {{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
@@ -57,7 +65,7 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Linters not managed by Mason
 {{- range .linters }}
-{{- if and (has "cargo" .installer) }}
+{{- if and (has "cargo" .installer) (ne (toString (get . "install")) "false") }}
 {{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
@@ -68,7 +76,7 @@ CARGO_PACKAGES+=("{{ .name }}")
 
 # Development tools (excluding cargo-binstall which is installed separately)
 {{- range .dev_tools }}
-{{- if and (has "cargo" .installer) (ne .name "cargo-binstall") }}
+{{- if and (has "cargo" .installer) (ne .name "cargo-binstall") (ne (toString (get . "install")) "false") }}
 {{- if hasKey . "install_command" }}
 CARGO_PACKAGES+=("{{ .install_command }}")
 {{- else }}
