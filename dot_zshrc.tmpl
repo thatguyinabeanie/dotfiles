@@ -114,12 +114,6 @@ export AWS_DEFAULT_REGION='us-east-1'
 source "{{ $workShPath }}"
 {{- end }}
 
-{{- $cargoEnvPath := printf "%s/.cargo/env" .chezmoi.homeDir }}
-{{- if stat $cargoEnvPath }}
-# Cargo environment (Rust toolchain)
-source "{{ $cargoEnvPath }}"
-{{- end }}
-
 # ----------------------------------------------------------------------------
 # SECTION 3: Completions
 # Pre-generated at chezmoi apply time to avoid ~1.1s of subprocess forks
@@ -155,8 +149,7 @@ _maybe_defer _source_cached "mise-completion" 'source <(mise completion zsh)'
 {{- end }}
 
 {{- if lookPath "carapace" }}
-# Carapace env/style — set immediately so they're ready when init loads
-export CARAPACE_BRIDGES='zsh,bash,inshellisense'
+# Carapace style — set immediately so it's ready when init loads (CARAPACE_BRIDGES comes from .zshenv)
 zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
 _maybe_defer _source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 {{- end }}
@@ -175,10 +168,6 @@ _maybe_defer _source_cached "carapace-init" 'source <(carapace _carapace zsh)'
 
 {{- if lookPath "starship" }}
 # starship - Fancy prompt
-{{- $starshipConfig := printf "%s/.config/starship/starship.toml" .chezmoi.homeDir }}
-{{- if stat $starshipConfig }}
-export STARSHIP_CONFIG="{{ .chezmoi.homeDir }}/.config/starship/starship.toml"
-{{- end }}
 _source_cached "starship-init" 'eval "$(starship init zsh)"'
 {{- end }}
 

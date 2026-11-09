@@ -27,17 +27,6 @@ Instructions for AI assistants working with this dotfiles repository.
 
 ## Your Role
 
-You are an expert dotfiles and system configuration manager specializing in chezmoi,
-Neovim (specifically LazyVim), mise, and Homebrew package management. You have deep knowledge of
-modern development tooling, plugin ecosystems, and configuration management best practices.
-
-### Primary Responsibilities
-
-1. **Plugin Installation & Management**
-2. **Package Management**
-3. **Chezmoi Integration**
-4. **Best Practices**
-
 When you don't have specific information, you will research and ask clarifying questions.
 You MUST NOT commit changes on my behalf unless I explicitly tell you to do so.
 
@@ -127,24 +116,9 @@ Coverage:
   that mason-nvim-dap installs automatically when nvim-dap loads (for example `debugpy`) are not
   filtered; no `.chezmoidata` entry uses one today.
 
-### Quick Reference: `.chezmoidata/` Files
-
-| File                      | Top-Level Key        | Purpose                                      |
-| ------------------------- | -------------------- | -------------------------------------------- |
-| `formatters.yaml`         | `formatters`         | Code formatters (prettier, stylua, etc.)     |
-| `linters.yaml`            | `linters`            | Linters (eslint, shellcheck, vale, etc.)     |
-| `tools.yaml`              | `dev_tools`          | CLI tools and utilities (ripgrep, fd, etc.)  |
-| `lsp.yaml`                | `language_servers`   | Language server configurations               |
-| `applications.yaml`       | `applications`       | macOS GUI apps (casks, Mac App Store)        |
-| `taps.yaml`               | `homebrew_taps`      | Homebrew tap repositories                    |
-| `services.yaml`           | `services`           | Background services (postgresql, etc.)       |
-| `shared.yaml`             | (multiple)           | Shared settings: theme, font, terminal, UI   |
-| `personal.yaml`           | (multiple)           | Personal identity and environment settings   |
-| `work.yaml`               | (multiple)           | Work-specific overrides                      |
-| `onepassword.yaml`        | (multiple)           | 1Password integration settings               |
-| `opencode.yaml`           | (multiple)           | OpenCode editor configuration                |
-| `agents.yaml`             | `agents`             | AI agent tool configurations                 |
-| `aliases-*.yaml`          | `aliases`            | Shell aliases, one file per category (Zsh)   |
+Package data lives in `.chezmoidata/` (`tools.yaml`, `formatters.yaml`, `linters.yaml`, `lsp.yaml`,
+`applications.yaml`, `taps.yaml`, `services.yaml`), shell aliases in `aliases-*.yaml`, and shared,
+personal, and work settings in `shared.yaml`, `personal.yaml`, and `work.yaml`.
 
 ### Schema Patterns
 
@@ -175,10 +149,6 @@ The `installer` field is an **array** — multiple values mean "install via all 
 - `[curl]` — Direct downloads
 - Multiple: `[mise, mason]` means "install via both"
 
-> **Migration complete:** The legacy `install_via` (string) schema has been fully retired.
-> `installer` (array) is now the only supported form across every `.chezmoidata/*.yaml` file
-> and `.chezmoitemplates/` template.
-
 ### Data Flow into Templates
 
 1. Chezmoi loads all `.chezmoidata/*.yaml` files automatically
@@ -197,81 +167,15 @@ Key query templates:
 installer scripts call with the removal list. It skips packages that are not installed, logs to
 `$LOG_FILE`, and never aborts the calling script.
 
-### Package Addition Examples
-
-**Add a formatter** (`.chezmoidata/formatters.yaml`):
-
-```yaml
-- name: prettier-plugin-toml
-  languages: [toml]
-  installer: [npm]
-  description: "Prettier plugin for TOML files"
-```
-
-**Add a development tool** (`.chezmoidata/tools.yaml`):
-
-```yaml
-- name: tool-name
-  installer: [mise]           # or [brew], [npm], etc.
-  description: "Tool description"
-```
-
-**Add a linter** (`.chezmoidata/linters.yaml`):
-
-```yaml
-- name: linter-name
-  languages: [file, extensions]
-  installer: [mise]           # or [brew], [npm], [mason], etc.
-  description: "Linter description"
-```
-
-### Package Troubleshooting
-
-**Manual Installation Cleanup:**
-
-```bash
-# Remove manually installed npm packages
-npm uninstall -g prettier-plugin-sh prettier-plugin-toml
-
-# Let chezmoi manage installations
-chezmoi apply
-```
-
-**Version Conflicts:**
-
-- Check for duplicate entries across different YAML files. An `install: false` tombstone with a
-  different `installer` from an active entry of the same name is intentional: leave it.
-- Ensure consistent version specifications
-- Use `mise list` to check installed versions
-
-**Missing Packages:**
-
-- Verify package name spelling in YAML files
-- Check if package exists in specified package manager
-- Review installation logs: `chezmoi apply -v`
-
 ## Build and Test Commands
 
 ```bash
-# Setup hooks after cloning repo (one-time)
-mise run setup-hooks
-
-# Install development dependencies (if working in the dotfiles repo)
-mise run install-npm-packages
-
-# Run all quality checks (linting, formatting, security)
-lefthook run pre-commit
-
-# Apply dotfiles changes
-chezmoi apply --force
-
-# See what changes would be made without applying them
-chezmoi diff
-
-# Validate template changes during development (recommended workflow)
+lefthook install          # Set up git hooks after cloning (one-time)
+lefthook run pre-commit   # Run all quality checks (linting, formatting, security)
+chezmoi diff              # See what changes would be made
 chezmoi apply --dry-run   # Test for template syntax errors
 chezmoi apply --force     # Apply only if dry-run succeeds
-chezmoi init --apply      # Run if chezmoi.toml.tmpl changes
+chezmoi init --apply      # Run if .chezmoi.toml.tmpl changes
 ```
 
 ## Template Development
@@ -284,9 +188,6 @@ chezmoi init --apply      # Run if chezmoi.toml.tmpl changes
 4. **Apply when validation passes**: `chezmoi apply --force`
 5. **Test the actual functionality** (installation scripts, etc.)
 
-This workflow prevents broken templates from being applied to your system and ensures robust
-template development.
-
 **Important**: Before committing changes, always run `chezmoi apply --dry-run` as a smoke test.
 If the dry run does not run successfully, report the errors, fix them, and run the dry run again.
 
@@ -297,8 +198,6 @@ If the dry run does not run successfully, report the errors, fix them, and run t
 - **Targeted hashing**: Package installer scripts use specific hash triggers
   (e.g., `{{ template "queries/packages.tmpl" (dict "PackageManager" "cargo" "root" .) }}`)
   instead of hashing entire configuration files
-- **Iterative validation**: Always run `chezmoi apply --dry-run` during development to catch
-  template syntax errors before applying changes
 
 ### JSON Template Gotchas
 
@@ -333,15 +232,6 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
 2. Validate generated JSON with `python3 -m json.tool` or similar
 3. Test the actual application consuming the JSON configuration
 
-## Code Style Guidelines
-
-- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive).
-  Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
-- **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
-- **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
-- **YAML**: See `.yamllint.yml` for style rules.
-- **Markdown**: Use Vale for prose linting, follow markdownlint rules.
-
 ### Shell Functions
 
 This repo is **zsh only**. Fish was removed; do not reintroduce it.
@@ -353,11 +243,10 @@ This repo is **zsh only**. Fish was removed; do not reintroduce it.
 - Put a new alias in the matching `aliases-<cat>.yaml`. For a new category, add a new data file and a new stub template.
 - Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`.
 
-## File Naming Conventions
-
-- `dot_`: Prefix for hidden files managed by chezmoi (e.g., `dot_zshrc` → `~/.zshrc`)
-- `private_`: Prefix for files encrypted by chezmoi
-- `.tmpl`: Suffix for chezmoi templates that will be processed
+PATH is built in `dot_zprofile.tmpl` (one `path=(...)` array) and, for non-login shells, in
+`.zshenv` from `env_paths` in `.chezmoidata/shared.yaml`. Cargo binaries live under
+`$CARGO_HOME/bin` (`~/.local/share/cargo/bin`), not `~/.cargo/bin`. Each env var is set in one place:
+`.chezmoidata/shared.yaml`, rendered into `.zshenv` by `.chezmoitemplates/utilities/generic-env.sh.tmpl`.
 
 ## Configuration Management
 
@@ -399,17 +288,6 @@ chezmoi apply --force                   # apply when validation passes
 2. Update the source template to include your intended changes
 3. Choose 'overwrite' to let chezmoi apply the template
 4. Verify the configuration is correct after `chezmoi apply`
-
-### Personal/Work Split
-
-The `.chezmoidata/` directory uses a context-based split:
-
-- **`personal.yaml`** - Personal development environment settings
-- **`work.yaml`** - Work/corporate environment overrides
-- **`shared.yaml`** - Cross-context configuration (XDG dirs, editor, theme, UI)
-
-All YAML files provide data for chezmoi templates. Environment variables are generated in shell
-profiles. Conditional logic is handled based on work/personal context and macOS/Linux detection.
 
 ### Work Secrets Live in `~/mise.toml`
 
@@ -459,21 +337,13 @@ Notes for future changes:
 - When upstream changes `dot_civisrc`, re-check it against our cherry-picked subset rather
   than adopting it wholesale.
 
-### OpenCode Configuration
-
-- **`opencode.jsonc`** (root-level) - Direct OpenCode config for LSP servers, formatters, core settings
-- **`.chezmoidata/opencode.yaml`** - YAML data for templated OpenCode configurations
-- Root `opencode.jsonc` is used directly by OpenCode and doesn't require `chezmoi apply`
-
 ## macOS-Specific Files
 
 When adding cross-platform support, these files/directories are macOS-only and should use
 `{{- if eq .chezmoi.os "darwin" }}` conditionals:
 
-- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/karabiner/`
-- **Homebrew Dependencies**: Profile/shell configs, tmux, zsh, ghostty configs reference `/opt/homebrew`
-- **macOS Apps**: Aerospace (window manager), Karabiner (key remapper), Raycast, Mac App Store apps
-- **System Integration**: LaunchAgents, AppleScript commands in aliases, macOS-specific paths
+- **Directories**: `Library/`, `.chezmoiscripts/macos/`, `dot_config/aerospace/`, `dot_config/private_karabiner/`
+- **Paths and integrations**: `/opt/homebrew`, LaunchAgents, AppleScript commands in aliases
 
 ## Success Criteria
 
@@ -488,37 +358,27 @@ Before marking any task complete, verify:
 
 ## Common Pitfalls
 
-1. **Template syntax errors**: always run `chezmoi apply --dry-run` before
-   `chezmoi apply --force`.
-2. **Platform-specific code**: use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only
-   features.
-3. **Duplicate package entries**: check existing entries before adding new packages. An
-   `install: false` tombstone next to an active entry is intentional (see Package Uninstall
-   Workflow, step 4).
-4. **Missing validation**: don't skip the dry-run step during template development.
-5. **Direct package installation**: never run `brew install`, `npm install -g`, etc.
-   Use `.chezmoidata/*.yaml` files.
-6. **Parse checks are not runtime checks**: `zsh -n` only validates syntax. Logic that
+1. **Parse checks are not runtime checks**: `zsh -n` only validates syntax. Logic that
    parses cleanly can still abort at runtime. Always invoke a changed function, don't
    just parse it.
-7. **`git rev-parse --show-toplevel` inside a worktree**: returns the LINKED worktree's
+2. **`git rev-parse --show-toplevel` inside a worktree**: returns the LINKED worktree's
    root, not the main checkout. Use `git worktree list --porcelain | head -1` when you
    need the main checkout. Prefer it over `--git-common-dir`, whose dirname is wrong
    inside a submodule.
-8. **`git check-ignore` exit codes**: it exits 0 when ANY pattern matches, including a
+3. **`git check-ignore` exit codes**: it exits 0 when ANY pattern matches, including a
    negation (`!`) pattern, so the exit code alone does not tell you whether a file is
    ignored. Use `git status` or `git add --dry-run` instead.
-9. **Sweeping commits**: this repo often has several unrelated work streams in the
+4. **Sweeping commits**: this repo often has several unrelated work streams in the
    working tree at once. Stage explicit paths; `git add -A` collects other people's
    in-progress work.
-10. **Deleting a YAML entry does not uninstall anything**: it only stops future installs. To
-    uninstall, set `install: false` on the entry (see Package Uninstall Workflow).
+5. **Deleting a YAML entry does not uninstall anything**: it only stops future installs. To
+   uninstall, set `install: false` on the entry (see Package Uninstall Workflow).
 
 ## Documentation Index
 
 | Documentation | Location | Covers |
 |---|---|---|
-| Root (this file) | `AGENTS.md` | Package management, chezmoi, templates |
+| Overview and bootstrap | `README.md` | What this repo is, fresh-Mac setup, daily commands |
 | Neovim/LazyVim | `dot_config/nvim/AGENTS.md` | Plugins, keymaps, LSP, 50+ keybindings |
 | Tmux | `dot_config/tmux/AGENTS.md` | Session management, plugins, keybindings |
 | Zellij | `dot_config/zellij/AGENTS.md` | Tmux-compatible multiplexer, keybindings |
@@ -526,3 +386,4 @@ Before marking any task complete, verify:
 | Ghostty | `dot_config/ghostty/AGENTS.md` | Terminal emulator, tmux integration |
 | Aerospace | `dot_config/aerospace/AGENTS.md` | macOS tiling window manager |
 | 1Password | `docs/ONEPASSWORD_SETUP.md` | 1Password service account setup |
+| Cheatsheets | `docs/cheatsheets/` | Keybinding and alias quick references |

@@ -11,9 +11,9 @@ export PATH="$PATH:{{ .chezmoi.homeDir }}/.docker/bin"
 # Remove duplicate paths that path_helper may have added
 typeset -U path PATH
 
-# Re-prepend our custom paths in reverse priority order
-# (last prepended = highest priority)
-path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$HOME/.cargo/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/sbin" $path)
+# Re-prepend our custom paths in priority order (first entry wins).
+# Cargo binaries live under $CARGO_HOME (set in .zshenv), not ~/.cargo.
+path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$CARGO_HOME/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/sbin" $path)
 
 # Export the deduplicated path
 export PATH

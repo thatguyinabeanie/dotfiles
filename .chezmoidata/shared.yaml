@@ -45,6 +45,7 @@ env_shared:
     xdg_config_apps:
       base: "$XDG_CONFIG_HOME"
       paths:
+        BAT_CONFIG_PATH: "bat/config"
         K9S_CONFIG_DIR: "k9s"
         STARSHIP_CONFIG: "starship/starship.toml"
         TMUX_CONFIG_DIR: "tmux"
@@ -113,7 +114,6 @@ env_shared:
   app_settings:
     # Terminal applications
     terminal:
-      BAT_CONFIG_PATH: "$XDG_CONFIG_HOME/bat/config"
       FZF_DEFAULT_OPTS: "--height 40% --layout=reverse --border"
       RIPGREP_CONFIG_PATH: "$XDG_CONFIG_HOME/ripgrep/config"
 
@@ -135,7 +135,7 @@ env_shared:
       - "$HOME/.cache/.bun/bin"
       - "$HOME/.local/bin"
       - "$HOME/.pnpm-global/bin"
-      - "$HOME/.cargo/bin"
+      - "$XDG_DATA_HOME/cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/usr/local/bin"
       - "/usr/sbin"

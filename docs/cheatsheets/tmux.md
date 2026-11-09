@@ -20,12 +20,12 @@
 | Key | Action |
 |-----|--------|
 | `Prefix + s` | Open sesh session picker (television) |
+| `Prefix + D` | Connect to the `dotfiles` sesh session |
 | `Prefix + S` | Choose session (native picker) |
 | `Prefix + C-s` | Save session (resurrect) |
 | `Prefix + C-r` | Restore session (resurrect) |
 | `Prefix + C-d` | Detach from session |
 | `Prefix + C-x` | Lock tmux server |
-| `Prefix + *` | List all clients |
 
 ### 🔍 Inside the sesh picker
 
@@ -43,7 +43,6 @@
 | Key | Action |
 |-----|--------|
 | `Prefix + c` | New window (home dir) |
-| `Prefix + C-d` | New window (chezmoi dir) |
 | `Prefix + C-e` | New window (chezmoi dir + nvim) |
 | `Prefix + w` | List windows |
 | `Prefix + C-w` | List all windows |
@@ -129,6 +128,15 @@
 | `?` | Search backward |
 | `h/j/k/l` | Navigate |
 | `q` | Exit copy mode |
+
+## 🧰 Popups & Tools
+
+| Key | Action |
+|-----|--------|
+| `Prefix + e` | Edit `~/mise.toml` in a popup (env vars and secrets) |
+| `Prefix + N` | Quick note capture popup |
+| `Prefix + d` | LazyDocker popup in the pane's directory (only if installed) |
+| `Prefix + g` | LazyGit popup in the pane's directory (only if installed) |
 
 ## 🔗 URLs & Plugins
 
