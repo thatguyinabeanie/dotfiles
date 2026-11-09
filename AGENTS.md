@@ -153,7 +153,8 @@ The `installer` field is an **array** — multiple values mean "install via all 
 
 1. Chezmoi loads all `.chezmoidata/*.yaml` files automatically
 2. Template queries in `.chezmoitemplates/queries/` extract package lists by installer
-3. Installer scripts (`.chezmoiscripts/`) use these queries to determine what to install
+3. Installer scripts (`.chezmoiscripts/`) use these queries for `run_onchange` change hashes and
+   removal lists. Only the pip script also uses them for its install list.
 
 Key query templates:
 
@@ -252,11 +253,6 @@ This repo is **zsh only**. Fish was removed; do not reintroduce it.
 - Put a new alias in the matching `aliases-<cat>.yaml`. For a new category, add a new data file and a new stub template.
 - Prefix private helpers with `_`, for example `_gwt_ensure_gitignore`.
 
-PATH is built in `dot_zprofile.tmpl` (one `path=(...)` array) and, for non-login shells, in
-`.zshenv` from `env_paths` in `.chezmoidata/shared.yaml`. Cargo binaries live under
-`$CARGO_HOME/bin` (`~/.local/share/cargo/bin`), not `~/.cargo/bin`. Each env var in `.chezmoidata/shared.yaml` is set once there, and rendered
-into `.zshenv` by `.chezmoitemplates/utilities/generic-env.sh.tmpl`.
-
 ## Configuration Management
 
 Configuration data is highly modularized within the `.chezmoidata` directory, separated by platform
@@ -265,8 +261,21 @@ Configuration data is highly modularized within the `.chezmoidata` directory, se
 The work/personal answer persists in the macOS `defaults` domain `com.chezmoi.config`
 (precedence: env `WORK_ENVIRONMENT`, then defaults, then `promptBoolOnce`) in `.chezmoi.toml.tmpl`.
 All other values are literal defaults with env overrides.
+On an applied machine the rendered `~/.zshenv` exports `WORK_ENVIRONMENT`, so the env value wins.
+The defaults value and the prompt only matter from a clean environment, such as a fresh Mac.
+To flip the answer, run `WORK_ENVIRONMENT=<true|false> chezmoi init`.
 
 **Never edit generated files directly** - always edit source templates or `.chezmoidata/*.yaml` files.
+
+### PATH
+
+PATH is built in `dot_zprofile.tmpl` (one `path=(...)` array) and, for non-login shells, in
+`.zshenv` from `env_paths` in `.chezmoidata/shared.yaml`. Cargo binaries live under
+`$CARGO_HOME/bin` (`~/.local/share/cargo/bin`). `~/.cargo/bin` stays as a lower-priority
+fallback for a fresh Mac, where the first apply runs with `CARGO_HOME` unset. Env vars in
+`.chezmoidata/shared.yaml` are defined there and rendered into `.zshenv` by
+`.chezmoitemplates/utilities/generic-env.sh.tmpl` (`WORK_ENVIRONMENT` is exported twice in the
+rendered file, which is harmless).
 
 ### Never Edit Files in `~/.config/` Directly
 

@@ -2,10 +2,14 @@
 Only the work/personal answer is persisted outside chezmoi.toml, in the macOS defaults domain
 com.chezmoi.config, so deleting ~/.config/chezmoi and re-running `chezmoi init` needs no answers.
 Precedence: env WORK_ENVIRONMENT > defaults > promptBoolOnce. The defaults value is written back
-only when it changes. Everything else is an env override with a literal default.
+only when it changes.
+The defaults read and write are macOS-only; other OSes skip both (no `defaults` binary). Everything else is an env override with a literal default.
 */ -}}
 {{- $current_hostname := output "hostname" | trim -}}
-{{- $stored := output "sh" "-c" "defaults read com.chezmoi.config work_environment 2>/dev/null || true" | trim -}}
+{{- $stored := "" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $stored = output "sh" "-c" "defaults read com.chezmoi.config work_environment 2>/dev/null || true" | trim -}}
+{{- end -}}
 
 {{- $work := false -}}
 {{- if env "WORK_ENVIRONMENT" -}}
@@ -16,7 +20,7 @@ only when it changes. Everything else is an env override with a literal default.
 {{-   $work = promptBoolOnce . "WORK_ENVIRONMENT" "Is this a work machine" false -}}
 {{- end -}}
 
-{{- if ne $stored (toString $work) -}}
+{{- if and (eq .chezmoi.os "darwin") (ne $stored (toString $work)) -}}
 {{-   $_ := output "defaults" "write" "com.chezmoi.config" "work_environment" "-string" (toString $work) -}}
 {{- end }}
 

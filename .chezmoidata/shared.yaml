@@ -136,6 +136,7 @@ env_shared:
       - "$HOME/.local/bin"
       - "$HOME/.pnpm-global/bin"
       - "$XDG_DATA_HOME/cargo/bin"
+      - "$HOME/.cargo/bin"
       - "$XDG_DATA_HOME/mise/shims"
       - "/usr/local/bin"
       - "/usr/sbin"

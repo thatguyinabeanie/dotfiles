@@ -12,8 +12,9 @@ export PATH="$PATH:{{ .chezmoi.homeDir }}/.docker/bin"
 typeset -U path PATH
 
 # Re-prepend our custom paths in priority order (first entry wins).
-# Cargo binaries live under $CARGO_HOME (set in .zshenv), not ~/.cargo.
-path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$CARGO_HOME/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/sbin" $path)
+# Cargo binaries live under $CARGO_HOME (set in .zshenv). ~/.cargo/bin is a lower-priority
+# fallback for a fresh Mac, where the first apply runs with CARGO_HOME unset.
+path=("$HOME/.cache/.bun/bin" "$HOME/.local/bin" "$CARGO_HOME/bin" "$HOME/.cargo/bin" "$HOME/.local/share/mise/shims" "/opt/homebrew/bin" "/opt/homebrew/sbin" "/usr/local/bin" "/usr/sbin" $path)
 
 # Export the deduplicated path
 export PATH
