@@ -16,7 +16,6 @@ hostname                   = {{ $current_hostname | quote }}
 SHELL                      = {{ (env "SHELL_PREF") | default (index $cfg "shell_pref") | default "zsh" | quote }}
 WORK_ENVIRONMENT           = {{ eq "true" ((env "WORK_ENVIRONMENT") | default (index $cfg "work_environment") | default "false") }}
 PERSONAL_ENVIRONMENT       = {{ eq "true" ((env "PERSONAL_ENVIRONMENT") | default (index $cfg "personal_environment") | default "false") }}
-ACTIVE_PROFILES            = {{ (env "ACTIVE_PROFILES") | default (index $cfg "active_profiles") | default "default" | quote }}
 INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default (index $cfg "install_sketchy_bar") | default "true" | quote }}
 MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default (index $cfg "manage_brew_services") | default "true" | quote }}
 CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default (index $cfg "catppuccin_flavor") | default "mocha" | quote }}

@@ -3,12 +3,6 @@
 {{- $linters_data := (include (printf "%s/.chezmoidata/linters.yaml" .chezmoi.sourceDir) | fromYaml) }}
 {{- $tools_data := (include (printf "%s/.chezmoidata/tools.yaml" .chezmoi.sourceDir) | fromYaml) }}
 
-{{- /* Parse active profiles; "default" is always active */ -}}
-{{- $active_profiles := splitList "," (.ACTIVE_PROFILES | default "default") -}}
-{{- if not (has "default" $active_profiles) -}}
-  {{- $active_profiles = append $active_profiles "default" -}}
-{{- end -}}
-
 return {
   filetypes = {
     web_frameworks = {
@@ -28,23 +22,14 @@ return {
     lsp_servers = {
 {{- range $server := $lsp_data.language_servers }}
   {{- if and (has "mason" $server.installer) (ne (toString (get $server "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey $server "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range $server.profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
+    {{- $mason_name := "" }}
+    {{- if hasKey $server "mason_name" }}
+      {{- $mason_name = $server.mason_name }}
+    {{- else }}
+      {{- $mason_name = $server.name }}
     {{- end }}
-    {{- if $profileMatch }}
-      {{- $mason_name := "" }}
-      {{- if hasKey $server "mason_name" }}
-        {{- $mason_name = $server.mason_name }}
-      {{- else }}
-        {{- $mason_name = $server.name }}
-      {{- end }}
-      {{- range $server.languages }}
-      ["{{ . }}"] = "{{ $mason_name }}",
-      {{- end }}
+    {{- range $server.languages }}
+    ["{{ . }}"] = "{{ $mason_name }}",
     {{- end }}
   {{- end }}
 {{- end }}
@@ -62,80 +47,35 @@ return {
     lsp_servers = {
 {{- range $lsp_data.language_servers }}
   {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey . "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range .profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
-    {{- end }}
-    {{- if $profileMatch }}
-      "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
-    {{- end }}
+    "{{ if hasKey . "mason_name" }}{{ .mason_name }}{{ else }}{{ .name }}{{ end }}",
   {{- end }}
 {{- end }}
     },
     lspconfig_servers = {
 {{- range $lsp_data.language_servers }}
   {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey . "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range .profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
-    {{- end }}
-    {{- if $profileMatch }}
-      "{{ if hasKey . "lspconfig_name" }}{{ .lspconfig_name }}{{ else }}{{ .name }}{{ end }}",
-    {{- end }}
+    "{{ if hasKey . "lspconfig_name" }}{{ .lspconfig_name }}{{ else }}{{ .name }}{{ end }}",
   {{- end }}
 {{- end }}
     },
     formatters = {
 {{- range $formatters_data.formatters }}
   {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey . "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range .profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
-    {{- end }}
-    {{- if $profileMatch }}
-      "{{ .name }}",
-    {{- end }}
+    "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     linters = {
 {{- range $linters_data.linters }}
   {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey . "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range .profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
-    {{- end }}
-    {{- if $profileMatch }}
-      "{{ .name }}",
-    {{- end }}
+    "{{ .name }}",
   {{- end }}
 {{- end }}
     },
     exploration_tools = {
 {{- range $tools_data.dev_tools }}
   {{- if and (has "mason" .installer) (ne (toString (get . "install")) "false") }}
-    {{- $profileMatch := true }}
-    {{- if hasKey . "profiles" }}
-      {{- $profileMatch = false }}
-      {{- range .profiles }}
-        {{- if has . $active_profiles }}{{- $profileMatch = true }}{{- end }}
-      {{- end }}
-    {{- end }}
-    {{- if $profileMatch }}
-      "{{ .name }}",
-    {{- end }}
+    "{{ .name }}",
   {{- end }}
 {{- end }}
     },

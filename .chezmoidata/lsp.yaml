@@ -1,6 +1,6 @@
 language_servers:
   # ============================================================
-  # DEFAULT PROFILE — Core LSP servers for everyday languages
+  # DEFAULT — Core LSP servers for everyday languages
   # ============================================================
 
   # JavaScript/TypeScript
@@ -102,13 +102,12 @@ language_servers:
     installer: [mason]
     provides_formatting: false
 
-  # AI copilot (opt-in via editors profile)
+  # AI copilot
   - name: copilot-language-server
     lspconfig_name: copilot
     languages: [text]
     installer: [mason]
     provides_formatting: false
-    profiles: [editors]
 
   # Generic diagnostic
   - name: diagnostic-languageserver
@@ -118,7 +117,7 @@ language_servers:
     provides_formatting: false
 
   # ============================================================
-  # LANGUAGES PROFILE — LSPs for additional languages
+  # LANGUAGES — LSPs for additional languages
   # ============================================================
 
   # Ruby
@@ -127,7 +126,6 @@ language_servers:
     languages: [ruby]
     installer: [gem]
     provides_formatting: false
-    profiles: [languages]
 
   # Zig
   - name: zls
@@ -135,7 +133,6 @@ language_servers:
     languages: [zig]
     installer: [brew, mason]
     provides_formatting: true
-    profiles: [languages]
 
   # Prisma (ORM)
   - name: "@prisma/language-server"
@@ -144,7 +141,6 @@ language_servers:
     languages: [prisma]
     installer: [npm, mason]
     provides_formatting: true
-    profiles: [languages]
 
   # Vim
   - name: vim-language-server
@@ -152,14 +148,13 @@ language_servers:
     languages: [vim]
     installer: [npm, mason]
     provides_formatting: false
-    profiles: [languages]
 
   # ============================================================
-  # EDITORS PROFILE — LSPs for alternative shells/editors
+  # EDITORS — LSPs for alternative shells/editors
   # ============================================================
 
   # ============================================================
-  # EXTRAS PROFILE — Specialty LSPs
+  # EXTRAS — Specialty LSPs
   # ============================================================
 
   # Web (HTML/CSS)
@@ -168,14 +163,12 @@ language_servers:
     languages: [css, scss, sass]
     installer: [mason]
     provides_formatting: false
-    profiles: [extras]
 
   - name: html-lsp
     lspconfig_name: html
     languages: [html]
     installer: [mason]
     provides_formatting: false
-    profiles: [extras]
 
   # CMake
   - name: neocmakelsp
@@ -183,4 +176,3 @@ language_servers:
     languages: [cmake]
     installer: [mason]
     provides_formatting: true
-    profiles: [extras]

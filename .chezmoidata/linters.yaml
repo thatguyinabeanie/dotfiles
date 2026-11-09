@@ -1,6 +1,6 @@
 linters:
   # ============================================================
-  # DEFAULT PROFILE — Core linters for everyday work
+  # DEFAULT — Core linters for everyday work
   # ============================================================
 
   # Shell
@@ -86,68 +86,57 @@ linters:
     installer: [mise, mason]
 
   # ============================================================
-  # INFRA PROFILE — Infrastructure-specific linters
+  # INFRA — Infrastructure-specific linters
   # ============================================================
   - name: kube-linter
     languages: [yaml]
     installer: [mise, mason]
-    profiles: [infra]
 
   - name: tflint
     languages: [terraform]
     installer: [mise, mason]
-    profiles: [infra]
 
   # ============================================================
-  # LANGUAGES PROFILE — Additional language linters
+  # LANGUAGES — Additional language linters
   # ============================================================
 
   # Python (extras beyond ruff)
   - name: flake8
     languages: [python]
     installer: [mason]
-    profiles: [languages]
 
   - name: pylint
     languages: [python]
     installer: [mason]
-    profiles: [languages]
 
   - name: mypy
     languages: [python]
     installer: [mason]
-    profiles: [languages]
 
   # Ruby
   - name: rubocop
     languages: [ruby]
     installer: [gem]
-    profiles: [languages]
 
   - name: haml-lint
     languages: [haml]
     installer: [mason]
-    profiles: [languages]
 
   # ============================================================
-  # EXTRAS PROFILE — Specialty linters
+  # EXTRAS — Specialty linters
   # ============================================================
   - name: semgrep
     languages: [python, javascript, typescript, go, java, ruby]
     installer: [mise, mason]
-    profiles: [extras]
 
   - name: bandit
     languages: [python]
     installer: [mason]
-    profiles: [extras]
 
   - name: sqlfluff
     languages: [sql]
     installer: [mason]
-    profiles: [databases]
 
   - name: buf
     languages: [proto]
     installer: [mise, mason]
-    profiles: [extras]

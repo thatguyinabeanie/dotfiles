@@ -1,6 +1,6 @@
 dev_tools:
   # ============================================================
-  # DEFAULT PROFILE — Core tools, always installed
+  # DEFAULT — Core tools, always installed
   # ============================================================
 
   # Shell essentials
@@ -185,199 +185,149 @@ dev_tools:
     installer: [mise]
 
   # ============================================================
-  # EDITORS PROFILE — Extra editors, terminals, and shell tools
+  # EDITORS — Extra editors, terminals, and shell tools
   # ============================================================
   - name: helix
     installer: [mise]
-    profiles: [editors]
   - name: zellij
     installer: [mise]
-    profiles: [editors]
   - name: television
     installer: [brew]
     description: "TUI fuzzy finder"
-    profiles: [editors]
 
   # ============================================================
-  # INFRA PROFILE — Cloud, containers, and infrastructure
+  # INFRA — Cloud, containers, and infrastructure
   # ============================================================
   - name: awscli
     installer: [brew]
-    profiles: [infra]
   - name: bash
     installer: [brew]
     description: "Bash 4+; civisrc targets it for bin/ scripts, macOS ships 3.2"
-    profiles: [infra]
   - name: direnv
     installer: [brew]
-    profiles: [infra]
   - name: ansible
     installer: [brew]
-    profiles: [infra]
   - name: circleci
     installer: [brew]
-    profiles: [infra]
   - name: terraform
     installer: [mise]
-    profiles: [infra]
   - name: kubectl
     installer: [mise]
     version: "1.36"
-    profiles: [infra]
   - name: helm
     installer: [mise]
-    profiles: [infra]
   - name: k9s
     installer: [mise]
-    profiles: [infra]
   - name: dive
     installer: [mise]
-    profiles: [infra]
   - name: okta-aws-cli
     installer: [brew]
-    profiles: [infra]
   - name: lazydocker
     installer: [mise]
-    profiles: [infra]
   - name: acli
     installer: [brew]
     description: "Atlassian CLI for Jira, Confluence, etc."
-    profiles: [infra]
 
   # ============================================================
-  # DATABASES PROFILE — Database runtimes
+  # DATABASES — Database runtimes
   # ============================================================
   - name: postgres
     installer: [mise]
     version: "16"
     description: "PostgreSQL database with psql client"
-    profiles: [databases]
   - name: mysql
     installer: [mise]
     description: "MySQL database"
-    profiles: [databases]
 
   # ============================================================
-  # LANGUAGES PROFILE — Additional language runtimes
+  # LANGUAGES — Additional language runtimes
   # ============================================================
   - name: ruby
     installer: [mise]
     version: "3.4.9"
-    profiles: [languages]
   - name: zig
     installer: [mise]
-    profiles: [languages]
   - name: java
     installer: [mise]
     version: "zulu-8.92.0.21"
-    profiles: [languages]
   - name: elixir
     installer: [mise]
-    profiles: [languages]
   - name: erlang
     installer: [mise]
-    profiles: [languages]
   - name: julia
     installer: [mise]
     version: "1.12.5"
-    profiles: [languages]
   - name: deno
     installer: [mise]
-    profiles: [languages]
   - name: bun
     installer: [mise]
     description: "Fast JavaScript runtime and package manager"
   - name: yarn
     installer: [mise]
-    profiles: [languages]
   - name: gradle
     installer: [mise]
-    profiles: [languages]
   - name: maven
     installer: [mise]
-    profiles: [languages]
 
   # ============================================================
-  # PUBLISHING PROFILE — Document and book publishing
+  # PUBLISHING — Document and book publishing
   # ============================================================
   - name: mdbook
     installer: [mise]
-    profiles: [publishing]
   - name: pandoc
     installer: [brew]
-    profiles: [publishing]
 
   # ============================================================
-  # EXTRAS PROFILE — Nice-to-have CLI tools
+  # EXTRAS — Nice-to-have CLI tools
   # ============================================================
   - name: bottom
     installer: [mise]
-    profiles: [extras]
   - name: glances
     installer: [brew]
-    profiles: [extras]
   - name: procs
     installer: [brew]
-    profiles: [extras]
   - name: navi
     installer: [brew]
-    profiles: [extras]
   - name: sd
     installer: [brew]
-    profiles: [extras]
   - name: tealdeer
     installer: [brew]
-    profiles: [extras]
   - name: gdu
     installer: [brew]
-    profiles: [extras]
   - name: hyperfine
     installer: [mise]
-    profiles: [extras]
   - name: gitsign
     installer: [mise]
-    profiles: [extras]
   - name: gitui
     installer: [mise]
-    profiles: [extras]
   - name: lazyjournal
     installer: [mise]
-    profiles: [extras]
   - name: tig
     installer: [brew]
-    profiles: [extras]
   - name: pokeget
     installer: [cargo]
     description: "Pokeget"
-    profiles: [extras]
   - name: difftastic
     installer: [brew]
     description: "Syntax-aware structural diff that understands code"
-    profiles: [extras]
   - name: topgrade
     installer: [brew]
     description: "Upgrade all tools across package managers in one command"
-    profiles: [extras]
   - name: choose-rust
     installer: [brew]
     description: "Human-friendly cut/awk alternative for column extraction"
-    profiles: [extras]
   - name: xh
     installer: [brew]
     description: "Rust HTTP client with colorized output - faster httpie"
-    profiles: [extras]
   - name: fend
     installer: [brew]
     description: "Arbitrary-precision unit-aware calculator"
-    profiles: [extras]
   - name: tokei
     installer: [brew]
     description: "Count lines of code by language - fast Rust alternative to cloc"
-    profiles: [extras]
   - name: tailspin
     installer: [brew]
     description: "Log file highlighter for streaming logs"
-    profiles: [extras]
 
 # NOTE: AI agents and MCP servers are now managed in separate files:
 # - .chezmoidata/agents.yaml

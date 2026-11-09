@@ -4,7 +4,7 @@ Usage: {{ template "queries/removed-packages.tmpl" (dict "PackageManager" "npm" 
 Output: sorted, unique, space-joined names; empty string when nothing is removed.
 
 An entry is removed for a manager when that manager is in its "installer" array and it
-has "install: false". The "profiles" field is ignored: removal applies on every profile.
+has "install: false".
 Names match what the install side passes to the manager: mise_name (mise), install_command
 (go), mason_name (mason), otherwise name.
 

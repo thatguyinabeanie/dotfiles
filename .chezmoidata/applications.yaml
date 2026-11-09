@@ -1,15 +1,5 @@
 # .chezmoidata/applications.yaml
-# GUI applications, organized by context and profile.
-#
-# Profiles:
-#   (no profiles)  = default, always installed
-#   creative       = music, design, video, photo editing
-#   3d-printing    = slicers, CAD, mesh tools
-#   editors        = extra code editors and terminals
-#   productivity   = daily productivity and communication apps
-#   mobile-dev     = mobile app development
-#   publishing     = document/LaTeX publishing
-#   social         = chat and social apps
+# GUI applications, organized by context.
 
 applications:
   work:
@@ -63,42 +53,32 @@ applications:
     # ============================================================
     - name: kitty
       installer: [brew_cask]
-      profiles: [editors]
     - name: visual-studio-code@insiders
       installer: [brew_cask]
-      profiles: [editors]
     - name: zed
       installer: [brew_cask]
-      profiles: [editors]
 
     # ============================================================
     # PRODUCTIVITY — Daily productivity and communication
     # ============================================================
     - name: claude-devtools
       installer: [brew_cask]
-      profiles: [productivity]
     - name: cyberduck
       installer: [brew_cask]
-      profiles: [productivity]
     - name: firefox
       installer: [brew_cask]
-      profiles: [productivity]
     - name: obsidian
       installer: [brew_cask]
-      profiles: [productivity]
     - name: slack
       installer: [brew_cask]
-      profiles: [productivity]
     - name: spotify
       installer: [brew_cask]
-      profiles: [productivity]
 
     # ============================================================
     # PUBLISHING — LaTeX and document tools
     # ============================================================
     - name: mactex-no-gui  # 4+ GB
       installer: [brew_cask]
-      profiles: [publishing]
 
   personal:
     # ============================================================
@@ -121,52 +101,39 @@ applications:
     # ============================================================
     - name: ableton-live-suite  # 70+ GB
       installer: [brew_cask]
-      profiles: [creative]
     - name: affinity  # 2+ GB
       installer: [brew_cask]
-      profiles: [creative]
     - name: blender  # 2+ GB
       installer: [brew_cask]
-      profiles: [creative]
     - name: darktable
       installer: [brew_cask]
-      profiles: [creative]
     - name: obs
       installer: [brew_cask]
-      profiles: [creative]
 
     # ============================================================
     # 3D-PRINTING — Slicers, CAD, mesh tools
     # ============================================================
     - name: freecad  # ~500 MB
       installer: [brew_cask]
-      profiles: [3d-printing]
     - name: meshlab
       installer: [brew_cask]
-      profiles: [3d-printing]
     - name: openscad
       installer: [brew_cask]
-      profiles: [3d-printing]
     - name: orcaslicer
       installer: [brew_cask]
-      profiles: [3d-printing]
 
     # ============================================================
     # MOBILE-DEV — Mobile app development
     # ============================================================
     - name: android-studio  # 1+ GB
       installer: [brew_cask]
-      profiles: [mobile-dev]
     - name: expo-orbit
       installer: [brew_cask]
-      profiles: [mobile-dev]
 
     # ============================================================
     # SOCIAL — Chat and social apps
     # ============================================================
     - name: discord
       installer: [brew_cask]
-      profiles: [social]
     - name: betterdiscord-installer
       installer: [brew_cask]
-      profiles: [social]

@@ -11,8 +11,7 @@ Instructions for AI assistants working with this dotfiles repository.
 2. **Always dry-run before apply** — `chezmoi apply --dry-run` then `chezmoi apply --force`
 3. **Never edit `~/.config/` directly** — edit chezmoi source (`dot_config/`) instead
 4. **Use `installer` (array) schema** — `install_via` (string) is legacy
-5. **Use profiles for optional packages** — `profiles: [python-dev]` to scope to a workflow
-6. **Uninstall means `install: false`**: keep the entry; never delete it to uninstall, and never
+5. **Uninstall means `install: false`**: keep the entry; never delete it to uninstall, and never
    run `brew uninstall`, `npm uninstall -g`, `mise uninstall`, etc. by hand
 
 ## Accuracy
@@ -57,7 +56,7 @@ Configuration is template-driven and reproducible across machines.
 
 1. **Identify package type**: formatters, linters, tools, etc.
 2. **Edit appropriate `.chezmoidata/*.yaml` file**
-3. **Follow established patterns**: `installer`, `name`, `description`, `profiles`, etc.
+3. **Follow established patterns**: `installer`, `name`, `description`, etc.
 4. **Validate with**: `chezmoi apply --dry-run`
 5. **Apply changes**: `chezmoi apply`
 
@@ -91,7 +90,6 @@ the package through every manager in the entry's `installer` array.
 
 Semantics:
 
-- Removal ignores `profiles`: it applies on every profile.
 - An entry is not removed while another entry keeps the same name active for the same manager
   (this stops apply from uninstalling and reinstalling the same package).
 - A package that is already removed is a silent no-op.
@@ -132,16 +130,9 @@ top_level_key:
     installer: [mise]              # Installation method(s)
     languages: [python, yaml]      # (formatters/linters) Languages supported
     description: "Optional note"   # Human-readable description
-    profiles: [python-dev]         # (optional) Only install when profile is active
     conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
     install: false                 # (optional) remove on next apply; default is to install
 ```
-
-**Profile filtering:** Packages with a `profiles` field are only installed when at least one
-matching profile is active. Packages without `profiles` are always installed (backward compatible).
-The `"default"` profile is always active and cannot be deactivated. Active profiles are stored
-as a comma-separated string in persistent config (`active_profiles` key) and can be overridden
-via the `ACTIVE_PROFILES` environment variable.
 
 ### Supported Installer Values
 
@@ -425,11 +416,10 @@ and a blind `compinit` that would defeat the deferred cached `compinit` in `dot_
 | Clone | `.chezmoiexternal.toml.tmpl` (root), `type = "git-repo"` with `pull.args = ["--ff-only"]` |
 | `src/*.sh`, `bin/`, env vars | `dot_zshrc.tmpl` SECTION 2, gated on `WORK_ENVIRONMENT` + directory exists |
 | zsh completions | `dot_zshrc.tmpl` SECTION 3, added to `fpath` |
-| Brew dependencies | `.chezmoidata/tools.yaml` under `profiles: [infra]` |
+| Brew dependencies | `.chezmoidata/tools.yaml` |
 
 Notes for future changes:
 
-- The `infra` profile must be active or none of the AWS/k8s tools install.
 - The clone uses chezmoi's native `git-repo` external, not a script. `--ff-only` means a
   refresh can never rewrite or merge over local commits in `~/source/civisrc`; it just fails
   if the branch has diverged. Note this makes chezmoi manage `~/source` as a directory, which
@@ -498,7 +488,7 @@ Before marking any task complete, verify:
 
 | Documentation | Location | Covers |
 |---|---|---|
-| Root (this file) | `AGENTS.md` | Package management, chezmoi, profiles, templates |
+| Root (this file) | `AGENTS.md` | Package management, chezmoi, templates |
 | Neovim/LazyVim | `dot_config/nvim/AGENTS.md` | Plugins, keymaps, LSP, 50+ keybindings |
 | Tmux | `dot_config/tmux/AGENTS.md` | Session management, plugins, keybindings |
 | Zellij | `dot_config/zellij/AGENTS.md` | Tmux-compatible multiplexer, keybindings |
@@ -506,4 +496,3 @@ Before marking any task complete, verify:
 | Ghostty | `dot_config/ghostty/AGENTS.md` | Terminal emulator, tmux integration |
 | Aerospace | `dot_config/aerospace/AGENTS.md` | macOS tiling window manager |
 | 1Password | `docs/ONEPASSWORD_SETUP.md` | 1Password service account setup |
-| Profiles Design | `docs/plans/2026-03-24-profile-based-packages-design.md` | Profile system design record |

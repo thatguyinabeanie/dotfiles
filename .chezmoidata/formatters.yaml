@@ -1,6 +1,6 @@
 formatters:
   # ============================================================
-  # DEFAULT PROFILE — Core formatters for everyday languages
+  # DEFAULT — Core formatters for everyday languages
   # ============================================================
 
   # JavaScript/TypeScript (used by most web projects)
@@ -42,17 +42,16 @@ formatters:
     installer: [mise, mason]
 
   # ============================================================
-  # LANGUAGES PROFILE — Formatters for additional languages
+  # LANGUAGES — Formatters for additional languages
   # ============================================================
 
   # Ruby
   - name: standardrb
     languages: [ruby]
     installer: [gem]
-    profiles: [languages]
 
   # ============================================================
-  # EXTRAS PROFILE — Additional formatter variants
+  # EXTRAS — Additional formatter variants
   # ============================================================
 
   # Prettier plugins for specialized formats
@@ -60,53 +59,44 @@ formatters:
     languages: [gotemplate]
     installer: [npm]
     description: "Prettier plugin for Go templates"
-    profiles: [extras]
 
   - name: prettier-plugin-sh
     languages: [shell, bash]
     installer: [npm]
     description: "Prettier plugin for shell scripts"
-    profiles: [extras]
 
   - name: prettier-plugin-toml
     languages: [toml]
     installer: [npm]
     description: "Prettier plugin for TOML files"
-    profiles: [extras]
 
   # Python
   - name: black
     languages: [python]
     installer: [mason]
-    profiles: [extras]
 
   # YAML
   - name: yamlfix
     languages: [yaml]
     installer: [brew, mason]
-    profiles: [extras]
 
   - name: yamlfmt
     languages: [yaml]
     installer: [brew, mason]
-    profiles: [extras]
 
   # SQL
   - name: sql-formatter
     languages: [sql]
     installer: [npm, mason]
-    profiles: [databases]
 
   # XML
   - name: xmlformatter
     languages: [xml]
     installer: [mason]
-    profiles: [extras]
 
   # CSS/SCSS
   - name: stylelint
     languages: [css, scss, sass]
     installer: [npm, mason]
-    profiles: [extras]
 
 # Trigger npm reinstall
