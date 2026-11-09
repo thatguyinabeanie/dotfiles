@@ -83,6 +83,18 @@ log_install_result() {
     log_to_file "${status}: $name"
 }
 
+# Emit − or ✗ for a single package removal result
+log_uninstall_result() {
+    local status="$1"   # "ok" or "fail"
+    local name="$2"
+    if [[ "$status" == "ok" ]]; then
+        echo "  − $name (removed)"
+    else
+        echo "  ✗ $name (remove failed)"
+    fi
+    log_to_file "uninstall ${status}: $name"
+}
+
 # Export functions for use in other scripts
 export -f log_to_file
 export -f log_detail
@@ -91,3 +103,4 @@ export -f log_section
 export -f show_progress
 export -f clear_progress
 export -f log_install_result
+export -f log_uninstall_result

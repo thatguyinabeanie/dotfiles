@@ -9,7 +9,7 @@
 
 {{- /* Collect from language servers */ -}}
 {{- range .language_servers -}}
-  {{- if has "brew" .installer -}}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -25,7 +25,7 @@
 
 {{- /* Collect from formatters */ -}}
 {{- range .formatters -}}
-  {{- if has "brew" .installer -}}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -41,7 +41,7 @@
 
 {{- /* Collect from linters */ -}}
 {{- range .linters -}}
-  {{- if has "brew" .installer -}}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -57,7 +57,7 @@
 
 {{- /* Collect from dev_tools */ -}}
 {{- range .dev_tools -}}
-  {{- if has "brew" .installer -}}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -73,7 +73,7 @@
 
 {{- /* Collect from agents */ -}}
 {{- range .agents -}}
-  {{- if has "brew" .installer -}}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}

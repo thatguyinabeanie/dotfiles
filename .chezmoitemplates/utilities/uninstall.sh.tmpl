@@ -1,0 +1,25 @@
+# Uninstall helper. Requires logging.sh.tmpl (log_to_file, log_uninstall_result) to be included first.
+
+# uninstall_packages CHECK_FN REMOVE_FN NAME...
+# For each NAME that CHECK_FN reports as installed, run REMOVE_FN NAME.
+# Remove output is appended to $LOG_FILE; results go through log_uninstall_result.
+# Never aborts the calling script, even under set -e / ERR trap.
+uninstall_packages() {
+    local check_fn="$1"
+    local remove_fn="$2"
+    shift 2
+
+    local name
+    for name in "$@"; do
+        # Commands in an if condition do not trigger set -e or the ERR trap
+        if ! "$check_fn" "$name" >/dev/null 2>&1; then
+            continue
+        fi
+        if "$remove_fn" "$name" >> "$LOG_FILE" 2>&1; then
+            log_uninstall_result ok "$name"
+        else
+            log_uninstall_result fail "$name"
+        fi
+    done
+    return 0
+}

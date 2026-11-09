@@ -1,0 +1,55 @@
+{{- /*
+Removal query template: packages marked "install: false" that should be uninstalled.
+Usage: {{ template "queries/removed-packages.tmpl" (dict "PackageManager" "npm" "root" .) }}
+Output: sorted, unique, space-joined names; empty string when nothing is removed.
+
+An entry is removed for a manager when that manager is in its "installer" array and it
+has "install: false". The "profiles" field is ignored: removal applies on every profile.
+Names match what the install side passes to the manager: mise_name (mise), install_command
+(go), mason_name (mason), otherwise name.
+
+Loop guard: a name is dropped from the result if any entry without "install: false" yields
+the same name for the same manager, so apply never uninstalls then reinstalls a package.
+*/ -}}
+{{- $manager := .PackageManager -}}
+{{- $root := .root -}}
+{{- /* index (unlike field access) tolerates absent keys, so partial roots work */ -}}
+{{- $apps := index $root "applications" | default dict -}}
+{{- $sources := list -}}
+{{- range $key := list "dev_tools" "agents" "mcp_servers" "language_servers" "formatters" "linters" -}}
+  {{- $sources = append $sources (index $root $key) -}}
+{{- end -}}
+{{- range $key := list "shared" "personal" "work" -}}
+  {{- $sources = append $sources (index $apps $key) -}}
+{{- end -}}
+{{- $removed := list -}}
+{{- $active := list -}}
+
+{{- range $source := $sources -}}
+  {{- range $source -}}
+    {{- if has $manager .installer -}}
+      {{- $name := .name -}}
+      {{- if eq $manager "mise" -}}
+        {{- $name = get . "mise_name" | default .name -}}
+      {{- else if eq $manager "go" -}}
+        {{- $name = get . "install_command" | default .name -}}
+      {{- else if eq $manager "mason" -}}
+        {{- $name = get . "mason_name" | default .name -}}
+      {{- end -}}
+      {{- if eq (toString (get . "install")) "false" -}}
+        {{- $removed = append $removed $name -}}
+      {{- else -}}
+        {{- $active = append $active $name -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $names := list -}}
+{{- range $removed -}}
+  {{- if not (has . $active) -}}
+    {{- $names = append $names . -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $names | sortAlpha | uniq | join " " -}}

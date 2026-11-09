@@ -9,7 +9,7 @@
 
 {{- /* Collect from dev_tools */ -}}
 {{- range .dev_tools -}}
-  {{- if has "brew_cask" .installer -}}
+  {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -25,7 +25,7 @@
 
 {{- /* Collect from agents */ -}}
 {{- range .agents -}}
-  {{- if has "brew_cask" .installer -}}
+  {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") -}}
     {{- $profileMatch := true -}}
     {{- if hasKey . "profiles" -}}
       {{- $profileMatch = false -}}
@@ -42,7 +42,7 @@
 {{- /* Collect from applications (shared context) */ -}}
 {{- if .applications.shared -}}
   {{- range .applications.shared -}}
-    {{- if has "brew_cask" .installer -}}
+    {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -60,7 +60,7 @@
 {{- /* Collect from applications (personal context) */ -}}
 {{- if .applications.personal -}}
   {{- range .applications.personal -}}
-    {{- if has "brew_cask" .installer -}}
+    {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -78,7 +78,7 @@
 {{- /* Collect from applications (work context) */ -}}
 {{- if .applications.work -}}
   {{- range .applications.work -}}
-    {{- if has "brew_cask" .installer -}}
+    {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}

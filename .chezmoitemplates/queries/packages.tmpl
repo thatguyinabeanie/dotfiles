@@ -20,7 +20,7 @@ always included (backward compatible). The "default" profile is always active.
 {{- if eq $manager "mise" -}}
   {{- /* Special case for mise: collect dev_tools */ -}}
   {{- range $root.dev_tools -}}
-    {{- if has "mise" .installer -}}
+    {{- if and (has "mise" .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -38,7 +38,7 @@ always included (backward compatible). The "default" profile is always active.
 
   {{- /* Language servers */ -}}
   {{- range $root.language_servers -}}
-    {{- if has $manager .installer -}}
+    {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -60,7 +60,7 @@ always included (backward compatible). The "default" profile is always active.
 
   {{- /* Formatters */ -}}
   {{- range $root.formatters -}}
-    {{- if has $manager .installer -}}
+    {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -82,7 +82,7 @@ always included (backward compatible). The "default" profile is always active.
 
   {{- /* Linters */ -}}
   {{- range $root.linters -}}
-    {{- if has $manager .installer -}}
+    {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
       {{- $profileMatch := true -}}
       {{- if hasKey . "profiles" -}}
         {{- $profileMatch = false -}}
@@ -105,7 +105,7 @@ always included (backward compatible). The "default" profile is always active.
   {{- /* Dev tools (cargo only, others handled by mise) */ -}}
   {{- if eq $manager "cargo" -}}
     {{- range $root.dev_tools -}}
-      {{- if has "cargo" .installer -}}
+      {{- if and (has "cargo" .installer) (ne (toString (get . "install")) "false") -}}
         {{- $profileMatch := true -}}
         {{- if hasKey . "profiles" -}}
           {{- $profileMatch = false -}}
@@ -123,7 +123,7 @@ always included (backward compatible). The "default" profile is always active.
   {{- /* AI agents and MCP servers (npm/pip only) */ -}}
   {{- if or (eq $manager "npm") (eq $manager "pip") -}}
     {{- range $root.agents -}}
-      {{- if has $manager .installer -}}
+      {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
         {{- $profileMatch := true -}}
         {{- if hasKey . "profiles" -}}
           {{- $profileMatch = false -}}
@@ -137,7 +137,7 @@ always included (backward compatible). The "default" profile is always active.
       {{- end -}}
     {{- end -}}
     {{- range $root.mcp_servers -}}
-      {{- if has $manager .installer -}}
+      {{- if and (has $manager .installer) (ne (toString (get . "install")) "false") -}}
         {{- $profileMatch := true -}}
         {{- if hasKey . "profiles" -}}
           {{- $profileMatch = false -}}
@@ -156,7 +156,7 @@ always included (backward compatible). The "default" profile is always active.
   {{- if eq $manager "mas" -}}
     {{- if $root.applications.shared -}}
       {{- range $root.applications.shared -}}
-        {{- if has "mas" .installer -}}
+        {{- if and (has "mas" .installer) (ne (toString (get . "install")) "false") -}}
           {{- $profileMatch := true -}}
           {{- if hasKey . "profiles" -}}
             {{- $profileMatch = false -}}
@@ -172,7 +172,7 @@ always included (backward compatible). The "default" profile is always active.
     {{- end -}}
     {{- if $root.applications.personal -}}
       {{- range $root.applications.personal -}}
-        {{- if has "mas" .installer -}}
+        {{- if and (has "mas" .installer) (ne (toString (get . "install")) "false") -}}
           {{- $profileMatch := true -}}
           {{- if hasKey . "profiles" -}}
             {{- $profileMatch = false -}}
@@ -188,7 +188,7 @@ always included (backward compatible). The "default" profile is always active.
     {{- end -}}
     {{- if $root.applications.work -}}
       {{- range $root.applications.work -}}
-        {{- if has "mas" .installer -}}
+        {{- if and (has "mas" .installer) (ne (toString (get . "install")) "false") -}}
           {{- $profileMatch := true -}}
           {{- if hasKey . "profiles" -}}
             {{- $profileMatch = false -}}

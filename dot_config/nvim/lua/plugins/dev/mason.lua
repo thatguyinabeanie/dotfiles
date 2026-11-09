@@ -7,6 +7,7 @@ local config = {
     formatters = {},
     linters = {},
     exploration_tools = {},
+    remove = {},
   },
   filetypes = {
     lsp_servers = {},
@@ -72,6 +73,27 @@ return {
 
     config = function(_, opts)
       require("mason-tool-installer").setup(opts)
+
+      -- Uninstall packages flagged "install: false" in .chezmoidata
+      local registry = require("mason-registry")
+      for _, name in ipairs(config.mason.remove or {}) do
+        if registry.is_installed(name) then
+          -- get_package throws for names missing from the registry
+          local found, pkg = pcall(registry.get_package, name)
+          if found then
+            pkg:uninstall({}, function(success, err)
+              -- the callback may run in a fast event context
+              vim.schedule(function()
+                if success then
+                  vim.notify("Mason: uninstalled " .. name, vim.log.levels.INFO)
+                else
+                  vim.notify("Mason: failed to uninstall " .. name .. ": " .. tostring(err), vim.log.levels.WARN)
+                end
+              end)
+            end)
+          end
+        end
+      end
 
       -- Auto-install LSP servers on filetype detection
       vim.api.nvim_create_autocmd("FileType", {
