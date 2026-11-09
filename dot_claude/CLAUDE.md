@@ -65,6 +65,16 @@
   it does and why as a message first, so I can judge the permission prompt without decoding the
   command.
 
+## Repos and Worktrees
+
+- I clone all my repos into `~/source/`, one directory per repo (for example
+  `~/source/arbitrary-repo`).
+- Always nest a git worktree inside the repo it was created for, wherever that repo lives:
+  under `.claude/worktrees/` if the repo root has a `.claude/` directory, otherwise under
+  `.worktrees/`. Make sure the repo's `.gitignore` excludes that directory.
+- Never create a worktree as a sibling of the repo or anywhere outside it (for example
+  `~/source/arbitrary-repo-feature`).
+
 ## Task Skills
 
 Load the matching skill before starting these tasks:
