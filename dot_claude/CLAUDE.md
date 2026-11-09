@@ -71,7 +71,8 @@ Load the matching skill before starting these tasks:
 
 - Committing, pushing, branching, checking CI, or troubleshooting CI (including CircleCI):
   `git-workflow`
-- Creating a PR, editing a PR description, or posting GitHub comments or reviews: `github-prs`
+- Creating a PR, editing or updating a PR description (including `gh pr edit` mid-task), or
+  posting GitHub comments or reviews: `github-prs`
 - Drafting, creating, editing, commenting on, or transitioning a Jira ticket: `jira-tickets`
 
 ## Code Review

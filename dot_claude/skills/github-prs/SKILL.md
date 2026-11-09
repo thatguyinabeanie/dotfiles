@@ -1,6 +1,6 @@
 ---
 name: github-prs
-description: Use when creating a GitHub pull request, writing or editing a PR description, or posting comments or reviews on GitHub PRs and issues, including inline review comments.
+description: Use when creating a GitHub pull request, writing or editing a PR description, updating a PR body with `gh pr edit` (including as a side step of another task), or posting comments or reviews on GitHub PRs and issues, including inline review comments.
 ---
 
 # GitHub PRs and Comments
@@ -8,7 +8,7 @@ description: Use when creating a GitHub pull request, writing or editing a PR de
 ## Comments and reviews
 
 - When posting comments on GitHub (issues, PRs, etc.), always sign off to indicate Claude posted
-  it, not the user directly. A simple sign-off like "posted by Claude Code" suffices.
+  it, not the user directly. Append: "🤖 Generated with Claude Code"
 - Never post PR comments one by one. Each one fires a notification and bombards the PR author.
   Batch them into a single GitHub review and leave that review pending (not submitted), so I can
   inspect the comments before submitting it myself.
