@@ -51,8 +51,8 @@ lefthook install
 lefthook run pre-commit --all-files   # same as: mise run lint
 ```
 
-The hooks run Vale, markdownlint, markdown link check, shellcheck, stylua, luacheck, yamllint, and
-gitleaks. They are defined in `lefthook.yml`.
+The hooks run Vale, markdownlint, markdown link check, shellcheck, stylua, luacheck, yamllint,
+gitleaks, and a spell-list sorter. They are defined in `.lefthook.yml`.
 
 ## Where things are
 

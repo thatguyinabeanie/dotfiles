@@ -232,6 +232,15 @@ When working with JSON templates (like `opencode.jsonc.tmpl`), be aware of:
 2. Validate generated JSON with `python3 -m json.tool` or similar
 3. Test the actual application consuming the JSON configuration
 
+## Code Style Guidelines
+
+- **Go**: Follow golangci-lint rules (govet, errcheck, staticcheck, gosec, revive).
+  Use `github.com/alecthomas/assert/v2` for tests. Imports are grouped (standard, third-party, local).
+- **Lua**: Use stylua formatting, follow luacheck rules. Neovim globals (`vim`) are allowed
+- **Shell**: Use shellcheck for linting. Follow POSIX compatibility where possible
+- **YAML**: See `.yamllint.yml` for style rules.
+- **Markdown**: Use Vale for prose linting, follow markdownlint rules.
+
 ### Shell Functions
 
 This repo is **zsh only**. Fish was removed; do not reintroduce it.
@@ -245,8 +254,8 @@ This repo is **zsh only**. Fish was removed; do not reintroduce it.
 
 PATH is built in `dot_zprofile.tmpl` (one `path=(...)` array) and, for non-login shells, in
 `.zshenv` from `env_paths` in `.chezmoidata/shared.yaml`. Cargo binaries live under
-`$CARGO_HOME/bin` (`~/.local/share/cargo/bin`), not `~/.cargo/bin`. Each env var is set in one place:
-`.chezmoidata/shared.yaml`, rendered into `.zshenv` by `.chezmoitemplates/utilities/generic-env.sh.tmpl`.
+`$CARGO_HOME/bin` (`~/.local/share/cargo/bin`), not `~/.cargo/bin`. Each env var in `.chezmoidata/shared.yaml` is set once there, and rendered
+into `.zshenv` by `.chezmoitemplates/utilities/generic-env.sh.tmpl`.
 
 ## Configuration Management
 
