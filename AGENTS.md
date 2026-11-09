@@ -65,19 +65,33 @@ Configuration is template-driven and reproducible across machines.
 When I say "uninstall X", set `install: false` on the entry. The next `chezmoi apply` removes
 the package through every manager in the entry's `installer` array.
 
-1. **Find every entry**: `grep -rn X .chezmoidata/`. Include `mise_name:` and `mason_name:`
-   values, and check every file, because the same tool can appear in more than one.
+1. **Find every entry**: `grep -rn X .chezmoidata/`. Include `mise_name:`, `mason_name:`, and
+   `install_command:` values (go removes the binary named in `install_command`), and check every
+   file, because the same tool can appear in more than one.
 2. **Add `install: false`** to every matching entry. Keep `installer` as-is: it names the
    managers to remove from.
 3. **If X is in no YAML file**, find its manager with read-only checks (`brew list`,
    `brew list --cask`, `mise ls --installed`, `npm ls -g --depth=0`, `pip show`,
-   `cargo install --list`, `gem list`). Then add an entry in the matching file with that
-   `installer` and `install: false`.
+   `cargo install --list`, `gem list`, `bun pm ls -g`, and for go, list the bin dir:
+   `go env GOBIN`, or `$(go env GOPATH)/bin` when that is empty). Then add an entry in the
+   matching file with that `installer` and `install: false`.
 4. **To remove from only one manager**: drop that manager from the entry's `installer` array,
    and add a separate entry with the same `name`, `installer: [that-manager]`, and
-   `install: false`.
-5. **Validate**: run `chezmoi apply --dry-run`, then ask me before `chezmoi apply --force`,
-   because it deletes software.
+   `install: false`. That tombstone is intentional, not a duplicate: a tombstone may share a
+   `name` with an active entry when their `installer` lists differ. For example, a tool moved
+   from brew to mise keeps an active `installer: [mise]` entry and an `installer: [brew]`,
+   `install: false` tombstone. Never merge or "dedupe" the two.
+5. **Preview and validate**: `chezmoi apply --dry-run` checks templates but does not run
+   scripts, so it shows no removals. Render the removal list for each manager in the entries'
+   `installer` arrays (`brew`, `brew_cask`, `mise`, `npm`, `mason`, and so on) and show me
+   exactly what will be removed:
+
+   ```bash
+   chezmoi execute-template '{{ template "queries/removed-packages.tmpl" (dict "PackageManager" "brew" "root" .) }}'
+   ```
+
+   Then run `chezmoi apply --dry-run`, and ask me before `chezmoi apply --force`, because it
+   deletes software.
 6. **Keep the entries** after the removal: other machines need them to remove the package too.
    Delete one only when I ask.
 
@@ -93,12 +107,25 @@ Semantics:
 - An entry is not removed while another entry keeps the same name active for the same manager
   (this stops apply from uninstalling and reinstalling the same package).
 - A package that is already removed is a silent no-op.
+- A failed removal during `chezmoi apply` is not retried automatically. The removal helper
+  (`uninstall_packages`) returns 0 so it never stops apply, and chezmoi records the script as
+  run. To retry, fix the cause, then run `chezmoi state delete-bucket --bucket=entryState`
+  and apply again. That re-runs every `run_onchange_` script. To re-run one script only, delete
+  its key instead, for example
+  `chezmoi state delete --bucket=entryState --key="$HOME/.chezmoiscripts/mise/140-go-packages.sh"`.
 
 Coverage:
 
 - Removed during `chezmoi apply`: brew, brew_cask, mise, cargo, npm, pip, go, gem, bun.
-- Mason removes on the next Neovim launch.
-- Not covered: `mas`, `curl`, Homebrew taps, and services.
+- Mason removes on the next Neovim launch, when mason-tool-installer loads, and retries on every
+  launch until the package is gone. `dot_config/nvim/lua/plugins/dev/mason.lua` also filters
+  removed packages out of the lists LazyVim installs from, so they stay removed. For a language
+  server that LazyVim configures itself (for example `gopls` from the Go extra), it sets
+  `mason = false`: LazyVim stops installing the server but still starts it when its binary is on
+  `PATH` from another manager.
+- Not covered: `mas`, `curl`, `rustup`, Homebrew taps, and services. In Neovim, debug adapters
+  that mason-nvim-dap installs automatically when nvim-dap loads (for example `debugpy`) are not
+  filtered; no `.chezmoidata` entry uses one today.
 
 ### Quick Reference: `.chezmoidata/` Files
 
@@ -107,7 +134,7 @@ Coverage:
 | `formatters.yaml`         | `formatters`         | Code formatters (prettier, stylua, etc.)     |
 | `linters.yaml`            | `linters`            | Linters (eslint, shellcheck, vale, etc.)     |
 | `tools.yaml`              | `dev_tools`          | CLI tools and utilities (ripgrep, fd, etc.)  |
-| `lsp.yaml`                | `lsp_servers`        | Language server configurations               |
+| `lsp.yaml`                | `language_servers`   | Language server configurations               |
 | `mcp.yaml`                | `mcp_servers`        | MCP server definitions                       |
 | `applications.yaml`       | `applications`       | macOS GUI apps (casks, Mac App Store)        |
 | `taps.yaml`               | `homebrew_taps`      | Homebrew tap repositories                    |
@@ -214,7 +241,8 @@ chezmoi apply
 
 **Version Conflicts:**
 
-- Check for duplicate entries across different YAML files
+- Check for duplicate entries across different YAML files. An `install: false` tombstone with a
+  different `installer` from an active entry of the same name is intentional: leave it.
 - Ensure consistent version specifications
 - Use `mise list` to check installed versions
 
@@ -455,7 +483,8 @@ Before marking any task complete, verify:
 - [ ] `chezmoi apply --dry-run` succeeds without errors
 - [ ] `lefthook run pre-commit` passes all checks (if applicable)
 - [ ] Changes validated on actual system (not just dry-run)
-- [ ] No duplicate entries in `.chezmoidata/*.yaml` files
+- [ ] No duplicate entries in `.chezmoidata/*.yaml` files (an `install: false` tombstone that
+      shares a name with an active entry but has a different `installer` is not a duplicate)
 - [ ] Platform-specific code uses appropriate conditionals
 
 ## Common Pitfalls
@@ -464,7 +493,9 @@ Before marking any task complete, verify:
    `chezmoi apply --force`.
 2. **Platform-specific code**: use `{{- if eq .chezmoi.os "darwin" }}` for macOS-only
    features.
-3. **Duplicate package entries**: check existing entries before adding new packages.
+3. **Duplicate package entries**: check existing entries before adding new packages. An
+   `install: false` tombstone next to an active entry is intentional (see Package Uninstall
+   Workflow, step 4).
 4. **Missing validation**: don't skip the dry-run step during template development.
 5. **Direct package installation**: never run `brew install`, `npm install -g`, etc.
    Use `.chezmoidata/*.yaml` files.

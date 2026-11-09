@@ -15,6 +15,7 @@ fi
 
 log_section "💎 Ruby Gem Packages"
 
+# Remove packages flagged "install: false"
 _gem_is_installed() { gem list -i -e "$1"; }
 _gem_remove() { gem uninstall -a -x "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "gem" "root" .) }})

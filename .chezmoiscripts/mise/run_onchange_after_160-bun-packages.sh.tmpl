@@ -20,6 +20,7 @@ fi
 
 log_section "🍞 Bun Packages"
 
+# Remove packages flagged "install: false"
 _bun_is_installed() { grep -qF -- " $1@" <<< "$(bun pm ls -g 2>/dev/null)"; }
 _bun_remove() { bun remove -g "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "bun" "root" .) }})

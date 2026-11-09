@@ -29,6 +29,7 @@ else
     log_detail "cargo-binstall already available"
 fi
 
+# Remove packages flagged "install: false"
 _cargo_is_installed() { grep -q "^$1 " <<< "$(cargo install --list 2>/dev/null)"; }
 _cargo_remove() { cargo uninstall "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "cargo" "root" .) }})

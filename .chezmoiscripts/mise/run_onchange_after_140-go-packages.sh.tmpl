@@ -24,8 +24,21 @@ go_binary_name() {
     basename "${pkg%@*}"
 }
 
-_go_is_installed() { [[ -x "$GOPATH/bin/$(go_binary_name "$1")" ]]; }
-_go_remove() { rm -f "$GOPATH/bin/$(go_binary_name "$1")"; }
+# Remove packages flagged "install: false"
+# go install writes to GOBIN when set (mise sets it), else to GOPATH/bin.
+# The GOPATH test keeps a failed lookup from resolving to /bin.
+_go_bin_dir() {
+    local gobin gopath
+    gobin="$(go env GOBIN)" && gopath="$(go env GOPATH)" && [[ -n "$gopath" ]] && echo "${gobin:-$gopath/bin}"
+}
+_go_is_installed() {
+    local dir
+    dir="$(_go_bin_dir)" && [[ -x "$dir/$(go_binary_name "$1")" ]]
+}
+_go_remove() {
+    local dir
+    dir="$(_go_bin_dir)" && rm -f "$dir/$(go_binary_name "$1")"
+}
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "go" "root" .) }})
 if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
     uninstall_packages _go_is_installed _go_remove "${REMOVE_PACKAGES[@]}"

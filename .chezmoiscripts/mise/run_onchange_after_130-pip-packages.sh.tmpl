@@ -15,6 +15,7 @@ fi
 
 log_section "🐍 Python pip Packages"
 
+# Remove packages flagged "install: false"
 _pip_is_installed() { pip show "$1"; }
 _pip_remove() { pip uninstall -y "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "pip" "root" .) }})

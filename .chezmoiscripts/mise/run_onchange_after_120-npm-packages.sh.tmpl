@@ -16,7 +16,9 @@ if ! mise which node >/dev/null 2>&1; then
     exit 1
 fi
 
-_npm_is_installed() { npm ls -g --depth=0 "$1"; }
+# Remove packages flagged "install: false"
+# npm ls -g exits 1 on unrelated tree problems, so look for the package dir instead
+_npm_is_installed() { [[ -d "$(npm root -g)/$1" ]]; }
 _npm_remove() { npm uninstall -g "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "npm" "root" .) }})
 if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then

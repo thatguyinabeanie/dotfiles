@@ -20,19 +20,76 @@ if ok then
   config = template_config
 end
 
+-- Mason package names flagged "install: false", as a set
+local removed = {}
+for _, name in ipairs(config.mason.remove or {}) do
+  removed[name] = true
+end
+
+-- lspconfig names of the removed packages, from the same mason-lspconfig map LazyVim installs servers by.
+-- The map needs mason's registry, which is loaded by the time LazyVim resolves these opts.
+local function removed_servers()
+  local servers = {}
+  if next(removed) == nil then
+    return servers
+  end
+  local found, map = pcall(function()
+    return require("mason-lspconfig.mappings").get_mason_map().package_to_lspconfig
+  end)
+  if not found then
+    return servers
+  end
+  for name in pairs(removed) do
+    if map[name] then
+      servers[map[name]] = true
+    end
+  end
+  return servers
+end
+
+local function without(list, names)
+  return vim.tbl_filter(function(name)
+    return not names[name]
+  end, list)
+end
+
+-- LazyVim (re)installs every name in these lists on each launch, so removed packages are filtered out.
+-- The opts are functions so the filter sees the lists LazyVim and its extras merged in first.
 return {
   -- Mason: Core tools
   {
     "mason-org/mason.nvim",
-    opts = {
+    opts = function(_, opts)
       -- Enhanced UI and performance settings
-      ui = {
+      opts.ui = vim.tbl_deep_extend("force", opts.ui or {}, {
         border = "rounded",
         width = 0.8,
         height = 0.8,
-      },
-      ensure_installed = config.mason.core_tools,
-    },
+      })
+      -- LazyVim's opts_extend appends list values, so extend rather than replace.
+      -- The rendered language-config has no core_tools today, hence the `or {}`.
+      local ensure = vim.list_extend(opts.ensure_installed or {}, config.mason.core_tools or {})
+      opts.ensure_installed = without(ensure, removed)
+    end,
+  },
+
+  -- LazyVim installs each server in opts.servers through mason-lspconfig. mason = false stops that
+  -- for removed packages; the server still starts if its binary is on PATH from another manager.
+  {
+    "neovim/nvim-lspconfig",
+    opts = function(_, opts)
+      for server in pairs(removed_servers()) do
+        local server_opts = opts.servers and opts.servers[server]
+        -- LazyVim accepts `server = true` as shorthand for {}
+        if server_opts == true then
+          server_opts = {}
+        end
+        if type(server_opts) == "table" then
+          server_opts.mason = false
+          opts.servers[server] = server_opts
+        end
+      end
+    end,
   },
 
   -- Mason LSP configuration bridge
@@ -41,17 +98,18 @@ return {
     dependencies = { "mason-org/mason.nvim" },
     -- Updated events for better LSP attachment
     event = { "BufReadPre", "BufNewFile", "BufWritePre" },
-    opts = {
-      -- Ensure installed servers from our template config (using lspconfig names)
-      ensure_installed = config.mason.lspconfig_servers,
+    opts = function(_, opts)
+      -- Ensure installed servers from our template config (using lspconfig names).
+      -- LazyVim passes this list to mason-lspconfig's ensure_installed.
+      opts.ensure_installed = without(vim.list_extend({}, config.mason.lspconfig_servers or {}), removed_servers())
       -- Use setup_handlers for better control over LSP server initialization
-      handlers = {
+      opts.handlers = {
         -- Default handler for all servers
         function(server_name)
           require("lspconfig")[server_name].setup({})
         end,
-      },
-    },
+      }
+    end,
   },
 
   -- Mason: Auto-installer for exploration tools
@@ -81,7 +139,8 @@ return {
           -- get_package throws for names missing from the registry
           local found, pkg = pcall(registry.get_package, name)
           if found then
-            pkg:uninstall({}, function(success, err)
+            -- uninstall asserts (e.g. "already uninstalling"); pcall keeps the autocmd below registered
+            local started, start_err = pcall(pkg.uninstall, pkg, {}, function(success, err)
               -- the callback may run in a fast event context
               vim.schedule(function()
                 if success then
@@ -91,6 +150,9 @@ return {
                 end
               end)
             end)
+            if not started then
+              vim.notify("Mason: failed to uninstall " .. name .. ": " .. tostring(start_err), vim.log.levels.WARN)
+            end
           end
         end
       end

@@ -15,7 +15,8 @@ uninstall_packages() {
         if ! "$check_fn" "$name" >/dev/null 2>&1; then
             continue
         fi
-        if "$remove_fn" "$name" >> "$LOG_FILE" 2>&1; then
+        # stdin from /dev/null: output goes to the log, so a prompt (e.g. gem) would hang unseen
+        if "$remove_fn" "$name" >> "$LOG_FILE" 2>&1 </dev/null; then
             log_uninstall_result ok "$name"
         else
             log_uninstall_result fail "$name"

@@ -20,6 +20,7 @@ fi
 
 log_section "🔧 Mise Tools"
 
+# Remove packages flagged "install: false"
 _mise_is_installed() { [[ -n "$(mise ls --installed "$1" 2>/dev/null)" ]]; }
 _mise_remove() { mise uninstall --all "$1"; }
 REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "mise" "root" .) }})
