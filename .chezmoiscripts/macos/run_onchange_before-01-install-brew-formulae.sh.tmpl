@@ -5,12 +5,21 @@
 
 {{ template "utilities/error-handling.sh" }}
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
 
 log_section "🍺 Homebrew Formulae (CLI Tools)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
+
+# Remove packages flagged "install: false"
+_brew_formula_is_installed() { brew list --formula "$1" >/dev/null 2>&1; }
+_brew_formula_remove() { brew uninstall --formula "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "brew" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _brew_formula_is_installed _brew_formula_remove "${REMOVE_PACKAGES[@]}"
+fi
 
 # Install brew packages using pre-check + quiet install pattern
 # Args: $1 = label (e.g. "taps", "formulae"), $2 = brewfile path, $3 = entry_type (tap|brew)
@@ -80,31 +89,31 @@ install_brew_packages "taps" "$taps_file" "tap"
 
 # Language servers that install via brew
 {{- range .language_servers }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Formatters that install via brew
 {{- range .formatters }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Linters that install via brew
 {{- range .linters }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # Development tools that install via brew
 {{- range .dev_tools }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}
 # AI agents that install via brew
 {{- range .agents }}
-  {{- if has "brew" .installer }}
+  {{- if and (has "brew" .installer) (ne (toString (get . "install")) "false") }}
 echo "brew \"{{ .name }}\"" >> "$brews_file"
   {{- end }}
 {{- end }}

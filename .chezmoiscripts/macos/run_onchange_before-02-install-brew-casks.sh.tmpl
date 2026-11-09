@@ -5,6 +5,7 @@
 
 {{ template "utilities/error-handling.sh" }}
 {{ template "utilities/logging.sh.tmpl" }}
+{{ template "utilities/uninstall.sh.tmpl" }}
 {{ template "utilities/env-helpers.sh.tmpl" }}
 
 {{ if eq .chezmoi.os "darwin" -}}
@@ -13,20 +14,28 @@ log_section "📦 Homebrew Casks (GUI Applications)"
 
 {{- template "brew/ensure-brew.sh.tmpl" }}
 
+# Remove packages flagged "install: false"
+_brew_cask_is_installed() { brew list --cask "$1" >/dev/null 2>&1; }
+_brew_cask_remove() { brew uninstall --cask "$1"; }
+REMOVE_PACKAGES=({{ template "queries/removed-packages.tmpl" (dict "PackageManager" "brew_cask" "root" .) }})
+if [[ ${#REMOVE_PACKAGES[@]} -gt 0 ]]; then
+    uninstall_packages _brew_cask_is_installed _brew_cask_remove "${REMOVE_PACKAGES[@]}"
+fi
+
 # Build Brewfile
 brewfile=$(mktemp)
 trap 'rm -f "$brewfile"' EXIT
 
 # Development tools that install via brew_cask
 {{- range .dev_tools }}
-  {{- if has "brew_cask" .installer }}
+  {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
 
 # AI agents that install via brew_cask
 {{- range .agents }}
-  {{- if has "brew_cask" .installer }}
+  {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
   {{- end }}
 {{- end }}
@@ -34,7 +43,7 @@ echo "cask \"{{ .name }}\"" >> "$brewfile"
 # General applications that install via brew_cask
 {{- if .applications.shared }}
   {{- range .applications.shared }}
-    {{- if has "brew_cask" .installer }}
+    {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
     {{- end }}
   {{- end }}
@@ -43,7 +52,7 @@ echo "cask \"{{ .name }}\"" >> "$brewfile"
 if is_personal_environment; then
   {{- if .applications.personal }}
     {{- range .applications.personal }}
-      {{- if has "brew_cask" .installer }}
+      {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
@@ -53,7 +62,7 @@ fi
 if is_work_environment; then
   {{- if .applications.work }}
     {{- range .applications.work }}
-      {{- if has "brew_cask" .installer }}
+      {{- if and (has "brew_cask" .installer) (ne (toString (get . "install")) "false") }}
 echo "cask \"{{ .name }}\"" >> "$brewfile"
       {{- end }}
     {{- end }}
