@@ -12,6 +12,8 @@ Instructions for AI assistants working with this dotfiles repository.
 3. **Never edit `~/.config/` directly** — edit chezmoi source (`dot_config/`) instead
 4. **Use `installer` (array) schema** — `install_via` (string) is legacy
 5. **Use profiles for optional packages** — `profiles: [python-dev]` to scope to a workflow
+6. **Uninstall means `install: false`**: keep the entry; never delete it to uninstall, and never
+   run `brew uninstall`, `npm uninstall -g`, `mise uninstall`, etc. by hand
 
 ## Accuracy
 
@@ -59,6 +61,47 @@ Configuration is template-driven and reproducible across machines.
 4. **Validate with**: `chezmoi apply --dry-run`
 5. **Apply changes**: `chezmoi apply`
 
+### Package Uninstall Workflow
+
+When I say "uninstall X", set `install: false` on the entry. The next `chezmoi apply` removes
+the package through every manager in the entry's `installer` array.
+
+1. **Find every entry**: `grep -rn X .chezmoidata/`. Include `mise_name:` and `mason_name:`
+   values, and check every file, because the same tool can appear in more than one.
+2. **Add `install: false`** to every matching entry. Keep `installer` as-is: it names the
+   managers to remove from.
+3. **If X is in no YAML file**, find its manager with read-only checks (`brew list`,
+   `brew list --cask`, `mise ls --installed`, `npm ls -g --depth=0`, `pip show`,
+   `cargo install --list`, `gem list`). Then add an entry in the matching file with that
+   `installer` and `install: false`.
+4. **To remove from only one manager**: drop that manager from the entry's `installer` array,
+   and add a separate entry with the same `name`, `installer: [that-manager]`, and
+   `install: false`.
+5. **Validate**: run `chezmoi apply --dry-run`, then ask me before `chezmoi apply --force`,
+   because it deletes software.
+6. **Keep the entries** after the removal: other machines need them to remove the package too.
+   Delete one only when I ask.
+
+```yaml
+- name: wget
+  installer: [brew]
+  description: "No longer needed"
+  install: false
+```
+
+Semantics:
+
+- Removal ignores `profiles`: it applies on every profile.
+- An entry is not removed while another entry keeps the same name active for the same manager
+  (this stops apply from uninstalling and reinstalling the same package).
+- A package that is already removed is a silent no-op.
+
+Coverage:
+
+- Removed during `chezmoi apply`: brew, brew_cask, mise, cargo, npm, pip, go, gem, bun.
+- Mason removes on the next Neovim launch.
+- Not covered: `mas`, `curl`, Homebrew taps, and services.
+
 ### Quick Reference: `.chezmoidata/` Files
 
 | File                      | Top-Level Key        | Purpose                                      |
@@ -91,6 +134,7 @@ top_level_key:
     description: "Optional note"   # Human-readable description
     profiles: [python-dev]         # (optional) Only install when profile is active
     conflicts_with_lsp_formatting: true  # (formatters) Conflict flag
+    install: false                 # (optional) remove on next apply; default is to install
 ```
 
 **Profile filtering:** Packages with a `profiles` field are only installed when at least one
@@ -130,6 +174,12 @@ Key query templates:
 - `queries/packages.tmpl` - Filters packages by `PackageManager`
 - `queries/brew-formulae.tmpl` - Extracts Homebrew formula packages
 - `queries/brew-casks.tmpl` - Extracts Homebrew cask packages
+- `queries/removed-packages.tmpl` - Returns the space-separated names of entries marked
+  `install: false` for one `PackageManager` (empty when none)
+
+`utilities/uninstall.sh.tmpl` provides `uninstall_packages CHECK_FN REMOVE_FN NAME...`, which the
+installer scripts call with the removal list. It skips packages that are not installed, logs to
+`$LOG_FILE`, and never aborts the calling script.
 
 ### Package Addition Examples
 
@@ -441,6 +491,8 @@ Before marking any task complete, verify:
 9. **Sweeping commits**: this repo often has several unrelated work streams in the
    working tree at once. Stage explicit paths; `git add -A` collects other people's
    in-progress work.
+10. **Deleting a YAML entry does not uninstall anything**: it only stops future installs. To
+    uninstall, set `install: false` on the entry (see Package Uninstall Workflow).
 
 ## Documentation Index
 
