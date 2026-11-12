@@ -54,6 +54,13 @@
 - For library/framework/API/CLI questions, use context7 MCP for current docs
   (full rule: `~/.claude/rules/context7.md`).
 
+## Citing Sources in Docs
+
+- When writing a doc of any kind (design docs, specs, READMEs, CLAUDE.md, skills, reports),
+  cite the source for every factual claim: a file path, URL, or command output.
+- If a claim comes from training data, look it up on the web first and cite the source you
+  find. If no source turns up, mark the claim as unverified instead of stating it as fact.
+
 ## Tool Calls
 
 - Before taking any action, explore broadly with tool calls.
