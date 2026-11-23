@@ -53,12 +53,14 @@ Configuration is template-driven and reproducible across machines.
 
 ### AI Agents Share One Global Context File
 
-Every AI agent reads the same global instructions: `dot_claude/CLAUDE.md`. Other agents get a
-chezmoi symlink to it, so there is one file to edit and no copies to drift.
+Every AI agent reads the same global instructions: `GLOBAL_AGENT_CONTEXT.md` at the repo root.
+Each agent, Claude Code included, gets a chezmoi symlink to it, so there is one file to edit and
+no copies to drift. `.chezmoiignore` ignores root `*.md` files, so the file itself is never
+deployed to `~`. Do not confuse it with this repo's own `AGENTS.md` / `CLAUDE.md`.
 
 | Agent | Global context path | Chezmoi source |
 | ----- | ------------------- | -------------- |
-| Claude Code | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md` (the real file) |
+| Claude Code | `~/.claude/CLAUDE.md` | `dot_claude/symlink_CLAUDE.md.tmpl` |
 | opencode | `~/.config/opencode/AGENTS.md` | `dot_config/opencode/symlink_AGENTS.md.tmpl` |
 | Codex | `~/.codex/AGENTS.md` | `dot_codex/symlink_AGENTS.md.tmpl` |
 | Pi | `~/.pi/agent/AGENTS.md` | `private_dot_pi/agent/symlink_AGENTS.md.tmpl` |
@@ -72,16 +74,17 @@ When installing a new agent:
 2. **Check the target first.** If a real file already exists there, show it to me and ask
    before replacing it.
 3. **Add a symlink template** at the matching source path. Its whole content is one line:
-   `{{ .chezmoi.sourceDir }}/dot_claude/CLAUDE.md` (copy an existing one from the table).
+   `{{ .chezmoi.sourceDir }}/GLOBAL_AGENT_CONTEXT.md` (copy an existing one from the table).
 4. **Match directory permissions.** Use `private_` for a directory chezmoi will create that
    will hold credentials (Pi keeps `auth.json` in `~/.pi`). For an existing directory, match
    its current mode with `stat` so chezmoi does not loosen or tighten it.
 5. **Apply and verify.** `chezmoi apply --dry-run`, then apply. Applying one file does not
    create missing parent directories, so apply the top directory (for example `~/.pi`). Confirm
-   with `readlink` and `head -1` that the link resolves to the CLAUDE.md content.
+   with `readlink` and `head -1` that the link resolves to the `GLOBAL_AGENT_CONTEXT.md` content.
 6. **Add a row to the table above.**
 7. **Flag write-back.** If the agent writes to its own context file (Gemini's `/memory add`
-   does), say so: those writes land in `dot_claude/CLAUDE.md` through the link.
+   does), say so: those writes land in `GLOBAL_AGENT_CONTEXT.md` through the link. Claude Code's
+   `/memory` edits to the user memory file land there too.
 
 If the agent has no global context file but can load one through config (Aider's `read:` in
 `~/.aider.conf.yml`), ask me before adding that config.
