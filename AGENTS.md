@@ -48,6 +48,43 @@ Configuration is template-driven and reproducible across machines.
 3. **Follow established patterns**: `installer`, `name`, `description`, etc.
 4. **Validate with**: `chezmoi apply --dry-run`
 5. **Apply changes**: `chezmoi apply`
+6. **If it is an AI agent** (coding agent, AI CLI, or similar): link it to the global context
+   file, as described in the next section.
+
+### AI Agents Share One Global Context File
+
+Every AI agent reads the same global instructions: `dot_claude/CLAUDE.md`. Other agents get a
+chezmoi symlink to it, so there is one file to edit and no copies to drift.
+
+| Agent | Global context path | Chezmoi source |
+| ----- | ------------------- | -------------- |
+| Claude Code | `~/.claude/CLAUDE.md` | `dot_claude/CLAUDE.md` (the real file) |
+| opencode | `~/.config/opencode/AGENTS.md` | `dot_config/opencode/symlink_AGENTS.md.tmpl` |
+| Codex | `~/.codex/AGENTS.md` | `dot_codex/symlink_AGENTS.md.tmpl` |
+| Pi | `~/.pi/agent/AGENTS.md` | `private_dot_pi/agent/symlink_AGENTS.md.tmpl` |
+| Gemini CLI | `~/.gemini/GEMINI.md` | `dot_gemini/symlink_GEMINI.md.tmpl` |
+
+When installing a new agent:
+
+1. **Find where it reads global (user-level) instructions.** Check its current docs (context7
+   or the official site), not memory, and cite the source in the commit message. Note any env
+   var that moves the directory (for example `CODEX_HOME`, `PI_CODING_AGENT_DIR`).
+2. **Check the target first.** If a real file already exists there, show it to me and ask
+   before replacing it.
+3. **Add a symlink template** at the matching source path. Its whole content is one line:
+   `{{ .chezmoi.sourceDir }}/dot_claude/CLAUDE.md` (copy an existing one from the table).
+4. **Match directory permissions.** Use `private_` for a directory chezmoi will create that
+   will hold credentials (Pi keeps `auth.json` in `~/.pi`). For an existing directory, match
+   its current mode with `stat` so chezmoi does not loosen or tighten it.
+5. **Apply and verify.** `chezmoi apply --dry-run`, then apply. Applying one file does not
+   create missing parent directories, so apply the top directory (for example `~/.pi`). Confirm
+   with `readlink` and `head -1` that the link resolves to the CLAUDE.md content.
+6. **Add a row to the table above.**
+7. **Flag write-back.** If the agent writes to its own context file (Gemini's `/memory add`
+   does), say so: those writes land in `dot_claude/CLAUDE.md` through the link.
+
+If the agent has no global context file but can load one through config (Aider's `read:` in
+`~/.aider.conf.yml`), ask me before adding that config.
 
 ### Package Uninstall Workflow
 
