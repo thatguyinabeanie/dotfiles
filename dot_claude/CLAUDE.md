@@ -72,6 +72,19 @@
   it does and why as a message first, so I can judge the permission prompt without decoding the
   command.
 
+## Authenticated Services: MCP Fallbacks
+
+For services that need an authenticated login (Jira, Confluence, and other Atlassian tools,
+GitHub, Slack, and so on), when the MCP server is down, unauthenticated, or failing:
+
+1. Fall back to an existing, already-authenticated CLI for that service (for example `gh` for
+   GitHub, or `acli` for Atlassian if it is installed). Check that it exists with `command -v`
+   before relying on it.
+2. If no CLI is available, ask me whether to use Claude in Chrome instead. It runs in my real
+   browser with my existing sign-ins.
+
+Tell me which fallback you're using and why the MCP path failed.
+
 ## Repos and Worktrees
 
 - I clone all my repos into `~/source/`, one directory per repo (for example
