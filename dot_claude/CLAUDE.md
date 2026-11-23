@@ -105,6 +105,20 @@ Load the matching skill before starting these tasks:
   posting GitHub comments or reviews: `github-prs`
 - Drafting, creating, editing, commenting on, or transitioning a Jira ticket: `jira-tickets`
 
+## Jira Tickets for Features
+
+The goal: each ticket becomes one small, focused PR that a human reviewer can read, digest, and
+understand in one pass.
+
+- Before drafting a ticket for a feature, read all the code the feature touches and work out
+  the full changeset it needs: every file, module, migration, config, test, and doc change.
+- If that changeset would make a PR too large to review comfortably, propose splitting it into
+  a series of smaller tickets instead of one big ticket. Each ticket covers one coherent set of
+  changes, so its PR has a single clear purpose.
+- Mark which tickets depend on others and which can be done in parallel, and order them so
+  parallel work is easy to pick up.
+- Show me the proposed breakdown before creating any tickets.
+
 ## Code Review
 
 - Before reviewing a PR, read its Jira ticket to learn what the change is meant to do. Find the
