@@ -260,7 +260,10 @@ Configuration data is highly modularized within the `.chezmoidata` directory, se
 
 The work/personal answer persists in the macOS `defaults` domain `com.chezmoi.config`
 (precedence: env `WORK_ENVIRONMENT`, then defaults, then `promptBoolOnce`) in `.chezmoi.toml.tmpl`.
-All other values are literal defaults with env overrides.
+All other values come from `.chezmoidata/defaults.yaml` with env overrides. Because chezmoi
+deep-merges `.chezmoidata` under `chezmoi.toml`'s `[data]`, commenting a key out of
+`chezmoi.toml` falls back to that file instead of breaking templates. `WORK_ENVIRONMENT`,
+`PERSONAL_ENVIRONMENT`, and `ui.window_height`/`ui.window_width` deliberately have no default.
 On an applied machine the rendered `~/.zshenv` exports `WORK_ENVIRONMENT`, so the env value wins.
 The defaults value and the prompt only matter from a clean environment, such as a fresh Mac.
 To flip the answer, run `WORK_ENVIRONMENT=<true|false> chezmoi init`.

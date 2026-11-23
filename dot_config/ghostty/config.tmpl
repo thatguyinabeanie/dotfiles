@@ -1,8 +1,12 @@
 ##
 ## WINDOW SETTINGS
 ##
+{{- if hasKey .ui "window_height" }}
 window-height = {{ .ui.window_height }}
+{{- end }}
+{{- if hasKey .ui "window_width" }}
 window-width = {{ .ui.window_width }}
+{{- end }}
 background-opacity = {{ .ui.opacity }}
 background-blur = {{ .ui.blur }}
 quit-after-last-window-closed=true

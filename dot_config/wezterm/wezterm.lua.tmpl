@@ -60,8 +60,12 @@ config.window_padding = {
 config.window_decorations = 'RESIZE'
 
 -- Initial window size
+{{- if hasKey .ui "window_width" }}
 config.initial_cols = {{ .ui.window_width }}
+{{- end }}
+{{- if hasKey .ui "window_height" }}
 config.initial_rows = {{ .ui.window_height }}
+{{- end }}
 
 -- ============================================================================
 -- FONT CONFIGURATION

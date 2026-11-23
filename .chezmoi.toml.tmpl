@@ -24,21 +24,30 @@ The defaults read and write are macOS-only; other OSes skip both (no `defaults` 
 {{-   $_ := output "defaults" "write" "com.chezmoi.config" "work_environment" "-string" (toString $work) -}}
 {{- end }}
 
+{{- /* Fallbacks come from .chezmoidata/defaults.yaml so each default lives in one place.
+`.` does not include .chezmoidata here, so the file is read directly, like opencode.yaml below. */}}
+{{- $defaults_file := joinPath .chezmoi.sourceDir ".chezmoidata" "defaults.yaml" }}
+{{- $d := dict }}
+{{- if stat $defaults_file }}
+{{- $d = (include $defaults_file | fromYaml) }}
+{{- end }}
+{{- $ui := $d.ui | default dict }}
+{{- $gitcfg := (($d.git | default dict).config) | default dict }}
+
 [data]
 hostname                   = {{ $current_hostname | quote }}
-SHELL                      = {{ (env "SHELL_PREF") | default "zsh" | quote }}
+SHELL                      = {{ (env "SHELL_PREF") | default $d.SHELL | quote }}
 WORK_ENVIRONMENT           = {{ $work }}
 PERSONAL_ENVIRONMENT       = {{ not $work }}
-INSTALL_SKETCHY_BAR        = {{ (env "INSTALL_SKETCHY_BAR") | default "true" | quote }}
-MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default "true" | quote }}
-CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default "mocha" | quote }}
+MANAGE_BREW_SERVICES       = {{ (env "MANAGE_BREW_SERVICES") | default $d.MANAGE_BREW_SERVICES | quote }}
+CATPPUCCIN_FLAVOR          = {{ (env "CATPPUCCIN_FLAVOR") | default $d.CATPPUCCIN_FLAVOR | quote }}
 
-THEME_MODE                 = "dark"
-THEME_LIGHT                = "Catppuccin Latte"
-THEME_DARK                 = "Catppuccin Mocha"
+THEME_MODE                 = {{ $d.THEME_MODE | quote }}
+THEME_LIGHT                = {{ $d.THEME_LIGHT | quote }}
+THEME_DARK                 = {{ $d.THEME_DARK | quote }}
 
-SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default "true" | quote }}
-INTERACTIVE                = false
+SUDO_TOUCHID               = {{ (env "SUDO_TOUCHID") | default $d.SUDO_TOUCHID | quote }}
+INTERACTIVE                = {{ $d.INTERACTIVE }}
 
 {{- $opencode_file := joinPath .chezmoi.sourceDir ".chezmoidata" "opencode.yaml" }}
 {{- $opencode_data := dict }}
@@ -52,23 +61,29 @@ model                      = {{ (env "OPENCODE_MODEL") | default ($opencode.mode
 small_model                = {{ (env "OPENCODE_SMALL_MODEL") | default ($opencode.small_model | default "github-copilot/o3-mini") | quote }}
 
 [data.ui]
-opacity                    = {{ (env "UI_OPACITY") | default "0.5" | quote }}
-blur                       = {{ (env "UI_BLUR") | default "255" | quote }}
-font_size                  = {{ (env "UI_FONT_SIZE") | default "20" | quote }}
-font_family                = {{ (env "UI_FONT_FAMILY") | default "Dank Mono" | quote }}
-window_height              = {{ (env "UI_WINDOW_HEIGHT") | default "65" | quote }}
-window_width               = {{ (env "UI_WINDOW_WIDTH") | default "160" | quote }}
-font_thicken               = {{ (env "UI_FONT_THICKEN") | default "true" }}
-cursor_style               = {{ (env "UI_CURSOR_STYLE") | default "block_hollow" | quote }}
-cursor_blink               = {{ (env "UI_CURSOR_BLINK") | default "true" }}
+opacity                    = {{ (env "UI_OPACITY") | default $ui.opacity | quote }}
+blur                       = {{ (env "UI_BLUR") | default $ui.blur | quote }}
+font_size                  = {{ (env "UI_FONT_SIZE") | default $ui.font_size | quote }}
+font_family                = {{ (env "UI_FONT_FAMILY") | default $ui.font_family | quote }}
+{{- /* No window size default: written only when the env var is set, otherwise the Ghostty and
+WezTerm templates omit it and each terminal picks its own size. */}}
+{{- if env "UI_WINDOW_HEIGHT" }}
+window_height              = {{ env "UI_WINDOW_HEIGHT" | quote }}
+{{- end }}
+{{- if env "UI_WINDOW_WIDTH" }}
+window_width               = {{ env "UI_WINDOW_WIDTH" | quote }}
+{{- end }}
+font_thicken               = {{ (env "UI_FONT_THICKEN") | default $ui.font_thicken }}
+cursor_style               = {{ (env "UI_CURSOR_STYLE") | default $ui.cursor_style | quote }}
+cursor_blink               = {{ (env "UI_CURSOR_BLINK") | default $ui.cursor_blink }}
 
 [data.git.config]
-name                       = {{ (env "GIT_NAME") | default "Gabe Mendoza" | quote }}
-username                   = {{ (env "GITHUB_USERNAME") | default "thatguyinabeanie" | quote }}
-email                      = {{ (env "GIT_EMAIL") | default "thatguyin@beanie.gg" | quote }}
-defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default "168h" | quote }}
-signing_key                = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxfnYZGk9sVpabkMlNgvX487e3M7iOnFDB98iIPocbI"
-work_org                   = {{ (env "WORK_ORG") | default "" | quote }}
+name                       = {{ (env "GIT_NAME") | default $gitcfg.name | quote }}
+username                   = {{ (env "GITHUB_USERNAME") | default $gitcfg.username | quote }}
+email                      = {{ (env "GIT_EMAIL") | default $gitcfg.email | quote }}
+defaultRefreshPeriod       = {{ (env "GIT_REFRESH_PERIOD") | default $gitcfg.defaultRefreshPeriod | quote }}
+signing_key                = {{ $gitcfg.signing_key | quote }}
+work_org                   = {{ (env "WORK_ORG") | default $gitcfg.work_org | quote }}
 work_environment           = {{ $work }}
 
 {{- /* 

@@ -1,0 +1,44 @@
+# Fallback values for the keys .chezmoi.toml.tmpl writes into ~/.config/chezmoi/chezmoi.toml.
+#
+# chezmoi deep-merges .chezmoidata under the config file's [data], and chezmoi.toml wins on any
+# key it sets. Comment a key out in chezmoi.toml and templates fall back to the value here
+# instead of failing with "map has no entry for key".
+#
+# .chezmoi.toml.tmpl also reads this file for its own fallbacks (when no env override is set),
+# so each default lives only here.
+#
+# WORK_ENVIRONMENT and PERSONAL_ENVIRONMENT have no default on purpose. They describe the
+# machine, not a preference: a wrong guess on a work Mac turns on personal-only behavior (commit
+# signing, 1Password, SSH config). If they are missing, apply fails loudly instead.
+# `chezmoi init` always regenerates them from the macOS defaults domain.
+
+INTERACTIVE: false
+SHELL: "zsh"
+MANAGE_BREW_SERVICES: "true"
+SUDO_TOUCHID: "true"
+
+CATPPUCCIN_FLAVOR: "mocha"
+THEME_MODE: "dark"
+THEME_LIGHT: "Catppuccin Latte"
+THEME_DARK: "Catppuccin Mocha"
+
+ui:
+  opacity: "0.5"
+  blur: "255"
+  font_size: "20"
+  font_family: "Dank Mono"
+  font_thicken: true
+  cursor_style: "block_hollow"
+  cursor_blink: true
+  # window_height and window_width have no default on purpose: when unset, the Ghostty and
+  # WezTerm templates omit the size and each terminal uses its own. Set UI_WINDOW_HEIGHT /
+  # UI_WINDOW_WIDTH before `chezmoi init`, or add the keys to chezmoi.toml, to pin a size.
+
+git:
+  config:
+    name: "Gabe Mendoza"
+    username: "thatguyinabeanie"
+    email: "thatguyin@beanie.gg"
+    defaultRefreshPeriod: "168h"
+    signing_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMxfnYZGk9sVpabkMlNgvX487e3M7iOnFDB98iIPocbI"
+    work_org: ""

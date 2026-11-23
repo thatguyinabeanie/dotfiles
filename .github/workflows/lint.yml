@@ -38,7 +38,6 @@ jobs:
           # Set dummy values for template variables to enable dry-run validation
           export SHELL_PREF="zsh"
           export WORK_ENVIRONMENT="false"
-          export INSTALL_SKETCHY_BAR="true"
           export MANAGE_BREW_SERVICES="true"
           export CATPPUCCIN_FLAVOR="mocha"
           export UI_OPACITY="0.5"
