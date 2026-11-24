@@ -85,6 +85,14 @@ GitHub, Slack, and so on), when the MCP server is down, unauthenticated, or fail
 
 Tell me which fallback you're using and why the MCP path failed.
 
+## Home Directory
+
+- Never create files or folders directly in my home directory (`~`). This includes research
+  notes, reports, scripts, and other working files, even when a skill or tool defaults to the
+  current directory.
+- Put loose working files under `~/.scratch/` instead, and keep repo work inside its repo
+  under `~/source/`.
+
 ## Repos and Worktrees
 
 - I clone all my repos into `~/source/`, one directory per repo (for example
