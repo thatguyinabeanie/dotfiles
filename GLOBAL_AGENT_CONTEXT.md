@@ -119,6 +119,44 @@ understand in one pass.
   parallel work is easy to pick up.
 - Show me the proposed breakdown before creating any tickets.
 
+### Every completed ticket must be owner reviewable
+
+**What owner review is.** Owner Review is a column in our Jira workflow. After a ticket's code
+merges and deploys, the ticket moves there. Our product manager, or another teammate, then reviews
+the work from a product ownership perspective, not a code perspective: they open the UI (or call
+the API or MCP tool), check that the feature was built, and check that it behaves as expected.
+They do not read the code or the tests. A ticket whose code is merged, deployed, and tested, but
+that nothing a user can reach calls, cannot pass owner review.
+
+So when a ticket's last PR deploys, there must be something the reviewer can run. Individual PRs
+within a ticket don't need to be owner reviewable on their own.
+
+- **Build the caller first.** Order tickets outside-in: an early ticket adds the code path a user
+  can trigger (endpoint, tool, UI action) that calls the new logic, with that logic stubbed (for
+  example a check that always returns "allowed"). Later tickets fill in the real logic, and each
+  one changes what a reviewer sees through that code path.
+- Never plan a ticket whose new code only tests call once it's done. If logic must come before its
+  caller, the same ticket wires in a minimal caller.
+- For each ticket, write down how an owner reviewer exercises it after deploy: where to click or
+  what to call, and what they should see. If you can't, reorder or regroup the tickets.
+- If a feature flag gates the code path, say how the reviewer gets the flag turned on for
+  themselves, so the flag doesn't block review.
+- **Bake this into every spec and plan file**, whichever skill writes it (brainstorming,
+  writing-plans, stack-driven-dev, or by hand). This rule overrides those skills' templates:
+  - **Spec:** an "Owner review" section. Open it with a short explanation of what owner review is
+    (from the paragraph above), since spec readers may not know our Jira workflow. Then list each
+    ticket, the user-facing code path it adds or changes, and what an owner reviewer does and
+    sees after it deploys.
+  - **Plan:** order the tasks caller-first. Each ticket's last task ends with an "Owner review"
+    step (where to click or what to call, expected result, flag setup), and the plan's
+    ticket and PR breakdown table has an "Owner review" column.
+  - Before calling a spec or plan done, check every ticket against this rule. If a ticket fails,
+    reorder or regroup the tickets before writing any code.
+
+Why: in the MCP allowed-schemas work (CIVIS-15103), the SQL checker shipped across three PRs with
+nothing calling it, so it merged and deployed but could not be owner reviewed until CIVIS-15092
+wired it in.
+
 ## Code Review
 
 - Before reviewing a PR, read its Jira ticket to learn what the change is meant to do. Find the
